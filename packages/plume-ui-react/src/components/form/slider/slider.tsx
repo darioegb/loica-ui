@@ -61,11 +61,6 @@ export interface SliderOwnProps {
    */
   invalid?: boolean
   /**
-   * The texts of the slider, for other languages: `thumb(index)` is the accessible name of a thumb
-   * of a range, from its index (`Minimum` and `Maximum` by default).
-   */
-  labels?: Partial<SliderLabels>
-  /**
    * Shows marks on the track. `true` puts one on every step, a list of numbers puts them there, and
    * a list of `{ value, label }` also writes a label under each. They are hidden from assistive
    * technology.
@@ -180,7 +175,6 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
       formatValue,
       id,
       invalid = false,
-      labels,
       marks,
       max = 100,
       min = 0,
@@ -213,7 +207,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
       [max, min, value],
     )
     const isStyled = variant !== 'unstyled'
-    const text = useLabels('slider', DEFAULT_LABELS, labels)
+    const text = useLabels('slider', DEFAULT_LABELS)
     const isInvalid = invalid || ariaInvalid === true || ariaInvalid === 'true'
     const firstId = id ?? generatedId
     const fieldLabelId = field?.controlId === id ? field?.labelId : undefined

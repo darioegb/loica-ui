@@ -5,6 +5,7 @@ import { Field } from '../../field'
 import { Rating } from '..'
 import type { RatingProps } from '..'
 import { snap } from '../use-rating'
+import { LocaleProvider } from '../../../../locale'
 
 const radios = (): HTMLInputElement[] => screen.getAllByRole<HTMLInputElement>('radio')
 const checked = (): string | undefined => radios().find((radio) => radio.checked)?.value
@@ -61,9 +62,11 @@ describe('Rating component', () => {
       ])
     })
 
-    it('uses another name for the stars', () => {
+    it('takes the name of the stars from the LocaleProvider', () => {
       render(
-        <Rating aria-label="Rating" labels={{ item: (value, max) => `${value}/${max}` }} max={2} />,
+        <LocaleProvider messages={{ rating: { item: (value, max) => `${value}/${max}` } }}>
+          <Rating aria-label="Rating" max={2} />
+        </LocaleProvider>,
       )
       expect(radios()[1]).toHaveAttribute('aria-label', '2/2')
     })
@@ -336,14 +339,11 @@ describe('Rating component', () => {
       expect(screen.getByText('3 out of 5')).toBeInTheDocument()
     })
 
-    it('uses another text', () => {
+    it('takes the read only text from the LocaleProvider', () => {
       render(
-        <Rating
-          aria-label="Rating"
-          readOnly
-          labels={{ readOnly: (value, max) => `${value} de ${max}` }}
-          value={4}
-        />,
+        <LocaleProvider messages={{ rating: { readOnly: (value, max) => `${value} de ${max}` } }}>
+          <Rating aria-label="Rating" readOnly value={4} />
+        </LocaleProvider>,
       )
       expect(screen.getByText('4 de 5')).toBeInTheDocument()
     })

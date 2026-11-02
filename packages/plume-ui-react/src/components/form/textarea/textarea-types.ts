@@ -45,12 +45,6 @@ export interface TextareaOwnProps {
    */
   colorScheme?: ColorScheme
   /**
-   * The texts of the textarea, for other languages. `count(count, max)` is the text of the count
-   * (the default says `12 / 200`, or `12` without a limit) and `remaining(remaining)` is what a
-   * screen reader gets near the limit (the default says `8 characters left`).
-   */
-  labels?: Partial<TextareaLabels>
-  /**
    * Which way the user can resize the textarea.
    * @default 'vertical'
    */

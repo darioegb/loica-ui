@@ -2,6 +2,7 @@ import type { StoryObj, Meta } from '@storybook/react-vite'
 import { defaultTheme } from '../../../../theme'
 import { Field } from '../../field'
 import { Textarea, TextareaCount, TextareaField, TextareaStatus } from '..'
+import { LocaleProvider } from '../../../../locale'
 
 const colorSchemes = Object.keys(defaultTheme.colors)
 
@@ -58,9 +59,6 @@ export default {
       control: 'boolean',
     },
     children: {
-      control: false,
-    },
-    labels: {
       control: false,
     },
     resize: {
@@ -208,7 +206,7 @@ export const Colors: Story = {
 /**
  * **showCount** shows how many characters there are under the Textarea, and with a **maxLength** how many are
  * allowed. The count describes the field to a screen reader when it gets the focus, and near the limit a polite
- * message says how many characters are left. Use **labels** (`count` and `remaining`) to change the texts.
+ * message says how many characters are left. The `textarea.count` and `textarea.remaining` texts of the `LocaleProvider` change them.
  */
 export const CharacterCount: Story = {
   render: () => (
@@ -221,13 +219,14 @@ export const CharacterCount: Story = {
         placeholder="With a limit"
         showCount
       />
-      <Textarea
-        aria-label="Short bio"
-        defaultValue="Almost there, only a few more characters can fit in this one"
-        labels={{ count: (count, max) => `${(max ?? 0) - count} left` }}
-        maxLength={64}
-        showCount
-      />
+      <LocaleProvider messages={{ textarea: { count: (count, max) => `${(max ?? 0) - count} left` } }}>
+        <Textarea
+          aria-label="Short bio"
+          defaultValue="Almost there, only a few more characters can fit in this one"
+          maxLength={64}
+          showCount
+        />
+      </LocaleProvider>
     </div>
   ),
 }
@@ -296,15 +295,13 @@ export const Compound: Story = {
         <TextareaField aria-label="Bio" placeholder="Count above the field" />
         <TextareaStatus />
       </Textarea>
-      <Textarea
-        defaultValue="Short"
-        labels={{ count: (count, max) => `${(max ?? 0) - count} left` }}
-        maxLength={80}
-      >
-        <TextareaField aria-label="Notes" />
-        <TextareaCount />
-        <TextareaStatus />
-      </Textarea>
+      <LocaleProvider messages={{ textarea: { count: (count, max) => `${(max ?? 0) - count} left` } }}>
+        <Textarea defaultValue="Short" maxLength={80}>
+          <TextareaField aria-label="Notes" />
+          <TextareaCount />
+          <TextareaStatus />
+        </Textarea>
+      </LocaleProvider>
     </div>
   ),
 }

@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { Input } from '..'
+import { LocaleProvider } from '../../../../locale'
 
 describe('Input component', () => {
   it('renders a text input by default', () => {
@@ -213,9 +214,11 @@ describe('Input component', () => {
       expect(screen.getByPlaceholderText('Secret')).toHaveValue('abc')
     })
 
-    it('uses another label for the button', () => {
+    it('takes the label of the button from the LocaleProvider', () => {
       render(
-        <Input labels={{ reveal: 'Mostrar' }} placeholder="Secret" revealable type="password" />,
+        <LocaleProvider messages={{ input: { reveal: 'Mostrar' } }}>
+          <Input placeholder="Secret" revealable type="password" />
+        </LocaleProvider>,
       )
       expect(screen.getByRole('button', { name: 'Mostrar' })).toBeInTheDocument()
     })

@@ -5,6 +5,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { Field } from '../../field'
 import { PinInput, PinInputCell, PinInputHidden } from '..'
 import type { PinInputProps } from '..'
+import { LocaleProvider } from '../../../../locale'
 
 const cells = (): HTMLInputElement[] => screen.getAllByRole<HTMLInputElement>('textbox')
 const text = (): string =>
@@ -143,11 +144,13 @@ describe('PinInput parts', () => {
       expect(cell).toHaveAttribute('inputmode', 'text')
     })
 
-    it('uses the labels of the root', () => {
+    it('uses the texts of the LocaleProvider', () => {
       render(
-        <PinInput aria-label="Code" labels={{ input: (i, n) => `Cifra ${i} de ${n}` }} length={2}>
-          <PinInputCell index={1} />
-        </PinInput>,
+        <LocaleProvider messages={{ pinInput: { input: (i, n) => `Cifra ${i} de ${n}` } }}>
+          <PinInput aria-label="Code" length={2}>
+            <PinInputCell index={1} />
+          </PinInput>
+        </LocaleProvider>,
       )
       expect(cells()[0]).toHaveAttribute('aria-label', 'Cifra 2 de 2')
     })

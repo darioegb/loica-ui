@@ -44,7 +44,6 @@ export const TextareaRoot = forwardRef<HTMLTextAreaElement, TextareaRootProps>(
       className,
       colorScheme,
       disabled = false,
-      labels,
       resize,
       shape,
       size,
@@ -56,7 +55,7 @@ export const TextareaRoot = forwardRef<HTMLTextAreaElement, TextareaRootProps>(
   ): ReactNode => {
     const fieldProps = useShallowStable(rest)
     const isDefault = children === undefined
-    const text = useLabels('textarea', DEFAULT_LABELS, labels)
+    const text = useLabels('textarea', DEFAULT_LABELS)
     const countId = useId()
     const touched = useRef(false)
     const [typedLength, setTypedLength] = useState(

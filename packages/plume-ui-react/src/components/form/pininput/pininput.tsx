@@ -45,10 +45,6 @@ export interface PinInputOwnProps {
   /** The code the boxes start with, when it is not controlled. */
   defaultValue?: string
   /**
-   * The texts of the PinInput, for other languages: `input(index, length)` is the accessible name of a box, from its position (counting from 1) and the length. The default says `Digit 1 of 6`, or `Character` when the type is not numeric.
-   */
-  labels?: Partial<PinInputLabels>
-  /**
    * How many boxes, that is, how many characters the code has.
    *
    * @default 6
@@ -134,7 +130,6 @@ export const PinInput = forwardRef<HTMLFieldSetElement, PinInputProps>(
       colorScheme = 'secondary',
       defaultValue,
       disabled = false,
-      labels,
       id,
       length = 6,
       mask = false,
@@ -171,7 +166,7 @@ export const PinInput = forwardRef<HTMLFieldSetElement, PinInputProps>(
     const labelledBy = ariaLabelledby ?? (ariaLabel ? undefined : fieldLabel)
     const { cells, tabbable } = pin
     const defaults = useMemo(() => defaultLabels(type), [type])
-    const text = useLabels('pinInput', defaults, labels)
+    const text = useLabels('pinInput', defaults)
     const colorVars = {
       '--pininput-color': `var(--plume-color-${invalid ? 'error' : colorScheme}-text)`,
       ...style,

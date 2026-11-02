@@ -26,7 +26,7 @@ const colorSchemes = Object.keys(defaultTheme.colors)
  * different class on each box) give it its parts as children: `PinInputCell` is one box and `PinInputHidden` the
  * hidden input of a `name`. The `PinInput` keeps the code and the focus and shares them with its parts, so the
  * boxes can be in any order and wrapped in other elements. The look (`variant`, `size`, `shape`), the type, the
- * mask and the labels always go on the `PinInput`.
+ * mask always go on the `PinInput`.
  */
 export default {
   title: 'Components/PinInput',
@@ -53,7 +53,6 @@ export default {
     defaultValue: { control: 'text' },
     onValueChange: { control: false },
     onComplete: { control: false },
-    labels: { control: false },
     colorScheme: { control: 'select', options: colorSchemes },
     size: { control: 'radio', options: ['sm', 'md', 'lg'] },
     shape: { control: 'radio', options: ['rounded', 'pill'] },

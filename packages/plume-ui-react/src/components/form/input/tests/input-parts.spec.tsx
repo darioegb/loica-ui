@@ -13,6 +13,7 @@ import {
   InputReveal,
 } from '..'
 import { useInputContext } from '../input-context'
+import { LocaleProvider } from '../../../../locale'
 
 describe('Input parts', () => {
   describe('default composition', () => {
@@ -251,12 +252,14 @@ describe('Input parts', () => {
 
     it('reveals the password from a part placed anywhere', async () => {
       render(
-        <Input labels={{ reveal: 'Mostrar' }} type="password">
-          <InputControl>
-            <InputReveal className="eye" />
-            <InputField placeholder="Secret" />
-          </InputControl>
-        </Input>,
+        <LocaleProvider messages={{ input: { reveal: 'Mostrar' } }}>
+          <Input type="password">
+            <InputControl>
+              <InputReveal className="eye" />
+              <InputField placeholder="Secret" />
+            </InputControl>
+          </Input>
+        </LocaleProvider>,
       )
       const toggle = screen.getByRole('button', { name: 'Mostrar' })
       expect(toggle).toHaveClass('reveal', 'eye')

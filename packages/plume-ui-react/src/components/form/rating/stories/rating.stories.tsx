@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { defaultTheme } from '../../../../theme'
 import { Field } from '../../field'
 import { Rating, RatingEmpty, RatingFilled, RatingItem, RatingRadio, RatingValueText } from '..'
+import { LocaleProvider } from '../../../../locale'
 
 const colorSchemes = Object.keys(defaultTheme.colors)
 
@@ -47,8 +48,8 @@ const heartOutline = (
  * Every element of a star is a part you can import and style or move. Without children the Rating renders one
  * `RatingItem` for each star, with its `RatingEmpty`, `RatingFilled` and `RatingRadio`. When a direct child is a
  * `RatingItem` or a `RatingValueText`, it renders your children instead, and a function child is called once for each
- * star. A part takes `className`, `style` and `ref`, and `icon`, `emptyIcon` and `labels` of the Rating keep filling
- * the defaults.
+ * star. A part takes `className`, `style` and `ref`, and `icon` and `emptyIcon` of the Rating keep filling the
+ * defaults.
  */
 export default {
   title: 'Components/Rating',
@@ -98,9 +99,6 @@ export default {
       control: false,
     },
     emptyIcon: {
-      control: false,
-    },
-    labels: {
       control: false,
     },
     colorScheme: {
@@ -292,18 +290,25 @@ export const CustomIcon: Story = {
 }
 
 /**
- * **labels.item** names every star for a screen reader. The default says `3 stars`; here the scores have names.
+ * The `rating.item` text of the `LocaleProvider` names every star for a screen reader. The default says `3 stars`; here
+ * the scores have names. A `RatingRadio` takes its own `aria-label`.
  */
 export const CustomLabels: Story = {
-  args: {
-    labels: { item: (value) => ['Terrible', 'Bad', 'Fine', 'Good', 'Great'][value - 1] },
-  },
+  render: () => (
+    <LocaleProvider
+      messages={{
+        rating: { item: (value) => ['Terrible', 'Bad', 'Fine', 'Good', 'Great'][value - 1] },
+      }}
+    >
+      <Rating aria-label="Rate this product" />
+    </LocaleProvider>
+  ),
 }
 
 /**
  * A **read only** Rating shows a score. It is a group named by its `aria-label` (or its `Field`) with the score as
  * text (`3.5 out of 5`) and the stars hidden from assistive technology, so it is not a control that can't be used.
- * Use **labels.readOnly** to say it another way.
+ * The `rating.readOnly` text of the `LocaleProvider` says it another way.
  */
 export const ReadOnly: Story = {
   render: () => (

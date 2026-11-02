@@ -12,6 +12,7 @@ import {
 } from '..'
 import { useNumberInputContext } from '../numberinput-context'
 import type { NumberInputProps } from '..'
+import { LocaleProvider } from '../../../../locale'
 
 const spin = (): HTMLInputElement => screen.getByRole('spinbutton')
 const up = (): HTMLElement => screen.getByRole('button', { name: 'Increase' })
@@ -386,9 +387,11 @@ describe('NumberInput component', () => {
       expect(screen.queryByRole('button')).not.toBeInTheDocument()
     })
 
-    it('uses other labels', () => {
+    it('takes the labels of the buttons from the LocaleProvider', () => {
       render(
-        <NumberInput aria-label="Quantity" labels={{ decrement: 'Menos', increment: 'Más' }} />,
+        <LocaleProvider messages={{ numberInput: { decrement: 'Menos', increment: 'Más' } }}>
+          <NumberInput aria-label="Quantity" />
+        </LocaleProvider>,
       )
       expect(screen.getByRole('button', { name: 'Más' })).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Menos' })).toBeInTheDocument()
@@ -757,13 +760,15 @@ describe('NumberInput component', () => {
       expect(spin()).toHaveFocus()
     })
 
-    it('takes the labels of the root and lets a part override its own', () => {
+    it('takes the labels of the LocaleProvider and lets a part override its own', () => {
       render(
-        <NumberInput aria-label="Quantity" labels={{ decrement: 'Menos', increment: 'Más' }}>
-          <NumberInputDecrement />
-          <NumberInputField />
-          <NumberInputIncrement label="Sumar" />
-        </NumberInput>,
+        <LocaleProvider messages={{ numberInput: { decrement: 'Menos', increment: 'Más' } }}>
+          <NumberInput aria-label="Quantity">
+            <NumberInputDecrement />
+            <NumberInputField />
+            <NumberInputIncrement label="Sumar" />
+          </NumberInput>
+        </LocaleProvider>,
       )
       expect(screen.getByRole('button', { name: 'Menos' })).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Sumar' })).toBeInTheDocument()

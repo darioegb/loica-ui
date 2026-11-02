@@ -50,7 +50,10 @@ with `useLocale()`, which returns the `locale` of the closest provider (or `unde
 <Paginator labels={{ next: 'Siguiente', page: (page) => `Página ${page}` }} pageSize={10} total={200} />
 ```
 
-A single text on a small part, such as the close button of a `Modal` or the `Loader`, is a `label` prop.
+`Input`, `Textarea`, `NumberInput`, `PinInput`, `Rating` and `Slider` take no `labels`: their texts come from the
+`LocaleProvider`, and a one-off change is a nested provider, or the `aria-label` or `label` of the part that shows it
+(`InputReveal`, `PinInputCell`, `NumberInputIncrement`). A single text on a small part, such as the close button of a
+`Modal` or the `Loader`, is a `label` prop.
 
 ## For one part of the app: a nested `LocaleProvider`
 

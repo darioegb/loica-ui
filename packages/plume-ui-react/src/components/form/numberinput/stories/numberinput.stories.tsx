@@ -65,7 +65,6 @@ export default {
     format: { control: false },
     parse: { control: false },
     steppers: { control: 'boolean' },
-    labels: { control: false },
     colorScheme: { control: 'select', options: colorSchemes },
     size: { control: 'radio', options: ['sm', 'md', 'lg'] },
     shape: { control: 'radio', options: ['rounded', 'pill'] },
