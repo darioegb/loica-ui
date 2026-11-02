@@ -10,6 +10,7 @@ import {
   DatePickerPage,
   DatePickerPrevious,
 } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 
 const value = { startDate: new Date(2026, 5, 15), endDate: null }
 
@@ -31,11 +32,9 @@ describe('DatePicker accessibility', () => {
       'Format: mm/dd/yyyy - mm/dd/yyyy',
     )
     rerender(
-      <DatePicker
-        displayFormat="dd/mm/yyyy"
-        labels={{ format: (format) => `Formato: ${format}` }}
-        onValueChange={vi.fn()}
-      />,
+      <LocaleProvider messages={{ datePicker: { format: (format) => `Formato: ${format}` } }}>
+        <DatePicker displayFormat="dd/mm/yyyy" onValueChange={vi.fn()} />
+      </LocaleProvider>,
     )
     expect(screen.getByRole('textbox')).toHaveAccessibleDescription('Formato: dd/mm/yyyy')
   })

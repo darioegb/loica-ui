@@ -28,6 +28,7 @@ import {
   DatePickerYearOption,
   DatePickerYears,
 } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 import { InputControl, InputElement } from '../../input'
 
 const openCalendar = (): void => {
@@ -297,8 +298,12 @@ describe('DatePicker parts', () => {
       }
     })
 
-    it('navigates with custom previous and next parts and the labels of the root', () => {
-      render(<DatePicker panel labels={{ nextMonth: 'Adelante' }} onValueChange={vi.fn()} />)
+    it('navigates with custom previous and next parts and the texts of the LocaleProvider', () => {
+      render(
+        <LocaleProvider messages={{ datePicker: { nextMonth: 'Adelante' } }}>
+          <DatePicker panel onValueChange={vi.fn()} />
+        </LocaleProvider>,
+      )
       const month = part('month-button').textContent
       fireEvent.click(screen.getByRole('button', { name: 'Adelante' }))
       expect(part('month-button').textContent).not.toBe(month)

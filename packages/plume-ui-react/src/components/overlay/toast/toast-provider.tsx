@@ -31,6 +31,10 @@ export type ToastPosition =
 
 export type ToastVariant = 'solid' | 'subtle' | 'outline' | 'unstyled'
 
+/**
+ * `region` is the accessible name of the region that holds the toasts. The dismiss button of each toast is named by the
+ * `close` text of the `LocaleProvider`.
+ */
 export interface ToastLabels {
   region: string
 }
@@ -56,13 +60,6 @@ export interface ToastProviderProps {
    * own with the `icon` option.
    */
   icons?: false | ToastIcons
-  /**
-   * The texts the provider adds, to translate them: `region` is the accessible name of the
-   * region that holds the toasts. The dismiss button of each toast is named by the `close` text of
-   * the `LocaleProvider`.
-   * @default { region: 'Notifications' }
-   */
-  labels?: Partial<ToastLabels>
   /**
    * How many toasts are shown at a time. When there are more, the oldest go first.
    * @default 5
@@ -113,13 +110,12 @@ export function ToastProvider({
   className = '',
   duration = 5000,
   icons,
-  labels,
   max = 5,
   position = 'bottom-end',
   render,
   variant = 'subtle',
 }: Readonly<ToastProviderProps>): ReactNode {
-  const text = useLabels('toast', DEFAULT_LABELS, labels)
+  const text = useLabels('toast', DEFAULT_LABELS)
   const baseId = useId()
   const counter = useRef(0)
   const [toasts, setToasts] = useState<ToastData[]>([])

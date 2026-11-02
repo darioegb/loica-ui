@@ -11,6 +11,7 @@ import {
   TimePickerPeriod,
   TimePickerTrigger,
 } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 
 const column = (name: string): HTMLElement => screen.getByRole('listbox', { name })
 
@@ -85,14 +86,16 @@ describe('TimePicker parts', () => {
       expect(minutes.current).toBe(column('Minutes'))
     })
 
-    it('are named with their own label or the one of the picker', () => {
+    it('are named with their own label or the text of the LocaleProvider', () => {
       render(
-        <TimePicker panel labels={{ hours: 'Horas' }}>
-          <TimePickerPanel>
-            <TimePickerHours />
-            <TimePickerMinutes aria-label="Mins" />
-          </TimePickerPanel>
-        </TimePicker>,
+        <LocaleProvider messages={{ timePicker: { hours: 'Horas' } }}>
+          <TimePicker panel>
+            <TimePickerPanel>
+              <TimePickerHours />
+              <TimePickerMinutes aria-label="Mins" />
+            </TimePickerPanel>
+          </TimePicker>
+        </LocaleProvider>,
       )
       expect(column('Horas')).toBeInTheDocument()
       expect(column('Mins')).toBeInTheDocument()

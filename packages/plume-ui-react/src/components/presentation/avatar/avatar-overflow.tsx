@@ -5,7 +5,6 @@ import { forwardRef } from 'react'
 import { useLabels } from '../../../locale/locale-provider'
 import { Avatar, type AvatarProps } from './avatar'
 import { AvatarFallback } from './avatar-fallback'
-import { useAvatarGroup } from './avatar-context'
 import type { AvatarGroupLabels } from './avatar-group'
 
 export type AvatarOverflowProps = Omit<
@@ -22,17 +21,14 @@ const DEFAULT_LABELS: Pick<AvatarGroupLabels, 'overflow'> = {
 
 /**
  * The counter of the group. It is what the group renders when `max` hides avatars, and you can
- * place it yourself. Its name comes from `labels.overflow` of the group.
+ * place it yourself. Its name comes from the `avatarGroup.overflow` text of the `LocaleProvider`.
  */
 export const AvatarOverflow = forwardRef<HTMLSpanElement, AvatarOverflowProps>(
   (
     { children, count, ...rest }: AvatarOverflowProps,
     ref: ForwardedRef<HTMLSpanElement>,
   ): ReactNode => {
-    const group = useAvatarGroup()
-    const { overflow } = useLabels('avatarGroup', DEFAULT_LABELS, {
-      overflow: group?.labels?.overflow,
-    })
+    const { overflow } = useLabels('avatarGroup', DEFAULT_LABELS)
 
     return (
       <Avatar alt={overflow(count)} data-overflow="" ref={ref} {...rest}>

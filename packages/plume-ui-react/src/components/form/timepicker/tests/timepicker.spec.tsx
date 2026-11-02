@@ -2,6 +2,7 @@ import { fireEvent, render, screen, within } from '@testing-library/react'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { TimePicker, TimePickerInput, TimePickerPanel } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 import { Modal, ModalBody, ModalContent } from '../../../overlay/modal'
 
 const openPicker = (name = 'Open time picker'): void => {
@@ -204,16 +205,20 @@ describe('TimePicker', () => {
     expect(screen.getByRole('textbox')).toHaveValue('21:45')
   })
 
-  it('names its parts with the labels it is given', () => {
+  it('names its parts with the texts of the LocaleProvider', () => {
     render(
-      <TimePicker
-        labels={{
-          hours: 'Horas',
-          minutes: 'Minutos',
-          openTimePicker: 'Abrir',
-          timePicker: 'Hora',
+      <LocaleProvider
+        messages={{
+          timePicker: {
+            hours: 'Horas',
+            minutes: 'Minutos',
+            openTimePicker: 'Abrir',
+            timePicker: 'Hora',
+          },
         }}
-      />,
+      >
+        <TimePicker />
+      </LocaleProvider>,
     )
     openPicker('Abrir')
     expect(screen.getByRole('dialog', { name: 'Hora' })).toBeInTheDocument()
@@ -285,13 +290,11 @@ describe('TimePicker', () => {
       expect(input).toHaveValue('07:05 PM')
     })
 
-    it('uses the labels of the period', () => {
+    it('uses the texts of the period', () => {
       render(
-        <TimePicker
-          labels={{ am: 'a. m.', pm: 'p. m.', period: 'Periodo' }}
-          defaultValue="08:00"
-          hour12
-        />,
+        <LocaleProvider messages={{ timePicker: { am: 'a. m.', pm: 'p. m.', period: 'Periodo' } }}>
+          <TimePicker defaultValue="08:00" hour12 />
+        </LocaleProvider>,
       )
       expect(screen.getByRole('textbox')).toHaveValue('08:00 a. m.')
       openPicker()

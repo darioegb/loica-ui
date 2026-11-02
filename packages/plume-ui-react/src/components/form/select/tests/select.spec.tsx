@@ -2,6 +2,7 @@ import { act, render, screen, within } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { createRef, useState } from 'react'
 import { ChipLabel, ChipRemove } from '../../../presentation/chip'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 import { Field } from '../../field'
 import {
   Select,
@@ -486,34 +487,34 @@ describe('Select component', () => {
       expect(chips()).toEqual([])
     })
 
-    it('names the remove buttons with labels.remove', () => {
+    it('names the remove buttons with the remove text of the LocaleProvider', () => {
       render(
-        <Select defaultValue={['a']} labels={{ remove: (label) => `Quitar ${label}` }} multiple>
-          <SelectTrigger aria-label="Letters" />
-          <SelectContent>
-            <SelectOption value="a">A</SelectOption>
-          </SelectContent>
-        </Select>,
+        <LocaleProvider messages={{ select: { remove: (label) => `Quitar ${label}` } }}>
+          <Select defaultValue={['a']} multiple>
+            <SelectTrigger aria-label="Letters" />
+            <SelectContent>
+              <SelectOption value="a">A</SelectOption>
+            </SelectContent>
+          </Select>
+        </LocaleProvider>,
       )
       expect(screen.getByRole('button', { name: 'Quitar A' })).toBeInTheDocument()
     })
 
-    it('names the chip that counts the hidden ones with labels.overflow', () => {
+    it('names the chip that counts the hidden ones with the LocaleProvider', () => {
       render(
-        <Select
-          defaultValue={['a', 'b', 'c']}
-          labels={{ overflow: (hidden) => `${hidden} more` }}
-          multiple
-        >
-          <SelectTrigger aria-label="Letters" maxDisplay={1} />
-          <SelectContent>
-            <SelectOption value="a">A</SelectOption>
-            <SelectOption value="b">B</SelectOption>
-            <SelectOption value="c">C</SelectOption>
-          </SelectContent>
-        </Select>,
+        <LocaleProvider messages={{ select: { overflow: (hidden) => `${hidden} más` } }}>
+          <Select defaultValue={['a', 'b', 'c']} multiple>
+            <SelectTrigger aria-label="Letters" maxDisplay={1} />
+            <SelectContent>
+              <SelectOption value="a">A</SelectOption>
+              <SelectOption value="b">B</SelectOption>
+              <SelectOption value="c">C</SelectOption>
+            </SelectContent>
+          </Select>
+        </LocaleProvider>,
       )
-      expect(screen.getByText('2 more').closest('[data-plume-select-chip]')).not.toBeNull()
+      expect(screen.getByText('2 más').closest('[data-plume-select-chip]')).not.toBeNull()
     })
 
     it('announces the chosen options through the summary part of the combobox', () => {
@@ -655,12 +656,14 @@ describe('Select component', () => {
 
     it('names the clear button', () => {
       render(
-        <Select clearable defaultValue="apple" labels={{ clear: 'Remove the fruit' }}>
-          <SelectTrigger aria-label="Fruit" />
-          <SelectContent>
-            <SelectOption value="apple">Apple</SelectOption>
-          </SelectContent>
-        </Select>,
+        <LocaleProvider messages={{ select: { clear: 'Remove the fruit' } }}>
+          <Select clearable defaultValue="apple">
+            <SelectTrigger aria-label="Fruit" />
+            <SelectContent>
+              <SelectOption value="apple">Apple</SelectOption>
+            </SelectContent>
+          </Select>
+        </LocaleProvider>,
       )
       expect(screen.getByRole('button', { name: 'Remove the fruit' })).toBeInTheDocument()
     })
@@ -773,12 +776,14 @@ describe('Select component', () => {
 
     it('uses its own empty text, label and placeholder', async () => {
       render(
-        <Select labels={{ empty: 'Nothing', search: 'Find' }} searchable>
-          <SelectTrigger aria-label="Fruit" />
-          <SelectContent searchPlaceholder="Type…">
-            <SelectOption value="apple">Apple</SelectOption>
-          </SelectContent>
-        </Select>,
+        <LocaleProvider messages={{ select: { empty: 'Nothing', search: 'Find' } }}>
+          <Select searchable>
+            <SelectTrigger aria-label="Fruit" />
+            <SelectContent searchPlaceholder="Type…">
+              <SelectOption value="apple">Apple</SelectOption>
+            </SelectContent>
+          </Select>
+        </LocaleProvider>,
       )
       await userEvent.click(trigger())
       const search = screen.getByRole('combobox', { name: 'Find' })

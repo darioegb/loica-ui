@@ -17,7 +17,7 @@ export type FileUploadErrorProps = Omit<ComponentProps, 'index'> &
   FileUploadErrorRootAttributes &
   FileUploadErrorOwnProps
 
-/** One of the errors. The text comes from `labels.rejection`, or from the children. */
+/** One of the errors. The text comes from the `fileUpload.rejection` text of the `LocaleProvider`, or from the children. */
 export const FileUploadError = forwardRef<HTMLLIElement, FileUploadErrorProps>(
   (
     { children, className, rejection, style }: FileUploadErrorProps,

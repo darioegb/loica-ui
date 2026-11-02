@@ -20,6 +20,11 @@ import styles from './fileupload.module.css'
 
 export type FileUploadVariant = 'bordered' | 'filled' | 'outline' | 'unstyled'
 
+/**
+ * The texts of the FileUpload, to translate it: `prompt` (the instructions in the dropzone), `rejection(rejection)` (the
+ * message of a file that was left out), `remove(file)` and `progress(file)` (the accessible names of the button and the
+ * bar of a file) and `fileSize(bytes)` (the size shown next to each file).
+ */
 export interface FileUploadLabels {
   fileSize: (bytes: number) => string
   progress: (file: File) => string
@@ -42,14 +47,6 @@ export interface FileUploadOwnProps {
   colorScheme?: ColorScheme
   /** The files that are there at first, when it is not controlled. */
   defaultValue?: File[]
-  /**
-   * The texts of the FileUpload, to translate it: `prompt` (the instructions in the dropzone),
-   * `rejection(rejection)` (the message of a file that was left out), `remove(file)` and
-   * `progress(file)` (the accessible names of the button and the bar of a file) and
-   * `fileSize(bytes)` (the size shown next to each file).
-   * @default { prompt: 'Drag files here, or press to choose them', rejection: ({ file }) => `${file.name}: file is too large`, remove: (file) => `Remove ${file.name}`, progress: (file) => `Uploading ${file.name}`, fileSize: formatBytes }
-   */
-  labels?: Partial<FileUploadLabels>
   /** The most files the list can have. It only applies with `multiple`. */
   maxFiles?: number
   /** The largest size of a file, in bytes. */
@@ -152,7 +149,6 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       disabled = false,
       hidden,
       id,
-      labels,
       maxFiles,
       maxSize,
       multiple = false,
@@ -170,7 +166,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
     }: FileUploadProps,
     ref: ForwardedRef<HTMLInputElement>,
   ): ReactNode => {
-    const text = useLabels('fileUpload', DEFAULT_LABELS, labels)
+    const text = useLabels('fileUpload', DEFAULT_LABELS)
     const promptId = useId()
     const { dragging, files, input, receive, rejections, remove, setDragging } = useFileUploadState(
       {

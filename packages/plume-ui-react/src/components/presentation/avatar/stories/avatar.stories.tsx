@@ -1,4 +1,5 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
+import { LocaleProvider } from '../../../../locale'
 import { defaultTheme } from '../../../../theme'
 import {
   Avatar,
@@ -30,10 +31,10 @@ const people = [
  *
  * It is an image for assistive technology, named by the **alt** or the **name** and followed by the status
  * (`Ada Lovelace, Online`). With neither a name nor a status it is decorative and is hidden. Use **alt** when the
- * image says something more than the name, and **labels** to translate the status.
+ * image says something more than the name, and the `avatar` texts of the `LocaleProvider` to translate the status.
  *
  * `AvatarGroup` stacks several avatars. With **max** it shows that many and a counter with the rest, named by
- * **labels.overflow**. The group gives its **size**, **shape**, **colorScheme** and **variant** to the avatars that
+ * the `avatarGroup.overflow` text of the `LocaleProvider`. The group gives its **size**, **shape**, **colorScheme** and **variant** to the avatars that
  * don't set their own.
  *
  * Every element of the Avatar is a part with its own `className`, `style` and `ref`. Given no children, the Avatar
@@ -79,9 +80,6 @@ export default {
     status: {
       control: 'radio',
       options: [undefined, 'online', 'busy', 'away', 'offline'],
-    },
-    labels: {
-      control: false,
     },
     className: {
       control: 'text',
@@ -278,7 +276,7 @@ export const Shapes: Story = {
 
 /**
  * **status** adds a dot with the presence of the person. It is also read by assistive technology after the name,
- * so the color is not the only way to tell it. Change the text with **labels**.
+ * so the color is not the only way to tell it. Change the text with the `avatar` texts of the `LocaleProvider`.
  */
 export const Status: Story = {
   parameters: {
@@ -290,7 +288,9 @@ export const Status: Story = {
   <Avatar name="Ada Lovelace" status="away" />
   <Avatar name="Ada Lovelace" status="offline" />
   <Avatar name="Ada Lovelace" size="lg" src={portrait} status="online" />
-  <Avatar labels={{ online: 'En línea' }} name="Ada Lovelace" status="online" />
+  <LocaleProvider messages={{ avatar: { online: 'En línea' } }}>
+    <Avatar name="Ada Lovelace" status="online" />
+  </LocaleProvider>
 </div>`,
       },
     },
@@ -309,7 +309,9 @@ export const Status: Story = {
           status={status}
         />
       ))}
-      <Avatar labels={{ online: 'En línea' }} name="Ada Lovelace" status="online" />
+      <LocaleProvider messages={{ avatar: { online: 'En línea' } }}>
+        <Avatar name="Ada Lovelace" status="online" />
+      </LocaleProvider>
     </div>
   ),
 }
@@ -372,17 +374,15 @@ export const Group: Story = {
           <Avatar key={name} name={name} />
         ))}
       </AvatarGroup>
-      <AvatarGroup
-        aria-label="Con imágenes"
-        labels={{ overflow: (hidden) => `${hidden} más` }}
-        max={3}
-      >
-        <Avatar name="Ada Lovelace" src={portrait} />
-        <Avatar name="Grace Hopper" />
-        <Avatar name="Margaret Hamilton" src={portrait} />
-        <Avatar name="Katherine Johnson" />
-        <Avatar name="Alan Turing" />
-      </AvatarGroup>
+      <LocaleProvider messages={{ avatarGroup: { overflow: (hidden) => `${hidden} más` } }}>
+        <AvatarGroup aria-label="Con imágenes" max={3}>
+          <Avatar name="Ada Lovelace" src={portrait} />
+          <Avatar name="Grace Hopper" />
+          <Avatar name="Margaret Hamilton" src={portrait} />
+          <Avatar name="Katherine Johnson" />
+          <Avatar name="Alan Turing" />
+        </AvatarGroup>
+      </LocaleProvider>
     </div>
   ),
 }

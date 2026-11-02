@@ -8,6 +8,7 @@ import {
   AvatarOverflow,
   AvatarStatusDot,
 } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 
 describe('Avatar parts', () => {
   it('renders the default composition with the same parts', () => {
@@ -163,11 +164,13 @@ describe('Avatar parts', () => {
 })
 
 describe('AvatarOverflow', () => {
-  it('shows +count and names itself with the label of the group', () => {
+  it('shows +count and names itself with the text of the LocaleProvider', () => {
     render(
-      <AvatarGroup labels={{ overflow: (hidden) => `${hidden} más` }}>
-        <AvatarOverflow count={5} />
-      </AvatarGroup>,
+      <LocaleProvider messages={{ avatarGroup: { overflow: (hidden) => `${hidden} más` } }}>
+        <AvatarGroup>
+          <AvatarOverflow count={5} />
+        </AvatarGroup>
+      </LocaleProvider>,
     )
     expect(screen.getByText('+5')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: '5 más' })).toBeInTheDocument()

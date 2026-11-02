@@ -38,7 +38,6 @@ interface DatePickerControllerOptions {
   inputRef: ForwardedRef<HTMLInputElement>
   isPanel: boolean
   isRange: boolean
-  labels?: Partial<DatePickerLabels>
   maxDate?: Date
   minDate?: Date
   onChange: (value: DateRange) => void
@@ -75,7 +74,6 @@ export function useDatePickerController({
   inputRef,
   isPanel,
   isRange,
-  labels,
   maxDate,
   minDate,
   onChange,
@@ -89,7 +87,7 @@ export function useDatePickerController({
 }: Readonly<DatePickerControllerOptions>): DatePickerController {
   const providerLocale = useLocale()
   const language = localeProp ?? providerLocale ?? DEFAULT_LANGUAGE
-  const mergedLabels = useLabels('datePicker', DEFAULT_LABELS, labels)
+  const mergedLabels = useLabels('datePicker', DEFAULT_LABELS)
   const [state, dispatch] = useReducer(datePickerReducer, value, (initialValue?: DateRange) =>
     initialValue
       ? datePickerReducer(DATE_PICKER_INITIAL_STATE, { type: 'SET_VALUE', payload: initialValue })

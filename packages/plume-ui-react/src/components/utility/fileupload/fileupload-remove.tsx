@@ -9,7 +9,7 @@ import styles from './fileupload.module.css'
 export type FileUploadRemoveProps = OverlayCloseProps
 
 /**
- * The button that removes the file. Its name is `labels.remove` of the FileUpload unless you give
+ * The button that removes the file. Its name is the `fileUpload.remove` text of the `LocaleProvider` unless you give
  * it a `label`, an element given as `children`, such as a `Button`, becomes the button, and it is
  * not there when the FileUpload is disabled or read only.
  */

@@ -11,7 +11,7 @@ export type FileUploadPromptProps = Omit<ComponentProps, 'index'> & FileUploadPr
 
 /**
  * The instructions. They describe the input, and without children they come from
- * `labels.prompt`.
+ * the `fileUpload.prompt` text of the `LocaleProvider`.
  */
 export const FileUploadPrompt = forwardRef<HTMLSpanElement, FileUploadPromptProps>(
   (

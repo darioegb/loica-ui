@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { defaultTheme, type ColorScheme } from '../../../../theme'
 import { Button } from '../../../interaction/button'
 import { ChipLabel, ChipRemove } from '../../../presentation/chip'
+import { LocaleProvider } from '../../../../locale'
 import { Field } from '../../field'
 import {
   Select,
@@ -143,9 +144,6 @@ export default {
   },
   argTypes: {
     children: {
-      control: false,
-    },
-    labels: {
       control: false,
     },
     value: {
@@ -441,7 +439,7 @@ export const Colors: Story = {
  * With **multiple** the user can choose several options. The list stays open, each option has a check box and the
  * trigger shows the chosen options as chips, each with a button to remove just that one. <kbd>Backspace</kbd>
  * removes the last one. **onValueChange** receives an array. On the trigger, **maxDisplay** shows at most that many
- * chips with a `+N` for the rest (its text is the `overflow` label of `labels`), and `display="text"` shows the labels as
+ * chips with a `+N` for the rest (its text is the `select.overflow` text of the `LocaleProvider`), and `display="text"` shows the labels as
  * text instead of chips. The combobox announces the chosen options through a visually hidden `SelectChipsSummary`.
  */
 export const Multiple: Story = {
@@ -549,7 +547,7 @@ export const ImagesAndDescriptions: Story = {
 
 /**
  * **searchable** adds a search box that filters the options while the user types, and a message when none is
- * left (**labels.empty** in the `Select`). The arrows and <kbd>Enter</kbd> work from the search box, and typing
+ * left (the `select.empty` text of the `LocaleProvider`). The arrows and <kbd>Enter</kbd> work from the search box, and typing
  * on the closed trigger opens it with that text. The text of an option, or its `label`, is what is searched.
  */
 export const Searchable: Story = {
@@ -558,21 +556,25 @@ export const Searchable: Story = {
       story: { inline: false, iframeHeight: 420 },
       source: {
         code: `<div className="flex flex-col gap-4">
-  <Select labels={{ empty: 'Nobody with that name', search: 'Search people' }} searchable>
-    <SelectTrigger aria-label="Person" placeholder="Search a person" />
-    <SelectContent searchPlaceholder="Search…">
-      <SelectOption description="Engineering" value="ada">
-        Ada Lovelace
-      </SelectOption>
-      <SelectOption description="Design" value="grace">
-        Grace Hopper
-      </SelectOption>
-      <SelectOption description="Research" value="linus">
-        Linus Torvalds
-      </SelectOption>
-    </SelectContent>
-  </Select>
-  <Select clearable labels={{ search: 'Search fruits' }} multiple searchable>
+  <LocaleProvider
+    messages={{ select: { empty: 'Nobody with that name', search: 'Search people' } }}
+  >
+    <Select searchable>
+      <SelectTrigger aria-label="Person" placeholder="Search a person" />
+      <SelectContent searchPlaceholder="Search…">
+        <SelectOption description="Engineering" value="ada">
+          Ada Lovelace
+        </SelectOption>
+        <SelectOption description="Design" value="grace">
+          Grace Hopper
+        </SelectOption>
+        <SelectOption description="Research" value="linus">
+          Linus Torvalds
+        </SelectOption>
+      </SelectContent>
+    </Select>
+  </LocaleProvider>
+  <Select clearable multiple searchable>
     <SelectTrigger aria-label="Fruits" placeholder="Search fruits" />
     <SelectContent>
       <SelectOption value="apple">Apple</SelectOption>
@@ -586,22 +588,26 @@ export const Searchable: Story = {
   },
   render: () => (
     <div className="flex flex-col gap-4">
-      <Select labels={{ empty: 'Nobody with that name', search: 'Search people' }} searchable>
-        <SelectTrigger aria-label="Person" placeholder="Search a person" />
-        <SelectContent searchPlaceholder="Search…">
-          {people.map((person) => (
-            <SelectOption
-              description={person.description}
-              icon={person.icon}
-              key={person.value}
-              value={person.value}
-            >
-              {person.name}
-            </SelectOption>
-          ))}
-        </SelectContent>
-      </Select>
-      <Select clearable labels={{ search: 'Search fruits' }} multiple searchable>
+      <LocaleProvider
+        messages={{ select: { empty: 'Nobody with that name', search: 'Search people' } }}
+      >
+        <Select searchable>
+          <SelectTrigger aria-label="Person" placeholder="Search a person" />
+          <SelectContent searchPlaceholder="Search…">
+            {people.map((person) => (
+              <SelectOption
+                description={person.description}
+                icon={person.icon}
+                key={person.value}
+                value={person.value}
+              >
+                {person.name}
+              </SelectOption>
+            ))}
+          </SelectContent>
+        </Select>
+      </LocaleProvider>
+      <Select clearable multiple searchable>
         <SelectTrigger aria-label="Fruits" placeholder="Search fruits" />
         <SelectContent>
           <Fruits />
@@ -1072,7 +1078,6 @@ export const Tailwind: Story = {
   <Select
     clearable
     defaultValue={["apple", "mango"]}
-    labels={{ search: "Search fruits" }}
     multiple
     searchable
     variant="unstyled"
@@ -1154,7 +1159,6 @@ export const Tailwind: Story = {
       <Select
         clearable
         defaultValue={['apple', 'mango']}
-        labels={{ search: 'Search fruits' }}
         multiple
         searchable
         variant="unstyled"

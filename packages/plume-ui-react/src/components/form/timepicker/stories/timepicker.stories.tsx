@@ -12,6 +12,7 @@ import {
   TimePickerPanel,
   TimePickerTrigger,
 } from '..'
+import { LocaleProvider } from '../../../../locale'
 
 const colorSchemes = Object.keys(defaultTheme.colors)
 
@@ -141,9 +142,6 @@ export default {
     readOnly: {
       control: 'boolean',
     },
-    labels: {
-      control: false,
-    },
     style: {
       control: false,
     },
@@ -267,22 +265,30 @@ export const MinuteStep: Story = {
 }
 
 /**
- * Every text can be changed with `labels`, here in Spanish with a 12-hour clock.
+ * Every text can be changed with the `timePicker` texts of the `LocaleProvider`, here in Spanish with a 12-hour clock.
  */
 export const CustomLabels: Story = {
   args: {
-    labels: {
-      am: 'a. m.',
-      hours: 'Horas',
-      minutes: 'Minutos',
-      openTimePicker: 'Abrir selector de hora',
-      period: 'Periodo',
-      pm: 'p. m.',
-      timePicker: 'Selector de hora',
-    },
     defaultValue: '16:45',
     hour12: true,
   },
+  render: (args) => (
+    <LocaleProvider
+      messages={{
+        timePicker: {
+          am: 'a. m.',
+          hours: 'Horas',
+          minutes: 'Minutos',
+          openTimePicker: 'Abrir selector de hora',
+          period: 'Periodo',
+          pm: 'p. m.',
+          timePicker: 'Selector de hora',
+        },
+      }}
+    >
+      <TimePicker {...args} />
+    </LocaleProvider>
+  ),
 }
 
 /**

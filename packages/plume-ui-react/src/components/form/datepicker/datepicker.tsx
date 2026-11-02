@@ -6,11 +6,7 @@ import type { ColorScheme, ComponentProps, Shape, Size } from '../../../theme'
 import { customProperties } from '../shared/picker-panel'
 import { DatePickerCalendar } from './datepicker-calendar'
 import { DatePickerInput, type DatePickerInputProps } from './datepicker-input'
-import type {
-  DatePickerLabels,
-  DatePickerVariant,
-  DateRange,
-} from './datepicker-types'
+import type { DatePickerVariant, DateRange } from './datepicker-types'
 import { DatePickerContext } from './datepicker-context'
 import { useDatePickerController } from './use-datepicker-controller'
 
@@ -52,10 +48,6 @@ export interface DatePickerOwnProps {
    * @default false
    */
   range?: boolean
-  /**
-   * `labels` sets every text the component shows or announces: the buttons of the footer (`apply`, `cancel`), the name of the calendar (`calendar`) and of the button that opens it (`openCalendar`), and the navigation buttons (`previousMonth`, `nextMonth`, `previousYears`, `nextYears`). Every key is optional and falls back to its default.
-   */
-  labels?: Partial<DatePickerLabels>
   /** Last selectable date. Later days are disabled. */
   maxDate?: Date
   /** First selectable date. Earlier days are disabled. */
@@ -113,7 +105,6 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
       displayFormat,
       panel: isPanel = false,
       range: isRange = false,
-      labels,
       maxDate,
       minDate,
       onValueChange: onChange,
@@ -139,7 +130,6 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
       inputRef: ref,
       isPanel,
       isRange,
-      labels,
       maxDate,
       minDate,
       onChange,

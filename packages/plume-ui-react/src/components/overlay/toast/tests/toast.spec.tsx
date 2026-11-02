@@ -37,8 +37,14 @@ describe('ToastProvider component', () => {
       expect(region()).toBeEmptyDOMElement()
     })
 
-    it('lets the label be set', () => {
-      setup({ labels: { region: 'Avisos' } })
+    it('takes the label from the LocaleProvider', () => {
+      render(
+        <LocaleProvider messages={{ toast: { region: 'Avisos' } }}>
+          <ToastProvider>
+            <Capture />
+          </ToastProvider>
+        </LocaleProvider>,
+      )
       expect(screen.getByRole('region', { name: 'Avisos' })).toBeInTheDocument()
     })
 

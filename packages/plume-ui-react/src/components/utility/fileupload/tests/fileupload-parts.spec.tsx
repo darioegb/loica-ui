@@ -16,6 +16,7 @@ import {
   FileUploadRemove,
   FileUploadSize,
 } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 import { ProgressBarIndicator } from '../../progressbar'
 
 const file = (name: string, type = 'text/plain', size = 10): File =>
@@ -317,25 +318,27 @@ describe('FileUpload parts', () => {
     expect(onValueChange).toHaveBeenCalledWith([])
   })
 
-  it('takes the texts of the item from the labels', () => {
+  it('takes the texts of the item from the LocaleProvider', () => {
     render(
-      <FileUpload
-        aria-label="Documents"
-        defaultValue={[file('a.txt', 'text/plain', 5)]}
-        labels={{
-          fileSize: (bytes) => `${bytes} bytes`,
-          remove: (current) => `Delete ${current.name}`,
+      <LocaleProvider
+        messages={{
+          fileUpload: {
+            fileSize: (bytes) => `${bytes} bytes`,
+            remove: (current) => `Delete ${current.name}`,
+          },
         }}
       >
-        <FileUploadList>
-          {(current) => (
-            <FileUploadItem file={current}>
-              <FileUploadSize />
-              <FileUploadRemove />
-            </FileUploadItem>
-          )}
-        </FileUploadList>
-      </FileUpload>,
+        <FileUpload aria-label="Documents" defaultValue={[file('a.txt', 'text/plain', 5)]}>
+          <FileUploadList>
+            {(current) => (
+              <FileUploadItem file={current}>
+                <FileUploadSize />
+                <FileUploadRemove />
+              </FileUploadItem>
+            )}
+          </FileUploadList>
+        </FileUpload>
+      </LocaleProvider>,
     )
     expect(screen.getByText('5 bytes')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Delete a.txt' })).toBeInTheDocument()
@@ -422,16 +425,21 @@ describe('FileUpload parts', () => {
     expect(screen.getByRole('alert')).toHaveTextContent('Nope')
   })
 
-  it('uses the texts of the labels for the prompt and the errors', () => {
+  it('uses the texts of the LocaleProvider for the prompt and the errors', () => {
     render(
-      <FileUpload
-        accept=".png"
-        aria-label="Documentos"
-        labels={{ prompt: 'Arrastra', rejection: ({ file: rejected }) => `No: ${rejected.name}` }}
+      <LocaleProvider
+        messages={{
+          fileUpload: {
+            prompt: 'Arrastra',
+            rejection: ({ file: rejected }) => `No: ${rejected.name}`,
+          },
+        }}
       >
-        <FileUploadDropzone />
-        <FileUploadErrors />
-      </FileUpload>,
+        <FileUpload accept=".png" aria-label="Documentos">
+          <FileUploadDropzone />
+          <FileUploadErrors />
+        </FileUpload>
+      </LocaleProvider>,
     )
     expect(screen.getByText('Arrastra')).toBeInTheDocument()
     fireEvent.change(input(), { target: { files: [file('b.txt')] } })

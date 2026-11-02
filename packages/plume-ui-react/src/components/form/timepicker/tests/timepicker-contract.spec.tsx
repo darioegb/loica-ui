@@ -2,6 +2,7 @@ import { createRef } from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { InputControl, InputField } from '../../input'
 import { TimePicker, TimePickerFormatHint, TimePickerInput } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 
 const classesOf = (selector: string): string[] =>
   Array.from(document.querySelectorAll<HTMLElement>(selector)).map((node) => node.className.trim())
@@ -26,12 +27,18 @@ describe('TimePicker contract', () => {
     expect(ref.current).toBe(screen.getByRole('textbox'))
   })
 
-  it('takes the default placeholder from the labels', () => {
+  it('takes the default placeholder from the texts', () => {
     const { rerender } = render(<TimePicker />)
     expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'hh:mm')
     rerender(<TimePicker hour12 />)
     expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'hh:mm AM')
-    rerender(<TimePicker labels={{ placeholder: (period) => `hh:mm${period ? '' : ' 24h'}` }} />)
+    rerender(
+      <LocaleProvider
+        messages={{ timePicker: { placeholder: (period) => `hh:mm${period ? '' : ' 24h'}` } }}
+      >
+        <TimePicker />
+      </LocaleProvider>,
+    )
     expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'hh:mm 24h')
   })
 
