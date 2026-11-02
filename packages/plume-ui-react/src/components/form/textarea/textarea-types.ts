@@ -1,5 +1,5 @@
-import type { ReactNode, TextareaHTMLAttributes } from 'react'
-import type { ColorScheme, ComponentProps, Shape, Size } from '../../../theme'
+import type { ComponentPropsWithoutRef } from 'react'
+import type { ColorScheme, Shape, Size } from '../../../theme'
 
 export type TextareaVariant = 'outline' | 'filled' | 'underline' | 'unstyled'
 export type TextareaResize = 'none' | 'vertical' | 'horizontal' | 'both'
@@ -9,36 +9,7 @@ export interface TextareaLabels {
   remaining: (remaining: number) => string
 }
 
-export type TextareaFieldAttributes = Pick<
-  TextareaHTMLAttributes<HTMLTextAreaElement>,
-  | 'aria-describedby'
-  | 'aria-invalid'
-  | 'aria-label'
-  | 'aria-labelledby'
-  | 'cols'
-  | 'defaultValue'
-  | 'disabled'
-  | 'id'
-  | 'maxLength'
-  | 'minLength'
-  | 'name'
-  | 'onBlur'
-  | 'onChange'
-  | 'onFocus'
-  | 'placeholder'
-  | 'readOnly'
-  | 'required'
-  | 'rows'
-  | 'value'
-  | 'wrap'
->
-
 export interface TextareaOwnProps {
-  /**
-   * The parts of the textarea (`TextareaField`, `TextareaCount` and `TextareaStatus`), in the order
-   * they should appear. Without children it renders the field, and the count with `showCount`.
-   */
-  children?: ReactNode
   /**
    * Color scheme of the focus ring and of the border while focused, from the theme palette.
    * @default 'secondary'
@@ -56,7 +27,9 @@ export interface TextareaOwnProps {
   shape?: Shape
   /**
    * Shows how many characters there are under the textarea, as `12` or, with `maxLength`, as `12 /
-   * 200`. The count describes the textarea to a screen reader, and it turns red at the limit.
+   * 200`. The count describes the textarea to a screen reader, it turns red at the limit, and near
+   * the limit a live region says how many characters are left. With it, `className` and `style` go
+   * to the wrapper of the textarea and the count, which carries `data-plume-textarea-group`.
    * @default false
    */
   showCount?: boolean
@@ -72,6 +45,4 @@ export interface TextareaOwnProps {
   variant?: TextareaVariant
 }
 
-export type TextareaProps = Omit<ComponentProps, 'index'> &
-  TextareaFieldAttributes &
-  TextareaOwnProps
+export type TextareaProps = ComponentPropsWithoutRef<'textarea'> & TextareaOwnProps

@@ -254,6 +254,70 @@ describe('Textarea component', () => {
       expect(count()).not.toHaveAttribute('class')
     })
 
+    it('draws the wrapper, the field, the count and the live region in order', () => {
+      render(<Textarea aria-label="Bio" showCount />)
+      const wrapper = document.querySelector('[data-plume-textarea-group]') as HTMLElement
+      expect(Array.from(wrapper.children)).toEqual([
+        screen.getByRole('textbox'),
+        count(),
+        status(),
+      ])
+      expect(screen.getByRole('textbox')).toHaveAttribute('data-plume-textarea-field')
+      expect(status()).toHaveAttribute('data-plume-textarea-status')
+    })
+
+    it('puts style on the wrapper and passes the native attributes to the textarea', () => {
+      render(
+        <Textarea
+          aria-label="Bio"
+          data-testid="bio"
+          id="bio"
+          name="bio"
+          showCount
+          style={{ width: 200 }}
+        />,
+      )
+      const textarea = screen.getByTestId('bio')
+      expect(textarea).toHaveAttribute('id', 'bio')
+      expect(textarea).toHaveAttribute('name', 'bio')
+      expect(textarea.parentElement).toHaveStyle({ width: '200px' })
+    })
+
+    it('takes the look and the disabled state for the textarea, the count and the wrapper', () => {
+      render(<Textarea aria-label="Bio" disabled resize="none" shape="pill" showCount size="lg" />)
+      const textarea = screen.getByRole('textbox')
+      expect(textarea).toBeDisabled()
+      expect(textarea).toHaveClass('base', 'outline', 'lg', 'pill', 'none', 'disabled')
+      expect(textarea).toHaveAttribute('data-disabled')
+      expect(count()).toHaveAttribute('data-disabled')
+      expect(textarea.parentElement).toHaveAttribute('data-disabled')
+    })
+
+    it('marks the textarea, the count and the wrapper as invalid, with the error color', () => {
+      render(<Textarea aria-invalid aria-label="Bio" showCount />)
+      const textarea = screen.getByRole('textbox')
+      expect(textarea).toHaveAttribute('data-invalid')
+      expect(textarea).toHaveClass('invalid')
+      expect(count()).toHaveAttribute('data-invalid')
+      expect(textarea.parentElement).toHaveAttribute('data-invalid')
+      expect(textarea.parentElement).toHaveStyle('--textarea-color: var(--plume-color-error-text)')
+    })
+
+    it('does not reset the count when it has a default value and was typed in', async () => {
+      render(<Textarea aria-label="Bio" defaultValue="abc" showCount />)
+      expect(count()).toHaveTextContent('3')
+      await userEvent.type(screen.getByRole('textbox'), 'de')
+      expect(count()).toHaveTextContent('5')
+    })
+
+    it('drops the Plume classes of every inner element when it is unstyled', () => {
+      render(<Textarea aria-label="Bio" className="mine" showCount variant="unstyled" />)
+      const textarea = screen.getByRole('textbox')
+      expect(textarea).not.toHaveAttribute('class')
+      expect(count()).not.toHaveAttribute('class')
+      expect(textarea.parentElement).toHaveAttribute('class', 'mine')
+    })
+
     it('composes with Field', () => {
       render(
         <Field helperText="Short is fine" label="Bio">

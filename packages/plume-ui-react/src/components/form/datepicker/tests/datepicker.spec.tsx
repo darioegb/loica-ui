@@ -4,14 +4,11 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import {
   DatePicker,
   DatePickerCalendar,
-  DatePickerField,
   DatePickerInput,
-  DatePickerTrigger,
 } from '..'
 import { LocaleProvider } from '../../../../locale/locale-provider'
 import type { DateRange } from '../datepicker'
 import { Modal, ModalBody, ModalContent } from '../../../overlay/modal'
-import { InputControl, InputElement } from '../../input'
 
 const openCalendar = (): void => {
   fireEvent.click(screen.getByRole('button', { name: 'Open calendar' }))
@@ -853,18 +850,11 @@ describe('DatePicker component', () => {
     it('styles the input with its own props and the look of the DatePicker', () => {
       render(
         <DatePicker onValueChange={vi.fn()} shape="pill" size="lg" variant="filled">
-          <DatePickerInput className="mine" disabled>
-            <InputControl>
-              <DatePickerField className="inner" />
-              <InputElement position="after">
-                <DatePickerTrigger />
-              </InputElement>
-            </InputControl>
-          </DatePickerInput>
+          <DatePickerInput className="mine" disabled />
         </DatePicker>,
       )
       const input = screen.getByRole('textbox')
-      expect(input).toHaveClass('inner', 'lg', 'pill', 'filled', 'disabled')
+      expect(input).toHaveClass('lg', 'pill', 'filled', 'disabled')
       expect(input.closest('[data-plume-input-group]')).toHaveClass('mine')
       expect(screen.getByRole('button', { name: 'Open calendar' })).toBeDisabled()
     })

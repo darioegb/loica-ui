@@ -2,7 +2,7 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
 import { useState } from 'react'
 import { defaultTheme } from '../../../../theme'
-import { Input, InputAddon, InputControl, InputElement, InputField, InputReveal } from '..'
+import { Input } from '..'
 
 const colorSchemes = Object.keys(defaultTheme.colors)
 
@@ -12,10 +12,11 @@ const colorSchemes = Object.keys(defaultTheme.colors)
  * and inline elements, validation states, and an input mask for formatted values
  * such as dates, phone numbers or card numbers.
  *
- * On its own it renders the `<input>` (inside a group when it has addons, elements or the reveal button). To
- * change what it shows or the order, give it its parts as children, and the native props (`id`, `name`,
- * `placeholder`, `aria-*`...) go on the `InputField`, or on the `Input` to share them with it. The `ref` of the `Input`
- * always points to the `<input>`, so `register` of react-hook-form works on either of them.
+ * On its own it renders the `<input>`, and inside a group when it has addons, elements or the reveal button. The
+ * native props (`id`, `name`, `placeholder`, `aria-*`...) and the `ref` go to the `<input>`, so `register` of
+ * react-hook-form works on it. With a group, `className` and `style` go to the group. Every drawn element carries a
+ * `data-plume-input-*` attribute (`group`, `control`, `addon`, `element`, `field` and `reveal`), so it can be styled
+ * from the parent.
  */
 export default {
   title: 'Components/Input',
@@ -318,62 +319,6 @@ export const Masked: Story = {
 }
 
 /**
- * Give the **Input** its parts as children to choose what it shows and in which order. The native props go on the
- * `InputField`, or on the `Input` so every part shares them. The `ref` of the `Input` points to the `<input>`, and
- * parts you leave out are not rendered.
- */
-export const Compound: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `<Input>
-  <InputAddon>https://</InputAddon>
-  <InputControl>
-    <InputField placeholder="example.com" />
-  </InputControl>
-  <InputAddon position="after">.com</InputAddon>
-</Input>
-<Input type="password">
-  <InputControl>
-    <InputReveal />
-    <InputField placeholder="Password" />
-  </InputControl>
-</Input>
-<Input>
-  <InputControl>
-    <InputElement>@</InputElement>
-    <InputField placeholder="Username" />
-  </InputControl>
-</Input>`,
-      },
-    },
-  },
-  render: () => (
-    <div className="flex flex-col gap-4 w-80 max-w-full">
-      <Input>
-        <InputAddon>https://</InputAddon>
-        <InputControl>
-          <InputField aria-label="Domain" placeholder="example" />
-        </InputControl>
-        <InputAddon position="after">.com</InputAddon>
-      </Input>
-      <Input type="password">
-        <InputControl>
-          <InputField aria-label="Password" placeholder="Password" />
-          <InputReveal />
-        </InputControl>
-      </Input>
-      <Input>
-        <InputControl>
-          <InputElement>@</InputElement>
-          <InputField aria-label="Username" placeholder="Username" />
-        </InputControl>
-      </Input>
-    </div>
-  ),
-}
-
-/**
  * Some examples of Input with custom classes from tailwind.
  * Set **variant="unstyled"** so Plume styles don't override your utility classes.
  */
@@ -402,15 +347,13 @@ export const Tailwind: Story = {
   defaultValue="Invalid value"
   className="block w-full rounded-lg border border-red-400 px-4 py-2.5 text-sm text-red-700 focus:border-red-500 focus:ring-3 focus:ring-red-200 dark:text-red-400"
 />
-<Input variant="unstyled" type="password">
-  <InputControl>
-    <InputField
-      placeholder="Password"
-      className="block w-full rounded-lg border border-gray-200 py-2.5 pl-4 pr-10 text-sm text-gray-700 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-    />
-    <InputReveal className="-ml-9 flex h-8 w-8 items-center justify-center rounded-sm text-gray-500 hover:text-gray-900 dark:hover:text-white" />
-  </InputControl>
-</Input>`,
+<Input
+  variant="unstyled"
+  type="password"
+  revealable
+  placeholder="Password"
+  className="[&_[data-plume-input-control]]:flex [&_[data-plume-input-control]]:items-center [&_input]:block [&_input]:w-full [&_input]:rounded-lg [&_input]:border [&_input]:border-gray-200 [&_input]:py-2.5 [&_input]:pl-4 [&_input]:pr-10 [&_input]:text-sm [&_input]:text-gray-700 [&_input]:focus:border-blue-500 [&_input]:focus:ring-3 [&_input]:focus:ring-blue-200 dark:[&_input]:border-gray-700 dark:[&_input]:bg-gray-800 dark:[&_input]:text-white [&_[data-plume-input-reveal]]:-ml-9 [&_[data-plume-input-reveal]]:flex [&_[data-plume-input-reveal]]:h-8 [&_[data-plume-input-reveal]]:w-8 [&_[data-plume-input-reveal]]:items-center [&_[data-plume-input-reveal]]:justify-center [&_[data-plume-input-reveal]]:rounded-sm [&_[data-plume-input-reveal]]:text-gray-500 [&_[data-plume-input-reveal]]:hover:text-gray-900 dark:[&_[data-plume-input-reveal]]:hover:text-white"
+/>`,
       },
     },
   },
@@ -437,15 +380,13 @@ export const Tailwind: Story = {
         placeholder="Error Input"
         variant="unstyled"
       />
-      <Input type="password" variant="unstyled">
-        <InputControl>
-          <InputField
-            className="block w-full rounded-lg border border-gray-200 py-2.5 pl-4 pr-10 text-sm text-gray-700 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-            placeholder="Password"
-          />
-          <InputReveal className="-ml-9 flex h-8 w-8 items-center justify-center rounded-sm text-gray-500 hover:text-gray-900 dark:hover:text-white" />
-        </InputControl>
-      </Input>
+      <Input
+        className="[&_[data-plume-input-control]]:flex [&_[data-plume-input-control]]:items-center [&_input]:block [&_input]:w-full [&_input]:rounded-lg [&_input]:border [&_input]:border-gray-200 [&_input]:py-2.5 [&_input]:pl-4 [&_input]:pr-10 [&_input]:text-sm [&_input]:text-gray-700 [&_input]:focus:border-blue-500 [&_input]:focus:ring-3 [&_input]:focus:ring-blue-200 dark:[&_input]:border-gray-700 dark:[&_input]:bg-gray-800 dark:[&_input]:text-white [&_[data-plume-input-reveal]]:-ml-9 [&_[data-plume-input-reveal]]:flex [&_[data-plume-input-reveal]]:h-8 [&_[data-plume-input-reveal]]:w-8 [&_[data-plume-input-reveal]]:items-center [&_[data-plume-input-reveal]]:justify-center [&_[data-plume-input-reveal]]:rounded-sm [&_[data-plume-input-reveal]]:text-gray-500 [&_[data-plume-input-reveal]]:hover:text-gray-900 dark:[&_[data-plume-input-reveal]]:hover:text-white"
+        placeholder="Password"
+        revealable
+        type="password"
+        variant="unstyled"
+      />
     </div>
   ),
 }

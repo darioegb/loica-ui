@@ -1,7 +1,7 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
 import { defaultTheme } from '../../../../theme'
 import { Field } from '../../field'
-import { Textarea, TextareaCount, TextareaField, TextareaStatus } from '..'
+import { Textarea } from '..'
 import { LocaleProvider } from '../../../../locale'
 
 const colorSchemes = Object.keys(defaultTheme.colors)
@@ -11,13 +11,11 @@ const colorSchemes = Object.keys(defaultTheme.colors)
  * It renders a native `<textarea>`, so it works with forms and the keyboard out of the box,
  * and the `ref` points to it.
  *
- * With **showCount** it adds a character counter under the field. To change what it shows or the order, give it its
- * parts as children: `TextareaField` is the `<textarea>`, `TextareaCount` the counter and `TextareaStatus` the
- * invisible message a screen reader gets near the limit. The `Textarea` keeps the look (`variant`, `size`, `shape`,
- * `colorScheme`, `resize`), the state and the texts, and shares them with its parts. The `ref` of the `Textarea` always
- * points to the `<textarea>` (it stays empty if there is no `TextareaField`), and `className` and `style` go to its
- * outermost element, the wrapper when it has parts. The props of the field (`value`, `defaultValue`, `maxLength`,
- * `placeholder`, `rows`...) may go on the `Textarea` or on `TextareaField`, and so can the `register` of react-hook-form.
+ * With **showCount** it adds a character counter under the field, and an invisible message a screen reader gets near
+ * the limit. Then `className` and `style` go to the wrapper of the three, which carries `data-plume-textarea-group`;
+ * the textarea, the count and the message carry `data-plume-textarea-field`, `-count` and `-status`, so they can be
+ * styled from the parent. The native props (`value`, `defaultValue`, `maxLength`, `placeholder`, `rows`...) and the
+ * `register` of react-hook-form go to the `<textarea>`.
  */
 export default {
   title: 'Components/Textarea',
@@ -57,9 +55,6 @@ export default {
     },
     showCount: {
       control: 'boolean',
-    },
-    children: {
-      control: false,
     },
     resize: {
       control: 'radio',
@@ -283,31 +278,7 @@ export const WithField: Story = {
 }
 
 /**
- * Give the Textarea its parts to change what it shows or the order. Here the count goes above the field and says how
- * many characters are left. The props of the field (**maxLength**, **placeholder**) go on the Textarea, and the
- * `TextareaStatus` is the message a screen reader gets near the limit.
- */
-export const Compound: Story = {
-  render: () => (
-    <div className="flex w-72 max-w-full flex-col gap-4">
-      <Textarea maxLength={80}>
-        <TextareaCount />
-        <TextareaField aria-label="Bio" placeholder="Count above the field" />
-        <TextareaStatus />
-      </Textarea>
-      <LocaleProvider messages={{ textarea: { count: (count, max) => `${(max ?? 0) - count} left` } }}>
-        <Textarea defaultValue="Short" maxLength={80}>
-          <TextareaField aria-label="Notes" />
-          <TextareaCount />
-          <TextareaStatus />
-        </Textarea>
-      </LocaleProvider>
-    </div>
-  ),
-}
-
-/**
- * Some examples of Textarea with Tailwind classes. With `variant="unstyled"` the `className` is the only class of the `<textarea>`.
+ * Some examples of Textarea with Tailwind classes. With `variant="unstyled"` the `className` is the only class of the `<textarea>`. With a count it goes to the wrapper, so the textarea and the count are styled with parent selectors.
  */
 export const Tailwind: Story = {
   parameters: {
@@ -325,15 +296,14 @@ export const Tailwind: Story = {
     rows={4}
     variant="unstyled"
   />
-  <Textarea maxLength={80} variant="unstyled">
-    <TextareaField
-      aria-label="With a count"
-      className="block w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-200"
-      placeholder="With a count"
-    />
-    <TextareaCount className="mt-1 block text-right text-xs text-gray-600 dark:text-gray-400 data-[limit]:font-semibold data-[limit]:text-red-600" />
-    <TextareaStatus />
-  </Textarea>
+  <Textarea
+    aria-label="With a count"
+    className="[&_textarea]:block [&_textarea]:w-full [&_textarea]:rounded-lg [&_textarea]:border [&_textarea]:border-gray-300 [&_textarea]:bg-transparent [&_textarea]:px-3 [&_textarea]:py-2 [&_textarea]:text-sm [&_textarea]:focus:border-blue-500 [&_textarea]:focus:outline-hidden [&_textarea]:focus:ring-3 [&_textarea]:focus:ring-blue-200 [&_[data-plume-textarea-count]]:mt-1 [&_[data-plume-textarea-count]]:block [&_[data-plume-textarea-count]]:text-right [&_[data-plume-textarea-count]]:text-xs [&_[data-plume-textarea-count]]:text-gray-600 dark:[&_[data-plume-textarea-count]]:text-gray-400 [&_[data-plume-textarea-count][data-limit]]:font-semibold [&_[data-plume-textarea-count][data-limit]]:text-red-600"
+    maxLength={80}
+    placeholder="With a count"
+    showCount
+    variant="unstyled"
+  />
 </div>`,
       },
     },
@@ -351,21 +321,20 @@ export const Tailwind: Story = {
         rows={4}
         variant="unstyled"
       />
-      <Textarea maxLength={80} variant="unstyled">
-        <TextareaField
-          aria-label="With a count"
-          className="block w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm focus:border-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-200"
-          placeholder="With a count"
-        />
-        <TextareaCount className="mt-1 block text-right text-xs text-gray-600 dark:text-gray-400 data-[limit]:font-semibold data-[limit]:text-red-600" />
-        <TextareaStatus />
-      </Textarea>
+      <Textarea
+        aria-label="With a count"
+        className="[&_textarea]:block [&_textarea]:w-full [&_textarea]:rounded-lg [&_textarea]:border [&_textarea]:border-gray-300 [&_textarea]:bg-transparent [&_textarea]:px-3 [&_textarea]:py-2 [&_textarea]:text-sm [&_textarea]:focus:border-blue-500 [&_textarea]:focus:outline-hidden [&_textarea]:focus:ring-3 [&_textarea]:focus:ring-blue-200 [&_[data-plume-textarea-count]]:mt-1 [&_[data-plume-textarea-count]]:block [&_[data-plume-textarea-count]]:text-right [&_[data-plume-textarea-count]]:text-xs [&_[data-plume-textarea-count]]:text-gray-600 dark:[&_[data-plume-textarea-count]]:text-gray-400 [&_[data-plume-textarea-count][data-limit]]:font-semibold [&_[data-plume-textarea-count][data-limit]]:text-red-600"
+        maxLength={80}
+        placeholder="With a count"
+        showCount
+        variant="unstyled"
+      />
     </div>
   ),
 }
 
 /**
- * Some examples of Textarea with Bootstrap classes: `form-control`, with its size and validation states.
+ * Some examples of Textarea with Bootstrap classes: `form-control`, with its size and validation states. With `showCount` the classes go to the wrapper, which Bootstrap has no class for, so use the count with the Plume look.
  */
 export const Bootstrap: Story = {
   parameters: {
@@ -385,11 +354,6 @@ export const Bootstrap: Story = {
     style={{ backgroundImage: 'none' }}
     variant="unstyled"
   />
-  <Textarea maxLength={80} variant="unstyled">
-    <TextareaField aria-label="With a count" className="form-control" placeholder="With a count" />
-    <TextareaCount className="form-text text-end" />
-    <TextareaStatus />
-  </Textarea>
 </div>`,
       },
     },
@@ -409,15 +373,6 @@ export const Bootstrap: Story = {
         style={{ backgroundImage: 'none' }}
         variant="unstyled"
       />
-      <Textarea maxLength={80} variant="unstyled">
-        <TextareaField
-          aria-label="With a count"
-          className="form-control"
-          placeholder="With a count"
-        />
-        <TextareaCount className="form-text text-end" />
-        <TextareaStatus />
-      </Textarea>
     </div>
   ),
 }

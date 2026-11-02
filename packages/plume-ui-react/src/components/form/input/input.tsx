@@ -1,22 +1,17 @@
 'use client'
 
-import type { ForwardedRef, ReactNode } from 'react'
-import { forwardRef, useMemo } from 'react'
-import type { ColorScheme, ComponentProps, Shape, Size } from '../../../theme'
+import type { ComponentPropsWithoutRef, ForwardedRef, ReactNode } from 'react'
+import { forwardRef } from 'react'
+import type { ColorScheme, Shape, Size } from '../../../theme'
 import { useMask } from '../../../hooks/use-mask'
 import { useLabels } from '../../../locale/locale-provider'
-import { useShallowStable } from '../shared/use-shallow-stable'
-import { InputAddon } from './input-addon'
-import { InputContext, inputColorVars } from './input-context'
-import type { InputContextValue, InputLabels, InputVariant } from './input-context'
-import { InputControl } from './input-control'
-import { InputElement } from './input-element'
-import { InputField } from './input-field'
-import type { InputFieldAttributes } from './input-field'
-import { InputGroup } from './input-group'
-import { InputReveal, usePasswordReveal } from './input-reveal'
+import { InputLayout } from './input-layout'
+import { InputRevealButton, usePasswordReveal } from './input-reveal'
+import { inputFieldClasses, stateAttributes } from './input-styles'
+import { inputColorVars } from './input-types'
+import type { InputLabels, InputVariant } from './input-types'
 
-export type { InputLabels, InputVariant } from './input-context'
+export type { InputLabels, InputVariant } from './input-types'
 
 const DEFAULT_LABELS: InputLabels = { reveal: 'Show password' }
 
@@ -25,10 +20,6 @@ export interface InputOwnProps {
   addonBefore?: ReactNode
   /** Content attached after the Input, outside its border (e.g. a domain suffix). */
   addonAfter?: ReactNode
-  /**
-   * The parts of the input, to change what it shows or their order. Without them it renders the field, wrapped in a group when it has addons, elements or the reveal button.
-   */
-  children?: ReactNode
   /** Element rendered inside the Input, before the text (e.g. an icon). */
   elementBefore?: ReactNode
   /** Element rendered inside the Input, after the text (e.g. an icon). */
@@ -69,14 +60,13 @@ export interface InputOwnProps {
   variant?: InputVariant
 }
 
-export type InputProps = Omit<ComponentProps, 'index'> & InputFieldAttributes & InputOwnProps
+export type InputProps = Omit<ComponentPropsWithoutRef<'input'>, 'children' | 'size'> & InputOwnProps
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       addonBefore,
       addonAfter,
-      children,
       elementBefore,
       elementAfter,
       style,
@@ -99,93 +89,71 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const text = useLabels('input', DEFAULT_LABELS)
     const { canReveal, revealed, toggle } = usePasswordReveal(type, revealable)
-    const fieldAttributes = useShallowStable(rest)
-    const isInvalid =
-      fieldAttributes['aria-invalid'] === true || fieldAttributes['aria-invalid'] === 'true'
+    const invalid = rest['aria-invalid'] === true || rest['aria-invalid'] === 'true'
     const { value: maskedValue, onChange: maskedOnChange } = useMask({
       mask,
       value: typeof value === 'string' ? value : undefined,
       defaultValue: typeof defaultValue === 'string' ? defaultValue : undefined,
       onChange,
     })
-    const context: InputContextValue = useMemo(
-      () => ({
-        colorScheme,
-        disabled,
-        fieldProps: {
-          ...fieldAttributes,
-          defaultValue: mask ? undefined : defaultValue,
-          onChange: maskedOnChange,
-          type,
-          value: mask ? maskedValue : value,
-        },
-        fieldRef: ref,
-        invalid: isInvalid,
-        isStyled: variant !== 'unstyled',
-        labels: text,
-        readOnly,
-        revealed,
-        shape,
-        size,
-        toggleReveal: toggle,
-        variant,
-      }),
-      [
-        colorScheme,
-        defaultValue,
-        disabled,
-        fieldAttributes,
-        isInvalid,
-        mask,
-        maskedOnChange,
-        maskedValue,
-        readOnly,
-        ref,
-        revealed,
-        shape,
-        size,
-        text,
-        toggle,
-        type,
-        value,
-        variant,
-      ],
-    )
+    const isStyled = variant !== 'unstyled'
     const colorVars = {
-      ...inputColorVars(isInvalid ? 'error' : colorScheme),
+      ...inputColorVars(invalid ? 'error' : colorScheme),
       ...style,
     }
-    const hasGroup =
-      children !== undefined ||
-      Boolean(addonBefore || addonAfter || elementBefore || elementAfter || canReveal)
+    const hasGroup = Boolean(
+      addonBefore || addonAfter || elementBefore || elementAfter || canReveal,
+    )
+    const field = (
+      <input
+        {...rest}
+        {...stateAttributes(disabled, invalid)}
+        className={inputFieldClasses({
+          className: hasGroup ? undefined : className,
+          disabled,
+          invalid,
+          shape,
+          size,
+          variant,
+        })}
+        data-plume-input-field=""
+        defaultValue={mask ? undefined : defaultValue}
+        disabled={disabled}
+        onChange={maskedOnChange}
+        readOnly={readOnly}
+        ref={ref}
+        style={hasGroup ? undefined : colorVars}
+        type={revealed && type === 'password' ? 'text' : type}
+        value={mask ? maskedValue : value}
+      />
+    )
 
-    if (!hasGroup) {
-      return (
-        <InputContext.Provider value={context}>
-          <InputField className={className} style={colorVars} />
-        </InputContext.Provider>
-      )
-    }
+    if (!hasGroup) return field
 
     return (
-      <InputContext.Provider value={context}>
-        <InputGroup className={className} style={colorVars}>
-          {children ?? (
-            <>
-              {addonBefore ? <InputAddon position="before">{addonBefore}</InputAddon> : null}
-              <InputControl>
-                {elementBefore ? (
-                  <InputElement position="before">{elementBefore}</InputElement>
-                ) : null}
-                <InputField />
-                {elementAfter ? <InputElement position="after">{elementAfter}</InputElement> : null}
-                {canReveal ? <InputReveal /> : null}
-              </InputControl>
-              {addonAfter ? <InputAddon position="after">{addonAfter}</InputAddon> : null}
-            </>
-          )}
-        </InputGroup>
-      </InputContext.Provider>
+      <InputLayout
+        addonAfter={addonAfter}
+        addonBefore={addonBefore}
+        className={className}
+        disabled={disabled}
+        elementAfter={elementAfter}
+        elementBefore={elementBefore}
+        field={field}
+        invalid={invalid}
+        isStyled={isStyled}
+        reveal={
+          canReveal ? (
+            <InputRevealButton
+              disabled={disabled}
+              isStyled={isStyled}
+              label={text.reveal}
+              onToggle={toggle}
+              revealed={revealed}
+            />
+          ) : null
+        }
+        style={colorVars}
+      />
     )
   },
 )

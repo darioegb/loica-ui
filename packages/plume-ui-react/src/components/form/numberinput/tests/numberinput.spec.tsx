@@ -1,16 +1,8 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
-import type { ReactElement } from 'react'
-import { createRef, memo, useState } from 'react'
+import { createRef, useState } from 'react'
 import { Field } from '../../field'
-import {
-  NumberInput,
-  NumberInputDecrement,
-  NumberInputField,
-  NumberInputHidden,
-  NumberInputIncrement,
-} from '..'
-import { useNumberInputContext } from '../numberinput-context'
+import { NumberInput } from '..'
 import type { NumberInputProps } from '..'
 import { LocaleProvider } from '../../../../locale'
 
@@ -563,65 +555,6 @@ describe('NumberInput component', () => {
       expect(container.querySelector('input[type="hidden"]')).toHaveValue('')
     })
 
-    it('renders the hidden input from a part, once', () => {
-      const ref = createRef<HTMLInputElement>()
-      const { container } = render(
-        <form id="order">
-          <NumberInput aria-label="Price" defaultValue={2} name="price">
-            <NumberInputField />
-            <NumberInputHidden form="order" name="amount" ref={ref} />
-          </NumberInput>
-        </form>,
-      )
-      const hidden = container.querySelectorAll('input[type="hidden"]')
-      expect(hidden).toHaveLength(1)
-      expect(ref.current).toBe(hidden[0])
-      expect(ref.current).toHaveAttribute('data-plume-numberinput-hidden')
-      expect(ref.current).toHaveAttribute('name', 'amount')
-      expect(ref.current).toHaveAttribute('form', 'order')
-      expect(ref.current).toHaveValue('2')
-    })
-
-    it('adds the hidden input to a composition with a name', () => {
-      const { container } = render(
-        <NumberInput aria-label="Price" defaultValue={3} name="price">
-          <NumberInputField />
-        </NumberInput>,
-      )
-      expect(container.querySelector('[data-plume-numberinput-hidden]')).toHaveAttribute(
-        'name',
-        'price',
-      )
-    })
-
-    it('throws when the hidden input is outside a NumberInput', () => {
-      const spy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
-      expect(() => render(<NumberInputHidden />)).toThrow(
-        'NumberInputHidden must be used within a <NumberInput>',
-      )
-      spy.mockRestore()
-    })
-
-    it('keeps the context value while the props do not change', () => {
-      const renders = vi.fn()
-      const Probe = memo(function Probe() {
-        useNumberInputContext('Probe')
-        renders()
-        return null
-      })
-      const ui = (label: string): ReactElement => (
-        <NumberInput aria-label={label} defaultValue={1}>
-          <NumberInputField />
-          <Probe />
-        </NumberInput>
-      )
-      const { rerender } = render(ui('Price'))
-      rerender(ui('Price'))
-      expect(renders).toHaveBeenCalledTimes(1)
-      rerender(ui('Cost'))
-      expect(renders).toHaveBeenCalledTimes(2)
-    })
-
     it('has no hidden input without a name', () => {
       const { container } = render(<NumberInput aria-label="Price" />)
       expect(container.querySelector('input[type="hidden"]')).toBeNull()
@@ -642,18 +575,14 @@ describe('NumberInput component', () => {
   })
 
   describe('unstyled', () => {
-    it('drops every Plume class and keeps the user ones', () => {
+    it('drops every Plume class and keeps the one of the root', () => {
       const { container } = render(
-        <NumberInput aria-label="Quantity" className="root" variant="unstyled">
-          <NumberInputDecrement className="minus" />
-          <NumberInputField className="field" />
-          <NumberInputIncrement className="plus" />
-        </NumberInput>,
+        <NumberInput aria-label="Quantity" className="root" variant="unstyled" />,
       )
       expect(container.firstChild).toHaveAttribute('class', 'root')
-      expect(spin()).toHaveAttribute('class', 'field')
-      expect(up()).toHaveAttribute('class', 'plus')
-      expect(down()).toHaveAttribute('class', 'minus')
+      expect(spin()).not.toHaveAttribute('class')
+      expect(up()).not.toHaveAttribute('class')
+      expect(down()).not.toHaveAttribute('class')
     })
 
     it('has no class at all without any', () => {
@@ -663,63 +592,33 @@ describe('NumberInput component', () => {
       expect(up()).not.toHaveAttribute('class')
     })
 
-    it('adds the classes of the parts next to the Plume ones in every variant', () => {
-      render(
-        <NumberInput aria-label="Quantity">
-          <NumberInputDecrement className="minus" />
-          <NumberInputField className="field" />
-          <NumberInputIncrement className="plus" />
-        </NumberInput>,
-      )
-      expect(spin()).toHaveClass('input', 'field')
-      expect(up()).toHaveClass('stepper', 'plus')
-      expect(down()).toHaveClass('stepper', 'minus')
+    it('has the Plume classes on the field and the buttons in the other variants', () => {
+      render(<NumberInput aria-label="Quantity" />)
+      expect(spin()).toHaveClass('input')
+      expect(up()).toHaveClass('stepper')
+      expect(down()).toHaveClass('stepper')
     })
   })
 
-  describe('parts', () => {
+  describe('inner elements', () => {
     const control = (container: HTMLElement): HTMLElement =>
       container.querySelector<HTMLElement>('[data-plume-numberinput-control]') as HTMLElement
 
-    it('composes the parts in the order they are given', () => {
-      const { container } = render(
-        <NumberInput aria-label="Quantity" defaultValue={2}>
-          <NumberInputField />
-          <NumberInputDecrement />
-          <NumberInputIncrement />
-        </NumberInput>,
-      )
+    it('renders the decrease button, the field and the increase button, in that order', () => {
+      const { container } = render(<NumberInput aria-label="Quantity" defaultValue={2} />)
       const names = Array.from(control(container).children).map(
         (child) => child.getAttribute('role') ?? child.getAttribute('aria-label'),
       )
-      expect(names).toEqual(['spinbutton', 'Decrease', 'Increase'])
+      expect(names).toEqual(['Decrease', 'spinbutton', 'Increase'])
     })
 
-    it('can leave out the buttons or one of them', () => {
-      const { rerender } = render(
-        <NumberInput aria-label="Quantity">
-          <NumberInputField />
-        </NumberInput>,
-      )
+    it('has no buttons without steppers', () => {
+      render(<NumberInput aria-label="Quantity" steppers={false} />)
       expect(screen.queryByRole('button')).toBeNull()
-      rerender(
-        <NumberInput aria-label="Quantity">
-          <NumberInputField />
-          <NumberInputIncrement />
-        </NumberInput>,
-      )
-      expect(up()).toBeInTheDocument()
-      expect(screen.queryByRole('button', { name: 'Decrease' })).toBeNull()
     })
 
-    it('steps and clamps with standalone buttons', async () => {
-      render(
-        <NumberInput aria-label="Quantity" defaultValue={1} max={2} min={0} step={1}>
-          <NumberInputField />
-          <NumberInputIncrement />
-          <NumberInputDecrement />
-        </NumberInput>,
-      )
+    it('steps and clamps with the buttons', async () => {
+      render(<NumberInput aria-label="Quantity" defaultValue={1} max={2} min={0} step={1} />)
       await userEvent.click(up())
       expect(spin()).toHaveValue('2')
       expect(up()).toBeDisabled()
@@ -727,14 +626,18 @@ describe('NumberInput component', () => {
       expect(spin()).toHaveValue('1')
     })
 
-    it('repeats while a standalone button is held', () => {
+    it('disables the button of the limit that was reached', () => {
+      const { unmount } = render(<NumberInput aria-label="Quantity" defaultValue={0} min={0} />)
+      expect(down()).toBeDisabled()
+      expect(up()).toBeEnabled()
+      unmount()
+      render(<NumberInput aria-label="Quantity" defaultValue={5} max={5} min={0} />)
+      expect(up()).toBeDisabled()
+    })
+
+    it('repeats while a button is held', () => {
       vi.useFakeTimers()
-      render(
-        <NumberInput aria-label="Quantity" defaultValue={0}>
-          <NumberInputField />
-          <NumberInputIncrement />
-        </NumberInput>,
-      )
+      render(<NumberInput aria-label="Quantity" defaultValue={0} />)
       fireEvent.pointerDown(up(), { button: 0 })
       act(() => {
         vi.advanceTimersByTime(400)
@@ -749,99 +652,62 @@ describe('NumberInput component', () => {
       vi.useRealTimers()
     })
 
-    it('gives the focus to the field when a standalone button is used', async () => {
-      render(
-        <NumberInput aria-label="Quantity">
-          <NumberInputField />
-          <NumberInputIncrement />
-        </NumberInput>,
-      )
+    it('gives the focus to the field when a button is used', async () => {
+      render(<NumberInput aria-label="Quantity" />)
       await userEvent.click(up())
       expect(spin()).toHaveFocus()
     })
 
-    it('takes the labels of the LocaleProvider and lets a part override its own', () => {
+    it('names the buttons with the texts of the LocaleProvider', () => {
       render(
         <LocaleProvider messages={{ numberInput: { decrement: 'Menos', increment: 'Más' } }}>
-          <NumberInput aria-label="Quantity">
-            <NumberInputDecrement />
-            <NumberInputField />
-            <NumberInputIncrement label="Sumar" />
-          </NumberInput>
+          <NumberInput aria-label="Quantity" />
         </LocaleProvider>,
       )
       expect(screen.getByRole('button', { name: 'Menos' })).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Sumar' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Más' })).toBeInTheDocument()
     })
 
-    it('replaces the icon of a button with its children', () => {
-      render(
-        <NumberInput aria-label="Quantity">
-          <NumberInputField />
-          <NumberInputIncrement>+1</NumberInputIncrement>
-        </NumberInput>,
-      )
-      expect(up()).toHaveTextContent('+1')
-    })
-
-    it('takes className, style, ref and attributes on every part', () => {
-      const field = createRef<HTMLInputElement>()
-      const plus = createRef<HTMLButtonElement>()
-      const minus = createRef<HTMLButtonElement>()
-      render(
-        <NumberInput aria-label="Quantity">
-          <NumberInputDecrement id="minus" ref={minus} style={{ color: 'red' }} title="Less" />
-          <NumberInputField id="own" placeholder="0" ref={field} style={{ color: 'blue' }} />
-          <NumberInputIncrement id="plus" ref={plus} style={{ color: 'green' }} title="More" />
-        </NumberInput>,
-      )
-      expect(field.current).toBe(spin())
-      expect(plus.current).toBe(up())
-      expect(minus.current).toBe(down())
-      expect(spin()).toHaveAttribute('id', 'own')
-      expect(spin()).toHaveAttribute('placeholder', '0')
-      expect(spin()).toHaveStyle({ color: 'rgb(0, 0, 255)' })
-      expect(up()).toHaveAttribute('title', 'More')
-      expect(down()).toHaveStyle({ color: 'rgb(255, 0, 0)' })
-    })
-
-    it('sends the ref of the root to the field', () => {
+    it('sends the ref and the native attributes to the field', () => {
       const ref = createRef<HTMLInputElement>()
       render(
-        <NumberInput aria-label="Quantity" ref={ref}>
-          <NumberInputField />
-        </NumberInput>,
+        <NumberInput
+          aria-label="Quantity"
+          id="root"
+          placeholder="0"
+          ref={ref}
+          title="Qty"
+        />,
       )
       expect(ref.current).toBe(spin())
-    })
-
-    it('sends the attributes of the root to the field and lets the part override them', () => {
-      render(
-        <NumberInput aria-label="Quantity" id="root" placeholder="from root" title="Qty">
-          <NumberInputField placeholder="from field" />
-        </NumberInput>,
-      )
       expect(spin()).toHaveAttribute('id', 'root')
+      expect(spin()).toHaveAttribute('placeholder', '0')
       expect(spin()).toHaveAttribute('title', 'Qty')
-      expect(spin()).toHaveAttribute('placeholder', 'from field')
     })
 
-    it('calls the onBlur of the part before the one of the root', async () => {
+    it('calls the onBlur of the user after committing the value', async () => {
       const onBlur = vi.fn()
-      const onFieldBlur = vi.fn()
-      render(
-        <NumberInput aria-label="Quantity" max={5} onBlur={onBlur}>
-          <NumberInputField onBlur={onFieldBlur} />
-        </NumberInput>,
-      )
+      render(<NumberInput aria-label="Quantity" max={5} onBlur={onBlur} />)
       await userEvent.type(spin(), '9')
       await userEvent.tab()
       expect(spin()).toHaveValue('5')
-      expect(onFieldBlur).toHaveBeenCalledTimes(1)
-      expect(onBlur).not.toHaveBeenCalled()
+      expect(onBlur).toHaveBeenCalledTimes(1)
     })
 
-    it('exposes the parts and the state as attributes', () => {
+    it('runs the onKeyDown of the user first and lets it stop the stepping', async () => {
+      const onKeyDown = vi.fn((event) => {
+        if (event.key === 'ArrowDown') event.preventDefault()
+      })
+      render(<NumberInput aria-label="Quantity" defaultValue={3} onKeyDown={onKeyDown} />)
+      spin().focus()
+      await userEvent.keyboard('{ArrowUp}')
+      expect(spin()).toHaveValue('4')
+      await userEvent.keyboard('{ArrowDown}')
+      expect(spin()).toHaveValue('4')
+      expect(onKeyDown).toHaveBeenCalledTimes(2)
+    })
+
+    it('exposes the elements and the state as attributes', () => {
       const { container, rerender } = render(<NumberInput aria-label="Quantity" />)
       expect(control(container)).toHaveAttribute('data-plume-numberinput-control')
       expect(spin()).toHaveAttribute('data-plume-numberinput-field')
@@ -857,50 +723,14 @@ describe('NumberInput component', () => {
       expect(spin()).toHaveAttribute('data-invalid')
     })
 
-    it('keeps the hidden input with the name in compound mode', () => {
+    it('puts the hidden input with the plain number after the buttons', () => {
       const { container } = render(
-        <NumberInput aria-label="Quantity" defaultValue={7} name="qty">
-          <NumberInputField />
-        </NumberInput>,
+        <NumberInput aria-label="Quantity" defaultValue={7} name="qty" />,
       )
-      expect(container.querySelector('input[type="hidden"]')).toHaveValue('7')
-    })
-
-    it('ignores steppers when it has children', () => {
-      render(
-        <NumberInput aria-label="Quantity" steppers={false}>
-          <NumberInputField />
-          <NumberInputIncrement />
-        </NumberInput>,
-      )
-      expect(up()).toBeInTheDocument()
-    })
-
-    it('composes with Field', () => {
-      render(
-        <Field errorText="Too many" invalid label="Quantity" required>
-          <NumberInput>
-            <NumberInputDecrement />
-            <NumberInputField />
-            <NumberInputIncrement />
-          </NumberInput>
-        </Field>,
-      )
-      const field = screen.getByLabelText(/Quantity/)
-      expect(field).toBe(spin())
-      expect(field).toBeRequired()
-      expect(field).toHaveAttribute('aria-invalid', 'true')
-      expect(field.getAttribute('aria-describedby')).toContain('error')
-    })
-
-    it.each([
-      ['NumberInputField', <NumberInputField key="f" />],
-      ['NumberInputDecrement', <NumberInputDecrement key="d" />],
-      ['NumberInputIncrement', <NumberInputIncrement key="i" />],
-    ])('%s throws outside a NumberInput', (name, part) => {
-      const error = vi.spyOn(console, 'error').mockImplementation(() => undefined)
-      expect(() => render(part)).toThrow(`${name} must be used within a <NumberInput>`)
-      error.mockRestore()
+      const hidden = container.querySelector('[data-plume-numberinput-hidden]')
+      expect(hidden).toHaveAttribute('name', 'qty')
+      expect(hidden).toHaveValue('7')
+      expect(control(container).lastElementChild).toBe(hidden)
     })
   })
 })

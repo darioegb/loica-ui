@@ -1,18 +1,12 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { Controller, useForm } from 'react-hook-form'
-import { NumberInput, NumberInputDecrement, NumberInputField, NumberInputIncrement } from '..'
+import { NumberInput } from '..'
 
 interface Values {
   quantity: number | null
 }
 
-function OrderForm({
-  compound,
-  onSubmit,
-}: {
-  compound: boolean
-  onSubmit: (values: Values) => void
-}): React.ReactNode {
+function OrderForm({ onSubmit }: { onSubmit: (values: Values) => void }): React.ReactNode {
   const {
     control,
     handleSubmit,
@@ -30,23 +24,16 @@ function OrderForm({
         control={control}
         name="quantity"
         render={({ field }) => {
-          const props = {
-            'aria-describedby': 'quantity-error',
-            'aria-invalid': Boolean(errors.quantity),
-            'aria-label': 'Quantity',
-            onBlur: field.onBlur,
-            onValueChange: field.onChange,
-            ref: field.ref,
-            value: field.value,
-          }
-          return compound ? (
-            <NumberInput {...props}>
-              <NumberInputDecrement />
-              <NumberInputField />
-              <NumberInputIncrement />
-            </NumberInput>
-          ) : (
-            <NumberInput {...props} />
+          return (
+            <NumberInput
+              aria-describedby="quantity-error"
+              aria-invalid={Boolean(errors.quantity)}
+              aria-label="Quantity"
+              onBlur={field.onBlur}
+              onValueChange={field.onChange}
+              ref={field.ref}
+              value={field.value}
+            />
           )
         }}
         rules={{ required: 'Quantity is required' }}
@@ -61,10 +48,10 @@ const submit = (): void => {
   fireEvent.click(screen.getByRole('button', { name: 'Submit' }))
 }
 
-describe.each([false, true])('NumberInput with react-hook-form (compound: %s)', (compound) => {
+describe('NumberInput with react-hook-form', () => {
   it('shows the error and focuses the field when a rule fails', async () => {
     const onSubmit = vi.fn()
-    render(<OrderForm compound={compound} onSubmit={onSubmit} />)
+    render(<OrderForm onSubmit={onSubmit} />)
 
     submit()
 
@@ -78,7 +65,7 @@ describe.each([false, true])('NumberInput with react-hook-form (compound: %s)', 
 
   it('submits the number after a step', async () => {
     const onSubmit = vi.fn()
-    render(<OrderForm compound={compound} onSubmit={onSubmit} />)
+    render(<OrderForm onSubmit={onSubmit} />)
 
     fireEvent.click(screen.getByRole('button', { name: 'Increase' }))
     submit()

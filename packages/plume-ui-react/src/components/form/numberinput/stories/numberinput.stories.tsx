@@ -2,9 +2,12 @@ import type { StoryObj, Meta } from '@storybook/react-vite'
 import { useState } from 'react'
 import { defaultTheme } from '../../../../theme'
 import { Field } from '../../field'
-import { NumberInput, NumberInputDecrement, NumberInputField, NumberInputIncrement } from '..'
+import { NumberInput } from '..'
 
 const colorSchemes = Object.keys(defaultTheme.colors)
+
+const TAILWIND_CLASSES =
+  'w-40 overflow-hidden rounded-lg border border-border bg-surface text-sm text-foreground focus-within:border-blue-500 focus-within:ring-3 focus-within:ring-blue-200 [&_[data-plume-numberinput-stepper]]:w-9 [&_[data-plume-numberinput-stepper]]:text-muted [&_[data-plume-numberinput-stepper]]:hover:bg-surface-muted [&_[data-plume-numberinput-stepper]]:disabled:opacity-40 [&_[data-plume-numberinput-field]]:w-full [&_[data-plume-numberinput-field]]:bg-transparent [&_[data-plume-numberinput-field]]:py-2 [&_[data-plume-numberinput-field]]:text-center [&_[data-plume-numberinput-field]]:outline-hidden'
 
 const euros = (value: number): string =>
   new Intl.NumberFormat('en-US', { currency: 'EUR', style: 'currency' }).format(value)
@@ -32,11 +35,11 @@ const readEuros = (text: string): number | null => {
  * The visible input shows the formatted number, so with a `name` the component submits the plain number in a hidden
  * input. It composes with `Field`.
  *
- * On its own it renders the field between a decrease and an increase button. To change what it shows or the order,
- * give it its parts as children: `NumberInputField` is the `<input>`, and `NumberInputDecrement` and
- * `NumberInputIncrement` are the buttons. The `NumberInput` keeps the number and shares it with its parts, so a
- * part can go anywhere inside it, and be left out. With children the `steppers` prop has no effect, since you
- * choose the buttons yourself.
+ * It renders the field between a decrease and an increase button, and `steppers={false}` leaves the buttons out. The
+ * elements carry `data-plume-numberinput-field`, `data-plume-numberinput-stepper` (`increment` or `decrement`) and
+ * `data-plume-numberinput-hidden`, so they can be styled from the NumberInput. The buttons are named by the
+ * `numberInput` texts of the `LocaleProvider`. It takes the native attributes of an `<input>`, which go to the
+ * field.
  */
 export default {
   title: 'Components/NumberInput',
@@ -112,11 +115,7 @@ export const Variants: Story = {
         className="rounded-sm border border-gray-400"
         defaultValue={1}
         variant="unstyled"
-      >
-        <NumberInputDecrement className="w-8" />
-        <NumberInputField />
-        <NumberInputIncrement className="w-8" />
-      </NumberInput>
+      />
     </div>
   ),
 }
@@ -307,8 +306,7 @@ export const States: Story = {
 
 /**
  * With a **name** the NumberInput takes part in a form: the plain number is submitted in a hidden input, not the
- * formatted text, and an empty field submits an empty string. That input is the `NumberInputHidden` part: put one
- * in a composition to give it its own `name` or a `form`.
+ * formatted text, and an empty field submits an empty string. The visible input has no `name`.
  */
 export const InAForm: Story = {
   render: () => (
@@ -354,49 +352,9 @@ export const WithField: Story = {
 }
 
 /**
- * Give the NumberInput its parts to put the buttons where you want, on the same side or only one of them. The field
- * and the buttons keep working together, whatever the order.
- */
-export const Compound: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `<NumberInput aria-label="Quantity" defaultValue={2} max={10} min={0}>
-  <NumberInputField />
-  <NumberInputDecrement />
-  <NumberInputIncrement />
-</NumberInput>
-
-<NumberInput aria-label="Guests" defaultValue={1} min={1}>
-  <NumberInputField />
-  <NumberInputIncrement label="Add a guest">Add</NumberInputIncrement>
-</NumberInput>`,
-      },
-    },
-  },
-  render: () => (
-    <div className="flex flex-col gap-4" style={{ width: '14rem' }}>
-      <NumberInput aria-label="Quantity" defaultValue={2} max={10} min={0}>
-        <NumberInputField />
-        <NumberInputDecrement />
-        <NumberInputIncrement />
-      </NumberInput>
-      <NumberInput aria-label="Guests" defaultValue={1} min={1}>
-        <NumberInputField />
-        <NumberInputIncrement
-          label="Add a guest"
-          style={{ aspectRatio: 'auto', padding: '0 0.75rem' }}
-        >
-          Add
-        </NumberInputIncrement>
-      </NumberInput>
-    </div>
-  ),
-}
-
-/**
  * Some examples of NumberInput with Tailwind classes. With `variant="unstyled"` the Plume classes are gone and the
- * row of the buttons and the input stays. `className` styles the control and each part takes its own `className`.
+ * row of the buttons and the input stays. `className` styles the control, and the field and the buttons are styled
+ * from it with their `data-plume-numberinput-*` attributes.
  */
 export const Tailwind: Story = {
   parameters: {
@@ -404,38 +362,31 @@ export const Tailwind: Story = {
       source: {
         code: `<NumberInput
   aria-label="Quantity"
-  className="w-40 overflow-hidden rounded-lg border border-border bg-surface text-sm text-foreground focus-within:border-blue-500 focus-within:ring-3 focus-within:ring-blue-200"
+  className="w-40 overflow-hidden rounded-lg border border-border bg-surface text-sm text-foreground focus-within:border-blue-500 focus-within:ring-3 focus-within:ring-blue-200 [&_[data-plume-numberinput-stepper]]:w-9 [&_[data-plume-numberinput-stepper]]:text-muted [&_[data-plume-numberinput-stepper]]:hover:bg-surface-muted [&_[data-plume-numberinput-stepper]]:disabled:opacity-40 [&_[data-plume-numberinput-field]]:w-full [&_[data-plume-numberinput-field]]:bg-transparent [&_[data-plume-numberinput-field]]:py-2 [&_[data-plume-numberinput-field]]:text-center [&_[data-plume-numberinput-field]]:outline-hidden"
   defaultValue={2}
   max={10}
   min={0}
   variant="unstyled"
->
-  <NumberInputDecrement className="w-9 text-muted hover:bg-surface-muted disabled:opacity-40" />
-  <NumberInputField className="w-full bg-transparent py-2 text-center outline-hidden" />
-  <NumberInputIncrement className="w-9 text-muted hover:bg-surface-muted disabled:opacity-40" />
-</NumberInput>`,
+/>`,
       },
     },
   },
   render: () => (
     <NumberInput
       aria-label="Quantity"
-      className="w-40 overflow-hidden rounded-lg border border-border bg-surface text-sm text-foreground focus-within:border-blue-500 focus-within:ring-3 focus-within:ring-blue-200"
+      className={TAILWIND_CLASSES}
       defaultValue={2}
       max={10}
       min={0}
       variant="unstyled"
-    >
-      <NumberInputDecrement className="w-9 text-[var(--plume-muted)] hover:bg-surface-muted disabled:opacity-40" />
-      <NumberInputField className="w-full bg-transparent py-2 text-center outline-hidden" />
-      <NumberInputIncrement className="w-9 text-[var(--plume-muted)] hover:bg-surface-muted disabled:opacity-40" />
-    </NumberInput>
+    />
   ),
 }
 
 /**
- * Some examples of NumberInput with Bootstrap classes: `input-group` for the row, `btn btn-outline-secondary` for
- * the buttons and `form-control text-center` for the input.
+ * Some examples of NumberInput with Bootstrap classes: `input-group` for the row. Bootstrap has no way to reach the
+ * elements inside it, so the buttons and the field keep the look of the browser; style them from your own CSS with
+ * the `data-plume-numberinput-*` attributes.
  */
 export const Bootstrap: Story = {
   parameters: {
@@ -449,11 +400,7 @@ export const Bootstrap: Story = {
   min={0}
   style={{ width: "10rem" }}
   variant="unstyled"
->
-  <NumberInputDecrement className="btn btn-outline-secondary" />
-  <NumberInputField className="form-control text-center" />
-  <NumberInputIncrement className="btn btn-outline-secondary" />
-</NumberInput>`,
+/>`,
       },
     },
   },
@@ -466,10 +413,6 @@ export const Bootstrap: Story = {
       min={0}
       style={{ width: '10rem' }}
       variant="unstyled"
-    >
-      <NumberInputDecrement className="btn btn-outline-secondary" />
-      <NumberInputField className="form-control text-center" />
-      <NumberInputIncrement className="btn btn-outline-secondary" />
-    </NumberInput>
+    />
   ),
 }
