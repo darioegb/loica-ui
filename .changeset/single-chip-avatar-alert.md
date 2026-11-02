@@ -1,5 +1,0 @@
----
-'plume-ui-react': minor
----
-
-`Chip`, `Avatar` and `Alert` draw their inner elements themselves, so `ChipIcon`, `ChipLabel`, `ChipRemove`, `AvatarImage`, `AvatarFallback`, `AvatarStatusDot`, `AlertIcon`, `AlertContent`, `AlertAction` and `AlertDismiss` are removed. The icon, the text and the remove button of a `Chip` come from `icon`, `children` and `onRemove`; the image, the fallback and the status dot of an `Avatar` from `src`, `fallback` and `status`; the icon, the action and the dismiss button of an `Alert` from `icon`, `action` and `dismissible`. `AlertTitle` and `AlertDescription` stay, to compose the content. Every inner element carries a `data-plume-<component>-<element>` attribute, so it can be styled from the parent, or by putting your own element in the prop that fills it. The `Avatar` takes no `children` (use `fallback`), the `children` of an `AvatarOverflow` are the text of the counter, and a `Chip` remove button is named by the `chip.remove` text of the `LocaleProvider` followed by the text of the chip. `Chip`, `Avatar` and `Alert` take all the native attributes of their element.
