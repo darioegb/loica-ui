@@ -67,6 +67,15 @@ function RatingRadio({
   )
 }
 
+const halfOf = (
+  allowHalf: boolean,
+  option: number,
+  position: number,
+): 'end' | 'start' | undefined => {
+  if (!allowHalf) return undefined
+  return option === position ? 'end' : 'start'
+}
+
 export function RatingItem({
   allowHalf,
   emptyIcon,
@@ -104,7 +113,7 @@ export function RatingItem({
         : options.map((option) => (
             <RatingRadio
               {...radio}
-              half={allowHalf ? (option === position ? 'end' : 'start') : undefined}
+              half={halfOf(allowHalf, option, position)}
               key={option}
               option={option}
               position={position}
