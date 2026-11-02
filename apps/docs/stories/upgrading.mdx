@@ -339,6 +339,13 @@ takes a render function to style or replace each item.
 <DatePicker className='[&_[data-plume-input-field]]:font-mono' onValueChange={onChange} />
 ```
 
+The button of the pickers is not a part: its icon is the `icon` prop of the `DatePicker` and the `TimePicker`, and its
+name comes from the `datePicker.openCalendar` and `timePicker.openTimePicker` texts of the `LocaleProvider`.
+
+```tsx
+<DatePicker icon={<MyCalendarIcon />} onValueChange={onChange} />
+```
+
 <table>
   <thead>
     <tr><th>Component</th><th>Before</th><th>After</th></tr>

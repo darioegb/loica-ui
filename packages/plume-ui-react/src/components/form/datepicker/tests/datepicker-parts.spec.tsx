@@ -110,6 +110,16 @@ describe('DatePicker parts', () => {
       expect(screen.getByRole('dialog')).toBeInTheDocument()
     })
 
+    it('shows the icon of the DatePicker in the trigger, named by the LocaleProvider', () => {
+      render(
+        <LocaleProvider messages={{ datePicker: { openCalendar: 'Abrir' } }}>
+          <DatePicker icon={<svg data-testid="mine" />} onValueChange={vi.fn()} />
+        </LocaleProvider>,
+      )
+      const trigger = screen.getByRole('button', { name: 'Abrir' })
+      expect(within(trigger).getByTestId('mine')).toBeInTheDocument()
+    })
+
     it('marks the trigger as open', () => {
       render(<DatePicker onValueChange={vi.fn()} />)
       const trigger = screen.getByRole('button', { name: 'Open calendar' })

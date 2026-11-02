@@ -1,6 +1,6 @@
 'use client'
 
-import type { CSSProperties, ForwardedRef } from 'react'
+import type { CSSProperties, ForwardedRef, ReactNode } from 'react'
 import { createContext, useContext } from 'react'
 import type { ColorScheme, Shape, Size } from '../../../theme'
 import type { Period } from './time-utils'
@@ -9,6 +9,7 @@ import type { TimePickerLabels, TimePickerVariant } from './timepicker-types'
 export interface TimePickerContextProps {
   colorScheme: ColorScheme
   hour12: boolean
+  icon?: ReactNode
   inputRef: ForwardedRef<HTMLInputElement>
   isPanel: boolean
   labels: TimePickerLabels

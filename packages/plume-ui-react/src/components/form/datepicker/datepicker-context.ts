@@ -1,6 +1,6 @@
 'use client'
 
-import type { CSSProperties, Dispatch, ForwardedRef } from 'react'
+import type { CSSProperties, Dispatch, ForwardedRef, ReactNode } from 'react'
 import { createContext, useContext } from 'react'
 import type { ColorScheme, Shape, Size } from '../../../theme'
 import type { UsePositionResult } from '../../../overlay/use-position'
@@ -14,6 +14,7 @@ export interface DatePickerContextProps {
   colorScheme: ColorScheme
   dispatch: Dispatch<DatePickerAction>
   displayFormat?: string
+  icon?: ReactNode
   inputRef: ForwardedRef<HTMLInputElement>
   isPanel: boolean
   isRange: boolean

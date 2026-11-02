@@ -48,6 +48,11 @@ export interface DatePickerOwnProps {
    * @default false
    */
   range?: boolean
+  /**
+   * The icon of the button that opens the calendar. By default it is a calendar. The button is
+   * named by the `datePicker.openCalendar` text of the `LocaleProvider`.
+   */
+  icon?: ReactNode
   /** Last selectable date. Later days are disabled. */
   maxDate?: Date
   /** First selectable date. Earlier days are disabled. */
@@ -103,6 +108,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
       colorScheme = 'secondary',
       locale,
       displayFormat,
+      icon,
       panel: isPanel = false,
       range: isRange = false,
       maxDate,
@@ -127,6 +133,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
       colorScheme,
       locale,
       displayFormat,
+      icon,
       inputRef: ref,
       isPanel,
       isRange,

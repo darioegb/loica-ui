@@ -34,6 +34,11 @@ export interface TimePickerOwnProps {
    */
   hour12?: boolean
   /**
+   * The icon of the button that opens the panel. By default it is a clock. The button is named by
+   * the `timePicker.openTimePicker` text of the `LocaleProvider`.
+   */
+  icon?: ReactNode
+  /**
    * Renders only the lists of hours and minutes, always visible, without the input.
    * @default false
    */
@@ -84,6 +89,7 @@ export const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       colorScheme = 'secondary',
       defaultValue = '',
       hour12 = false,
+      icon,
       panel: isPanel = false,
       minuteStep = 1,
       onValueChange: onChange,
@@ -101,6 +107,7 @@ export const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       colorScheme,
       defaultValue,
       hour12,
+      icon,
       inputRef: ref,
       isPanel,
       minuteStep,
