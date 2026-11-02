@@ -12,8 +12,8 @@ export type StepIndicatorLabelProps = Omit<ComponentProps, 'index'> &
   StepIndicatorLabelRootAttributes
 
 /**
- * The text only a screen reader gets: `children`, or the label of the step state (`labels` of the
- * `Stepper`). It renders nothing when there is no text. It has `data-state`.
+ * The text only a screen reader gets: `children`, or the label of the step state (the `stepper` texts of the
+ * `LocaleProvider`). It renders nothing when there is no text. It has `data-state`.
  */
 export const StepIndicatorLabel = forwardRef<HTMLSpanElement, StepIndicatorLabelProps>(
   (

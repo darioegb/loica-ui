@@ -23,11 +23,6 @@ export interface BreadcrumbOwnProps {
    */
   colorScheme?: ColorScheme
   /**
-   * The texts the Breadcrumb adds. `breadcrumb` is the accessible name of the navigation when there
-   * is no `aria-label` or `aria-labelledby`.
-   */
-  labels?: Partial<BreadcrumbLabels>
-  /**
    * What goes between the items. It can be any node, like an icon. An item can use its own.
    *
    * @default '/'
@@ -77,7 +72,6 @@ export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
       children,
       className,
       colorScheme = 'primary',
-      labels,
       separator = '/',
       size = 'md',
       style,
@@ -86,7 +80,7 @@ export const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
     }: BreadcrumbProps,
     ref: ForwardedRef<HTMLElement>,
   ) => {
-    const text = useLabels('breadcrumb', DEFAULT_LABELS, labels)
+    const text = useLabels('breadcrumb', DEFAULT_LABELS)
     const isStyled = variant !== 'unstyled'
     const context = useMemo(() => ({ isStyled, separator }), [isStyled, separator])
 

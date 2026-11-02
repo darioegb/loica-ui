@@ -1,5 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
 import { useState } from 'react'
+import { LocaleProvider } from '../../../../locale'
 import { defaultTheme } from '../../../../theme'
 import {
   Paginator,
@@ -129,7 +130,6 @@ export default {
     hidden: { control: false },
     'aria-label': { control: 'text' },
     'aria-labelledby': { control: false },
-    labels: { control: false },
   },
   args: {
     total: 100,
@@ -313,7 +313,7 @@ function CompactExample(props: Readonly<PaginatorProps>): React.ReactNode {
  * `PaginatorSummary` shows the range of the current page ("21–30 of 237") instead of the numbers, and a
  * `PaginatorList` with only `PaginatorPrevious` and `PaginatorNext` moves between pages. `total` feeds the summary;
  * when the size changes the page changes too, so the first item of the old page stays in view. Their texts are
- * `labels.pageSize` and `labels.summary`. The parts sit in source order, so reorder them or push one aside with a
+ * the `paginator.pageSize` and `paginator.summary` texts of the `LocaleProvider`. The parts sit in source order, so reorder them or push one aside with a
  * `marginInlineStart: 'auto'` style to lay the toolbar out your way, as here with the buttons.
  */
 export const Compact: Story = {
@@ -457,22 +457,29 @@ export const Controlled: Story = {
 }
 
 /**
- * Use **labels** to translate what a screen reader says. The numbers stay as they are.
+ * The `paginator` texts of the `LocaleProvider` translate what a screen reader says. The numbers stay as they are.
  */
 export const Translated: Story = {
   args: {
     'aria-label': 'Paginación',
     defaultPage: 4,
-    labels: {
-      first: 'Primera página',
-      last: 'Última página',
-      next: 'Página siguiente',
-      page: (page: number, current: boolean) =>
-        current ? `Página ${page}, página actual` : `Página ${page}`,
-      previous: 'Página anterior',
-    },
     showEdges: true,
   },
+  render: (args) => (
+    <LocaleProvider
+      messages={{
+        paginator: {
+          first: 'Primera página',
+          last: 'Última página',
+          next: 'Página siguiente',
+          page: (page, current) => (current ? `Página ${page}, página actual` : `Página ${page}`),
+          previous: 'Página anterior',
+        },
+      }}
+    >
+      <Paginator {...args} />
+    </LocaleProvider>
+  ),
 }
 
 /**

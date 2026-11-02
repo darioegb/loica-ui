@@ -40,14 +40,6 @@ export interface PaginatorOwnProps {
    * @default false
    */
   disabled?: boolean
-  /**
-   * The texts the Paginator adds, to translate them: `previous`, `next`, `first` and `last` name
-   * the buttons of the edges, `page(page, current)` names a page button, `pagination` names the
-   * navigation when there is no `aria-label` or `aria-labelledby`, `summary(from, to, total)` is
-   * the text of a `PaginatorSummary` and `pageSize` names a `PaginatorPageSize`. Pass only the ones
-   * you want to change.
-   */
-  labels?: Partial<PaginatorLabels>
   /** Called with the new page when the user picks another one. */
   onPageChange?: (page: number) => void
   /**
@@ -143,7 +135,6 @@ export const Paginator = forwardRef<HTMLElement, PaginatorProps>(
       defaultPage = 1,
       defaultPageSize = 10,
       disabled = false,
-      labels,
       onPageChange,
       onPageSizeChange,
       page: pageProp,
@@ -170,7 +161,7 @@ export const Paginator = forwardRef<HTMLElement, PaginatorProps>(
     const pages = total === undefined ? 0 : Math.max(1, Math.ceil(total / Math.max(pageSize, 1)))
     const isStyled = variant !== 'unstyled'
     const current = clamp(page, 1, Math.max(pages, 1))
-    const text = useLabels('paginator', DEFAULT_LABELS, labels)
+    const text = useLabels('paginator', DEFAULT_LABELS)
     const [root, setRoot] = useState<HTMLElement | null>(null)
     const rootRef = useMemo(() => mergeRefs(ref, setRoot), [ref])
     const shown = usePaginatorFit({ current, pages: Math.max(pages, 1), root })

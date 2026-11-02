@@ -24,7 +24,7 @@ function Trail(): React.ReactNode {
  * The path of the current page inside the site, as a row of links. Use it to show where the reader is and to let
  * them go back up one level.
  *
- * It follows the WAI-ARIA breadcrumb pattern: a `<nav>` named "Breadcrumb" (change it with `labels.breadcrumb`, or with `aria-label`) with an
+ * It follows the WAI-ARIA breadcrumb pattern: a `<nav>` named "Breadcrumb" (change it with the `breadcrumb.breadcrumb` text of the `LocaleProvider`, or with `aria-label`) with an
  * ordered list inside, and `aria-current="page"` on the item that is the current page. The separators are drawn
  * by the component, hidden from screen readers, and the last one is not shown.
  *
@@ -51,7 +51,6 @@ export default {
     children: { control: false },
     className: { control: 'text' },
     style: { control: false },
-    labels: { control: false },
     separator: { control: 'text' },
     colorScheme: { control: 'select', options: colorSchemes },
     size: { control: 'radio', options: ['sm', 'md', 'lg'] },

@@ -47,15 +47,6 @@ export interface CarouselOwnProps {
    */
   index?: number
   /**
-   * The texts the Carousel shows to assistive technology: `slide(index, count)` and `dot(index,
-   * count)` name each slide and dot, `dots` names the group of dots, `previous` and `next` name
-   * the arrows, `play` and `pause` name the autoplay button, and `roleDescription` and
-   * `slideRoleDescription` are the words a screen reader says for the carousel and for each slide.
-   * The `label` of an arrow and the `aria-label` of a dots group or slide win over these.
-   * @default { slide: (i, n) => `${i + 1} of ${n}`, dot: (i, n) => `Slide ${i + 1} of ${n}`, dots: 'Choose a slide', previous: 'Previous slide', next: 'Next slide', play: 'Start the slideshow', pause: 'Pause the slideshow', roleDescription: 'carousel', slideRoleDescription: 'slide' }
-   */
-  labels?: Partial<CarouselLabels>
-  /**
    * Makes the buttons go from the last slide to the first, and the other way round, instead of
    * stopping.
    * @default false
@@ -131,7 +122,6 @@ export const Carousel = forwardRef<HTMLElement, CarouselProps>(
       defaultIndex = 0,
       id,
       index: indexProp,
-      labels,
       loop = false,
       onIndexChange,
       orientation = 'horizontal',
@@ -175,7 +165,7 @@ export const Carousel = forwardRef<HTMLElement, CarouselProps>(
       return () => clearInterval(timer)
     }, [autoplay, count, index, running, setIndex])
 
-    const resolvedLabels = useLabels('carousel', DEFAULT_LABELS, labels)
+    const resolvedLabels = useLabels('carousel', DEFAULT_LABELS)
     const context = useMemo(
       () => ({
         baseId,

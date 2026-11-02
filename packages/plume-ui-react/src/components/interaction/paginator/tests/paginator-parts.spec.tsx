@@ -13,6 +13,7 @@ import {
   PaginatorPages,
   PaginatorPrevious,
 } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 
 const attr = (name: string): HTMLElement[] =>
   Array.from(document.querySelectorAll<HTMLElement>(`[data-plume-paginator-${name}]`))
@@ -285,14 +286,16 @@ describe('Paginator parts', () => {
       expect(attr('last')[0]).toBeEnabled()
     })
 
-    it('have a name from the labels, and the children replace the icon', () => {
+    it('have a name from the LocaleProvider, and the children replace the icon', () => {
       render(
-        <Paginator total={5} pageSize={1} defaultPage={3} labels={{ next: 'Siguiente' }}>
-          <PaginatorList>
-            <PaginatorNext>Go</PaginatorNext>
-            <PaginatorPrevious aria-label="Back" />
-          </PaginatorList>
-        </Paginator>,
+        <LocaleProvider messages={{ paginator: { next: 'Siguiente' } }}>
+          <Paginator total={5} pageSize={1} defaultPage={3}>
+            <PaginatorList>
+              <PaginatorNext>Go</PaginatorNext>
+              <PaginatorPrevious aria-label="Back" />
+            </PaginatorList>
+          </Paginator>
+        </LocaleProvider>,
       )
       expect(screen.getByRole('button', { name: 'Siguiente' })).toHaveTextContent('Go')
       expect(screen.getByRole('button', { name: 'Back' })).toBeInTheDocument()

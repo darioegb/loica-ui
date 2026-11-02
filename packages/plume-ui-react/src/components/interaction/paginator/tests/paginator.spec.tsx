@@ -3,6 +3,7 @@ import { userEvent } from '@testing-library/user-event'
 import { createRef, useState } from 'react'
 import { Paginator } from '..'
 import type { PaginatorProps } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 
 const pageButtons = (): HTMLElement[] =>
   Array.from(document.querySelectorAll<HTMLElement>('[data-plume-paginator-page]'))
@@ -211,26 +212,30 @@ describe('Paginator component', () => {
   })
 
   describe('translation', () => {
-    it('names the navigation with labels.pagination', () => {
-      render(<Paginator total={5} pageSize={1} labels={{ pagination: 'Paginación' }} />)
+    it('names the navigation with the pagination text of the LocaleProvider', () => {
+      render(
+        <LocaleProvider messages={{ paginator: { pagination: 'Paginación' } }}>
+          <Paginator total={5} pageSize={1} />
+        </LocaleProvider>,
+      )
       expect(screen.getByRole('navigation', { name: 'Paginación' })).toBeInTheDocument()
     })
 
-    it('uses the labels of the user', () => {
+    it('uses the texts of the LocaleProvider', () => {
       render(
-        <Paginator
-          aria-label="Paginación"
-          total={5} pageSize={1}
-          defaultPage={2}
-          labels={{
-            first: 'Primera',
-            last: 'Última',
-            next: 'Siguiente',
-            page: (page, isCurrent) => (isCurrent ? `Página ${page}, actual` : `Página ${page}`),
-            previous: 'Anterior',
+        <LocaleProvider
+          messages={{
+            paginator: {
+              first: 'Primera',
+              last: 'Última',
+              next: 'Siguiente',
+              page: (page, isCurrent) => (isCurrent ? `Página ${page}, actual` : `Página ${page}`),
+              previous: 'Anterior',
+            },
           }}
-          showEdges
-        />,
+        >
+          <Paginator aria-label="Paginación" total={5} pageSize={1} defaultPage={2} showEdges />
+        </LocaleProvider>,
       )
       expect(screen.getByRole('navigation', { name: 'Paginación' })).toBeInTheDocument()
       ;['Primera', 'Anterior', 'Siguiente', 'Última', 'Página 2, actual', 'Página 3'].forEach(

@@ -30,11 +30,6 @@ export interface StepperOwnProps {
    */
   colorScheme?: ColorScheme
   /**
-   * The text a screen reader says for each status. Pass only the ones you want to change; use an
-   * empty string to say nothing for a status.
-   */
-  labels?: Partial<StepperLabels>
-  /**
    * Whether the steps go in a row or in a column.
    *
    * @default 'horizontal'
@@ -85,7 +80,6 @@ export const Stepper = forwardRef<HTMLOListElement, StepperProps>(
       children,
       className,
       colorScheme = 'primary',
-      labels,
       orientation = 'horizontal',
       size = 'md',
       style,
@@ -95,7 +89,7 @@ export const Stepper = forwardRef<HTMLOListElement, StepperProps>(
     ref: ForwardedRef<HTMLOListElement>,
   ) => {
     const isStyled = variant !== 'unstyled'
-    const mergedLabels = useLabels('stepper', DEFAULT_LABELS, labels)
+    const mergedLabels = useLabels('stepper', DEFAULT_LABELS)
     const context = useMemo(
       () => ({ activeStep, isStyled, labels: mergedLabels }),
       [activeStep, isStyled, mergedLabels],

@@ -29,7 +29,7 @@ export type PaginatorPageSizeProps = Omit<ComponentProps, 'index'> &
 const DEFAULT_OPTIONS = [10, 20, 50]
 
 /**
- * A `Select` to choose how many items a page has. Its accessible name is `labels.pageSize`. Pair
+ * A `Select` to choose how many items a page has. Its accessible name is the `paginator.pageSize` text of the `LocaleProvider`. Pair
  * it with `onPageSizeChange` in the `Paginator`; the page changes with it, to keep the first item
  * in view. Given `children`, the parts of the `Select` (`SelectTrigger`, `SelectContent` and
  * `SelectOption`, whose value is the page size as a string), they replace the default ones.

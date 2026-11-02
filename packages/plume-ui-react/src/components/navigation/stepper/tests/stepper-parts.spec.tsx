@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { createRef, type CSSProperties } from 'react'
 import { Step, StepIndicator, StepIndicatorContent, StepIndicatorLabel, Stepper } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 
 const indicator = (): HTMLElement =>
   document.querySelector('[data-plume-step-indicator]') as HTMLElement
@@ -71,20 +72,22 @@ describe('StepIndicator parts', () => {
     expect(indicator().querySelector('[data-plume-step-indicator-label]')).toBeNull()
   })
 
-  it('takes the text of the label from the stepper labels, or from its children', () => {
+  it('takes the text of the label from the LocaleProvider, or from its children', () => {
     render(
-      <Stepper activeStep={1} labels={{ completed: 'Hecho' }}>
-        <Step>
-          <StepIndicator>
-            <StepIndicatorLabel />
-          </StepIndicator>
-        </Step>
-        <Step>
-          <StepIndicator>
-            <StepIndicatorLabel>Ahora</StepIndicatorLabel>
-          </StepIndicator>
-        </Step>
-      </Stepper>,
+      <LocaleProvider messages={{ stepper: { completed: 'Hecho' } }}>
+        <Stepper activeStep={1}>
+          <Step>
+            <StepIndicator>
+              <StepIndicatorLabel />
+            </StepIndicator>
+          </Step>
+          <Step>
+            <StepIndicator>
+              <StepIndicatorLabel>Ahora</StepIndicatorLabel>
+            </StepIndicator>
+          </Step>
+        </Stepper>
+      </LocaleProvider>,
     )
     expect(screen.getByText('Hecho')).toBeInTheDocument()
     expect(screen.getByText('Ahora')).toBeInTheDocument()
