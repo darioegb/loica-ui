@@ -4,6 +4,7 @@ import { createRef, useState } from 'react'
 import { Field } from '../../field'
 import { Slider } from '..'
 import type { SliderProps, SliderValue } from '..'
+import { LocaleProvider } from '../../../../locale'
 
 const inputs = (): HTMLInputElement[] =>
   Array.from(document.querySelectorAll<HTMLInputElement>('input[type="range"]'))
@@ -182,11 +183,11 @@ describe('Slider component', () => {
 
     it('translates the names of the thumbs', () => {
       render(
-        <Slider
-          aria-label="Precio"
-          defaultValue={[20, 80]}
-          labels={{ thumb: (index) => (index === 0 ? 'Mínimo' : 'Máximo') }}
-        />,
+        <LocaleProvider
+          messages={{ slider: { thumb: (index) => (index === 0 ? 'Mínimo' : 'Máximo') } }}
+        >
+          <Slider aria-label="Precio" defaultValue={[20, 80]} />
+        </LocaleProvider>,
       )
       expect(screen.getByRole('slider', { name: 'Mínimo' })).toBeInTheDocument()
       expect(screen.getByRole('slider', { name: 'Máximo' })).toBeInTheDocument()

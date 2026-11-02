@@ -60,12 +60,6 @@ export interface RatingOwnProps {
    */
   icon?: ReactNode
   /**
-   * The texts of the rating, for other languages. `item(value, max)` is the accessible name of a
-   * star (the default says `3 stars`) and `readOnly(value, max)` is the text a read only rating
-   * says (the default says `3 out of 5`).
-   */
-  labels?: Partial<RatingLabels>
-  /**
    * How many stars there are, which is also the highest score.
    * @default 5
    */
@@ -173,7 +167,6 @@ export const Rating = forwardRef<HTMLFieldSetElement, RatingProps>(
       disabled = false,
       emptyIcon,
       icon,
-      labels,
       max = 5,
       name,
       onValueChange,
@@ -197,7 +190,7 @@ export const Rating = forwardRef<HTMLFieldSetElement, RatingProps>(
       value: valueProp,
     })
     const isStyled = variant !== 'unstyled'
-    const text = useLabels('rating', DEFAULT_LABELS, labels)
+    const text = useLabels('rating', DEFAULT_LABELS)
     const fieldLabel = field?.controlId === rest.id ? field?.labelId : undefined
     const labelledBy = rest['aria-labelledby'] ?? (rest['aria-label'] ? undefined : fieldLabel)
     const filledIcon = icon ?? (variant === 'outline' ? OUTLINE_ICON : SOLID_ICON)

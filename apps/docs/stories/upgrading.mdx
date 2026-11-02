@@ -261,12 +261,12 @@ Every text the library shows or announces is changed with a single `labels` prop
     <tr><th>Component</th><th>Before</th><th>After</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>Input</code></td><td><code>revealLabel</code></td><td><code>labels.reveal</code></td></tr>
-    <tr><td><code>Textarea</code></td><td><code>formatCount</code>, <code>formatRemaining</code></td><td><code>labels.count</code>, <code>labels.remaining</code></td></tr>
-    <tr><td><code>NumberInput</code></td><td><code>decrementLabel</code>, <code>incrementLabel</code></td><td><code>labels.decrement</code>, <code>labels.increment</code></td></tr>
-    <tr><td><code>PinInput</code></td><td><code>getInputLabel</code></td><td><code>labels.input</code></td></tr>
-    <tr><td><code>Rating</code></td><td><code>getItemLabel</code>, <code>readOnlyLabel</code></td><td><code>labels.item</code>, <code>labels.readOnly</code></td></tr>
-    <tr><td><code>Slider</code></td><td><code>getThumbLabel</code></td><td><code>labels.thumb</code></td></tr>
+    <tr><td><code>Input</code></td><td><code>revealLabel</code></td><td>the <code>input.reveal</code> text of the <code>LocaleProvider</code>, or <code>aria-label</code> on <code>InputReveal</code></td></tr>
+    <tr><td><code>Textarea</code></td><td><code>formatCount</code>, <code>formatRemaining</code></td><td>the <code>textarea.count</code> and <code>textarea.remaining</code> texts of the <code>LocaleProvider</code></td></tr>
+    <tr><td><code>NumberInput</code></td><td><code>decrementLabel</code>, <code>incrementLabel</code></td><td>the <code>numberInput.decrement</code> and <code>numberInput.increment</code> texts of the <code>LocaleProvider</code>, or <code>label</code> on the parts</td></tr>
+    <tr><td><code>PinInput</code></td><td><code>getInputLabel</code></td><td>the <code>pinInput.input</code> text of the <code>LocaleProvider</code>, or <code>aria-label</code> on <code>PinInputCell</code></td></tr>
+    <tr><td><code>Rating</code></td><td><code>getItemLabel</code>, <code>readOnlyLabel</code></td><td>the <code>rating.item</code> and <code>rating.readOnly</code> texts of the <code>LocaleProvider</code></td></tr>
+    <tr><td><code>Slider</code></td><td><code>getThumbLabel</code></td><td>the <code>slider.thumb</code> text of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Select</code></td><td><code>clearLabel</code> and <code>removeLabel</code> on <code>SelectTrigger</code>; <code>emptyText</code> and <code>searchLabel</code> on <code>SelectContent</code></td><td><code>labels.clear</code>, <code>labels.remove</code>, <code>labels.empty</code>, <code>labels.search</code> on <code>Select</code></td></tr>
     <tr><td><code>DatePicker</code></td><td><code>config.labels</code>, <code>config.footer</code></td><td><code>labels</code> (adds <code>previousMonth</code>, <code>nextMonth</code>, <code>previousYears</code>, <code>nextYears</code>); <code>config.language</code> is the <code>locale</code> prop and <code>config</code> is removed</td></tr>
     <tr><td><code>TimePicker</code></td><td><code>config.labels</code></td><td><code>labels</code>; <code>config</code> is removed</td></tr>

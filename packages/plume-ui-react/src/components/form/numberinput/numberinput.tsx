@@ -38,10 +38,6 @@ export interface NumberInputOwnProps {
    * How a number is shown when the field is not being edited: a currency, a unit, thousands separators. It is exposed to screen readers as `aria-valuetext`.
    */
   format?: (value: number) => string
-  /**
-   * The texts of the NumberInput, for other languages: `increment` and `decrement` are the accessible names of the buttons (`Increase` and `Decrease` by default).
-   */
-  labels?: Partial<NumberInputLabels>
   /** How much <kbd>PageUp</kbd> and <kbd>PageDown</kbd> add or subtract. Ten steps by default. */
   largeStep?: number
   /**
@@ -153,7 +149,6 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       defaultValue,
       disabled = false,
       format,
-      labels,
       largeStep,
       max,
       min,
@@ -190,7 +185,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     const fieldProps = useShallowStable(rest)
     const isStyled = variant !== 'unstyled'
     const invalid = fieldProps['aria-invalid'] === true || fieldProps['aria-invalid'] === 'true'
-    const text = useLabels('numberInput', DEFAULT_LABELS, labels)
+    const text = useLabels('numberInput', DEFAULT_LABELS)
     const colorVars = {
       '--numberinput-color': `var(--plume-color-${colorScheme}-text)`,
       ...style,

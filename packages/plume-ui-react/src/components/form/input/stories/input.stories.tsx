@@ -62,7 +62,6 @@ export default {
     },
     value: { control: 'text' },
     revealable: { control: 'boolean' },
-    labels: { control: false },
     autoComplete: { control: 'text' },
     mask: { control: 'text' },
     defaultValue: { control: false },

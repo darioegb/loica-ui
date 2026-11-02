@@ -44,10 +44,6 @@ export interface InputOwnProps {
    */
   mask?: string
   /**
-   * The texts of the Input, for other languages: `reveal` is the accessible name of the reveal button (`Show password` by default). It stays the same while the password is shown, `aria-pressed` tells the state, so use a label that makes sense for both.
-   */
-  labels?: Partial<InputLabels>
-  /**
    * With `type="password"`, adds a button that shows or hides the password. It is a toggle button (`aria-pressed`) inside the Input, in the place of `elementAfter`; an `elementAfter` goes to its left. It has no effect with another type.
    *
    * @default false
@@ -88,7 +84,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       colorScheme = 'secondary',
       disabled = false,
       readOnly = false,
-      labels,
       revealable = false,
       shape = 'rounded',
       size = 'md',
@@ -102,7 +97,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     }: InputProps,
     ref: ForwardedRef<HTMLInputElement>,
   ) => {
-    const text = useLabels('input', DEFAULT_LABELS, labels)
+    const text = useLabels('input', DEFAULT_LABELS)
     const { canReveal, revealed, toggle } = usePasswordReveal(type, revealable)
     const fieldAttributes = useShallowStable(rest)
     const isInvalid =

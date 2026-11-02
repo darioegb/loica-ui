@@ -148,9 +148,6 @@ export default {
     'aria-invalid': {
       control: false,
     },
-    labels: {
-      control: false,
-    },
   },
   args: {
     'aria-label': 'Volume',
@@ -246,7 +243,7 @@ export const Colors: Story = {
 
 /**
  * Pass a pair in **defaultValue** or **value** for a range with two thumbs. They are named "Minimum" and
- * "Maximum" (change it with **labels.thumb**) inside a group named by the `aria-label`, and they can't cross.
+ * "Maximum" (change them with the `slider.thumb` text of the `LocaleProvider`) inside a group named by the `aria-label`, and they can't cross.
  */
 export const Range: Story = {
   args: {

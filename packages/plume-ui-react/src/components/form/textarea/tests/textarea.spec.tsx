@@ -3,6 +3,7 @@ import { userEvent } from '@testing-library/user-event'
 import { createRef, useState } from 'react'
 import { Field } from '../../field'
 import { Textarea } from '..'
+import { LocaleProvider } from '../../../../locale'
 
 describe('Textarea component', () => {
   it('renders a textbox with three rows by default', () => {
@@ -215,18 +216,18 @@ describe('Textarea component', () => {
       expect(status()).toBeEmptyDOMElement()
     })
 
-    it('uses another text for the count and for what is left', () => {
+    it('takes the texts of the count and of what is left from the LocaleProvider', () => {
       render(
-        <Textarea
-          aria-label="Bio"
-          defaultValue={'a'.repeat(95)}
-          labels={{
-            count: (n, max) => `${n} de ${max}`,
-            remaining: (left) => `Quedan ${left}`,
+        <LocaleProvider
+          messages={{
+            textarea: {
+              count: (n, max) => `${n} de ${max}`,
+              remaining: (left) => `Quedan ${left}`,
+            },
           }}
-          maxLength={100}
-          showCount
-        />,
+        >
+          <Textarea aria-label="Bio" defaultValue={'a'.repeat(95)} maxLength={100} showCount />
+        </LocaleProvider>,
       )
       expect(count()).toHaveTextContent('95 de 100')
       expect(status()).toHaveTextContent('Quedan 5')

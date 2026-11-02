@@ -4,6 +4,7 @@ import { createRef, useState } from 'react'
 import { Field } from '../../field'
 import { PinInput } from '..'
 import type { PinInputProps } from '..'
+import { LocaleProvider } from '../../../../locale'
 
 const cells = (): HTMLInputElement[] => screen.getAllByRole<HTMLInputElement>('textbox')
 const text = (): string =>
@@ -55,13 +56,11 @@ describe('PinInput component', () => {
       expect(cells()[0]).toHaveAttribute('aria-label', 'Character 1 of 2')
     })
 
-    it('uses another name for the cells', () => {
+    it('takes the name of the cells from the LocaleProvider', () => {
       render(
-        <PinInput
-          aria-label="Code"
-          labels={{ input: (i, n) => `Cifra ${i} de ${n}` }}
-          length={2}
-        />,
+        <LocaleProvider messages={{ pinInput: { input: (i, n) => `Cifra ${i} de ${n}` } }}>
+          <PinInput aria-label="Code" length={2} />
+        </LocaleProvider>,
       )
       expect(cells()[1]).toHaveAttribute('aria-label', 'Cifra 2 de 2')
     })

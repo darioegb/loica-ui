@@ -19,7 +19,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       className,
       colorScheme = 'secondary',
       disabled = false,
-      labels,
       resize = 'vertical',
       rows = 3,
       shape = 'rounded',
@@ -37,7 +36,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           className={className}
           colorScheme={colorScheme}
           disabled={disabled}
-          labels={labels}
           ref={ref}
           resize={resize}
           rows={rows}
