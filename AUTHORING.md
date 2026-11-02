@@ -90,7 +90,7 @@ Do **not** attach the parts to the root (`Accordion.Item`). A Client Component c
 The rest of the pattern:
 
 - **One context per component that shares state**, in its own file (`<name>-context.ts`), created with `undefined` as default. The root provides it and the parts read it through a `use<Name>Context` hook that throws a clear error when a part is rendered outside the root. Memoize the context value.
-- **Presentational compounds** (`Card`, `List`, `Badge`) have no state to share, but they have a context all the same: it holds `isStyled`, so a part drops its Plume classes when the root is `unstyled`, and its hook throws outside the root. The root also sets CSS variables (`--card-padding`) that the parts read. Their modules are client modules, which a Server Component can still render.
+- **Presentational compounds** (`Card`, `List`) have no state to share, but they have a context all the same: it holds `isStyled`, so a part drops its Plume classes when the root is `unstyled`, and its hook throws outside the root. The root also sets CSS variables (`--card-padding`) that the parts read. Their modules are client modules, which a Server Component can still render.
 - **The root owns the state** and the shared options (`size`, `colorScheme`, `variant`). Parts read them from the context instead of repeating props.
 - **Ids link the parts** (`aria-controls`, `aria-labelledby`) and come from `useId` in the part that owns them, as `AccordionItem` does for its trigger and its content.
 - **Parts forward refs and accept `className` and `style`** like any other component.

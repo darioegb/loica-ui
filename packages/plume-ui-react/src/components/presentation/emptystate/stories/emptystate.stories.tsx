@@ -1,12 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
 import { Button } from '../../../interaction/button'
-import {
-  EmptyState,
-  EmptyStateAction,
-  EmptyStateDescription,
-  EmptyStateIcon,
-  EmptyStateTitle,
-} from '..'
+import { EmptyState } from '..'
 
 const inbox = (
   <svg
@@ -24,7 +18,7 @@ const inbox = (
 
 /**
  * What a list, a table or a page shows when there is nothing to show yet: a title that says so, a line that
- * explains why or what to do, and an action. Every part is optional, so use only the ones that help.
+ * explains why or what to do, and an action. Every piece is optional, so use only the ones that help.
  *
  * Plume doesn't ship an icon set: pass your own SVG as the **icon**. It is decorative, so it is hidden from
  * assistive technology, and its size follows the **size** of the EmptyState.
@@ -36,9 +30,9 @@ const inbox = (
  * It has no text of its own: you write the title, the description and the label of the action, so they can be
  * translated like the rest of your interface.
  *
- * Given the **icon**, **title**, **description** and **action** props it renders them in that order. To reorder them,
- * leave one out or style each, give it its parts as children instead: the props are then ignored. The EmptyState
- * has no state to share, so it is a plain component that a Server Component can render.
+ * It renders the **icon**, **title**, **description**, the children and the **action**, in that order, and leaves out
+ * the ones you don't give. Each carries a `data-plume-emptystate-*` attribute, and to style one, give it your own
+ * element. The EmptyState has no state to share, so it is a plain component that a Server Component can render.
  */
 export default {
   title: 'Components/EmptyState',
@@ -139,19 +133,18 @@ export const Variants: Story = {
         />
       ))}
       <EmptyState
+        action={
+          <Button className="mt-3" size="sm">
+            Create a project
+          </Button>
+        }
         className="flex flex-col items-center gap-2 rounded-lg border border-border p-6 text-center"
+        description={<span className="text-sm text-muted">Projects you create will show up here.</span>}
+        icon={<span className="text-muted [&>svg]:size-12">{inbox}</span>}
         style={{ width: '18rem' }}
+        title={<span className="text-lg font-bold">Unstyled</span>}
         variant="unstyled"
-      >
-        <EmptyStateIcon className="text-muted [&>svg]:size-12">{inbox}</EmptyStateIcon>
-        <EmptyStateTitle className="text-lg font-bold">Unstyled</EmptyStateTitle>
-        <EmptyStateDescription className="text-sm text-muted">
-          Projects you create will show up here.
-        </EmptyStateDescription>
-        <EmptyStateAction className="mt-3">
-          <Button size="sm">Create a project</Button>
-        </EmptyStateAction>
-      </EmptyState>
+      />
     </div>
   ),
 }
@@ -177,9 +170,9 @@ export const Sizes: Story = {
 }
 
 /**
- * All the parts are optional.
+ * All the pieces are optional.
  */
-export const Parts: Story = {
+export const Pieces: Story = {
   render: () => (
     <div className="flex flex-wrap items-start justify-center gap-6">
       <EmptyState style={{ width: '16rem' }} title="Only a title" variant="outline" />
@@ -219,36 +212,44 @@ export const Accessibility: Story = {
 }
 
 /**
- * Give the EmptyState its parts as children to change the order or leave one out. Here the action comes first and
- * there is no icon. The `icon`, `title`, `description` and `action` props are ignored when it has children.
+ * The **children** go between the description and the action, for anything else: an illustration, a list of tips...
  */
-export const Compound: Story = {
+export const WithChildren: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<EmptyState variant="outline">
-  <EmptyStateAction>
-    <Button size="sm" variant="outline">Clear filters</Button>
-  </EmptyStateAction>
-  <EmptyStateTitle as="h3">No results</EmptyStateTitle>
-  <EmptyStateDescription>Try other filters.</EmptyStateDescription>
+        code: `<EmptyState
+  action={<Button size="sm" variant="outline">Clear filters</Button>}
+  description="Try other filters."
+  title="No results"
+  variant="outline"
+>
+  <ul>
+    <li>Remove a filter</li>
+    <li>Check the spelling</li>
+  </ul>
 </EmptyState>`,
       },
     },
   },
   render: () => (
-    <EmptyState style={{ width: '18rem' }} variant="outline">
-      <EmptyStateAction>
-        <Button size="sm" variant="outline">Clear filters</Button>
-      </EmptyStateAction>
-      <EmptyStateTitle as="h3">No results</EmptyStateTitle>
-      <EmptyStateDescription>Try other filters.</EmptyStateDescription>
+    <EmptyState
+      action={<Button size="sm" variant="outline">Clear filters</Button>}
+      description="Try other filters."
+      style={{ width: '18rem' }}
+      title="No results"
+      variant="outline"
+    >
+      <ul>
+        <li>Remove a filter</li>
+        <li>Check the spelling</li>
+      </ul>
     </EmptyState>
   ),
 }
 
 /**
- * Some examples of EmptyState with Tailwind classes. With `variant="unstyled"` the EmptyState and its parts have no Plume styles, so each takes the classes you give it.
+ * Some examples of EmptyState with Tailwind classes. With `variant="unstyled"` the EmptyState has no Plume styles, so it takes the classes you give it. Put your own element in `icon`, `title` or `description` to style it; each one carries a `data-plume-emptystate-*` attribute too.
  */
 export const Tailwind: Story = {
   parameters: {
@@ -256,44 +257,38 @@ export const Tailwind: Story = {
       source: {
         code: `<EmptyState
   className="flex w-80 max-w-full flex-col items-center gap-2 rounded-xl border-2 border-dashed border-border p-8 text-center"
+  description={<span className="text-sm text-muted">Projects you create will show up here.</span>}
+  icon={<span className="text-muted [&>svg]:size-12">{inbox}</span>}
+  title={<span className="text-lg font-semibold">No projects yet</span>}
   variant="unstyled"
->
-  <EmptyStateIcon className="text-muted [&>svg]:size-12">{inbox}</EmptyStateIcon>
-  <EmptyStateTitle className="text-lg font-semibold">No projects yet</EmptyStateTitle>
-  <EmptyStateDescription className="text-sm text-muted">
-    Projects you create will show up here.
-  </EmptyStateDescription>
-  <EmptyStateAction className="mt-3">
+  action={
     <Button
-      className="rounded-sm bg-blue-700 px-3 py-1.5 text-sm font-semibold text-white hover:bg-blue-800"
+      className="mt-3 rounded-sm bg-blue-700 px-3 py-1.5 text-sm font-semibold text-white hover:bg-blue-800"
       variant="unstyled"
     >
       Create a project
     </Button>
-  </EmptyStateAction>
-</EmptyState>`,
+  }
+/>`,
       },
     },
   },
   render: () => (
     <EmptyState
       className="flex w-80 max-w-full flex-col items-center gap-2 rounded-xl border-2 border-dashed border-border p-8 text-center"
+      description={<span className="text-sm text-muted">Projects you create will show up here.</span>}
+      icon={<span className="text-muted [&>svg]:size-12">{inbox}</span>}
+      title={<span className="text-lg font-semibold">No projects yet</span>}
       variant="unstyled"
-    >
-      <EmptyStateIcon className="text-muted [&>svg]:size-12">{inbox}</EmptyStateIcon>
-      <EmptyStateTitle className="text-lg font-semibold">No projects yet</EmptyStateTitle>
-      <EmptyStateDescription className="text-sm text-muted">
-        Projects you create will show up here.
-      </EmptyStateDescription>
-      <EmptyStateAction className="mt-3">
+      action={
         <Button
-          className="rounded-sm bg-blue-700 px-3 py-1.5 text-sm font-semibold text-white hover:bg-blue-800"
+          className="mt-3 rounded-sm bg-blue-700 px-3 py-1.5 text-sm font-semibold text-white hover:bg-blue-800"
           variant="unstyled"
         >
           Create a project
         </Button>
-      </EmptyStateAction>
-    </EmptyState>
+      }
+    />
   ),
 }
 
@@ -308,16 +303,11 @@ export const Bootstrap: Story = {
   className="d-flex flex-column align-items-center gap-2 border border-2 rounded-3 p-4 text-center"
   style={{ width: '20rem', maxWidth: '100%' }}
   variant="unstyled"
->
-  <EmptyStateIcon className="text-body-secondary">{inbox}</EmptyStateIcon>
-  <EmptyStateTitle className="h5 mb-0">No projects yet</EmptyStateTitle>
-  <EmptyStateDescription className="text-body-secondary small">
-    Projects you create will show up here.
-  </EmptyStateDescription>
-  <EmptyStateAction className="mt-2">
-    <Button className="btn btn-primary btn-sm" variant="unstyled">Create a project</Button>
-  </EmptyStateAction>
-</EmptyState>`,
+  action={<Button className="btn btn-primary btn-sm mt-2" variant="unstyled">Create a project</Button>}
+  description={<span className="text-body-secondary small">Projects you create will show up here.</span>}
+  icon={<span className="text-body-secondary">{inbox}</span>}
+  title={<span className="h5 mb-0">No projects yet</span>}
+/>`,
       },
     },
   },
@@ -326,15 +316,10 @@ export const Bootstrap: Story = {
       className="d-flex flex-column align-items-center gap-2 border border-2 rounded-3 p-4 text-center"
       style={{ width: '20rem', maxWidth: '100%' }}
       variant="unstyled"
-    >
-      <EmptyStateIcon className="text-body-secondary">{inbox}</EmptyStateIcon>
-      <EmptyStateTitle className="h5 mb-0">No projects yet</EmptyStateTitle>
-      <EmptyStateDescription className="text-body-secondary small">
-        Projects you create will show up here.
-      </EmptyStateDescription>
-      <EmptyStateAction className="mt-2">
-        <Button className="btn btn-primary btn-sm" variant="unstyled">Create a project</Button>
-      </EmptyStateAction>
-    </EmptyState>
+      action={<Button className="btn btn-primary btn-sm mt-2" variant="unstyled">Create a project</Button>}
+      description={<span className="text-body-secondary small">Projects you create will show up here.</span>}
+      icon={<span className="text-body-secondary">{inbox}</span>}
+      title={<span className="h5 mb-0">No projects yet</span>}
+    />
   ),
 }

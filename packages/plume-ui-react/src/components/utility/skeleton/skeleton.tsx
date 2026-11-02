@@ -1,8 +1,6 @@
-import type { CSSProperties, ForwardedRef, HTMLAttributes, ReactNode } from 'react'
+import type { ComponentPropsWithoutRef, CSSProperties, ForwardedRef, ReactNode } from 'react'
 import { forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import type { ComponentProps } from '../../../theme'
-import { SkeletonLine } from './skeleton-line'
 import styles from './skeleton.module.css'
 
 export type SkeletonShape = 'text' | 'rect' | 'circle'
@@ -40,11 +38,7 @@ export interface SkeletonOwnProps {
   width?: number | string
 }
 
-type SkeletonRootAttributes = Pick<HTMLAttributes<HTMLDivElement>, 'children' | 'hidden' | 'id'>
-
-export type SkeletonProps = Omit<ComponentProps, 'index'> &
-  SkeletonRootAttributes &
-  SkeletonOwnProps
+export type SkeletonProps = Omit<ComponentPropsWithoutRef<'div'>, 'children'> & SkeletonOwnProps
 
 const toLength = (value: number | string | undefined): string | undefined =>
   typeof value === 'number' ? `${value}px` : value
@@ -52,7 +46,6 @@ const toLength = (value: number | string | undefined): string | undefined =>
 export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
   (
     {
-      children,
       className,
       height,
       lines = 1,
@@ -66,7 +59,6 @@ export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
   ): ReactNode => {
     const isStyled = variant !== 'unstyled'
     const count = shape === 'text' ? Math.max(1, Math.floor(lines)) : 1
-    const composed = children !== undefined && children !== null && children !== false
     const look = (extra?: string): string | undefined =>
       joinClasses(isStyled && styles.skeleton, isStyled && styles[variant], extra)
     const box = {
@@ -75,7 +67,7 @@ export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
       ...style,
     } as CSSProperties
 
-    if (composed || count > 1) {
+    if (count > 1) {
       return (
         <div
           aria-hidden="true"
@@ -90,9 +82,9 @@ export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
           style={box}
           {...rest}
         >
-          {composed
-            ? children
-            : [...new Array(count).keys()].map((line) => <SkeletonLine key={line} />)}
+          {[...new Array(count).keys()].map((line) => (
+            <span className={styles.line} data-plume-skeleton="" data-plume-skeleton-line="" key={line} />
+          ))}
         </div>
       )
     }

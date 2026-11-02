@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { createRef } from 'react'
-import { Divider, DividerLabel } from '..'
+import { Divider } from '..'
 
 describe('Divider component', () => {
   it('is a horizontal separator by default', () => {
@@ -72,14 +72,16 @@ describe('Divider component', () => {
     expect(screen.getByRole('separator').tagName).toBe('HR')
   })
 
-  it('renders the label part as written', () => {
-    render(
-      <Divider>
-        <DividerLabel className="mine">or</DividerLabel>
-      </Divider>,
-    )
-    expect(screen.getByText('or')).toHaveClass('label', 'mine')
+  it('renders the label between the two lines', () => {
+    render(<Divider>or</Divider>)
+    expect(screen.getByText('or')).toHaveClass('label')
+    expect(screen.getByText('or')).toHaveAttribute('data-plume-divider-label')
     expect(screen.getByText('or').parentElement).toHaveClass('divider', 'labeled')
+  })
+
+  it('drops the class of the label when unstyled', () => {
+    render(<Divider variant="unstyled">or</Divider>)
+    expect(screen.getByText('or')).not.toHaveAttribute('class')
   })
 
   it('keeps the custom className, style and attributes', () => {

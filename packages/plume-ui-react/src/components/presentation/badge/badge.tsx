@@ -1,14 +1,9 @@
-'use client'
-
-import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
-import { Children, forwardRef, isValidElement, useMemo } from 'react'
+import type { ComponentPropsWithoutRef, ForwardedRef } from 'react'
+import { Children, forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import { hasPart } from '../../../overlay/has-part'
-import type { ColorScheme, ComponentProps, Shape, Size } from '../../../theme'
+import type { ColorScheme, Shape, Size } from '../../../theme'
 import { tagColorVars } from '../shared/tag-vars'
 import tag from '../shared/tag.module.css'
-import { BadgeContext } from './badge-context'
-import { BadgeDot } from './badge-dot'
 import styles from './badge.module.css'
 
 export interface BadgeOwnProps {
@@ -19,8 +14,8 @@ export interface BadgeOwnProps {
    */
   colorScheme?: ColorScheme
   /**
-   * Shows a `BadgeDot` before the content, in the color of the text. With no children it is a dot
-   * on its own.
+   * Shows a dot before the content, in the color of the text. With no children it is a dot on its
+   * own. The dot is `aria-hidden` and carries `data-plume-badge-dot`.
    *
    * @default false
    */
@@ -48,14 +43,7 @@ export interface BadgeOwnProps {
 
 export type BadgeVariant = 'solid' | 'outline' | 'subtle' | 'unstyled'
 
-type BadgeRootAttributes = Pick<
-  HTMLAttributes<HTMLSpanElement>,
-  'aria-label' | 'aria-labelledby' | 'children' | 'hidden' | 'id' | 'role' | 'title'
->
-
-export type BadgeProps = Omit<ComponentProps, 'index'> & BadgeRootAttributes & BadgeOwnProps
-
-const isDot = (child: ReactNode): boolean => isValidElement(child) && child.type === BadgeDot
+export type BadgeProps = ComponentPropsWithoutRef<'span'> & BadgeOwnProps
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   (
@@ -74,9 +62,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     ref: ForwardedRef<HTMLSpanElement>,
   ) => {
     const isStyled = variant !== 'unstyled'
-    const context = useMemo(() => ({ isStyled }), [isStyled])
-    const parts = Children.toArray(children)
-    const isDotOnly = parts.length === 0 ? dot : parts.every(isDot)
+    const isDotOnly = dot && Children.count(children) === 0
     const isNamed = Boolean(rest['aria-label'] ?? rest['aria-labelledby'])
     const resolvedRole = role ?? (isNamed ? 'img' : undefined)
     const classes = joinClasses(
@@ -89,19 +75,23 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     )
 
     return (
-      <BadgeContext.Provider value={context}>
-        <span
-          className={classes}
-          data-plume-badge=""
-          ref={ref}
-          role={resolvedRole}
-          style={tagColorVars('badge', colorScheme, style)}
-          {...rest}
-        >
-          {dot && !hasPart(children, [BadgeDot]) ? <BadgeDot /> : null}
-          {children}
-        </span>
-      </BadgeContext.Provider>
+      <span
+        className={classes}
+        data-plume-badge=""
+        ref={ref}
+        role={resolvedRole}
+        style={tagColorVars('badge', colorScheme, style)}
+        {...rest}
+      >
+        {dot ? (
+          <span
+            aria-hidden="true"
+            className={isStyled ? styles.dot : undefined}
+            data-plume-badge-dot=""
+          />
+        ) : null}
+        {children}
+      </span>
     )
   },
 )

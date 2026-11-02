@@ -1,9 +1,7 @@
-import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
+import type { ComponentPropsWithoutRef, ForwardedRef, ReactNode } from 'react'
 import { forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import { hasPart } from '../../../overlay/has-part'
-import type { ComponentProps, Size } from '../../../theme'
-import { DividerLabel } from './divider-label'
+import type { Size } from '../../../theme'
 import styles from './divider.module.css'
 
 export type DividerAlign = 'center' | 'end' | 'start'
@@ -47,12 +45,7 @@ export interface DividerOwnProps {
   variant?: DividerVariant
 }
 
-type DividerRootAttributes = Pick<
-  HTMLAttributes<HTMLElement>,
-  'aria-label' | 'aria-labelledby' | 'children' | 'hidden' | 'id' | 'title'
->
-
-export type DividerProps = Omit<ComponentProps, 'index'> & DividerRootAttributes & DividerOwnProps
+export type DividerProps = ComponentPropsWithoutRef<'div'> & DividerOwnProps
 
 const spacingClass = { lg: styles.spacingLg, md: styles.spacingMd, sm: styles.spacingSm }
 
@@ -96,7 +89,9 @@ export const Divider = forwardRef<HTMLElement, DividerProps>(
           style={style}
           {...rest}
         >
-          {hasPart(children, [DividerLabel]) ? children : <DividerLabel>{children}</DividerLabel>}
+          <span className={isStyled ? styles.label : undefined} data-plume-divider-label="">
+            {children}
+          </span>
         </div>
       )
     }

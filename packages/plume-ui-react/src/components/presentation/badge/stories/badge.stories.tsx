@@ -1,6 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
 import { defaultTheme } from '../../../../theme'
-import { Badge, BadgeDot } from '..'
+import { Badge } from '..'
 
 const colorSchemes = Object.keys(defaultTheme.colors)
 
@@ -10,8 +10,8 @@ const colorSchemes = Object.keys(defaultTheme.colors)
  * it shows, give it an `aria-label`. A Badge with an `aria-label` or an `aria-labelledby` is an image for
  * assistive technology, because a plain `<span>` can't take a name, and the label replaces its text.
  *
- * The status dot is a part, `BadgeDot`, that carries `data-plume-badge-dot`. With `variant="unstyled"` the Badge
- * and the dot keep only the classes you give them.
+ * The status dot comes with the **dot** prop and carries `data-plume-badge-dot`, so it can be styled from CSS. With
+ * `variant="unstyled"` the Badge and the dot drop the Plume classes.
  */
 export default {
   title: 'Components/Badge',
@@ -19,7 +19,7 @@ export default {
   tags: ['autodocs'],
   parameters: {
     docs: {
-      importNames: ['Badge', 'BadgeDot'],
+      importNames: ['Badge'],
       toc: {
         title: 'On this page',
         disable: false,
@@ -182,48 +182,6 @@ export const DotOnly: Story = {
       <Badge aria-label="Away" colorScheme="warning" dot />
       <Badge aria-label="Offline" colorScheme="error" dot />
       <Badge aria-label="Offline" colorScheme="error" dot size="lg" />
-    </div>
-  ),
-}
-
-/**
- * The status dot is a part: put a `BadgeDot` among the children to place it where you want, after the text or
- * with a class of your own. With `dot` the Badge renders one before its content, and with only a `BadgeDot` as
- * child the Badge is just the dot.
- */
-export const Compound: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `<div className="flex flex-wrap items-center justify-center gap-4">
-  <Badge colorScheme="success" variant="subtle">
-    Online
-    <BadgeDot />
-  </Badge>
-  <Badge colorScheme="warning" variant="subtle">
-    <BadgeDot className="rounded-none" />
-    Away
-  </Badge>
-  <Badge aria-label="Offline" colorScheme="error">
-    <BadgeDot />
-  </Badge>
-</div>`,
-      },
-    },
-  },
-  render: () => (
-    <div className="flex flex-wrap items-center justify-center gap-4">
-      <Badge colorScheme="success" variant="subtle">
-        Online
-        <BadgeDot />
-      </Badge>
-      <Badge colorScheme="warning" variant="subtle">
-        <BadgeDot className="rounded-none" />
-        Away
-      </Badge>
-      <Badge aria-label="Offline" colorScheme="error">
-        <BadgeDot />
-      </Badge>
     </div>
   ),
 }
