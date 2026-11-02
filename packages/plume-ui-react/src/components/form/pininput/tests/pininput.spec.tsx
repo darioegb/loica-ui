@@ -1,6 +1,7 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { createRef, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { Field } from '../../field'
 import { PinInput } from '..'
 import type { PinInputProps } from '..'
@@ -163,6 +164,32 @@ describe('PinInput component', () => {
       render(<PinInput aria-label="Code" defaultValue="12" length={3} />)
       expect(cells()[0]).toHaveAttribute('data-filled')
       expect(cells()[2]).not.toHaveAttribute('data-filled')
+    })
+
+    it('says its state in data attributes, on the cells and on the root', () => {
+      const { rerender } = render(<PinInput aria-label="Code" length={2} />)
+      expect(cells()[0]).toHaveAttribute('data-plume-pininput-cell')
+      expect(cells()[0]).not.toHaveAttribute('data-disabled')
+      expect(cells()[0]).not.toHaveAttribute('data-invalid')
+      expect(screen.getByRole('group')).not.toHaveAttribute('data-disabled')
+      expect(screen.getByRole('group')).not.toHaveAttribute('data-invalid')
+      rerender(<PinInput aria-invalid aria-label="Code" disabled length={2} />)
+      expect(cells()[0]).toHaveAttribute('data-disabled')
+      expect(cells()[0]).toHaveAttribute('data-invalid')
+      expect(cells()[0]).toBeDisabled()
+      expect(screen.getByRole('group')).toHaveAttribute('data-disabled')
+      expect(screen.getByRole('group')).toHaveAttribute('data-invalid')
+    })
+
+    it('reads the placeholder, type and mask of the root in every cell', () => {
+      render(<PinInput aria-label="Code" length={2} mask placeholder="*" type="alphanumeric" />)
+      const boxes = document.querySelectorAll('[data-plume-pininput-cell]')
+      expect(boxes).toHaveLength(2)
+      boxes.forEach((cell) => {
+        expect(cell).toHaveAttribute('placeholder', '*')
+        expect(cell).toHaveAttribute('inputmode', 'text')
+        expect(cell).toHaveAttribute('type', 'password')
+      })
     })
   })
 
@@ -421,6 +448,53 @@ describe('PinInput component', () => {
       expect(container.querySelector('input[type="hidden"]')).toBeNull()
     })
 
+    it('carries the hidden input after the cells, with its hook and the whole code', () => {
+      const { container } = render(<PinInput aria-label="Code" defaultValue="12" name="otp" />)
+      const hidden = container.querySelector('[data-plume-pininput-hidden]')
+      expect(hidden).toHaveAttribute('type', 'hidden')
+      expect(hidden).toHaveValue('12')
+      expect(screen.getByRole('group').lastElementChild).toBe(hidden)
+    })
+
+    it('submits the typed value through react-hook-form', async () => {
+      interface Values {
+        code: string
+      }
+      const onSubmit = vi.fn()
+      function Form(): React.ReactNode {
+        const { control, handleSubmit } = useForm<Values>({ defaultValues: { code: '' } })
+        return (
+          <form
+            onSubmit={(event) => {
+              void handleSubmit(onSubmit)(event)
+            }}
+          >
+            <Controller
+              control={control}
+              name="code"
+              render={({ field }) => (
+                <PinInput
+                  aria-label="Code"
+                  length={4}
+                  onValueChange={field.onChange}
+                  value={field.value}
+                />
+              )}
+            />
+            <button type="submit">Submit</button>
+          </form>
+        )
+      }
+      const user = userEvent.setup()
+      render(<Form />)
+      await user.click(cells()[0])
+      await user.keyboard('4821')
+      fireEvent.click(screen.getByRole('button', { name: 'Submit' }))
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledWith({ code: '4821' }, expect.anything())
+      })
+    })
+
     it('composes with Field', async () => {
       render(
         <Field errorText="Wrong code" helperText="Six digits" invalid label="Code" required>
@@ -435,6 +509,16 @@ describe('PinInput component', () => {
       expect(cells()[0]).toHaveAttribute('aria-required', 'true')
       await userEvent.click(screen.getByText('Code'))
       expect(cells()[0]).toHaveFocus()
+    })
+
+    it('focuses the box to fill when the label of a Field is clicked', async () => {
+      render(
+        <Field label="Code">
+          <PinInput defaultValue="12" length={4} />
+        </Field>,
+      )
+      await userEvent.click(screen.getByText('Code'))
+      expect(cells()[2]).toHaveFocus()
     })
 
     it('does not use the label of a Field of another control', () => {

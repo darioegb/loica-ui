@@ -1,66 +1,115 @@
 'use client'
 
-import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
-import { forwardRef, useMemo } from 'react'
-import { joinClasses } from '../../../overlay/class-names'
-import type { ComponentProps } from '../../../theme'
-import { hasPart } from '../../../overlay/has-part'
-import { RatingEmpty } from './rating-empty'
-import { RatingFilled } from './rating-filled'
-import { RatingRadio } from './rating-radio'
-import { itemState, RatingItemContext, useRatingContext } from './rating-context'
-import type { RatingItemContextValue } from './rating-context'
+import type { ReactNode } from 'react'
+import { itemState } from './rating-types'
+import type { RatingLabels } from './rating-types'
 import styles from './rating.module.css'
 
-export interface RatingItemOwnProps {
-  /** Position of the star, from `1` to `max`. */
+interface RatingItemProps {
+  allowHalf: boolean
+  clearable: boolean
+  emptyIcon: ReactNode
+  filledIcon: ReactNode
+  isStyled: boolean
+  labels: RatingLabels
+  max: number
+  name: string
   position: number
+  readOnly: boolean
+  setHover: (value: number | undefined) => void
+  setValue: (value: number) => void
+  shown: number
+  value: number
 }
 
-type RatingItemRootAttributes = Pick<HTMLAttributes<HTMLSpanElement>, 'children'>
+type RatingRadioProps = Pick<
+  RatingItemProps,
+  'clearable' | 'isStyled' | 'labels' | 'max' | 'name' | 'position' | 'setHover' | 'setValue' | 'value'
+> & {
+  half: 'end' | 'start' | undefined
+  option: number
+}
 
-export type RatingItemProps = Omit<ComponentProps, 'index'> &
-  RatingItemRootAttributes &
-  RatingItemOwnProps
+function RatingRadio({
+  clearable,
+  half,
+  isStyled,
+  labels,
+  max,
+  name,
+  option,
+  setHover,
+  setValue,
+  value,
+}: Readonly<RatingRadioProps>): ReactNode {
+  return (
+    <input
+      aria-label={labels.item(option, max)}
+      checked={value === option}
+      className={isStyled ? styles.radio : undefined}
+      data-half={half}
+      data-plume-rating-radio=""
+      name={name}
+      onChange={() => setValue(option)}
+      onClick={() => {
+        if (clearable && value === option) setValue(0)
+      }}
+      onKeyDown={(event) => {
+        if (clearable && (event.key === 'Backspace' || event.key === 'Delete')) {
+          event.preventDefault()
+          setValue(0)
+        }
+      }}
+      onPointerEnter={() => setHover(option)}
+      type="radio"
+      value={option}
+    />
+  )
+}
 
-/**
- * One star, with `data-state` (`empty`, `half` or `full`). Without any of its parts as children it
- * renders `RatingEmpty`, `RatingFilled` and the radios.
- */
-export const RatingItem = forwardRef<HTMLSpanElement, RatingItemProps>(
-  (
-    { children, className, position, style }: RatingItemProps,
-    ref: ForwardedRef<HTMLSpanElement>,
-  ): ReactNode => {
-    const { allowHalf, isStyled, preview, readOnly, value } = useRatingContext('RatingItem')
-    const state = itemState(position, readOnly ? value : preview)
-    const context: RatingItemContextValue = useMemo(() => ({ position, state }), [position, state])
-    const options = allowHalf ? [position - 0.5, position] : [position]
+export function RatingItem({
+  allowHalf,
+  emptyIcon,
+  filledIcon,
+  position,
+  readOnly,
+  shown,
+  ...radio
+}: Readonly<RatingItemProps>): ReactNode {
+  const { isStyled } = radio
+  const options = allowHalf ? [position - 0.5, position] : [position]
 
-    return (
-      <RatingItemContext.Provider value={context}>
-        <span
-          className={joinClasses(isStyled && styles.item, className)}
-          data-plume-rating-item=""
-          data-state={state}
-          ref={ref}
-          style={style}
-        >
-          {hasPart(children, [RatingEmpty, RatingFilled, RatingRadio]) ? (
-            children
-          ) : (
-            <>
-              <RatingEmpty />
-              <RatingFilled />
-              {options.map((option) => (
-                <RatingRadio key={option} value={option} />
-              ))}
-            </>
-          )}
-        </span>
-      </RatingItemContext.Provider>
-    )
-  },
-)
-
-RatingItem.displayName = 'RatingItem'
+  return (
+    <span
+      className={isStyled ? styles.item : undefined}
+      data-plume-rating-item=""
+      data-state={itemState(position, shown)}
+    >
+      <span
+        aria-hidden="true"
+        className={isStyled ? styles.empty : undefined}
+        data-plume-rating-empty=""
+      >
+        {emptyIcon}
+      </span>
+      <span
+        aria-hidden="true"
+        className={isStyled ? styles.filled : undefined}
+        data-plume-rating-filled=""
+      >
+        {filledIcon}
+      </span>
+      {readOnly
+        ? null
+        : options.map((option) => (
+            <RatingRadio
+              {...radio}
+              half={allowHalf ? (option === position ? 'end' : 'start') : undefined}
+              key={option}
+              option={option}
+              position={position}
+            />
+          ))}
+    </span>
+  )
+}

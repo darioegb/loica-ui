@@ -159,6 +159,35 @@ describe('Rating component', () => {
     })
   })
 
+  describe('inner elements', () => {
+    it('draws every star as the empty layer, the filled layer and the radio, with its hooks', () => {
+      render(<Rating aria-label="Rating" max={2} />)
+      const items = document.querySelectorAll('[data-plume-rating-item]')
+      expect(items).toHaveLength(2)
+      expect(items[0].children[0]).toHaveAttribute('data-plume-rating-empty')
+      expect(items[0].children[1]).toHaveAttribute('data-plume-rating-filled')
+      expect(items[0].children[2]).toHaveAttribute('data-plume-rating-radio')
+      expect(items[0]).toHaveClass('item')
+    })
+
+    it('marks the state of every star', () => {
+      render(<Rating aria-label="Rating" allowHalf defaultValue={1.5} max={3} />)
+      expect(states()).toEqual(['full', 'half', 'empty'])
+    })
+
+    it('does not render the read only text when it is interactive', () => {
+      render(<Rating aria-label="Rating" max={1} />)
+      expect(document.querySelector('[data-plume-rating-value-text]')).toBeNull()
+    })
+
+    it('hides the read only text from the eye and marks it with its hook', () => {
+      render(<Rating aria-label="Rating" defaultValue={3} readOnly />)
+      const text = screen.getByText('3 out of 5')
+      expect(text).toHaveAttribute('data-plume-rating-value-text')
+      expect(text).toHaveStyle({ position: 'absolute' })
+    })
+  })
+
   describe('value', () => {
     it('starts empty', () => {
       render(<Rating aria-label="Rating" />)

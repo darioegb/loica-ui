@@ -1,52 +1,44 @@
-'use client'
-
-import type { ForwardedRef, ReactNode } from 'react'
-import { Fragment, forwardRef } from 'react'
-import { joinClasses } from '../../../overlay/class-names'
-import type { ComponentProps } from '../../../theme'
-import { type SliderMark, useSliderContext } from './slider-context'
-import { SliderMarkItem } from './slider-mark-item'
+import type { CSSProperties, ReactNode } from 'react'
+import { fractionOf } from './slider-math'
+import type { SliderState } from './slider-types'
 import styles from './slider.module.css'
 
-export interface SliderMarksOwnProps {
-  /**
-   * A node, or a function that gets each mark and its position and returns what to render for it.
-   */
-  children?: ReactNode | ((mark: SliderMark, index: number) => ReactNode)
+interface SliderMarksProps {
+  state: SliderState
 }
 
-export type SliderMarksProps = Omit<ComponentProps, 'index'> & SliderMarksOwnProps
+export function SliderMarks({ state }: Readonly<SliderMarksProps>): ReactNode {
+  const { isStyled, marks, max, min, values } = state
+  if (marks.length === 0) return null
 
-/** The container of the marks. It renders nothing without marks. */
-export const SliderMarks = forwardRef<HTMLSpanElement, SliderMarksProps>(
-  (
-    { children, className, style }: SliderMarksProps,
-    ref: ForwardedRef<HTMLSpanElement>,
-  ): ReactNode => {
-    const { isStyled, marks } = useSliderContext('SliderMarks')
-    const isDataDriven = typeof children === 'function' || children === undefined
-    if (isDataDriven && marks.length === 0) return null
+  const lower = values.length > 1 ? Math.min(...values) : min
+  const upper = Math.max(...values)
 
-    const items = isDataDriven
-      ? marks.map((mark, index) => (
-          <Fragment key={mark.value}>
-            {children === undefined ? <SliderMarkItem mark={mark} /> : children(mark, index)}
-          </Fragment>
-        ))
-      : children
-
-    return (
-      <span
-        aria-hidden="true"
-        className={joinClasses(isStyled && styles.marks, className)}
-        data-plume-slider-marks=""
-        ref={ref}
-        style={style}
-      >
-        {items}
-      </span>
-    )
-  },
-)
-
-SliderMarks.displayName = 'SliderMarks'
+  return (
+    <span
+      aria-hidden="true"
+      className={isStyled ? styles.marks : undefined}
+      data-plume-slider-marks=""
+    >
+      {marks.map((mark) => (
+        <span
+          className={isStyled ? styles.mark : undefined}
+          data-active={mark.value > lower && mark.value < upper ? '' : undefined}
+          data-edge={mark.value <= min || mark.value >= max ? '' : undefined}
+          data-plume-slider-mark-item=""
+          key={mark.value}
+          style={{ '--slider-mark': fractionOf(mark.value, min, max) } as CSSProperties}
+        >
+          {mark.label === undefined ? null : (
+            <span
+              className={isStyled ? styles.markLabel : undefined}
+              data-plume-slider-mark-label=""
+            >
+              {mark.label}
+            </span>
+          )}
+        </span>
+      ))}
+    </span>
+  )
+}

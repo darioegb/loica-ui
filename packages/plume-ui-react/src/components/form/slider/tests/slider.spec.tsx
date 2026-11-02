@@ -556,6 +556,78 @@ describe('Slider component', () => {
   })
 })
 
+describe('Slider elements', () => {
+  const element = (name: string): HTMLElement | null =>
+    document.querySelector<HTMLElement>(`[data-plume-slider-${name}]`)
+
+  it('draws the body, the track with its range, the marks and the thumb', () => {
+    render(<Slider aria-label="Volume" marks={[{ label: 'Half', value: 50 }]} />)
+    expect(element('body')).toContainElement(element('track'))
+    expect(element('track')).toContainElement(element('range'))
+    expect(element('body')).toContainElement(element('marks'))
+    expect(element('mark-item')).toContainElement(element('mark-label'))
+    expect(screen.getByRole('slider')).toHaveAttribute('data-plume-slider-thumb')
+  })
+
+  it('draws a thumb for each value of a range', () => {
+    render(<Slider defaultValue={[20, 80]} />)
+    expect(screen.getAllByRole('slider')).toHaveLength(2)
+  })
+
+  it('puts the Plume classes on every element of a styled slider', () => {
+    render(<Slider aria-label="Volume" marks={[{ label: 'Half', value: 50 }]} />)
+    expect(element('body')).toHaveClass('body')
+    expect(element('track')).toHaveClass('track')
+    expect(element('range')).toHaveClass('range')
+    expect(element('marks')).toHaveClass('marks')
+    expect(element('mark-item')).toHaveClass('mark')
+    expect(element('mark-label')).toHaveClass('markLabel')
+    expect(screen.getByRole('slider')).toHaveClass('thumb')
+  })
+
+  it('keeps only the body and the thumbs when it is unstyled', () => {
+    render(<Slider aria-label="Volume" marks variant="unstyled" />)
+    expect(element('body')).not.toHaveAttribute('class')
+    expect(element('body')).toContainElement(screen.getByRole('slider'))
+    expect(element('track')).not.toBeInTheDocument()
+    expect(element('mark-item')).not.toBeInTheDocument()
+  })
+
+  it('exposes the position of a mark to CSS', () => {
+    render(<Slider aria-label="Volume" marks={[40]} />)
+    expect(element('mark-item')?.style.getPropertyValue('--slider-mark')).toBe('0.4')
+  })
+
+  it('puts the className and the style of the root on the outermost element', () => {
+    const { container } = render(
+      <Slider aria-label="Volume" className="root" style={{ margin: 4 }} />,
+    )
+    expect(container.firstElementChild).toHaveClass('root')
+    expect((container.firstElementChild as HTMLElement).style.margin).toBe('4px')
+  })
+
+  it('takes the native attributes of the root', () => {
+    const { container } = render(<Slider aria-label="Volume" data-testid="root" lang="es" />)
+    expect(container.firstElementChild).toHaveAttribute('lang', 'es')
+  })
+
+  it('points the ref of the root to the first thumb of a range', () => {
+    const root = createRef<HTMLInputElement>()
+    render(<Slider defaultValue={[20, 80]} ref={root} />)
+    expect(root.current).toBe(screen.getAllByRole('slider')[0])
+  })
+
+  it('names the thumbs of a range with the LocaleProvider only', () => {
+    render(
+      <LocaleProvider messages={{ slider: { thumb: (index) => `Thumb ${index}` } }}>
+        <Slider defaultValue={[20, 80]} />
+      </LocaleProvider>,
+    )
+    expect(screen.getByRole('slider', { name: 'Thumb 0' })).toHaveValue('20')
+    expect(screen.getByRole('slider', { name: 'Thumb 1' })).toHaveValue('80')
+  })
+})
+
 describe('Slider accessibility', () => {
   it('tells a screen reader that a vertical slider is vertical', () => {
     render(<Slider aria-label="Volume" orientation="vertical" />)

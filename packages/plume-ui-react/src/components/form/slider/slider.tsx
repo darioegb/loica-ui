@@ -1,26 +1,26 @@
 'use client'
 
-import type { CSSProperties, ForwardedRef, ReactNode } from 'react'
+import type {
+  ComponentPropsWithoutRef,
+  CSSProperties,
+  ForwardedRef,
+  ReactNode,
+} from 'react'
 import { forwardRef, useCallback, useId, useMemo, useRef } from 'react'
-import { hasPart } from '../../../overlay/has-part'
 import { joinClasses } from '../../../overlay/class-names'
 import { useLabels } from '../../../locale/locale-provider'
 import { useControllableState } from '../../../overlay/use-controllable-state'
-import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import type { ColorScheme, Size } from '../../../theme'
 import { useFieldContext } from '../field/field-context'
-import { SliderBody } from './slider-body'
-import {
-  SliderContext,
-  sliderColorVars,
-  type SliderContextValue,
-  type SliderLabels,
-  type SliderMark,
-  type SliderRootAttributes,
-} from './slider-context'
 import { SliderMarks } from './slider-marks'
 import { clamp, fractionOf, resolveMarks, snap, toValues } from './slider-math'
 import { SliderThumb } from './slider-thumb'
-import { SliderTrack } from './slider-track'
+import {
+  sliderColorVars,
+  type SliderLabels,
+  type SliderMark,
+  type SliderState,
+} from './slider-types'
 import styles from './slider.module.css'
 import { useTrackPress } from './use-track-press'
 
@@ -33,11 +33,6 @@ export type SliderVariant = 'outline' | 'solid' | 'unstyled'
 export type SliderOrientation = 'horizontal' | 'vertical'
 
 export interface SliderOwnProps {
-  /**
-   * The parts of the slider, in the order they should appear. Without children it renders the
-   * track, the marks and one `SliderThumb` per value.
-   */
-  children?: ReactNode
   /**
    * Color scheme from the theme palette, custom schemes included.
    * @default 'primary'
@@ -123,13 +118,15 @@ export interface SliderOwnProps {
   variant?: SliderVariant
 }
 
-export type SliderProps = Omit<ComponentProps, 'index'> & SliderRootAttributes & SliderOwnProps
+export type SliderProps = Omit<
+  ComponentPropsWithoutRef<'div'>,
+  'children' | 'defaultValue' | 'onChange'
+> &
+  SliderOwnProps
 
 const DEFAULT_LABELS: SliderLabels = {
   thumb: (index) => (index === 0 ? 'Minimum' : 'Maximum'),
 }
-
-const SLIDER_PARTS = [SliderBody] as const
 
 interface SliderClassOptions {
   className?: string
@@ -167,7 +164,6 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
       'aria-invalid': ariaInvalid,
       'aria-label': ariaLabel,
       'aria-labelledby': labelledByProp,
-      children,
       className,
       colorScheme = 'primary',
       defaultValue,
@@ -220,7 +216,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
       () => resolveMarks(marks, min, max, step),
       [marks, max, min, step],
     )
-    const Root = isRange ? 'fieldset' : 'div'
+    const Root = (isRange ? 'fieldset' : 'div') as 'div'
 
     const update = useCallback(
       (index: number, requested: number): void => {
@@ -253,7 +249,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
       values,
     })
 
-    const context: SliderContextValue = useMemo(
+    const state: SliderState = useMemo(
       () => ({
         ariaLabel,
         commit,
@@ -314,46 +310,41 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
       ? { 'aria-label': ariaLabel, 'aria-labelledby': labelledBy, disabled }
       : {}
 
-    const defaultParts = (
-      <>
-        {isStyled ? (
-          <>
-            <SliderTrack />
-            <SliderMarks />
-          </>
-        ) : null}
-        {values.map((_, index) => (
-          <SliderThumb index={index} key={index === 0 ? 'start' : 'end'} />
-        ))}
-      </>
-    )
-    const parts = children ?? defaultParts
-
     return (
-      <SliderContext.Provider value={context}>
-        <Root
-          {...rest}
-          {...rootProps}
-          className={sliderClasses({
-            className,
-            disabled,
-            isInvalid,
-            isStyled,
-            orientation,
-            size,
-            variant,
-          })}
-          data-disabled={disabled ? '' : undefined}
-          data-orientation={orientation}
-          data-plume-slider=""
-          data-range={isRange ? '' : undefined}
-          data-required={required ? '' : undefined}
-          {...track}
-          style={rootStyle}
-        >
-          {hasPart(children, SLIDER_PARTS) ? children : <SliderBody>{parts}</SliderBody>}
-        </Root>
-      </SliderContext.Provider>
+      <Root
+        {...rest}
+        {...rootProps}
+        className={sliderClasses({
+          className,
+          disabled,
+          isInvalid,
+          isStyled,
+          orientation,
+          size,
+          variant,
+        })}
+        data-disabled={disabled ? '' : undefined}
+        data-orientation={orientation}
+        data-plume-slider=""
+        data-range={isRange ? '' : undefined}
+        data-required={required ? '' : undefined}
+        {...track}
+        style={rootStyle}
+      >
+        <div className={isStyled ? styles.body : undefined} data-plume-slider-body="">
+          {isStyled ? (
+            <>
+              <span className={styles.track} data-plume-slider-track="">
+                <span className={styles.range} data-plume-slider-range="" />
+              </span>
+              <SliderMarks state={state} />
+            </>
+          ) : null}
+          {values.map((_, index) => (
+            <SliderThumb index={index} key={index === 0 ? 'start' : 'end'} state={state} />
+          ))}
+        </div>
+      </Root>
     )
   },
 )
