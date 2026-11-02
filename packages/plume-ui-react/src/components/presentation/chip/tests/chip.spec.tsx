@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { createRef } from 'react'
 import { Chip, ChipIcon, ChipLabel, ChipRemove } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 
 describe('Chip component', () => {
   describe('rendering', () => {
@@ -93,11 +94,11 @@ describe('Chip component', () => {
       expect(onRemove).toHaveBeenCalledTimes(1)
     })
 
-    it('names the button with labels.remove', () => {
+    it('starts the name of the button with the remove text of the LocaleProvider', () => {
       render(
-        <Chip labels={{ remove: 'Quitar Diseño' }} onRemove={() => undefined}>
-          Diseño
-        </Chip>,
+        <LocaleProvider messages={{ chip: { remove: 'Quitar' } }}>
+          <Chip onRemove={() => undefined}>Diseño</Chip>
+        </LocaleProvider>,
       )
       expect(screen.getByRole('button', { name: 'Quitar Diseño' })).toBeInTheDocument()
     })
@@ -229,14 +230,16 @@ describe('Chip component', () => {
       expect(screen.getByRole('button', { name: 'Remove Design' })).toBeInTheDocument()
     })
 
-    it('names a composed remove button with labels.remove or its own label', () => {
+    it('names a composed remove button with the LocaleProvider or its own label', () => {
       const { rerender } = render(
-        <Chip labels={{ remove: 'Quitar' }} onRemove={() => undefined}>
-          <ChipLabel>Diseño</ChipLabel>
-          <ChipRemove />
-        </Chip>,
+        <LocaleProvider messages={{ chip: { remove: 'Quitar' } }}>
+          <Chip onRemove={() => undefined}>
+            <ChipLabel>Diseño</ChipLabel>
+            <ChipRemove />
+          </Chip>
+        </LocaleProvider>,
       )
-      expect(screen.getByRole('button', { name: 'Quitar' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Quitar Diseño' })).toBeInTheDocument()
       rerender(
         <Chip onRemove={() => undefined}>
           <ChipLabel>Design</ChipLabel>

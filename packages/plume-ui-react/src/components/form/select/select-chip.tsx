@@ -4,6 +4,7 @@ import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
 import { forwardRef } from 'react'
 import type { ComponentProps } from '../../../theme'
 import { Chip } from '../../presentation/chip'
+import { ChipRemoveLabelContext } from '../../presentation/chip/chip-context'
 import { type SelectedOption, useSelectContext } from './select-context'
 
 type SelectChipRootAttributes = Pick<HTMLAttributes<HTMLSpanElement>, 'children'>
@@ -47,19 +48,20 @@ export const SelectChip = forwardRef<HTMLSpanElement, SelectChipProps>(
     }
 
     return (
-      <Chip
-        className={className}
-        data-plume-select-chip=""
-        icon={option.icon}
-        labels={{ remove: context.labels.remove(option.label) }}
-        onRemove={canRemove ? () => context.remove(option.value) : undefined}
-        ref={ref}
-        size={context.size}
-        style={style}
-        variant={variant}
-      >
-        {children ?? <span aria-hidden="true">{option.label}</span>}
-      </Chip>
+      <ChipRemoveLabelContext.Provider value={context.labels.remove(option.label)}>
+        <Chip
+          className={className}
+          data-plume-select-chip=""
+          icon={option.icon}
+          onRemove={canRemove ? () => context.remove(option.value) : undefined}
+          ref={ref}
+          size={context.size}
+          style={style}
+          variant={variant}
+        >
+          {children ?? <span aria-hidden="true">{option.label}</span>}
+        </Chip>
+      </ChipRemoveLabelContext.Provider>
     )
   },
 )

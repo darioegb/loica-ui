@@ -247,7 +247,7 @@ outermost one.
 
 Every text the library shows or announces is changed in one place, the [`LocaleProvider`](?path=/docs/guides-internationalization--docs),
 keyed by component and typed as `PlumeMessages`. Texts that carry data are functions. The loose props of 0.x are gone,
-and so are the `labels` props of the first 1.0 betas (only `Chip` keeps one for now). A change for one section is a nested
+and so are the `labels` props of the first 1.0 betas. A change for one section is a nested
 provider, and a single text can be set on the part that shows it.
 
 ```tsx
@@ -280,7 +280,7 @@ provider, and a single text can be set on the part that shows it.
     <tr><td><code>ToastProvider</code></td><td><code>dismissLabel</code>, <code>regionLabel</code></td><td>the <code>close</code> and <code>toast.region</code> texts of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Paginator</code></td><td><code>firstLabel</code>, <code>previousLabel</code>, <code>nextLabel</code>, <code>lastLabel</code>, <code>getPageLabel</code></td><td>the <code>paginator</code> texts of the <code>LocaleProvider</code> (<code>first</code>, <code>previous</code>, <code>next</code>, <code>last</code>, <code>page</code>)</td></tr>
     <tr><td><code>Alert</code></td><td><code>dismissLabel</code></td><td>the <code>close</code> text of the <code>LocaleProvider</code>, or <code>label</code> on <code>AlertDismiss</code></td></tr>
-    <tr><td><code>Chip</code></td><td><code>removeLabel</code></td><td><code>labels.remove</code></td></tr>
+    <tr><td><code>Chip</code></td><td><code>removeLabel</code></td><td>the <code>chip.remove</code> text of the <code>LocaleProvider</code>, or <code>label</code> on <code>ChipRemove</code></td></tr>
     <tr><td><code>Avatar</code></td><td><code>statusLabel</code></td><td>the <code>avatar</code> texts of the <code>LocaleProvider</code> (<code>online</code>, <code>away</code>, <code>busy</code>, <code>offline</code>)</td></tr>
     <tr><td><code>AvatarGroup</code></td><td><code>overflowLabel</code></td><td>the <code>avatarGroup.overflow</code> text of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Table</code></td><td><code>loadingLabel</code></td><td>the <code>loader</code> text of the <code>LocaleProvider</code>, or <code>label</code> on <code>TableLoading</code></td></tr>

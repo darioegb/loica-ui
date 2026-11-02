@@ -23,7 +23,7 @@ const noop = (): void => undefined
  * `Select` that allows several. It can have an icon or an image and, with `onRemove`, a button to remove it.
  *
  * It renders a `<span>`. The remove button is named after the chip (`Remove Design`) unless you give it a
- * `labels.remove`, and an icon is decorative, so the text has to say what the chip is. A `Badge` labels a status
+ * `label`, and an icon is decorative, so the text has to say what the chip is. A `Badge` labels a status
  * or a count and is never interactive, a `Chip` is a value that can go away.
  *
  * ### Parts
@@ -75,9 +75,6 @@ export default {
       control: false,
     },
     onRemove: {
-      control: false,
-    },
-    labels: {
       control: false,
     },
     disabled: {
@@ -197,7 +194,7 @@ function RemovableExample(): React.ReactNode {
 
 /**
  * With **onRemove** the Chip has a button to remove it. Its name is `Remove` followed by the text of the Chip, so
- * a screen reader says which one goes away, or give it your own with **labels.remove**.
+ * a screen reader says which one goes away, or give it your own with the **label** of a `ChipRemove`.
  */
 export const Removable: Story = {
   parameters: {
