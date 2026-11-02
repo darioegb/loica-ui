@@ -21,6 +21,8 @@ const PLACEHOLDERS = new Set([
   'FolderIcon',
   'HomeIcon',
   'LanguageSwitch',
+  'MyCalendarIcon',
+  'MyClockIcon',
   'PromoBanner',
   'Routes',
   'SearchIcon',

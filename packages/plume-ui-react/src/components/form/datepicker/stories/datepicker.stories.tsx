@@ -543,6 +543,36 @@ export const Disabled: Story = {
 }
 
 /**
+ * Use **icon** to change the icon of the button that opens the calendar. The button keeps its name, which comes from
+ * the `datePicker.openCalendar` text of the `LocaleProvider`.
+ */
+export const CustomIcon: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker aria-label="Date" icon={<MyCalendarIcon />} onValueChange={setDate} />`,
+      },
+    },
+  },
+  args: {
+    'aria-label': 'Date',
+    icon: (
+      <svg
+        aria-hidden="true"
+        fill="none"
+        height="18"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        width="18"
+      >
+        <path d="M8 2v4M16 2v4M3 10h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" />
+      </svg>
+    ),
+  },
+}
+
+/**
  * Give the `DatePicker` its parts to choose what it shows and in which order. The props of the field, here its
  * placeholder, go on the `DatePickerInput`, the look (here small and filled) on the `DatePicker`, and the
  * `DatePickerCalendar` opens under it. The state is shared, so picking a day in the calendar updates the field.

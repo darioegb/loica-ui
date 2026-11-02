@@ -206,6 +206,16 @@ describe('TimePicker parts', () => {
       expect(field.compareDocumentPosition(button) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     })
 
+    it('shows the icon of the TimePicker in the trigger, named by the LocaleProvider', () => {
+      render(
+        <LocaleProvider messages={{ timePicker: { openTimePicker: 'Abrir' } }}>
+          <TimePicker icon={<svg data-testid="mine" />} />
+        </LocaleProvider>,
+      )
+      const trigger = screen.getByRole('button', { name: 'Abrir' })
+      expect(within(trigger).getByTestId('mine')).toBeInTheDocument()
+    })
+
     it('opens the panel from the trigger and marks it', () => {
       render(
         <TimePicker>

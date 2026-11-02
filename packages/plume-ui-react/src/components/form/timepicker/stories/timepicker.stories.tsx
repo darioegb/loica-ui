@@ -402,6 +402,37 @@ export const Disabled: Story = {
 }
 
 /**
+ * Use **icon** to change the icon of the button that opens the panel. The button keeps its name, which comes from
+ * the `timePicker.openTimePicker` text of the `LocaleProvider`.
+ */
+export const CustomIcon: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<TimePicker aria-label="Time" icon={<MyClockIcon />} />`,
+      },
+    },
+  },
+  args: {
+    'aria-label': 'Time',
+    icon: (
+      <svg
+        aria-hidden="true"
+        fill="none"
+        height="18"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        width="18"
+      >
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3 2" />
+      </svg>
+    ),
+  },
+}
+
+/**
  * Give the `TimePicker` its parts to choose what it shows. The props of the field, here its placeholder, go on the
  * `TimePickerInput`, the look (here small and filled) on the `TimePicker`, and the `TimePickerPanel` opens under it.
  * Here the panel lists only the hours and the minutes, and the hours are rendered with a class of their own.
