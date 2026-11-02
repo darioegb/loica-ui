@@ -1,5 +1,13 @@
 # plume-ui-react
 
+## 0.58.0
+
+### Minor Changes
+
+- [#303](https://github.com/darioegb/plume-ui-react/pull/303) [`fa244acad9410a8b9bad19b6aa0b020586bd6411`](https://github.com/darioegb/plume-ui-react/commit/fa244acad9410a8b9bad19b6aa0b020586bd6411) Thanks [@darioegb](https://github.com/darioegb)! - `DatePicker` and `TimePicker` take an `icon` prop for the button that opens the calendar or the panel. It replaces the icon that the exported `DatePickerTrigger` and `TimePickerTrigger` parts used to take as `children`, which are no longer exported because the field of the pickers is an `Input`. The button keeps its name, which comes from the `datePicker.openCalendar` and `timePicker.openTimePicker` texts of the `LocaleProvider`.
+
+- [#300](https://github.com/darioegb/plume-ui-react/pull/300) [`b7bece59e7d20f897a692fdab313c55d141b6624`](https://github.com/darioegb/plume-ui-react/commit/b7bece59e7d20f897a692fdab313c55d141b6624) Thanks [@darioegb](https://github.com/darioegb)! - `PinInput`, `Rating` and `Slider` are single components. `PinInputCell`, `PinInputHidden`, `RatingItem`, `RatingEmpty`, `RatingFilled`, `RatingRadio`, `RatingValueText`, `SliderBody`, `SliderTrack`, `SliderRange`, `SliderThumb`, `SliderMarks`, `SliderMarkItem` and `SliderMarkLabel` are removed, and the three take no `children`. The boxes come from `length` and `name`, the stars from `icon` and `emptyIcon`, and the track, the marks and the thumbs from `marks` and the value. Each inner element carries a `data-plume-<component>-<element>` attribute, so it can be styled from the parent. They take all the native attributes of their element, and the names of the boxes, the stars and the thumbs of a range come from the `pinInput`, `rating` and `slider` texts of the `LocaleProvider` only. A `Rating` can no longer render a function per star.
+
 ## 0.57.0
 
 ### Minor Changes
