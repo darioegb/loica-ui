@@ -9,7 +9,7 @@ const sample = (
     <CardHeader>Weekly report</CardHeader>
     <CardBody>Your team closed 24 tickets this week, 6 more than the week before.</CardBody>
     <CardFooter>
-      <Button label="View report" size="sm" />
+      <Button size="sm">View report</Button>
     </CardFooter>
   </>
 )
@@ -190,8 +190,8 @@ export const Parts: Story = {
       <Card style={{ maxWidth: '100%', width: '16rem' }} variant="outline">
         <CardBody>Body and footer.</CardBody>
         <CardFooter>
-          <Button label="Cancel" size="sm" variant="ghost" />
-          <Button label="Save" size="sm" />
+          <Button size="sm" variant="ghost">Cancel</Button>
+          <Button size="sm">Save</Button>
         </CardFooter>
       </Card>
     </div>
@@ -259,7 +259,7 @@ export const Compound: Story = {
   <CardBody>Design system subscription, October.</CardBody>
   <CardFooter className="justify-between">
     <span>Due Oct 30</span>
-    <Button label="Download" size="sm" variant="ghost" />
+    <Button size="sm" variant="ghost">Download</Button>
   </CardFooter>
 </Card>`,
       },
@@ -276,7 +276,7 @@ export const Compound: Story = {
       <CardBody>Design system subscription, October.</CardBody>
       <CardFooter className="justify-between">
         <span>Due Oct 30</span>
-        <Button label="Download" size="sm" variant="ghost" />
+        <Button size="sm" variant="ghost">Download</Button>
       </CardFooter>
     </Card>
   ),
@@ -300,9 +300,10 @@ export const Tailwind: Story = {
   <CardFooter className="flex justify-end gap-2 border-t border-border px-4 py-3">
     <Button
       className="rounded-sm bg-blue-700 px-3 py-1.5 text-sm font-semibold text-white hover:bg-blue-800"
-      label="Choose"
       variant="unstyled"
-    />
+    >
+      Choose
+    </Button>
   </CardFooter>
 </Card>`,
       },
@@ -320,9 +321,10 @@ export const Tailwind: Story = {
       <CardFooter className="flex justify-end gap-2 border-t border-border px-4 py-3">
         <Button
           className="rounded-sm bg-blue-700 px-3 py-1.5 text-sm font-semibold text-white hover:bg-blue-800"
-          label="Choose"
           variant="unstyled"
-        />
+        >
+          Choose
+        </Button>
       </CardFooter>
     </Card>
   ),
@@ -341,7 +343,7 @@ export const Bootstrap: Story = {
     Up to ten members, with shared projects and a history of thirty days.
   </CardBody>
   <CardFooter className="card-footer d-flex justify-content-end">
-    <Button className="btn btn-primary btn-sm" label="Choose" variant="unstyled" />
+    <Button className="btn btn-primary btn-sm" variant="unstyled">Choose</Button>
   </CardFooter>
 </Card>`,
       },
@@ -354,7 +356,7 @@ export const Bootstrap: Story = {
         Up to ten members, with shared projects and a history of thirty days.
       </CardBody>
       <CardFooter className="card-footer d-flex justify-content-end">
-        <Button className="btn btn-primary btn-sm" label="Choose" variant="unstyled" />
+        <Button className="btn btn-primary btn-sm" variant="unstyled">Choose</Button>
       </CardFooter>
     </Card>
   ),

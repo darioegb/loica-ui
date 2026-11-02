@@ -108,7 +108,7 @@ export default {
     },
   },
   args: {
-    action: <Button label="Create a project" size="sm" />,
+    action: <Button size="sm">Create a project</Button>,
     description: 'Projects you create will show up here.',
     icon: inbox,
     title: 'No projects yet',
@@ -149,7 +149,7 @@ export const Variants: Story = {
           Projects you create will show up here.
         </EmptyStateDescription>
         <EmptyStateAction className="mt-3">
-          <Button label="Create a project" size="sm" />
+          <Button size="sm">Create a project</Button>
         </EmptyStateAction>
       </EmptyState>
     </div>
@@ -191,7 +191,7 @@ export const Parts: Story = {
       />
       <EmptyState icon={inbox} style={{ width: '16rem' }} title="With an icon" variant="outline" />
       <EmptyState
-        action={<Button label="Clear filters" size="sm" variant="outline" />}
+        action={<Button size="sm" variant="outline">Clear filters</Button>}
         description="Try other filters."
         style={{ width: '16rem' }}
         title="No results"
@@ -228,7 +228,7 @@ export const Compound: Story = {
       source: {
         code: `<EmptyState variant="outline">
   <EmptyStateAction>
-    <Button label="Clear filters" size="sm" variant="outline" />
+    <Button size="sm" variant="outline">Clear filters</Button>
   </EmptyStateAction>
   <EmptyStateTitle as="h3">No results</EmptyStateTitle>
   <EmptyStateDescription>Try other filters.</EmptyStateDescription>
@@ -239,7 +239,7 @@ export const Compound: Story = {
   render: () => (
     <EmptyState style={{ width: '18rem' }} variant="outline">
       <EmptyStateAction>
-        <Button label="Clear filters" size="sm" variant="outline" />
+        <Button size="sm" variant="outline">Clear filters</Button>
       </EmptyStateAction>
       <EmptyStateTitle as="h3">No results</EmptyStateTitle>
       <EmptyStateDescription>Try other filters.</EmptyStateDescription>
@@ -266,9 +266,10 @@ export const Tailwind: Story = {
   <EmptyStateAction className="mt-3">
     <Button
       className="rounded-sm bg-blue-700 px-3 py-1.5 text-sm font-semibold text-white hover:bg-blue-800"
-      label="Create a project"
       variant="unstyled"
-    />
+    >
+      Create a project
+    </Button>
   </EmptyStateAction>
 </EmptyState>`,
       },
@@ -287,9 +288,10 @@ export const Tailwind: Story = {
       <EmptyStateAction className="mt-3">
         <Button
           className="rounded-sm bg-blue-700 px-3 py-1.5 text-sm font-semibold text-white hover:bg-blue-800"
-          label="Create a project"
           variant="unstyled"
-        />
+        >
+          Create a project
+        </Button>
       </EmptyStateAction>
     </EmptyState>
   ),
@@ -313,7 +315,7 @@ export const Bootstrap: Story = {
     Projects you create will show up here.
   </EmptyStateDescription>
   <EmptyStateAction className="mt-2">
-    <Button className="btn btn-primary btn-sm" label="Create a project" variant="unstyled" />
+    <Button className="btn btn-primary btn-sm" variant="unstyled">Create a project</Button>
   </EmptyStateAction>
 </EmptyState>`,
       },
@@ -331,7 +333,7 @@ export const Bootstrap: Story = {
         Projects you create will show up here.
       </EmptyStateDescription>
       <EmptyStateAction className="mt-2">
-        <Button className="btn btn-primary btn-sm" label="Create a project" variant="unstyled" />
+        <Button className="btn btn-primary btn-sm" variant="unstyled">Create a project</Button>
       </EmptyStateAction>
     </EmptyState>
   ),

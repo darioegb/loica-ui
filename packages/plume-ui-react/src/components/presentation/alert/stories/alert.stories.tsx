@@ -312,7 +312,7 @@ export const Dismissible: Story = {
  */
 export const WithAction: Story = {
   args: {
-    action: <Button colorScheme="warning" label="Choose a plan" size="sm" />,
+    action: <Button colorScheme="warning" size="sm">Choose a plan</Button>,
     dismissible: true,
     status: 'warning',
   },
@@ -348,7 +348,7 @@ export const Compound: Story = {
     <AlertTitle>Your trial ends tomorrow</AlertTitle>
     <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
     <AlertAction>
-      <Button colorScheme="warning" label="Choose a plan" size="sm" />
+      <Button colorScheme="warning" size="sm">Choose a plan</Button>
     </AlertAction>
   </AlertContent>
 </Alert>`,
@@ -363,7 +363,7 @@ export const Compound: Story = {
         <AlertTitle>Your trial ends tomorrow</AlertTitle>
         <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
         <AlertAction>
-          <Button colorScheme="warning" label="Choose a plan" size="sm" />
+          <Button colorScheme="warning" size="sm">Choose a plan</Button>
         </AlertAction>
       </AlertContent>
     </Alert>

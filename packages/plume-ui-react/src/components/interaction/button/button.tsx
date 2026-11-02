@@ -1,62 +1,40 @@
 'use client'
 
 import type {
-  ButtonHTMLAttributes,
+  ComponentPropsWithoutRef,
   CSSProperties,
-  ElementType,
   ForwardedRef,
   MouseEvent,
   ReactNode,
 } from 'react'
-import { forwardRef, useMemo } from 'react'
-import { useLabels } from '../../../locale/locale-provider'
+import { forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import { hasPart } from '../../../overlay/has-part'
-import type { ColorScheme, ComponentProps, Shape, Size } from '../../../theme'
-import { ButtonContext, type ButtonLabels } from './button-context'
-import { ButtonIcon } from './button-icon'
-import { ButtonLabel } from './button-label'
-import { ButtonSpinner } from './button-spinner'
+import { visuallyHidden } from '../../../overlay/visually-hidden'
+import type { ColorScheme, Shape, Size } from '../../../theme'
+import { Loader } from '../../presentation/loader'
 import styles from './button.module.css'
 
-export type { ButtonLabels } from './button-context'
-
 export interface ButtonOwnProps {
-  /**
-   * Text shown instead of the label while `busy` is set.
-   *
-   * @default ''
-   */
-  busyText?: string
   /**
    * Color scheme from the theme palette, including custom schemes added to it.
    *
    * @default 'secondary'
    */
   colorScheme?: ColorScheme
-  /** Icon to be displayed on the left side of the Button. */
+  /** Icon shown before the content. It is hidden while `loading`. */
   iconLeft?: ReactNode
-  /** Icon to be displayed on the right side of the Button. */
+  /** Icon shown after the content. It is hidden while `loading`. */
   iconRight?: ReactNode
   /**
-   * Shows a spinner and makes the Button ignore its clicks, so it keeps the focus. It is announced
-   * as busy and disabled. Without `busyText` the label is hidden while busy, but still names the
-   * Button.
+   * Shows a `Loader` and makes the Button ignore its clicks, so it keeps the focus. It is announced
+   * as busy and disabled. Without `loadingText` the content is hidden while loading, but still names
+   * the Button.
    *
    * @default false
    */
-  busy?: boolean
-  /**
-   * Text of the Button. When `children` are also set, they render after the label, unless they
-   * hold Button parts (`ButtonIcon`, `ButtonLabel`, `ButtonSpinner`): then they replace the default
-   * composition.
-   */
-  label?: string
-  /**
-   * The texts the Button adds, to translate them: `busy` is the accessible name of the spinner
-   * shown while `busy` is set.
-   */
-  labels?: Partial<ButtonLabels>
+  loading?: boolean
+  /** Text shown instead of the content while `loading`. */
+  loadingText?: string
   /**
    * Shape style of the Button.
    *
@@ -78,31 +56,8 @@ export interface ButtonOwnProps {
 }
 
 export type ButtonVariant = 'solid' | 'outline' | 'link' | 'icon' | 'ghost' | 'unstyled'
-type ButtonRootAttributes = Pick<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  | 'aria-current'
-  | 'aria-expanded'
-  | 'aria-haspopup'
-  | 'aria-label'
-  | 'aria-labelledby'
-  | 'children'
-  | 'disabled'
-  | 'hidden'
-  | 'id'
-  | 'onBlur'
-  | 'onClick'
-  | 'onFocus'
-  | 'onKeyDown'
-  | 'onMouseEnter'
-  | 'role'
-  | 'tabIndex'
-  | 'title'
-  | 'type'
->
 
-export type ButtonProps = Omit<ComponentProps, 'index'> & ButtonRootAttributes & ButtonOwnProps
-
-const DEFAULT_LABELS: ButtonLabels = { busy: 'Loading' }
+export type ButtonProps = ComponentPropsWithoutRef<'button'> & ButtonOwnProps
 
 const ignoreClick = (event: MouseEvent<HTMLButtonElement>): void => {
   event.preventDefault()
@@ -110,8 +65,6 @@ const ignoreClick = (event: MouseEvent<HTMLButtonElement>): void => {
   // stopPropagation only blocks React handlers; the native one stops any DOM listener too.
   event.nativeEvent.stopImmediatePropagation()
 }
-
-const BUTTON_PARTS: readonly ElementType[] = [ButtonIcon, ButtonLabel, ButtonSpinner]
 
 const buttonColorVars = (colorScheme: ColorScheme): CSSProperties =>
   ({
@@ -127,36 +80,19 @@ const buttonColorVars = (colorScheme: ColorScheme): CSSProperties =>
     '--button-tint-text': `var(--plume-color-${colorScheme}-tint-text)`,
   }) as CSSProperties
 
-function buttonContent(
-  children: ReactNode,
-  { iconLeft, iconRight, label }: Pick<ButtonOwnProps, 'iconLeft' | 'iconRight' | 'label'>,
-): ReactNode {
-  if (hasPart(children, BUTTON_PARTS)) return children
-  return (
-    <>
-      {iconLeft ? <ButtonIcon>{iconLeft}</ButtonIcon> : null}
-      {label ? <ButtonLabel>{label}</ButtonLabel> : null}
-      {iconRight ? <ButtonIcon>{iconRight}</ButtonIcon> : null}
-      {children}
-      <ButtonSpinner />
-    </>
-  )
-}
-
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       children,
+      className,
       iconLeft,
       iconRight,
-      label,
-      labels,
+      loadingText,
+      onClick,
       style,
-      busyText = '',
-      className = '',
       colorScheme = 'secondary',
       disabled = false,
-      busy: isBusy = false,
+      loading = false,
       shape = 'rounded',
       size = 'md',
       type = 'button',
@@ -165,39 +101,42 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     }: ButtonProps,
     ref: ForwardedRef<HTMLButtonElement>,
   ) => {
-    const text = useLabels('button', DEFAULT_LABELS, labels)
     const isStyled = variant !== 'unstyled'
-    const context = useMemo(
-      () => ({ busy: isBusy, busyText, isStyled, labels: text }),
-      [busyText, isBusy, isStyled, text],
-    )
-    const classes = joinClasses(
-      isStyled && styles[size],
-      isStyled && styles[shape],
-      isStyled && styles[variant],
-      isStyled && (disabled || isBusy) && styles.disabled,
-      className,
-    )
 
     return (
-      <ButtonContext.Provider value={context}>
-        <button
-          aria-busy={isBusy || undefined}
-          aria-disabled={isBusy && !disabled ? true : undefined}
-          className={classes}
-          data-busy={isBusy ? '' : undefined}
-          data-disabled={disabled || isBusy ? '' : undefined}
-          data-plume-button=""
-          disabled={disabled}
-          ref={ref}
-          style={{ ...buttonColorVars(colorScheme), ...style }}
-          type={type}
-          {...rest}
-          onClick={isBusy ? ignoreClick : rest.onClick}
-        >
-          {buttonContent(children, { iconLeft, iconRight, label })}
-        </button>
-      </ButtonContext.Provider>
+      <button
+        aria-busy={loading || undefined}
+        aria-disabled={loading && !disabled ? true : undefined}
+        className={joinClasses(
+          isStyled && styles[variant],
+          isStyled && styles[size],
+          isStyled && styles[shape],
+          isStyled && (disabled || loading) && styles.disabled,
+          className,
+        )}
+        data-disabled={disabled || loading ? '' : undefined}
+        data-loading={loading ? '' : undefined}
+        data-plume-button=""
+        disabled={disabled}
+        ref={ref}
+        style={{ ...buttonColorVars(colorScheme), ...style }}
+        type={type}
+        {...rest}
+        onClick={loading ? ignoreClick : onClick}
+      >
+        {loading ? (
+          <>
+            {loadingText ?? <span style={visuallyHidden}>{children}</span>}
+            <Loader size="sm" />
+          </>
+        ) : (
+          <>
+            {iconLeft}
+            {children}
+            {iconRight}
+          </>
+        )}
+      </button>
     )
   },
 )

@@ -1,6 +1,5 @@
 export {
   Table,
-  type TableLabels,
   type TableOwnProps,
   type TableProps,
   type TableVariant,

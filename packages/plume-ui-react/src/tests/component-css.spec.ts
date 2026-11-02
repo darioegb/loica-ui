@@ -23,7 +23,7 @@ describe('css of each component', () => {
 
   it('brings the CSS of the components a component renders', async () => {
     const units = await buildCssUnits(srcDir)
-    expect(units.button.imports).toEqual(['spinner'])
+    expect(units.button.imports).toEqual(['loader'])
     expect(units.datepicker.imports).toEqual(
       expect.arrayContaining(['button', 'input', 'picker-panel', 'picker-trigger']),
     )
@@ -31,7 +31,7 @@ describe('css of each component', () => {
     expect(units.select.imports).toEqual(expect.arrayContaining(['chip', 'tag']))
     expect(units.drawer.imports).toEqual(['heading', 'modal'])
     expect(units.alert.imports).toEqual(['tag'])
-    expect(units.table.imports).toEqual(expect.arrayContaining(['emptystate', 'spinner']))
+    expect(units.table.imports).toEqual(expect.arrayContaining(['emptystate', 'loader']))
   })
 
   it('does not drag the whole library into a leaf component', async () => {

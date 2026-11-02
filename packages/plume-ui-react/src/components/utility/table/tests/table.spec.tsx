@@ -13,6 +13,7 @@ import {
   TableRow,
 } from '..'
 import type { TableProps } from '..'
+import { LocaleProvider } from '../../../../locale'
 
 function Demo(props: Readonly<Partial<TableProps>>) {
   return (
@@ -347,21 +348,25 @@ describe('Table component', () => {
       expect(screen.getByRole('table')).toHaveAttribute('data-loading')
     })
 
-    it('shows a spinner named by labels.loading', () => {
+    it('shows a loader named by the loader text of the LocaleProvider', () => {
       const { rerender } = render(<Demo loading />)
       expect(screen.getByLabelText('Loading')).toBeInTheDocument()
-      rerender(<Demo labels={{ loading: 'Cargando' }} loading />)
+      rerender(
+        <LocaleProvider messages={{ loader: { label: 'Cargando' } }}>
+          <Demo loading />
+        </LocaleProvider>,
+      )
       expect(screen.getByLabelText('Cargando')).toBeInTheDocument()
     })
 
-    it('has no spinner when it is not loading', () => {
+    it('has no loader when it is not loading', () => {
       render(<Demo />)
       expect(screen.queryByLabelText('Loading')).not.toBeInTheDocument()
     })
 
-    it('drops the Plume styles of the spinner when unstyled', () => {
+    it('drops the Plume styles of the loader when unstyled', () => {
       render(<Demo loading variant="unstyled" />)
-      expect(screen.getByLabelText('Loading')).not.toHaveClass('solid')
+      expect(screen.getByLabelText('Loading')).not.toHaveAttribute('class')
     })
   })
 

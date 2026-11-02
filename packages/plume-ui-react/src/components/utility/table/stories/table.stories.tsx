@@ -74,7 +74,7 @@ function Content({ selected }: Readonly<{ selected?: string }>): React.ReactNode
  * and the selection, use the `useTableState` hook, which works without a Table and can feed a `Paginator`. The
  * filters are yours to build with `Field`, `Input`, `Select` or any other control: the hook only keeps their values.
  *
- * **Loading and empty.** **loading** sets `aria-busy`, covers the body with a veil and a `Spinner` while you wait for the data. When there
+ * **Loading and empty.** **loading** sets `aria-busy`, covers the body with a veil and a `Loader` while you wait for the data. When there
  * are no rows, put a `TableEmpty` in the body with the message, or a `title`, a `description` and an `action` such as clearing the filters.
  *
  * **Wide tables.** The table scrolls inside its own box instead of the page. When it doesn't fit, the box becomes
@@ -150,7 +150,6 @@ export default {
     style: { control: false },
     hoverable: { control: 'boolean' },
     loading: { control: 'boolean' },
-    labels: { control: false },
     maxHeight: { control: 'text' },
     stickyHeader: { control: 'boolean' },
     size: { control: 'radio', options: ['sm', 'md', 'lg'] },
@@ -1176,7 +1175,7 @@ export const Selectable: Story = {
 
 /**
  * **loading** marks the table as busy while the data is on its way: it sets `aria-busy`, covers the body with a translucent veil and shows
- * a `Spinner` in the middle, named by **labels.loading**. The rows stay in place so the table doesn't jump when the
+ * a `Loader` in the middle, named by the `loader` text of the `LocaleProvider`. The rows stay in place so the table doesn't jump when the
  * new data arrives.
  */
 export const Loading: Story = {

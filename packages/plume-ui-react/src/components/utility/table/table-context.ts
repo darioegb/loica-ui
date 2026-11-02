@@ -3,14 +3,13 @@
 import type { ForwardedRef } from 'react'
 import { createContext, useContext } from 'react'
 import type { Size } from '../../../theme'
-import type { TableLabels, TableVariant } from './table'
+import type { TableVariant } from './table'
 
 export interface TableContextValue {
   ariaLabel?: string
   ariaLabelledBy?: string
   hoverable: boolean
   isStyled: boolean
-  labels: TableLabels
   loading: boolean
   size: Size
   stickyHeader: boolean

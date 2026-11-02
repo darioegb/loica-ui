@@ -41,7 +41,7 @@ function Fire({
   variant?: 'ghost' | 'outline' | 'solid' | 'unstyled'
 }>): React.ReactNode {
   const api = useToast()
-  return <Button className={className} label={label} onClick={() => make(api)} variant={variant} />
+  return <Button className={className} onClick={() => make(api)} variant={variant}>{label}</Button>
 }
 
 function Demo({
@@ -137,9 +137,10 @@ export const Default: Story = {
 
   return (
     <Button
-      label="Show a toast"
       onClick={() => toast.toast({ description: 'Your changes were saved.', title: 'Saved' })}
-    />
+    >
+      Show a toast
+    </Button>
   )
 }
 
@@ -166,10 +167,11 @@ export const Variants: Story = {
 
   return (
     <Button
-      label={variant[0].toUpperCase() + variant.slice(1)}
       onClick={() => toast.success({ description: \`A \${variant} toast.\`, title: 'Saved' })}
       variant="outline"
-    />
+    >
+      {variant[0].toUpperCase() + variant.slice(1)}
+    </Button>
   )
 }
 
@@ -178,10 +180,11 @@ function UnstyledExample() {
 
   return (
     <Button
-      label="Unstyled"
       onClick={() => toast.toast({ title: 'An unstyled toast' })}
       variant="outline"
-    />
+    >
+      Unstyled
+    </Button>
   )
 }
 
@@ -274,31 +277,34 @@ export const Statuses: Story = {
   return (
     <div className="flex flex-wrap justify-center gap-2">
       <Button
-        label="Neutral"
         onClick={() => toast.toast({ title: 'Something happened' })}
         variant="outline"
-      />
+      >
+        Neutral
+      </Button>
       <Button
-        label="Info"
         onClick={() => toast.info({ title: 'A new version is out' })}
         variant="outline"
-      />
+      >
+        Info
+      </Button>
       <Button
-        label="Success"
         onClick={() =>
           toast.success({ description: 'Your changes were saved.', title: 'Saved' })
         }
         variant="outline"
-      />
+      >
+        Success
+      </Button>
       <Button
-        label="Warning"
         onClick={() =>
           toast.warning({ description: 'You are close to the limit.', title: 'Almost full' })
         }
         variant="outline"
-      />
+      >
+        Warning
+      </Button>
       <Button
-        label="Error"
         onClick={() =>
           toast.error({
             description: 'Check your connection and try again.',
@@ -306,7 +312,9 @@ export const Statuses: Story = {
           })
         }
         variant="outline"
-      />
+      >
+        Error
+      </Button>
     </div>
   )
 }
@@ -387,10 +395,11 @@ export const Icons: Story = {
 
   return (
     <Button
-      label="No icons"
       onClick={() => toast.success({ description: 'Your changes were saved.', title: 'Saved' })}
       variant="outline"
-    />
+    >
+      No icons
+    </Button>
   )
 }
 
@@ -399,13 +408,14 @@ function CustomIconsExample() {
 
   return (
     <Button
-      label="Custom icons"
       onClick={() => {
         toast.toast({ title: 'A neutral toast with an icon' })
         toast.success({ title: 'Saved' })
       }}
       variant="outline"
-    />
+    >
+      Custom icons
+    </Button>
   )
 }
 
@@ -414,10 +424,11 @@ function OneToastExample() {
 
   return (
     <Button
-      label="One toast"
       onClick={() => toast.info({ icon: <BellIcon />, title: 'This toast has its own icon' })}
       variant="outline"
-    />
+    >
+      One toast
+    </Button>
   )
 }
 
@@ -495,10 +506,11 @@ export const Positions: Story = {
   return (
     <Button
       className="w-full whitespace-nowrap"
-      label={position}
       onClick={() => toast.info({ title: position })}
       variant="outline"
-    />
+    >
+      {position}
+    </Button>
   )
 }
 
@@ -549,7 +561,6 @@ export const WithAction: Story = {
 
   return (
     <Button
-      label="Delete the file"
       onClick={() =>
         toast.toast({
           action: { label: 'Undo', onClick: () => toast.success('The file is back') },
@@ -558,7 +569,9 @@ export const WithAction: Story = {
           title: 'File deleted',
         })
       }
-    />
+    >
+      Delete the file
+    </Button>
   )
 }
 
@@ -598,7 +611,6 @@ export const Persistent: Story = {
 
   return (
     <Button
-      label="Show a persistent toast"
       onClick={() =>
         toast.error({
           description: 'The connection was lost. We will keep trying.',
@@ -606,7 +618,9 @@ export const Persistent: Story = {
           title: 'You are offline',
         })
       }
-    />
+    >
+      Show a persistent toast
+    </Button>
   )
 }
 
@@ -645,12 +659,13 @@ export const UpdatingAToast: Story = {
 
   return (
     <Button
-      label="Start the upload"
       onClick={() => {
         toast.info({ duration: 0, id: 'upload', title: 'Uploading…' })
         window.setTimeout(() => toast.success({ id: 'upload', title: 'Upload complete' }), 1500)
       }}
-    />
+    >
+      Start the upload
+    </Button>
   )
 }
 
@@ -687,11 +702,12 @@ export const Dismissing: Story = {
   return (
     <div className="flex flex-wrap justify-center gap-2">
       <Button
-        label="Add a toast"
         onClick={() => toast.info({ duration: 0, title: 'A toast that stays' })}
         variant="outline"
-      />
-      <Button label="Dismiss all" onClick={() => toast.dismissAll()} variant="ghost" />
+      >
+        Add a toast
+      </Button>
+      <Button onClick={() => toast.dismissAll()} variant="ghost">Dismiss all</Button>
     </div>
   )
 }
@@ -728,9 +744,10 @@ export const Limit: Story = {
 
   return (
     <Button
-      label="Add a toast"
       onClick={() => toast.info({ title: \`Toast at \${new Date().toLocaleTimeString()}\` })}
-    />
+    >
+      Add a toast
+    </Button>
   )
 }
 
@@ -763,7 +780,6 @@ export const Compound: Story = {
 
   return (
     <Button
-      label="Show a toast"
       onClick={() =>
         toast.success({
           action: { label: 'Undo' },
@@ -772,7 +788,9 @@ export const Compound: Story = {
         })
       }
       variant="outline"
-    />
+    >
+      Show a toast
+    </Button>
   )
 }
 

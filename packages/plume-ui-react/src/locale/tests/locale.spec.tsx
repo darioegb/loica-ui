@@ -3,8 +3,8 @@ import type { ReactElement } from 'react'
 import { useState } from 'react'
 import { Alert } from '../../components/presentation/alert'
 import { DatePicker } from '../../components/form/datepicker'
+import { Loader } from '../../components/presentation/loader'
 import { Paginator } from '../../components/interaction/paginator'
-import { Spinner } from '../../components/presentation/spinner'
 import { Toggle } from '../../components/form/toggle'
 import { Modal, ModalClose, ModalContent } from '../../components/overlay/modal'
 import { LocaleProvider, useLocale } from '..'
@@ -13,19 +13,19 @@ import type { PlumeMessages } from '..'
 const es: PlumeMessages = {
   alert: { dismiss: 'Cerrar alerta' },
   paginator: { next: 'Siguiente', page: (page) => `Página ${page}` },
-  spinner: { label: 'Cargando' },
+  loader: { label: 'Cargando' },
 }
 
 describe('LocaleProvider', () => {
   it('keeps the defaults without a provider', () => {
-    render(<Spinner />)
+    render(<Loader />)
     expect(screen.getByRole('status')).toHaveAttribute('aria-label', 'Loading')
   })
 
   it('gives the texts to every component below it', () => {
     render(
       <LocaleProvider messages={es}>
-        <Spinner />
+        <Loader />
         <Alert dismissible>Saved</Alert>
         <Paginator page={1} pageSize={1} total={3} />
       </LocaleProvider>,
@@ -40,7 +40,7 @@ describe('LocaleProvider', () => {
   it('lets the labels of the component win over the provider', () => {
     render(
       <LocaleProvider messages={es}>
-        <Spinner label="Espere" />
+        <Loader label="Espere" />
         <Paginator labels={{ next: 'Avanzar' }} page={1} pageSize={1} total={3} />
       </LocaleProvider>,
     )
@@ -49,7 +49,7 @@ describe('LocaleProvider', () => {
   })
 
   it('changes the texts when the messages change at runtime', () => {
-    const en: PlumeMessages = { spinner: { label: 'Loading data' } }
+    const en: PlumeMessages = { loader: { label: 'Loading data' } }
     const Switch = (): ReactElement => {
       const [lang, setLang] = useState<'en' | 'es'>('en')
       return (
@@ -57,7 +57,7 @@ describe('LocaleProvider', () => {
           <button onClick={() => setLang(lang === 'en' ? 'es' : 'en')} type="button">
             switch
           </button>
-          <Spinner />
+          <Loader />
           <Alert dismissible>Saved</Alert>
         </LocaleProvider>
       )

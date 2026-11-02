@@ -29,13 +29,12 @@ export const DatePickerCancel = forwardRef<HTMLButtonElement, DatePickerCancelPr
       <Button
         className={joinClasses(isStyled && styles.footerButton, className)}
         data-plume-datepicker-cancel=""
-        label={children || !isStyled ? undefined : labels.cancel}
         onClick={closeAndRestoreFocus}
         ref={ref}
         style={style}
         variant={isStyled ? 'ghost' : 'unstyled'}
       >
-        {children ?? (isStyled ? null : labels.cancel)}
+        {children ?? labels.cancel}
       </Button>
     )
   },
@@ -57,13 +56,12 @@ export const DatePickerApply = forwardRef<HTMLButtonElement, DatePickerApplyProp
         className={joinClasses(isStyled && styles.footerButtonApply, className)}
         colorScheme={colorScheme}
         data-plume-datepicker-apply=""
-        label={children || !isStyled ? undefined : labels.apply}
         onClick={onApply}
         ref={ref}
         style={style}
         variant={isStyled ? 'solid' : 'unstyled'}
       >
-        {children ?? (isStyled ? null : labels.apply)}
+        {children ?? labels.apply}
       </Button>
     )
   },

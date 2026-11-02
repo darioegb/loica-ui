@@ -3,7 +3,7 @@
 import type { ForwardedRef, HTMLAttributes, LazyExoticComponent, ReactNode } from 'react'
 import { Suspense, createElement, forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import { Spinner } from '../../presentation/spinner'
+import { Loader } from '../../presentation/loader'
 import { lazyLoadContent } from '../../../utils/lazy'
 import type { ComponentProps } from '../../../theme'
 import styles from './tabs.module.css'
@@ -49,7 +49,7 @@ export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
         {...rest}
       >
         {lazy ? (
-          <Suspense fallback={<Spinner colorScheme={colorScheme} />}>
+          <Suspense fallback={<Loader colorScheme={colorScheme} />}>
             {createElement(tabContent as LazyExoticComponent<() => ReactNode>)}
           </Suspense>
         ) : (

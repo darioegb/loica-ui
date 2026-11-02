@@ -35,7 +35,7 @@ export interface TabsOwnProps {
    */
   index?: number
   /**
-   * Renders the selected panel inside `Suspense`, with a Spinner as fallback. Only the selected
+   * Renders the selected panel inside `Suspense`, with a Loader as fallback. Only the selected
    * panel is mounted either way.
    *
    * @default false

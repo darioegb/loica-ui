@@ -1,6 +1,6 @@
-import type { CSSProperties, ForwardedRef, HTMLAttributes } from 'react'
+import type { ComponentPropsWithoutRef, CSSProperties, ForwardedRef } from 'react'
 import { forwardRef } from 'react'
-import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import type { ColorScheme, Size } from '../../../theme'
 import styles from './__slug__.module.css'
 
 export interface __Name__OwnProps {
@@ -11,12 +11,7 @@ export interface __Name__OwnProps {
 
 export type __Name__Variant = 'solid' | 'unstyled'
 
-type __Name__RootAttributes = Pick<
-  HTMLAttributes<HTMLDivElement>,
-  'aria-label' | 'aria-labelledby' | 'children' | 'hidden' | 'id' | 'title'
->
-
-export type __Name__Props = Omit<ComponentProps, 'index'> & __Name__RootAttributes & __Name__OwnProps
+export type __Name__Props = ComponentPropsWithoutRef<'div'> & __Name__OwnProps
 
 const __camel__ColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
