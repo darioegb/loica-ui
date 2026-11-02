@@ -14,7 +14,7 @@ import { useTimePickerContext } from './timepicker-context'
 import styles from './timepicker.module.css'
 
 export interface TimePickerPanelOwnProps {
-  /** Accessible name of the panel. By default it is `labels.timePicker`. */
+  /** Accessible name of the panel. By default it is the `timePicker.timePicker` text of the `LocaleProvider`. */
   'aria-label'?: string
   /** The lists of the panel, in the order they should appear. */
   children?: ReactNode

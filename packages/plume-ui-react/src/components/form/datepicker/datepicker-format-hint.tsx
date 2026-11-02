@@ -10,7 +10,7 @@ export type DatePickerFormatHintProps = Omit<ComponentProps, 'index'> &
   Pick<HTMLAttributes<HTMLSpanElement>, 'children'>
 
 /**
- * The visually hidden text that tells the expected format (`labels.format`) and describes the input.
+ * The visually hidden text that tells the expected format (the `datePicker.format` text of the `LocaleProvider`) and describes the input.
  * `children` replace the text. As a direct child of the `DatePickerInput` it takes the place of the default one.
  */
 export const DatePickerFormatHint = forwardRef<HTMLSpanElement, DatePickerFormatHintProps>(

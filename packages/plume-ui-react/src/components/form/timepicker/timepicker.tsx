@@ -7,7 +7,7 @@ import { TimePickerInput, type TimePickerInputProps } from './timepicker-input'
 import { TimePickerPanel } from './timepicker-panel'
 import { TimePickerContext } from './timepicker-context'
 import { timePickerColorVars, useTimePickerController } from './use-timepicker-controller'
-import type { TimePickerLabels, TimePickerVariant } from './timepicker-types'
+import type { TimePickerVariant } from './timepicker-types'
 
 export type { TimePickerLabels, TimePickerVariant } from './timepicker-types'
 
@@ -38,12 +38,6 @@ export interface TimePickerOwnProps {
    * @default false
    */
   panel?: boolean
-  /**
-   * Every text the picker shows or announces: the names of the popup (`timePicker`), of its lists
-   * (`hours`, `minutes`, `period`) and of the button that opens it (`openTimePicker`), and the `am`
-   * and `pm` texts. Every key is optional and falls back to its default.
-   */
-  labels?: Partial<TimePickerLabels>
   /**
    * Distance between the minutes of the list: `15` lists 00, 15, 30 and 45.
    * @default 1
@@ -91,7 +85,6 @@ export const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       defaultValue = '',
       hour12 = false,
       panel: isPanel = false,
-      labels,
       minuteStep = 1,
       onValueChange: onChange,
       shape,
@@ -110,7 +103,6 @@ export const TimePicker = forwardRef<HTMLInputElement, TimePickerProps>(
       hour12,
       inputRef: ref,
       isPanel,
-      labels,
       minuteStep,
       onChange,
       root,

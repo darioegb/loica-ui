@@ -1,5 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
 import { useEffect, useState } from 'react'
+import { LocaleProvider } from '../../../../locale'
 import { defaultTheme } from '../../../../theme'
 import { Field } from '../../../form/field'
 import { ProgressBarIndicator, ProgressBarTrack, ProgressBarValue } from '../../progressbar'
@@ -100,7 +101,6 @@ export default {
     defaultValue: { control: false },
     onValueChange: { control: false },
     onReject: { control: false },
-    labels: { control: false },
     progress: { control: false },
     disabled: { control: 'boolean' },
     readOnly: { control: 'boolean' },
@@ -248,24 +248,29 @@ export const Restrictions: Story = {
 }
 
 /**
- * Use **labels** to translate the component.
+ * The `fileUpload` texts of the `LocaleProvider` translate the component.
  */
 export const Translated: Story = {
   render: () => (
-    <FileUpload
-      accept=".pdf"
-      aria-label="Documentos"
-      defaultValue={[new File(['x'], 'contrato.pdf', { type: 'application/pdf' })]}
-      labels={{
-        progress: (file) => `Subiendo ${file.name}`,
-        prompt: 'Arrastra archivos aquí, o pulsa para elegirlos',
-        rejection: ({ file, reason }) =>
-          `${file.name}: ${reason === 'type' ? 'solo se admiten PDF' : 'no se admite'}`,
-        remove: (file) => `Quitar ${file.name}`,
+    <LocaleProvider
+      messages={{
+        fileUpload: {
+          progress: (file) => `Subiendo ${file.name}`,
+          prompt: 'Arrastra archivos aquí, o pulsa para elegirlos',
+          rejection: ({ file, reason }) =>
+            `${file.name}: ${reason === 'type' ? 'solo se admiten PDF' : 'no se admite'}`,
+          remove: (file) => `Quitar ${file.name}`,
+        },
       }}
-      multiple
-      style={frame}
-    />
+    >
+      <FileUpload
+        accept=".pdf"
+        aria-label="Documentos"
+        defaultValue={[new File(['x'], 'contrato.pdf', { type: 'application/pdf' })]}
+        multiple
+        style={frame}
+      />
+    </LocaleProvider>
   ),
 }
 
@@ -339,7 +344,7 @@ export const Progress: Story = {
 }
 
 /**
- * The bar of each file has its own name for screen readers, from **labels.progress**. A file that **progress** gives
+ * The bar of each file has its own name for screen readers, from the `fileUpload.progress` text of the `LocaleProvider`. A file that **progress** gives
  * `undefined` has no bar.
  */
 export const ProgressStates: Story = {

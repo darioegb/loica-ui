@@ -100,8 +100,8 @@ export const DatePickerSeparator = forwardRef<HTMLElement, DatePickerSeparatorPr
 DatePickerSeparator.displayName = 'DatePickerSeparator'
 
 /**
- * The button that goes back a month, or 20 years in the year view. Its name is `labels.previousMonth`
- * or `labels.previousYears`, unless `children` are text, which then name it.
+ * The button that goes back a month, or 20 years in the year view. Its name is the `datePicker.previousMonth`
+ * or `datePicker.previousYears` text of the `LocaleProvider`, unless `children` are text, which then name it.
  */
 export const DatePickerPrevious = forwardRef<HTMLButtonElement, DatePickerPreviousProps>(
   (
@@ -132,8 +132,8 @@ export const DatePickerPrevious = forwardRef<HTMLButtonElement, DatePickerPrevio
 DatePickerPrevious.displayName = 'DatePickerPrevious'
 
 /**
- * The button that goes forward a month, or 20 years in the year view. Its name is `labels.nextMonth`
- * or `labels.nextYears`, unless `children` are text, which then name it.
+ * The button that goes forward a month, or 20 years in the year view. Its name is the `datePicker.nextMonth`
+ * or `datePicker.nextYears` text of the `LocaleProvider`, unless `children` are text, which then name it.
  */
 export const DatePickerNext = forwardRef<HTMLButtonElement, DatePickerNextProps>(
   (

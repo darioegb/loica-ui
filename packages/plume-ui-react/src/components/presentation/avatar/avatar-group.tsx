@@ -9,6 +9,7 @@ import { AvatarGroupContext } from './avatar-context'
 import { AvatarOverflow } from './avatar-overflow'
 import styles from './avatar.module.css'
 
+/** The texts of an `AvatarGroup`: the status of its avatars, and `overflow(hidden)` for the counter of the hidden ones. */
 export interface AvatarGroupLabels extends AvatarLabels {
   overflow: (hidden: number) => string
 }
@@ -20,11 +21,6 @@ export interface AvatarGroupOwnProps {
    * @default 'secondary'
    */
   colorScheme?: ColorScheme
-  /**
-   * The texts of the status for assistive technology, to translate them: `online`, `busy`, `away`
-   * and `offline`.
-   */
-  labels?: Partial<AvatarGroupLabels>
   /** Most avatars shown. The rest collapse into an overflow counter. */
   max?: number
   /**
@@ -66,7 +62,6 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
       children,
       className,
       colorScheme,
-      labels,
       max,
       shape,
       size,
@@ -79,8 +74,8 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
     const limit = max !== undefined && max < avatars.length ? Math.max(max, 0) : avatars.length
     const hidden = avatars.length - limit
     const context = useMemo(
-      () => ({ colorScheme, labels, shape, size, variant }),
-      [colorScheme, labels, shape, size, variant],
+      () => ({ colorScheme, shape, size, variant }),
+      [colorScheme, shape, size, variant],
     )
 
     return (

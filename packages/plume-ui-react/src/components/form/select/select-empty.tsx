@@ -12,7 +12,7 @@ type SelectEmptyRootAttributes = Pick<HTMLAttributes<HTMLDivElement>, 'children'
 export type SelectEmptyProps = Omit<ComponentProps, 'index'> & SelectEmptyRootAttributes
 
 /**
- * The message when the search finds nothing. Its `children` replace the text of `labels.empty`. It is
+ * The message when the search finds nothing. Its `children` replace the `select.empty` text of the `LocaleProvider`. It is
  * always in the page, as a live region, so a screen reader announces the message when it appears.
  */
 export const SelectEmpty = forwardRef<HTMLDivElement, SelectEmptyProps>(

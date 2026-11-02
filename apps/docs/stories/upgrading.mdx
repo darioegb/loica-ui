@@ -243,10 +243,12 @@ wrap their `<input>` or `<textarea>`:
 An `Input` or a `Textarea` with nothing around it keeps `className` on the native element, because it is the
 outermost one.
 
-## One prop for the texts: `labels`
+## The texts come from the `LocaleProvider`
 
-Every text the library shows or announces is changed with a single `labels` prop, typed per component as
-`Partial<<Name>Labels>`. Texts that carry data are functions. The loose props of 0.x are gone.
+Every text the library shows or announces is changed in one place, the [`LocaleProvider`](?path=/docs/guides-internationalization--docs),
+keyed by component and typed as `PlumeMessages`. Texts that carry data are functions. The loose props of 0.x are gone,
+and so are the `labels` props of the first 1.0 betas (only `Chip` keeps one for now). A change for one section is a nested
+provider, and a single text can be set on the part that shows it.
 
 ```tsx
 // Before
@@ -271,19 +273,19 @@ Every text the library shows or announces is changed with a single `labels` prop
     <tr><td><code>PinInput</code></td><td><code>getInputLabel</code></td><td>the <code>pinInput.input</code> text of the <code>LocaleProvider</code>, or <code>aria-label</code> on <code>PinInputCell</code></td></tr>
     <tr><td><code>Rating</code></td><td><code>getItemLabel</code>, <code>readOnlyLabel</code></td><td>the <code>rating.item</code> and <code>rating.readOnly</code> texts of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Slider</code></td><td><code>getThumbLabel</code></td><td>the <code>slider.thumb</code> text of the <code>LocaleProvider</code></td></tr>
-    <tr><td><code>Select</code></td><td><code>clearLabel</code> and <code>removeLabel</code> on <code>SelectTrigger</code>; <code>emptyText</code> and <code>searchLabel</code> on <code>SelectContent</code></td><td><code>labels.clear</code>, <code>labels.remove</code>, <code>labels.empty</code>, <code>labels.search</code> on <code>Select</code></td></tr>
-    <tr><td><code>DatePicker</code></td><td><code>config.labels</code>, <code>config.footer</code></td><td><code>labels</code> (adds <code>previousMonth</code>, <code>nextMonth</code>, <code>previousYears</code>, <code>nextYears</code>); <code>config.language</code> is the <code>locale</code> prop and <code>config</code> is removed</td></tr>
-    <tr><td><code>TimePicker</code></td><td><code>config.labels</code></td><td><code>labels</code>; <code>config</code> is removed</td></tr>
+    <tr><td><code>Select</code></td><td><code>clearLabel</code> and <code>removeLabel</code> on <code>SelectTrigger</code>; <code>emptyText</code> and <code>searchLabel</code> on <code>SelectContent</code></td><td>the <code>select</code> texts of the <code>LocaleProvider</code> (<code>clear</code>, <code>remove</code>, <code>empty</code>, <code>search</code>, <code>overflow</code>)</td></tr>
+    <tr><td><code>DatePicker</code></td><td><code>config.labels</code>, <code>config.footer</code></td><td>the <code>datePicker</code> texts of the <code>LocaleProvider</code> (adds <code>previousMonth</code>, <code>nextMonth</code>, <code>previousYears</code>, <code>nextYears</code>); <code>config.language</code> is the <code>locale</code> prop and <code>config</code> is removed</td></tr>
+    <tr><td><code>TimePicker</code></td><td><code>config.labels</code></td><td>the <code>timePicker</code> texts of the <code>LocaleProvider</code>; <code>config</code> is removed</td></tr>
     <tr><td><code>Stepper</code></td><td><code>statusLabels</code></td><td>the <code>stepper</code> texts of the <code>LocaleProvider</code></td></tr>
-    <tr><td><code>ToastProvider</code></td><td><code>dismissLabel</code>, <code>regionLabel</code></td><td>the <code>close</code> text of the <code>LocaleProvider</code>, <code>labels.region</code></td></tr>
+    <tr><td><code>ToastProvider</code></td><td><code>dismissLabel</code>, <code>regionLabel</code></td><td>the <code>close</code> and <code>toast.region</code> texts of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Paginator</code></td><td><code>firstLabel</code>, <code>previousLabel</code>, <code>nextLabel</code>, <code>lastLabel</code>, <code>getPageLabel</code></td><td>the <code>paginator</code> texts of the <code>LocaleProvider</code> (<code>first</code>, <code>previous</code>, <code>next</code>, <code>last</code>, <code>page</code>)</td></tr>
     <tr><td><code>Alert</code></td><td><code>dismissLabel</code></td><td>the <code>close</code> text of the <code>LocaleProvider</code>, or <code>label</code> on <code>AlertDismiss</code></td></tr>
     <tr><td><code>Chip</code></td><td><code>removeLabel</code></td><td><code>labels.remove</code></td></tr>
-    <tr><td><code>Avatar</code></td><td><code>statusLabel</code></td><td><code>labels</code> (<code>online</code>, <code>away</code>, <code>busy</code>, <code>offline</code>)</td></tr>
-    <tr><td><code>AvatarGroup</code></td><td><code>overflowLabel</code></td><td><code>labels.overflow</code></td></tr>
+    <tr><td><code>Avatar</code></td><td><code>statusLabel</code></td><td>the <code>avatar</code> texts of the <code>LocaleProvider</code> (<code>online</code>, <code>away</code>, <code>busy</code>, <code>offline</code>)</td></tr>
+    <tr><td><code>AvatarGroup</code></td><td><code>overflowLabel</code></td><td>the <code>avatarGroup.overflow</code> text of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Table</code></td><td><code>loadingLabel</code></td><td>the <code>loader</code> text of the <code>LocaleProvider</code>, or <code>label</code> on <code>TableLoading</code></td></tr>
     <tr><td><code>Carousel</code></td><td><code>slideLabel</code> on <code>Carousel</code>, <code>dotLabel</code> on <code>CarouselDots</code>, <code>playLabel</code> and <code>pauseLabel</code> on <code>CarouselPlayPause</code></td><td>the <code>carousel</code> texts of the <code>LocaleProvider</code> (<code>slide</code>, <code>dot</code>, <code>dots</code>, <code>previous</code>, <code>next</code>, <code>play</code>, <code>pause</code>)</td></tr>
-    <tr><td><code>FileUpload</code></td><td><code>progressLabel</code>, <code>removeLabel</code>, <code>formatRejection</code></td><td><code>labels.progress</code>, <code>labels.remove</code>, <code>labels.rejection</code>; also <code>labels.prompt</code> and <code>labels.fileSize</code></td></tr>
+    <tr><td><code>FileUpload</code></td><td><code>progressLabel</code>, <code>removeLabel</code>, <code>formatRejection</code></td><td>the <code>fileUpload</code> texts of the <code>LocaleProvider</code> (<code>progress</code>, <code>remove</code>, <code>rejection</code>, <code>prompt</code>, <code>fileSize</code>)</td></tr>
     <tr><td><code>Breadcrumb</code>, <code>Button</code>, <code>Spinner</code></td><td>fixed texts</td><td>the <code>breadcrumb</code> text of the <code>LocaleProvider</code>; the <code>loader</code> text of the <code>LocaleProvider</code>, or <code>label</code> on the <code>Loader</code></td></tr>
   </tbody>
 </table>
@@ -558,8 +560,8 @@ a key of `classNames` are parts you import.
 `AlertDismiss`, `ChipRemove`, `ToastDismiss`, `FileUploadRemove` and `SelectClear` are built on the same close button as
 the modals, so they take `label` (the accessible name) instead of `aria-label`. An element you pass as `children`
 becomes the button, instead of going inside one, and the `ref` is an `HTMLElement`. `AlertDismiss` and `ToastDismiss` are
-named by the `close` text of the `LocaleProvider`, like the close button of a modal, and the rest by their component's
-`labels`.
+named by the `close` text of the `LocaleProvider`, like the close button of a modal, and the rest by the texts of their
+component.
 
 ```tsx
 // Before

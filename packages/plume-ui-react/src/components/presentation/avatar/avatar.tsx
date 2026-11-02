@@ -18,6 +18,7 @@ export type AvatarStatus = 'away' | 'busy' | 'offline' | 'online'
 
 export type AvatarVariant = 'outline' | 'solid' | 'subtle' | 'unstyled'
 
+/** The texts of the status for assistive technology, to translate them: `online`, `busy`, `away` and `offline`. */
 export interface AvatarLabels {
   away: string
   busy: string
@@ -39,11 +40,6 @@ export interface AvatarOwnProps {
    * or an icon of a person.
    */
   fallback?: ReactNode
-  /**
-   * The texts of the status for assistive technology, to translate them: `online`, `busy`, `away`
-   * and `offline`.
-   */
-  labels?: Partial<AvatarLabels>
   /**
    * Name of the person. Its initials are the fallback, and it names the avatar for assistive
    * technology.
@@ -98,7 +94,6 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
       className,
       colorScheme,
       fallback,
-      labels,
       name,
       shape,
       size,
@@ -118,7 +113,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
     const isStyled = resolvedVariant !== 'unstyled'
     const [failedSrc, setFailedSrc] = useState<string>()
     const showImage = Boolean(src) && failedSrc !== src
-    const text = useLabels('avatar', DEFAULT_LABELS, { ...group?.labels, ...labels })
+    const text = useLabels('avatar', DEFAULT_LABELS)
     const statusText = status ? text[status] : undefined
     const label = [alt ?? name, statusText].filter(Boolean).join(', ')
     const isNamed = Boolean(rest['aria-label'] ?? rest['aria-labelledby'] ?? label)

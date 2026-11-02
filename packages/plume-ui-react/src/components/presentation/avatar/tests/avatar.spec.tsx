@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { createRef } from 'react'
 import { Avatar, AvatarGroup } from '..'
 import { getInitials } from '../avatar-initials'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 
 describe('getInitials', () => {
   it.each([
@@ -80,16 +81,24 @@ describe('Avatar component', () => {
   })
 
   it('takes another text for the status', () => {
-    render(<Avatar labels={{ busy: 'Ocupada' }} name="Ada" status="busy" />)
+    render(
+      <LocaleProvider messages={{ avatar: { busy: 'Ocupada' } }}>
+        <Avatar name="Ada" status="busy" />
+      </LocaleProvider>,
+    )
     expect(screen.getByRole('img', { name: 'Ada, Ocupada' })).toBeInTheDocument()
   })
 
-  it('takes the texts of the status from the group', () => {
+  it('takes the texts of the status from the LocaleProvider, inside a group too', () => {
     render(
-      <AvatarGroup labels={{ online: 'En línea' }}>
-        <Avatar name="Ada" status="online" />
-        <Avatar labels={{ online: 'Conectada' }} name="Grace" status="online" />
-      </AvatarGroup>,
+      <LocaleProvider messages={{ avatar: { online: 'En línea' } }}>
+        <AvatarGroup>
+          <Avatar name="Ada" status="online" />
+          <LocaleProvider messages={{ avatar: { online: 'Conectada' } }}>
+            <Avatar name="Grace" status="online" />
+          </LocaleProvider>
+        </AvatarGroup>
+      </LocaleProvider>,
     )
     expect(screen.getByRole('img', { name: 'Ada, En línea' })).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'Grace, Conectada' })).toBeInTheDocument()
@@ -184,8 +193,16 @@ describe('AvatarGroup component', () => {
     expect(screen.getByRole('img', { name: '2 more' })).toBeInTheDocument()
   })
 
-  it('takes the text of the counter from labels.overflow', () => {
-    renderGroup({ labels: { overflow: (hidden: number) => `${hidden} más` }, max: 3 })
+  it('takes the text of the counter from the LocaleProvider', () => {
+    render(
+      <LocaleProvider messages={{ avatarGroup: { overflow: (hidden) => `${hidden} más` } }}>
+        <AvatarGroup aria-label="Team" max={3}>
+          {people.map((name) => (
+            <Avatar key={name} name={name} />
+          ))}
+        </AvatarGroup>
+      </LocaleProvider>,
+    )
     expect(screen.getByRole('img', { name: '1 más' })).toBeInTheDocument()
   })
 

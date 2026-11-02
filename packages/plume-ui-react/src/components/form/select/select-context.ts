@@ -7,6 +7,12 @@ import type { ColorScheme, Shape, Size } from '../../../theme'
 
 export type SelectVariant = 'outline' | 'filled' | 'underline' | 'unstyled'
 
+/**
+ * The texts of the select, for other languages: `clear` is the accessible name of the clear button (`Clear`),
+ * `remove(label)` the name of the button that removes a chip (`Remove Apple`), `overflow(hidden)` the text of the chip
+ * that counts the hidden ones (`+2`), `search` the name of the search box (`Search`) and `empty` what shows when the
+ * search finds nothing (`No results`).
+ */
 export interface SelectLabels {
   clear: string
   empty: ReactNode

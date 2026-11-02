@@ -30,7 +30,6 @@ interface TimePickerControllerOptions {
   hour12: boolean
   inputRef: ForwardedRef<HTMLInputElement>
   isPanel: boolean
-  labels?: Partial<TimePickerLabels>
   minuteStep: number
   onChange?: (value: string) => void
   root: HTMLDivElement | null
@@ -61,7 +60,6 @@ export function useTimePickerController({
   hour12,
   inputRef,
   isPanel,
-  labels: labelsProp,
   minuteStep,
   onChange,
   root,
@@ -71,7 +69,7 @@ export function useTimePickerController({
   value: valueProp,
   variant,
 }: Readonly<TimePickerControllerOptions>): TimePickerController {
-  const labels = useLabels('timePicker', DEFAULT_LABELS, labelsProp)
+  const labels = useLabels('timePicker', DEFAULT_LABELS)
   const [value, setValue] = useControllableState({ defaultValue, onChange, value: valueProp })
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState<HTMLInputElement | null>(null)

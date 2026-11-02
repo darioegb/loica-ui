@@ -1,5 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
 import { Button } from '../../../interaction/button'
+import { LocaleProvider } from '../../../../locale'
 import { Icon } from '../../../presentation/icon'
 import {
   Toast,
@@ -118,7 +119,6 @@ export default {
     variant: { control: 'radio', options: ['solid', 'subtle', 'outline', 'unstyled'] },
     className: { control: 'text' },
     render: { control: false },
-    labels: { control: false },
   },
   render: (args) => <Demo {...args} />,
 } satisfies Meta<typeof ToastProvider>
@@ -156,7 +156,7 @@ export const Default: Story = {
  * Use the **variant** prop of the provider to pick how the toasts look: `solid` fills them with the color of
  * their status, `subtle` tints them, `outline` draws their border with an accent, and `unstyled` drops the
  * Plume styles so you can style them yourself. Each button below has its own provider and position, and its own
- * `labels.region`: with several providers on a page, each region needs a name of its own.
+ * `toast.region` text of the `LocaleProvider`: with several providers on a page, each region needs a name of its own.
  */
 export const Variants: Story = {
   parameters: {
@@ -189,33 +189,30 @@ function UnstyledExample() {
 }
 
 <div className="flex flex-wrap justify-center gap-4">
-  <ToastProvider
-    labels={{ region: 'solid notifications' }}
-    position="top-start"
-    variant="solid"
-  >
-    <Example variant="solid" />
-  </ToastProvider>
-  <ToastProvider
-    labels={{ region: 'subtle notifications' }}
-    position="top-end"
-    variant="subtle"
-  >
-    <Example variant="subtle" />
-  </ToastProvider>
-  <ToastProvider
-    className="fixed bottom-4 right-4 flex flex-col gap-2"
-    labels={{ region: 'unstyled notifications' }}
-    render={(toast) => (
-      <Toast
-        className="flex items-center gap-3 rounded-sm bg-black px-4 py-2 text-white"
-        toast={toast}
-      />
-    )}
-    variant="unstyled"
-  >
-    <UnstyledExample />
-  </ToastProvider>
+  <LocaleProvider messages={{ toast: { region: 'solid notifications' } }}>
+    <ToastProvider position="top-start" variant="solid">
+      <Example variant="solid" />
+    </ToastProvider>
+  </LocaleProvider>
+  <LocaleProvider messages={{ toast: { region: 'subtle notifications' } }}>
+    <ToastProvider position="top-end" variant="subtle">
+      <Example variant="subtle" />
+    </ToastProvider>
+  </LocaleProvider>
+  <LocaleProvider messages={{ toast: { region: 'unstyled notifications' } }}>
+    <ToastProvider
+      className="fixed bottom-4 right-4 flex flex-col gap-2"
+      render={(toast) => (
+        <Toast
+          className="flex items-center gap-3 rounded-sm bg-black px-4 py-2 text-white"
+          toast={toast}
+        />
+      )}
+      variant="unstyled"
+    >
+      <UnstyledExample />
+    </ToastProvider>
+  </LocaleProvider>
 </div>`,
       },
     },
@@ -229,36 +226,34 @@ function UnstyledExample() {
           ['outline', 'bottom-start'],
         ] as const
       ).map(([variant, position]) => (
+        <LocaleProvider key={variant} messages={{ toast: { region: `${variant} notifications` } }}>
+          <ToastProvider position={position} variant={variant}>
+            <Fire
+              label={variant[0].toUpperCase() + variant.slice(1)}
+              make={(api) => api.success({ description: `A ${variant} toast.`, title: 'Saved' })}
+              variant="outline"
+            />
+          </ToastProvider>
+        </LocaleProvider>
+      ))}
+      <LocaleProvider messages={{ toast: { region: 'unstyled notifications' } }}>
         <ToastProvider
-          key={variant}
-          position={position}
-          labels={{ region: `${variant} notifications` }}
-          variant={variant}
+          className="fixed bottom-4 right-4 flex flex-col gap-2"
+          render={(toast) => (
+            <Toast
+              className="flex items-center gap-3 rounded-sm bg-black px-4 py-2 text-white"
+              toast={toast}
+            />
+          )}
+          variant="unstyled"
         >
           <Fire
-            label={variant[0].toUpperCase() + variant.slice(1)}
-            make={(api) => api.success({ description: `A ${variant} toast.`, title: 'Saved' })}
+            label="Unstyled"
+            make={(api) => api.toast({ title: 'An unstyled toast' })}
             variant="outline"
           />
         </ToastProvider>
-      ))}
-      <ToastProvider
-        className="fixed bottom-4 right-4 flex flex-col gap-2"
-        labels={{ region: 'unstyled notifications' }}
-        render={(toast) => (
-          <Toast
-            className="flex items-center gap-3 rounded-sm bg-black px-4 py-2 text-white"
-            toast={toast}
-          />
-        )}
-        variant="unstyled"
-      >
-        <Fire
-          label="Unstyled"
-          make={(api) => api.toast({ title: 'An unstyled toast' })}
-          variant="outline"
-        />
-      </ToastProvider>
+      </LocaleProvider>
     </div>
   ),
 }
@@ -433,61 +428,57 @@ function OneToastExample() {
 }
 
 <div className="flex flex-wrap justify-center gap-4">
-  <ToastProvider
-    icons={false}
-    labels={{ region: 'no icons notifications' }}
-    position="top-start"
-  >
-    <SavedExample />
-  </ToastProvider>
-  <ToastProvider
-    icons={{ neutral: <BellIcon />, success: <span>🎉</span> }}
-    labels={{ region: 'custom icons notifications' }}
-    position="bottom"
-  >
-    <CustomIconsExample />
-  </ToastProvider>
-  <ToastProvider labels={{ region: 'one icon notifications' }} position="top-end">
-    <OneToastExample />
-  </ToastProvider>
+  <LocaleProvider messages={{ toast: { region: 'no icons notifications' } }}>
+    <ToastProvider icons={false} position="top-start">
+      <SavedExample />
+    </ToastProvider>
+  </LocaleProvider>
+  <LocaleProvider messages={{ toast: { region: 'custom icons notifications' } }}>
+    <ToastProvider icons={{ neutral: <BellIcon />, success: <span>🎉</span> }} position="bottom">
+      <CustomIconsExample />
+    </ToastProvider>
+  </LocaleProvider>
+  <LocaleProvider messages={{ toast: { region: 'one icon notifications' } }}>
+    <ToastProvider position="top-end">
+      <OneToastExample />
+    </ToastProvider>
+  </LocaleProvider>
 </div>`,
       },
     },
   },
   render: () => (
     <div className="flex flex-wrap justify-center gap-4">
-      <ToastProvider
-        icons={false}
-        labels={{ region: 'no icons notifications' }}
-        position="top-start"
-      >
-        <Fire
-          label="No icons"
-          make={(api) => api.success({ description: 'Your changes were saved.', title: 'Saved' })}
-          variant="outline"
-        />
-      </ToastProvider>
-      <ToastProvider
-        icons={{ neutral: bell, success: <span>🎉</span> }}
-        position="bottom"
-        labels={{ region: 'custom icons notifications' }}
-      >
-        <Fire
-          label="Custom icons"
-          make={(api) => {
-            api.toast({ title: 'A neutral toast with an icon' })
-            api.success({ title: 'Saved' })
-          }}
-          variant="outline"
-        />
-      </ToastProvider>
-      <Demo position="top-end" labels={{ region: 'one icon notifications' }}>
-        <Fire
-          label="One toast"
-          make={(api) => api.info({ icon: bell, title: 'This toast has its own icon' })}
-          variant="outline"
-        />
-      </Demo>
+      <LocaleProvider messages={{ toast: { region: 'no icons notifications' } }}>
+        <ToastProvider icons={false} position="top-start">
+          <Fire
+            label="No icons"
+            make={(api) => api.success({ description: 'Your changes were saved.', title: 'Saved' })}
+            variant="outline"
+          />
+        </ToastProvider>
+      </LocaleProvider>
+      <LocaleProvider messages={{ toast: { region: 'custom icons notifications' } }}>
+        <ToastProvider icons={{ neutral: bell, success: <span>🎉</span> }} position="bottom">
+          <Fire
+            label="Custom icons"
+            make={(api) => {
+              api.toast({ title: 'A neutral toast with an icon' })
+              api.success({ title: 'Saved' })
+            }}
+            variant="outline"
+          />
+        </ToastProvider>
+      </LocaleProvider>
+      <LocaleProvider messages={{ toast: { region: 'one icon notifications' } }}>
+        <Demo position="top-end">
+          <Fire
+            label="One toast"
+            make={(api) => api.info({ icon: bell, title: 'This toast has its own icon' })}
+            variant="outline"
+          />
+        </Demo>
+      </LocaleProvider>
     </div>
   ),
 }
@@ -515,15 +506,21 @@ export const Positions: Story = {
 }
 
 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-  <ToastProvider labels={{ region: 'top-start notifications' }} position="top-start">
-    <Example position="top-start" />
-  </ToastProvider>
-  <ToastProvider labels={{ region: 'center notifications' }} position="center">
-    <Example position="center" />
-  </ToastProvider>
-  <ToastProvider labels={{ region: 'bottom-end notifications' }} position="bottom-end">
-    <Example position="bottom-end" />
-  </ToastProvider>
+  <LocaleProvider messages={{ toast: { region: 'top-start notifications' } }}>
+    <ToastProvider position="top-start">
+      <Example position="top-start" />
+    </ToastProvider>
+  </LocaleProvider>
+  <LocaleProvider messages={{ toast: { region: 'center notifications' } }}>
+    <ToastProvider position="center">
+      <Example position="center" />
+    </ToastProvider>
+  </LocaleProvider>
+  <LocaleProvider messages={{ toast: { region: 'bottom-end notifications' } }}>
+    <ToastProvider position="bottom-end">
+      <Example position="bottom-end" />
+    </ToastProvider>
+  </LocaleProvider>
 </div>`,
       },
     },
@@ -531,18 +528,16 @@ export const Positions: Story = {
   render: () => (
     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
       {positions.map((position) => (
-        <ToastProvider
-          key={position}
-          position={position}
-          labels={{ region: `${position} notifications` }}
-        >
-          <Fire
-            className="w-full whitespace-nowrap"
-            label={position}
-            make={(api) => api.info({ title: position })}
-            variant="outline"
-          />
-        </ToastProvider>
+        <LocaleProvider key={position} messages={{ toast: { region: `${position} notifications` } }}>
+          <ToastProvider position={position}>
+            <Fire
+              className="w-full whitespace-nowrap"
+              label={position}
+              make={(api) => api.info({ title: position })}
+              variant="outline"
+            />
+          </ToastProvider>
+        </LocaleProvider>
       ))}
     </div>
   ),
@@ -871,38 +866,39 @@ export const Tailwind: Story = {
     },
   },
   render: () => (
-    <ToastProvider
-      className="fixed bottom-4 right-4 z-10 flex flex-col gap-2"
-      render={(toast) => (
-        <Toast
-          className="flex w-80 max-w-full items-start gap-3 rounded-lg border border-border bg-surface p-4 text-sm text-foreground shadow-lg"
-          toast={toast}
-        >
-          <ToastIcon className="mt-0.5 text-emerald-600" />
-          <ToastBody className="flex-1">
-            <ToastTitle className="block font-semibold" />
-            <ToastDescription className="block text-[var(--plume-muted)]" />
-            <ToastActionButton className="mt-2 rounded-sm border border-border px-2 py-1 text-xs font-semibold hover:bg-surface-muted" />
-          </ToastBody>
-          <ToastDismiss className="rounded-sm p-1 text-[var(--plume-muted)] hover:bg-surface-muted" />
-        </Toast>
-      )}
-      labels={{ region: 'Tailwind notifications' }}
+    <LocaleProvider messages={{ toast: { region: 'Tailwind notifications' } }}>
+      <ToastProvider
+        className="fixed bottom-4 right-4 z-10 flex flex-col gap-2"
+        render={(toast) => (
+          <Toast
+            className="flex w-80 max-w-full items-start gap-3 rounded-lg border border-border bg-surface p-4 text-sm text-foreground shadow-lg"
+            toast={toast}
+          >
+            <ToastIcon className="mt-0.5 text-emerald-600" />
+            <ToastBody className="flex-1">
+              <ToastTitle className="block font-semibold" />
+              <ToastDescription className="block text-[var(--plume-muted)]" />
+              <ToastActionButton className="mt-2 rounded-sm border border-border px-2 py-1 text-xs font-semibold hover:bg-surface-muted" />
+            </ToastBody>
+            <ToastDismiss className="rounded-sm p-1 text-[var(--plume-muted)] hover:bg-surface-muted" />
+          </Toast>
+        )}
 
-      variant="unstyled"
-    >
-      <Fire
-        label="Show a toast"
-        make={(api) =>
-          api.success({
-            action: { label: 'Undo' },
-            description: 'Your changes were saved.',
-            title: 'Saved',
-          })
-        }
-        variant="outline"
-      />
-    </ToastProvider>
+        variant="unstyled"
+      >
+        <Fire
+          label="Show a toast"
+          make={(api) =>
+            api.success({
+              action: { label: 'Undo' },
+              description: 'Your changes were saved.',
+              title: 'Saved',
+            })
+          }
+          variant="outline"
+        />
+      </ToastProvider>
+    </LocaleProvider>
   ),
 }
 
@@ -935,35 +931,36 @@ export const Bootstrap: Story = {
     },
   },
   render: () => (
-    <ToastProvider
-      className="toast-container position-fixed bottom-0 end-0 p-3"
-      render={(toast) => (
-        <Toast className="toast show d-flex align-items-start" toast={toast}>
-          <ToastIcon className="ms-3 mt-3 text-success" />
-          <ToastBody className="toast-body flex-grow-1">
-            <ToastTitle className="d-block fw-semibold" />
-            <ToastDescription className="d-block text-body-secondary" />
-            <ToastActionButton className="btn btn-sm btn-primary mt-2" />
-          </ToastBody>
-          <ToastDismiss className="btn btn-sm btn-light border-0 m-2 align-self-start" />
-        </Toast>
-      )}
-      labels={{ region: 'Bootstrap notifications' }}
+    <LocaleProvider messages={{ toast: { region: 'Bootstrap notifications' } }}>
+      <ToastProvider
+        className="toast-container position-fixed bottom-0 end-0 p-3"
+        render={(toast) => (
+          <Toast className="toast show d-flex align-items-start" toast={toast}>
+            <ToastIcon className="ms-3 mt-3 text-success" />
+            <ToastBody className="toast-body flex-grow-1">
+              <ToastTitle className="d-block fw-semibold" />
+              <ToastDescription className="d-block text-body-secondary" />
+              <ToastActionButton className="btn btn-sm btn-primary mt-2" />
+            </ToastBody>
+            <ToastDismiss className="btn btn-sm btn-light border-0 m-2 align-self-start" />
+          </Toast>
+        )}
 
-      variant="unstyled"
-    >
-      <Fire
-        label="Show a toast"
-        make={(api) =>
-          api.success({
-            action: { label: 'Undo' },
-            description: 'Your changes were saved.',
-            title: 'Saved',
-          })
-        }
-        className="btn btn-outline-secondary"
         variant="unstyled"
-      />
-    </ToastProvider>
+      >
+        <Fire
+          label="Show a toast"
+          make={(api) =>
+            api.success({
+              action: { label: 'Undo' },
+              description: 'Your changes were saved.',
+              title: 'Saved',
+            })
+          }
+          className="btn btn-outline-secondary"
+          variant="unstyled"
+        />
+      </ToastProvider>
+    </LocaleProvider>
   ),
 }

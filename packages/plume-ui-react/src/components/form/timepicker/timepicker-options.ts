@@ -5,8 +5,8 @@ import { toTwelveHour } from './time-utils'
 
 export type TimePickerColumnProps<T extends number | string> = Omit<ComponentProps, 'index'> & {
   /**
-   * Accessible name of the list. By default it is the matching text of `labels` (`hours`, `minutes`
-   * or `period`).
+   * Accessible name of the list. By default it is the matching `timePicker` text of the
+   * `LocaleProvider` (`hours`, `minutes` or `period`).
    */
   'aria-label'?: string
   /**

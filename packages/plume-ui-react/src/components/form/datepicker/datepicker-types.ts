@@ -5,6 +5,11 @@ export interface DateRange {
   startDate: Date | null
 }
 
+/**
+ * Every text the component shows or announces: the buttons of the footer (`apply`, `cancel`), the name of the calendar
+ * (`calendar`) and of the button that opens it (`openCalendar`), and the navigation buttons (`previousMonth`,
+ * `nextMonth`, `previousYears`, `nextYears`).
+ */
 export interface DatePickerLabels {
   apply: string
   calendar: string

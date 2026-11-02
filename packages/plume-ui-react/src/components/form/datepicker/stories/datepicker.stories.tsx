@@ -20,6 +20,7 @@ import {
   DatePickerTrigger,
   DatePickerView,
 } from '..'
+import { LocaleProvider } from '../../../../locale'
 import { InputControl, InputElement } from '../../input'
 import type { DatePickerProps, DateRange } from '../datepicker'
 
@@ -100,7 +101,6 @@ export default {
     maxDate: { control: 'date' },
     minDate: { control: 'date' },
     showFooter: { control: 'boolean' },
-    labels: { control: false },
     readOnly: { control: 'boolean' },
     shape: { control: 'inline-radio', options: ['pill', 'rounded'] },
     size: { control: 'radio', options: ['sm', 'md', 'lg'] },
@@ -349,36 +349,17 @@ export const WithFooterActions: Story = {
 }
 
 /**
- * DatePicker localized to Spanish through **locale** and **labels**.
+ * DatePicker localized to Spanish through **locale** and the `datePicker` texts of the `LocaleProvider`.
  * Every key is optional: `locale` alone localizes the month and weekday names and the date format,
- * and `labels` only needs the texts you want to change.
+ * and the messages only need the texts you want to change.
  */
 export const CustomConfiguration: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<DatePicker
-  aria-label="Fecha"
-  labels={{
-    apply: 'Aplicar',
-    calendar: 'Calendario',
-    cancel: 'Cancelar',
-    nextMonth: 'Mes siguiente',
-    nextYears: 'Años siguientes',
-    openCalendar: 'Abrir calendario',
-    previousMonth: 'Mes anterior',
-    previousYears: 'Años anteriores',
-  }}
-  locale="es"
-  showFooter
-/>`,
-      },
-    },
-  },
-  args: {
-    showFooter: true,
-    locale: 'es',
-    labels: {
+        code: `<LocaleProvider
+  messages={{
+    datePicker: {
       apply: 'Aplicar',
       calendar: 'Calendario',
       cancel: 'Cancelar',
@@ -388,7 +369,35 @@ export const CustomConfiguration: Story = {
       previousMonth: 'Mes anterior',
       previousYears: 'Años anteriores',
     },
+  }}
+>
+  <DatePicker aria-label="Fecha" locale="es" showFooter />
+</LocaleProvider>`,
+      },
+    },
   },
+  args: {
+    showFooter: true,
+    locale: 'es',
+  },
+  render: (args) => (
+    <LocaleProvider
+      messages={{
+        datePicker: {
+          apply: 'Aplicar',
+          calendar: 'Calendario',
+          cancel: 'Cancelar',
+          nextMonth: 'Mes siguiente',
+          nextYears: 'Años siguientes',
+          openCalendar: 'Abrir calendario',
+          previousMonth: 'Mes anterior',
+          previousYears: 'Años anteriores',
+        },
+      }}
+    >
+      <DatePicker {...args} />
+    </LocaleProvider>
+  ),
 }
 
 /**

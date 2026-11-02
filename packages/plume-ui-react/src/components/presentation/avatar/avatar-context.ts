@@ -4,11 +4,9 @@ import type { ReactNode } from 'react'
 import { createContext, useContext } from 'react'
 import type { ColorScheme, Shape, Size } from '../../../theme'
 import type { AvatarStatus, AvatarVariant } from './avatar'
-import type { AvatarGroupLabels } from './avatar-group'
 
 export interface AvatarGroupContextValue {
   colorScheme?: ColorScheme
-  labels?: Partial<AvatarGroupLabels>
   shape?: Shape
   size?: Size
   variant?: AvatarVariant

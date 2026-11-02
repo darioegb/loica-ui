@@ -8,6 +8,7 @@ import {
   DatePickerInput,
   DatePickerTrigger,
 } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 import type { DateRange } from '../datepicker'
 import { Modal, ModalBody, ModalContent } from '../../../overlay/modal'
 import { InputControl, InputElement } from '../../input'
@@ -85,12 +86,7 @@ describe('DatePicker component', () => {
 
   it('lists the weekday headers Monday to Sunday', () => {
     render(
-      <DatePicker
-        panel
-        locale='en'
-        labels={{ apply: 'Apply', cancel: 'Cancel' }}
-        onValueChange={vi.fn()}
-      />,
+      <DatePicker panel locale='en' onValueChange={vi.fn()} />,
     )
     const headers = document.querySelector('[class*="daysOfWeek"]') as HTMLElement
     expect(headers.textContent).toBe('MonTueWedThuFriSatSun')
@@ -160,8 +156,12 @@ describe('DatePicker component', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
-  it('fills in the labels that are left out', () => {
-    render(<DatePicker labels={{ apply: 'Aplicar' }} onValueChange={vi.fn()} showFooter />)
+  it('fills in the texts that are left out', () => {
+    render(
+      <LocaleProvider messages={{ datePicker: { apply: 'Aplicar' } }}>
+        <DatePicker onValueChange={vi.fn()} showFooter />
+      </LocaleProvider>,
+    )
     openCalendar()
 
     expect(screen.getByRole('button', { name: 'Aplicar' })).toBeInTheDocument()
@@ -184,14 +184,11 @@ describe('DatePicker component', () => {
     expect(screen.getByRole('textbox')).toBeRequired()
   })
 
-  it('uses custom footer labels', () => {
+  it('uses custom footer texts', () => {
     render(
-      <DatePicker
-        locale='es'
-        labels={{ cancel: 'Cancelar', apply: 'Aplicar' }}
-        onValueChange={vi.fn()}
-        showFooter
-      />,
+      <LocaleProvider messages={{ datePicker: { cancel: 'Cancelar', apply: 'Aplicar' } }}>
+        <DatePicker locale='es' onValueChange={vi.fn()} showFooter />
+      </LocaleProvider>,
     )
     openCalendar()
 
@@ -901,28 +898,32 @@ describe('DatePicker component', () => {
       expect(screen.getByRole('dialog')).toHaveClass('panelLg', 'dayLg')
     })
 
-    it('names the calendar and the button with the labels it is given', () => {
+    it('names the calendar and the button with the texts of the LocaleProvider', () => {
       render(
-        <DatePicker
-          labels={{ calendar: 'Calendario', openCalendar: 'Abrir calendario' }}
-          onValueChange={vi.fn()}
-        />,
+        <LocaleProvider
+          messages={{ datePicker: { calendar: 'Calendario', openCalendar: 'Abrir calendario' } }}
+        >
+          <DatePicker onValueChange={vi.fn()} />
+        </LocaleProvider>,
       )
       fireEvent.click(screen.getByRole('button', { name: 'Abrir calendario' }))
       expect(screen.getByRole('dialog', { name: 'Calendario' })).toBeInTheDocument()
     })
 
-    it('names the navigation buttons with the labels it is given', () => {
+    it('names the navigation buttons with the texts of the LocaleProvider', () => {
       render(
-        <DatePicker
-          labels={{
-            nextMonth: 'Mes siguiente',
-            nextYears: 'Años siguientes',
-            previousMonth: 'Mes anterior',
-            previousYears: 'Años anteriores',
+        <LocaleProvider
+          messages={{
+            datePicker: {
+              nextMonth: 'Mes siguiente',
+              nextYears: 'Años siguientes',
+              previousMonth: 'Mes anterior',
+              previousYears: 'Años anteriores',
+            },
           }}
-          onValueChange={vi.fn()}
-        />,
+        >
+          <DatePicker onValueChange={vi.fn()} />
+        </LocaleProvider>,
       )
       openCalendar()
       expect(screen.getByRole('button', { name: 'Mes anterior' })).toBeInTheDocument()

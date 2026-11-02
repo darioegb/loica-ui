@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { TimePicker } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 
 const open = async (): Promise<void> => {
   await userEvent.click(screen.getByRole('button', { name: 'Open time picker' }))
@@ -21,7 +22,9 @@ describe('TimePicker accessibility', () => {
     const { rerender } = render(<TimePicker hour12 />)
     expect(screen.getByRole('textbox')).toHaveAccessibleDescription('Format: hh:mm AM')
     rerender(
-      <TimePicker labels={{ format: (format) => `Formato: ${format}` }} placeholder="hh:mm" />,
+      <LocaleProvider messages={{ timePicker: { format: (format) => `Formato: ${format}` } }}>
+        <TimePicker placeholder="hh:mm" />
+      </LocaleProvider>,
     )
     expect(screen.getByRole('textbox')).toHaveAccessibleDescription('Formato: hh:mm')
   })

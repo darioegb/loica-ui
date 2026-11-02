@@ -2,6 +2,7 @@ import { createEvent, fireEvent, render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { createRef, type Ref, useState } from 'react'
 import { Field } from '../../../form/field'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 import { FileUpload } from '..'
 import type { FileUploadProps } from '..'
 
@@ -203,7 +204,13 @@ describe('FileUpload component', () => {
     })
 
     it('uses another text for the rejections', () => {
-      render(<Demo accept=".pdf" labels={{ rejection: ({ file: item }) => `No: ${item.name}` }} />)
+      render(
+        <LocaleProvider
+          messages={{ fileUpload: { rejection: ({ file: item }) => `No: ${item.name}` } }}
+        >
+          <Demo accept=".pdf" />
+        </LocaleProvider>,
+      )
       choose([file('a.txt')])
       expect(screen.getByRole('alert')).toHaveTextContent('No: a.txt')
     })
@@ -242,17 +249,24 @@ describe('FileUpload component', () => {
 
     it('uses another text for the prompt and for the size of the files', () => {
       render(
-        <Demo
-          defaultValue={[file('a.txt')]}
-          labels={{ fileSize: (bytes) => `${bytes} octetos`, prompt: 'Suelta aquí' }}
-        />,
+        <LocaleProvider
+          messages={{
+            fileUpload: { fileSize: (bytes) => `${bytes} octetos`, prompt: 'Suelta aquí' },
+          }}
+        >
+          <Demo defaultValue={[file('a.txt')]} />
+        </LocaleProvider>,
       )
       expect(input()).toHaveAccessibleDescription('Suelta aquí')
       expect(document.querySelector('[data-plume-fileupload-size]')).toHaveTextContent('octetos')
     })
 
     it('uses another label for the buttons', () => {
-      render(<Demo defaultValue={[file('a.txt')]} labels={{ remove: (item) => `Quitar ${item.name}` }} />)
+      render(
+        <LocaleProvider messages={{ fileUpload: { remove: (item) => `Quitar ${item.name}` } }}>
+          <Demo defaultValue={[file('a.txt')]} />
+        </LocaleProvider>,
+      )
       expect(screen.getByRole('button', { name: 'Quitar a.txt' })).toBeInTheDocument()
     })
 
@@ -371,15 +385,15 @@ describe('FileUpload component', () => {
       expect(bars[0]).toHaveAttribute('aria-valuemax', '100')
     })
 
-    it('names the bar after the file and lets labels.progress translate it', () => {
+    it('names the bar after the file and lets the LocaleProvider translate it', () => {
       const { rerender } = render(<Demo defaultValue={[uploading]} progress={() => 10} />)
       expect(screen.getByRole('progressbar', { name: 'Uploading big.zip' })).toBeInTheDocument()
       rerender(
-        <Demo
-          defaultValue={[uploading]}
-          progress={() => 10}
-          labels={{ progress: (current) => `Subiendo ${current.name}` }}
-        />,
+        <LocaleProvider
+          messages={{ fileUpload: { progress: (current) => `Subiendo ${current.name}` } }}
+        >
+          <Demo defaultValue={[uploading]} progress={() => 10} />
+        </LocaleProvider>,
       )
       expect(screen.getByRole('progressbar', { name: 'Subiendo big.zip' })).toBeInTheDocument()
     })

@@ -44,7 +44,7 @@ function calendarClasses(
 }
 
 /**
- * The popup that opens under the input, or the content of the page when the `DatePicker` is `panel`. Its accessible name is `labels.calendar`.
+ * The popup that opens under the input, or the content of the page when the `DatePicker` is `panel`. Its accessible name is the `datePicker.calendar` text of the `LocaleProvider`.
  */
 export const DatePickerCalendar = forwardRef<HTMLDivElement, DatePickerCalendarProps>(
   (

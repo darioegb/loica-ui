@@ -61,14 +61,6 @@ interface SelectBaseProps {
   /** Id of the button of the trigger. A `Field` sets it, to link its label to the select. */
   id?: string
   /**
-   * The texts of the select, for other languages: `clear` is the accessible name of the clear
-   * button (`Clear`), `remove(label)` the name of the button that removes a chip (`Remove Apple`),
-   * `overflow(hidden)` the text of the chip that counts the hidden ones (`+2`), `search` the name
-   * of the search box (`Search`) and `empty` what shows when the search finds nothing
-   * (`No results`).
-   */
-  labels?: Partial<SelectLabels>
-  /**
    * Name of the field in a form. The select adds hidden inputs with the chosen values: one for a
    * single value, one for each value when it is `multiple`.
    */
@@ -209,7 +201,6 @@ export function Select({
   disabled = false,
   flip = true,
   id,
-  labels,
   multiple = false,
   name,
   offset = 4,
@@ -243,7 +234,7 @@ export function Select({
     value,
   })
   const { options, register } = useSelectRegistry()
-  const merged = useLabels('select', DEFAULT_LABELS, labels)
+  const merged = useLabels('select', DEFAULT_LABELS)
   const text = useMemo<SelectLabels>(
     () => ({
       clear: merged.clear,
