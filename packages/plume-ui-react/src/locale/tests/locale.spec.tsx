@@ -108,6 +108,50 @@ describe('LocaleProvider', () => {
     expect(screen.getByPlaceholderText('mm/dd/yyyy')).toBeInTheDocument()
   })
 
+  it('nests: an inner provider changes some texts and inherits the rest', () => {
+    render(
+      <LocaleProvider locale="es" messages={es}>
+        <LocaleProvider messages={{ loader: { label: 'Espere' } }}>
+          <Loader />
+          <Alert dismissible>Saved</Alert>
+          <Paginator page={1} pageSize={1} total={3} />
+        </LocaleProvider>
+        <Loader />
+      </LocaleProvider>,
+    )
+    expect(screen.getByRole('status', { name: 'Espere' })).toBeInTheDocument()
+    expect(screen.getByRole('status', { name: 'Cargando' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Cerrar alerta' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Siguiente' })).toBeInTheDocument()
+  })
+
+  it('merges the texts of the same component and keeps the locale of the parent', () => {
+    const Probe = (): ReactElement => <span>{useLocale() ?? 'none'}</span>
+    render(
+      <LocaleProvider locale="es-AR" messages={es}>
+        <LocaleProvider messages={{ paginator: { previous: 'Anterior' } }}>
+          <Probe />
+          <Paginator page={2} pageSize={1} total={3} />
+        </LocaleProvider>
+      </LocaleProvider>,
+    )
+    expect(screen.getByText('es-AR')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Anterior' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Siguiente' })).toBeInTheDocument()
+  })
+
+  it('lets an inner locale win', () => {
+    const Probe = (): ReactElement => <span>{useLocale() ?? 'none'}</span>
+    render(
+      <LocaleProvider locale="es">
+        <LocaleProvider locale="en-US">
+          <Probe />
+        </LocaleProvider>
+      </LocaleProvider>,
+    )
+    expect(screen.getByText('en-US')).toBeInTheDocument()
+  })
+
   it('does not break a component that has no texts', () => {
     render(
       <LocaleProvider messages={es}>

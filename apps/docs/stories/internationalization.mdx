@@ -50,6 +50,20 @@ with `useLocale()`, which returns the `locale` of the closest provider (or `unde
 
 A single text on a small part, such as the close button of a `Modal` or the `Loader`, is a `label` prop.
 
+## For one part of the app: a nested `LocaleProvider`
+
+A `LocaleProvider` inside another one changes only what it sets and inherits the rest, so a section can have its own
+texts without repeating the others. Messages are merged per component, and an inner `locale` wins.
+
+```tsx
+<LocaleProvider locale='es' messages={es}>
+  <App />
+  <LocaleProvider messages={{ loader: { label: 'Guardando' } }}>
+    <Loader />
+  </LocaleProvider>
+</LocaleProvider>
+```
+
 ## Changing the language at runtime
 
 `LocaleProvider` reads its props on every render, so changing the language is changing the props. The components
