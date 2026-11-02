@@ -1,5 +1,11 @@
 # plume-ui-react
 
+## 0.53.0
+
+### Minor Changes
+
+- [#285](https://github.com/darioegb/plume-ui-react/pull/285) [`da7e139f03b63c6f7175e2456a65b7a7f45a5c97`](https://github.com/darioegb/plume-ui-react/commit/da7e139f03b63c6f7175e2456a65b7a7f45a5c97) Thanks [@darioegb](https://github.com/darioegb)! - `Select`, `FileUpload`, `DatePicker`, `TimePicker`, `Avatar`, `AvatarGroup` and `ToastProvider` no longer take `labels`. Their texts come from the `LocaleProvider` (`select`, `fileUpload`, `datePicker`, `timePicker`, `avatar`, `avatarGroup` and `toast`), and a change for one section is a nested `LocaleProvider`. A single text can still be set on the part that shows it, such as `label` on `SelectClear` and `FileUploadRemove`. `AvatarGroup` no longer passes the texts of the status down to its avatars: set them under the `avatar` key. The types `SelectLabels`, `FileUploadLabels`, `DatePickerLabels`, `TimePickerLabels`, `AvatarLabels`, `AvatarGroupLabels` and `ToastLabels` are still exported to type the messages.
+
 ## 0.52.0
 
 ### Minor Changes
