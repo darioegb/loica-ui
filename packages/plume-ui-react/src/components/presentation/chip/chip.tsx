@@ -36,12 +36,6 @@ export interface ChipOwnProps {
    * give an image `alt=""`.
    */
   icon?: ReactNode
-  /**
-   * The texts of the Chip, to translate it: `remove` is the accessible name of the remove button.
-   * By default it is `Remove` followed by the text of the Chip; with `labels.remove` the name is
-   * exactly that text.
-   */
-  labels?: Partial<ChipLabels>
   /** Shows a remove button, and is called when it is clicked. */
   onRemove?: (event: MouseEvent<HTMLButtonElement>) => void
   /**
@@ -84,7 +78,6 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
       colorScheme = 'secondary',
       disabled = false,
       icon,
-      labels,
       onRemove,
       shape = 'pill',
       size = 'md',
@@ -94,14 +87,12 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
     }: ChipProps,
     ref: ForwardedRef<HTMLSpanElement>,
   ) => {
-    const text = useLabels('chip', DEFAULT_LABELS, labels)
+    const text = useLabels('chip', DEFAULT_LABELS)
     const isStyled = variant !== 'unstyled'
     const labelId = useId()
     const removeId = useId()
-    const customRemoveLabel = Boolean(labels?.remove)
     const context = useMemo(
       () => ({
-        customRemoveLabel,
         disabled,
         isStyled,
         labelId,
@@ -109,7 +100,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
         onRemove,
         removeId,
       }),
-      [customRemoveLabel, disabled, isStyled, labelId, onRemove, removeId, text],
+      [disabled, isStyled, labelId, onRemove, removeId, text],
     )
     const classes = joinClasses(
       isStyled && styles.chip,

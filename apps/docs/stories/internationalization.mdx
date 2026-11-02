@@ -10,12 +10,12 @@ Every text the library shows or announces can be translated, and the library doe
 You give it plain strings (or functions, for the texts that carry data) from whatever you already use: react-intl,
 i18next, next-intl, Lingui or your own dictionary.
 
-There are two ways to give the texts, and they combine.
+There are three ways to give the texts, and they combine.
 
 ## Once for the whole app: `LocaleProvider`
 
-`LocaleProvider` takes the messages of every component in one place. A component looks for its texts in this order:
-the `labels` prop, then the provider, then the English default.
+`LocaleProvider` takes the messages of every component in one place. A component takes its texts from the
+closest provider, then from the English default. No component takes a `labels` prop.
 
 ```tsx
 import { LocaleProvider, type PlumeMessages } from 'plume-ui-react'
@@ -44,16 +44,15 @@ types all of it.
 and for the format of the date, and its own `locale` prop still wins when you set it. Read it in your own components
 with `useLocale()`, which returns the `locale` of the closest provider (or `undefined`).
 
-## For one component: the `labels` prop
+## For one element: the `label` or `aria-label` of the part
+
+The part that shows a text takes it as a prop: `label` on a small part such as the `Loader`, the close button of a
+`Modal`, `CarouselPrev` or `NumberInputIncrement`, and `aria-label` on `InputReveal`, `PinInputCell` or `PaginatorPage`.
+It wins over the provider.
 
 ```tsx
-<Chip labels={{ remove: 'Quitar' }}>Manzana</Chip>
+<Loader label='Guardando' />
 ```
-
-Every component but `Chip` takes no `labels`: its texts come from the `LocaleProvider`, and a one-off change is a
-nested provider, or the `aria-label` or `label` of the part that shows it (`InputReveal`, `PinInputCell`,
-`NumberInputIncrement`, `CarouselPlayPause`, `PaginatorPage`). A single text on a small part, such as the close button of a
-`Modal` or the `Loader`, is a `label` prop.
 
 ## For one part of the app: a nested `LocaleProvider`
 

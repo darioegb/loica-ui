@@ -1,9 +1,9 @@
 'use client'
 
 import type { ForwardedRef, MouseEvent, ReactNode } from 'react'
-import { forwardRef } from 'react'
+import { forwardRef, useContext } from 'react'
 import { OverlayClose, type OverlayCloseProps } from '../../../overlay/overlay-close'
-import { useChipContext } from './chip-context'
+import { ChipRemoveLabelContext, useChipContext } from './chip-context'
 import styles from './chip.module.css'
 
 export interface ChipRemoveOwnProps {
@@ -17,7 +17,7 @@ export type ChipRemoveProps = OverlayCloseProps & ChipRemoveOwnProps
 
 /**
  * The button that removes the Chip. It calls the `onRemove` of the Chip. Its name is `Remove`
- * followed by the text of the Chip unless you give it a `label` or the Chip has `labels.remove`.
+ * followed by the text of the Chip (the `chip.remove` text of the `LocaleProvider`) unless you give it a `label`.
  * An element given as `children`, such as a `Button`, becomes the button.
  */
 export const ChipRemove = forwardRef<HTMLElement, ChipRemoveProps>(
@@ -27,7 +27,9 @@ export const ChipRemove = forwardRef<HTMLElement, ChipRemoveProps>(
   ): ReactNode => {
     const context = useChipContext('ChipRemove')
     const isDisabled = disabled ?? context.disabled
-    const hasOwnName = Boolean(label) || context.customRemoveLabel
+    const contextLabel = useContext(ChipRemoveLabelContext)
+    const ownLabel = label ?? contextLabel
+    const hasOwnName = Boolean(ownLabel)
 
     return (
       <OverlayClose
@@ -38,7 +40,7 @@ export const ChipRemove = forwardRef<HTMLElement, ChipRemoveProps>(
         data-plume-chip-remove=""
         disabled={isDisabled}
         id={context.removeId}
-        label={label ?? context.labels.remove}
+        label={ownLabel ?? context.labels.remove}
         onClose={(event) => {
           onClick?.(event)
           context.onRemove?.(event)

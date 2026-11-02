@@ -3,12 +3,12 @@
 import type { MouseEvent } from 'react'
 import { createContext, useContext } from 'react'
 
+/** `remove` is the start of the accessible name of the remove button, which goes before the text of the Chip (`Remove Design`). */
 export interface ChipLabels {
   remove: string
 }
 
 export interface ChipContextValue {
-  customRemoveLabel: boolean
   disabled: boolean
   isStyled: boolean
   labelId: string
@@ -16,6 +16,8 @@ export interface ChipContextValue {
   onRemove?: (event: MouseEvent<HTMLButtonElement>) => void
   removeId: string
 }
+
+export const ChipRemoveLabelContext = createContext<string | undefined>(undefined)
 
 export const ChipContext = createContext<ChipContextValue | undefined>(undefined)
 
