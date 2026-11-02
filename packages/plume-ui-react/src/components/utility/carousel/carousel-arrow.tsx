@@ -17,8 +17,8 @@ export interface CarouselArrowOwnProps {
   /** Replaces the arrow. `children` replaces all of the content of the button. */
   icon?: ReactNode
   /**
-   * The accessible name of the button. It wins over `labels.previous` and `labels.next` of the
-   * Carousel.
+   * The accessible name of the button. It wins over the `carousel.previous` and `carousel.next`
+   * texts of the `LocaleProvider`.
    */
   label?: string
 }

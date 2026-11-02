@@ -1,5 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
 import { useState } from 'react'
+import { LocaleProvider } from '../../../../locale'
 import { defaultTheme } from '../../../../theme'
 import {
   Step,
@@ -45,7 +46,7 @@ function renderSteps(withDescription = true): React.ReactNode {
  *
  * It is an ordered list: every `Step` is a `<li>`, and the one the user is on has `aria-current="step"`. A screen
  * reader says "Completed" for the steps already done and "Not started" for the ones to come, which you can
- * translate with `labels`. The numbers, the check and the separators are decorative and hidden from
+ * translate with the `stepper` texts of the `LocaleProvider`. The numbers, the check and the separators are decorative and hidden from
  * assistive technology. The state is also in `data-state` (`completed`, `current` or `upcoming`) on the step, the
  * indicator, the title, the description and the separator, so you can style any of them.
  *
@@ -86,7 +87,6 @@ export default {
     style: { control: false },
     activeStep: { control: { max: 3, min: 0, type: 'number' } },
     orientation: { control: 'radio', options: ['horizontal', 'vertical'] },
-    labels: { control: false },
     colorScheme: { control: 'select', options: colorSchemes },
     size: { control: 'radio', options: ['sm', 'md', 'lg'] },
     variant: { control: 'radio', options: ['solid', 'outline', 'unstyled'] },
@@ -482,13 +482,15 @@ export const CustomIndicator: Story = {
 }
 
 /**
- * Use **labels** to translate what a screen reader says. Nothing is said for the current step because
- * `aria-current="step"` already announces it.
+ * The `stepper` texts of the `LocaleProvider` translate what a screen reader says. Nothing is said for the current
+ * step because `aria-current="step"` already announces it.
  */
 export const StatusLabels: Story = {
-  args: {
-    labels: { completed: 'Completado', upcoming: 'Pendiente' },
-  },
+  render: (args) => (
+    <LocaleProvider messages={{ stepper: { completed: 'Completado', upcoming: 'Pendiente' } }}>
+      <Stepper {...args} />
+    </LocaleProvider>
+  ),
 }
 
 function InteractiveStepper(): React.ReactNode {

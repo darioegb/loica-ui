@@ -24,7 +24,7 @@ export type PaginatorPageProps = Omit<ComponentProps, 'index'> &
 
 /**
  * The button of a page. It has `aria-current="page"` and `data-current` when it is the current one,
- * its name comes from **labels.page** and its text is the number unless you pass children.
+ * its name comes from the `paginator.page` text of the `LocaleProvider` and its text is the number unless you pass children.
  */
 export const PaginatorPage = forwardRef<HTMLButtonElement, PaginatorPageProps>(
   (

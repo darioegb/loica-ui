@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { createRef, type Ref } from 'react'
 import { Step, StepDescription, StepIndicator, Stepper, StepSeparator, StepTitle } from '..'
 import type { StepperProps } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 
 function Demo({
   demoRef,
@@ -79,12 +80,13 @@ describe('Stepper component', () => {
       expect(step('Profile')).not.toHaveTextContent('Not started')
     })
 
-    it('uses other labels for the status', () => {
+    it('takes the texts of the status from the LocaleProvider', () => {
       render(
-        <Demo
-          activeStep={1}
-          labels={{ completed: 'Hecho', current: 'Ahora', upcoming: 'Pendiente' }}
-        />,
+        <LocaleProvider
+          messages={{ stepper: { completed: 'Hecho', current: 'Ahora', upcoming: 'Pendiente' } }}
+        >
+          <Demo activeStep={1} />
+        </LocaleProvider>,
       )
       expect(step('Account')).toHaveTextContent('Hecho')
       expect(step('Profile')).toHaveTextContent('Ahora')

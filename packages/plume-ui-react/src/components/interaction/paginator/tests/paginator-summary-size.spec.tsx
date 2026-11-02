@@ -44,18 +44,6 @@ describe('PaginatorSummary', () => {
     expect(attr('summary')).toHaveTextContent('0–0 of 0')
   })
 
-  it('takes its text from labels.summary', () => {
-    render(
-      <Paginator
-        labels={{ summary: (from, to, total) => `${from} a ${to} de ${total}` }}
-        total={54}
-      >
-        <PaginatorSummary />
-      </Paginator>,
-    )
-    expect(attr('summary')).toHaveTextContent('1 a 10 de 54')
-  })
-
   it('takes its text from the LocaleProvider', () => {
     render(
       <LocaleProvider messages={{ paginator: { summary: (from, to) => `Del ${from} al ${to}` } }}>
@@ -98,7 +86,7 @@ describe('PaginatorSummary', () => {
 })
 
 describe('PaginatorPageSize', () => {
-  it('shows the current size in a select named by labels.pageSize', () => {
+  it('shows the current size in a select named by the pageSize text', () => {
     render(
       <Paginator defaultPageSize={20} total={100}>
         <PaginatorPageSize />
@@ -190,12 +178,14 @@ describe('PaginatorPageSize', () => {
     expect(attr('summary')).toHaveTextContent('1–20 of 100')
   })
 
-  it('names the select with aria-label and labels.pageSize', () => {
+  it('names the select with aria-label and the pageSize text of the LocaleProvider', () => {
     render(
-      <Paginator labels={{ pageSize: 'Por página' }} total={100}>
-        <PaginatorPageSize />
-        <PaginatorPageSize aria-label="Rows" />
-      </Paginator>,
+      <LocaleProvider messages={{ paginator: { pageSize: 'Por página' } }}>
+        <Paginator total={100}>
+          <PaginatorPageSize />
+          <PaginatorPageSize aria-label="Rows" />
+        </Paginator>
+      </LocaleProvider>,
     )
     expect(screen.getByRole('combobox', { name: 'Por página' })).toBeInTheDocument()
     expect(screen.getByRole('combobox', { name: 'Rows' })).toBeInTheDocument()

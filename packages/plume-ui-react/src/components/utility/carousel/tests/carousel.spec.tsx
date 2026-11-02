@@ -12,6 +12,7 @@ import {
   CarouselSlides,
 } from '..'
 import type { CarouselProps } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 
 const scrollTo = vi.fn()
 let reducedMotion = false
@@ -61,7 +62,15 @@ describe('Carousel component', () => {
     })
 
     it('translates the role descriptions of the carousel and of its slides', () => {
-      render(<Demo labels={{ roleDescription: 'carrusel', slideRoleDescription: 'diapositiva' }} />)
+      render(
+        <LocaleProvider
+          messages={{
+            carousel: { roleDescription: 'carrusel', slideRoleDescription: 'diapositiva' },
+          }}
+        >
+          <Demo />
+        </LocaleProvider>,
+      )
       expect(screen.getByRole('region', { name: 'Photos' })).toHaveAttribute(
         'aria-roledescription',
         'carrusel',
@@ -86,12 +95,14 @@ describe('Carousel component', () => {
 
     it('uses another label for the slides, and lets a slide set its own', () => {
       render(
-        <Carousel aria-label="Photos" labels={{ slide: (i, n) => `Foto ${i + 1}/${n}` }}>
-          <CarouselSlides>
-            <CarouselSlide>One</CarouselSlide>
-            <CarouselSlide aria-label="Custom">Two</CarouselSlide>
-          </CarouselSlides>
-        </Carousel>,
+        <LocaleProvider messages={{ carousel: { slide: (i, n) => `Foto ${i + 1}/${n}` } }}>
+          <Carousel aria-label="Photos">
+            <CarouselSlides>
+              <CarouselSlide>One</CarouselSlide>
+              <CarouselSlide aria-label="Custom">Two</CarouselSlide>
+            </CarouselSlides>
+          </Carousel>
+        </LocaleProvider>,
       )
       expect(screen.getByRole('tabpanel', { name: 'Foto 1/2' })).toBeInTheDocument()
       expect(screen.getByRole('tabpanel', { name: 'Custom' })).toBeInTheDocument()
@@ -282,13 +293,15 @@ describe('Carousel component', () => {
 
     it('uses another label for the group and for the dots', () => {
       render(
-        <Carousel aria-label="x" labels={{ dot: (i) => `Ir a ${i + 1}`, dots: 'Elegir' }}>
-          <CarouselSlides>
-            <CarouselSlide>A</CarouselSlide>
-            <CarouselSlide>B</CarouselSlide>
-          </CarouselSlides>
-          <CarouselDots />
-        </Carousel>,
+        <LocaleProvider messages={{ carousel: { dot: (i) => `Ir a ${i + 1}`, dots: 'Elegir' } }}>
+          <Carousel aria-label="x">
+            <CarouselSlides>
+              <CarouselSlide>A</CarouselSlide>
+              <CarouselSlide>B</CarouselSlide>
+            </CarouselSlides>
+            <CarouselDots />
+          </Carousel>
+        </LocaleProvider>,
       )
       expect(screen.getByRole('tablist', { name: 'Elegir' })).toBeInTheDocument()
       expect(screen.getByRole('tab', { name: 'Ir a 2' })).toHaveClass('dot')
@@ -430,13 +443,15 @@ describe('Carousel component', () => {
 
     it('uses other labels and content for the button, and lets the click be prevented', () => {
       render(
-        <Carousel aria-label="x" autoplay={1000} labels={{ pause: 'Parar', play: 'Seguir' }}>
-          <CarouselSlides>
-            <CarouselSlide>A</CarouselSlide>
-            <CarouselSlide>B</CarouselSlide>
-          </CarouselSlides>
-          <CarouselPlayPause onClick={(event) => event.preventDefault()}>toggle</CarouselPlayPause>
-        </Carousel>,
+        <LocaleProvider messages={{ carousel: { pause: 'Parar', play: 'Seguir' } }}>
+          <Carousel aria-label="x" autoplay={1000}>
+            <CarouselSlides>
+              <CarouselSlide>A</CarouselSlide>
+              <CarouselSlide>B</CarouselSlide>
+            </CarouselSlides>
+            <CarouselPlayPause onClick={(event) => event.preventDefault()}>toggle</CarouselPlayPause>
+          </Carousel>
+        </LocaleProvider>,
       )
       const button = screen.getByRole('button', { name: 'Parar' })
       expect(button).toHaveTextContent('toggle')
@@ -448,14 +463,16 @@ describe('Carousel component', () => {
   describe('arrows', () => {
     it('takes the names of the arrows from the labels of the carousel', () => {
       render(
-        <Carousel aria-label="x" labels={{ next: 'Siguiente', previous: 'Anterior' }}>
-          <CarouselSlides>
-            <CarouselSlide>A</CarouselSlide>
-            <CarouselSlide>B</CarouselSlide>
-          </CarouselSlides>
-          <CarouselPrev />
-          <CarouselNext />
-        </Carousel>,
+        <LocaleProvider messages={{ carousel: { next: 'Siguiente', previous: 'Anterior' } }}>
+          <Carousel aria-label="x">
+            <CarouselSlides>
+              <CarouselSlide>A</CarouselSlide>
+              <CarouselSlide>B</CarouselSlide>
+            </CarouselSlides>
+            <CarouselPrev />
+            <CarouselNext />
+          </Carousel>
+        </LocaleProvider>,
       )
       expect(screen.getByRole('button', { name: 'Anterior' })).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Siguiente' })).toBeInTheDocument()

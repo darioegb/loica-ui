@@ -1,5 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
 import { useState } from 'react'
+import { LocaleProvider } from '../../../../locale'
 import { defaultTheme } from '../../../../theme'
 import {
   Carousel,
@@ -73,7 +74,7 @@ function Arrows(): React.ReactNode {
  *
  * It follows the WAI-ARIA carousel pattern: the root is a `region` with `aria-roledescription="carousel"` (give
  * it an `aria-label`), and every slide is a tab panel with `aria-roledescription="slide"` named "1 of 4", as in the tabbed variant of the pattern, so the dots are its tabs (change the
- * text with **labels.slide**; **labels.roleDescription** and **labels.slideRoleDescription** translate the two
+ * text with the `carousel.slide` text of the `LocaleProvider`; `carousel.roleDescription` and `carousel.slideRoleDescription` translate the two
  * `aria-roledescription` words). Only the visible slide can be reached, and it takes the focus to be scrolled with the
  * keyboard: the others are `inert`. The previous and next
  * buttons say what they do and are disabled at the ends unless there is a **loop**, and the dots are a tab list
@@ -128,7 +129,6 @@ export default {
     onIndexChange: { control: false },
     loop: { control: 'boolean' },
     autoplay: { control: false },
-    labels: { control: false },
     colorScheme: { control: 'select', options: colorSchemes },
     size: { control: 'radio', options: ['sm', 'md', 'lg'] },
     variant: { control: 'radio', options: ['solid', 'overlay', 'unstyled'] },
@@ -792,54 +792,59 @@ export const Controlled: Story = {
 }
 
 /**
- * Use **labels** to translate what a screen reader says.
+ * The `carousel` texts of the `LocaleProvider` translate what a screen reader says.
  */
 export const Translated: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Carousel
-  aria-label="Lugares destacados"
-  labels={{
-    dot: (index, count) => \`Diapositiva \${index + 1} de \${count}\`,
-    dots: 'Elegir una diapositiva',
-    next: 'Siguiente',
-    previous: 'Anterior',
-    slide: (index, count) => \`\${index + 1} de \${count}\`,
+        code: `<LocaleProvider
+  messages={{
+    carousel: {
+      dot: (index, count) => \`Diapositiva \${index + 1} de \${count}\`,
+      dots: 'Elegir una diapositiva',
+      next: 'Siguiente',
+      previous: 'Anterior',
+      slide: (index, count) => \`\${index + 1} de \${count}\`,
+    },
   }}
 >
-  <CarouselSlides>
-    <CarouselSlide>
-      <div className="h-44 bg-primary-solid p-4 text-primary-on-solid">Montañas</div>
-    </CarouselSlide>
-    <CarouselSlide>
-      <div className="h-44 bg-success-solid p-4 text-success-on-solid">Bosque</div>
-    </CarouselSlide>
-  </CarouselSlides>
-  <CarouselPrev />
-  <CarouselNext />
-  <CarouselDots />
-</Carousel>`,
+  <Carousel aria-label="Lugares destacados">
+    <CarouselSlides>
+      <CarouselSlide>
+        <div className="h-44 bg-primary-solid p-4 text-primary-on-solid">Montañas</div>
+      </CarouselSlide>
+      <CarouselSlide>
+        <div className="h-44 bg-success-solid p-4 text-success-on-solid">Bosque</div>
+      </CarouselSlide>
+    </CarouselSlides>
+    <CarouselPrev />
+    <CarouselNext />
+    <CarouselDots />
+  </Carousel>
+</LocaleProvider>`,
       },
     },
   },
   render: () => (
-    <Carousel
-      aria-label="Lugares destacados"
-      labels={{
-        dot: (index, count) => `Diapositiva ${index + 1} de ${count}`,
-        dots: 'Elegir una diapositiva',
-        next: 'Siguiente',
-        previous: 'Anterior',
-        slide: (index, count) => `${index + 1} de ${count}`,
+    <LocaleProvider
+      messages={{
+        carousel: {
+          dot: (index, count) => `Diapositiva ${index + 1} de ${count}`,
+          dots: 'Elegir una diapositiva',
+          next: 'Siguiente',
+          previous: 'Anterior',
+          slide: (index, count) => `${index + 1} de ${count}`,
+        },
       }}
-      style={frame}
     >
-      <Panels />
-      <CarouselPrev />
-      <CarouselNext />
-      <CarouselDots />
-    </Carousel>
+      <Carousel aria-label="Lugares destacados" style={frame}>
+        <Panels />
+        <CarouselPrev />
+        <CarouselNext />
+        <CarouselDots />
+      </Carousel>
+    </LocaleProvider>
   ),
 }
 

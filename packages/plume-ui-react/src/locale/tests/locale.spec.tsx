@@ -37,11 +37,13 @@ describe('LocaleProvider', () => {
     expect(screen.getByRole('button', { name: 'Previous page' })).toBeInTheDocument()
   })
 
-  it('lets the labels of the component win over the provider', () => {
+  it('lets the label of a component win over the provider', () => {
     render(
       <LocaleProvider messages={es}>
         <Loader label="Espere" />
-        <Paginator labels={{ next: 'Avanzar' }} page={1} pageSize={1} total={3} />
+        <LocaleProvider messages={{ paginator: { next: 'Avanzar' } }}>
+          <Paginator page={1} pageSize={1} total={3} />
+        </LocaleProvider>
       </LocaleProvider>,
     )
     expect(screen.getByRole('status', { name: 'Espere' })).toBeInTheDocument()

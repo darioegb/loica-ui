@@ -12,7 +12,7 @@ type PaginatorSummaryRootAttributes = Pick<HTMLAttributes<HTMLSpanElement>, 'chi
 export type PaginatorSummaryProps = Omit<ComponentProps, 'index'> & PaginatorSummaryRootAttributes
 
 /**
- * The range that is shown, such as `11–20 of 54`. Its text is `labels.summary` and its `children`
+ * The range that is shown, such as `11–20 of 54`. Its text is `paginator.summary` of the `LocaleProvider` and its `children`
  * replace it. It renders nothing without a `total` in the `Paginator`.
  */
 export const PaginatorSummary = forwardRef<HTMLSpanElement, PaginatorSummaryProps>(

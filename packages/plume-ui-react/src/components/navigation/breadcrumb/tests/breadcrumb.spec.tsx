@@ -3,6 +3,7 @@ import { userEvent } from '@testing-library/user-event'
 import { createRef, type Ref } from 'react'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '..'
 import type { BreadcrumbProps } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 
 function Demo({
   demoRef,
@@ -41,8 +42,12 @@ describe('Breadcrumb component', () => {
       expect(screen.getByRole('navigation', { name: 'You are here' })).toBeInTheDocument()
     })
 
-    it('uses the label of the navigation given in labels', () => {
-      render(<Demo labels={{ breadcrumb: 'Ruta' }} />)
+    it('takes the label of the navigation from the LocaleProvider', () => {
+      render(
+        <LocaleProvider messages={{ breadcrumb: { breadcrumb: 'Ruta' } }}>
+          <Demo />
+        </LocaleProvider>,
+      )
       expect(screen.getByRole('navigation', { name: 'Ruta' })).toBeInTheDocument()
     })
 
