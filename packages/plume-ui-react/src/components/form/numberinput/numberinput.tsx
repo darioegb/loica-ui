@@ -13,11 +13,10 @@ import { NumberInputField } from './numberinput-field'
 import { NumberInputHidden } from './numberinput-hidden'
 import { NumberInputIncrement } from './numberinput-increment'
 import { DEFAULT_LABELS } from './numberinput-labels'
-import type { NumberInputLabels } from './numberinput-labels'
 import styles from './numberinput.module.css'
 import { useNumberInput } from './use-number-input'
 
-export type { NumberInputLabels }
+export type { NumberInputLabels } from './numberinput-labels'
 
 export type NumberInputVariant = 'outline' | 'filled' | 'underline' | 'unstyled'
 
