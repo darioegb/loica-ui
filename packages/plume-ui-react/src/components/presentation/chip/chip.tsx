@@ -60,6 +60,37 @@ export type ChipProps = ComponentPropsWithoutRef<'span'> & ChipOwnProps
 
 const DEFAULT_LABELS: ChipLabels = { remove: 'Remove' }
 
+interface ChipRemoveButtonProps {
+  disabled: boolean
+  isStyled: boolean
+  labelId: string
+  onRemove: (event: MouseEvent<HTMLButtonElement>) => void
+}
+
+function ChipRemoveButton({
+  disabled,
+  isStyled,
+  labelId,
+  onRemove,
+}: Readonly<ChipRemoveButtonProps>): ReactNode {
+  const text = useLabels('chip', DEFAULT_LABELS)
+  const exactLabel = useContext(ChipRemoveLabelContext)
+  const removeId = useId()
+
+  return (
+    <OverlayClose
+      aria-labelledby={exactLabel ? undefined : `${removeId} ${labelId}`}
+      closeClassName={isStyled ? styles.remove : undefined}
+      data-disabled={disabled ? '' : undefined}
+      data-plume-chip-remove=""
+      disabled={disabled}
+      id={removeId}
+      label={exactLabel ?? text.remove}
+      onClose={onRemove}
+    />
+  )
+}
+
 export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
   (
     {
@@ -77,11 +108,8 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
     }: ChipProps,
     ref: ForwardedRef<HTMLSpanElement>,
   ) => {
-    const text = useLabels('chip', DEFAULT_LABELS)
-    const exactRemoveLabel = useContext(ChipRemoveLabelContext)
     const isStyled = variant !== 'unstyled'
     const labelId = useId()
-    const removeId = useId()
     const classes = joinClasses(
       isStyled && styles.chip,
       isStyled && tag[size],
@@ -112,15 +140,11 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
           {children}
         </span>
         {onRemove ? (
-          <OverlayClose
-            aria-labelledby={exactRemoveLabel ? undefined : `${removeId} ${labelId}`}
-            closeClassName={isStyled ? styles.remove : undefined}
-            data-disabled={disabled ? '' : undefined}
-            data-plume-chip-remove=""
+          <ChipRemoveButton
             disabled={disabled}
-            id={removeId}
-            label={exactRemoveLabel ?? text.remove}
-            onClose={onRemove}
+            isStyled={isStyled}
+            labelId={labelId}
+            onRemove={onRemove}
           />
         ) : null}
       </span>
