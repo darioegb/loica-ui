@@ -2,14 +2,7 @@ import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
 import { forwardRef } from 'react'
 import { hasPart } from '../../../overlay/has-part'
 import type { ComponentProps } from '../../../theme'
-import {
-  EmptyState,
-  EmptyStateAction,
-  EmptyStateDescription,
-  EmptyStateIcon,
-  EmptyStateTitle,
-} from '../../presentation/emptystate'
-import type { EmptyStateProps } from '../../presentation/emptystate'
+import { EmptyState, type EmptyStateProps } from '../../presentation/emptystate'
 import { TableEmptyCell } from './table-empty-cell'
 
 export interface TableEmptyOwnProps {
@@ -66,12 +59,16 @@ export const TableEmpty = forwardRef<HTMLTableRowElement, TableEmptyProps>(
           children
         ) : (
           <TableEmptyCell colSpan={colSpan}>
-            <EmptyState role="status" size={size} variant={variant}>
-              {icon ? <EmptyStateIcon>{icon}</EmptyStateIcon> : null}
-              {heading ? <EmptyStateTitle as={titleAs}>{heading}</EmptyStateTitle> : null}
-              {description ? <EmptyStateDescription>{description}</EmptyStateDescription> : null}
-              {action ? <EmptyStateAction>{action}</EmptyStateAction> : null}
-            </EmptyState>
+            <EmptyState
+              action={action}
+              description={description}
+              icon={icon}
+              role="status"
+              size={size}
+              title={heading}
+              titleAs={titleAs}
+              variant={variant}
+            />
           </TableEmptyCell>
         )}
       </tr>

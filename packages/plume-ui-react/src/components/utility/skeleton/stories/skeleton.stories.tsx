@@ -1,5 +1,5 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
-import { Skeleton, SkeletonLine } from '..'
+import { Skeleton } from '..'
 
 /**
  * A placeholder that takes the place of content that is still loading, so the page keeps its shape and does not
@@ -11,9 +11,8 @@ import { Skeleton, SkeletonLine } from '..'
  * (or from its `shape`), and its color from the surface of the theme, so it follows the color mode. The pulse and
  * the wave stop with `prefers-reduced-motion`.
  *
- * For a paragraph, **lines** renders several lines. To set the width of each one, or to give them classes, give the
- * Skeleton its lines as `SkeletonLine` children instead. The Skeleton has no state to share, so it is a plain
- * component that a Server Component can render.
+ * For a paragraph, **lines** renders several lines, each a `<span data-plume-skeleton-line>`. The Skeleton has no
+ * state to share, so it is a plain component that a Server Component can render.
  */
 export default {
   title: 'Components/Skeleton',
@@ -30,7 +29,6 @@ export default {
   },
   argTypes: {
     className: { control: 'text' },
-    children: { control: false },
     style: { control: false },
     shape: { control: 'radio', options: ['text', 'rect', 'circle'] },
     width: { control: 'text' },
@@ -108,35 +106,8 @@ export const Loading: Story = {
 }
 
 /**
- * Give the Skeleton its lines as `SkeletonLine` children to set the width of each one. A line without a width fills
- * the row, and the last line of a group is shorter unless you give it one.
- */
-export const Compound: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `<Skeleton>
-  <SkeletonLine />
-  <SkeletonLine width="80%" />
-  <SkeletonLine width="40%" height={20} />
-</Skeleton>`,
-      },
-    },
-  },
-  render: () => (
-    <div className="w-72">
-      <Skeleton>
-        <SkeletonLine />
-        <SkeletonLine width="80%" />
-        <SkeletonLine height={20} width="40%" />
-      </Skeleton>
-    </div>
-  ),
-}
-
-/**
  * Some examples of Skeleton with Tailwind classes. With `variant="unstyled"` the Skeleton keeps its width and height
- * and has no color or animation of its own: `className` brings them, and each `SkeletonLine` takes its own classes.
+ * and has no color or animation of its own: `className` brings them, and the lines of a group are styled from the parent.
  */
 export const Tailwind: Story = {
   parameters: {
@@ -146,11 +117,11 @@ export const Tailwind: Story = {
   <Skeleton className="animate-pulse rounded-full bg-surface-muted" height={48} variant="unstyled" width={48} />
   <div className="flex flex-1 flex-col gap-2">
     <Skeleton className="animate-pulse rounded-sm bg-surface-muted" height={16} variant="unstyled" width="60%" />
-    <Skeleton className="flex flex-col gap-2" variant="unstyled">
-      <SkeletonLine className="h-3 animate-pulse rounded-sm bg-surface-muted" />
-      <SkeletonLine className="h-3 animate-pulse rounded-sm bg-surface-muted" />
-      <SkeletonLine className="h-3 w-3/5 animate-pulse rounded-sm bg-surface-muted" />
-    </Skeleton>
+    <Skeleton
+      className="flex flex-col gap-2 [&>span]:h-3 [&>span]:animate-pulse [&>span]:rounded-sm [&>span]:bg-surface-muted [&>span:last-child]:w-3/5"
+      lines={3}
+      variant="unstyled"
+    />
   </div>
 </div>`,
       },
@@ -174,11 +145,11 @@ export const Tailwind: Story = {
           variant="unstyled"
           width="60%"
         />
-        <Skeleton className="flex flex-col gap-2" variant="unstyled">
-          <SkeletonLine className="h-3 animate-pulse rounded-sm bg-surface-muted" />
-          <SkeletonLine className="h-3 animate-pulse rounded-sm bg-surface-muted" />
-          <SkeletonLine className="h-3 w-3/5 animate-pulse rounded-sm bg-surface-muted" />
-        </Skeleton>
+        <Skeleton
+          className="flex flex-col gap-2 [&>span]:h-3 [&>span]:animate-pulse [&>span]:rounded-sm [&>span]:bg-surface-muted [&>span:last-child]:w-3/5"
+          lines={3}
+          variant="unstyled"
+        />
       </div>
     </div>
   ),
@@ -196,11 +167,9 @@ export const Bootstrap: Story = {
         code: `<div aria-busy="true" className="card placeholder-glow" style={{ width: "18rem" }}>
   <div className="card-body">
     <Skeleton className="placeholder d-block col-6 mb-3" height={20} variant="unstyled" />
-    <Skeleton className="d-flex flex-column gap-2" variant="unstyled">
-      <SkeletonLine className="placeholder d-block col-12" />
-      <SkeletonLine className="placeholder d-block col-12" />
-      <SkeletonLine className="placeholder d-block col-8" />
-    </Skeleton>
+    <Skeleton className="placeholder d-block col-12 mb-2" variant="unstyled" />
+    <Skeleton className="placeholder d-block col-12 mb-2" variant="unstyled" />
+    <Skeleton className="placeholder d-block col-8" variant="unstyled" />
   </div>
 </div>`,
       },
@@ -210,11 +179,9 @@ export const Bootstrap: Story = {
     <div aria-busy="true" className="card placeholder-glow" style={{ width: '18rem' }}>
       <div className="card-body">
         <Skeleton className="placeholder d-block col-6 mb-3" height={20} variant="unstyled" />
-        <Skeleton className="d-flex flex-column gap-2" variant="unstyled">
-          <SkeletonLine className="placeholder d-block col-12" />
-          <SkeletonLine className="placeholder d-block col-12" />
-          <SkeletonLine className="placeholder d-block col-8" />
-        </Skeleton>
+        <Skeleton className="placeholder d-block col-12 mb-2" variant="unstyled" />
+        <Skeleton className="placeholder d-block col-12 mb-2" variant="unstyled" />
+        <Skeleton className="placeholder d-block col-8" variant="unstyled" />
       </div>
     </div>
   ),

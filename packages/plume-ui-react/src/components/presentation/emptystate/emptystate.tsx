@@ -1,23 +1,17 @@
-import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
+import type { ComponentPropsWithoutRef, ElementType, ForwardedRef, ReactNode } from 'react'
 import { forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import type { ComponentProps, Size } from '../../../theme'
-import { EmptyStateAction } from './emptystate-action'
-import { EmptyStateDescription } from './emptystate-description'
-import { EmptyStateIcon } from './emptystate-icon'
-import { EmptyStateTitle, type EmptyStateTitleTag } from './emptystate-title'
+import type { Size } from '../../../theme'
 import styles from './emptystate.module.css'
+
+export type EmptyStateTitleTag = 'div' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 
 export type EmptyStateVariant = 'filled' | 'outline' | 'plain' | 'unstyled'
 
 export interface EmptyStateOwnProps {
   /** What the user can do: usually a `Button` or a link. */
   action?: ReactNode
-  /**
-   * The parts to render (`EmptyStateIcon`, `EmptyStateTitle`, `EmptyStateDescription`,
-   * `EmptyStateAction`). When given, the `icon`, `title`, `description` and `action` props are
-   * ignored.
-   */
+  /** Anything else, after the description and before the action: an illustration, a list... */
   children?: ReactNode
   /** Why it is empty, or what the user can do about it. */
   description?: ReactNode
@@ -46,16 +40,7 @@ export interface EmptyStateOwnProps {
   variant?: EmptyStateVariant
 }
 
-type EmptyStateRootAttributes = Pick<
-  HTMLAttributes<HTMLDivElement>,
-  'aria-label' | 'aria-labelledby' | 'aria-live' | 'hidden' | 'id' | 'role' | 'title'
->
-
-export type EmptyStateProps = Omit<ComponentProps, 'index'> &
-  Omit<EmptyStateRootAttributes, 'title'> &
-  EmptyStateOwnProps
-
-export type { EmptyStateTitleTag }
+export type EmptyStateProps = Omit<ComponentPropsWithoutRef<'div'>, 'title'> & EmptyStateOwnProps
 
 export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
   (
@@ -75,6 +60,7 @@ export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     const isStyled = variant !== 'unstyled'
+    const Title: ElementType = titleAs
 
     return (
       <div
@@ -89,14 +75,27 @@ export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
         style={style}
         {...rest}
       >
-        {children ?? (
-          <>
-            {icon ? <EmptyStateIcon>{icon}</EmptyStateIcon> : null}
-            {title ? <EmptyStateTitle as={titleAs}>{title}</EmptyStateTitle> : null}
-            {description ? <EmptyStateDescription>{description}</EmptyStateDescription> : null}
-            {action ? <EmptyStateAction>{action}</EmptyStateAction> : null}
-          </>
-        )}
+        {icon ? (
+          <span aria-hidden="true" className={isStyled ? styles.icon : undefined} data-plume-emptystate-icon="">
+            {icon}
+          </span>
+        ) : null}
+        {title ? (
+          <Title className={isStyled ? styles.title : undefined} data-plume-emptystate-title="">
+            {title}
+          </Title>
+        ) : null}
+        {description ? (
+          <p className={isStyled ? styles.description : undefined} data-plume-emptystate-description="">
+            {description}
+          </p>
+        ) : null}
+        {children}
+        {action ? (
+          <div className={isStyled ? styles.action : undefined} data-plume-emptystate-action="">
+            {action}
+          </div>
+        ) : null}
       </div>
     )
   },

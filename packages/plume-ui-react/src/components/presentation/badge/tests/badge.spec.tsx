@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { createRef } from 'react'
-import { Badge, BadgeDot } from '..'
+import { Badge } from '..'
 
 describe('Badge component', () => {
   it('renders its children in a span', () => {
@@ -82,26 +82,6 @@ describe('Badge component', () => {
       expect(dot).not.toHaveAttribute('class')
     })
 
-    it('is only the dot when its children are a BadgeDot', () => {
-      render(
-        <Badge aria-label="Online">
-          <BadgeDot />
-        </Badge>,
-      )
-      expect(screen.getByRole('img', { name: 'Online' })).toHaveClass('dotOnly')
-    })
-
-    it('is not doubled when a BadgeDot is among the children', () => {
-      const { container } = render(
-        <Badge dot>
-          Online
-          <BadgeDot className="custom" />
-        </Badge>,
-      )
-      expect(container.querySelectorAll('[data-plume-badge-dot]')).toHaveLength(1)
-      expect(container.querySelector('.custom')).not.toBeNull()
-    })
-
     it('becomes an image named by aria-label when it is only a dot', () => {
       render(<Badge aria-label="Online" dot />)
       expect(screen.getByRole('img', { name: 'Online' })).toBeInTheDocument()
@@ -159,34 +139,12 @@ describe('Badge component', () => {
     expect(screen.getByText('New')).toHaveAttribute('data-plume-badge')
   })
 
-  describe('BadgeDot', () => {
-    it('takes className, style, a ref and native attributes', () => {
-      const ref = createRef<HTMLSpanElement>()
-      render(
-        <Badge>
-          <BadgeDot className="custom" id="dot" ref={ref} style={{ width: '12px' }} title="On" />
-        </Badge>,
-      )
-      const dot = ref.current as HTMLSpanElement
-      expect(dot).toHaveClass('dot', 'custom')
-      expect(dot).toHaveStyle({ width: '12px' })
-      expect(dot).toHaveAttribute('id', 'dot')
+  describe('dot', () => {
+    it('is hidden from assistive technology and carries its hook', () => {
+      const { container } = render(<Badge dot>Online</Badge>)
+      const dot = container.querySelector('[data-plume-badge-dot]')
+      expect(dot).toHaveClass('dot')
       expect(dot).toHaveAttribute('aria-hidden', 'true')
-    })
-
-    it('keeps only the class of the user when unstyled', () => {
-      render(
-        <Badge variant="unstyled">
-          <BadgeDot className="custom" data-testid="dot" />
-        </Badge>,
-      )
-      expect(screen.getByTestId('dot').className).toBe('custom')
-    })
-
-    it('throws outside a Badge', () => {
-      const error = vi.spyOn(console, 'error').mockImplementation(() => undefined)
-      expect(() => render(<BadgeDot />)).toThrow('BadgeDot must be used within a <Badge>')
-      error.mockRestore()
     })
   })
 })

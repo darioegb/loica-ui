@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { createRef } from 'react'
-import { EmptyState, EmptyStateTitle } from '..'
+import { EmptyState } from '..'
 
 const icon = <svg data-testid="icon" />
 
@@ -65,15 +65,33 @@ describe('EmptyState component', () => {
     expect(container.firstChild).toHaveStyle({ width: '200px' })
   })
 
-  it('renders the parts it is given as children instead of the content props', () => {
-    render(
-      <EmptyState icon={icon} title="Ignored">
-        <EmptyStateTitle>Mine</EmptyStateTitle>
+  it('renders its children between the description and the action', () => {
+    const { container } = render(
+      <EmptyState action={<button type="button">Go</button>} description="Why" title="Empty">
+        <p>Extra</p>
       </EmptyState>,
     )
-    expect(screen.getByText('Mine')).toBeInTheDocument()
-    expect(screen.queryByText('Ignored')).toBeNull()
-    expect(screen.queryByTestId('icon')).toBeNull()
+    expect(Array.from(container.firstElementChild?.children ?? []).map((node) => node.textContent)).toEqual([
+      'Empty',
+      'Why',
+      'Extra',
+      'Go',
+    ])
+  })
+
+  it('drops the classes of every element when unstyled', () => {
+    const { container } = render(
+      <EmptyState
+        action="Go"
+        description="Why"
+        icon={icon}
+        title="Empty"
+        variant="unstyled"
+      />,
+    )
+    container.querySelectorAll('[data-plume-emptystate] *').forEach((node) => {
+      expect(node).not.toHaveAttribute('class')
+    })
   })
 
   it('keeps the root class and drops the scoped look when unstyled', () => {

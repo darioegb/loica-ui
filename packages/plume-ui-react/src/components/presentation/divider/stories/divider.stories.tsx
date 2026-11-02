@@ -1,5 +1,5 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
-import { Divider, DividerLabel } from '..'
+import { Divider } from '..'
 
 /**
  * A line that separates two groups of content. Without children it is an `<hr>`, so assistive technology
@@ -13,10 +13,8 @@ import { Divider, DividerLabel } from '..'
  * pass **decorative** to hide it from assistive technology. `List` and `Dropdown` already use the Divider for
  * their `ListDivider` and `DropdownSeparator`.
  *
- * The label is a part, `DividerLabel`. A plain child is wrapped in it for you, so `<Divider>or</Divider>` and
- * `<Divider><DividerLabel>or</DividerLabel></Divider>` render the same. Use the part when you want its own class,
- * style or ref, or to put something else (an icon) next to the text. The Divider has no state to share, so it is
- * a plain component that a Server Component can render.
+ * The label is wrapped in a `<span>` that carries `data-plume-divider-label`. To style it, put your own element
+ * inside. The Divider has no state to share, so it is a plain component that a Server Component can render.
  */
 export default {
   title: 'Components/Divider',
@@ -242,28 +240,6 @@ export const Accessibility: Story = {
 }
 
 /**
- * Use the `DividerLabel` part to give the label its own class or style, or to put something else next to the text.
- */
-export const Compound: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `<Divider>
-  <DividerLabel style={{ fontWeight: 600 }}>or continue with</DividerLabel>
-</Divider>`,
-      },
-    },
-  },
-  render: () => (
-    <div style={{ maxWidth: '100%', width: '22rem' }}>
-      <Divider>
-        <DividerLabel style={{ fontWeight: 600 }}>or continue with</DividerLabel>
-      </Divider>
-    </div>
-  ),
-}
-
-/**
  * Some examples of Divider with Tailwind classes. With `variant="unstyled"` the Divider has no Plume styles, so it takes the classes you give it.
  */
 export const Tailwind: Story = {
@@ -275,7 +251,7 @@ export const Tailwind: Story = {
   className="flex items-center gap-[0.5rem] before:h-px before:flex-1 before:bg-blue-700 after:h-px after:flex-1 after:bg-blue-700"
   variant="unstyled"
 >
-  <DividerLabel className="px-[0.75rem] text-sm uppercase tracking-wide text-[var(--plume-muted)]">or</DividerLabel>
+  <span className="px-[0.75rem] text-sm uppercase tracking-wide text-[var(--plume-muted)]">or</span>
 </Divider>`,
       },
     },
@@ -290,9 +266,9 @@ export const Tailwind: Story = {
         className="flex items-center gap-[0.5rem] before:h-px before:flex-1 before:bg-blue-700 after:h-px after:flex-1 after:bg-blue-700"
         variant="unstyled"
       >
-        <DividerLabel className="px-[0.75rem] text-sm uppercase tracking-wide text-[var(--plume-muted)]">
+        <span className="px-[0.75rem] text-sm uppercase tracking-wide text-[var(--plume-muted)]">
           or
-        </DividerLabel>
+        </span>
       </Divider>
     </div>
   ),
@@ -307,9 +283,9 @@ export const Bootstrap: Story = {
       source: {
         code: `<Divider className="border-primary border-1 opacity-100 my-3" variant="unstyled" />
 <Divider className="position-relative border-top border-primary my-4" variant="unstyled">
-  <DividerLabel className="position-absolute top-0 start-50 translate-middle bg-body px-3 small text-uppercase text-body-secondary">
+  <span className="position-absolute top-0 start-50 translate-middle bg-body px-3 small text-uppercase text-body-secondary">
     or
-  </DividerLabel>
+  </span>
 </Divider>`,
       },
     },
@@ -318,9 +294,9 @@ export const Bootstrap: Story = {
     <div style={{ maxWidth: '100%', width: '22rem' }}>
       <Divider className="border-primary border-1 opacity-100 my-3" variant="unstyled" />
       <Divider className="position-relative border-top border-primary my-4" variant="unstyled">
-        <DividerLabel className="position-absolute top-0 start-50 translate-middle bg-body px-3 small text-uppercase text-body-secondary">
+        <span className="position-absolute top-0 start-50 translate-middle bg-body px-3 small text-uppercase text-body-secondary">
           or
-        </DividerLabel>
+        </span>
       </Divider>
     </div>
   ),

@@ -6,4 +6,3 @@ export {
   type DividerProps,
   type DividerVariant,
 } from './divider'
-export { DividerLabel, type DividerLabelProps } from './divider-label'

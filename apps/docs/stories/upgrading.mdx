@@ -20,7 +20,8 @@ Search your code for these, one by one. The rest of the page explains each chang
 - `label`, `busy`, `busyText` and `labels` on a `Button`, and `Spinner` anywhere: [`Button` and `Loader`](#button-takes-its-content-as-children-and-spinner-is-loader).
 - `Tabs` with an `index` that you never update, and the `active` class of a tab: [Tabs](#tabs-are-controlled-with-the-same-props-as-the-rest).
 - `variant='unstyled'` anywhere: it now drops [every Plume class](#unstyled-drops-every-plume-class).
-- A `Badge`, an `Icon`, a `List` or a `Card` that you style: [presentation components](#badge-icon-list-and-card-are-made-of-parts).
+- An `Icon`, a `List` or a `Card` that you style: [presentation components](#icon-list-and-card-are-made-of-parts).
+- A `BadgeDot`, a `DividerLabel`, a `SkeletonLine` or a part of the `EmptyState`: [single components](#badge-emptystate-divider-and-skeleton-are-single-components).
 - Parts used outside their component: [they throw](#parts-outside-their-component-throw).
 - Imports from `@plume-ui-react/*`: [one package now](#from-the-plume-ui-react-packages).
 
@@ -181,7 +182,7 @@ reorder, omit or replace any element like any other React element. The sections 
     <tr><td><code>AccordionContent</code>, <code>Collapse</code></td><td><code>bodyClassName</code></td><td><code>AccordionBody</code>, <code>CollapseBody</code></td></tr>
     <tr><td><code>Breadcrumb</code></td><td><code>listClassName</code>, <code>separatorClassName</code></td><td><code>BreadcrumbList</code>, <code>BreadcrumbSeparator</code></td></tr>
     <tr><td><code>ToastProvider</code></td><td><code>toastClassName</code></td><td><code>Toast</code>, through the <code>render</code> prop</td></tr>
-    <tr><td><code>Skeleton</code></td><td><code>lineClassName</code></td><td><code>SkeletonLine</code></td></tr>
+    <tr><td><code>Skeleton</code></td><td><code>lineClassName</code></td><td>each line is a <code>data-plume-skeleton-line</code> span: style it from the <code>Skeleton</code> (<code>[&amp;&gt;span]:h-3</code> in Tailwind)</td></tr>
     <tr><td><code>ProgressBar</code></td><td><code>indicatorClassName</code>, <code>valueClassName</code></td><td><code>ProgressBarIndicator</code>, <code>ProgressBarValue</code></td></tr>
     <tr><td><code>CarouselDots</code></td><td><code>dotClassName</code></td><td><code>CarouselDot</code></td></tr>
     <tr><td><code>Table</code></td><td><code>containerClassName</code>, <code>loadingClassName</code></td><td><code>className</code> of the <code>Table</code>, <code>TableLoading</code></td></tr>
@@ -367,7 +368,7 @@ takes a render function to style or replace each item.
 The `data-plume-select-trigger` attribute of the combobox is now `data-plume-select-combobox`. The `SelectChip` remove
 button is styled from the chip until `Chip` gets its own parts.
 
-## Alert, Chip, Avatar, EmptyState, Divider and Skeleton are made of parts
+## Alert, Chip and Avatar are made of parts
 
 These components no longer take `classNames`. Every element they render is a part you can import, with its own
 `className`, `style` and `ref`. Given no parts, they render the same default composition as before; `children` keeps
@@ -394,15 +395,11 @@ child is one of its parts.
     <tr><td><code>Alert</code></td><td><code>classNames.icon</code>, <code>.content</code>, <code>.action</code>, <code>.dismiss</code></td><td><code>AlertIcon</code>, <code>AlertContent</code>, <code>AlertAction</code>, <code>AlertDismiss</code></td></tr>
     <tr><td><code>Chip</code></td><td><code>classNames.icon</code>, <code>.label</code>, <code>.remove</code></td><td><code>ChipIcon</code>, <code>ChipLabel</code>, <code>ChipRemove</code></td></tr>
     <tr><td><code>Avatar</code></td><td><code>classNames.image</code>, <code>.fallback</code>, <code>.status</code></td><td><code>AvatarImage</code>, <code>AvatarFallback</code>, <code>AvatarStatusDot</code>; the counter of an <code>AvatarGroup</code> is <code>AvatarOverflow</code></td></tr>
-    <tr><td><code>EmptyState</code></td><td><code>classNames.icon</code>, <code>.title</code>, <code>.description</code>, <code>.action</code></td><td><code>EmptyStateIcon</code>, <code>EmptyStateTitle</code>, <code>EmptyStateDescription</code>, <code>EmptyStateAction</code></td></tr>
-    <tr><td><code>Divider</code></td><td><code>classNames.label</code></td><td><code>DividerLabel</code></td></tr>
-    <tr><td><code>Skeleton</code></td><td><code>classNames.line</code> with <code>lines</code></td><td><code>SkeletonLine</code>, one per line</td></tr>
   </tbody>
 </table>
 
 With parts, the props that only fill the default (`action` and `dismissible` of the `Alert`, `icon` and `onRemove`
-of the `Chip`, `icon`, `title`, `description` and `action` of the `EmptyState`, `lines` of the `Skeleton`) have no
-effect: compose the part instead. The `data-plume-avatar-status` attribute is now `data-plume-avatar-status-dot`.
+of the `Chip`) have no effect: compose the part instead. The `data-plume-avatar-status` attribute is now `data-plume-avatar-status-dot`.
 `SelectChip` composes `ChipRemove`, so the remove button of a select chip is styled with `className` on it.
 
 ## Navigation, overlays and menus are made of parts
@@ -630,8 +627,7 @@ class, write your own classes on its parts.
 A part that needs its component to work reads its context, and now throws when it is used outside it, with the name of
 the component it expects: `Tab` and `TabPanel` (they took position 0), `SidebarBackdrop`, `SidebarContent`,
 `SidebarItem`, `SidebarItemIcon` and `SidebarItemLabel` (they worked with default styles), `ListItem*`, `ListSubheader`,
-`ListDivider`, `CardHeader`, `CardBody`, `CardFooter` and `BadgeDot`. Put them inside their `Tabs`, `Sidebar`, `List`,
-`Card` or `Badge`.
+`ListDivider`, `CardHeader`, `CardBody` and `CardFooter`. Put them inside their `Tabs`, `Sidebar`, `List` or `Card`.
 
 ## `Tabs` are controlled with the same props as the rest
 
@@ -658,7 +654,7 @@ moved by themselves, so a value you never updated seemed to work. Use `defaultIn
 
 A selected `Tab` is styled with `[data-active]`, and the `active` class is gone.
 
-## `Badge`, `Icon`, `List` and `Card` are made of parts
+## `Icon`, `List` and `Card` are made of parts
 
 They follow the same model as the other families: every element is a part with its own `className`, `style`, `ref`
 and `data-plume-*` attribute.
@@ -668,22 +664,29 @@ and `data-plume-*` attribute.
     <tr><th>Component</th><th>Parts</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>Badge</code></td><td><code>BadgeDot</code>: <code>dot</code> renders it unless you write one among the children, and a <code>Badge</code> with only a <code>BadgeDot</code> is a dot</td></tr>
     <tr><td><code>Icon</code></td><td>has a <code>variant</code> (<code>default</code> or <code>unstyled</code>); its glyph and label are <code>data-plume-icon-glyph</code> and <code>data-plume-icon-label</code>, without classes, so a selector on the hashed <code>glyph</code> or <code>label</code> class no longer matches</td></tr>
     <tr><td><code>List</code></td><td><code>ListItemTextPrimary</code> and <code>ListItemTextSecondary</code> are what <code>ListItemText</code> renders for <code>primary</code> and <code>secondary</code>; <code>ListItemButton</code> has <code>data-selected</code> and <code>data-disabled</code>; <code>ListDivider</code> in an unstyled list is an empty <code>&lt;li&gt;</code> for your classes</td></tr>
     <tr><td><code>Card</code></td><td><code>CardHeader</code>, <code>CardBody</code> and <code>CardFooter</code> with <code>data-plume-card-*</code></td></tr>
   </tbody>
 </table>
 
-```tsx
-<Badge dot variant='unstyled'>
-  <BadgeDot className='size-2 rounded-full bg-emerald-500' />
-  Online
-</Badge>
-```
-
-The modules of `Badge`, `Card` and `List` are client modules now (they share `isStyled` with their parts through a
+The modules of `Card` and `List` are client modules now (they share `isStyled` with their parts through a
 context), and a Server Component can still render them.
+
+## `Badge`, `EmptyState`, `Divider` and `Skeleton` are single components
+
+The `Badge`, the `EmptyState`, the `Divider` and the `Skeleton` are single components: their inner elements (the dot of
+the `Badge`, the icon, title, description and action of the `EmptyState`, the label of the `Divider`, the lines of the
+`Skeleton`) carry a `data-plume-*` attribute, and to style one you target it from the parent or put your own element
+in the prop that fills it.
+
+```tsx
+<EmptyState
+  description={<span className='text-sm text-muted'>Nothing here yet.</span>}
+  title={<span className='text-lg font-bold'>No projects</span>}
+  variant='unstyled'
+/>
+```
 
 ## Other changes that don't throw
 
