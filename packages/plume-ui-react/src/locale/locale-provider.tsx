@@ -18,12 +18,31 @@ export interface LocaleProviderProps {
 
 const LocaleContext = createContext<LocaleContextValue>({})
 
+const mergeMessages = (
+  parent: PlumeMessages | undefined,
+  own: PlumeMessages | undefined,
+): PlumeMessages | undefined => {
+  if (!parent || !own) return own ?? parent
+  const merged: Record<string, object | undefined> = { ...parent }
+  for (const key of Object.keys(own)) {
+    merged[key] = { ...merged[key], ...own[key as keyof PlumeMessages] }
+  }
+  return merged
+}
+
 export function LocaleProvider({
   children,
   locale,
   messages,
 }: Readonly<LocaleProviderProps>): ReactNode {
-  const value = useMemo(() => ({ locale, messages }), [locale, messages])
+  const parent = useContext(LocaleContext)
+  const value = useMemo(
+    () => ({
+      locale: locale ?? parent.locale,
+      messages: mergeMessages(parent.messages, messages),
+    }),
+    [locale, messages, parent],
+  )
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>
 }
 
