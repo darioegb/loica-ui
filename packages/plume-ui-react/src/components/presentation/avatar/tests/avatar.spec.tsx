@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { createRef } from 'react'
-import { Avatar, AvatarGroup } from '..'
+import { Avatar, AvatarGroup, AvatarOverflow } from '..'
 import { getInitials } from '../avatar-initials'
 import { LocaleProvider } from '../../../../locale/locale-provider'
 
@@ -261,5 +261,94 @@ describe('AvatarGroup component', () => {
       </AvatarGroup>,
     )
     expect(ref.current).toHaveAttribute('data-plume-avatar-group')
+  })
+})
+
+describe('Avatar elements', () => {
+  it('draws the fallback and the status dot itself', () => {
+    const { container } = render(<Avatar name="Ada Lovelace" status="online" />)
+    const root = container.firstElementChild as HTMLElement
+    expect(root.children).toHaveLength(2)
+    expect(root.children[0]).toHaveAttribute('data-plume-avatar-fallback')
+    expect(root.children[0]).toHaveClass('fallback', 'subtle')
+    expect(root.children[0]).toHaveTextContent('AL')
+    expect(root.children[1]).toHaveAttribute('data-plume-avatar-status-dot')
+    expect(root.children[1]).toHaveClass('status')
+  })
+
+  it('shows the image instead of the fallback and goes back to it when the image fails', () => {
+    const { container } = render(<Avatar name="Ada Lovelace" src="/broken.png" />)
+    expect(container.querySelector('[data-plume-avatar-fallback]')).toBeNull()
+    expect(container.querySelector('img')).toHaveClass('image')
+    fireEvent.error(container.querySelector('img') as HTMLImageElement)
+    expect(container.querySelector('img')).toBeNull()
+    expect(container.querySelector('[data-plume-avatar-fallback]')).toHaveTextContent('AL')
+  })
+
+  it('replaces the content of the fallback', () => {
+    render(<Avatar fallback="?!" name="Ada" />)
+    expect(screen.getByText('?!')).toBeInTheDocument()
+    expect(screen.queryByText('A')).toBeNull()
+  })
+
+  it('exposes the status in a data attribute and draws no dot without it', () => {
+    const { container } = render(<Avatar name="Ada" status="away" />)
+    expect(container.querySelector('[data-plume-avatar-status-dot]')).toHaveAttribute(
+      'data-status',
+      'away',
+    )
+    const { container: other } = render(<Avatar name="Ada" />)
+    expect(other.querySelector('[data-plume-avatar-status-dot]')).toBeNull()
+  })
+
+  it('drops the Plume classes of every element when unstyled', () => {
+    const { container } = render(
+      <Avatar name="Ada" src="/ada.png" status="busy" variant="unstyled" />,
+    )
+    expect(container.querySelector('img')).not.toHaveAttribute('class')
+    expect(container.querySelector('[data-plume-avatar-status-dot]')).not.toHaveAttribute('class')
+    fireEvent.error(container.querySelector('img') as HTMLImageElement)
+    expect(container.querySelector('[data-plume-avatar-fallback]')).not.toHaveAttribute('class')
+  })
+})
+
+describe('AvatarOverflow', () => {
+  it('shows +count and names itself with the text of the LocaleProvider', () => {
+    render(
+      <LocaleProvider messages={{ avatarGroup: { overflow: (hidden) => `${hidden} más` } }}>
+        <AvatarGroup>
+          <AvatarOverflow count={5} />
+        </AvatarGroup>
+      </LocaleProvider>,
+    )
+    expect(screen.getByText('+5')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: '5 más' })).toBeInTheDocument()
+  })
+
+  it('works outside a group with the default text', () => {
+    const { container } = render(<AvatarOverflow count={3} />)
+    expect(screen.getByRole('img', { name: '3 more' })).toBeInTheDocument()
+    expect(container.firstElementChild).toHaveAttribute('data-overflow')
+  })
+
+  it('takes another content, className and ref', () => {
+    const ref = createRef<HTMLSpanElement>()
+    render(
+      <AvatarOverflow className="custom" count={2} ref={ref}>
+        and 2 more
+      </AvatarOverflow>,
+    )
+    expect(ref.current).toHaveClass('avatar', 'custom')
+    expect(screen.getByText('and 2 more')).toBeInTheDocument()
+  })
+
+  it('is what the group renders for the hidden avatars', () => {
+    const { container } = render(
+      <AvatarGroup max={1}>
+        <Avatar name="Ada" />
+        <Avatar name="Grace" />
+      </AvatarGroup>,
+    )
+    expect(container.querySelector('[data-overflow]')).toHaveTextContent('+1')
   })
 })

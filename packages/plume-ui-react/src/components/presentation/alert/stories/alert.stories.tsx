@@ -2,11 +2,7 @@ import type { StoryObj, Meta } from '@storybook/react-vite'
 import { Button } from '../../../interaction/button'
 import {
   Alert,
-  AlertAction,
-  AlertContent,
   AlertDescription,
-  AlertDismiss,
-  AlertIcon,
   AlertTitle,
 } from '..'
 
@@ -25,11 +21,10 @@ const statuses = ['info', 'success', 'warning', 'error'] as const
  * button, named by the `close` text of the `LocaleProvider`, and it goes away when it is pressed. **onDismiss** tells you, so you can keep
  * it away. An **action**, such as a button or a link, goes at the end.
  *
- * Every element of the Alert is a part you can import. Given no parts, the `Alert` builds the usual layout from its
- * props (**icon**, the children as the content, **action** and **dismissible**). Give it any of the parts as direct
- * children and it renders them as written, so you can reorder, omit or replace each one, and give it its own
- * `className`. In that case **action** and **dismissible** have no effect: compose `AlertAction` and `AlertDismiss`
- * instead.
+ * The `Alert` draws the icon, the content, the action and the close button from its props (**icon**, the children,
+ * **action** and **dismissible**). Only the title and the description are parts, because you write them. Each element
+ * carries a `data-plume-alert-*` attribute (`icon`, `content`, `action`, `dismiss`), so it can be styled from the
+ * parent, or by putting your own element in **icon** or **action**.
  */
 export default {
   title: 'Components/Alert',
@@ -39,11 +34,7 @@ export default {
     docs: {
       importNames: [
         'Alert',
-        'AlertAction',
-        'AlertContent',
         'AlertDescription',
-        'AlertDismiss',
-        'AlertIcon',
         'AlertTitle',
       ],
       toc: {
@@ -298,7 +289,7 @@ export const Icons: Story = {
 
 /**
  * With **dismissible** the Alert has a close button and goes away when it is pressed. **onDismiss** tells you,
- * so you can keep it away the next time. Translate the name of the button with the `close` text of the `LocaleProvider`, or give `AlertDismiss` a **label**.
+ * so you can keep it away the next time. Translate the name of the button with the `close` text of the `LocaleProvider`.
  */
 export const Dismissible: Story = {
   args: { dismissible: true, status: 'success' },
@@ -330,119 +321,108 @@ export const Accessibility: Story = {
 }
 
 /**
- * Give the `Alert` its parts as direct children and it renders them as written. Here the dismiss button comes
- * first, the icon is replaced, the action goes under the text and the content has its own class. Omit a part and it
- * is not there: with parts, **action** and **dismissible** have no effect.
+ * The title and the description are parts you write inside the Alert, and they go in its content. The **icon** takes
+ * your own element, and the **action** goes at the end.
  */
 export const Compound: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Alert status="warning">
-  <AlertDismiss />
-  <AlertIcon>⚠️</AlertIcon>
-  <AlertContent className="flex-col">
-    <AlertTitle>Your trial ends tomorrow</AlertTitle>
-    <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
-    <AlertAction>
-      <Button colorScheme="warning" size="sm">Choose a plan</Button>
-    </AlertAction>
-  </AlertContent>
+        code: `<Alert
+  action={<Button colorScheme="warning" size="sm">Choose a plan</Button>}
+  dismissible
+  icon="⚠️"
+  status="warning"
+>
+  <AlertTitle as="h3">Your trial ends tomorrow</AlertTitle>
+  <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
 </Alert>`,
       },
     },
   },
   render: (args) => (
-    <Alert {...args} status="warning">
-      <AlertDismiss />
-      <AlertIcon>⚠️</AlertIcon>
-      <AlertContent style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        <AlertTitle>Your trial ends tomorrow</AlertTitle>
-        <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
-        <AlertAction>
-          <Button colorScheme="warning" size="sm">Choose a plan</Button>
-        </AlertAction>
-      </AlertContent>
+    <Alert
+      {...args}
+      action={<Button colorScheme="warning" size="sm">Choose a plan</Button>}
+      dismissible
+      icon="⚠️"
+      status="warning"
+    >
+      <AlertTitle as="h3">Your trial ends tomorrow</AlertTitle>
+      <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
     </Alert>
   ),
 }
 
 /**
- * Some examples of Alert with Tailwind classes. With `variant="unstyled"` the Alert and its parts have no Plume styles, so each takes the classes you give it.
+ * Some examples of Alert with Tailwind classes. With `variant="unstyled"` the Alert has no Plume styles, so it takes the classes you give it. The inner elements are styled from the parent with their `data-plume-alert-*` attribute, or with your own element in `icon`.
  */
 export const Tailwind: Story = {
   parameters: {
     docs: {
       source: {
         code: `<Alert
-  className="w-[28rem] max-w-full rounded-lg border-l-4 border-blue-700 bg-blue-50 text-blue-900"
+  className="w-[28rem] max-w-full rounded-lg border-l-4 border-blue-700 bg-blue-50 text-blue-900 [&_[data-plume-alert-content]]:text-sm [&_[data-plume-alert-dismiss]]:rounded-sm [&_[data-plume-alert-dismiss]]:p-1 [&_[data-plume-alert-dismiss]]:hover:bg-blue-100"
+  dismissible
+  icon={<span className="text-blue-700">ℹ</span>}
   status="info"
   style={{ padding: '0.75rem 1rem' }}
   variant="unstyled"
 >
-  <AlertIcon className="text-blue-700" />
-  <AlertContent className="text-sm">
-    <AlertTitle className="font-semibold">Your trial ends tomorrow</AlertTitle>
-    <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
-  </AlertContent>
-  <AlertDismiss className="rounded-sm p-1 hover:bg-blue-100" />
+  <AlertTitle className="font-semibold">Your trial ends tomorrow</AlertTitle>
+  <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
 </Alert>`,
       },
     },
   },
   render: () => (
     <Alert
-      className="w-[28rem] max-w-full rounded-lg border-l-4 border-blue-700 bg-blue-50 text-blue-900"
+      className="w-[28rem] max-w-full rounded-lg border-l-4 border-blue-700 bg-blue-50 text-blue-900 [&_[data-plume-alert-content]]:text-sm [&_[data-plume-alert-dismiss]]:rounded-sm [&_[data-plume-alert-dismiss]]:p-1 [&_[data-plume-alert-dismiss]]:hover:bg-blue-100"
+      dismissible
+      icon={<span className="text-blue-700">ℹ</span>}
       status="info"
       style={{ padding: '0.75rem 1rem' }}
       variant="unstyled"
     >
-      <AlertIcon className="text-blue-700" />
-      <AlertContent className="text-sm">
-        <AlertTitle className="font-semibold">Your trial ends tomorrow</AlertTitle>
-        <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
-      </AlertContent>
-      <AlertDismiss className="rounded-sm p-1 hover:bg-blue-100" />
+      <AlertTitle className="font-semibold">Your trial ends tomorrow</AlertTitle>
+      <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
     </Alert>
   ),
 }
 
 /**
- * Some examples of Alert with Bootstrap classes: `alert` and `alert-primary`, with the dismiss button as `btn-close`.
+ * Some examples of Alert with Bootstrap classes: `alert` and `alert-primary`. The close button has no class of its
+ * own, so it takes the look of the parent; put a `btn` in the `action` when you want a Bootstrap button.
  */
 export const Bootstrap: Story = {
   parameters: {
     docs: {
       source: {
         code: `<Alert
+  action={<button className="btn btn-primary btn-sm" type="button">Choose a plan</button>}
   className="alert alert-primary d-flex align-items-start gap-2 mb-0"
+  icon={<span className="text-primary">ℹ</span>}
   status="info"
   style={{ width: '28rem', maxWidth: '100%' }}
   variant="unstyled"
 >
-  <AlertIcon className="text-primary" />
-  <AlertContent>
-    <AlertTitle className="fw-semibold">Your trial ends tomorrow</AlertTitle>
-    <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
-  </AlertContent>
-  <AlertDismiss className="btn-close ms-auto" />
+  <AlertTitle className="fw-semibold">Your trial ends tomorrow</AlertTitle>
+  <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
 </Alert>`,
       },
     },
   },
   render: () => (
     <Alert
+      action={<button className="btn btn-primary btn-sm" type="button">Choose a plan</button>}
       className="alert alert-primary d-flex align-items-start gap-2 mb-0"
+      icon={<span className="text-primary">ℹ</span>}
       status="info"
       style={{ width: '28rem', maxWidth: '100%' }}
       variant="unstyled"
     >
-      <AlertIcon className="text-primary" />
-      <AlertContent>
-        <AlertTitle className="fw-semibold">Your trial ends tomorrow</AlertTitle>
-        <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
-      </AlertContent>
-      <AlertDismiss className="btn-close ms-auto" />
+      <AlertTitle className="fw-semibold">Your trial ends tomorrow</AlertTitle>
+      <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
     </Alert>
   ),
 }

@@ -14,7 +14,7 @@ public API follows semver: a breaking change only arrives in a major version, an
 Search your code for these, one by one. The rest of the page explains each change.
 
 - `classNames`, `inputClassName` and the other loose class props: [every element is a part](#every-element-is-a-part).
-- `aria-label` on `AlertDismiss`, `ChipRemove`, `ToastDismiss`, `FileUploadRemove` and `SelectClear`: it is [`label`](#close-and-remove-buttons-take-label).
+- `aria-label` on `ToastDismiss`, `FileUploadRemove` and `SelectClear`: it is [`label`](#close-and-remove-buttons-take-label).
 - `inputRef` on a `DatePicker` or a `TimePicker`, and a `ref` on a `SelectTrigger`, a `Rating` or a `PinInput`: [the ref](#the-ref-goes-to-the-element-the-field-talks-to).
 - `data-plume-menu*`, `data-plume-select-control`, `data-plume-tree-*` and other [renamed CSS hooks](#renamed-css-hooks) in your stylesheets.
 - `label`, `busy`, `busyText` and `labels` on a `Button`, and `Spinner` anywhere: [`Button` and `Loader`](#button-takes-its-content-as-children-and-spinner-is-loader).
@@ -280,8 +280,8 @@ provider, and a single text can be set on the part that shows it.
     <tr><td><code>Stepper</code></td><td><code>statusLabels</code></td><td>the <code>stepper</code> texts of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>ToastProvider</code></td><td><code>dismissLabel</code>, <code>regionLabel</code></td><td>the <code>close</code> and <code>toast.region</code> texts of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Paginator</code></td><td><code>firstLabel</code>, <code>previousLabel</code>, <code>nextLabel</code>, <code>lastLabel</code>, <code>getPageLabel</code></td><td>the <code>paginator</code> texts of the <code>LocaleProvider</code> (<code>first</code>, <code>previous</code>, <code>next</code>, <code>last</code>, <code>page</code>)</td></tr>
-    <tr><td><code>Alert</code></td><td><code>dismissLabel</code></td><td>the <code>close</code> text of the <code>LocaleProvider</code>, or <code>label</code> on <code>AlertDismiss</code></td></tr>
-    <tr><td><code>Chip</code></td><td><code>removeLabel</code></td><td>the <code>chip.remove</code> text of the <code>LocaleProvider</code>, or <code>label</code> on <code>ChipRemove</code></td></tr>
+    <tr><td><code>Alert</code></td><td><code>dismissLabel</code></td><td>the <code>close</code> text of the <code>LocaleProvider</code></td></tr>
+    <tr><td><code>Chip</code></td><td><code>removeLabel</code></td><td>the <code>chip.remove</code> text of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Avatar</code></td><td><code>statusLabel</code></td><td>the <code>avatar</code> texts of the <code>LocaleProvider</code> (<code>online</code>, <code>away</code>, <code>busy</code>, <code>offline</code>)</td></tr>
     <tr><td><code>AvatarGroup</code></td><td><code>overflowLabel</code></td><td>the <code>avatarGroup.overflow</code> text of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Table</code></td><td><code>loadingLabel</code></td><td>the <code>loader</code> text of the <code>LocaleProvider</code>, or <code>label</code> on <code>TableLoading</code></td></tr>
@@ -365,26 +365,23 @@ takes a render function to style or replace each item.
   </tbody>
 </table>
 
-The `data-plume-select-trigger` attribute of the combobox is now `data-plume-select-combobox`. The `SelectChip` remove
-button is styled from the chip until `Chip` gets its own parts.
+The `data-plume-select-trigger` attribute of the combobox is now `data-plume-select-combobox`. The remove button of a
+`SelectChip` is `data-plume-chip-remove`.
 
-## Alert, Chip and Avatar are made of parts
+## `Alert`, `Chip` and `Avatar` are single components
 
-These components no longer take `classNames`. Every element they render is a part you can import, with its own
-`className`, `style` and `ref`. Given no parts, they render the same default composition as before; `children` keeps
-its meaning (the text of the alert, the label of the chip), and the root switches to your composition when a direct
-child is one of its parts.
+These components no longer take `classNames`, and they export no parts for the elements they draw by themselves. What
+used to be a key of `classNames` is a `data-plume-<component>-<element>` attribute, so you style it from the parent
+(`[&_[data-plume-chip-remove]]:opacity-60` in Tailwind), or you put your own element in the prop that fills it.
+`children` keeps its meaning: the text of the alert and of the chip. The `Avatar` takes no `children`; its fallback is
+the `fallback` prop.
 
 ```tsx
 // Before
 <Alert dismissible classNames={{ dismiss: 'opacity-60' }}>Saved</Alert>
 
 // After
-<Alert>
-  <AlertIcon />
-  <AlertContent>Saved</AlertContent>
-  <AlertDismiss className='opacity-60' />
-</Alert>
+<Alert className='[&_[data-plume-alert-dismiss]]:opacity-60' dismissible>Saved</Alert>
 ```
 
 <table>
@@ -392,180 +389,32 @@ child is one of its parts.
     <tr><th>Component</th><th>Before</th><th>After</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>Alert</code></td><td><code>classNames.icon</code>, <code>.content</code>, <code>.action</code>, <code>.dismiss</code></td><td><code>AlertIcon</code>, <code>AlertContent</code>, <code>AlertAction</code>, <code>AlertDismiss</code></td></tr>
-    <tr><td><code>Chip</code></td><td><code>classNames.icon</code>, <code>.label</code>, <code>.remove</code></td><td><code>ChipIcon</code>, <code>ChipLabel</code>, <code>ChipRemove</code></td></tr>
-    <tr><td><code>Avatar</code></td><td><code>classNames.image</code>, <code>.fallback</code>, <code>.status</code></td><td><code>AvatarImage</code>, <code>AvatarFallback</code>, <code>AvatarStatusDot</code>; the counter of an <code>AvatarGroup</code> is <code>AvatarOverflow</code></td></tr>
+    <tr><td><code>Alert</code></td><td><code>classNames.icon</code>, <code>.content</code>, <code>.action</code>, <code>.dismiss</code></td><td><code>data-plume-alert-icon</code>, <code>-content</code>, <code>-action</code> and <code>-dismiss</code>; set them with <code>icon</code>, <code>action</code> and <code>dismissible</code>. <code>AlertTitle</code> and <code>AlertDescription</code> are still parts, inside the <code>children</code></td></tr>
+    <tr><td><code>Chip</code></td><td><code>classNames.icon</code>, <code>.label</code>, <code>.remove</code></td><td><code>data-plume-chip-icon</code>, <code>-label</code> and <code>-remove</code>; set them with <code>icon</code>, <code>children</code> and <code>onRemove</code></td></tr>
+    <tr><td><code>Avatar</code></td><td><code>classNames.image</code>, <code>.fallback</code>, <code>.status</code></td><td><code>data-plume-avatar-image</code>, <code>-fallback</code> and <code>-status-dot</code>; set them with <code>src</code>, <code>fallback</code> and <code>status</code>. The counter of an <code>AvatarGroup</code> is <code>AvatarOverflow</code></td></tr>
   </tbody>
 </table>
 
-With parts, the props that only fill the default (`action` and `dismissible` of the `Alert`, `icon` and `onRemove`
-of the `Chip`) have no effect: compose the part instead. The `data-plume-avatar-status` attribute is now `data-plume-avatar-status-dot`.
-`SelectChip` composes `ChipRemove`, so the remove button of a select chip is styled with `className` on it.
+The remove button of a `Chip` is named by the `chip.remove` text of the `LocaleProvider` followed by the text of the
+chip, and a `SelectChip` is named by the `select.remove` text. The `data-plume-avatar-status` attribute is now
+`data-plume-avatar-status-dot`.
 
-## Navigation, overlays and menus are made of parts
-
-`Accordion`, `Breadcrumb`, `Stepper`, `Sidebar`, `Modal`, `Drawer`, `Toast`, `Dropdown` and `Tree` no longer take
-`classNames`. Every element they render is a part you can import, with its own `className`, `style` and `ref`. Given
-no parts, they render the same default composition as before, and the root switches to your composition when a direct
-child is one of its parts.
-
-```tsx
-// Before
-<ModalContent classNames={{ backdrop: 'bg-black/70' }}>…</ModalContent>
-
-// After
-<ModalBackdrop className='bg-black/70'>
-  <ModalContent>…</ModalContent>
-</ModalBackdrop>
-```
-
-<table>
-  <thead>
-    <tr><th>Component</th><th>Before</th><th>After</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><code>Accordion</code></td><td><code>classNames.heading</code>, <code>.icon</code>, <code>.body</code></td><td><code>AccordionHeading</code>, <code>AccordionTitle</code>, <code>AccordionIcon</code>, <code>AccordionBody</code></td></tr>
-    <tr><td><code>Breadcrumb</code></td><td><code>classNames.list</code>, <code>.separator</code></td><td><code>BreadcrumbList</code>, <code>BreadcrumbSeparator</code></td></tr>
-    <tr><td><code>Stepper</code></td><td>no class for the indicator</td><td><code>StepIndicatorContent</code>, <code>StepIndicatorLabel</code></td></tr>
-    <tr><td><code>Sidebar</code></td><td><code>classNames.backdrop</code>, <code>.icon</code>, <code>.label</code></td><td><code>SidebarBackdrop</code>, <code>SidebarItemIcon</code>, <code>SidebarItemLabel</code></td></tr>
-    <tr><td><code>Modal</code></td><td><code>classNames.backdrop</code></td><td><code>ModalBackdrop</code></td></tr>
-    <tr><td><code>Drawer</code></td><td><code>classNames.backdrop</code></td><td><code>DrawerBackdrop</code></td></tr>
-    <tr><td><code>Toast</code></td><td><code>classNames.toast</code>, <code>.icon</code>, <code>.content</code>, <code>.title</code>, <code>.description</code>, <code>.action</code>, <code>.dismiss</code></td><td><code>Toast</code>, <code>ToastIcon</code>, <code>ToastBody</code>, <code>ToastTitle</code>, <code>ToastDescription</code>, <code>ToastActionButton</code>, <code>ToastDismiss</code></td></tr>
-    <tr><td><code>Dropdown</code></td><td>no class for the icon, the text or the shortcut</td><td><code>DropdownItemIcon</code>, <code>DropdownItemLabel</code>, <code>DropdownItemShortcut</code></td></tr>
-    <tr><td><code>Tree</code></td><td>no class for the chevron, the checkbox or the icon</td><td><code>TreeItemChevron</code>, <code>TreeItemCheckbox</code>, <code>TreeItemIcon</code></td></tr>
-  </tbody>
-</table>
-
-The toasts are created with `useToast()`, so the `ToastProvider` takes a `render` function to compose them:
-
-```tsx
-<ToastProvider
-  render={(toast) => (
-    <Toast toast={toast}>
-      <ToastBody>
-        <ToastTitle />
-      </ToastBody>
-      <ToastDismiss className='opacity-60' />
-    </Toast>
-  )}
-/>
-```
-
-With parts, the props that only fill the default (`icon` of a `SidebarItem`, `DropdownItem` and `TreeItemLabel`,
-`shortcut` of a `DropdownItem`) have no effect: compose the part instead. The `separatorClassName` of the
-`Breadcrumb` context is gone: put the class on `BreadcrumbSeparator`. The attributes `data-plume-sidebar-icon` and
-`data-plume-sidebar-label` are now `data-plume-sidebar-item-icon` and `data-plume-sidebar-item-label`.
-
-## Utilities are made of parts
-
-`Collapse`, `ProgressBar`, `Table`, `Carousel`, `Paginator` and `FileUpload` no longer take `classNames`. Every element
-they render is a part you can import, with its own `className`, `style` and `ref`. Given no parts, they render the same
-default composition as before, and the root switches to your composition when a direct child is one of its parts.
-
-```tsx
-// Before
-<ProgressBar classNames={{ indicator: 'bg-emerald-500' }} value={40} />
-
-// After
-<ProgressBar value={40}>
-  <ProgressBarIndicator className='bg-emerald-500' />
-</ProgressBar>
-```
-
-<table>
-  <thead>
-    <tr><th>Component</th><th>Before</th><th>After</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><code>Collapse</code></td><td><code>classNames.body</code></td><td><code>CollapseBody</code> (inside <code>CollapseClip</code>, which clips the height animation)</td></tr>
-    <tr><td><code>ProgressBar</code></td><td><code>classNames.indicator</code>, <code>.value</code></td><td><code>ProgressBarTrack</code>, <code>ProgressBarIndicator</code>, <code>ProgressBarValue</code></td></tr>
-    <tr><td><code>Table</code></td><td><code>classNames.container</code>, <code>.loading</code></td><td><code>className</code> of the <code>Table</code>, <code>TableLoading</code></td></tr>
-    <tr><td><code>TableHead</code></td><td><code>classNames.sort</code></td><td><code>TableHeadSort</code>, <code>TableHeadSortIcon</code></td></tr>
-    <tr><td><code>TableEmpty</code></td><td><code>classNames.emptyState</code>, <code>.icon</code>, <code>.title</code>…</td><td><code>TableEmptyCell</code> with an <code>EmptyState</code> inside</td></tr>
-    <tr><td><code>Carousel</code></td><td><code>CarouselDots classNames.dot</code></td><td><code>CarouselDot</code>, one per slide: <code>&lt;CarouselDots&gt;{'{() => <CarouselDot className="x" />}'}&lt;/CarouselDots&gt;</code></td></tr>
-    <tr><td><code>Paginator</code></td><td><code>classNames.list</code>, <code>.item</code>, <code>.page</code>, <code>.ellipsis</code>, <code>.first</code>, <code>.previous</code>, <code>.next</code>, <code>.last</code></td><td><code>PaginatorList</code>, <code>PaginatorItem</code>, <code>PaginatorPages</code>, <code>PaginatorPage</code>, <code>PaginatorEllipsis</code>, <code>PaginatorFirst</code>, <code>PaginatorPrevious</code>, <code>PaginatorNext</code>, <code>PaginatorLast</code></td></tr>
-    <tr><td><code>FileUpload</code></td><td><code>classNames.dropzone</code>, <code>.list</code>, <code>.file</code>, <code>.remove</code>, <code>.progress</code>, <code>.progressIndicator</code>, <code>.error</code></td><td><code>FileUploadDropzone</code>, <code>FileUploadList</code>, <code>FileUploadItem</code>, <code>FileUploadRemove</code>, <code>FileUploadProgress</code> with a <code>ProgressBarIndicator</code>, <code>FileUploadErrors</code>; also <code>FileUploadInput</code>, <code>FileUploadPrompt</code>, <code>FileUploadName</code>, <code>FileUploadSize</code>, <code>FileUploadError</code></td></tr>
-  </tbody>
-</table>
-
-Three changes move a prop to another element, without an error:
-
-- The `className`, `style` and `id` of a `Table` go to its scrolling container, and the `<table>` is the new `TableElement`. Put the classes you had on the table in `<Table><TableElement className='…'>…</TableElement></Table>`.
-- The `className` and `ref` of a `TableEmpty` go to its `<tr>`, and the cell is `TableEmptyCell`.
-- With `showValue`, the `className` of a `ProgressBar` goes to the container of the bar and the value. Use `ProgressBarTrack` for the bar.
-
-The data-driven parts take a function: `PaginatorPages` gets each entry (a page or an ellipsis), `FileUploadList` each
-file and `FileUploadErrors` each rejection. `showEdges` of the `Paginator` only affects the default composition: when
-you compose the list, write `PaginatorFirst` and `PaginatorLast` yourself. The attributes `data-plume-fileupload-file`
-and `data-plume-paginator-part="x"` are now `data-plume-fileupload-item` and `data-plume-paginator-x`, and the
-attribute of the `<table>` is `data-plume-table-element`. `ProgressBar` is now a client component.
-
-## The `Paginator` counts items, not pages
-
-The `count` prop (the number of pages) is removed. Give the `Paginator` the `total` of items and the `pageSize`, and
-it works the pages out (`total / pageSize`). If you only have the number of pages, pass `total={pages * pageSize}`.
-The `total` also feeds the new `PaginatorSummary`, and a `Paginator` with no `total` renders nothing.
-
-```tsx
-// Before
-<Paginator count={10} />
-
-// After
-<Paginator pageSize={10} total={100} />
-```
-
-## `Slider` and `Rating` are made of parts
-
-`Slider` and `Rating` no longer take `classNames`. Every element they render is a part with its own `className`, `style`
-and `ref`. Given no parts they render the same default composition as before, and a data-driven part takes a function:
-`SliderMarks` gets each mark and a `Rating` gets the position of each star.
-
-```tsx
-// Before
-<Rating classNames={{ empty: 'text-gray-300', filled: 'text-amber-500' }} variant='unstyled' />
-
-// After
-<Rating variant='unstyled'>
-  {(position) => (
-    <RatingItem position={position}>
-      <RatingEmpty className='text-gray-300' />
-      <RatingFilled className='text-amber-500' />
-      <RatingRadio />
-    </RatingItem>
-  )}
-</Rating>
-```
-
-<table>
-  <thead>
-    <tr><th>Component</th><th>Before</th><th>After</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><code>Slider</code></td><td><code>classNames.track</code>, <code>.range</code>, <code>.thumb</code>, <code>.mark</code>, <code>.markLabel</code></td><td><code>SliderTrack</code>, <code>SliderRange</code>, <code>SliderThumb</code> (one per value, with <code>index</code>), <code>SliderMarks</code> with <code>SliderMarkItem</code> and <code>SliderMarkLabel</code>; also <code>SliderBody</code></td></tr>
-    <tr><td><code>Rating</code></td><td><code>classNames.item</code>, <code>.empty</code>, <code>.filled</code></td><td><code>RatingItem</code>, <code>RatingEmpty</code>, <code>RatingFilled</code>; also <code>RatingRadio</code> and <code>RatingValueText</code></td></tr>
-  </tbody>
-</table>
-
-A composed `Slider` needs one `SliderThumb` per value, and a composed `Rating` needs a `RatingRadio` in each item,
-because they are the native controls. The attribute `data-plume-slider-mark` is now `data-plume-slider-mark-item`.
-
-With these two, no component takes `classNames` and the `<Name>Part` types are gone: the elements you used to reach with
-a key of `classNames` are parts you import.
+With these, no component takes `classNames` and the `<Name>Part` types are gone.
 
 ## Close and remove buttons take `label`
 
-`AlertDismiss`, `ChipRemove`, `ToastDismiss`, `FileUploadRemove` and `SelectClear` are built on the same close button as
-the modals, so they take `label` (the accessible name) instead of `aria-label`. An element you pass as `children`
-becomes the button, instead of going inside one, and the `ref` is an `HTMLElement`. `AlertDismiss` and `ToastDismiss` are
-named by the `close` text of the `LocaleProvider`, like the close button of a modal, and the rest by the texts of their
-component.
+`ToastDismiss`, `FileUploadRemove` and `SelectClear` are built on the same close button as the modals, so they take
+`label` (the accessible name) instead of `aria-label`. An element you pass as `children` becomes the button, instead of
+going inside one, and the `ref` is an `HTMLElement`. `ToastDismiss`, the dismiss button of an `Alert` and the remove
+button of a `Chip` are named by the texts of the `LocaleProvider`, like the close button of a modal, and the rest by the
+texts of their component.
 
 ```tsx
 // Before
-<AlertDismiss aria-label='Close the alert' />
+<ToastDismiss aria-label='Close the toast' />
 
 // After
-<AlertDismiss label='Close the alert' />
+<ToastDismiss label='Close the toast' />
 ```
 
 ## The ref goes to the element the field talks to

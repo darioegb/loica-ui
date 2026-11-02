@@ -1,19 +1,14 @@
 'use client'
 
-import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
-import { forwardRef, useCallback, useMemo, useState } from 'react'
+import type { ComponentPropsWithoutRef, ForwardedRef, ReactNode } from 'react'
+import { forwardRef, useState } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
+import { OverlayClose } from '../../../overlay/overlay-close'
 import { StatusIcon } from '../../../overlay/status-icon'
-import type { ComponentProps, Size } from '../../../theme'
+import type { Size } from '../../../theme'
 import { tagColorVars } from '../shared/tag-vars'
 import tag from '../shared/tag.module.css'
 import styles from './alert.module.css'
-import { AlertAction } from './alert-action'
-import { AlertContent } from './alert-content'
-import { AlertContext } from './alert-context'
-import { AlertDismiss } from './alert-dismiss'
-import { AlertIcon } from './alert-icon'
-import { hasPart } from '../../../overlay/has-part'
 
 export type AlertStatus = 'error' | 'info' | 'success' | 'warning'
 
@@ -56,14 +51,7 @@ export interface AlertOwnProps {
   variant?: AlertVariant
 }
 
-type AlertRootAttributes = Pick<
-  HTMLAttributes<HTMLDivElement>,
-  'aria-label' | 'aria-labelledby' | 'children' | 'hidden' | 'id' | 'role' | 'title'
->
-
-export type AlertProps = Omit<ComponentProps, 'index'> & AlertRootAttributes & AlertOwnProps
-
-const ALERT_PARTS = [AlertAction, AlertContent, AlertDismiss, AlertIcon]
+export type AlertProps = ComponentPropsWithoutRef<'div'> & AlertOwnProps
 
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(
   (
@@ -85,50 +73,51 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
   ) => {
     const [dismissed, setDismissed] = useState(false)
     const isStyled = variant !== 'unstyled'
-    const dismiss = useCallback((): void => {
-      setDismissed(true)
-      onDismiss?.()
-    }, [onDismiss])
-    const context = useMemo(
-      () => ({
-        dismiss,
-        icon: icon === undefined ? <StatusIcon status={status} /> : icon,
-        isStyled,
-        status,
-      }),
-      [dismiss, icon, isStyled, status],
-    )
+    const content = icon === undefined ? <StatusIcon status={status} /> : icon
 
     if (dismissed) return null
 
     return (
-      <AlertContext.Provider value={context}>
-        <div
-          className={joinClasses(
-            isStyled && styles.alert,
-            isStyled && styles[size],
-            isStyled && tag[variant],
-            className,
-          )}
-          data-plume-alert=""
-          data-status={status}
-          ref={ref}
-          role={role ?? (status === 'error' ? 'alert' : 'status')}
-          style={tagColorVars('alert', status, style)}
-          {...rest}
-        >
-          {hasPart(children, ALERT_PARTS) ? (
-            children
-          ) : (
-            <>
-              <AlertIcon />
-              <AlertContent>{children}</AlertContent>
-              {action ? <AlertAction>{action}</AlertAction> : null}
-              {dismissible ? <AlertDismiss /> : null}
-            </>
-          )}
-        </div>
-      </AlertContext.Provider>
+      <div
+        className={joinClasses(
+          isStyled && styles.alert,
+          isStyled && styles[size],
+          isStyled && tag[variant],
+          className,
+        )}
+        data-plume-alert=""
+        data-status={status}
+        ref={ref}
+        role={role ?? (status === 'error' ? 'alert' : 'status')}
+        style={tagColorVars('alert', status, style)}
+        {...rest}
+      >
+        {content ? (
+          <span
+            aria-hidden="true"
+            className={isStyled ? styles.icon : undefined}
+            data-plume-alert-icon=""
+          >
+            {content}
+          </span>
+        ) : null}
+        <div data-plume-alert-content="">{children}</div>
+        {action ? (
+          <div className={isStyled ? styles.action : undefined} data-plume-alert-action="">
+            {action}
+          </div>
+        ) : null}
+        {dismissible ? (
+          <OverlayClose
+            closeClassName={isStyled ? styles.dismiss : undefined}
+            data-plume-alert-dismiss=""
+            onClose={() => {
+              setDismissed(true)
+              onDismiss?.()
+            }}
+          />
+        ) : null}
+      </div>
     )
   },
 )

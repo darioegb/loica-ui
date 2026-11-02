@@ -1,7 +1,6 @@
 import { act, render, screen, within } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { createRef, useState } from 'react'
-import { ChipLabel, ChipRemove } from '../../../presentation/chip'
 import { LocaleProvider } from '../../../../locale/locale-provider'
 import { Field } from '../../field'
 import {
@@ -1416,7 +1415,7 @@ describe('Select component', () => {
       expect(screen.getByRole('button', { name: 'Remove Apple' })).toBeInTheDocument()
     })
 
-    it('composes the parts of a Chip inside a SelectChip', async () => {
+    it('names the remove button of a SelectChip with its own text, whatever the children', async () => {
       const onValueChange = vi.fn()
       render(
         <Select defaultValue={['apple']} multiple onValueChange={onValueChange}>
@@ -1425,10 +1424,9 @@ describe('Select component', () => {
               <SelectChips>
                 {(chosen) => (
                   <SelectChip option={chosen}>
-                    <ChipLabel className="my-label">
-                      <span aria-hidden="true">{chosen.label}</span>
-                    </ChipLabel>
-                    <ChipRemove className="my-remove" />
+                    <span aria-hidden="true" className="my-label">
+                      {chosen.label}
+                    </span>
                   </SelectChip>
                 )}
               </SelectChips>
@@ -1441,7 +1439,7 @@ describe('Select component', () => {
         </Select>,
       )
       const remove = screen.getByRole('button', { name: 'Remove Apple' })
-      expect(remove).toHaveClass('my-remove')
+      expect(remove).toHaveAttribute('data-plume-chip-remove')
       expect(control().querySelector('.my-label')).toHaveTextContent('Apple')
       await userEvent.click(remove)
       expect(onValueChange).toHaveBeenCalledWith([])
