@@ -1,5 +1,11 @@
 # plume-ui-react
 
+## 0.51.0
+
+### Minor Changes
+
+- [#280](https://github.com/darioegb/plume-ui-react/pull/280) [`9d1aff560a0f8fc104691cac241c1b2b9747fd70`](https://github.com/darioegb/plume-ui-react/commit/9d1aff560a0f8fc104691cac241c1b2b9747fd70) Thanks [@darioegb](https://github.com/darioegb)! - `Input`, `Textarea`, `NumberInput`, `PinInput`, `Rating` and `Slider` no longer take `labels`. Their texts come from the `LocaleProvider` (`input`, `textarea`, `numberInput`, `pinInput`, `rating` and `slider`), and a change for one section is a nested `LocaleProvider`. A single text can still be set on the part that shows it: `aria-label` on `InputReveal`, `PinInputCell` and `RatingRadio`, and `label` on `NumberInputDecrement` and `NumberInputIncrement`. The types `InputLabels`, `TextareaLabels`, `NumberInputLabels`, `PinInputLabels`, `RatingLabels` and `SliderLabels` are still exported to type the messages.
+
 ## 0.50.0
 
 ### Minor Changes
