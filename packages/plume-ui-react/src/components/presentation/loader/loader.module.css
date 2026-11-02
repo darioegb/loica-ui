@@ -25,7 +25,6 @@
 
 .spinner {
   composes: loader;
-  animation: loader-spin 1s linear infinite;
   border: max(2px, calc(var(--loader-size) / 10)) solid currentColor;
   border-radius: 50%;
   border-top-color: transparent;
@@ -36,7 +35,6 @@
 }
 
 .dots > span {
-  animation: loader-dot 1.2s ease-in-out infinite;
   background-color: currentColor;
   border-radius: 50%;
   height: 25%;
@@ -48,7 +46,6 @@
 }
 
 .bars > span {
-  animation: loader-bar 1s ease-in-out infinite;
   background-color: currentColor;
   height: 100%;
   width: 20%;
@@ -60,6 +57,20 @@
 
 :is(.dots, .bars) > span:nth-child(3) {
   animation-delay: 0.3s;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .spinner {
+    animation: loader-spin 1s linear infinite;
+  }
+
+  .dots > span {
+    animation: loader-dot 1.2s ease-in-out infinite;
+  }
+
+  .bars > span {
+    animation: loader-bar 1s ease-in-out infinite;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
