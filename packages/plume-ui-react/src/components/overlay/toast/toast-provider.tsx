@@ -32,7 +32,6 @@ export type ToastPosition =
 export type ToastVariant = 'solid' | 'subtle' | 'outline' | 'unstyled'
 
 export interface ToastLabels {
-  dismiss: string
   region: string
 }
 
@@ -59,8 +58,9 @@ export interface ToastProviderProps {
   icons?: false | ToastIcons
   /**
    * The texts the provider adds, to translate them: `region` is the accessible name of the
-   * region that holds the toasts, and `dismiss` the one of the dismiss button of each toast.
-   * @default { dismiss: 'Dismiss notification', region: 'Notifications' }
+   * region that holds the toasts. The dismiss button of each toast is named by the `close` text of
+   * the `LocaleProvider`.
+   * @default { region: 'Notifications' }
    */
   labels?: Partial<ToastLabels>
   /**
@@ -87,10 +87,7 @@ export interface ToastProviderProps {
   variant?: ToastVariant
 }
 
-const DEFAULT_LABELS: ToastLabels = {
-  dismiss: 'Dismiss notification',
-  region: 'Notifications',
-}
+const DEFAULT_LABELS: ToastLabels = { region: 'Notifications' }
 
 const READING_BASE = 1500
 const READING_PER_CHARACTER = 50
@@ -185,8 +182,8 @@ export function ToastProvider({
   )
 
   const region = useMemo(
-    () => ({ dismiss: remove, dismissLabel: text.dismiss, icons, isStyled }),
-    [remove, text.dismiss, icons, isStyled],
+    () => ({ dismiss: remove, icons, isStyled }),
+    [remove, icons, isStyled],
   )
 
   const regionClasses = joinClasses(

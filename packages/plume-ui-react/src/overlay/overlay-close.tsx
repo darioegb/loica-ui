@@ -21,7 +21,8 @@ export interface OverlayCloseOwnProps {
    */
   children?: ReactNode
   /**
-   * The accessible name of the corner X button.
+   * The accessible name of the close button. It defaults to the `close` text of the
+   * `LocaleProvider`.
    * @default 'Close'
    */
   label?: string
@@ -52,7 +53,7 @@ export const OverlayClose = forwardRef<HTMLElement, OverlayCloseInternalProps>(
     }: OverlayCloseInternalProps,
     ref: ForwardedRef<HTMLElement>,
   ): ReactElement => {
-    const text = useLabels('overlayClose', DEFAULT_LABELS, { label })
+    const text = useLabels('close', DEFAULT_LABELS, { label })
     if (isValidElement(children))
       return cloneWithProps(children, { ...data, onClick: onClose }, ref)
 

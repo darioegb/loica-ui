@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { renderToString } from 'react-dom/server'
+import { LocaleProvider } from '../../../../locale'
 import { ToastProvider, useToast, type ToastApi, type ToastProviderProps } from '..'
 
 let api: ToastApi
@@ -251,13 +252,13 @@ describe('ToastProvider component', () => {
       run(() => api.toast('Saved', { duration: 1000 }))
       const toast = screen.getByRole('status')
       act(() => {
-        screen.getByRole('button', { name: 'Dismiss notification' }).focus()
+        screen.getByRole('button', { name: 'Close' }).focus()
       })
       advance(5000)
       expect(toast).toBeInTheDocument()
 
       act(() => {
-        screen.getByRole('button', { name: 'Dismiss notification' }).blur()
+        screen.getByRole('button', { name: 'Close' }).blur()
       })
       advance(1000)
       expect(screen.queryByRole('status')).toBeNull()
@@ -269,7 +270,7 @@ describe('ToastProvider component', () => {
       const toast = screen.getByRole('status')
       fireEvent.pointerEnter(toast)
       act(() => {
-        screen.getByRole('button', { name: 'Dismiss notification' }).focus()
+        screen.getByRole('button', { name: 'Close' }).focus()
       })
       fireEvent.pointerLeave(toast)
       advance(5000)
@@ -302,12 +303,18 @@ describe('ToastProvider component', () => {
     it('has a dismiss button with an accessible name', async () => {
       setup()
       run(() => api.toast('Saved'))
-      await userEvent.click(screen.getByRole('button', { name: 'Dismiss notification' }))
+      await userEvent.click(screen.getByRole('button', { name: 'Close' }))
       expect(screen.queryByRole('status')).toBeNull()
     })
 
-    it('lets the name of the button be set', () => {
-      setup({ labels: { dismiss: 'Cerrar' } })
+    it('takes the name of the button from the close text of the LocaleProvider', () => {
+      render(
+        <LocaleProvider messages={{ close: { label: 'Cerrar' } }}>
+          <ToastProvider>
+            <Capture />
+          </ToastProvider>
+        </LocaleProvider>,
+      )
       run(() => api.toast('Saved'))
       expect(screen.getByRole('button', { name: 'Cerrar' })).toBeInTheDocument()
     })
@@ -316,14 +323,14 @@ describe('ToastProvider component', () => {
       const onDismiss = vi.fn()
       setup()
       run(() => api.toast('Saved', { onDismiss }))
-      await userEvent.click(screen.getByRole('button', { name: 'Dismiss notification' }))
+      await userEvent.click(screen.getByRole('button', { name: 'Close' }))
       expect(onDismiss).toHaveBeenCalledTimes(1)
     })
 
     it('dismisses the toast that has the focus with Escape', async () => {
       setup()
       run(() => api.toast('Saved'))
-      screen.getByRole('button', { name: 'Dismiss notification' }).focus()
+      screen.getByRole('button', { name: 'Close' }).focus()
       await userEvent.keyboard('{Escape}')
       expect(screen.queryByRole('status')).toBeNull()
     })
@@ -464,7 +471,7 @@ describe('ToastProvider component', () => {
       expect(screen.getByText('Saved')).not.toHaveClass('title')
       expect(screen.getByText('More')).not.toHaveClass('description')
       expect(screen.getByRole('button', { name: 'Undo' })).not.toHaveClass('action')
-      expect(screen.getByRole('button', { name: 'Dismiss notification' })).not.toHaveClass(
+      expect(screen.getByRole('button', { name: 'Close' })).not.toHaveClass(
         'dismiss',
       )
       expect(toast.querySelector('span[aria-hidden="true"]')).not.toHaveClass('icon')
@@ -501,7 +508,7 @@ describe('ToastProvider component', () => {
         }),
       )
       expect(screen.getByRole('button', { name: 'Undo' })).toHaveClass('action')
-      expect(screen.getByRole('button', { name: 'Dismiss notification' })).toHaveClass('dismiss')
+      expect(screen.getByRole('button', { name: 'Close' })).toHaveClass('dismiss')
       expect(screen.getByRole('status').querySelector('span[aria-hidden="true"]')).toHaveClass(
         'icon',
       )

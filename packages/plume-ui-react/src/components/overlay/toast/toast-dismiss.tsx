@@ -9,19 +9,19 @@ import styles from './toast.module.css'
 export type ToastDismissProps = OverlayCloseProps
 
 /**
- * The dismiss button. Its name is the `dismiss` label of the `ToastProvider` unless you give it a
+ * The dismiss button. Its name is the `close` text of the `LocaleProvider` unless you give it a
  * `label`, and an element given as `children`, such as a `Button`, becomes the button.
  */
 export const ToastDismiss = forwardRef<HTMLElement, ToastDismissProps>(
   ({ label, ...props }: ToastDismissProps, ref: ForwardedRef<HTMLElement>): ReactNode => {
-    const { dismiss, dismissLabel, isStyled } = useToastItem('ToastDismiss')
+    const { dismiss, isStyled } = useToastItem('ToastDismiss')
 
     return (
       <OverlayClose
         {...props}
         closeClassName={isStyled ? styles.dismiss : undefined}
         data-plume-toast-dismiss=""
-        label={label ?? dismissLabel}
+        label={label}
         onClose={dismiss}
         ref={ref}
       />

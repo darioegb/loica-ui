@@ -11,7 +11,7 @@ import { LocaleProvider, useLocale } from '..'
 import type { PlumeMessages } from '..'
 
 const es: PlumeMessages = {
-  alert: { dismiss: 'Cerrar alerta' },
+  close: { label: 'Cerrar' },
   paginator: { next: 'Siguiente', page: (page) => `Página ${page}` },
   loader: { label: 'Cargando' },
 }
@@ -31,7 +31,7 @@ describe('LocaleProvider', () => {
       </LocaleProvider>,
     )
     expect(screen.getByRole('status', { name: 'Cargando' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Cerrar alerta' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Cerrar' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Siguiente' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Página 2' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Previous page' })).toBeInTheDocument()
@@ -64,17 +64,17 @@ describe('LocaleProvider', () => {
     }
     render(<Switch />)
     expect(screen.getByRole('status', { name: 'Loading data' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Dismiss' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'switch' }))
     expect(screen.getByRole('status', { name: 'Cargando' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Cerrar alerta' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Cerrar' })).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'switch' }))
     expect(screen.getByRole('status', { name: 'Loading data' })).toBeInTheDocument()
   })
 
   it('translates the close button of the overlays and the toggles', () => {
     render(
-      <LocaleProvider messages={{ overlayClose: { label: 'Cerrar' } }}>
+      <LocaleProvider messages={{ close: { label: 'Cerrar' } }}>
         <Modal defaultOpen>
           <ModalContent>
             <ModalClose />
@@ -121,7 +121,7 @@ describe('LocaleProvider', () => {
     )
     expect(screen.getByRole('status', { name: 'Espere' })).toBeInTheDocument()
     expect(screen.getByRole('status', { name: 'Cargando' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Cerrar alerta' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Cerrar' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Siguiente' })).toBeInTheDocument()
   })
 

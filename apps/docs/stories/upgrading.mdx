@@ -271,9 +271,9 @@ Every text the library shows or announces is changed with a single `labels` prop
     <tr><td><code>DatePicker</code></td><td><code>config.labels</code>, <code>config.footer</code></td><td><code>labels</code> (adds <code>previousMonth</code>, <code>nextMonth</code>, <code>previousYears</code>, <code>nextYears</code>); <code>config.language</code> is the <code>locale</code> prop and <code>config</code> is removed</td></tr>
     <tr><td><code>TimePicker</code></td><td><code>config.labels</code></td><td><code>labels</code>; <code>config</code> is removed</td></tr>
     <tr><td><code>Stepper</code></td><td><code>statusLabels</code></td><td><code>labels</code></td></tr>
-    <tr><td><code>ToastProvider</code></td><td><code>dismissLabel</code>, <code>regionLabel</code></td><td><code>labels.dismiss</code>, <code>labels.region</code></td></tr>
+    <tr><td><code>ToastProvider</code></td><td><code>dismissLabel</code>, <code>regionLabel</code></td><td>the <code>close</code> text of the <code>LocaleProvider</code>, <code>labels.region</code></td></tr>
     <tr><td><code>Paginator</code></td><td><code>firstLabel</code>, <code>previousLabel</code>, <code>nextLabel</code>, <code>lastLabel</code>, <code>getPageLabel</code></td><td><code>labels.first</code>, <code>labels.previous</code>, <code>labels.next</code>, <code>labels.last</code>, <code>labels.page</code></td></tr>
-    <tr><td><code>Alert</code></td><td><code>dismissLabel</code></td><td><code>labels.dismiss</code></td></tr>
+    <tr><td><code>Alert</code></td><td><code>dismissLabel</code></td><td>the <code>close</code> text of the <code>LocaleProvider</code>, or <code>label</code> on <code>AlertDismiss</code></td></tr>
     <tr><td><code>Chip</code></td><td><code>removeLabel</code></td><td><code>labels.remove</code></td></tr>
     <tr><td><code>Avatar</code></td><td><code>statusLabel</code></td><td><code>labels</code> (<code>online</code>, <code>away</code>, <code>busy</code>, <code>offline</code>)</td></tr>
     <tr><td><code>AvatarGroup</code></td><td><code>overflowLabel</code></td><td><code>labels.overflow</code></td></tr>
@@ -553,7 +553,8 @@ a key of `classNames` are parts you import.
 
 `AlertDismiss`, `ChipRemove`, `ToastDismiss`, `FileUploadRemove` and `SelectClear` are built on the same close button as
 the modals, so they take `label` (the accessible name) instead of `aria-label`. An element you pass as `children`
-becomes the button, instead of going inside one, and the `ref` is an `HTMLElement`. The default texts still come from
+becomes the button, instead of going inside one, and the `ref` is an `HTMLElement`. `AlertDismiss` and `ToastDismiss` are
+named by the `close` text of the `LocaleProvider`, like the close button of a modal, and the rest by their component's
 `labels`.
 
 ```tsx

@@ -3,7 +3,6 @@
 import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
 import { forwardRef, useCallback, useMemo, useState } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import { useLabels } from '../../../locale/locale-provider'
 import { StatusIcon } from '../../../overlay/status-icon'
 import type { ComponentProps, Size } from '../../../theme'
 import { tagColorVars } from '../shared/tag-vars'
@@ -20,10 +19,6 @@ export type AlertStatus = 'error' | 'info' | 'success' | 'warning'
 
 export type AlertVariant = 'outline' | 'solid' | 'subtle' | 'unstyled'
 
-export interface AlertLabels {
-  dismiss: string
-}
-
 export interface AlertOwnProps {
   /** What the user can do about the message: a `Button` or a link, at the end. */
   action?: ReactNode
@@ -38,11 +33,6 @@ export interface AlertOwnProps {
    * It is decorative.
    */
   icon?: ReactNode | false
-  /**
-   * The texts of the Alert, to translate it: `dismiss` is the accessible name of the dismiss
-   * button.
-   */
-  labels?: Partial<AlertLabels>
   /** Called when the dismiss button is pressed. */
   onDismiss?: () => void
   /**
@@ -73,8 +63,6 @@ type AlertRootAttributes = Pick<
 
 export type AlertProps = Omit<ComponentProps, 'index'> & AlertRootAttributes & AlertOwnProps
 
-const DEFAULT_LABELS: AlertLabels = { dismiss: 'Dismiss' }
-
 const ALERT_PARTS = [AlertAction, AlertContent, AlertDismiss, AlertIcon]
 
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(
@@ -85,7 +73,6 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
       className,
       dismissible = false,
       icon,
-      labels,
       onDismiss,
       role,
       size = 'md',
@@ -96,7 +83,6 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
     }: AlertProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
-    const text = useLabels('alert', DEFAULT_LABELS, labels)
     const [dismissed, setDismissed] = useState(false)
     const isStyled = variant !== 'unstyled'
     const dismiss = useCallback((): void => {
@@ -108,10 +94,9 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
         dismiss,
         icon: icon === undefined ? <StatusIcon status={status} /> : icon,
         isStyled,
-        labels: text,
         status,
       }),
-      [dismiss, icon, isStyled, text, status],
+      [dismiss, icon, isStyled, status],
     )
 
     if (dismissed) return null

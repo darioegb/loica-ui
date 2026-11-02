@@ -22,7 +22,7 @@ const statuses = ['info', 'success', 'warning', 'error'] as const
  * (`note` for a message that doesn't need to be announced).
  *
  * Put a `AlertTitle` and a `AlertDescription` inside, or just the text. With **dismissible** it gets a close
- * button, named by **labels.dismiss**, and it goes away when it is pressed. **onDismiss** tells you, so you can keep
+ * button, named by the `close` text of the `LocaleProvider`, and it goes away when it is pressed. **onDismiss** tells you, so you can keep
  * it away. An **action**, such as a button or a link, goes at the end.
  *
  * Every element of the Alert is a part you can import. Given no parts, the `Alert` builds the usual layout from its
@@ -77,9 +77,6 @@ export default {
     },
     dismissible: {
       control: 'boolean',
-    },
-    labels: {
-      control: false,
     },
     className: {
       control: 'text',
@@ -301,7 +298,7 @@ export const Icons: Story = {
 
 /**
  * With **dismissible** the Alert has a close button and goes away when it is pressed. **onDismiss** tells you,
- * so you can keep it away the next time. Change **labels.dismiss** to translate the name of the button.
+ * so you can keep it away the next time. Translate the name of the button with the `close` text of the `LocaleProvider`, or give `AlertDismiss` a **label**.
  */
 export const Dismissible: Story = {
   args: { dismissible: true, status: 'success' },

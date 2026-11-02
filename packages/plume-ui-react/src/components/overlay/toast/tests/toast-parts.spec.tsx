@@ -55,7 +55,7 @@ describe('Toast parts', () => {
       'data-plume-toast-action',
       '',
     )
-    expect(screen.getByRole('button', { name: 'Dismiss notification' })).toHaveAttribute(
+    expect(screen.getByRole('button', { name: 'Close' })).toHaveAttribute(
       'data-plume-toast-dismiss',
       '',
     )
@@ -90,10 +90,7 @@ describe('Toast parts', () => {
     expect(screen.getByRole('button', { name: 'Undo' })).toHaveClass('action', 'action-mine')
     expect(screen.getByText('★')).toHaveClass('icon', 'icon-mine')
     expect(screen.getByText('Saved').parentElement).toHaveClass('content', 'body-mine')
-    expect(screen.getByRole('button', { name: 'Dismiss notification' })).toHaveClass(
-      'dismiss',
-      'dismiss-mine',
-    )
+    expect(screen.getByRole('button', { name: 'x' })).toHaveClass('dismiss', 'dismiss-mine')
     expect(Array.from(toast.children).map((child) => child.tagName)).toEqual([
       'DIV',
       'BUTTON',
@@ -190,7 +187,7 @@ describe('Toast parts', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
     expect(screen.queryByRole('status')).toBeNull()
     run(() => api.toast('Again'))
-    fireEvent.click(screen.getByRole('button', { name: 'Dismiss notification' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }))
     expect(screen.queryByRole('status')).toBeNull()
   })
 
@@ -241,7 +238,7 @@ describe('Toast parts', () => {
     expect(screen.getByText('Saved')).toHaveAttribute('class', 't')
     expect(screen.getByText('More')).toHaveAttribute('class', 'd')
     expect(screen.getByRole('button', { name: 'Undo' })).toHaveAttribute('class', 'a')
-    expect(screen.getByRole('button', { name: 'Dismiss notification' })).toHaveAttribute(
+    expect(screen.getByRole('button', { name: 'Close' })).toHaveAttribute(
       'class',
       'x',
     )
