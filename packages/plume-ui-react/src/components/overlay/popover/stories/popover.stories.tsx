@@ -19,7 +19,7 @@ function Example(props: Readonly<Omit<PopoverProps, 'children'>>): React.ReactNo
   return (
     <Popover {...props}>
       <PopoverTrigger>
-        <Button label="Open popover" />
+        <Button>Open popover</Button>
       </PopoverTrigger>
       <PopoverContent aria-label="Details">
         <strong>Team members</strong>
@@ -96,7 +96,7 @@ export const Default: Story = {
       source: {
         code: `<Popover>
   <PopoverTrigger>
-    <Button label="Open popover" />
+    <Button>Open popover</Button>
   </PopoverTrigger>
   <PopoverContent aria-label="Details">
     <strong>Team members</strong>
@@ -118,7 +118,7 @@ export const Variants: Story = {
       {(['elevated', 'outline'] as const).map((variant) => (
         <Popover key={variant} variant={variant}>
           <PopoverTrigger>
-            <Button label={variant[0].toUpperCase() + variant.slice(1)} variant="outline" />
+            <Button variant="outline">{variant[0].toUpperCase() + variant.slice(1)}</Button>
           </PopoverTrigger>
           <PopoverContent aria-label={variant}>
             A popover with the {variant} variant.
@@ -127,7 +127,7 @@ export const Variants: Story = {
       ))}
       <Popover variant="unstyled">
         <PopoverTrigger>
-          <Button label="Unstyled" variant="outline" />
+          <Button variant="outline">Unstyled</Button>
         </PopoverTrigger>
         <PopoverContent
           aria-label="unstyled"
@@ -149,7 +149,7 @@ export const Sizes: Story = {
       {(['sm', 'md', 'lg'] as const).map((size) => (
         <Popover key={size} size={size}>
           <PopoverTrigger>
-            <Button label={`Size ${size}`} variant="outline" />
+            <Button variant="outline">{`Size ${size}`}</Button>
           </PopoverTrigger>
           <PopoverContent aria-label={`Size ${size}`}>
             The panel is as wide as its content, up to the maximum of its size. A longer text wraps
@@ -173,10 +173,11 @@ export const Placements: Story = {
           <PopoverTrigger>
             <Button
               className="w-full whitespace-nowrap"
-              label={placement}
               size="sm"
               variant="outline"
-            />
+            >
+              {placement}
+            </Button>
           </PopoverTrigger>
           <PopoverContent aria-label={placement}>Opens at {placement}.</PopoverContent>
         </Popover>
@@ -191,15 +192,15 @@ function ControlledExample(): React.ReactNode {
     <div className="flex flex-col items-center gap-3">
       <Popover onOpenChange={setOpen} open={open}>
         <PopoverTrigger>
-          <Button label="Open popover" />
+          <Button>Open popover</Button>
         </PopoverTrigger>
         <PopoverContent aria-label="Controlled popover">
           Opened and closed from the outside.
         </PopoverContent>
       </Popover>
       <div className="flex gap-2">
-        <Button label="Open" onClick={() => setOpen(true)} size="sm" variant="outline" />
-        <Button label="Close" onClick={() => setOpen(false)} size="sm" variant="outline" />
+        <Button onClick={() => setOpen(true)} size="sm" variant="outline">Open</Button>
+        <Button onClick={() => setOpen(false)} size="sm" variant="outline">Close</Button>
       </div>
       <p>The popover is {open ? 'open' : 'closed'}.</p>
     </div>
@@ -221,15 +222,15 @@ export const Controlled: Story = {
     <div className="flex flex-col items-center gap-3">
       <Popover onOpenChange={setOpen} open={open}>
         <PopoverTrigger>
-          <Button label="Open popover" />
+          <Button>Open popover</Button>
         </PopoverTrigger>
         <PopoverContent aria-label="Controlled popover">
           Opened and closed from the outside.
         </PopoverContent>
       </Popover>
       <div className="flex gap-2">
-        <Button label="Open" onClick={() => setOpen(true)} size="sm" variant="outline" />
-        <Button label="Close" onClick={() => setOpen(false)} size="sm" variant="outline" />
+        <Button onClick={() => setOpen(true)} size="sm" variant="outline">Open</Button>
+        <Button onClick={() => setOpen(false)} size="sm" variant="outline">Close</Button>
       </div>
       <p>The popover is {open ? 'open' : 'closed'}.</p>
     </div>
@@ -249,17 +250,17 @@ export const WithForm: Story = {
   render: () => (
     <Popover placement="bottom-start">
       <PopoverTrigger>
-        <Button label="Rename" variant="outline" />
+        <Button variant="outline">Rename</Button>
       </PopoverTrigger>
       <PopoverContent aria-label="Rename file">
         <div className="flex flex-col gap-3">
           <Input aria-label="Name" defaultValue="Annual report.pdf" />
           <div className="flex justify-end gap-2">
             <PopoverClose>
-              <Button label="Cancel" size="sm" variant="ghost" />
+              <Button size="sm" variant="ghost">Cancel</Button>
             </PopoverClose>
             <PopoverClose>
-              <Button label="Save" size="sm" />
+              <Button size="sm">Save</Button>
             </PopoverClose>
           </div>
         </div>
@@ -279,13 +280,13 @@ export const Compound: Story = {
       source: {
         code: `<Popover placement="bottom-start">
   <PopoverTrigger>
-    <Button label="Share" variant="outline" />
+    <Button variant="outline">Share</Button>
   </PopoverTrigger>
   <PopoverContent aria-label="Share link" className="max-w-xs">
     <div className="flex flex-col gap-3">
       <p>Anyone with the link can view the file.</p>
       <PopoverClose label="Dismiss">
-        <Button label="Got it" size="sm" />
+        <Button size="sm">Got it</Button>
       </PopoverClose>
     </div>
   </PopoverContent>
@@ -296,13 +297,13 @@ export const Compound: Story = {
   render: () => (
     <Popover placement="bottom-start">
       <PopoverTrigger>
-        <Button label="Share" variant="outline" />
+        <Button variant="outline">Share</Button>
       </PopoverTrigger>
       <PopoverContent aria-label="Share link" className="max-w-xs">
         <div className="flex flex-col gap-3">
           <p>Anyone with the link can view the file.</p>
           <PopoverClose label="Dismiss">
-            <Button label="Got it" size="sm" />
+            <Button size="sm">Got it</Button>
           </PopoverClose>
         </div>
       </PopoverContent>
@@ -321,9 +322,10 @@ export const Tailwind: Story = {
   <PopoverTrigger>
     <Button
       className="rounded-sm bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
-      label="Open popover"
       variant="unstyled"
-    />
+    >
+      Open popover
+    </Button>
   </PopoverTrigger>
   <PopoverContent
     aria-label="Details"
@@ -343,9 +345,10 @@ export const Tailwind: Story = {
       <PopoverTrigger>
         <Button
           className="rounded-sm bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
-          label="Open popover"
           variant="unstyled"
-        />
+        >
+          Open popover
+        </Button>
       </PopoverTrigger>
       <PopoverContent
         aria-label="Details"
@@ -369,7 +372,7 @@ export const Bootstrap: Story = {
       source: {
         code: `<Popover variant="unstyled">
   <PopoverTrigger>
-    <Button className="btn btn-primary" label="Open popover" variant="unstyled" />
+    <Button className="btn btn-primary" variant="unstyled">Open popover</Button>
   </PopoverTrigger>
   <PopoverContent aria-label="Details" className="popover">
     <h3 className="popover-header">Team members</h3>
@@ -384,7 +387,7 @@ export const Bootstrap: Story = {
   render: () => (
     <Popover variant="unstyled">
       <PopoverTrigger>
-        <Button className="btn btn-primary" label="Open popover" variant="unstyled" />
+        <Button className="btn btn-primary" variant="unstyled">Open popover</Button>
       </PopoverTrigger>
       <PopoverContent aria-label="Details" className="popover">
         <h3 className="popover-header">Team members</h3>

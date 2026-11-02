@@ -69,88 +69,82 @@ describe('Button component', () => {
     expect(span).toBeInTheDocument()
   })
 
-  it('renders button with label', () => {
-    const { getByText } = render(<Button label="Label Button" />)
-    const buttonElement = getByText('Label Button')
-    expect(buttonElement).toBeInTheDocument()
+  it('renders button with icons around the content', () => {
+    const { getByRole } = render(
+      <Button iconLeft={<span>👈</span>} iconRight={<span>👉</span>}>
+        Go
+      </Button>,
+    )
+    expect(getByRole('button')).toHaveTextContent('👈Go👉')
   })
 
-  it('renders button with icons', () => {
-    const { getByText } = render(<Button iconLeft={<span>👈</span>} iconRight={<span>👉</span>} />)
-    const iconLeft = getByText('👈')
-    const iconRight = getByText('👉')
-    expect(iconLeft).toBeInTheDocument()
-    expect(iconRight).toBeInTheDocument()
+  it('forwards the native attributes of the button', () => {
+    const { getByRole } = render(
+      <Button aria-pressed form="profile" name="intent" value="save">
+        Save
+      </Button>,
+    )
+    const button = getByRole('button')
+    expect(button).toHaveAttribute('form', 'profile')
+    expect(button).toHaveAttribute('name', 'intent')
+    expect(button).toHaveAttribute('value', 'save')
+    expect(button).toHaveAttribute('aria-pressed', 'true')
   })
 
-  it('shows the busy text only while busy', () => {
-    const { getByRole, rerender } = render(<Button busyText="Saving" label="Save" />)
+  it('shows the loading text only while loading', () => {
+    const { getByRole, rerender } = render(<Button loadingText="Saving">Save</Button>)
     expect(getByRole('button')).toHaveTextContent('Save')
     expect(getByRole('button')).not.toHaveTextContent('Saving')
 
-    rerender(<Button busyText="Saving" busy label="Save" />)
+    rerender(
+      <Button loading loadingText="Saving">
+        Save
+      </Button>,
+    )
     expect(getByRole('button')).toHaveTextContent('Saving')
+    expect(getByRole('button')).not.toHaveTextContent('Save')
   })
 
-  it('renders busy button', () => {
-    const { getByText, getByLabelText } = render(
-      <Button busyText="Loading" busy>
-        Busy Button
+  it('shows a Loader named Loading while loading', () => {
+    const { getByLabelText } = render(<Button loading>Save</Button>)
+    expect(getByLabelText('Loading')).toHaveAttribute('data-plume-loader', '')
+  })
+
+  it('hides the icons while loading', () => {
+    const { queryByText } = render(
+      <Button iconLeft={<span>👈</span>} loading>
+        Save
       </Button>,
     )
-    const buttonElement = getByText('Busy Button')
-    const busyIcon = getByLabelText('Loading')
-    expect(buttonElement).toBeInTheDocument()
-    expect(busyIcon).toBeInTheDocument()
+    expect(queryByText('👈')).not.toBeInTheDocument()
   })
 
-  it('names the spinner with labels.busy', () => {
-    const { getByLabelText } = render(<Button busy labels={{ busy: 'Cargando' }} label="Save" />)
-    expect(getByLabelText('Cargando')).toBeInTheDocument()
+  it('hides the content but keeps it in the name while loading without text', () => {
+    const { getByRole, getByText } = render(<Button loading>Save</Button>)
+    expect(getByText('Save')).toHaveStyle({ position: 'absolute' })
+    expect(getByRole('button')).toHaveAccessibleName(/Save/)
   })
 
-  it('renders busy button without busy text', () => {
-    const { getByText } = render(<Button colorScheme="primary" busy label="Busy Button" />)
-    const buttonElement = getByText('Busy Button')
-    expect(buttonElement).toBeInTheDocument()
-    expect(buttonElement).toHaveAttribute('data-hidden')
-  })
-
-  it('passes the contrast color to the busy spinner', () => {
-    const { getByText } = render(
-      <Button colorScheme="primary" busy>
-        Busy Button
-      </Button>,
-    )
-    const buttonElement = getByText('Busy Button')
-    expect(buttonElement).toBeInTheDocument()
-    expect(buttonElement.querySelector('output')).toHaveStyle(
-      '--spinner-scheme: var(--button-contrast-color)',
-    )
-  })
-
-  it('stays focusable and announced as busy while busy', () => {
-    const { getByRole } = render(<Button busy label="Save" />)
+  it('stays focusable and announced as busy while loading', () => {
+    const { getByRole } = render(<Button loading>Save</Button>)
     const button = getByRole('button', { name: /Save/ })
     expect(button).toHaveAttribute('aria-busy', 'true')
     expect(button).toHaveAttribute('aria-disabled', 'true')
+    expect(button).toHaveAttribute('data-loading', '')
     expect(button).not.toBeDisabled()
     button.focus()
     expect(button).toHaveFocus()
   })
 
-  it('keeps the label in its accessible name while busy without busy text', () => {
-    const { getByRole } = render(<Button busy label="Save" />)
-    expect(getByRole('button')).toHaveAccessibleName(/Save/)
-  })
-
-  it('ignores the clicks while busy and does not submit the form', () => {
+  it('ignores the clicks while loading and does not submit the form', () => {
     const onClick = vi.fn()
     const onSubmit = vi.fn((event: FormEvent) => event.preventDefault())
     const parentClick = vi.fn()
     const { container, getByRole } = render(
       <form onSubmit={onSubmit}>
-        <Button busy label="Save" onClick={onClick} type="submit" />
+        <Button loading onClick={onClick} type="submit">
+          Save
+        </Button>
       </form>,
     )
     container.addEventListener('click', parentClick)
@@ -160,14 +154,18 @@ describe('Button component', () => {
     expect(parentClick).not.toHaveBeenCalled()
   })
 
-  it('does not set aria-busy or aria-disabled when it is not busy', () => {
-    const { getByRole } = render(<Button label="Save" />)
+  it('does not set aria-busy or aria-disabled when it is not loading', () => {
+    const { getByRole } = render(<Button>Save</Button>)
     expect(getByRole('button')).not.toHaveAttribute('aria-busy')
     expect(getByRole('button')).not.toHaveAttribute('aria-disabled')
   })
 
-  it('stays natively disabled when it is disabled and busy', () => {
-    const { getByRole } = render(<Button disabled busy label="Save" />)
+  it('stays natively disabled when it is disabled and loading', () => {
+    const { getByRole } = render(
+      <Button disabled loading>
+        Save
+      </Button>,
+    )
     expect(getByRole('button')).toBeDisabled()
     expect(getByRole('button')).not.toHaveAttribute('aria-disabled')
   })
@@ -185,7 +183,11 @@ describe('Button component', () => {
   })
 
   it('renders unstyled button', () => {
-    const { getByRole } = render(<Button disabled label="Click me" variant="unstyled" />)
+    const { getByRole } = render(
+      <Button disabled variant="unstyled">
+        Click me
+      </Button>,
+    )
 
     expect(getByRole('button')).not.toHaveAttribute('class')
   })

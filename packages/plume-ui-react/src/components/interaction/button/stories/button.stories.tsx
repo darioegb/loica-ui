@@ -1,7 +1,7 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
 import type { CSSProperties } from 'react'
 import { defaultTheme } from '../../../../theme'
-import { Button, ButtonIcon, ButtonLabel, ButtonSpinner } from '..'
+import { Button } from '..'
 
 const colorSchemes = Object.keys(defaultTheme.colors)
 
@@ -32,46 +32,31 @@ export default {
     onClick: { action: 'clicked' },
     type: { control: 'radio', options: ['button', 'submit', 'reset'] },
     colorScheme: { control: 'select', options: colorSchemes },
-    label: { control: 'text' },
     iconLeft: { control: false },
     iconRight: { control: false },
-    busy: { control: 'boolean' },
-    busyText: { control: 'text' },
-    labels: { control: false },
+    loading: { control: 'boolean' },
+    loadingText: { control: 'text' },
     shape: { control: 'inline-radio', options: ['pill', 'rounded'] },
     size: { control: 'radio', options: ['sm', 'md', 'lg'] },
     variant: {
       control: 'select',
       options: ['solid', 'outline', 'link', 'icon', 'ghost', 'unstyled'],
     },
-    'aria-label': { control: 'text' },
-    'aria-labelledby': { control: false },
-    'aria-expanded': { control: false },
-    'aria-haspopup': { control: false },
-    role: { control: false },
-    id: { control: false },
-    title: { control: 'text' },
-    tabIndex: { control: false },
-    hidden: { control: false },
-    onBlur: { control: false },
-    onFocus: { control: false },
-    onKeyDown: { control: false },
-    onMouseEnter: { control: false },
   },
   args: {
     disabled: false,
-    busy: false,
+    loading: false,
   },
 } satisfies Meta<typeof Button>
 
 type Story = StoryObj<typeof Button>
 
 /**
- * This is the default Button with only setting a **label** prop.
+ * The default Button. Its content is its `children`.
  */
 export const Default: Story = {
   args: {
-    label: 'Default Button',
+    children: 'Default Button',
   },
 }
 
@@ -83,23 +68,23 @@ export const Variants: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Button label="Solid Button" />
-<Button label="Outline Button" variant="outline" />
-<Button label="Link Button" variant="link" />
-<Button label="Ghost Button" variant="ghost" />
+        code: `<Button>Solid Button</Button>
+<Button variant="outline">Outline Button</Button>
+<Button variant="link">Link Button</Button>
+<Button variant="ghost">Ghost Button</Button>
 <Button aria-label="Notifications" variant="icon">
   <BellIcon />
 </Button>
-<Button label="Unstyled Button" variant="unstyled" />`,
+<Button variant="unstyled">Unstyled Button</Button>`,
       },
     },
   },
   render: () => (
     <div className='flex flex-wrap justify-center items-center gap-4'>
-      <Button label='Solid Button' />
-      <Button label='Outline Button' variant='outline' />
-      <Button label='Link Button' variant='link' />
-      <Button label='Ghost Button' variant='ghost' />
+      <Button>Solid Button</Button>
+      <Button variant='outline'>Outline Button</Button>
+      <Button variant='link'>Link Button</Button>
+      <Button variant='ghost'>Ghost Button</Button>
       <Button aria-label='Notifications' variant='icon'>
         <svg
           fill='currentColor'
@@ -111,7 +96,7 @@ export const Variants: Story = {
           <path d='M152,224a8,8,0,0,1-8,8H112a8,8,0,0,1,0-16h32A8,8,0,0,1,152,224ZM128,112a12,12,0,1,0-12-12A12,12,0,0,0,128,112Zm95.62,43.83-12.36,55.63a16,16,0,0,1-25.51,9.11L158.51,200h-61L70.25,220.57a16,16,0,0,1-25.51-9.11L32.38,155.83a16.09,16.09,0,0,1,3.32-13.71l28.56-34.26a123.07,123.07,0,0,1,8.57-36.67c12.9-32.34,36-52.63,45.37-59.85a16,16,0,0,1,19.6,0c9.34,7.22,32.47,27.51,45.37,59.85a123.07,123.07,0,0,1,8.57,36.67l28.56,34.26A16.09,16.09,0,0,1,223.62,155.83ZM99.43,184h57.14c21.12-37.54,25.07-73.48,11.74-106.88C156.55,47.64,134.49,29,128,24c-6.51,5-28.57,23.64-40.33,53.12C74.36,110.52,78.31,146.46,99.43,184Zm-15,5.85Q68.28,160.5,64.83,132.16L48,152.36,60.36,208l.18-.13ZM208,152.36l-16.83-20.2q-3.42,28.28-19.56,57.69l23.85,18,.18.13Z' />
         </svg>
       </Button>
-      <Button label='Unstyled Button' variant='unstyled' />
+      <Button variant='unstyled'>Unstyled Button</Button>
     </div>
   ),
 }
@@ -124,30 +109,17 @@ export const Sizes: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Button 
-  colorScheme="primary" 
-  label="Small Button" 
-  size="sm" 
-/>
-<Button 
-  colorScheme="primary" 
-  label="Medium Button" 
-  size="md" 
-/>
-<Button 
-  colorScheme="primary" 
-  label="Large Button" 
-  size="lg" 
-/>
-          `,
+        code: `<Button colorScheme="primary" size="sm">Small Button</Button>
+<Button colorScheme="primary">Medium Button</Button>
+<Button colorScheme="primary" size="lg">Large Button</Button>`,
       },
     },
   },
   render: () => (
     <div className='flex flex-wrap justify-center items-center gap-4'>
-      <Button colorScheme='primary' label='Small Button' size='sm' />
-      <Button colorScheme='primary' label='Medium Button' size='md' />
-      <Button colorScheme='primary' label='Large Button' size='lg' />
+      <Button colorScheme='primary' size='sm'>Small Button</Button>
+      <Button colorScheme='primary' size='md'>Medium Button</Button>
+      <Button colorScheme='primary' size='lg'>Large Button</Button>
     </div>
   ),
 }
@@ -160,67 +132,25 @@ export const Colors: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Button 
-  colorScheme="primary"
-  label="Primary Button" 
-/>
-<Button 
-  colorScheme="secondary"
-  label="Secondary Button"
-/>
-<Button 
-  colorScheme="info"
-  label="Info Button"
-/>
-<Button 
-  colorScheme="warning"
-  label="Warning Button"
-/>
-<Button 
-  colorScheme="error"
-  label="Error Button"
-/>
-<Button 
-  colorScheme="success"
-  label="Success Button"
-/>
-<Button 
-  colorScheme='brown' 
-  label='Brown Button' 
-/>
-<Button 
-  colorScheme='pink' 
-  label='Pink Button' 
-/>
-<Button 
-  colorScheme='purple' 
-  label='Purple Button' 
-/>
-<Button 
-  colorScheme='teal' 
-  label='Teal Button' 
-/>
-<Button 
-  colorScheme='yellow' 
-  label='Yellow Button' 
-/>
-          `,
+        code: `<Button colorScheme="primary">Primary Button</Button>
+<Button colorScheme="secondary">Secondary Button</Button>
+<Button colorScheme="success">Success Button</Button>`,
       },
     },
   },
   render: () => (
     <div className='flex flex-wrap justify-center items-center gap-4'>
-      <Button colorScheme='primary' label='Primary Button' />
-      <Button colorScheme='secondary' label='Secondary Button' />
-      <Button colorScheme='info' label='Info Button' />
-      <Button colorScheme='warning' label='Warning Button' />
-      <Button colorScheme='error' label='Error Button' />
-      <Button colorScheme='success' label='Success Button' />
-      <Button colorScheme='brown' label='Brown Button' />
-      <Button colorScheme='pink' label='Pink Button' />
-      <Button colorScheme='purple' label='Purple Button' />
-      <Button colorScheme='teal' label='Teal Button' />
-      <Button colorScheme='yellow' label='Yellow Button' />
+      <Button colorScheme='primary'>Primary Button</Button>
+      <Button colorScheme='secondary'>Secondary Button</Button>
+      <Button colorScheme='info'>Info Button</Button>
+      <Button colorScheme='warning'>Warning Button</Button>
+      <Button colorScheme='error'>Error Button</Button>
+      <Button colorScheme='success'>Success Button</Button>
+      <Button colorScheme='brown'>Brown Button</Button>
+      <Button colorScheme='pink'>Pink Button</Button>
+      <Button colorScheme='purple'>Purple Button</Button>
+      <Button colorScheme='teal'>Teal Button</Button>
+      <Button colorScheme='yellow'>Yellow Button</Button>
     </div>
   ),
 }
@@ -230,8 +160,8 @@ export const Colors: Story = {
  */
 export const WithIcons: Story = {
   args: {
+    children: 'Navigate',
     colorScheme: 'primary',
-    'aria-label': 'Navigate',
     iconLeft: (
       <svg
         fill='currentColor'
@@ -280,7 +210,7 @@ export const WithChildren: Story = {
 export const Pill: Story = {
   args: {
     colorScheme: 'primary',
-    label: 'Pill Button',
+    children: 'Pill Button',
     shape: 'pill',
   },
 }
@@ -292,7 +222,7 @@ export const Pill: Story = {
 export const Block: Story = {
   args: {
     ...Default.args,
-    label: 'Block Button',
+    children: 'Block Button',
     colorScheme: 'primary',
     style: { width: '100%' },
   },
@@ -306,34 +236,28 @@ export const Block: Story = {
 }
 
 /**
- * This is a Button with busy state.
- * Use **busy** to show a spinner and disable the Button,
- * and **busyText** to replace the label while it is busy.
+ * Use **loading** while the action is in progress: the Button shows a `Loader`, ignores its clicks
+ * and stays focusable, announced as busy. Without **loadingText** the content is hidden but still
+ * names the Button; with it, the text replaces the content. The `Loader` takes the `loader` text of
+ * the `LocaleProvider` as its name.
  */
-export const Busy: Story = {
-  args: {
-    busy: true,
-    busyText: 'Loading...',
-    label: 'Busy Button',
-  },
+export const Loading: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Button 
-  busy  label="Busy Default Button" 
-/>
-<Button 
-  busyText="Loading..." 
-  busy  label="Busy Button" 
-/>
-        `,
+        code: `<Button loading>Save</Button>
+<Button loading loadingText="Saving...">Save</Button>`,
       },
     },
   },
   render: () => (
     <div className='flex flex-wrap justify-center items-center gap-4'>
-      <Button busy label='Busy Default Button' />
-      <Button busyText='Loading...' busy label='Busy Button' />
+      <Button colorScheme='primary' loading>
+        Save
+      </Button>
+      <Button colorScheme='primary' loading loadingText='Saving...'>
+        Save
+      </Button>
     </div>
   ),
 }
@@ -358,51 +282,15 @@ export const CustomStyle: Story = {
 /**
  * This is a Button with disabled state.
  * Just adding the **disabled** prop in true.
- * The Button gets `data-disabled` (also while `busy`, which adds `data-busy`), so an unstyled
+ * The Button gets `data-disabled` (also while `loading`, which adds `data-loading`), so an unstyled
  * Button can be styled from those attributes.
  */
 export const Disabled: Story = {
   args: {
     ...Default.args,
-    label: 'Disabled Button',
+    children: 'Disabled Button',
     disabled: true,
   },
-}
-
-/**
- * The Button built from its parts: `ButtonIcon`, `ButtonLabel` and `ButtonSpinner`. When the
- * children hold one of them they replace the default composition, so the order is yours. The
- * spinner only renders while the Button is `busy`, and the label shows the `busyText` then, or is
- * visually hidden (`data-hidden`) without one.
- */
-export const Compound: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `<Button busy busyText="Saving..." colorScheme="primary">
-  <ButtonSpinner />
-  <ButtonLabel>Save</ButtonLabel>
-  <ButtonIcon>
-    <ArrowRightIcon />
-  </ButtonIcon>
-</Button>`,
-      },
-    },
-  },
-  render: () => (
-    <div className='flex flex-wrap justify-center items-center gap-4'>
-      <Button colorScheme='primary'>
-        <ButtonSpinner />
-        <ButtonLabel>Save</ButtonLabel>
-        <ButtonIcon>→</ButtonIcon>
-      </Button>
-      <Button busy busyText='Saving...' colorScheme='primary'>
-        <ButtonSpinner />
-        <ButtonLabel>Save</ButtonLabel>
-        <ButtonIcon>→</ButtonIcon>
-      </Button>
-    </div>
-  ),
 }
 
 /**
@@ -413,32 +301,36 @@ export const Tailwind: Story = {
     docs: {
       source: {
         code: `<Button
-    label="Primary Button"
     className="py-3 px-4 inline-flex justify-center items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white border border-transparent font-semibold rounded-sm text-sm"
     variant="unstyled"
-  />
+>
+  Primary Button
+</Button>
 <Button
-  label="Soft Button"
   className="py-3 px-4 inline-flex justify-center items-center gap-2 bg-gray-100 text-gray-700 hover:text-white hover:bg-gray-700 border border-transparent font-semibold rounded-sm text-sm"
   variant="unstyled"
-/>
+>
+  Soft Button
+</Button>
 <Button
-  label="Outline Button"
   className="py-3 px-4 inline-flex justify-center items-center gap-2 hover:text-white hover:bg-blue-700 hover:border-blue-700 text-blue-700 dark:text-blue-400 border border-blue-300 font-semibold rounded-sm text-sm"
   variant="unstyled"
-/>
+>
+  Outline Button
+</Button>
 <Button
-  label="Ghost Button"
   className="py-3 px-4 inline-flex justify-center items-center gap-2 hover:bg-blue-100 dark:hover:bg-blue-950 text-blue-700 dark:text-blue-400 border border-transparent font-semibold rounded-sm text-sm"
   variant="unstyled"
-/>
+>
+  Ghost Button
+</Button>
 <Button
-  label="Pilled Button"
   className="py-3 px-4 inline-flex justify-center items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-full text-sm"
   variant="unstyled"
-/>
+>
+  Pilled Button
+</Button>
 <Button
-  label="With icon right"
   className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-700 text-white hover:bg-blue-800 transition-all text-sm"
   iconRight={
     <svg
@@ -458,7 +350,9 @@ export const Tailwind: Story = {
     </svg>
   }
   variant="unstyled"
-/>
+>
+  With icon right
+</Button>
           `,
       },
     },
@@ -467,29 +361,34 @@ export const Tailwind: Story = {
     <div className='flex flex-wrap justify-center items-center gap-4'>
       <Button
         className='py-2 px-3 inline-flex justify-center items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white border border-transparent font-semibold rounded-sm text-sm'
-        label='Primary Button'
         variant='unstyled'
-      />
+      >
+        Primary Button
+      </Button>
       <Button
         className='py-2 px-3 inline-flex justify-center items-center gap-2 bg-gray-100 text-gray-700 hover:text-white hover:bg-gray-700 border border-transparent font-semibold rounded-sm text-sm'
-        label='Soft Button'
         variant='unstyled'
-      />
+      >
+        Soft Button
+      </Button>
       <Button
         className='py-2 px-3 inline-flex justify-center items-center gap-2 hover:text-white hover:bg-blue-700 hover:border-blue-700 text-blue-700 dark:text-blue-400 border border-blue-300 font-semibold rounded-sm text-sm'
-        label='Outline Button'
         variant='unstyled'
-      />
+      >
+        Outline Button
+      </Button>
       <Button
         className='py-2 px-3 inline-flex justify-center items-center gap-2 hover:bg-blue-100 dark:hover:bg-blue-950 text-blue-700 dark:text-blue-400 border border-transparent font-semibold rounded-sm text-sm'
-        label='Ghost Button'
         variant='unstyled'
-      />
+      >
+        Ghost Button
+      </Button>
       <Button
         className='py-2 px-3 inline-flex justify-center items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-full text-sm'
-        label='Pilled Button'
         variant='unstyled'
-      />
+      >
+        Pilled Button
+      </Button>
       <Button
         className='py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-700 text-white hover:bg-blue-800 transition-all text-sm'
         iconRight={
@@ -509,9 +408,10 @@ export const Tailwind: Story = {
             />
           </svg>
         }
-        label='With icon right'
         variant='unstyled'
-      />
+      >
+        With icon right
+      </Button>
     </div>
   ),
 }
@@ -524,33 +424,37 @@ export const Bootstrap: Story = {
     docs: {
       source: {
         code: `<Button
-  label="Primary Button"
   className="btn btn-primary"
   variant="unstyled"
-/>
+>
+  Primary Button
+</Button>
 <Button
-  label="Soft Button"
   className="btn btn-light"
   variant="unstyled"
-/>
+>
+  Soft Button
+</Button>
 <Button
-  label="Outline Button"
   className="btn btn-outline-primary"
   style={{ '--bs-btn-color': 'var(--bs-primary-text-emphasis)' }}
   variant="unstyled"
-/>
+>
+  Outline Button
+</Button>
 <Button
-  label="Link Button"
   className="btn btn-link"
   variant="unstyled"
-/>
+>
+  Link Button
+</Button>
 <Button
-  label="Pill Button"
   className="btn btn-primary rounded-pill"
   variant="unstyled"
-/>
+>
+  Pill Button
+</Button>
 <Button
-  label="With icon right"
   className="btn btn-primary d-inline-flex justify-content-center align-items-center gap-2"
   iconRight={
     <svg
@@ -569,27 +473,31 @@ export const Bootstrap: Story = {
     </svg>
   }
   variant="unstyled"
-/>
+>
+  With icon right
+</Button>
         `,
       },
     },
   },
   render: () => (
     <div className='flex flex-wrap justify-center items-center gap-4'>
-      <Button className='btn btn-primary' label='Primary Button' variant='unstyled' />
-      <Button className='btn btn-light' label='Soft Button' variant='unstyled' />
+      <Button className='btn btn-primary' variant='unstyled'>Primary Button</Button>
+      <Button className='btn btn-light' variant='unstyled'>Soft Button</Button>
       <Button
         className='btn btn-outline-primary'
-        label='Outline Button'
         style={{ '--bs-btn-color': 'var(--bs-primary-text-emphasis)' } as CSSProperties}
         variant='unstyled'
-      />
-      <Button className='btn btn-link' label='Link Button' variant='unstyled' />
+      >
+        Outline Button
+      </Button>
+      <Button className='btn btn-link' variant='unstyled'>Link Button</Button>
       <Button
         className='btn btn-primary rounded-pill'
-        label='Pill Button'
         variant='unstyled'
-      />
+      >
+        Pill Button
+      </Button>
       <Button
         className='btn btn-primary d-inline-flex justify-content-center align-items-center gap-2'
         iconRight={
@@ -608,9 +516,10 @@ export const Bootstrap: Story = {
             />
           </svg>
         }
-        label='With icon right'
         variant='unstyled'
-      />
+      >
+        With icon right
+      </Button>
     </div>
   ),
 }

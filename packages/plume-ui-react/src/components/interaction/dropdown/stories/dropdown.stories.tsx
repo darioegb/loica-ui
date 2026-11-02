@@ -53,7 +53,7 @@ function Example(props: Readonly<Omit<DropdownProps, 'children'>>): React.ReactN
   return (
     <Dropdown {...props}>
       <DropdownTrigger>
-        <Button label="Actions" variant="outline" />
+        <Button variant="outline">Actions</Button>
       </DropdownTrigger>
       <DropdownMenu>
         <DropdownItem>Profile</DropdownItem>
@@ -142,7 +142,7 @@ export const Default: Story = {
       source: {
         code: `<Dropdown>
   <DropdownTrigger>
-    <Button label="Actions" variant="outline" />
+    <Button variant="outline">Actions</Button>
   </DropdownTrigger>
   <DropdownMenu>
     <DropdownItem>Profile</DropdownItem>
@@ -166,7 +166,7 @@ export const Variants: Story = {
         code: `<div className="flex flex-wrap justify-center gap-4">
   <Dropdown variant="elevated">
     <DropdownTrigger>
-      <Button label="Actions" variant="outline" />
+      <Button variant="outline">Actions</Button>
     </DropdownTrigger>
     <DropdownMenu>
       <DropdownItem>Profile</DropdownItem>
@@ -176,7 +176,7 @@ export const Variants: Story = {
   </Dropdown>
   <Dropdown variant="outline">
     <DropdownTrigger>
-      <Button label="Actions" variant="outline" />
+      <Button variant="outline">Actions</Button>
     </DropdownTrigger>
     <DropdownMenu>
       <DropdownItem>Profile</DropdownItem>
@@ -186,7 +186,7 @@ export const Variants: Story = {
   </Dropdown>
   <Dropdown variant="unstyled">
     <DropdownTrigger>
-      <Button label="Unstyled" variant="outline" />
+      <Button variant="outline">Unstyled</Button>
     </DropdownTrigger>
     <DropdownMenu className="min-w-40 rounded-sm border border-border bg-surface p-1 text-foreground shadow-sm">
       <DropdownItem className="block w-full rounded-sm px-3 py-1 text-left hover:bg-surface-muted focus:bg-surface-muted focus:outline-hidden">
@@ -207,7 +207,7 @@ export const Variants: Story = {
       <Example variant="outline" />
       <Dropdown variant="unstyled">
         <DropdownTrigger>
-          <Button label="Unstyled" variant="outline" />
+          <Button variant="outline">Unstyled</Button>
         </DropdownTrigger>
         <DropdownMenu className="min-w-40 rounded-sm border border-border bg-surface p-1 text-foreground shadow-sm">
           <DropdownItem className="block w-full rounded-sm px-3 py-1 text-left hover:bg-surface-muted focus:bg-surface-muted focus:outline-hidden">
@@ -232,7 +232,7 @@ export const Sizes: Story = {
         code: `<div className="flex flex-wrap justify-center gap-4">
   <Dropdown size="sm">
     <DropdownTrigger>
-      <Button label="Size sm" size="sm" variant="outline" />
+      <Button size="sm" variant="outline">Size sm</Button>
     </DropdownTrigger>
     <DropdownMenu>
       <DropdownItem>Profile</DropdownItem>
@@ -241,7 +241,7 @@ export const Sizes: Story = {
   </Dropdown>
   <Dropdown size="md">
     <DropdownTrigger>
-      <Button label="Size md" size="md" variant="outline" />
+      <Button size="md" variant="outline">Size md</Button>
     </DropdownTrigger>
     <DropdownMenu>
       <DropdownItem>Profile</DropdownItem>
@@ -250,7 +250,7 @@ export const Sizes: Story = {
   </Dropdown>
   <Dropdown size="lg">
     <DropdownTrigger>
-      <Button label="Size lg" size="lg" variant="outline" />
+      <Button size="lg" variant="outline">Size lg</Button>
     </DropdownTrigger>
     <DropdownMenu>
       <DropdownItem>Profile</DropdownItem>
@@ -266,7 +266,7 @@ export const Sizes: Story = {
       {(['sm', 'md', 'lg'] as const).map((size) => (
         <Dropdown key={size} size={size}>
           <DropdownTrigger>
-            <Button label={`Size ${size}`} size={size} variant="outline" />
+            <Button size={size} variant="outline">{`Size ${size}`}</Button>
           </DropdownTrigger>
           <DropdownMenu>
             <DropdownItem>Profile</DropdownItem>
@@ -289,7 +289,7 @@ export const Placements: Story = {
         code: `<div className="grid grid-cols-2 gap-3 p-2 sm:grid-cols-3 sm:gap-4 sm:p-12">
   <Dropdown placement="top-start">
     <DropdownTrigger>
-      <Button label="top-start" size="sm" variant="outline" />
+      <Button size="sm" variant="outline">top-start</Button>
     </DropdownTrigger>
     <DropdownMenu aria-label="top-start">
       <DropdownItem>Profile</DropdownItem>
@@ -298,7 +298,7 @@ export const Placements: Story = {
   </Dropdown>
   <Dropdown placement="right">
     <DropdownTrigger>
-      <Button label="right" size="sm" variant="outline" />
+      <Button size="sm" variant="outline">right</Button>
     </DropdownTrigger>
     <DropdownMenu aria-label="right">
       <DropdownItem>Profile</DropdownItem>
@@ -307,7 +307,7 @@ export const Placements: Story = {
   </Dropdown>
   <Dropdown placement="bottom-end">
     <DropdownTrigger>
-      <Button label="bottom-end" size="sm" variant="outline" />
+      <Button size="sm" variant="outline">bottom-end</Button>
     </DropdownTrigger>
     <DropdownMenu aria-label="bottom-end">
       <DropdownItem>Profile</DropdownItem>
@@ -326,10 +326,11 @@ export const Placements: Story = {
           <DropdownTrigger>
             <Button
               className="w-full whitespace-nowrap"
-              label={placement}
               size="sm"
               variant="outline"
-            />
+            >
+              {placement}
+            </Button>
           </DropdownTrigger>
           <DropdownMenu aria-label={placement}>
             <DropdownItem>Profile</DropdownItem>
@@ -349,7 +350,7 @@ export const IconsAndShortcuts: Story = {
   render: () => (
     <Dropdown>
       <DropdownTrigger>
-        <Button label="Account" variant="outline" />
+        <Button variant="outline">Account</Button>
       </DropdownTrigger>
       <DropdownMenu>
         <DropdownItem icon={userIcon} shortcut="⌘P">
@@ -374,7 +375,7 @@ export const Groups: Story = {
   render: () => (
     <Dropdown>
       <DropdownTrigger>
-        <Button label="Menu" variant="outline" />
+        <Button variant="outline">Menu</Button>
       </DropdownTrigger>
       <DropdownMenu>
         <DropdownLabel>Account</DropdownLabel>
@@ -399,7 +400,7 @@ export const LinksAndDisabled: Story = {
   render: () => (
     <Dropdown>
       <DropdownTrigger>
-        <Button label="Resources" variant="outline" />
+        <Button variant="outline">Resources</Button>
       </DropdownTrigger>
       <DropdownMenu>
         <DropdownItem
@@ -429,7 +430,7 @@ function ControlledExample(): React.ReactNode {
     <div className="flex flex-col items-center gap-3">
       <Dropdown closeOnSelect={false} onOpenChange={setOpen} open={open}>
         <DropdownTrigger>
-          <Button label={open ? 'Close the menu' : 'Open the menu'} variant="outline" />
+          <Button variant="outline">{open ? 'Close the menu' : 'Open the menu'}</Button>
         </DropdownTrigger>
         <DropdownMenu>
           <DropdownItem onSelect={() => setLast('Copy')}>Copy</DropdownItem>
@@ -459,7 +460,7 @@ export const Controlled: Story = {
     <div className="flex flex-col items-center gap-3">
       <Dropdown closeOnSelect={false} onOpenChange={setOpen} open={open}>
         <DropdownTrigger>
-          <Button label={open ? 'Close the menu' : 'Open the menu'} variant="outline" />
+          <Button variant="outline">{open ? 'Close the menu' : 'Open the menu'}</Button>
         </DropdownTrigger>
         <DropdownMenu>
           <DropdownItem onSelect={() => setLast('Copy')}>Copy</DropdownItem>
@@ -487,7 +488,7 @@ export const Compound: Story = {
   render: () => (
     <Dropdown>
       <DropdownTrigger>
-        <Button label="Account" variant="outline" />
+        <Button variant="outline">Account</Button>
       </DropdownTrigger>
       <DropdownMenu>
         <DropdownItem>
@@ -514,9 +515,10 @@ export const Tailwind: Story = {
   <DropdownTrigger>
     <Button
       className="rounded-sm bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
-      label="Account"
       variant="unstyled"
-    />
+    >
+      Account
+    </Button>
   </DropdownTrigger>
   <DropdownMenu className="min-w-48 rounded-lg border border-border bg-surface p-1 text-sm text-foreground shadow-lg">
     <DropdownLabel className="px-3 py-1 text-xs font-semibold uppercase text-[var(--plume-muted)]">
@@ -553,9 +555,10 @@ export const Tailwind: Story = {
       <DropdownTrigger>
         <Button
           className="rounded-sm bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
-          label="Account"
           variant="unstyled"
-        />
+        >
+          Account
+        </Button>
       </DropdownTrigger>
       <DropdownMenu className="min-w-48 rounded-lg border border-border bg-surface p-1 text-sm text-foreground shadow-lg">
         <DropdownLabel className="px-3 py-1 text-xs font-semibold uppercase text-[var(--plume-muted)]">
@@ -596,7 +599,7 @@ export const Bootstrap: Story = {
       source: {
         code: `<Dropdown variant="unstyled">
   <DropdownTrigger>
-    <Button className="btn btn-primary dropdown-toggle" label="Account" variant="unstyled" />
+    <Button className="btn btn-primary dropdown-toggle" variant="unstyled">Account</Button>
   </DropdownTrigger>
   <DropdownMenu className="dropdown-menu show">
     <DropdownLabel className="dropdown-header text-body-secondary">Signed in as ada</DropdownLabel>
@@ -615,7 +618,7 @@ export const Bootstrap: Story = {
   render: () => (
     <Dropdown variant="unstyled">
       <DropdownTrigger>
-        <Button className="btn btn-primary dropdown-toggle" label="Account" variant="unstyled" />
+        <Button className="btn btn-primary dropdown-toggle" variant="unstyled">Account</Button>
       </DropdownTrigger>
       <DropdownMenu className="dropdown-menu show">
         <DropdownLabel className="dropdown-header text-body-secondary">

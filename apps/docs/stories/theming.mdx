@@ -55,7 +55,11 @@ export function ColorModeToggle() {
   const { colorMode, setColorMode } = useTheme()
   const next = colorMode === 'dark' ? 'light' : 'dark'
 
-  return <Button label={`Switch to ${next} mode`} onClick={() => setColorMode(next)} variant='outline' />
+  return (
+    <Button onClick={() => setColorMode(next)} variant='outline'>
+      Switch to {next} mode
+    </Button>
+  )
 }
 ```
 

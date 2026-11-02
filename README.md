@@ -99,6 +99,7 @@ import 'plume-ui-react/css/input.css'
 | Icon | [Icon](https://darioegb.github.io/plume-ui-react/?path=/docs/components-icon--docs) |
 | Input | [Input](https://darioegb.github.io/plume-ui-react/?path=/docs/components-input--docs) |
 | List | [List](https://darioegb.github.io/plume-ui-react/?path=/docs/components-list--docs) |
+| Loader | [Loader](https://darioegb.github.io/plume-ui-react/?path=/docs/components-loader--docs) |
 | Modal | [Modal](https://darioegb.github.io/plume-ui-react/?path=/docs/components-modal--docs) |
 | Navbar | [Navbar](https://darioegb.github.io/plume-ui-react/?path=/docs/components-navbar--docs) |
 | NumberInput | [NumberInput](https://darioegb.github.io/plume-ui-react/?path=/docs/components-numberinput--docs) |
@@ -112,7 +113,6 @@ import 'plume-ui-react/css/input.css'
 | Sidebar | [Sidebar](https://darioegb.github.io/plume-ui-react/?path=/docs/components-sidebar--docs) |
 | Skeleton | [Skeleton](https://darioegb.github.io/plume-ui-react/?path=/docs/components-skeleton--docs) |
 | Slider | [Slider](https://darioegb.github.io/plume-ui-react/?path=/docs/components-slider--docs) |
-| Spinner | [Spinner](https://darioegb.github.io/plume-ui-react/?path=/docs/components-spinner--docs) |
 | Stepper | [Stepper](https://darioegb.github.io/plume-ui-react/?path=/docs/components-stepper--docs) |
 | Table | [Table](https://darioegb.github.io/plume-ui-react/?path=/docs/components-table--docs) |
 | Tabs | [Tabs](https://darioegb.github.io/plume-ui-react/?path=/docs/components-tabs--docs) |

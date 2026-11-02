@@ -24,7 +24,7 @@ const es: PlumeMessages = {
   alert: { dismiss: 'Cerrar aviso' },
   datePicker: { apply: 'Aplicar', cancel: 'Cancelar', openCalendar: 'Abrir calendario' },
   paginator: { next: 'Siguiente', previous: 'Anterior', page: (page) => `Página ${page}` },
-  spinner: { label: 'Cargando' },
+  loader: { label: 'Cargando' },
 }
 
 <LocaleProvider locale='es' messages={es}>
@@ -32,10 +32,10 @@ const es: PlumeMessages = {
 </LocaleProvider>
 ```
 
-`messages` is keyed by component (`alert`, `avatar`, `avatarGroup`, `breadcrumb`, `button`, `carousel`, `chip`,
-`datePicker`, `fileUpload`, `input`, `navbarToggle`, `numberInput`, `overlayClose`, `paginator`, `pinInput`,
-`rating`, `select`, `sidebarToggle`, `slider`, `spinner`, `stepper`, `table`, `textarea`, `timePicker`, `toast`).
-Each value is the same `Partial<<Name>Labels>` the component takes in its `labels` prop, so you only write what you
+`messages` is keyed by component (`alert`, `avatar`, `avatarGroup`, `breadcrumb`, `carousel`, `chip`, `datePicker`,
+`fileUpload`, `input`, `loader`, `navbarToggle`, `numberInput`, `overlayClose`, `paginator`, `pinInput`, `rating`,
+`select`, `sidebarToggle`, `slider`, `stepper`, `textarea`, `timePicker`, `toast`). A text is translated once, under
+the component that shows it: `loader` also names the `Loader` of a loading `Button` and of a loading `Table`. Each value is the same `Partial<<Name>Labels>` the component takes in its `labels` prop, so you only write what you
 change. `PlumeMessages` types all of it.
 
 `locale` is a BCP 47 tag (`es`, `es-AR`, `en-US`). The `DatePicker` uses it for the names of the days and months
@@ -48,7 +48,7 @@ with `useLocale()`, which returns the `locale` of the closest provider (or `unde
 <Paginator labels={{ next: 'Siguiente', page: (page) => `Página ${page}` }} pageSize={10} total={200} />
 ```
 
-A single text on a small part, such as the close button of a `Modal` or the `Spinner`, is a `label` prop.
+A single text on a small part, such as the close button of a `Modal` or the `Loader`, is a `label` prop.
 
 ## Changing the language at runtime
 

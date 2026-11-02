@@ -504,7 +504,7 @@ export const ReactHookForm: Story = {
   <Field errorText={errors.terms?.message} label="I accept the terms" orientation="inline">
     <Checkbox {...register('terms', { required: 'Accept the terms to book.' })} />
   </Field>
-  <Button colorScheme="primary" label="Book" type="submit" />
+  <Button colorScheme="primary" type="submit">Book</Button>
 </form>`,
       },
     },
@@ -704,7 +704,7 @@ export const ReactHookForm: Story = {
         <Field errorText={errors.terms?.message} label='I accept the terms' orientation='inline'>
           <Checkbox {...register('terms', { required: 'Accept the terms to book.' })} />
         </Field>
-        <Button colorScheme='primary' label='Book' type='submit' />
+        <Button colorScheme='primary' type='submit'>Book</Button>
         {submitted ? (
           <output className='col-span-full text-sm'>
             Booked a {submitted.room} room for {submitted.name} ({submitted.email}),{' '}

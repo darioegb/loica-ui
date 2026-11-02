@@ -91,7 +91,7 @@ export default {
   },
   render: (args) => (
     <Tooltip {...args}>
-      <Button label="Hover or focus me" />
+      <Button>Hover or focus me</Button>
     </Tooltip>
   ),
 } satisfies Meta<typeof Tooltip>
@@ -112,17 +112,17 @@ export const Variants: Story = {
   render: () => (
     <div className="flex flex-wrap justify-center gap-4">
       <Tooltip content="A solid tooltip" variant="solid">
-        <Button label="Solid" variant="outline" />
+        <Button variant="outline">Solid</Button>
       </Tooltip>
       <Tooltip content="An outline tooltip" variant="outline">
-        <Button label="Outline" variant="outline" />
+        <Button variant="outline">Outline</Button>
       </Tooltip>
       <Tooltip
         className="rounded-sm bg-yellow-200 px-2 py-1 text-black"
         content="An unstyled tooltip"
         variant="unstyled"
       >
-        <Button label="Unstyled" variant="outline" />
+        <Button variant="outline">Unstyled</Button>
       </Tooltip>
     </div>
   ),
@@ -136,7 +136,7 @@ export const Sizes: Story = {
     <div className="flex flex-wrap justify-center gap-4">
       {(['sm', 'md', 'lg'] as const).map((size) => (
         <Tooltip content={`Size ${size}`} key={size} size={size}>
-          <Button label={`Size ${size}`} variant="outline" />
+          <Button variant="outline">{`Size ${size}`}</Button>
         </Tooltip>
       ))}
     </div>
@@ -154,10 +154,11 @@ export const Placements: Story = {
         <Tooltip content={placement} key={placement} placement={placement}>
           <Button
             className="w-full whitespace-nowrap"
-            label={placement}
             size="sm"
             variant="outline"
-          />
+          >
+            {placement}
+          </Button>
         </Tooltip>
       ))}
     </div>
@@ -173,10 +174,10 @@ export const Delays: Story = {
   render: () => (
     <div className="flex flex-wrap justify-center gap-4">
       <Tooltip content="No delay" openDelay={0}>
-        <Button label="Opens at once" variant="outline" />
+        <Button variant="outline">Opens at once</Button>
       </Tooltip>
       <Tooltip content="A second later" openDelay={1000}>
-        <Button label="Opens after a second" variant="outline" />
+        <Button variant="outline">Opens after a second</Button>
       </Tooltip>
     </div>
   ),
@@ -210,7 +211,7 @@ export const RichContent: Story = {
       }
       variant="outline"
     >
-      <Button label="Save" variant="outline" />
+      <Button variant="outline">Save</Button>
     </Tooltip>
   ),
 }
@@ -220,13 +221,14 @@ function ControlledExample(): React.ReactNode {
   return (
     <div className="flex flex-col items-center gap-3">
       <Tooltip content="Controlled tooltip" onOpenChange={setOpen} open={open}>
-        <Button label="Hover or focus me" variant="outline" />
+        <Button variant="outline">Hover or focus me</Button>
       </Tooltip>
       <Button
-        label={open ? 'Close the tooltip' : 'Open the tooltip'}
         onClick={() => setOpen(!open)}
         size="sm"
-      />
+      >
+        {open ? 'Close the tooltip' : 'Open the tooltip'}
+      </Button>
     </div>
   )
 }
@@ -244,13 +246,14 @@ export const Controlled: Story = {
   return (
     <div className="flex flex-col items-center gap-3">
       <Tooltip content="Controlled tooltip" onOpenChange={setOpen} open={open}>
-        <Button label="Hover or focus me" variant="outline" />
+        <Button variant="outline">Hover or focus me</Button>
       </Tooltip>
       <Button
-        label={open ? 'Close the tooltip' : 'Open the tooltip'}
         onClick={() => setOpen(!open)}
         size="sm"
-      />
+      >
+        {open ? 'Close the tooltip' : 'Open the tooltip'}
+      </Button>
     </div>
   )
 }`,
@@ -275,9 +278,10 @@ export const Tailwind: Story = {
   >
     <Button
       className="rounded-sm bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
-      label="Dark tooltip"
       variant="unstyled"
-    />
+    >
+      Dark tooltip
+    </Button>
   </Tooltip>
   <Tooltip
     className="rounded-full border border-blue-600 bg-white px-3 py-1 text-xs font-medium text-blue-700 shadow-xs"
@@ -287,9 +291,10 @@ export const Tailwind: Story = {
   >
     <Button
       className="rounded-sm bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
-      label="Pill tooltip"
       variant="unstyled"
-    />
+    >
+      Pill tooltip
+    </Button>
   </Tooltip>
 </div>`,
       },
@@ -304,9 +309,10 @@ export const Tailwind: Story = {
       >
         <Button
           className="rounded-sm bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
-          label="Dark tooltip"
           variant="unstyled"
-        />
+        >
+          Dark tooltip
+        </Button>
       </Tooltip>
       <Tooltip
         className="rounded-full border border-blue-600 bg-white px-3 py-1 text-xs font-medium text-blue-700 shadow-xs"
@@ -316,9 +322,10 @@ export const Tailwind: Story = {
       >
         <Button
           className="rounded-sm bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
-          label="Pill tooltip"
           variant="unstyled"
-        />
+        >
+          Pill tooltip
+        </Button>
       </Tooltip>
     </div>
   ),
@@ -337,7 +344,7 @@ export const Bootstrap: Story = {
     content={<div className="tooltip-inner">Save the changes</div>}
     variant="unstyled"
   >
-    <Button className="btn btn-primary" label="Top" variant="unstyled" />
+    <Button className="btn btn-primary" variant="unstyled">Top</Button>
   </Tooltip>
   <Tooltip
     className="tooltip show"
@@ -345,7 +352,7 @@ export const Bootstrap: Story = {
     placement="bottom"
     variant="unstyled"
   >
-    <Button className="btn btn-light border" label="Bottom" variant="unstyled" />
+    <Button className="btn btn-light border" variant="unstyled">Bottom</Button>
   </Tooltip>
 </div>`,
       },
@@ -358,7 +365,7 @@ export const Bootstrap: Story = {
         content={<div className="tooltip-inner">Save the changes</div>}
         variant="unstyled"
       >
-        <Button className="btn btn-primary" label="Top" variant="unstyled" />
+        <Button className="btn btn-primary" variant="unstyled">Top</Button>
       </Tooltip>
       <Tooltip
         className="tooltip show"
@@ -366,7 +373,7 @@ export const Bootstrap: Story = {
         placement="bottom"
         variant="unstyled"
       >
-        <Button className="btn btn-light border" label="Bottom" variant="unstyled" />
+        <Button className="btn btn-light border" variant="unstyled">Bottom</Button>
       </Tooltip>
     </div>
   ),

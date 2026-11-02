@@ -108,10 +108,10 @@ describe('Table parts', () => {
       expect(container.querySelector('[data-plume-table-loading]')).toBeNull()
     })
 
-    it('shows the spinner named by the labels of the table', () => {
+    it('shows the loader named by its label', () => {
       render(
-        <Table aria-label="t" labels={{ loading: 'Cargando' }} loading>
-          <TableLoading className="veil" style={{ opacity: 0.5 }} />
+        <Table aria-label="t" loading>
+          <TableLoading className="veil" label="Cargando" style={{ opacity: 0.5 }} />
           <TableElement />
         </Table>,
       )
@@ -131,7 +131,7 @@ describe('Table parts', () => {
       expect(screen.getByLabelText('Wait')).toBeInTheDocument()
     })
 
-    it('renders its children instead of the spinner', () => {
+    it('renders its children instead of the loader', () => {
       const ref = createRef<HTMLDivElement>()
       render(
         <Table aria-label="t" loading>

@@ -43,7 +43,7 @@ import 'plume-ui-react/styles.css'
 export function App() {
   return (
     <ThemeProvider>
-      <Button colorScheme='primary' label='Get started' />
+      <Button colorScheme='primary'>Get started</Button>
     </ThemeProvider>
   )
 }
@@ -53,7 +53,7 @@ export function App() {
 
 `plume-ui-react/styles.css` has the CSS of every component (about 25 KB gzipped). To load only some of them, import
 `plume-ui-react/tokens.css` once, with the default theme, and then the stylesheet of each component instead of
-`styles.css`. Each one brings the CSS of the components it renders, so `css/button.css` also carries the `Spinner`, and
+`styles.css`. Each one brings the CSS of the components it renders, so `css/button.css` also carries the `Loader`, and
 `css/paginator.css` the `Button`, the `Select` and the `Chip`:
 
 ```tsx

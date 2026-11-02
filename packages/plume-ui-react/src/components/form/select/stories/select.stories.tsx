@@ -691,17 +691,19 @@ function ControlledExample(): React.ReactNode {
       <small>Chosen: {value.length > 0 ? value.join(', ') : 'nothing'}</small>
       <div className="flex gap-2">
         <Button
-          label="Choose all"
           onClick={() => setValue(fruits.map((fruit) => fruit.toLowerCase()))}
           size="sm"
           variant="outline"
-        />
+        >
+          Choose all
+        </Button>
         <Button
-          label={open ? 'Close the list' : 'Open the list'}
           onClick={() => setOpen(!open)}
           size="sm"
           variant="outline"
-        />
+        >
+          {open ? 'Close the list' : 'Open the list'}
+        </Button>
       </div>
     </div>
   )
@@ -731,17 +733,19 @@ export const Controlled: Story = {
       <small>Chosen: {value.length > 0 ? value.join(', ') : 'nothing'}</small>
       <div className="flex gap-2">
         <Button
-          label="Choose all"
           onClick={() => setValue(['apple', 'banana', 'cherry'])}
           size="sm"
           variant="outline"
-        />
+        >
+          Choose all
+        </Button>
         <Button
-          label={open ? 'Close the list' : 'Open the list'}
           onClick={() => setOpen(!open)}
           size="sm"
           variant="outline"
-        />
+        >
+          {open ? 'Close the list' : 'Open the list'}
+        </Button>
       </div>
     </div>
   )
@@ -842,7 +846,7 @@ function FormExample(): React.ReactNode {
           <SelectOption value="blue">Blue</SelectOption>
         </SelectContent>
       </Select>
-      <Button label="Submit" type="submit" />
+      <Button type="submit">Submit</Button>
       <small>{data}</small>
     </form>
   )
@@ -884,7 +888,7 @@ export const InAForm: Story = {
           <SelectOption value="blue">Blue</SelectOption>
         </SelectContent>
       </Select>
-      <Button label="Submit" type="submit" />
+      <Button type="submit">Submit</Button>
       <small>{data}</small>
     </form>
   )

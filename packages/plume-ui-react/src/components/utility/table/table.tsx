@@ -3,17 +3,12 @@
 import type { CSSProperties, ForwardedRef, HTMLAttributes } from 'react'
 import { forwardRef, useEffect, useMemo, useState } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import { useLabels } from '../../../locale/locale-provider'
 import { hasPart } from '../../../overlay/has-part'
 import type { ComponentProps, Size } from '../../../theme'
 import styles from './table.module.css'
 import { TableContext } from './table-context'
 import { TableElement } from './table-element'
 import { TableLoading } from './table-loading'
-
-export interface TableLabels {
-  loading: string
-}
 
 export type TableVariant = 'plain' | 'bordered' | 'striped' | 'unstyled'
 
@@ -24,15 +19,9 @@ export interface TableOwnProps {
    */
   hoverable?: boolean
   /**
-   * The texts of the Table, to translate it: `loading` is the accessible name of the spinner
-   * shown while the table is loading.
-   * @default { loading: 'Loading' }
-   */
-  labels?: Partial<TableLabels>
-  /**
    * Marks the table as busy while the data is on its way: it sets `aria-busy` and `data-loading`
    * on the `<table>`, covers the body with a translucent veil (`TableLoading`) and shows a
-   * `Spinner` in the middle.
+   * `Loader` in the middle.
    * @default false
    */
   loading?: boolean
@@ -68,8 +57,6 @@ type TableRootAttributes = Pick<
 
 export type TableProps = Omit<ComponentProps, 'index'> & TableRootAttributes & TableOwnProps
 
-const DEFAULT_LABELS: TableLabels = { loading: 'Loading' }
-
 const TABLE_PARTS = [TableElement, TableLoading]
 
 function useOverflow(container: HTMLElement | null): boolean {
@@ -101,7 +88,6 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
       children,
       className,
       hoverable = false,
-      labels,
       loading = false,
       maxHeight,
       size = 'md',
@@ -112,7 +98,6 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
     }: TableProps,
     ref: ForwardedRef<HTMLTableElement>,
   ) => {
-    const text = useLabels('table', DEFAULT_LABELS, labels)
     const isStyled = variant !== 'unstyled'
     const [container, setContainer] = useState<HTMLElement | null>(null)
     const scrollable = useOverflow(container)
@@ -124,7 +109,6 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
         ariaLabelledBy,
         hoverable,
         isStyled,
-        labels: text,
         loading,
         size,
         stickyHeader,
@@ -140,7 +124,6 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
         ref,
         size,
         stickyHeader,
-        text,
         variant,
       ],
     )

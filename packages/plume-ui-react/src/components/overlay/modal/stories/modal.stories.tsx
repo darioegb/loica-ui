@@ -21,17 +21,17 @@ function Example(props: Readonly<Omit<ModalProps, 'children'>>): React.ReactNode
   return (
     <Modal {...props}>
       <ModalTrigger>
-        <Button label="Open modal" />
+        <Button>Open modal</Button>
       </ModalTrigger>
       <ModalContent>
         <ModalHeader>Delete project</ModalHeader>
         <ModalBody>{text}</ModalBody>
         <ModalFooter>
           <ModalClose>
-            <Button label="Cancel" variant="ghost" />
+            <Button variant="ghost">Cancel</Button>
           </ModalClose>
           <ModalClose>
-            <Button colorScheme="error" label="Delete" />
+            <Button colorScheme="error">Delete</Button>
           </ModalClose>
         </ModalFooter>
         <ModalClose />
@@ -102,7 +102,7 @@ export const Default: Story = {
       source: {
         code: `<Modal>
   <ModalTrigger>
-    <Button label="Open modal" />
+    <Button>Open modal</Button>
   </ModalTrigger>
   <ModalContent>
     <ModalHeader>Delete project</ModalHeader>
@@ -111,10 +111,10 @@ export const Default: Story = {
     </ModalBody>
     <ModalFooter>
       <ModalClose>
-        <Button label="Cancel" variant="ghost" />
+        <Button variant="ghost">Cancel</Button>
       </ModalClose>
       <ModalClose>
-        <Button colorScheme="error" label="Delete" />
+        <Button colorScheme="error">Delete</Button>
       </ModalClose>
     </ModalFooter>
     <ModalClose />
@@ -136,7 +136,7 @@ export const Variants: Story = {
         code: `<div className="flex flex-wrap justify-center gap-4">
   <Modal variant="default">
     <ModalTrigger>
-      <Button label="Open modal" />
+      <Button>Open modal</Button>
     </ModalTrigger>
     <ModalContent>
       <ModalHeader>Delete project</ModalHeader>
@@ -145,10 +145,10 @@ export const Variants: Story = {
       </ModalBody>
       <ModalFooter>
         <ModalClose>
-          <Button label="Cancel" variant="ghost" />
+          <Button variant="ghost">Cancel</Button>
         </ModalClose>
         <ModalClose>
-          <Button colorScheme="error" label="Delete" />
+          <Button colorScheme="error">Delete</Button>
         </ModalClose>
       </ModalFooter>
       <ModalClose />
@@ -156,14 +156,14 @@ export const Variants: Story = {
   </Modal>
   <Modal variant="unstyled">
     <ModalTrigger>
-      <Button label="Open unstyled modal" variant="outline" />
+      <Button variant="outline">Open unstyled modal</Button>
     </ModalTrigger>
     <ModalContent className="fixed inset-0 m-auto h-fit max-w-sm rounded-xl bg-white p-6 text-black shadow-2xl">
       <ModalHeader className="mb-2 text-lg font-bold">Unstyled</ModalHeader>
       <ModalBody className="mb-4">The Plume styles are gone.</ModalBody>
       <ModalFooter className="flex justify-end">
         <ModalClose>
-          <Button label="Close" />
+          <Button>Close</Button>
         </ModalClose>
       </ModalFooter>
     </ModalContent>
@@ -177,14 +177,14 @@ export const Variants: Story = {
       <Example variant="default" />
       <Modal variant="unstyled">
         <ModalTrigger>
-          <Button label="Open unstyled modal" variant="outline" />
+          <Button variant="outline">Open unstyled modal</Button>
         </ModalTrigger>
         <ModalContent className="fixed inset-0 m-auto h-fit max-w-sm rounded-xl bg-white p-6 text-black shadow-2xl">
           <ModalHeader className="mb-2 text-lg font-bold">Unstyled</ModalHeader>
           <ModalBody className="mb-4">The Plume styles are gone.</ModalBody>
           <ModalFooter className="flex justify-end">
             <ModalClose>
-              <Button label="Close" />
+              <Button>Close</Button>
             </ModalClose>
           </ModalFooter>
         </ModalContent>
@@ -202,14 +202,14 @@ export const Sizes: Story = {
       {(['sm', 'md', 'lg'] as const).map((size) => (
         <Modal key={size} size={size}>
           <ModalTrigger>
-            <Button label={`Open ${size}`} variant="outline" />
+            <Button variant="outline">{`Open ${size}`}</Button>
           </ModalTrigger>
           <ModalContent>
             <ModalHeader>Size {size}</ModalHeader>
             <ModalBody>{text}</ModalBody>
             <ModalFooter>
               <ModalClose>
-                <Button label="Close" />
+                <Button>Close</Button>
               </ModalClose>
             </ModalFooter>
           </ModalContent>
@@ -223,14 +223,14 @@ function ControlledExample(): React.ReactNode {
   const [open, setOpen] = useState(false)
   return (
     <div className="flex flex-col items-center gap-3">
-      <Button label="Open from outside the Modal" onClick={() => setOpen(true)} />
+      <Button onClick={() => setOpen(true)}>Open from outside the Modal</Button>
       <p>The Modal is {open ? 'open' : 'closed'}.</p>
       <Modal onOpenChange={setOpen} open={open}>
         <ModalContent aria-label="Controlled modal">
           <ModalBody>{text}</ModalBody>
           <ModalFooter>
             <ModalClose>
-              <Button label="Close" />
+              <Button>Close</Button>
             </ModalClose>
           </ModalFooter>
         </ModalContent>
@@ -253,14 +253,14 @@ export const Controlled: Story = {
 
   return (
     <div className="flex flex-col items-center gap-3">
-      <Button label="Open from outside the Modal" onClick={() => setOpen(true)} />
+      <Button onClick={() => setOpen(true)}>Open from outside the Modal</Button>
       <p>The Modal is {open ? 'open' : 'closed'}.</p>
       <Modal onOpenChange={setOpen} open={open}>
         <ModalContent aria-label="Controlled modal">
           <ModalBody>This cannot be undone.</ModalBody>
           <ModalFooter>
             <ModalClose>
-              <Button label="Close" />
+              <Button>Close</Button>
             </ModalClose>
           </ModalFooter>
         </ModalContent>
@@ -279,7 +279,7 @@ function InitialFocusExample(): React.ReactNode {
   return (
     <Modal initialFocus={input}>
       <ModalTrigger>
-        <Button label="Rename project" />
+        <Button>Rename project</Button>
       </ModalTrigger>
       <ModalContent>
         <ModalHeader>Rename project</ModalHeader>
@@ -288,10 +288,10 @@ function InitialFocusExample(): React.ReactNode {
         </ModalBody>
         <ModalFooter>
           <ModalClose>
-            <Button label="Cancel" variant="ghost" />
+            <Button variant="ghost">Cancel</Button>
           </ModalClose>
           <ModalClose>
-            <Button label="Save" />
+            <Button>Save</Button>
           </ModalClose>
         </ModalFooter>
       </ModalContent>
@@ -313,7 +313,7 @@ export const InitialFocus: Story = {
   return (
     <Modal initialFocus={input}>
       <ModalTrigger>
-        <Button label="Rename project" />
+        <Button>Rename project</Button>
       </ModalTrigger>
       <ModalContent>
         <ModalHeader>Rename project</ModalHeader>
@@ -322,10 +322,10 @@ export const InitialFocus: Story = {
         </ModalBody>
         <ModalFooter>
           <ModalClose>
-            <Button label="Cancel" variant="ghost" />
+            <Button variant="ghost">Cancel</Button>
           </ModalClose>
           <ModalClose>
-            <Button label="Save" />
+            <Button>Save</Button>
           </ModalClose>
         </ModalFooter>
       </ModalContent>
@@ -345,7 +345,7 @@ export const LongContent: Story = {
   render: () => (
     <Modal>
       <ModalTrigger>
-        <Button label="Open long modal" />
+        <Button>Open long modal</Button>
       </ModalTrigger>
       <ModalContent>
         <ModalHeader>Terms of service</ModalHeader>
@@ -356,10 +356,10 @@ export const LongContent: Story = {
         </ModalBody>
         <ModalFooter>
           <ModalClose>
-            <Button label="Decline" variant="ghost" />
+            <Button variant="ghost">Decline</Button>
           </ModalClose>
           <ModalClose>
-            <Button label="Accept" />
+            <Button>Accept</Button>
           </ModalClose>
         </ModalFooter>
       </ModalContent>
@@ -377,7 +377,7 @@ export const Persistent: Story = {
       source: {
         code: `<Modal closeOnEscape={false} closeOnOutside={false}>
   <ModalTrigger>
-    <Button label="Open modal" />
+    <Button>Open modal</Button>
   </ModalTrigger>
   <ModalContent>
     <ModalHeader>Delete project</ModalHeader>
@@ -386,10 +386,10 @@ export const Persistent: Story = {
     </ModalBody>
     <ModalFooter>
       <ModalClose>
-        <Button label="Cancel" variant="ghost" />
+        <Button variant="ghost">Cancel</Button>
       </ModalClose>
       <ModalClose>
-        <Button colorScheme="error" label="Delete" />
+        <Button colorScheme="error">Delete</Button>
       </ModalClose>
     </ModalFooter>
     <ModalClose />
@@ -409,7 +409,7 @@ export const Nested: Story = {
   render: () => (
     <Modal>
       <ModalTrigger>
-        <Button label="Open first modal" />
+        <Button>Open first modal</Button>
       </ModalTrigger>
       <ModalContent>
         <ModalHeader>First modal</ModalHeader>
@@ -417,14 +417,14 @@ export const Nested: Story = {
         <ModalFooter>
           <Modal size="sm">
             <ModalTrigger>
-              <Button label="Open second modal" variant="outline" />
+              <Button variant="outline">Open second modal</Button>
             </ModalTrigger>
             <ModalContent>
               <ModalHeader>Second modal</ModalHeader>
               <ModalBody>Close this one and the first stays open.</ModalBody>
               <ModalFooter>
                 <ModalClose>
-                  <Button label="Close" />
+                  <Button>Close</Button>
                 </ModalClose>
               </ModalFooter>
             </ModalContent>
@@ -447,7 +447,7 @@ export const Compound: Story = {
       source: {
         code: `<Modal>
   <ModalTrigger>
-    <Button label="Open modal" />
+    <Button>Open modal</Button>
   </ModalTrigger>
   <ModalBackdrop style={{ backgroundColor: 'rgb(0 0 0 / 75%)' }}>
     <ModalContent>
@@ -455,7 +455,7 @@ export const Compound: Story = {
       <ModalBody>This cannot be undone.</ModalBody>
       <ModalFooter>
         <ModalClose>
-          <Button label="Cancel" variant="ghost" />
+          <Button variant="ghost">Cancel</Button>
         </ModalClose>
       </ModalFooter>
     </ModalContent>
@@ -467,7 +467,7 @@ export const Compound: Story = {
   render: () => (
     <Modal>
       <ModalTrigger>
-        <Button label="Open modal" />
+        <Button>Open modal</Button>
       </ModalTrigger>
       <ModalBackdrop style={{ backgroundColor: 'rgb(0 0 0 / 75%)' }}>
         <ModalContent>
@@ -475,7 +475,7 @@ export const Compound: Story = {
           <ModalBody>This cannot be undone.</ModalBody>
           <ModalFooter>
             <ModalClose>
-              <Button label="Cancel" variant="ghost" />
+              <Button variant="ghost">Cancel</Button>
             </ModalClose>
           </ModalFooter>
         </ModalContent>
@@ -495,9 +495,10 @@ export const Tailwind: Story = {
   <ModalTrigger>
     <Button
       className="rounded-sm bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
-      label="Open modal"
       variant="unstyled"
-    />
+    >
+      Open modal
+    </Button>
   </ModalTrigger>
   <ModalBackdrop className="bg-black/50 p-[1rem]">
     <ModalContent
@@ -513,16 +514,18 @@ export const Tailwind: Story = {
         <ModalClose>
           <Button
             className="rounded-sm px-4 py-2 text-sm font-semibold hover:bg-surface-muted"
-            label="Cancel"
             variant="unstyled"
-          />
+          >
+            Cancel
+          </Button>
         </ModalClose>
         <ModalClose>
           <Button
             className="rounded-sm bg-red-700 px-4 py-2 text-sm font-semibold text-white hover:bg-red-800"
-            label="Delete"
             variant="unstyled"
-          />
+          >
+            Delete
+          </Button>
         </ModalClose>
       </ModalFooter>
     </ModalContent>
@@ -536,9 +539,10 @@ export const Tailwind: Story = {
       <ModalTrigger>
         <Button
           className="rounded-sm bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
-          label="Open modal"
           variant="unstyled"
-        />
+        >
+          Open modal
+        </Button>
       </ModalTrigger>
       <ModalBackdrop className="bg-black/50 p-[1rem]">
         <ModalContent
@@ -554,16 +558,18 @@ export const Tailwind: Story = {
             <ModalClose>
               <Button
                 className="rounded-sm px-4 py-2 text-sm font-semibold hover:bg-surface-muted"
-                label="Cancel"
                 variant="unstyled"
-              />
+              >
+                Cancel
+              </Button>
             </ModalClose>
             <ModalClose>
               <Button
                 className="rounded-sm bg-red-700 px-4 py-2 text-sm font-semibold text-white hover:bg-red-800"
-                label="Delete"
                 variant="unstyled"
-              />
+              >
+                Delete
+              </Button>
             </ModalClose>
           </ModalFooter>
         </ModalContent>
@@ -581,7 +587,7 @@ export const Bootstrap: Story = {
       source: {
         code: `<Modal variant="unstyled">
   <ModalTrigger>
-    <Button className="btn btn-primary" label="Open modal" variant="unstyled" />
+    <Button className="btn btn-primary" variant="unstyled">Open modal</Button>
   </ModalTrigger>
   <ModalBackdrop className="modal d-flex align-items-center justify-content-center bg-black bg-opacity-50 p-3">
     <ModalContent
@@ -594,10 +600,10 @@ export const Bootstrap: Story = {
       </ModalBody>
       <ModalFooter className="modal-footer">
         <ModalClose>
-          <Button className="btn btn-secondary" label="Cancel" variant="unstyled" />
+          <Button className="btn btn-secondary" variant="unstyled">Cancel</Button>
         </ModalClose>
         <ModalClose>
-          <Button className="btn btn-danger" label="Delete" variant="unstyled" />
+          <Button className="btn btn-danger" variant="unstyled">Delete</Button>
         </ModalClose>
       </ModalFooter>
     </ModalContent>
@@ -609,7 +615,7 @@ export const Bootstrap: Story = {
   render: () => (
     <Modal variant="unstyled">
       <ModalTrigger>
-        <Button className="btn btn-primary" label="Open modal" variant="unstyled" />
+        <Button className="btn btn-primary" variant="unstyled">Open modal</Button>
       </ModalTrigger>
       <ModalBackdrop className="modal d-flex align-items-center justify-content-center bg-black bg-opacity-50 p-3">
         <ModalContent
@@ -622,10 +628,10 @@ export const Bootstrap: Story = {
           </ModalBody>
           <ModalFooter className="modal-footer">
             <ModalClose>
-              <Button className="btn btn-secondary" label="Cancel" variant="unstyled" />
+              <Button className="btn btn-secondary" variant="unstyled">Cancel</Button>
             </ModalClose>
             <ModalClose>
-              <Button className="btn btn-danger" label="Delete" variant="unstyled" />
+              <Button className="btn btn-danger" variant="unstyled">Delete</Button>
             </ModalClose>
           </ModalFooter>
         </ModalContent>

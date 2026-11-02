@@ -4,12 +4,15 @@ import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
 import { forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import type { ComponentProps } from '../../../theme'
-import { Spinner } from '../../presentation/spinner'
+import { Loader } from '../../presentation/loader'
 import styles from './table.module.css'
 import { useTableContext } from './table-context'
 
 export interface TableLoadingOwnProps {
-  /** The accessible name of the spinner. By default it is `labels.loading` of the `Table`. */
+  /**
+   * The accessible name of the `Loader`. It defaults to the `loader` text of the `LocaleProvider`,
+   * or `Loading`.
+   */
   label?: string
 }
 
@@ -23,15 +26,15 @@ export type TableLoadingProps = Omit<ComponentProps, 'index'> &
   TableLoadingOwnProps
 
 /**
- * The veil with the `Spinner`, only while the `Table` is `loading`. `children` replace the
- * spinner.
+ * The veil with the `Loader`, only while the `Table` is `loading`. `children` replace the
+ * loader.
  */
 export const TableLoading = forwardRef<HTMLDivElement, TableLoadingProps>(
   (
     { children, className, label, style, ...rest }: TableLoadingProps,
     ref: ForwardedRef<HTMLDivElement>,
   ): ReactNode => {
-    const { isStyled, labels, loading } = useTableContext('TableLoading')
+    const { isStyled, loading } = useTableContext('TableLoading')
 
     if (!loading) return null
 
@@ -44,10 +47,10 @@ export const TableLoading = forwardRef<HTMLDivElement, TableLoadingProps>(
         {...rest}
       >
         {children ?? (
-          <Spinner
+          <Loader
             colorScheme="primary"
-            label={label ?? labels.loading}
-            variant={isStyled ? 'solid' : 'unstyled'}
+            label={label}
+            variant={isStyled ? 'spinner' : 'unstyled'}
           />
         )}
       </div>

@@ -32,6 +32,7 @@ export type TabProps = Omit<ComponentProps, 'index'> & TabRootAttributes & TabOw
 export const Tab = forwardRef<HTMLButtonElement, TabProps>(
   (
     {
+      children,
       className,
       disabled,
       extraContentLeft,
@@ -85,7 +86,6 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
         iconLeft={extraContentLeft}
         iconRight={extraContentRight}
         id={getTabId(baseId, index)}
-        label={label ?? ''}
         onClick={() => select(index)}
         onKeyDown={handleKeyDown}
         ref={ref}
@@ -93,7 +93,10 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
         tabIndex={isActive ? 0 : -1}
         variant="unstyled"
         {...rest}
-      />
+      >
+        {label}
+        {children}
+      </Button>
     )
   },
 )

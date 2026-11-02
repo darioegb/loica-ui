@@ -22,7 +22,7 @@ function Example({
   return (
     <Drawer {...props}>
       <DrawerTrigger>
-        <Button label={label} />
+        <Button>{label}</Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>Filters</DrawerHeader>
@@ -38,10 +38,10 @@ function Example({
         </DrawerBody>
         <DrawerFooter>
           <DrawerClose>
-            <Button label="Cancel" variant="ghost" />
+            <Button variant="ghost">Cancel</Button>
           </DrawerClose>
           <DrawerClose>
-            <Button label="Apply" />
+            <Button>Apply</Button>
           </DrawerClose>
         </DrawerFooter>
         <DrawerClose />
@@ -115,7 +115,7 @@ export const Default: Story = {
       source: {
         code: `<Drawer>
   <DrawerTrigger>
-    <Button label="Open drawer" />
+    <Button>Open drawer</Button>
   </DrawerTrigger>
   <DrawerContent>
     <DrawerHeader>Filters</DrawerHeader>
@@ -131,10 +131,10 @@ export const Default: Story = {
     </DrawerBody>
     <DrawerFooter>
       <DrawerClose>
-        <Button label="Cancel" variant="ghost" />
+        <Button variant="ghost">Cancel</Button>
       </DrawerClose>
       <DrawerClose>
-        <Button label="Apply" />
+        <Button>Apply</Button>
       </DrawerClose>
     </DrawerFooter>
     <DrawerClose />
@@ -155,7 +155,7 @@ export const Sides: Story = {
         code: `<div className="flex flex-wrap justify-center gap-3">
   <Drawer side="left">
     <DrawerTrigger>
-      <Button label="From the left" />
+      <Button>From the left</Button>
     </DrawerTrigger>
     <DrawerContent>
       <DrawerHeader>Filters</DrawerHeader>
@@ -169,10 +169,10 @@ export const Sides: Story = {
       </DrawerBody>
       <DrawerFooter>
         <DrawerClose>
-          <Button label="Cancel" variant="ghost" />
+          <Button variant="ghost">Cancel</Button>
         </DrawerClose>
         <DrawerClose>
-          <Button label="Apply" />
+          <Button>Apply</Button>
         </DrawerClose>
       </DrawerFooter>
       <DrawerClose />
@@ -180,7 +180,7 @@ export const Sides: Story = {
   </Drawer>
   <Drawer side="bottom">
     <DrawerTrigger>
-      <Button label="From the bottom" />
+      <Button>From the bottom</Button>
     </DrawerTrigger>
     <DrawerContent>
       <DrawerHeader>Filters</DrawerHeader>
@@ -194,10 +194,10 @@ export const Sides: Story = {
       </DrawerBody>
       <DrawerFooter>
         <DrawerClose>
-          <Button label="Cancel" variant="ghost" />
+          <Button variant="ghost">Cancel</Button>
         </DrawerClose>
         <DrawerClose>
-          <Button label="Apply" />
+          <Button>Apply</Button>
         </DrawerClose>
       </DrawerFooter>
       <DrawerClose />
@@ -226,7 +226,7 @@ export const Shapes: Story = {
         code: `<div className="flex flex-wrap justify-center gap-3">
   <Drawer shape="rounded">
     <DrawerTrigger>
-      <Button label="Shape rounded" />
+      <Button>Shape rounded</Button>
     </DrawerTrigger>
     <DrawerContent>
       <DrawerHeader>Filters</DrawerHeader>
@@ -240,10 +240,10 @@ export const Shapes: Story = {
       </DrawerBody>
       <DrawerFooter>
         <DrawerClose>
-          <Button label="Cancel" variant="ghost" />
+          <Button variant="ghost">Cancel</Button>
         </DrawerClose>
         <DrawerClose>
-          <Button label="Apply" />
+          <Button>Apply</Button>
         </DrawerClose>
       </DrawerFooter>
       <DrawerClose />
@@ -251,7 +251,7 @@ export const Shapes: Story = {
   </Drawer>
   <Drawer shape="square">
     <DrawerTrigger>
-      <Button label="Shape square" />
+      <Button>Shape square</Button>
     </DrawerTrigger>
     <DrawerContent>
       <DrawerHeader>Filters</DrawerHeader>
@@ -265,10 +265,10 @@ export const Shapes: Story = {
       </DrawerBody>
       <DrawerFooter>
         <DrawerClose>
-          <Button label="Cancel" variant="ghost" />
+          <Button variant="ghost">Cancel</Button>
         </DrawerClose>
         <DrawerClose>
-          <Button label="Apply" />
+          <Button>Apply</Button>
         </DrawerClose>
       </DrawerFooter>
       <DrawerClose />
@@ -298,7 +298,7 @@ export const Sizes: Story = {
         code: `<div className="flex flex-wrap justify-center gap-3">
   <Drawer size="sm">
     <DrawerTrigger>
-      <Button label="Size sm" />
+      <Button>Size sm</Button>
     </DrawerTrigger>
     <DrawerContent>
       <DrawerHeader>Filters</DrawerHeader>
@@ -312,10 +312,10 @@ export const Sizes: Story = {
       </DrawerBody>
       <DrawerFooter>
         <DrawerClose>
-          <Button label="Cancel" variant="ghost" />
+          <Button variant="ghost">Cancel</Button>
         </DrawerClose>
         <DrawerClose>
-          <Button label="Apply" />
+          <Button>Apply</Button>
         </DrawerClose>
       </DrawerFooter>
       <DrawerClose />
@@ -323,7 +323,7 @@ export const Sizes: Story = {
   </Drawer>
   <Drawer size="lg">
     <DrawerTrigger>
-      <Button label="Size lg" />
+      <Button>Size lg</Button>
     </DrawerTrigger>
     <DrawerContent>
       <DrawerHeader>Filters</DrawerHeader>
@@ -337,10 +337,10 @@ export const Sizes: Story = {
       </DrawerBody>
       <DrawerFooter>
         <DrawerClose>
-          <Button label="Cancel" variant="ghost" />
+          <Button variant="ghost">Cancel</Button>
         </DrawerClose>
         <DrawerClose>
-          <Button label="Apply" />
+          <Button>Apply</Button>
         </DrawerClose>
       </DrawerFooter>
       <DrawerClose />
@@ -365,9 +365,10 @@ function ControlledExample(): React.ReactNode {
   return (
     <div className="flex flex-col items-center gap-3">
       <Button
-        label={open ? 'Close the drawer' : 'Open the drawer'}
         onClick={() => setOpen(!open)}
-      />
+      >
+        {open ? 'Close the drawer' : 'Open the drawer'}
+      </Button>
       <p className="text-sm">The drawer is {open ? 'open' : 'closed'}.</p>
       <Drawer onOpenChange={setOpen} open={open}>
         <DrawerContent>
@@ -394,9 +395,10 @@ export const Controlled: Story = {
   return (
     <div className="flex flex-col items-center gap-3">
       <Button
-        label={open ? 'Close the drawer' : 'Open the drawer'}
         onClick={() => setOpen(!open)}
-      />
+      >
+        {open ? 'Close the drawer' : 'Open the drawer'}
+      </Button>
       <p className="text-sm">The drawer is {open ? 'open' : 'closed'}.</p>
       <Drawer onOpenChange={setOpen} open={open}>
         <DrawerContent>
@@ -421,7 +423,7 @@ export const LongContent: Story = {
   render: () => (
     <Drawer>
       <DrawerTrigger>
-        <Button label="Open drawer" />
+        <Button>Open drawer</Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>Activity</DrawerHeader>
@@ -434,7 +436,7 @@ export const LongContent: Story = {
         </DrawerBody>
         <DrawerFooter>
           <DrawerClose>
-            <Button label="Done" />
+            <Button>Done</Button>
           </DrawerClose>
         </DrawerFooter>
         <DrawerClose />
@@ -453,7 +455,7 @@ export const Persistent: Story = {
       source: {
         code: `<Drawer closeOnEscape={false} closeOnOutside={false}>
   <DrawerTrigger>
-    <Button label="Open drawer" />
+    <Button>Open drawer</Button>
   </DrawerTrigger>
   <DrawerContent>
     <DrawerHeader>Filters</DrawerHeader>
@@ -467,10 +469,10 @@ export const Persistent: Story = {
     </DrawerBody>
     <DrawerFooter>
       <DrawerClose>
-        <Button label="Cancel" variant="ghost" />
+        <Button variant="ghost">Cancel</Button>
       </DrawerClose>
       <DrawerClose>
-        <Button label="Apply" />
+        <Button>Apply</Button>
       </DrawerClose>
     </DrawerFooter>
     <DrawerClose />
@@ -492,7 +494,7 @@ export const Compound: Story = {
       source: {
         code: `<Drawer>
   <DrawerTrigger>
-    <Button label="Open drawer" />
+    <Button>Open drawer</Button>
   </DrawerTrigger>
   <DrawerBackdrop style={{ backgroundColor: 'rgb(0 0 0 / 75%)' }}>
     <DrawerContent>
@@ -500,7 +502,7 @@ export const Compound: Story = {
       <DrawerBody>Choose what to show.</DrawerBody>
       <DrawerFooter>
         <DrawerClose>
-          <Button label="Done" />
+          <Button>Done</Button>
         </DrawerClose>
       </DrawerFooter>
     </DrawerContent>
@@ -512,7 +514,7 @@ export const Compound: Story = {
   render: () => (
     <Drawer>
       <DrawerTrigger>
-        <Button label="Open drawer" />
+        <Button>Open drawer</Button>
       </DrawerTrigger>
       <DrawerBackdrop style={{ backgroundColor: 'rgb(0 0 0 / 75%)' }}>
         <DrawerContent>
@@ -520,7 +522,7 @@ export const Compound: Story = {
           <DrawerBody>Choose what to show.</DrawerBody>
           <DrawerFooter>
             <DrawerClose>
-              <Button label="Done" />
+              <Button>Done</Button>
             </DrawerClose>
           </DrawerFooter>
         </DrawerContent>
@@ -540,9 +542,10 @@ export const Tailwind: Story = {
   <DrawerTrigger>
     <Button
       className="rounded-sm bg-blue-700 px-[1rem] py-[0.5rem] text-sm font-semibold text-white hover:bg-blue-800"
-      label="Open drawer"
       variant="unstyled"
-    />
+    >
+      Open drawer
+    </Button>
   </DrawerTrigger>
   <DrawerBackdrop className="flex justify-end bg-black/50">
     <DrawerContent
@@ -558,9 +561,10 @@ export const Tailwind: Story = {
         <DrawerClose>
           <Button
             className="rounded-sm bg-blue-700 px-[1rem] py-[0.5rem] text-sm font-semibold text-white hover:bg-blue-800"
-            label="Apply"
             variant="unstyled"
-          />
+          >
+            Apply
+          </Button>
         </DrawerClose>
       </DrawerFooter>
     </DrawerContent>
@@ -574,9 +578,10 @@ export const Tailwind: Story = {
       <DrawerTrigger>
         <Button
           className="rounded-sm bg-blue-700 px-[1rem] py-[0.5rem] text-sm font-semibold text-white hover:bg-blue-800"
-          label="Open drawer"
           variant="unstyled"
-        />
+        >
+          Open drawer
+        </Button>
       </DrawerTrigger>
       <DrawerBackdrop className="flex justify-end bg-black/50">
         <DrawerContent
@@ -592,9 +597,10 @@ export const Tailwind: Story = {
             <DrawerClose>
               <Button
                 className="rounded-sm bg-blue-700 px-[1rem] py-[0.5rem] text-sm font-semibold text-white hover:bg-blue-800"
-                label="Apply"
                 variant="unstyled"
-              />
+              >
+                Apply
+              </Button>
             </DrawerClose>
           </DrawerFooter>
         </DrawerContent>
@@ -612,7 +618,7 @@ export const Bootstrap: Story = {
       source: {
         code: `<Drawer side="right" variant="unstyled">
   <DrawerTrigger>
-    <Button className="btn btn-primary" label="Open drawer" variant="unstyled" />
+    <Button className="btn btn-primary" variant="unstyled">Open drawer</Button>
   </DrawerTrigger>
   <DrawerBackdrop className="d-flex justify-content-end bg-black bg-opacity-50">
     <DrawerContent
@@ -623,7 +629,7 @@ export const Bootstrap: Story = {
       <DrawerBody className="flex-grow-1 overflow-auto p-3">Choose what the list shows.</DrawerBody>
       <DrawerFooter className="d-flex justify-content-end gap-2 border-top p-3">
         <DrawerClose>
-          <Button className="btn btn-primary" label="Apply" variant="unstyled" />
+          <Button className="btn btn-primary" variant="unstyled">Apply</Button>
         </DrawerClose>
       </DrawerFooter>
     </DrawerContent>
@@ -635,7 +641,7 @@ export const Bootstrap: Story = {
   render: () => (
     <Drawer side="right" variant="unstyled">
       <DrawerTrigger>
-        <Button className="btn btn-primary" label="Open drawer" variant="unstyled" />
+        <Button className="btn btn-primary" variant="unstyled">Open drawer</Button>
       </DrawerTrigger>
       <DrawerBackdrop className="d-flex justify-content-end bg-black bg-opacity-50">
         <DrawerContent
@@ -650,7 +656,7 @@ export const Bootstrap: Story = {
           </DrawerBody>
           <DrawerFooter className="d-flex justify-content-end gap-2 border-top p-3">
             <DrawerClose>
-              <Button className="btn btn-primary" label="Apply" variant="unstyled" />
+              <Button className="btn btn-primary" variant="unstyled">Apply</Button>
             </DrawerClose>
           </DrawerFooter>
         </DrawerContent>
