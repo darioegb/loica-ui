@@ -1,5 +1,11 @@
 # plume-ui-react
 
+## 0.49.0
+
+### Minor Changes
+
+- [#273](https://github.com/darioegb/plume-ui-react/pull/273) [`9531f7223992ad32d1b997117de4387c9d1c2b28`](https://github.com/darioegb/plume-ui-react/commit/9531f7223992ad32d1b997117de4387c9d1c2b28) Thanks [@darioegb](https://github.com/darioegb)! - `LocaleProvider` can be nested. An inner provider merges its `messages` with the ones of the provider above it, per component, and inherits its `locale` unless it sets its own.
+
 ## 0.48.0
 
 ### Minor Changes
