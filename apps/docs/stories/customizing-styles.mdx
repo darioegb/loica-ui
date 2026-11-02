@@ -23,16 +23,17 @@ need.
 
 ## `className` in every variant
 
-`className` and `style` of a component go to the outermost element it renders. Every other element is a part you can
-import, and each part takes its own `className`, `style` and `ref`:
+`className` and `style` of a component go to the outermost element it renders. The elements a component draws by itself
+carry a `data-plume-<component>-<element>` attribute, so you style them from the parent, and the ones you compose
+(the items of a `List`, the header of a `Modal`) are parts you can import, each with its own `className`, `style` and
+`ref`:
 
 ```tsx
-<Input type='password' className='mt-4'>
-  <InputControl>
-    <InputField className='font-mono' />
-    <InputReveal className='opacity-60' />
-  </InputControl>
-</Input>
+<Input
+  className='mt-4 [&_[data-plume-input-field]]:font-mono [&_[data-plume-input-reveal]]:opacity-60'
+  revealable
+  type='password'
+/>
 ```
 
 The class is added **next to** the Plume classes of the part, in the `outline`, `filled`, `solid` and every other
@@ -92,11 +93,11 @@ Every story of Tailwind and Bootstrap in the components shows the component in `
 
 ## Styling states
 
-Parts expose their state as attributes, and every part carries `data-plume-<component>-<part>`, so you can style a
+Elements expose their state as attributes, and every one carries `data-plume-<component>-<element>`, so you can style a
 state without a class of your own:
 
 ```tsx
-<InputField className='data-[invalid]:border-red-500 data-[disabled]:opacity-40' />
+<Input className='[&_[data-plume-input-field][data-invalid]]:border-red-500' />
 ```
 
 ```css

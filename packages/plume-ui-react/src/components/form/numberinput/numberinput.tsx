@@ -1,18 +1,13 @@
 'use client'
 
-import type { CSSProperties, ForwardedRef, InputHTMLAttributes, ReactNode, RefObject } from 'react'
-import { forwardRef, useRef, useMemo } from 'react'
+import type { ComponentPropsWithoutRef, CSSProperties, ForwardedRef, ReactNode, RefObject } from 'react'
+import { forwardRef, useRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import { hasPart } from '../../../overlay/has-part'
 import { useLabels } from '../../../locale/locale-provider'
-import type { ColorScheme, ComponentProps, Shape, Size } from '../../../theme'
-import { useShallowStable } from '../shared/use-shallow-stable'
-import { NumberInputContext } from './numberinput-context'
-import { NumberInputDecrement } from './numberinput-decrement'
+import type { ColorScheme, Shape, Size } from '../../../theme'
 import { NumberInputField } from './numberinput-field'
-import { NumberInputHidden } from './numberinput-hidden'
-import { NumberInputIncrement } from './numberinput-increment'
 import { DEFAULT_LABELS } from './numberinput-labels'
+import { NumberInputStepper } from './numberinput-stepper'
 import styles from './numberinput.module.css'
 import { useNumberInput } from './use-number-input'
 
@@ -21,10 +16,6 @@ export type { NumberInputLabels } from './numberinput-labels'
 export type NumberInputVariant = 'outline' | 'filled' | 'underline' | 'unstyled'
 
 export interface NumberInputOwnProps {
-  /**
-   * The parts of the field, to change what it shows or their order. Without them it renders the field between the two steppers. With a `name` the `NumberInputHidden` is added unless the parts already have one.
-   */
-  children?: ReactNode
   /**
    * Color scheme for the focus ring, from the theme palette (custom schemes included).
    *
@@ -99,24 +90,20 @@ export interface NumberInputOwnProps {
   variant?: NumberInputVariant
 }
 
-type NumberInputRootAttributes = Pick<
-  InputHTMLAttributes<HTMLInputElement>,
-  | 'aria-describedby'
-  | 'aria-invalid'
-  | 'aria-label'
-  | 'aria-labelledby'
-  | 'disabled'
-  | 'id'
-  | 'onBlur'
-  | 'onFocus'
-  | 'placeholder'
-  | 'readOnly'
-  | 'required'
-  | 'title'
->
-
-export type NumberInputProps = Omit<ComponentProps, 'index'> &
-  NumberInputRootAttributes &
+export type NumberInputProps = Omit<
+  ComponentPropsWithoutRef<'input'>,
+  | 'children'
+  | 'defaultValue'
+  | 'max'
+  | 'min'
+  | 'name'
+  | 'onChange'
+  | 'role'
+  | 'size'
+  | 'step'
+  | 'type'
+  | 'value'
+> &
   NumberInputOwnProps
 
 const controlClasses = (
@@ -142,7 +129,6 @@ const controlClasses = (
 export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
   (
     {
-      children,
       className,
       colorScheme = 'secondary',
       defaultValue,
@@ -181,52 +167,64 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       step,
       value,
     })
-    const fieldProps = useShallowStable(rest)
     const isStyled = variant !== 'unstyled'
-    const invalid = fieldProps['aria-invalid'] === true || fieldProps['aria-invalid'] === 'true'
+    const invalid = rest['aria-invalid'] === true || rest['aria-invalid'] === 'true'
     const text = useLabels('numberInput', DEFAULT_LABELS)
     const colorVars = {
       '--numberinput-color': `var(--plume-color-${colorScheme}-text)`,
       ...style,
     } as CSSProperties
-    const context = useMemo(
-      () => ({
-        disabled,
-        fieldProps,
-        forwardedRef: ref,
-        inputRef,
-        invalid,
-        isStyled,
-        labels: text,
-        max,
-        min,
-        name,
-        number,
-        precision,
-        readOnly,
-      }),
-      [disabled, fieldProps, invalid, isStyled, max, min, name, number, precision, readOnly, ref, text],
-    )
 
     return (
-      <NumberInputContext.Provider value={context}>
-        <div
-          className={controlClasses(className, disabled, invalid, shape, size, variant)}
-          data-disabled={disabled ? '' : undefined}
-          data-invalid={invalid ? '' : undefined}
-          data-plume-numberinput-control=""
-          style={colorVars}
-        >
-          {children ?? (
-            <>
-              {steppers ? <NumberInputDecrement /> : null}
-              <NumberInputField />
-              {steppers ? <NumberInputIncrement /> : null}
-            </>
-          )}
-          {name && !hasPart(children, [NumberInputHidden]) ? <NumberInputHidden /> : null}
-        </div>
-      </NumberInputContext.Provider>
+      <div
+        className={controlClasses(className, disabled, invalid, shape, size, variant)}
+        data-disabled={disabled ? '' : undefined}
+        data-invalid={invalid ? '' : undefined}
+        data-plume-numberinput-control=""
+        style={colorVars}
+      >
+        {steppers ? (
+          <NumberInputStepper
+            direction={-1}
+            disabled={disabled}
+            inputRef={inputRef}
+            isStyled={isStyled}
+            label={text.decrement}
+            number={number}
+          />
+        ) : null}
+        <NumberInputField
+          {...rest}
+          disabled={disabled}
+          inputRef={inputRef}
+          invalid={invalid}
+          isStyled={isStyled}
+          max={max}
+          min={min}
+          number={number}
+          precision={precision}
+          readOnly={readOnly}
+          ref={ref}
+        />
+        {steppers ? (
+          <NumberInputStepper
+            direction={1}
+            disabled={disabled}
+            inputRef={inputRef}
+            isStyled={isStyled}
+            label={text.increment}
+            number={number}
+          />
+        ) : null}
+        {name ? (
+          <input
+            data-plume-numberinput-hidden=""
+            name={name}
+            type="hidden"
+            value={number.value ?? ''}
+          />
+        ) : null}
+      </div>
     )
   },
 )

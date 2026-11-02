@@ -1,78 +1,48 @@
 'use client'
 
-import type { ButtonHTMLAttributes, ForwardedRef, ReactNode } from 'react'
-import { forwardRef } from 'react'
-import { joinClasses } from '../../../overlay/class-names'
+import type { ReactNode, RefObject } from 'react'
 import { MinusIcon, PlusIcon } from '../../../overlay/icons'
-import type { ComponentProps } from '../../../theme'
-import { useNumberInputContext } from './numberinput-context'
 import styles from './numberinput.module.css'
 import { useHoldRepeat } from './use-hold-repeat'
+import type { NumberInputState } from './use-number-input'
 
-export interface NumberInputStepperOwnProps {
-  /**
-   * Accessible name of the button. It defaults to `labels.decrement` or `labels.increment` of the `NumberInput`.
-   */
-  label?: string
-}
-
-type NumberInputStepperRootAttributes = Pick<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  'children' | 'disabled' | 'id' | 'title'
->
-
-export type NumberInputStepperProps = Omit<ComponentProps, 'index'> &
-  NumberInputStepperRootAttributes &
-  NumberInputStepperOwnProps
-
-interface NumberInputStepperInternalProps extends NumberInputStepperProps {
+interface NumberInputStepperProps {
   direction: 1 | -1
-  part: string
+  disabled: boolean
+  inputRef: RefObject<HTMLInputElement | null>
+  isStyled: boolean
+  label: string
+  number: NumberInputState
 }
 
-export const NumberInputStepper = forwardRef<HTMLButtonElement, NumberInputStepperInternalProps>(
-  (
-    {
-      children,
-      className,
-      direction,
-      disabled = false,
-      label,
-      part,
-      style,
-      ...rest
-    }: NumberInputStepperInternalProps,
-    ref: ForwardedRef<HTMLButtonElement>,
-  ): ReactNode => {
-    const context = useNumberInputContext(part)
-    const { inputRef, isStyled, labels, number } = context
-    const canStep = direction === 1 ? number.canIncrement : number.canDecrement
-    const isDisabled = disabled || context.disabled || !canStep
-    const hold = useHoldRepeat(() => {
-      inputRef.current?.focus()
-      number.stepBy(direction)
-    }, !isDisabled)
-    const name = direction === 1 ? 'increment' : 'decrement'
+export function NumberInputStepper({
+  direction,
+  disabled,
+  inputRef,
+  isStyled,
+  label,
+  number,
+}: Readonly<NumberInputStepperProps>): ReactNode {
+  const canStep = direction === 1 ? number.canIncrement : number.canDecrement
+  const isDisabled = disabled || !canStep
+  const hold = useHoldRepeat(() => {
+    inputRef.current?.focus()
+    number.stepBy(direction)
+  }, !isDisabled)
 
-    return (
-      <button
-        aria-label={label ?? labels[name]}
-        className={joinClasses(isStyled && styles.stepper, className)}
-        data-disabled={isDisabled ? '' : undefined}
-        data-plume-numberinput-stepper={name}
-        disabled={isDisabled}
-        onMouseDown={(event) => event.preventDefault()}
-        ref={ref}
-        style={style}
-        tabIndex={-1}
-        type="button"
-        {...rest}
-        {...hold}
-      >
-        {children ?? (direction === 1 ? <PlusIcon /> : <MinusIcon />)}
-      </button>
-    )
-  },
-)
-
-NumberInputStepper.displayName = 'NumberInputStepper'
+  return (
+    <button
+      aria-label={label}
+      className={isStyled ? styles.stepper : undefined}
+      data-disabled={isDisabled ? '' : undefined}
+      data-plume-numberinput-stepper={direction === 1 ? 'increment' : 'decrement'}
+      disabled={isDisabled}
+      onMouseDown={(event) => event.preventDefault()}
+      tabIndex={-1}
+      type="button"
+      {...hold}
+    >
+      {direction === 1 ? <PlusIcon /> : <MinusIcon />}
+    </button>
+  )
+}

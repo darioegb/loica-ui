@@ -3,9 +3,8 @@
 import type { ChangeEvent, ForwardedRef, ReactNode } from 'react'
 import { forwardRef, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { ComponentProps } from '../../../theme'
-import { hasPart } from '../../../overlay/has-part'
 import { mergeRefs } from '../../../overlay/trigger'
-import { Input, InputControl, InputElement } from '../input'
+import { Input } from '../input'
 import {
   getDateFormatByLanguage,
   getDateFromDateString,
@@ -13,17 +12,12 @@ import {
   validateFormatDate,
 } from '../../../utils/dates'
 import type { DatePickerRootAttributes, DateRange } from './datepicker-types'
-import { DatePickerField } from './datepicker-field'
 import { DatePickerFormatHint } from './datepicker-format-hint'
 import { DatePickerInputContext } from './datepicker-input-context'
 import { DatePickerTrigger } from './datepicker-trigger'
 import { useDatePickerContext } from './datepicker-context'
 
 export interface DatePickerInputOwnProps {
-  /**
-   * The `Input` parts to show instead of the default field and button, for example a `DatePickerField` and a `DatePickerTrigger` inside an `InputControl`. A `DatePickerFormatHint` among them takes the place of the default one.
-   */
-  children?: ReactNode
   /** Called with the current value when the input loses focus. */
   onBlur?: (value?: DateRange) => void
 }
@@ -40,7 +34,6 @@ const sameTime = (a: Date | null, b: Date | null): boolean => a?.getTime() === b
 export const DatePickerInput = forwardRef<HTMLInputElement, DatePickerInputProps>(
   (
     {
-      children,
       className,
       disabled = false,
       onBlur,
@@ -154,9 +147,8 @@ export const DatePickerInput = forwardRef<HTMLInputElement, DatePickerInputProps
         hint,
         hintId,
         onTriggerClick: handleButtonClick,
-        setRef,
       }),
-      [disabled, handleButtonClick, hint, hintId, readOnly, setRef],
+      [disabled, handleButtonClick, hint, hintId, readOnly],
     )
 
     if (isPanel) return null
@@ -186,17 +178,10 @@ export const DatePickerInput = forwardRef<HTMLInputElement, DatePickerInputProps
           variant={variant}
           {...rest}
           aria-describedby={describedBy}
-        >
-          {children ?? (
-            <InputControl>
-              <DatePickerField />
-              <InputElement position="after">
-                <DatePickerTrigger />
-              </InputElement>
-            </InputControl>
-          )}
-        </Input>
-        {hasPart(children, [DatePickerFormatHint]) ? null : <DatePickerFormatHint />}
+          elementAfter={<DatePickerTrigger />}
+          ref={setRef}
+        />
+        <DatePickerFormatHint />
       </DatePickerInputContext.Provider>
     )
   },

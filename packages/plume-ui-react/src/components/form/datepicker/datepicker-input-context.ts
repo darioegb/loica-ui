@@ -7,7 +7,6 @@ export interface DatePickerInputContextProps {
   hint: string
   hintId: string
   onTriggerClick: () => void
-  setRef: (node: HTMLInputElement | null) => void
 }
 
 export const DatePickerInputContext = createContext<DatePickerInputContextProps | undefined>(

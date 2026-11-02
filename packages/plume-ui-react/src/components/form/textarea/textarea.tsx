@@ -1,8 +1,8 @@
 import type { ForwardedRef } from 'react'
 import { forwardRef } from 'react'
-import { TextareaRoot } from './textarea-root'
 import { isTextareaInvalid, textareaColorVars, textareaFieldClasses } from './textarea-styles'
 import type { TextareaProps } from './textarea-types'
+import { TextareaWithCount } from './textarea-with-count'
 
 export type {
   TextareaLabels,
@@ -15,7 +15,6 @@ export type {
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {
-      children,
       className,
       colorScheme = 'secondary',
       disabled = false,
@@ -30,9 +29,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     }: TextareaProps,
     ref: ForwardedRef<HTMLTextAreaElement>,
   ) => {
-    if (children !== undefined || showCount) {
+    if (showCount) {
       return (
-        <TextareaRoot
+        <TextareaWithCount
           className={className}
           colorScheme={colorScheme}
           disabled={disabled}
@@ -44,9 +43,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           style={style}
           variant={variant}
           {...rest}
-        >
-          {children}
-        </TextareaRoot>
+        />
       )
     }
 

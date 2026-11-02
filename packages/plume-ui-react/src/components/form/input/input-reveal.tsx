@@ -1,50 +1,41 @@
 'use client'
 
-import type { ButtonHTMLAttributes, ForwardedRef, HTMLInputTypeAttribute, ReactNode } from 'react'
-import { forwardRef, useCallback, useState } from 'react'
-import { joinClasses } from '../../../overlay/class-names'
+import type { HTMLInputTypeAttribute, ReactNode } from 'react'
+import { useCallback, useState } from 'react'
 import { EyeIcon, EyeOffIcon } from '../../../overlay/icons'
-import type { ComponentProps } from '../../../theme'
-import { useInputContext } from './input-context'
 import styles from './input.module.css'
 
-export type InputRevealProps = Omit<ComponentProps, 'index'> &
-  Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label' | 'children' | 'disabled' | 'onClick'>
+interface InputRevealButtonProps {
+  disabled: boolean
+  isStyled: boolean
+  label: string
+  onToggle: () => void
+  revealed: boolean
+}
 
-/** The button that shows and hides a password. */
-export const InputReveal = forwardRef<HTMLButtonElement, InputRevealProps>(
-  (
-    { 'aria-label': ariaLabel, children, className, disabled, onClick, style }: InputRevealProps,
-    ref: ForwardedRef<HTMLButtonElement>,
-  ): ReactNode => {
-    const context = useInputContext('InputReveal')
-    const { isStyled, labels, revealed, toggleReveal } = context
-    const isDisabled = disabled ?? context.disabled
-
-    return (
-      <button
-        aria-label={ariaLabel ?? labels.reveal}
-        aria-pressed={revealed}
-        className={joinClasses(isStyled && styles.reveal, className)}
-        data-disabled={isDisabled ? '' : undefined}
-        data-plume-input-reveal=""
-        data-revealed={revealed ? '' : undefined}
-        disabled={isDisabled}
-        onClick={(event) => {
-          onClick?.(event)
-          toggleReveal()
-        }}
-        ref={ref}
-        style={style}
-        type="button"
-      >
-        {children ?? (revealed ? <EyeOffIcon /> : <EyeIcon />)}
-      </button>
-    )
-  },
-)
-
-InputReveal.displayName = 'InputReveal'
+export function InputRevealButton({
+  disabled,
+  isStyled,
+  label,
+  onToggle,
+  revealed,
+}: Readonly<InputRevealButtonProps>): ReactNode {
+  return (
+    <button
+      aria-label={label}
+      aria-pressed={revealed}
+      className={isStyled ? styles.reveal : undefined}
+      data-disabled={disabled ? '' : undefined}
+      data-plume-input-reveal=""
+      data-revealed={revealed ? '' : undefined}
+      disabled={disabled}
+      onClick={onToggle}
+      type="button"
+    >
+      {revealed ? <EyeOffIcon /> : <EyeIcon />}
+    </button>
+  )
+}
 
 interface PasswordReveal {
   canReveal: boolean

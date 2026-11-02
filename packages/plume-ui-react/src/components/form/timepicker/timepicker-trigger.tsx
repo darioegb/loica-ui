@@ -1,12 +1,12 @@
 'use client'
 
 import type { ButtonHTMLAttributes, ForwardedRef, ReactNode } from 'react'
-import { forwardRef, useContext } from 'react'
+import { forwardRef } from 'react'
 import { ClockIcon } from '../../../overlay/icons'
 import type { ComponentProps } from '../../../theme'
-import { InputContext } from '../input/input-context'
 import { PickerTrigger } from '../shared/picker-trigger'
 import { useTimePickerContext } from './timepicker-context'
+import { useTimePickerInputContext } from './timepicker-input-context'
 
 export interface TimePickerTriggerOwnProps {
   /** Another icon for the button. */
@@ -40,8 +40,8 @@ export const TimePickerTrigger = forwardRef<HTMLButtonElement, TimePickerTrigger
     ref: ForwardedRef<HTMLButtonElement>,
   ): ReactNode => {
     const { labels, open, panelId, toggle, variant } = useTimePickerContext('TimePickerTrigger')
-    const input = useContext(InputContext)
-    const blocked = Boolean(disabled ?? (input?.disabled || input?.readOnly))
+    const { blocked: inputBlocked } = useTimePickerInputContext('TimePickerTrigger')
+    const blocked = disabled ?? inputBlocked
 
     return (
       <PickerTrigger

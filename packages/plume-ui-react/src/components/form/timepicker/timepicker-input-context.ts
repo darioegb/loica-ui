@@ -3,6 +3,7 @@
 import { createContext, useContext } from 'react'
 
 export interface TimePickerInputContextProps {
+  blocked: boolean
   hint: string
   hintId: string
 }

@@ -3,9 +3,8 @@
 import type { ForwardedRef, InputHTMLAttributes, ReactNode } from 'react'
 import { forwardRef, useId, useMemo } from 'react'
 import type { ComponentProps } from '../../../theme'
-import { hasPart } from '../../../overlay/has-part'
 import { mergeRefs } from '../../../overlay/trigger'
-import { Input, InputControl, InputElement, InputField } from '../input'
+import { Input } from '../input'
 import { TimePickerFormatHint } from './timepicker-format-hint'
 import { TimePickerInputContext } from './timepicker-input-context'
 import { TimePickerTrigger } from './timepicker-trigger'
@@ -27,11 +26,6 @@ export type TimePickerRootAttributes = Pick<
 >
 
 export interface TimePickerInputOwnProps {
-  /**
-   * The parts of the input, in the order they should appear. Without children it renders the field
-   * and the trigger. A `TimePickerFormatHint` among them takes the place of the default one.
-   */
-  children?: ReactNode
   /** Called with the current value when the input loses focus, after applying the typed text. */
   onBlur?: (value: string) => void
 }
@@ -43,14 +37,12 @@ export type TimePickerInputProps = Omit<ComponentProps, 'index' | 'style'> &
 const TIME_MASK = '##:##'
 
 /**
- * The field and the button that opens the panel. It is an `Input`: given children, compose
- * `InputControl`, `InputField`, `InputElement` and `TimePickerTrigger` in any order. Its `ref` goes to
- * the native `<input>`. It renders nothing when the picker is `panel`.
+ * The field and the button that opens the panel. It is an `Input` with the button as its `elementAfter`.
+ * Its `ref` goes to the native `<input>`. It renders nothing when the picker is `panel`.
  */
 export const TimePickerInput = forwardRef<HTMLInputElement, TimePickerInputProps>(
   (
     {
-      children,
       className,
       disabled = false,
       onBlur,
@@ -78,8 +70,8 @@ export const TimePickerInput = forwardRef<HTMLInputElement, TimePickerInputProps
     const format = placeholder ?? labels.placeholder(hour12 ? labels.am : undefined)
     const setRef = useMemo(() => mergeRefs(setInput, inputRef, ref), [inputRef, ref, setInput])
     const inputContext = useMemo(
-      () => ({ hint: labels.format(format), hintId }),
-      [format, hintId, labels],
+      () => ({ blocked: disabled || Boolean(readOnly), hint: labels.format(format), hintId }),
+      [disabled, format, hintId, labels, readOnly],
     )
 
     if (isPanel) return null
@@ -109,17 +101,9 @@ export const TimePickerInput = forwardRef<HTMLInputElement, TimePickerInputProps
           type="text"
           value={text}
           variant={variant}
-        >
-          {children ?? (
-            <InputControl>
-              <InputField />
-              <InputElement position="after">
-                <TimePickerTrigger />
-              </InputElement>
-            </InputControl>
-          )}
-        </Input>
-        {hasPart(children, [TimePickerFormatHint]) ? null : <TimePickerFormatHint />}
+          elementAfter={<TimePickerTrigger />}
+        />
+        <TimePickerFormatHint />
       </TimePickerInputContext.Provider>
     )
   },
