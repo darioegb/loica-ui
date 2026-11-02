@@ -21,7 +21,7 @@ the `labels` prop, then the provider, then the English default.
 import { LocaleProvider, type PlumeMessages } from 'plume-ui-react'
 
 const es: PlumeMessages = {
-  alert: { dismiss: 'Cerrar aviso' },
+  close: { label: 'Cerrar' },
   datePicker: { apply: 'Aplicar', cancel: 'Cancelar', openCalendar: 'Abrir calendario' },
   paginator: { next: 'Siguiente', previous: 'Anterior', page: (page) => `Página ${page}` },
   loader: { label: 'Cargando' },
@@ -32,11 +32,13 @@ const es: PlumeMessages = {
 </LocaleProvider>
 ```
 
-`messages` is keyed by component (`alert`, `avatar`, `avatarGroup`, `breadcrumb`, `carousel`, `chip`, `datePicker`,
-`fileUpload`, `input`, `loader`, `navbarToggle`, `numberInput`, `overlayClose`, `paginator`, `pinInput`, `rating`,
-`select`, `sidebarToggle`, `slider`, `stepper`, `textarea`, `timePicker`, `toast`). A text is translated once, under
-the component that shows it: `loader` also names the `Loader` of a loading `Button` and of a loading `Table`. Each value is the same `Partial<<Name>Labels>` the component takes in its `labels` prop, so you only write what you
-change. `PlumeMessages` types all of it.
+`messages` is keyed by component (`avatar`, `avatarGroup`, `breadcrumb`, `carousel`, `chip`, `close`, `datePicker`,
+`fileUpload`, `input`, `loader`, `navbarToggle`, `numberInput`, `paginator`, `pinInput`, `rating`, `select`,
+`sidebarToggle`, `slider`, `stepper`, `textarea`, `timePicker`, `toast`). A text is translated once, under the
+component that shows it: `loader` also names the `Loader` of a loading `Button` and of a loading `Table`, and `close`
+names the close button of a `Modal`, a `Drawer`, a `Popover`, an `Alert` and a `Toast`. Each value is the same
+`Partial<<Name>Labels>` the component takes in its `labels` prop, so you only write what you change. `PlumeMessages`
+types all of it.
 
 `locale` is a BCP 47 tag (`es`, `es-AR`, `en-US`). The `DatePicker` uses it for the names of the days and months
 and for the format of the date, and its own `locale` prop still wins when you set it. Read it in your own components
@@ -96,7 +98,7 @@ function PlumeLocale({ children }) {
   const intl = useIntl()
   const messages = useMemo<PlumeMessages>(
     () => ({
-      alert: { dismiss: intl.formatMessage({ id: 'alert.dismiss' }) },
+      close: { label: intl.formatMessage({ id: 'close' }) },
       paginator: {
         next: intl.formatMessage({ id: 'paginator.next' }),
         page: (page) => intl.formatMessage({ id: 'paginator.page' }, { page }),
@@ -119,7 +121,7 @@ function PlumeLocale({ children }) {
   const { t, i18n } = useTranslation()
   const messages = useMemo<PlumeMessages>(
     () => ({
-      alert: { dismiss: t('alert.dismiss') },
+      close: { label: t('close') },
       paginator: { next: t('paginator.next'), page: (page) => t('paginator.page', { page }) },
     }),
     [t],
@@ -146,7 +148,7 @@ function PlumeLocale({ children }) {
   const locale = useIntlLocale()
   const messages = useMemo<PlumeMessages>(
     () => ({
-      alert: { dismiss: t('alert.dismiss') },
+      close: { label: t('close') },
       paginator: { next: t('paginator.next'), page: (page) => t('paginator.page', { page }) },
     }),
     [t],

@@ -5,7 +5,6 @@ import type { ToastIcons } from './toast-context'
 
 export interface ToastRegionContextValue {
   dismiss: (id: string) => void
-  dismissLabel: string
   icons: false | ToastIcons | undefined
   isStyled: boolean
 }

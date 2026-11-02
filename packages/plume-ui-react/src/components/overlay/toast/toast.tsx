@@ -63,7 +63,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     { children, className, style, toast }: ToastProps,
     ref: ForwardedRef<HTMLDivElement>,
   ): ReactNode => {
-    const { dismiss: dismissById, dismissLabel, icons, isStyled } = useToastRegion('Toast')
+    const { dismiss: dismissById, icons, isStyled } = useToastRegion('Toast')
     const { duration, id } = toast
     const dismiss = useCallback(() => dismissById(id), [dismissById, id])
     const timerHandlers = useToastTimer(duration, dismiss)
@@ -73,8 +73,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       dismiss()
     }, [dismiss, toast.action])
     const context = useMemo(
-      () => ({ dismiss, dismissLabel, icon, isStyled, onAction, toast }),
-      [dismiss, dismissLabel, icon, isStyled, onAction, toast],
+      () => ({ dismiss, icon, isStyled, onAction, toast }),
+      [dismiss, icon, isStyled, onAction, toast],
     )
 
     const handleKeyDown = (event: KeyboardEvent<HTMLElement>): void => {

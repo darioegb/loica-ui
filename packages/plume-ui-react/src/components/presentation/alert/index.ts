@@ -1,6 +1,5 @@
 export {
   Alert,
-  type AlertLabels,
   type AlertOwnProps,
   type AlertProps,
   type AlertStatus,

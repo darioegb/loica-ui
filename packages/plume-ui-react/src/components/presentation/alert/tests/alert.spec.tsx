@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { createRef } from 'react'
+import { LocaleProvider } from '../../../../locale'
 import { Alert, AlertDescription, AlertTitle } from '..'
 
 describe('Alert component', () => {
@@ -88,23 +89,23 @@ describe('Alert component', () => {
         Text
       </Alert>,
     )
-    await userEvent.click(screen.getByRole('button', { name: 'Dismiss' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Close' }))
     expect(onDismiss).toHaveBeenCalledTimes(1)
     expect(screen.queryByRole('status')).toBeNull()
   })
 
-  it('takes another name for the dismiss button', () => {
+  it('takes the name of the dismiss button from the LocaleProvider', () => {
     render(
-      <Alert dismissible labels={{ dismiss: 'Cerrar aviso' }}>
-        Text
-      </Alert>,
+      <LocaleProvider messages={{ close: { label: 'Cerrar aviso' } }}>
+        <Alert dismissible>Text</Alert>
+      </LocaleProvider>,
     )
     expect(screen.getByRole('button', { name: 'Cerrar aviso' })).toBeInTheDocument()
   })
 
   it('dismisses without a callback', async () => {
     render(<Alert dismissible>Text</Alert>)
-    await userEvent.click(screen.getByRole('button', { name: 'Dismiss' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Close' }))
     expect(screen.queryByText('Text')).toBeNull()
   })
 

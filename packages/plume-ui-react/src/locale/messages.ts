@@ -1,4 +1,3 @@
-import type { AlertLabels } from '../components/presentation/alert'
 import type { AvatarGroupLabels, AvatarLabels } from '../components/presentation/avatar'
 import type { BreadcrumbLabels } from '../components/navigation/breadcrumb'
 import type { CarouselLabels } from '../components/utility/carousel'
@@ -22,19 +21,18 @@ export interface SingleLabel {
 }
 
 export interface MessageMap {
-  alert: AlertLabels
   avatar: AvatarLabels
   avatarGroup: Pick<AvatarGroupLabels, 'overflow'>
   breadcrumb: BreadcrumbLabels
   carousel: CarouselLabels
   chip: ChipLabels
+  close: SingleLabel
   datePicker: DatePickerLabels
   fileUpload: FileUploadLabels
   input: InputLabels
   loader: SingleLabel
   navbarToggle: SingleLabel
   numberInput: NumberInputLabels
-  overlayClose: SingleLabel
   paginator: PaginatorLabels
   pinInput: PinInputLabels
   rating: RatingLabels

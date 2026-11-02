@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { createRef } from 'react'
+import { LocaleProvider } from '../../../../locale'
 import {
   Alert,
   AlertAction,
@@ -56,7 +57,7 @@ describe('Alert parts', () => {
       </Alert>,
     )
     expect(screen.getByText('!')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Dismiss' })).toHaveTextContent('x')
+    expect(screen.getByRole('button', { name: 'x' })).toBeInTheDocument()
   })
 
   it('takes the status icon, or the one given to the Alert, and nothing when it is false', () => {
@@ -81,13 +82,15 @@ describe('Alert parts', () => {
     expect(container.querySelector('[data-plume-alert-icon]')).toBeNull()
   })
 
-  it('dismisses from a composed AlertDismiss, tells it and uses the labels', async () => {
+  it('dismisses from a composed AlertDismiss, tells it and uses the locale', async () => {
     const onDismiss = vi.fn()
     render(
-      <Alert labels={{ dismiss: 'Cerrar' }} onDismiss={onDismiss}>
-        <AlertContent>Text</AlertContent>
-        <AlertDismiss />
-      </Alert>,
+      <LocaleProvider messages={{ close: { label: 'Cerrar' } }}>
+        <Alert onDismiss={onDismiss}>
+          <AlertContent>Text</AlertContent>
+          <AlertDismiss />
+        </Alert>
+      </LocaleProvider>,
     )
     await userEvent.click(screen.getByRole('button', { name: 'Cerrar' }))
     expect(onDismiss).toHaveBeenCalledTimes(1)

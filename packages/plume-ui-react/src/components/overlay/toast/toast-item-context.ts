@@ -6,7 +6,6 @@ import type { ToastData } from './toast-context'
 
 export interface ToastItemContextValue {
   dismiss: () => void
-  dismissLabel: string
   icon: ReactNode
   isStyled: boolean
   onAction: () => void
