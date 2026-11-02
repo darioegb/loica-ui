@@ -2,16 +2,7 @@ import type { StoryObj, Meta } from '@storybook/react-vite'
 import { useState } from 'react'
 import { defaultTheme } from '../../../../theme'
 import { Field } from '../../field'
-import {
-  Slider,
-  SliderMarkItem,
-  SliderMarkLabel,
-  SliderMarks,
-  SliderRange,
-  SliderThumb,
-  SliderTrack,
-  type SliderValue,
-} from '..'
+import { Slider, type SliderValue } from '..'
 
 const colorSchemes = Object.keys(defaultTheme.colors)
 
@@ -44,13 +35,14 @@ const stack = (gap: string): React.CSSProperties => ({
  * **onValueChange** is called while the user drags; use **onValueCommit** to act only on the final value, for
  * example to fetch results.
  *
- * With `variant="unstyled"` only the native inputs are rendered, with the classes you give them in a
- * `SliderThumb`: the track, the filled part and the marks are Plume's, and they go away unless you compose them. A
- * range then shows two stacked inputs, so style them as one control or use the `solid` and `outline` variants.
+ * With `variant="unstyled"` only the native inputs are rendered, inside a body: the track, the filled part and the
+ * marks are Plume's, and they go away. A range then shows two stacked inputs, so style them as one control or use the
+ * `solid` and `outline` variants.
  *
- * Every element of the Slider is a part with its own `className`, `style` and `ref`. Without parts the Slider renders
- * the track with its range, the marks and a thumb for each value. With one of them among its children, it renders
- * your composition instead, inside a `SliderBody` unless you write one.
+ * The Slider draws its elements itself: the body, the track with its range, the marks and a thumb for each value.
+ * Each carries a `data-plume-slider-*` attribute, so you style it from the root (`[&_[data-plume-slider-track]]:h-2`
+ * in Tailwind). A thumb is named by the `aria-label` of the Slider, or, in a range, by the `slider.thumb` text of the
+ * `LocaleProvider`.
  */
 export default {
   title: 'Components/Slider',
@@ -173,9 +165,12 @@ export const Variants: Story = {
       source: {
         code: `<Slider aria-label="solid" defaultValue={40} variant="solid" />
 <Slider aria-label="outline" defaultValue={40} variant="outline" />
-<Slider aria-label="unstyled" defaultValue={40} variant="unstyled">
-  <SliderThumb className="w-full accent-purple-600" />
-</Slider>`,
+<Slider
+  aria-label="unstyled"
+  className="[&_input]:w-full [&_input]:accent-purple-600"
+  defaultValue={40}
+  variant="unstyled"
+/>`,
       },
     },
   },
@@ -184,9 +179,12 @@ export const Variants: Story = {
       {(['solid', 'outline'] as const).map((variant) => (
         <Slider aria-label={variant} defaultValue={40} key={variant} variant={variant} />
       ))}
-      <Slider aria-label="unstyled" defaultValue={40} variant="unstyled">
-        <SliderThumb className="w-full accent-purple-600" />
-      </Slider>
+      <Slider
+        aria-label="unstyled"
+        className="[&_input]:w-full [&_input]:accent-purple-600"
+        defaultValue={40}
+        variant="unstyled"
+      />
     </div>
   ),
 }
@@ -442,98 +440,63 @@ export const WithField: Story = {
 }
 
 /**
- * Use the parts to give each element its own class or style, to change what a mark shows, or to leave something
- * out. The `SliderThumb` of a range takes the `index` of its value.
- */
-export const Compound: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `<Slider aria-label="Budget" defaultValue={[25, 75]} marks={[0, 50, 100]}>
-  <SliderTrack className="h-2">
-    <SliderRange className="bg-emerald-500" />
-  </SliderTrack>
-  <SliderMarks>
-    {(mark) => (
-      <SliderMarkItem mark={mark}>
-        <SliderMarkLabel className="font-semibold">{mark.value}%</SliderMarkLabel>
-      </SliderMarkItem>
-    )}
-  </SliderMarks>
-  <SliderThumb aria-label="From" index={0} />
-  <SliderThumb aria-label="To" index={1} />
-</Slider>`,
-      },
-    },
-  },
-  render: () => (
-    <div style={frame}>
-      <Slider aria-label="Budget" defaultValue={[25, 75]} marks={[0, 50, 100]}>
-        <SliderTrack className="h-2">
-          <SliderRange className="bg-emerald-500" />
-        </SliderTrack>
-        <SliderMarks>
-          {(mark) => (
-            <SliderMarkItem mark={mark}>
-              <SliderMarkLabel className="font-semibold">{mark.value}%</SliderMarkLabel>
-            </SliderMarkItem>
-          )}
-        </SliderMarks>
-        <SliderThumb aria-label="From" index={0} />
-        <SliderThumb aria-label="To" index={1} />
-      </Slider>
-    </div>
-  ),
-}
-
-/**
  * Some examples of Slider with Tailwind classes. With `variant="unstyled"` only the native input is rendered, so
- * Tailwind's `accent-*` utilities color it, and the classes go in a `SliderThumb`.
+ * Tailwind's `accent-*` utilities color it, and the classes go on the root with a selector for the input. A solid
+ * Slider can restyle its track and its range the same way, with the `data-plume-slider-*` attributes.
  */
 export const Tailwind: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Slider aria-label="Volume" defaultValue={40} variant="unstyled">
-  <SliderThumb className="h-2 w-full cursor-pointer accent-primary-solid" />
-</Slider>`,
+        code: `<Slider
+  aria-label="Volume"
+  className="[&_input]:h-2 [&_input]:w-full [&_input]:cursor-pointer [&_input]:accent-primary-solid"
+  defaultValue={40}
+  variant="unstyled"
+/>
+<Slider
+  aria-label="Budget"
+  className="[&_[data-plume-slider-track]]:h-2 [&_[data-plume-slider-range]]:bg-emerald-500"
+  defaultValue={[25, 75]}
+/>`,
       },
     },
   },
   render: () => (
     <div style={stack('1.5rem')}>
-      <Slider aria-label="Volume" defaultValue={40} variant="unstyled">
-        <SliderThumb className="h-2 w-full cursor-pointer accent-primary-solid" />
-      </Slider>
-      <Slider aria-label="Quality" defaultValue={70} variant="unstyled">
-        <SliderThumb className="h-2 w-full cursor-pointer accent-success-solid" />
-      </Slider>
+      <Slider
+        aria-label="Volume"
+        className="[&_input]:h-2 [&_input]:w-full [&_input]:cursor-pointer [&_input]:accent-primary-solid"
+        defaultValue={40}
+        variant="unstyled"
+      />
+      <Slider
+        aria-label="Budget"
+        className="[&_[data-plume-slider-track]]:h-2 [&_[data-plume-slider-range]]:bg-emerald-500"
+        defaultValue={[25, 75]}
+      />
     </div>
   ),
 }
 
 /**
- * Some examples of Slider with Bootstrap classes: `form-range` styles the native input. Bootstrap's own range
- * can't have two thumbs, which is one reason to use Plume's variants for a range.
+ * Some examples of Slider with Bootstrap classes. Bootstrap's `form-range` is a class of the `<input>`, which the
+ * Slider draws itself and gives no class, so the unstyled Slider keeps the look of the browser and only its box can
+ * take Bootstrap classes. Bootstrap's own range can't have two thumbs either, which is one reason to use Plume's
+ * variants for a range.
  */
 export const Bootstrap: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Slider aria-label="Volume" defaultValue={40} variant="unstyled">
-  <SliderThumb className="form-range" />
-</Slider>`,
+        code: `<Slider aria-label="Volume" className="d-flex" defaultValue={40} variant="unstyled" />`,
       },
     },
   },
   render: () => (
     <div style={stack('1.5rem')}>
-      <Slider aria-label="Volume" defaultValue={40} variant="unstyled">
-        <SliderThumb className="form-range" />
-      </Slider>
-      <Slider aria-label="Quality" defaultValue={70} variant="unstyled">
-        <SliderThumb className="form-range" />
-      </Slider>
+      <Slider aria-label="Volume" className="d-flex" defaultValue={40} variant="unstyled" />
+      <Slider aria-label="Quality" className="d-flex" defaultValue={70} variant="unstyled" />
     </div>
   ),
 }

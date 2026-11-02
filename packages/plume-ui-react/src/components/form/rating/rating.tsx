@@ -1,17 +1,15 @@
 'use client'
 
-import type { CSSProperties, ForwardedRef, HTMLAttributes, ReactNode } from 'react'
-import { forwardRef, Fragment, useId, useMemo } from 'react'
+import type { ComponentPropsWithoutRef, CSSProperties, ForwardedRef, ReactNode } from 'react'
+import { forwardRef, useId } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import { hasPart } from '../../../overlay/has-part'
+import { visuallyHidden } from '../../../overlay/visually-hidden'
 import { useLabels } from '../../../locale/locale-provider'
-import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import type { ColorScheme, Size } from '../../../theme'
 import { useFieldContext } from '../field/field-context'
-import { RatingContext } from './rating-context'
-import type { RatingContextValue, RatingLabels } from './rating-context'
 import { StarIcon } from './rating-icons'
 import { RatingItem } from './rating-item'
-import { RatingValueText } from './rating-value-text'
+import type { RatingLabels } from './rating-types'
 import styles from './rating.module.css'
 import { useRating } from './use-rating'
 
@@ -25,11 +23,6 @@ export interface RatingOwnProps {
    * @default false
    */
   allowHalf?: boolean
-  /**
-   * The stars, as parts or as a function that gets the position of each star (`1` to `max`).
-   * Without children it renders the read only text and one `RatingItem` per star.
-   */
-  children?: ReactNode | ((position: number) => ReactNode)
   /**
    * Lets the user remove the score, by clicking the chosen star again or pressing
    * <kbd>Backspace</kbd> or <kbd>Delete</kbd>. The score goes to `0`.
@@ -98,12 +91,11 @@ export interface RatingOwnProps {
   variant?: RatingVariant
 }
 
-type RatingRootAttributes = Pick<
-  HTMLAttributes<HTMLElement>,
-  'aria-describedby' | 'aria-invalid' | 'aria-label' | 'aria-labelledby' | 'hidden' | 'id' | 'title'
->
-
-export type RatingProps = Omit<ComponentProps, 'index'> & RatingRootAttributes & RatingOwnProps
+export type RatingProps = Omit<
+  ComponentPropsWithoutRef<'fieldset'>,
+  'children' | 'defaultValue' | 'name' | 'onChange'
+> &
+  RatingOwnProps
 
 const DEFAULT_LABELS: RatingLabels = {
   item: (value) => `${value} ${value === 1 ? 'star' : 'stars'}`,
@@ -139,27 +131,10 @@ function ratingClasses({
   )
 }
 
-function ratingContent(children: RatingOwnProps['children'], positions: number[]): ReactNode {
-  if (typeof children !== 'function' && hasPart(children, [RatingItem, RatingValueText])) {
-    return children
-  }
-  return (
-    <>
-      <RatingValueText />
-      {positions.map((position) => (
-        <Fragment key={position}>
-          {typeof children === 'function' ? children(position) : <RatingItem position={position} />}
-        </Fragment>
-      ))}
-    </>
-  )
-}
-
 export const Rating = forwardRef<HTMLFieldSetElement, RatingProps>(
   (
     {
       allowHalf = false,
-      children,
       className,
       clearable = false,
       colorScheme = 'warning',
@@ -205,63 +180,49 @@ export const Rating = forwardRef<HTMLFieldSetElement, RatingProps>(
       '--rating-empty': 'var(--plume-border-strong)',
       ...style,
     } as CSSProperties
-    const context: RatingContextValue = useMemo(
-      () => ({
-        allowHalf,
-        clearable,
-        emptyIcon: resolvedEmptyIcon,
-        filledIcon,
-        isStyled,
-        labels: text,
-        max,
-        name: resolvedName,
-        preview,
-        readOnly,
-        setHover,
-        setValue,
-        value,
-      }),
-      [
-        allowHalf,
-        clearable,
-        filledIcon,
-        isStyled,
-        max,
-        preview,
-        readOnly,
-        resolvedEmptyIcon,
-        resolvedName,
-        setHover,
-        setValue,
-        text,
-        value,
-      ],
-    )
-
-    const content = ratingContent(children, positions)
-
     const invalid = rest['aria-invalid'] === true || rest['aria-invalid'] === 'true'
 
     return (
-      <RatingContext.Provider value={context}>
-        <fieldset
-          {...rest}
-          aria-labelledby={labelledBy}
-          aria-required={(required && !readOnly) || undefined}
-          className={classes}
-          data-disabled={disabled ? '' : undefined}
-          data-invalid={invalid ? '' : undefined}
-          data-plume-rating=""
-          data-readonly={readOnly ? '' : undefined}
-          disabled={disabled}
-          onPointerLeave={readOnly ? undefined : () => setHover(undefined)}
-          ref={ref}
-          role={readOnly ? undefined : 'radiogroup'}
-          style={colorVars}
-        >
-          {content}
-        </fieldset>
-      </RatingContext.Provider>
+      <fieldset
+        {...rest}
+        aria-labelledby={labelledBy}
+        aria-required={(required && !readOnly) || undefined}
+        className={classes}
+        data-disabled={disabled ? '' : undefined}
+        data-invalid={invalid ? '' : undefined}
+        data-plume-rating=""
+        data-readonly={readOnly ? '' : undefined}
+        disabled={disabled}
+        onPointerLeave={readOnly ? undefined : () => setHover(undefined)}
+        ref={ref}
+        role={readOnly ? undefined : 'radiogroup'}
+        style={colorVars}
+      >
+        {readOnly ? (
+          <span data-plume-rating-value-text="" style={visuallyHidden}>
+            {text.readOnly(value, max)}
+          </span>
+        ) : null}
+        {positions.map((position) => (
+          <RatingItem
+            allowHalf={allowHalf}
+            clearable={clearable}
+            emptyIcon={resolvedEmptyIcon}
+            filledIcon={filledIcon}
+            isStyled={isStyled}
+            key={position}
+            labels={text}
+            max={max}
+            name={resolvedName}
+            position={position}
+            readOnly={readOnly}
+            setHover={setHover}
+            setValue={setValue}
+            shown={readOnly ? value : preview}
+            value={value}
+          />
+        ))}
+      </fieldset>
     )
   },
 )

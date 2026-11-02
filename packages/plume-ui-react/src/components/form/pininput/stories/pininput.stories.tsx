@@ -2,7 +2,7 @@ import type { StoryObj, Meta } from '@storybook/react-vite'
 import { useState } from 'react'
 import { defaultTheme } from '../../../../theme'
 import { Field } from '../../field'
-import { PinInput, PinInputCell, PinInputHidden } from '..'
+import { PinInput } from '..'
 
 const colorSchemes = Object.keys(defaultTheme.colors)
 
@@ -22,11 +22,10 @@ const colorSchemes = Object.keys(defaultTheme.colors)
  * `name` the code is submitted in a hidden input. It composes with `Field`, which names the group and gives the
  * focus to the next box to fill when its label is clicked.
  *
- * On its own it renders the boxes for you. To change what it shows (a separator in the middle of the code, a
- * different class on each box) give it its parts as children: `PinInputCell` is one box and `PinInputHidden` the
- * hidden input of a `name`. The `PinInput` keeps the code and the focus and shares them with its parts, so the
- * boxes can be in any order and wrapped in other elements. The look (`variant`, `size`, `shape`), the type, the
- * mask always go on the `PinInput`.
+ * It draws the boxes itself, so it takes no children: each one is an `<input data-plume-pininput-cell>`, with
+ * `data-filled` when it has a character, and the hidden input of a `name` is `data-plume-pininput-hidden`. To style
+ * the boxes, use selectors on the group (`[&>[data-plume-pininput-cell]]:h-12` in Tailwind). The look
+ * (`variant`, `size`, `shape`), the type and the mask go on the `PinInput`.
  */
 export default {
   title: 'Components/PinInput',
@@ -43,7 +42,6 @@ export default {
   },
   argTypes: {
     className: { control: 'text' },
-    children: { control: false },
     style: { control: false },
     length: { control: { type: 'number', min: 1, max: 10 } },
     type: { control: 'radio', options: ['numeric', 'alphanumeric', 'text'] },
@@ -94,12 +92,12 @@ export const Variants: Story = {
         code: `<PinInput aria-label="Outline" length={4} variant="outline" />
 <PinInput aria-label="Filled" length={4} variant="filled" />
 <PinInput aria-label="Underline" length={4} variant="underline" />
-<PinInput aria-label="Unstyled" className="flex gap-2" length={4} variant="unstyled">
-  <PinInputCell className="h-10 w-10 rounded-sm border border-gray-400 text-center" index={0} />
-  <PinInputCell className="h-10 w-10 rounded-sm border border-gray-400 text-center" index={1} />
-  <PinInputCell className="h-10 w-10 rounded-sm border border-gray-400 text-center" index={2} />
-  <PinInputCell className="h-10 w-10 rounded-sm border border-gray-400 text-center" index={3} />
-</PinInput>`,
+<PinInput
+  aria-label="Unstyled"
+  className="flex gap-2 [&>[data-plume-pininput-cell]]:h-10 [&>[data-plume-pininput-cell]]:w-10 [&>[data-plume-pininput-cell]]:rounded-sm [&>[data-plume-pininput-cell]]:border [&>[data-plume-pininput-cell]]:border-gray-400 [&>[data-plume-pininput-cell]]:text-center"
+  length={4}
+  variant="unstyled"
+/>`,
       },
     },
   },
@@ -108,15 +106,12 @@ export const Variants: Story = {
       <PinInput aria-label="Outline" length={4} variant="outline" />
       <PinInput aria-label="Filled" length={4} variant="filled" />
       <PinInput aria-label="Underline" length={4} variant="underline" />
-      <PinInput aria-label="Unstyled" className="flex gap-2" length={4} variant="unstyled">
-        {[0, 1, 2, 3].map((index) => (
-          <PinInputCell
-            className="h-10 w-10 rounded-sm border border-gray-400 text-center"
-            index={index}
-            key={index}
-          />
-        ))}
-      </PinInput>
+      <PinInput
+        aria-label="Unstyled"
+        className="flex gap-2 [&>[data-plume-pininput-cell]]:h-10 [&>[data-plume-pininput-cell]]:w-10 [&>[data-plume-pininput-cell]]:rounded-sm [&>[data-plume-pininput-cell]]:border [&>[data-plume-pininput-cell]]:border-gray-400 [&>[data-plume-pininput-cell]]:text-center"
+        length={4}
+        variant="unstyled"
+      />
     </div>
   ),
 }
@@ -328,79 +323,37 @@ export const WithField: Story = {
 }
 
 /**
- * Give the `PinInput` its parts to compose the boxes yourself: here a dash splits a code of six in two groups of
- * three. Every `PinInputCell` takes its position with **index**, and they can be wrapped in other elements. Add a
- * `PinInputHidden` when the code has to be submitted with a **name**.
- */
-export const Compound: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `<PinInput aria-label="Code" length={6} name="code">
-  <PinInputCell index={0} />
-  <PinInputCell index={1} />
-  <PinInputCell index={2} />
-  <span aria-hidden="true">-</span>
-  <PinInputCell index={3} />
-  <PinInputCell index={4} />
-  <PinInputCell index={5} />
-  <PinInputHidden />
-</PinInput>`,
-      },
-    },
-  },
-  render: () => (
-    <PinInput aria-label="Code" className="items-center" length={6} name="code">
-      <PinInputCell index={0} />
-      <PinInputCell index={1} />
-      <PinInputCell index={2} />
-      <span aria-hidden="true">-</span>
-      <PinInputCell index={3} />
-      <PinInputCell index={4} />
-      <PinInputCell index={5} />
-      <PinInputHidden />
-    </PinInput>
-  ),
-}
-
-/**
  * Some examples of PinInput with Tailwind classes. With `variant="unstyled"` the boxes have none of the Plume
- * classes: `className` styles the group, the `className` of each `PinInputCell` its box, and a filled one has
- * `data-filled`, so `data-[filled]:` styles it. The boxes also have `data-disabled` and `data-invalid`, and the
+ * classes: `className` styles the group and, through `[&>[data-plume-pininput-cell]]:`, its boxes. A filled box has
+ * `data-filled`, so `[&>[data-filled]]:` styles it. The boxes also have `data-disabled` and `data-invalid`, and the
  * group `data-disabled`, `data-invalid` and `data-readonly`.
  */
 export const Tailwind: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<PinInput aria-label="Verification code" className="flex gap-2" length={6} variant="unstyled">
-  {[0, 1, 2, 3, 4, 5].map((index) => (
-    <PinInputCell
-      className="h-12 w-10 rounded-lg border border-border bg-surface text-center text-lg text-foreground focus:border-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-200 data-[filled]:border-blue-500"
-      index={index}
-      key={index}
-    />
-  ))}
-</PinInput>`,
+        code: `<PinInput
+  aria-label="Verification code"
+  className="flex gap-2 [&>[data-plume-pininput-cell]]:h-12 [&>[data-plume-pininput-cell]]:w-10 [&>[data-plume-pininput-cell]]:rounded-lg [&>[data-plume-pininput-cell]]:border [&>[data-plume-pininput-cell]]:border-border [&>[data-plume-pininput-cell]]:bg-surface [&>[data-plume-pininput-cell]]:text-center [&>[data-plume-pininput-cell]]:text-lg [&>[data-plume-pininput-cell]]:text-foreground [&>[data-filled]]:border-blue-500"
+  length={6}
+  variant="unstyled"
+/>`,
       },
     },
   },
   render: () => (
-    <PinInput aria-label="Verification code" className="flex gap-2" length={6} variant="unstyled">
-      {[0, 1, 2, 3, 4, 5].map((index) => (
-        <PinInputCell
-          className="h-12 w-10 rounded-lg border border-border bg-surface text-center text-lg text-foreground focus:border-blue-500 focus:outline-hidden focus:ring-3 focus:ring-blue-200 data-[filled]:border-blue-500"
-          index={index}
-          key={index}
-        />
-      ))}
-    </PinInput>
+    <PinInput
+      aria-label="Verification code"
+      className="flex gap-2 [&>[data-plume-pininput-cell]]:h-12 [&>[data-plume-pininput-cell]]:w-10 [&>[data-plume-pininput-cell]]:rounded-lg [&>[data-plume-pininput-cell]]:border [&>[data-plume-pininput-cell]]:border-border [&>[data-plume-pininput-cell]]:bg-surface [&>[data-plume-pininput-cell]]:text-center [&>[data-plume-pininput-cell]]:text-lg [&>[data-plume-pininput-cell]]:text-foreground [&>[data-filled]]:border-blue-500"
+      length={6}
+      variant="unstyled"
+    />
   ),
 }
 
 /**
- * Some examples of PinInput with Bootstrap classes: `d-flex gap-2` for the group and `form-control text-center`
- * for the boxes. Bootstrap makes a `form-control` as wide as its container, so the group has a width and the six boxes share it.
+ * Some examples of PinInput with Bootstrap classes: `d-flex gap-2` for the group. Bootstrap has no class for the
+ * boxes inside a group, so they keep the look of the browser; and `form-control` can't reach them.
  */
 export const Bootstrap: Story = {
   parameters: {
@@ -412,11 +365,7 @@ export const Bootstrap: Story = {
   length={6}
   style={{ maxWidth: '100%', width: '20rem' }}
   variant="unstyled"
->
-  {[0, 1, 2, 3, 4, 5].map((index) => (
-    <PinInputCell className="form-control form-control-lg text-center px-0" index={index} key={index} />
-  ))}
-</PinInput>`,
+/>`,
       },
     },
   },
@@ -427,14 +376,6 @@ export const Bootstrap: Story = {
       length={6}
       style={{ maxWidth: '100%', width: '20rem' }}
       variant="unstyled"
-    >
-      {[0, 1, 2, 3, 4, 5].map((index) => (
-        <PinInputCell
-          className="form-control form-control-lg text-center px-0"
-          index={index}
-          key={index}
-        />
-      ))}
-    </PinInput>
+    />
   ),
 }

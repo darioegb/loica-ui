@@ -172,7 +172,7 @@ and you style it from the parent. The sections below list each family.
   <tbody>
     <tr><td><code>Input</code></td><td><code>inputClassName</code>, <code>revealClassName</code></td><td><code>data-plume-input-field</code> and <code>-reveal</code>, styled from the <code>Input</code></td></tr>
     <tr><td><code>Textarea</code></td><td><code>inputClassName</code>, <code>countClassName</code></td><td><code>data-plume-textarea-field</code> and <code>-count</code>, styled from the <code>Textarea</code></td></tr>
-    <tr><td><code>PinInput</code></td><td><code>inputClassName</code></td><td><code>PinInputCell</code></td></tr>
+    <tr><td><code>PinInput</code></td><td><code>inputClassName</code></td><td><code>data-plume-pininput-cell</code>, styled from the <code>PinInput</code></td></tr>
     <tr><td><code>SelectGroup</code></td><td><code>labelClassName</code></td><td><code>SelectGroupLabel</code></td></tr>
     <tr><td><code>TimePicker</code></td><td><code>panelClassName</code></td><td><code>TimePickerPanel</code></td></tr>
     <tr><td><code>Sidebar</code>, <code>ModalContent</code>, <code>DrawerContent</code></td><td><code>backdropClassName</code></td><td><code>SidebarBackdrop</code>, <code>ModalBackdrop</code>, <code>DrawerBackdrop</code></td></tr>
@@ -263,7 +263,7 @@ provider, and a single text can be set on the part that shows it.
     <tr><td><code>Input</code></td><td><code>revealLabel</code></td><td>the <code>input.reveal</code> text of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Textarea</code></td><td><code>formatCount</code>, <code>formatRemaining</code></td><td>the <code>textarea.count</code> and <code>textarea.remaining</code> texts of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>NumberInput</code></td><td><code>decrementLabel</code>, <code>incrementLabel</code></td><td>the <code>numberInput.decrement</code> and <code>numberInput.increment</code> texts of the <code>LocaleProvider</code></td></tr>
-    <tr><td><code>PinInput</code></td><td><code>getInputLabel</code></td><td>the <code>pinInput.input</code> text of the <code>LocaleProvider</code>, or <code>aria-label</code> on <code>PinInputCell</code></td></tr>
+    <tr><td><code>PinInput</code></td><td><code>getInputLabel</code></td><td>the <code>pinInput.input</code> text of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Rating</code></td><td><code>getItemLabel</code>, <code>readOnlyLabel</code></td><td>the <code>rating.item</code> and <code>rating.readOnly</code> texts of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Slider</code></td><td><code>getThumbLabel</code></td><td>the <code>slider.thumb</code> text of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Select</code></td><td><code>clearLabel</code> and <code>removeLabel</code> on <code>SelectTrigger</code>; <code>emptyText</code> and <code>searchLabel</code> on <code>SelectContent</code></td><td>the <code>select</code> texts of the <code>LocaleProvider</code> (<code>clear</code>, <code>remove</code>, <code>empty</code>, <code>search</code>, <code>overflow</code>)</td></tr>
@@ -286,14 +286,16 @@ provider, and a single text can be set on the part that shows it.
 The type of each one is exported, for example `PaginatorLabels`. The `Loader` says `Loading` instead of `loading` by
 default.
 
-## `Input`, `Textarea` and `NumberInput` are single components, `PinInput` is made of parts
+## Text fields, `PinInput`, `Rating` and `Slider` are single components
 
-`Input`, `Textarea`, `NumberInput` and `PinInput` no longer take `classNames`. `Input`, `Textarea` and `NumberInput` draw
-their addons, elements, reveal button, counter and steppers themselves, so `InputGroup`, `InputControl`, `InputAddon`,
-`InputElement`, `InputField`, `InputReveal`, `TextareaField`, `TextareaCount`, `TextareaStatus`, `NumberInputField`,
-`NumberInputDecrement`, `NumberInputIncrement` and `NumberInputHidden` do not exist. They take no `children`, and all the
-native attributes of the `<input>` or `<textarea>`. Each element carries a `data-plume-<component>-<element>`
-attribute, to style it from the parent. `PinInput` keeps its parts for now.
+`Input`, `Textarea`, `NumberInput`, `PinInput`, `Rating` and `Slider` no longer take `classNames`. They draw their
+addons, elements, reveal button, counter, steppers, boxes, stars, track and thumbs themselves, so `InputGroup`,
+`InputControl`, `InputAddon`, `InputElement`, `InputField`, `InputReveal`, `TextareaField`, `TextareaCount`,
+`TextareaStatus`, `NumberInputField`, `NumberInputDecrement`, `NumberInputIncrement`, `NumberInputHidden`,
+`PinInputCell`, `PinInputHidden`, `RatingItem`, `RatingEmpty`, `RatingFilled`, `RatingRadio`, `RatingValueText`,
+`SliderBody`, `SliderTrack`, `SliderRange`, `SliderThumb`, `SliderMarks`, `SliderMarkItem` and `SliderMarkLabel` do not
+exist. They take no `children`, and all the native attributes of their element. Each element carries a
+`data-plume-<component>-<element>` attribute, to style it from the parent.
 
 ```tsx
 // Before
@@ -315,12 +317,14 @@ attribute, to style it from the parent. `PinInput` keeps its parts for now.
     <tr><td><code>Input</code></td><td><code>classNames.input</code>, <code>classNames.reveal</code></td><td><code>data-plume-input-field</code>, <code>-reveal</code>, <code>-group</code>, <code>-control</code>, <code>-addon</code> and <code>-element</code>; set them with <code>addonBefore</code>, <code>addonAfter</code>, <code>elementBefore</code>, <code>elementAfter</code> and <code>revealable</code></td></tr>
     <tr><td><code>Textarea</code></td><td><code>classNames.input</code>, <code>classNames.count</code></td><td><code>data-plume-textarea-field</code>, <code>-count</code> and <code>-status</code>, drawn by <code>showCount</code></td></tr>
     <tr><td><code>NumberInput</code></td><td><code>classNames.input</code>, <code>classNames.decrement</code>, <code>classNames.increment</code></td><td><code>data-plume-numberinput-field</code> and <code>data-plume-numberinput-stepper</code> (<code>decrement</code> or <code>increment</code>), drawn by <code>steppers</code></td></tr>
-    <tr><td><code>PinInput</code></td><td><code>classNames.input</code></td><td><code>PinInputCell</code> (one per position, with <code>index</code>) and <code>PinInputHidden</code> for the <code>name</code></td></tr>
+    <tr><td><code>PinInput</code></td><td><code>classNames.input</code></td><td><code>data-plume-pininput-cell</code> (one per position, with <code>data-filled</code>) and <code>data-plume-pininput-hidden</code> for the <code>name</code>; set the boxes with <code>length</code></td></tr>
+    <tr><td><code>Rating</code></td><td><code>classNames.item</code>, <code>.empty</code>, <code>.filled</code></td><td><code>data-plume-rating-item</code> (with <code>data-state</code>), <code>-empty</code>, <code>-filled</code>, <code>-radio</code> and <code>-value-text</code>; set the icons with <code>icon</code> and <code>emptyIcon</code></td></tr>
+    <tr><td><code>Slider</code></td><td><code>classNames.track</code>, <code>.range</code>, <code>.thumb</code>, <code>.mark</code>, <code>.markLabel</code></td><td><code>data-plume-slider-body</code>, <code>-track</code>, <code>-range</code>, <code>-thumb</code>, <code>-marks</code>, <code>-mark-item</code> and <code>-mark-label</code>; set the marks with <code>marks</code></td></tr>
   </tbody>
 </table>
 
-The names of the stepper buttons and of the reveal button come from the `numberInput` and `input` texts of the
-`LocaleProvider`. The `ref` of the root is always the native `<input>` or `<textarea>`, so react-hook-form's `register`
+The names of the stepper, reveal and pin buttons, of the stars and of the thumbs of a range come from the `numberInput`,
+`input`, `pinInput`, `rating` and `slider` texts of the `LocaleProvider`, with no per-element override. The `ref` of the root is always the native `<input>` or `<textarea>`, so react-hook-form's `register`
 works on the root. `className` and `style` of the root go to the outermost element. The `data-plume-*-input` attribute
 of `NumberInput` is now `data-plume-numberinput-field`.
 

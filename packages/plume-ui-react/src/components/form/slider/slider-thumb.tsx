@@ -1,100 +1,56 @@
 'use client'
 
-import type { ChangeEvent, ForwardedRef, HTMLAttributes, ReactNode } from 'react'
-import { forwardRef, useMemo } from 'react'
-import { joinClasses } from '../../../overlay/class-names'
+import type { ChangeEvent, ReactNode } from 'react'
+import { useMemo } from 'react'
 import { mergeRefs } from '../../../overlay/trigger'
-import type { ComponentProps } from '../../../theme'
-import { useSliderContext } from './slider-context'
+import type { SliderState } from './slider-types'
 import styles from './slider.module.css'
 
-export interface SliderThumbOwnProps {
-  /**
-   * Which value the thumb sets: `0` for the first or only one, `1` for the second thumb of a range.
-   * @default 0
-   */
-  index?: number
+interface SliderThumbProps {
+  index: number
+  state: SliderState
 }
 
-export type SliderThumbProps = Omit<ComponentProps, 'index'> &
-  Pick<HTMLAttributes<HTMLInputElement>, 'aria-label' | 'title'> &
-  SliderThumbOwnProps
+export function SliderThumb({ index, state }: Readonly<SliderThumbProps>): ReactNode {
+  const { inputs, rootRef } = state
+  const setRef = useMemo(
+    () =>
+      mergeRefs<HTMLInputElement>(index === 0 ? rootRef : undefined, (node) => {
+        inputs.current[index] = node
+      }),
+    [index, inputs, rootRef],
+  )
+  const current = state.values[index]
+  if (current === undefined) return null
 
-/** The native range input of a value. The `ref` of the `Slider` goes to the first one. */
-export const SliderThumb = forwardRef<HTMLInputElement, SliderThumbProps>(
-  (
-    { 'aria-label': ariaLabelProp, className, index = 0, style, title }: SliderThumbProps,
-    ref: ForwardedRef<HTMLInputElement>,
-  ): ReactNode => {
-    const context = useSliderContext('SliderThumb')
-    const { inputs, rootRef } = context
-    const setRef = useMemo(
-      () =>
-        mergeRefs<HTMLInputElement>(
-          index === 0 ? rootRef : undefined,
-          (node) => {
-            inputs.current[index] = node
-          },
-          ref,
-        ),
-      [index, inputs, ref, rootRef],
-    )
-    const current = context.values[index]
-    if (current === undefined) return null
+  const { ariaLabel, isRange, labelledBy, readOnly } = state
 
-    const {
-      ariaLabel,
-      commit,
-      describedBy,
-      disabled,
-      firstId,
-      formatValue,
-      fractions,
-      isInvalid,
-      isRange,
-      isStyled,
-      labelledBy,
-      max,
-      min,
-      name,
-      orientation,
-      readOnly,
-      step,
-      text,
-      update,
-    } = context
-
-    return (
-      <input
-        aria-describedby={describedBy}
-        aria-invalid={isInvalid || undefined}
-        aria-label={ariaLabelProp ?? (isRange ? text.thumb(index) : ariaLabel)}
-        aria-labelledby={isRange ? undefined : labelledBy}
-        aria-orientation={orientation === 'vertical' ? 'vertical' : undefined}
-        aria-readonly={readOnly || undefined}
-        aria-valuetext={formatValue?.(current)}
-        className={joinClasses(isStyled && styles.thumb, className)}
-        data-front={index === 0 && (fractions[0] ?? 0) > 0.5 ? '' : undefined}
-        data-plume-slider-thumb=""
-        disabled={disabled}
-        id={index === 0 ? firstId : `${firstId}-${index}`}
-        max={max}
-        min={min}
-        name={name}
-        onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          if (!readOnly) update(index, Number(event.target.value))
-        }}
-        onKeyUp={commit}
-        onPointerUp={commit}
-        ref={setRef}
-        step={step}
-        style={style}
-        title={title}
-        type="range"
-        value={current}
-      />
-    )
-  },
-)
-
-SliderThumb.displayName = 'SliderThumb'
+  return (
+    <input
+      aria-describedby={state.describedBy}
+      aria-invalid={state.isInvalid || undefined}
+      aria-label={isRange ? state.text.thumb(index) : ariaLabel}
+      aria-labelledby={isRange ? undefined : labelledBy}
+      aria-orientation={state.orientation === 'vertical' ? 'vertical' : undefined}
+      aria-readonly={readOnly || undefined}
+      aria-valuetext={state.formatValue?.(current)}
+      className={state.isStyled ? styles.thumb : undefined}
+      data-front={index === 0 && (state.fractions[0] ?? 0) > 0.5 ? '' : undefined}
+      data-plume-slider-thumb=""
+      disabled={state.disabled}
+      id={index === 0 ? state.firstId : `${state.firstId}-${index}`}
+      max={state.max}
+      min={state.min}
+      name={state.name}
+      onChange={(event: ChangeEvent<HTMLInputElement>) => {
+        if (!readOnly) state.update(index, Number(event.target.value))
+      }}
+      onKeyUp={state.commit}
+      onPointerUp={state.commit}
+      ref={setRef}
+      step={state.step}
+      type="range"
+      value={current}
+    />
+  )
+}
