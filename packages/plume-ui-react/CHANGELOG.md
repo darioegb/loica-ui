@@ -1,5 +1,11 @@
 # plume-ui-react
 
+## 0.52.0
+
+### Minor Changes
+
+- [#283](https://github.com/darioegb/plume-ui-react/pull/283) [`c9054f96ee0a9573c31c8080ee1a6739b28d5020`](https://github.com/darioegb/plume-ui-react/commit/c9054f96ee0a9573c31c8080ee1a6739b28d5020) Thanks [@darioegb](https://github.com/darioegb)! - `Breadcrumb`, `Carousel`, `Paginator` and `Stepper` no longer take `labels`. Their texts come from the `LocaleProvider` (`breadcrumb`, `carousel`, `paginator` and `stepper`), and a change for one section is a nested `LocaleProvider`. A single text can still be set on the part that shows it: `label` on `CarouselPrev`, `CarouselNext`, and `aria-label` on `CarouselDots`, `CarouselSlide`, `PaginatorPage` and the edge buttons. The types `BreadcrumbLabels`, `CarouselLabels`, `PaginatorLabels` and `StepperLabels` are still exported to type the messages.
+
 ## 0.51.0
 
 ### Minor Changes
