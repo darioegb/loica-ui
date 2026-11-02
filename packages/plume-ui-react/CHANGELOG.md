@@ -1,5 +1,11 @@
 # plume-ui-react
 
+## 0.54.0
+
+### Minor Changes
+
+- [#288](https://github.com/darioegb/plume-ui-react/pull/288) [`a1b120fb1cc8662e38096a3cedfe332bfd883e54`](https://github.com/darioegb/plume-ui-react/commit/a1b120fb1cc8662e38096a3cedfe332bfd883e54) Thanks [@darioegb](https://github.com/darioegb)! - `Chip` no longer takes `labels`. The start of the name of its remove button comes from the `chip` text of the `LocaleProvider`, and a single button takes a `label` on `ChipRemove`. With this no component takes a `labels` prop. `ChipLabels` is still exported to type the messages.
+
 ## 0.53.0
 
 ### Minor Changes
