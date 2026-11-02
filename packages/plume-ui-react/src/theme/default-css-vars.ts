@@ -8,7 +8,10 @@ type CssVars = Record<string, string>
 
 const cache: Partial<Record<ColorMode, CssVars>> = {}
 
-/** The variables that `tokens.css` declares for a mode, so a provider only has to emit the rest. */
+/**
+ * The default value of every variable for a mode. `tokens.css` declares the ones the components
+ * read, so a provider only has to emit what its theme changes.
+ */
 export function getDefaultCssVars(mode: ColorMode): CssVars {
   cache[mode] ??= themeToCssVars(
     mode === 'dark' ? deepMerge<Theme>(defaultTheme, defaultDarkTheme as Theme) : defaultTheme,

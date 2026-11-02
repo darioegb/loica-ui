@@ -106,8 +106,8 @@ To change a token, redefine its variable in your own CSS. A rule with no cascade
 ```
 
 The derived colors (`--plume-color-primary-solid`, `-text`, `-tint`...) are worked out from the shades when the theme
-is built, so changing `--plume-color-primary-500` in CSS doesn't change them: change colors with a provider, or redefine
-the derived variables too. Without a provider there is no `useTheme`, and the `colorScheme` of a component can only be
+is built, and the shades are not declared by `styles.css`, so changing `--plume-color-primary-500` in CSS doesn't change
+them: change colors with a provider, or redefine the derived variables too. Without a provider there is no `useTheme`, and the `colorScheme` of a component can only be
 one of the default theme.
 
 ## New colors

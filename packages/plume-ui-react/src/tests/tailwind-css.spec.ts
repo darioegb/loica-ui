@@ -1,8 +1,9 @@
+import path from 'node:path'
 import { buildTailwindCss } from '../../scripts/tailwind-css'
 import { defaultTheme } from '../theme/config'
 
 describe('buildTailwindCss', () => {
-  const css = buildTailwindCss()
+  const css = buildTailwindCss(path.join(__dirname, '..'))
 
   it('points the utilities to the variables of Plume with an inline theme', () => {
     expect(css.startsWith('@theme inline {')).toBe(true)
@@ -18,6 +19,11 @@ describe('buildTailwindCss', () => {
         expect(css).toContain(`--text-${name}${part}: var(--plume-text-${name}-`)
       }
     }
+  })
+
+  it('gives the default value to the variables that tokens.css does not declare', () => {
+    expect(css).toContain('--color-primary-300: var(--plume-color-primary-300, #9bb4ff);')
+    expect(css).toContain('--container-7xl: var(--plume-container-7xl, 80rem);')
   })
 
   it('uses the kebab case names of the variables', () => {

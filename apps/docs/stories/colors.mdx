@@ -24,7 +24,9 @@ export const names = {
 }
 
 Every color of the theme is a scale of eleven shades, from `50` to `950`, and a `colorScheme` that every component takes.
-Each shade is the variable `--plume-color-<color>-<shade>`.
+Each shade is the variable `--plume-color-<color>-<shade>`. `styles.css` doesn't declare them, because the components
+read the derived colors below instead: `<ThemeProvider>` declares the ones your theme changes, and `colorVar('primary.700')`
+(and the Tailwind theme) carry the default value as fallback.
 
 <ColorPalette>
   {Object.entries(defaultTheme.colors).map(([color, shades]) => (

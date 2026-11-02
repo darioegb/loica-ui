@@ -40,8 +40,8 @@ const themeSource = packageRequire('esbuild').buildSync({
   write: false,
 }).outputFiles[0].text
 const themeModule = { exports: {} }
-new Function('module', 'exports', themeSource)(themeModule, themeModule.exports)
-const tailwindTheme = themeModule.exports.buildTailwindCss()
+new Function('module', 'exports', 'require', themeSource)(themeModule, themeModule.exports, packageRequire)
+const tailwindTheme = themeModule.exports.buildTailwindCss(path.join(packageDir, 'src'))
 writeFileSync(path.resolve(here, '../tailwind-theme.generated.css'), tailwindTheme)
 const sandbox = {
   preflight: readFileSync(docsRequire.resolve('tailwindcss/preflight.css'), 'utf8'),

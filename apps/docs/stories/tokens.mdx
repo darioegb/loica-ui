@@ -7,8 +7,10 @@ import { defaultTheme } from 'plume-ui-react'
 
 # Design tokens
 
-Every token below is a CSS variable: the default values are declared in `plume-ui-react/styles.css`
-(and alone in `plume-ui-react/tokens.css`), and `<ThemeProvider>` declares only the ones your theme changes. The
+Every token below is a CSS variable. `plume-ui-react/styles.css` (and alone `plume-ui-react/tokens.css`) declares the
+default value of the ones the components read, and of the ones that change with the color mode. The rest (the shades
+no component reads, the long spaces, the largest containers...) is not declared, so the page doesn't carry what it
+doesn't use. `<ThemeProvider>` declares the ones your theme changes, and you can declare any other in your own CSS. The
 Tailwind v4 theme of
 <a href='./?path=/docs/guides-framework-integration--docs' target='_top'>Framework integration</a> turns them into
 utilities. Colors live on the

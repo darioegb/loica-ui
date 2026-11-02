@@ -158,7 +158,7 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: 'var(--plume-color-primary-500)',
+          DEFAULT: 'var(--plume-color-primary-500, #5263ff)',
           solid: 'var(--plume-color-primary-solid)',
           'on-solid': 'var(--plume-color-primary-solid-contrast)',
           text: 'var(--plume-color-primary-text)',
@@ -173,10 +173,11 @@ export default {
 }
 ```
 
-Every token is a variable named `--plume-<group>-<name>` (`--plume-color-primary-500`, `--plume-space-4`,
-`--plume-shadow-md`), listed in [Tokens](?path=/docs/theme-tokens--docs). For a filled surface use `solid` with
-`solid-contrast`, and for colored text `text`: unlike the raw `500` shade, they keep a contrast of 4.5:1 in light and
-dark.
+Every token is a variable named `--plume-<group>-<name>` (`--plume-color-primary-solid`, `--plume-space-4`,
+`--plume-shadow-md`), listed in [Tokens](?path=/docs/theme-tokens--docs). `styles.css` only declares the ones the
+components read, so give the others their default value as fallback, as above with the `500` shade. For a filled surface
+use `solid` with `solid-contrast`, and for colored text `text`: unlike the raw `500` shade, they keep a contrast of 4.5:1
+in light and dark.
 
 ## Bootstrap, or any other framework
 
