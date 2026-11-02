@@ -1,17 +1,14 @@
 'use client'
 
-import type { ElementType, ForwardedRef, HTMLAttributes, MouseEvent, ReactNode } from 'react'
-import { forwardRef, useId, useMemo } from 'react'
+import type { ComponentPropsWithoutRef, ForwardedRef, MouseEvent, ReactNode } from 'react'
+import { forwardRef, useContext, useId } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import { hasPart } from '../../../overlay/has-part'
+import { OverlayClose } from '../../../overlay/overlay-close'
 import { useLabels } from '../../../locale/locale-provider'
-import type { ColorScheme, ComponentProps, Shape, Size } from '../../../theme'
+import type { ColorScheme, Shape, Size } from '../../../theme'
 import { tagColorVars } from '../shared/tag-vars'
 import tag from '../shared/tag.module.css'
-import { ChipContext, type ChipLabels } from './chip-context'
-import { ChipIcon } from './chip-icon'
-import { ChipLabel } from './chip-label'
-import { ChipRemove } from './chip-remove'
+import { ChipRemoveLabelContext, type ChipLabels } from './chip-context'
 import styles from './chip.module.css'
 
 export type { ChipLabels } from './chip-context'
@@ -59,16 +56,9 @@ export interface ChipOwnProps {
   variant?: ChipVariant
 }
 
-type ChipRootAttributes = Pick<
-  HTMLAttributes<HTMLSpanElement>,
-  'aria-label' | 'aria-labelledby' | 'children' | 'hidden' | 'id' | 'title'
->
-
-export type ChipProps = Omit<ComponentProps, 'index'> & ChipRootAttributes & ChipOwnProps
+export type ChipProps = ComponentPropsWithoutRef<'span'> & ChipOwnProps
 
 const DEFAULT_LABELS: ChipLabels = { remove: 'Remove' }
-
-const CHIP_PARTS: readonly ElementType[] = [ChipIcon, ChipLabel, ChipRemove]
 
 export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
   (
@@ -88,20 +78,10 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
     ref: ForwardedRef<HTMLSpanElement>,
   ) => {
     const text = useLabels('chip', DEFAULT_LABELS)
+    const exactRemoveLabel = useContext(ChipRemoveLabelContext)
     const isStyled = variant !== 'unstyled'
     const labelId = useId()
     const removeId = useId()
-    const context = useMemo(
-      () => ({
-        disabled,
-        isStyled,
-        labelId,
-        labels: text,
-        onRemove,
-        removeId,
-      }),
-      [disabled, isStyled, labelId, onRemove, removeId, text],
-    )
     const classes = joinClasses(
       isStyled && styles.chip,
       isStyled && tag[size],
@@ -112,25 +92,38 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
     )
 
     return (
-      <ChipContext.Provider value={context}>
-        <span
-          className={classes}
-          data-plume-chip=""
-          ref={ref}
-          style={tagColorVars('chip', colorScheme, style)}
-          {...rest}
-        >
-          {hasPart(children, CHIP_PARTS) ? (
-            children
-          ) : (
-            <>
-              {icon ? <ChipIcon>{icon}</ChipIcon> : null}
-              <ChipLabel>{children}</ChipLabel>
-              {onRemove ? <ChipRemove /> : null}
-            </>
-          )}
+      <span
+        className={classes}
+        data-plume-chip=""
+        ref={ref}
+        style={tagColorVars('chip', colorScheme, style)}
+        {...rest}
+      >
+        {icon ? (
+          <span
+            aria-hidden="true"
+            className={isStyled ? styles.icon : undefined}
+            data-plume-chip-icon=""
+          >
+            {icon}
+          </span>
+        ) : null}
+        <span className={isStyled ? styles.label : undefined} data-plume-chip-label="" id={labelId}>
+          {children}
         </span>
-      </ChipContext.Provider>
+        {onRemove ? (
+          <OverlayClose
+            aria-labelledby={exactRemoveLabel ? undefined : `${removeId} ${labelId}`}
+            closeClassName={isStyled ? styles.remove : undefined}
+            data-disabled={disabled ? '' : undefined}
+            data-plume-chip-remove=""
+            disabled={disabled}
+            id={removeId}
+            label={exactRemoveLabel ?? text.remove}
+            onClose={onRemove}
+          />
+        ) : null}
+      </span>
     )
   },
 )

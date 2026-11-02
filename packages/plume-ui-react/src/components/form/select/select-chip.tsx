@@ -20,8 +20,8 @@ export type SelectChipProps = Omit<ComponentProps, 'index'> &
 
 /**
  * A chip of a chosen option. With an `option` it has a button that removes it; without one it is a
- * plain chip, like the `+N`. Compose it with `ChipLabel`, `ChipIcon` and `ChipRemove` to style its
- * parts.
+ * plain chip, like the `+N`. Its remove button is `data-plume-chip-remove`, named by the
+ * `select.remove` text of the `LocaleProvider`.
  */
 export const SelectChip = forwardRef<HTMLSpanElement, SelectChipProps>(
   (

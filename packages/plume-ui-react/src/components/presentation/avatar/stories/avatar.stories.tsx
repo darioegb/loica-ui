@@ -1,14 +1,7 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
 import { LocaleProvider } from '../../../../locale'
 import { defaultTheme } from '../../../../theme'
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarGroup,
-  AvatarImage,
-  AvatarOverflow,
-  AvatarStatusDot,
-} from '..'
+import { Avatar, AvatarGroup, AvatarOverflow } from '..'
 
 const colorSchemes = Object.keys(defaultTheme.colors)
 
@@ -37,11 +30,9 @@ const people = [
  * the `avatarGroup.overflow` text of the `LocaleProvider`. The group gives its **size**, **shape**, **colorScheme** and **variant** to the avatars that
  * don't set their own.
  *
- * Every element of the Avatar is a part with its own `className`, `style` and `ref`. Given no children, the Avatar
- * renders `AvatarImage`, `AvatarFallback` and `AvatarStatusDot`; give it some of them and it renders only those,
- * in the order you write them. The content (**src**, **name**, **fallback**, **status**) stays on the `Avatar`, and the
- * parts read it, so `AvatarImage` shows the **src** while it loads and `AvatarFallback` takes its place when there is
- * no image or it fails.
+ * The Avatar draws its image, its fallback and its status dot, and each carries a `data-plume-avatar-image`,
+ * `data-plume-avatar-fallback` or `data-plume-avatar-status-dot` attribute. To style one, target it from the Avatar
+ * (`[&>img]:size-full` in Tailwind) or give the **fallback** your own element.
  */
 export default {
   title: 'Components/Avatar',
@@ -49,14 +40,7 @@ export default {
   tags: ['autodocs'],
   parameters: {
     docs: {
-      importNames: [
-        'Avatar',
-        'AvatarFallback',
-        'AvatarGroup',
-        'AvatarImage',
-        'AvatarOverflow',
-        'AvatarStatusDot',
-      ],
+      importNames: ['Avatar', 'AvatarGroup', 'AvatarOverflow'],
       toc: {
         title: 'On this page',
         disable: false,
@@ -83,9 +67,6 @@ export default {
     },
     className: {
       control: 'text',
-    },
-    children: {
-      control: false,
     },
     style: {
       control: false,
@@ -146,9 +127,12 @@ export const Variants: Story = {
   <Avatar colorScheme="primary" name="Ada Lovelace" variant="subtle" />
   <Avatar colorScheme="primary" name="Ada Lovelace" variant="solid" />
   <Avatar colorScheme="primary" name="Ada Lovelace" variant="outline" />
-  <Avatar className="size-10 rounded-full" name="Ada Lovelace" variant="unstyled">
-    <AvatarFallback className="bg-gray-900 text-white" />
-  </Avatar>
+  <Avatar
+    className="size-10 rounded-full"
+    fallback={<span className="flex size-full items-center justify-center bg-gray-900 text-white">AL</span>}
+    name="Ada Lovelace"
+    variant="unstyled"
+  />
 </div>`,
       },
     },
@@ -158,9 +142,14 @@ export const Variants: Story = {
       {(['subtle', 'solid', 'outline'] as const).map((variant) => (
         <Avatar colorScheme="primary" key={variant} name="Ada Lovelace" variant={variant} />
       ))}
-      <Avatar className="size-10 rounded-full" name="Ada Lovelace" variant="unstyled">
-        <AvatarFallback className="bg-gray-900 text-white" />
-      </Avatar>
+      <Avatar
+        className="size-10 rounded-full"
+        fallback={
+          <span className="flex size-full items-center justify-center bg-gray-900 text-white">AL</span>
+        }
+        name="Ada Lovelace"
+        variant="unstyled"
+      />
     </div>
   ),
 }
@@ -388,121 +377,84 @@ export const Group: Story = {
 }
 
 /**
- * Every element is a part. Give the Avatar some of them and it renders only those, in the order you write them, each
- * with its own `className`, `style` and `ref`. The **src**, **name**, **fallback** and **status** stay on the Avatar.
- * Here the status dot goes first, the image is omitted in the second one and the fallback has its own content in the
- * third. `AvatarOverflow` is the counter that `AvatarGroup` renders for **max**, and it can be placed by hand.
+ * `AvatarOverflow` is the counter that `AvatarGroup` renders for **max**, and it can be placed by hand. Its
+ * `children` replace the `+3`.
  */
-export const Compound: Story = {
+export const Overflow: Story = {
   render: () => (
-    <div className="flex flex-wrap items-center justify-center gap-4">
-      <Avatar name="Ada Lovelace" src={portrait} status="online">
-        <AvatarStatusDot />
-        <AvatarImage />
-        <AvatarFallback />
-      </Avatar>
-      <Avatar name="Grace Hopper" status="busy">
-        <AvatarFallback />
-      </Avatar>
-      <Avatar name="Assistant">
-        <AvatarFallback>
-          <strong>AI</strong>
-        </AvatarFallback>
-      </Avatar>
-      <AvatarGroup aria-label="Team members">
-        <Avatar name="Ada Lovelace" />
-        <Avatar name="Grace Hopper" />
-        <AvatarOverflow count={3} />
-      </AvatarGroup>
-    </div>
+    <AvatarGroup aria-label="Team members">
+      <Avatar name="Ada Lovelace" />
+      <Avatar name="Grace Hopper" />
+      <AvatarOverflow count={3} />
+    </AvatarGroup>
   ),
 }
 
 /**
- * Some examples of Avatar with Tailwind classes. With `variant="unstyled"` the Avatar and its parts have no Plume styles, so each takes the classes you give it.
+ * Some examples of Avatar with Tailwind classes. With `variant="unstyled"` the Avatar has no Plume styles, so it takes the classes you give it, and its image, fallback and status dot are styled from it with their `data-plume-avatar-*` attribute.
  */
 export const Tailwind: Story = {
   parameters: {
     docs: {
       source: {
         code: `<Avatar
-  className="size-12 rounded-full ring-2 ring-blue-700"
+  className="relative size-12 rounded-full ring-2 ring-blue-700 [&>[data-plume-avatar-fallback]]:flex [&>[data-plume-avatar-fallback]]:size-full [&>[data-plume-avatar-fallback]]:items-center [&>[data-plume-avatar-fallback]]:justify-center [&>[data-plume-avatar-fallback]]:rounded-full [&>[data-plume-avatar-fallback]]:bg-blue-700 [&>[data-plume-avatar-fallback]]:font-semibold [&>[data-plume-avatar-fallback]]:text-white [&>[data-plume-avatar-status-dot]]:absolute [&>[data-plume-avatar-status-dot]]:bottom-0 [&>[data-plume-avatar-status-dot]]:right-0 [&>[data-plume-avatar-status-dot]]:size-3 [&>[data-plume-avatar-status-dot]]:rounded-full [&>[data-plume-avatar-status-dot]]:bg-green-500 [&>[data-plume-avatar-status-dot]]:ring-2 [&>[data-plume-avatar-status-dot]]:ring-white"
   name="Ada Lovelace"
   status="online"
   variant="unstyled"
->
-  <AvatarFallback className="flex size-full items-center justify-center rounded-full bg-blue-700 font-semibold text-white" />
-  <AvatarStatusDot className="absolute bottom-0 right-0 size-3 rounded-full bg-green-500 ring-2 ring-white" />
-</Avatar>`,
+/>`,
       },
     },
   },
   render: () => (
     <div className="flex items-center gap-4">
       <Avatar
-        className="size-12 rounded-full ring-2 ring-blue-700"
+        className="relative size-12 rounded-full ring-2 ring-blue-700 [&>[data-plume-avatar-fallback]]:flex [&>[data-plume-avatar-fallback]]:size-full [&>[data-plume-avatar-fallback]]:items-center [&>[data-plume-avatar-fallback]]:justify-center [&>[data-plume-avatar-fallback]]:rounded-full [&>[data-plume-avatar-fallback]]:bg-blue-700 [&>[data-plume-avatar-fallback]]:font-semibold [&>[data-plume-avatar-fallback]]:text-white [&>[data-plume-avatar-status-dot]]:absolute [&>[data-plume-avatar-status-dot]]:bottom-0 [&>[data-plume-avatar-status-dot]]:right-0 [&>[data-plume-avatar-status-dot]]:size-3 [&>[data-plume-avatar-status-dot]]:rounded-full [&>[data-plume-avatar-status-dot]]:bg-green-500 [&>[data-plume-avatar-status-dot]]:ring-2 [&>[data-plume-avatar-status-dot]]:ring-white"
         name="Ada Lovelace"
         status="online"
         variant="unstyled"
-      >
-        <AvatarFallback className="flex size-full items-center justify-center rounded-full bg-blue-700 font-semibold text-white" />
-        <AvatarStatusDot className="absolute bottom-0 right-0 size-3 rounded-full bg-green-500 ring-2 ring-white" />
-      </Avatar>
+      />
       <Avatar
-        className="size-12 rounded-full ring-2 ring-blue-700"
+        className="size-12 rounded-full ring-2 ring-blue-700 [&>img]:size-full [&>img]:rounded-full [&>img]:object-cover"
         name="Ada Lovelace"
         src={portrait}
         variant="unstyled"
-      >
-        <AvatarImage className="size-full rounded-full object-cover" />
-        <AvatarFallback />
-      </Avatar>
+      />
     </div>
   ),
 }
 
 /**
- * Some examples of Avatar with Bootstrap classes.
+ * Some examples of Avatar with Bootstrap classes. Bootstrap classes can't reach the inner elements, so the fallback is
+ * your own element and the image is clipped by the Avatar.
  */
 export const Bootstrap: Story = {
   parameters: {
     docs: {
       source: {
         code: `<Avatar
-  className="rounded-circle border border-2 border-primary"
+  className="rounded-circle border border-2 border-primary overflow-hidden"
+  fallback={<span className="d-flex align-items-center justify-content-center bg-primary text-white fw-semibold w-100 h-100">AL</span>}
   name="Ada Lovelace"
-  status="online"
   style={{ height: '3rem', width: '3rem' }}
   variant="unstyled"
->
-  <AvatarFallback className="d-flex align-items-center justify-content-center rounded-circle bg-primary text-white fw-semibold w-100 h-100" />
-  <AvatarStatusDot className="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle" />
-</Avatar>`,
+/>`,
       },
     },
   },
   render: () => (
     <div className="d-flex align-items-center gap-3">
       <Avatar
-        className="rounded-circle border border-2 border-primary"
+        className="rounded-circle border border-2 border-primary overflow-hidden"
+        fallback={
+          <span className="d-flex align-items-center justify-content-center bg-primary text-white fw-semibold w-100 h-100">
+            AL
+          </span>
+        }
         name="Ada Lovelace"
-        status="online"
         style={{ height: '3rem', width: '3rem' }}
         variant="unstyled"
-      >
-        <AvatarFallback className="d-flex align-items-center justify-content-center rounded-circle bg-primary text-white fw-semibold w-100 h-100" />
-        <AvatarStatusDot className="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle" />
-      </Avatar>
-      <Avatar
-        className="rounded-circle border border-2 border-primary"
-        name="Ada Lovelace"
-        src={portrait}
-        style={{ height: '3rem', width: '3rem' }}
-        variant="unstyled"
-      >
-        <AvatarImage className="rounded-circle w-100 h-100 object-fit-cover" />
-        <AvatarFallback />
-      </Avatar>
+      />
     </div>
   ),
 }

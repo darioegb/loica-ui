@@ -143,6 +143,18 @@ describe('Alert component', () => {
     expect(container.querySelector('[data-plume-alert-dismiss]')).not.toHaveAttribute('class')
   })
 
+  it('puts the title and the description inside the content', () => {
+    const { container } = render(
+      <Alert>
+        <AlertTitle as="h3">Heads up</AlertTitle>
+        <AlertDescription>Details</AlertDescription>
+      </Alert>,
+    )
+    const content = container.querySelector('[data-plume-alert-content]')
+    expect(content).toContainElement(screen.getByRole('heading', { level: 3, name: 'Heads up' }))
+    expect(content).toContainElement(screen.getByText('Details'))
+  })
+
   it('forwards the ref', () => {
     const ref = createRef<HTMLDivElement>()
     render(<Alert ref={ref}>Text</Alert>)

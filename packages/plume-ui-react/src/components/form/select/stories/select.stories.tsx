@@ -2,7 +2,6 @@ import type { StoryObj, Meta } from '@storybook/react-vite'
 import { useState } from 'react'
 import { defaultTheme, type ColorScheme } from '../../../../theme'
 import { Button } from '../../../interaction/button'
-import { ChipLabel, ChipRemove } from '../../../presentation/chip'
 import { LocaleProvider } from '../../../../locale'
 import { Field } from '../../field'
 import {
@@ -1090,12 +1089,7 @@ export const Tailwind: Story = {
       <SelectField>
         <SelectChips>
           {(chosen) => (
-            <SelectChip className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-900" option={chosen}>
-              <ChipLabel>
-                <span aria-hidden="true">{chosen.label}</span>
-              </ChipLabel>
-              <ChipRemove className="ml-1 rounded-full hover:bg-emerald-200" />
-            </SelectChip>
+            <SelectChip className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-900 [&>[data-plume-chip-remove]]:ml-1 [&>[data-plume-chip-remove]]:rounded-full [&>[data-plume-chip-remove]]:hover:bg-emerald-200" option={chosen} />
           )}
         </SelectChips>
         <SelectCombobox className="px-1 data-[placeholder]:text-[var(--plume-muted)]" />
@@ -1171,12 +1165,7 @@ export const Tailwind: Story = {
           <SelectField>
             <SelectChips>
               {(chosen) => (
-                <SelectChip className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-900" option={chosen}>
-                  <ChipLabel>
-                    <span aria-hidden="true">{chosen.label}</span>
-                  </ChipLabel>
-                  <ChipRemove className="ml-1 rounded-full hover:bg-emerald-200" />
-                </SelectChip>
+                <SelectChip className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-900 [&>[data-plume-chip-remove]]:ml-1 [&>[data-plume-chip-remove]]:rounded-full [&>[data-plume-chip-remove]]:hover:bg-emerald-200" option={chosen} />
               )}
             </SelectChips>
             <SelectCombobox className="px-1 data-[placeholder]:text-[var(--plume-muted)]" />
@@ -1249,12 +1238,7 @@ export const Bootstrap: Story = {
       <SelectField>
         <SelectChips>
           {(chosen) => (
-            <SelectChip className="badge text-bg-primary fw-normal" option={chosen}>
-              <ChipLabel>
-                <span aria-hidden="true">{chosen.label}</span>
-              </ChipLabel>
-              <ChipRemove className="ms-1 border-0 bg-transparent text-white" />
-            </SelectChip>
+            <SelectChip className="badge text-bg-primary fw-normal" option={chosen} />
           )}
         </SelectChips>
         <SelectCombobox className="bg-transparent border-0 p-1" />
@@ -1315,12 +1299,7 @@ export const Bootstrap: Story = {
           <SelectField>
             <SelectChips>
               {(chosen) => (
-                <SelectChip className="badge text-bg-primary fw-normal" option={chosen}>
-                  <ChipLabel>
-                    <span aria-hidden="true">{chosen.label}</span>
-                  </ChipLabel>
-                  <ChipRemove className="ms-1 border-0 bg-transparent text-white" />
-                </SelectChip>
+                <SelectChip className="badge text-bg-primary fw-normal" option={chosen} />
               )}
             </SelectChips>
             <SelectCombobox className="bg-transparent border-0 p-1" />

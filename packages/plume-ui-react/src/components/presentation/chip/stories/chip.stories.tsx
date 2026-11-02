@@ -1,7 +1,7 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
 import { useState } from 'react'
 import { defaultTheme } from '../../../../theme'
-import { Chip, ChipIcon, ChipLabel, ChipRemove } from '..'
+import { Chip } from '..'
 
 const colorSchemes = Object.keys(defaultTheme.colors)
 
@@ -22,15 +22,14 @@ const noop = (): void => undefined
  * A compact element for a value the user has entered or picked: a tag, a filter, a recipient, an option of a
  * `Select` that allows several. It can have an icon or an image and, with `onRemove`, a button to remove it.
  *
- * It renders a `<span>`. The remove button is named after the chip (`Remove Design`) unless you give it a
- * `label`, and an icon is decorative, so the text has to say what the chip is. A `Badge` labels a status
+ * It renders a `<span>`. The remove button is named after the chip (`Remove Design`), and an icon is decorative, so the text has to say what the chip is. A `Badge` labels a status
  * or a count and is never interactive, a `Chip` is a value that can go away.
  *
- * ### Parts
+ * ### Inner elements
  *
- * Every element of the Chip is a part you can import. Without parts as children the Chip renders its text with the
- * `icon` before it and the remove button after it when it has `onRemove`. With parts, it renders them as written, so
- * you can reorder, leave out or replace each one.
+ * The Chip draws its icon, its text and its remove button, in that order. They carry `data-plume-chip-icon`,
+ * `data-plume-chip-label` and `data-plume-chip-remove`, so they can be styled from the Chip. The start of the name of
+ * the remove button is the `chip.remove` text of the `LocaleProvider`.
  */
 export default {
   title: 'Components/Chip',
@@ -194,7 +193,7 @@ function RemovableExample(): React.ReactNode {
 
 /**
  * With **onRemove** the Chip has a button to remove it. Its name is `Remove` followed by the text of the Chip, so
- * a screen reader says which one goes away, or give it your own with the **label** of a `ChipRemove`.
+ * a screen reader says which one goes away, and the `chip.remove` text of the `LocaleProvider` translates `Remove`.
  */
 export const Removable: Story = {
   parameters: {
@@ -251,32 +250,7 @@ export const Disabled: Story = {
 }
 
 /**
- * Give the Chip its parts as children to reorder, leave out or replace them. Here the remove button comes first,
- * the icon is an emoji and the label is styled on its own. The `icon` prop is not used when the Chip is composed.
- */
-export const Compound: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `<Chip onRemove={() => undefined}>
-  <ChipRemove />
-  <ChipLabel className="font-semibold">Design</ChipLabel>
-  <ChipIcon>🎨</ChipIcon>
-</Chip>`,
-      },
-    },
-  },
-  render: () => (
-    <Chip onRemove={noop}>
-      <ChipRemove />
-      <ChipLabel className="font-semibold">Design</ChipLabel>
-      <ChipIcon>🎨</ChipIcon>
-    </Chip>
-  ),
-}
-
-/**
- * Some examples of Chip with Tailwind classes. With `variant="unstyled"` the `className` is the only class of the Chip and the `className` of each part is the only one of that part, which keeps its position and its row.
+ * Some examples of Chip with Tailwind classes. With `variant="unstyled"` the `className` is the only class of the Chip and its inner elements are styled from it with their `data-plume-chip-*` attribute.
  */
 export const Tailwind: Story = {
   parameters: {
@@ -284,20 +258,18 @@ export const Tailwind: Story = {
       source: {
         code: `<div className="flex flex-wrap items-center gap-3">
   <Chip
-    className="rounded-full bg-primary-solid py-0.5 pl-3 pr-1 text-xs font-semibold text-primary-on-solid"
+    className="rounded-full bg-primary-solid py-0.5 pl-3 pr-1 text-xs font-semibold text-primary-on-solid [&>[data-plume-chip-remove]]:h-4 [&>[data-plume-chip-remove]]:w-4 [&>[data-plume-chip-remove]]:justify-center [&>[data-plume-chip-remove]]:rounded-full [&>[data-plume-chip-remove]]:hover:bg-white/25"
     onRemove={() => undefined}
     variant="unstyled"
   >
-    <ChipLabel>Design</ChipLabel>
-    <ChipRemove className="h-4 w-4 justify-center rounded-full hover:bg-white/25" />
+    Design
   </Chip>
   <Chip
-    className="rounded-md border border-emerald-600 py-0.5 pl-2 pr-1 text-xs font-medium text-emerald-700 dark:text-emerald-400"
+    className="rounded-md border border-emerald-600 py-0.5 pl-2 pr-1 text-xs font-medium text-emerald-700 dark:text-emerald-400 [&>[data-plume-chip-remove]]:h-4 [&>[data-plume-chip-remove]]:w-4 [&>[data-plume-chip-remove]]:justify-center [&>[data-plume-chip-remove]]:rounded-sm [&>[data-plume-chip-remove]]:hover:bg-emerald-100 dark:[&>[data-plume-chip-remove]]:hover:bg-emerald-950"
     onRemove={() => undefined}
     variant="unstyled"
   >
-    <ChipLabel>Research</ChipLabel>
-    <ChipRemove className="h-4 w-4 justify-center rounded-sm hover:bg-emerald-100 dark:hover:bg-emerald-950" />
+    Research
   </Chip>
   <Chip
     className="rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-900"
@@ -312,20 +284,18 @@ export const Tailwind: Story = {
   render: () => (
     <div className="flex flex-wrap items-center gap-3">
       <Chip
-        className="rounded-full bg-primary-solid py-0.5 pl-3 pr-1 text-xs font-semibold text-primary-on-solid"
+        className="rounded-full bg-primary-solid py-0.5 pl-3 pr-1 text-xs font-semibold text-primary-on-solid [&>[data-plume-chip-remove]]:h-4 [&>[data-plume-chip-remove]]:w-4 [&>[data-plume-chip-remove]]:justify-center [&>[data-plume-chip-remove]]:rounded-full [&>[data-plume-chip-remove]]:hover:bg-white/25"
         onRemove={() => undefined}
         variant="unstyled"
       >
-        <ChipLabel>Design</ChipLabel>
-        <ChipRemove className="h-4 w-4 justify-center rounded-full hover:bg-white/25" />
+        Design
       </Chip>
       <Chip
-        className="rounded-md border border-emerald-600 py-0.5 pl-2 pr-1 text-xs font-medium text-emerald-700 dark:text-emerald-400"
+        className="rounded-md border border-emerald-600 py-0.5 pl-2 pr-1 text-xs font-medium text-emerald-700 dark:text-emerald-400 [&>[data-plume-chip-remove]]:h-4 [&>[data-plume-chip-remove]]:w-4 [&>[data-plume-chip-remove]]:justify-center [&>[data-plume-chip-remove]]:rounded-sm [&>[data-plume-chip-remove]]:hover:bg-emerald-100 dark:[&>[data-plume-chip-remove]]:hover:bg-emerald-950"
         onRemove={() => undefined}
         variant="unstyled"
       >
-        <ChipLabel>Research</ChipLabel>
-        <ChipRemove className="h-4 w-4 justify-center rounded-sm hover:bg-emerald-100 dark:hover:bg-emerald-950" />
+        Research
       </Chip>
       <Chip className="rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-900" variant="unstyled">
         Read only
