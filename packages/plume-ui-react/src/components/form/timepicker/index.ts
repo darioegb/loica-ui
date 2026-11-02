@@ -1,4 +1,6 @@
 export { TimePicker, type TimePickerOwnProps, type TimePickerProps } from './timepicker'
+export { TimePickerField, type TimePickerFieldProps } from './timepicker-field'
+export { TimePickerFormatHint, type TimePickerFormatHintProps } from './timepicker-format-hint'
 export { TimePickerHours, type TimePickerHoursProps } from './timepicker-hours'
 export {
   TimePickerInput,
@@ -19,4 +21,9 @@ export {
   type TimePickerPanelProps,
 } from './timepicker-panel'
 export { TimePickerPeriod, type TimePickerPeriodProps } from './timepicker-period'
+export {
+  TimePickerTrigger,
+  type TimePickerTriggerOwnProps,
+  type TimePickerTriggerProps,
+} from './timepicker-trigger'
 export type { TimePickerLabels, TimePickerVariant } from './timepicker-types'

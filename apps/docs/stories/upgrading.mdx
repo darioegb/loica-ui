@@ -220,8 +220,8 @@ longer on the `DatePickerInput`.
   <tbody>
     <tr><td><code>Input</code> with addons, elements or <code>revealable</code></td><td><code>className</code> on the <code>&lt;input&gt;</code></td><td><code>className</code> on the group, <code>{'[&_[data-plume-input-field]]'}</code> for the <code>&lt;input&gt;</code></td></tr>
     <tr><td><code>Textarea</code> with <code>showCount</code></td><td><code>className</code> on the <code>&lt;textarea&gt;</code></td><td><code>className</code> on the wrapper, <code>{'[&_[data-plume-textarea-field]]'}</code> for the <code>&lt;textarea&gt;</code></td></tr>
-    <tr><td><code>DatePicker</code>, <code>TimePicker</code></td><td><code>className</code> on the <code>&lt;input&gt;</code></td><td><code>className</code> on the root, <code>{'[&_[data-plume-input-field]]'}</code> for the <code>&lt;input&gt;</code></td></tr>
-    <tr><td><code>DatePickerInput</code>, <code>TimePickerInput</code></td><td><code>className</code> on the <code>&lt;input&gt;</code></td><td><code>className</code> on the field with its button, <code>{'[&_[data-plume-input-field]]'}</code> for the <code>&lt;input&gt;</code></td></tr>
+    <tr><td><code>DatePicker</code>, <code>TimePicker</code></td><td><code>className</code> on the <code>&lt;input&gt;</code></td><td><code>className</code> on the root, <code>DatePickerField</code> or <code>TimePickerField</code> for the <code>&lt;input&gt;</code></td></tr>
+    <tr><td><code>DatePickerInput</code>, <code>TimePickerInput</code></td><td><code>className</code> on the <code>&lt;input&gt;</code></td><td><code>className</code> on the field with its button, <code>DatePickerField</code> or <code>TimePickerField</code> for the <code>&lt;input&gt;</code></td></tr>
   </tbody>
 </table>
 
@@ -326,8 +326,8 @@ of `NumberInput` is now `data-plume-numberinput-field`.
 
 ## `Select` and the pickers are made of parts
 
-`Select`, `DatePicker` and `TimePicker` no longer take `classNames`. The input and the button of the pickers are an `Input`
-that draws them, and every other element they render is a part you can import, with its own `className`, `style` and `ref`. Given no `children`, they render the same default composition as
+`Select`, `DatePicker` and `TimePicker` no longer take `classNames`. Every element they render is a part you can import,
+with its own `className`, `style` and `ref`. Given no `children`, they render the same default composition as
 before, and a data-driven part (the chips of a `Select`, the days of a `DatePicker`, the options of a `TimePicker`)
 takes a render function to style or replace each item.
 
@@ -336,7 +336,13 @@ takes a render function to style or replace each item.
 <DatePicker onChange={onChange} classNames={{ input: 'font-mono' }} />
 
 // After
-<DatePicker className='[&_[data-plume-input-field]]:font-mono' onValueChange={onChange} />
+<DatePicker onValueChange={onChange}>
+  <DatePickerInput>
+    <DatePickerField className='font-mono' />
+    <DatePickerTrigger />
+  </DatePickerInput>
+  <DatePickerCalendar />
+</DatePicker>
 ```
 
 <table>
@@ -345,8 +351,8 @@ takes a render function to style or replace each item.
   </thead>
   <tbody>
     <tr><td><code>Select</code></td><td><code>classNames</code> of <code>SelectTrigger</code> (<code>field</code>, <code>trigger</code>, <code>chevron</code>, <code>clear</code>, <code>chip</code>, <code>chipRemove</code>), <code>SelectContent</code> (<code>search</code>, <code>searchInput</code>, <code>list</code>, <code>empty</code>), <code>SelectGroup</code> (<code>label</code>) and <code>SelectOption</code> (<code>icon</code>, <code>description</code>, <code>check</code>)</td><td><code>SelectField</code>, <code>SelectCombobox</code>, <code>SelectChevron</code>, <code>SelectClear</code>, <code>SelectChips</code> with <code>SelectChip</code>, <code>SelectSearch</code>, <code>SelectSearchInput</code>, <code>SelectList</code>, <code>SelectEmpty</code>, <code>SelectGroupLabel</code>, <code>SelectOptionIcon</code>, <code>SelectOptionDescription</code>, <code>SelectOptionCheck</code></td></tr>
-    <tr><td><code>DatePicker</code></td><td><code>classNames.input</code>, <code>classNames.calendar</code></td><td><code>data-plume-input-field</code> and <code>data-plume-datepicker-trigger</code>, and <code>className</code> on <code>DatePickerCalendar</code> plus its parts (<code>DatePickerHeader</code>, <code>DatePickerPrevious</code>, <code>DatePickerNext</code>, <code>DatePickerGrid</code>, <code>DatePickerDay</code>, <code>DatePickerFooter</code>, <code>DatePickerApply</code>, <code>DatePickerCancel</code>...)</td></tr>
-    <tr><td><code>TimePicker</code></td><td><code>classNames.input</code>, <code>classNames.panel</code></td><td><code>data-plume-input-field</code> and <code>data-plume-timepicker-trigger</code>; <code>className</code> on <code>TimePickerPanel</code> plus <code>TimePickerHours</code>, <code>TimePickerMinutes</code>, <code>TimePickerPeriod</code> and <code>TimePickerOption</code></td></tr>
+    <tr><td><code>DatePicker</code></td><td><code>classNames.input</code>, <code>classNames.calendar</code></td><td><code>DatePickerField</code>, <code>DatePickerTrigger</code>, and <code>className</code> on <code>DatePickerCalendar</code> plus its parts (<code>DatePickerHeader</code>, <code>DatePickerPrevious</code>, <code>DatePickerNext</code>, <code>DatePickerGrid</code>, <code>DatePickerDay</code>, <code>DatePickerFooter</code>, <code>DatePickerApply</code>, <code>DatePickerCancel</code>...)</td></tr>
+    <tr><td><code>TimePicker</code></td><td><code>classNames.input</code>, <code>classNames.panel</code></td><td><code>TimePickerField</code> and <code>TimePickerTrigger</code> inside <code>TimePickerInput</code>; <code>className</code> on <code>TimePickerPanel</code> plus <code>TimePickerHours</code>, <code>TimePickerMinutes</code>, <code>TimePickerPeriod</code> and <code>TimePickerOption</code></td></tr>
   </tbody>
 </table>
 
