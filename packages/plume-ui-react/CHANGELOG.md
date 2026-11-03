@@ -1,5 +1,15 @@
 # plume-ui-react
 
+## 0.60.0
+
+### Minor Changes
+
+- [#309](https://github.com/darioegb/plume-ui-react/pull/309) [`3d45e89632f421149b6c3677ef9c63201e3e7e38`](https://github.com/darioegb/plume-ui-react/commit/3d45e89632f421149b6c3677ef9c63201e3e7e38) Thanks [@darioegb](https://github.com/darioegb)! - The `Alert` is made of parts again: `AlertIcon`, `AlertContent`, `AlertAction` and `AlertDismiss` are back next to `AlertTitle` and `AlertDescription`, each with its own `className`, `style` and `ref`. Given no parts it renders the same default composition, and `icon`, `action` and `dismissible` fill it as before.
+
+### Patch Changes
+
+- [#309](https://github.com/darioegb/plume-ui-react/pull/309) [`3d45e89632f421149b6c3677ef9c63201e3e7e38`](https://github.com/darioegb/plume-ui-react/commit/3d45e89632f421149b6c3677ef9c63201e3e7e38) Thanks [@darioegb](https://github.com/darioegb)! - The filled part of the `Slider` follows the thumb while it is dragged, with no delay. The cells of the `PinInput` get a hover border, like the `Input`. The selected dot of the `Carousel` keeps its size and only changes color, as the selected bar does.
+
 ## 0.59.0
 
 ### Minor Changes
