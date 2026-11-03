@@ -1,5 +1,15 @@
 # plume-ui-react
 
+## 0.63.0
+
+### Minor Changes
+
+- [#320](https://github.com/darioegb/plume-ui-react/pull/320) [`848bcbe9888a35259cecc77d797973d61bba10dd`](https://github.com/darioegb/plume-ui-react/commit/848bcbe9888a35259cecc77d797973d61bba10dd) Thanks [@darioegb](https://github.com/darioegb)! - `Table`: the box that scrolls (`data-scrollable`) has an opaque background, the page's by default, so the contrast of the cells scrolled out of view can be measured. Set `--table-background` to match another surface.
+
+### Patch Changes
+
+- [#320](https://github.com/darioegb/plume-ui-react/pull/320) [`885becfa5791a6d997b2e27e5386a4191875aa48`](https://github.com/darioegb/plume-ui-react/commit/885becfa5791a6d997b2e27e5386a4191875aa48) Thanks [@darioegb](https://github.com/darioegb)! - `TimePicker`: the columns and options take the background of the panel, so the contrast of an option scrolled out of view can be measured by accessibility tools.
+
 ## 0.62.0
 
 ### Minor Changes
