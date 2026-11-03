@@ -62,7 +62,7 @@ Components never compute colors in JavaScript. A `colorScheme` (a `ColorScheme`,
 '--badge-contrast': schemeVar(colorScheme, 'solid-contrast'),
 ```
 
-The stylesheet uses those variables and the `--plume-*` scales (`--plume-space-*`, `--plume-radius-*`, `--plume-font-size-*`), never raw values. The schemes expose the colors of `SchemeToken`: `solid`, `solid-contrast`, `solid-hover`, `solid-active`, `text`, `text-hover`, `text-active`, `tint`, `tint-strong` and `tint-text`, already adjusted for contrast in light and dark mode, so a component works in both without extra rules. The shades of a scheme are only the input of the theme and are not variables. The theme has only the values some component reads: a scale is not a full design system, since the apps bring their own. `src/tests/unread-tokens.spec.ts` fails when a token of the default theme is read by no component (`scripts/unread-tokens.ts` looks for it in `src`), so add a value to a scale when a component needs it, and remove it when the last one stops reading it. Text over a `tint` or `tint-strong` background takes `tint-text`: the plain `text` color is tuned for the page surfaces and can fall short of 4.5:1 on a tint.
+The stylesheet uses those variables and the `--plume-*` scales (`--plume-space-*`, `--plume-radius-*`, `--plume-font-size-*`), never raw values. The schemes expose the colors of `SchemeToken`: `solid`, `solid-contrast`, `solid-hover`, `solid-active`, `text`, `text-hover`, `text-active`, `tint`, `tint-strong` and `tint-text`, already adjusted for contrast in light and dark mode, so a component works in both without extra rules. The shades of a scheme are only the input of the theme and are not variables. The theme has only the values some component reads: a scale is not a full design system, since the apps bring their own. `src/tests/unread-tokens.spec.ts` fails when a token of the default theme is read by no component (`scripts/unread-tokens.ts` looks for it in `src`), so add a value to a scale when a component needs it. A token is public API (see [Public API](apps/docs/stories/public-api.mdx)) and is only removed in a major: when the last component stops reading one, add it to `KEPT_UNTIL_NEXT_MAJOR` in that spec, and the next major removes the tokens listed there. Text over a `tint` or `tint-strong` background takes `tint-text`: the plain `text` color is tuned for the page surfaces and can fall short of 4.5:1 on a tint.
 
 ## Server and client components
 
@@ -168,7 +168,7 @@ Copy it into the pull request description.
 
 **Styling**
 - [ ] Only `--plume-*` tokens and local variables, no color math in JavaScript; colors come from `schemeVar(colorScheme, ...)`
-- [ ] Every scale value the CSS reads exists in the theme; a missing one is added to the scale, and one no component reads any more is removed (`src/tests/unread-tokens.spec.ts`)
+- [ ] Every scale value the CSS reads exists in the theme; a missing one is added to the scale, and one no component reads any more waits for the next major in `KEPT_UNTIL_NEXT_MAJOR` (`src/tests/unread-tokens.spec.ts`)
 - [ ] A measure is a theme token only when several components share it or it is part of a scale (`--plume-space-*`, `--plume-container-*`); the size of one component is a local variable with a default (`--sidebar-width`), documented in its story if the user can override it
 - [ ] Media queries use the named breakpoints, `@media (--md)` and `@media (--below-md)` (`sm`, `md`, `lg`, `xl`, `2xl`), which the build writes from `defaultTheme.breakpoints`; stylelint rejects a literal width
 - [ ] No literal `rem` in `padding`, `margin` or `gap`, no literal `font-size`, `z-index` of 10 or more, or transition time under a second: use `--plume-space-*`, `--plume-font-size-*`, `--plume-z-*` and `--plume-duration-*` (`pnpm lint` runs stylelint on the `*.module.css`)
@@ -191,5 +191,5 @@ Copy it into the pull request description.
 
 **Release**
 - [ ] Exported from `src/index.ts` and listed in `src/tests/index.spec.ts` (the scaffold does both)
-- [ ] Changeset added with `pnpm changeset`: `minor` while the package is `0.x`
+- [ ] Changeset added with `pnpm changeset`: `minor` for a new component (`major` only with a breaking change, see [Public API](apps/docs/stories/public-api.mdx))
 - [ ] Once the release that publishes it is out, add it to the two examples under `apps/` (`example-vite` and `example-next-app`): they install `plume-ui-react` from npm, so bump it to that version and add a section to the demo

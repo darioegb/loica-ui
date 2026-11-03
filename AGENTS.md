@@ -45,7 +45,8 @@ English.
 - Don't add comments that explain what the code does. A comment says why, only when the code can't; the reasoning of
   a change goes in the commit and the pull request.
 - Commits, branches and pull requests are in English and follow Conventional Commits. A change to the published
-  package needs a changeset (`pnpm changeset`, `patch` or `minor` while the version is `0.x`).
+  package needs a changeset (`pnpm changeset`): `patch` for a fix, `minor` for something new, and `major` for a
+  breaking change as [Public API](apps/docs/stories/public-api.mdx) defines it, which waits for a major release.
 - If a rule here or in AUTHORING.md turns out wrong or incomplete, fix the document in the same change.
 
 ## While you work
@@ -76,5 +77,5 @@ What these check, so a failure is easy to place:
 - `packages/plume-ui-react/scripts/check-client-directives.mjs`: `'use client'` is on exactly the modules that need it.
 - `src/tests/index.spec.ts` and `src/tests/token-names.spec.ts`: the list of exports and of `--plume-*` variables, so a rename is
   always on purpose.
-- `src/tests/unread-tokens.spec.ts`: every token of the default theme is read by some component, so the theme only
-  holds what the components use.
+- `src/tests/unread-tokens.spec.ts`: every token of the default theme is read by some component or waits for the next major
+  in `KEPT_UNTIL_NEXT_MAJOR`.
