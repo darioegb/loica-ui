@@ -3,6 +3,7 @@
 import type { CSSProperties, HTMLAttributes, Ref } from 'react'
 import { createContext, useContext } from 'react'
 import type { ColorScheme, Shape, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 
 export type ProgressBarVariant = 'solid' | 'striped' | 'unstyled'
 
@@ -40,6 +41,6 @@ export const progressBarColorVars = (
   style?: CSSProperties,
 ): CSSProperties =>
   ({
-    '--progressbar-solid': `var(--plume-color-${colorScheme}-solid)`,
+    '--progressbar-solid': schemeVar(colorScheme, 'solid'),
     ...style,
   }) as CSSProperties

@@ -6,6 +6,7 @@ import { joinClasses } from '../../../overlay/class-names'
 import { hasPart } from '../../../overlay/has-part'
 import { useLabels } from '../../../locale/locale-provider'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { BreadcrumbContext, type BreadcrumbVariant } from './breadcrumb-context'
 import { BreadcrumbList } from './breadcrumb-list'
 import styles from './breadcrumb.module.css'
@@ -57,10 +58,10 @@ const DEFAULT_LABELS: BreadcrumbLabels = { breadcrumb: 'Breadcrumb' }
 
 const breadcrumbColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--breadcrumb-text': `var(--plume-color-${colorScheme}-text)`,
-    '--breadcrumb-text-hover': `var(--plume-color-${colorScheme}-text-hover)`,
-    '--breadcrumb-tint': `var(--plume-color-${colorScheme}-tint)`,
-    '--breadcrumb-tint-text': `var(--plume-color-${colorScheme}-tint-text)`,
+    '--breadcrumb-text': schemeVar(colorScheme, 'text'),
+    '--breadcrumb-text-hover': schemeVar(colorScheme, 'text-hover'),
+    '--breadcrumb-tint': schemeVar(colorScheme, 'tint'),
+    '--breadcrumb-tint-text': schemeVar(colorScheme, 'tint-text'),
     ...style,
   }) as CSSProperties
 

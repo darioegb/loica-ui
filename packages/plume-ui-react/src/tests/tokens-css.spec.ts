@@ -11,7 +11,7 @@ describe('tokens.css', () => {
   })
 
   it('leaves out the tokens no component reads', () => {
-    for (const name of ['--plume-color-primary-300:', '--plume-color-teal-300:', '--plume-space-48:']) {
+    for (const name of ['--plume-space-48:', '--plume-container-7xl:', '--plume-font-family-mono:']) {
       expect(css).not.toContain(name)
     }
   })

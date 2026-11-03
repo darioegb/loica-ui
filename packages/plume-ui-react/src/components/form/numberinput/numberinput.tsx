@@ -5,6 +5,7 @@ import { forwardRef, useRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import { useLabels } from '../../../locale/locale-provider'
 import type { ColorScheme, Shape, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { NumberInputField } from './numberinput-field'
 import { DEFAULT_LABELS } from './numberinput-labels'
 import { NumberInputStepper } from './numberinput-stepper'
@@ -171,7 +172,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     const invalid = rest['aria-invalid'] === true || rest['aria-invalid'] === 'true'
     const text = useLabels('numberInput', DEFAULT_LABELS)
     const colorVars = {
-      '--numberinput-color': `var(--plume-color-${colorScheme}-text)`,
+      '--numberinput-color': schemeVar(colorScheme, 'text'),
       ...style,
     } as CSSProperties
 

@@ -3,6 +3,7 @@ import { forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import { hasPart } from '../../../overlay/has-part'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { CollapseBody } from './collapse-body'
 import { CollapseClip } from './collapse-clip'
 import styles from './collapse.module.css'
@@ -56,9 +57,9 @@ const collapseColorVars = (
 ): CSSProperties | undefined =>
   colorScheme
     ? ({
-        '--collapse-solid': `var(--plume-color-${colorScheme}-solid)`,
-        '--collapse-tint': `var(--plume-color-${colorScheme}-tint)`,
-        '--collapse-tint-text': `var(--plume-color-${colorScheme}-tint-text)`,
+        '--collapse-solid': schemeVar(colorScheme, 'solid'),
+        '--collapse-tint': schemeVar(colorScheme, 'tint'),
+        '--collapse-tint-text': schemeVar(colorScheme, 'tint-text'),
         ...style,
       } as CSSProperties)
     : style

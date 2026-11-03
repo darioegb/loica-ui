@@ -10,19 +10,14 @@ const kebab = (key: string): string => key.replace(/[A-Z]/g, (letter) => `-${let
 
 function colors(plume: Plume): string[] {
   const schemes = keys(defaultTheme.colors)
-  const entries = schemes.flatMap((scheme) => {
-    const shades = keys(defaultTheme.colors[scheme as keyof typeof defaultTheme.colors])
-    return [
-      line(`color-${scheme}`, plume(`color-${scheme}-500`)),
-      ...shades.map((shade) => line(`color-${scheme}-${shade}`, plume(`color-${scheme}-${shade}`))),
-      line(`color-${scheme}-solid`, plume(`color-${scheme}-solid`)),
-      line(`color-${scheme}-on-solid`, plume(`color-${scheme}-solid-contrast`)),
-      line(`color-${scheme}-text`, plume(`color-${scheme}-text`)),
-      line(`color-${scheme}-tint`, plume(`color-${scheme}-tint`)),
-      line(`color-${scheme}-tint-strong`, plume(`color-${scheme}-tint-strong`)),
-      line(`color-${scheme}-tint-text`, plume(`color-${scheme}-tint-text`)),
-    ]
-  })
+  const entries = schemes.flatMap((scheme) => [
+    line(`color-${scheme}-solid`, plume(`color-${scheme}-solid`)),
+    line(`color-${scheme}-on-solid`, plume(`color-${scheme}-solid-contrast`)),
+    line(`color-${scheme}-text`, plume(`color-${scheme}-text`)),
+    line(`color-${scheme}-tint`, plume(`color-${scheme}-tint`)),
+    line(`color-${scheme}-tint-strong`, plume(`color-${scheme}-tint-strong`)),
+    line(`color-${scheme}-tint-text`, plume(`color-${scheme}-tint-text`)),
+  ])
   const semantic = keys(defaultTheme.semantic).map((key) =>
     line(`color-${kebab(key)}`, plume(kebab(key))),
   )
@@ -64,8 +59,8 @@ function utilities(plume: Plume): string[] {
  * The theme for Tailwind CSS v4: `@theme inline` points every utility to the variable of Plume
  * (`bg-primary-solid` is `var(--plume-color-primary-solid)`), so they follow the theme and the color
  * mode. `inline` is what keeps the variable and not its value, which a nested provider needs. The
- * variables `tokens.css` doesn't declare (the shades no component reads...) carry the default value
- * as fallback, so the utilities work without declaring them. The spacing, the breakpoints and the
+ * variables `tokens.css` doesn't declare (the long spaces scale, the largest containers...) carry
+ * the default value as fallback, so the utilities work without declaring them. The spacing, the breakpoints and the
  * container widths of Tailwind v4 are already the ones of Plume.
  *
  * The package doesn't publish it: the docs use it for their stories and their StackBlitz projects,

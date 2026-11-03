@@ -5,6 +5,7 @@ import { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'r
 import { joinClasses } from '../../../overlay/class-names'
 import { mergeRefs } from '../../../overlay/trigger'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { TreeContext, type TreeVariant } from './tree-context'
 import { visibleItems } from './tree-navigation'
 import styles from './tree.module.css'
@@ -93,12 +94,12 @@ export type TreeProps = Omit<ComponentProps, 'index'> & TreeRootAttributes & Tre
 
 const treeColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--tree-contrast': `var(--plume-color-${colorScheme}-solid-contrast)`,
-    '--tree-hover': `var(--plume-color-${colorScheme}-solid-hover)`,
-    '--tree-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--tree-text': `var(--plume-color-${colorScheme}-text)`,
-    '--tree-tint': `var(--plume-color-${colorScheme}-tint)`,
-    '--tree-tint-text': `var(--plume-color-${colorScheme}-tint-text)`,
+    '--tree-contrast': schemeVar(colorScheme, 'solid-contrast'),
+    '--tree-hover': schemeVar(colorScheme, 'solid-hover'),
+    '--tree-solid': schemeVar(colorScheme, 'solid'),
+    '--tree-text': schemeVar(colorScheme, 'text'),
+    '--tree-tint': schemeVar(colorScheme, 'tint'),
+    '--tree-tint-text': schemeVar(colorScheme, 'tint-text'),
     ...style,
   }) as CSSProperties
 

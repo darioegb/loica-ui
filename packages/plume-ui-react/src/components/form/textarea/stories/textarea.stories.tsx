@@ -179,7 +179,7 @@ export const Colors: Story = {
       source: {
         code: `<Textarea aria-label="primary" colorScheme="primary" placeholder="Focus me: primary" rows={1} />
 <Textarea aria-label="success" colorScheme="success" placeholder="Focus me: success" rows={1} />
-<Textarea aria-label="purple" colorScheme="purple" placeholder="Focus me: purple" rows={1} />`,
+<Textarea aria-label="warning" colorScheme="warning" placeholder="Focus me: warning" rows={1} />`,
       },
     },
   },

@@ -4,6 +4,7 @@ import { forwardRef, useId, useMemo } from 'react'
 import type { CSSProperties, ForwardedRef, HTMLAttributes } from 'react'
 import { useControllableState } from '../../../overlay/use-controllable-state'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import {
   TabsContext,
   type TabsAlignment,
@@ -72,10 +73,10 @@ export type TabsProps = Omit<ComponentProps, 'index'> & TabsRootAttributes & Tab
 
 const tabsColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--tabs-scheme': `var(--plume-color-${colorScheme}-text)`,
-    '--tabs-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--tabs-solid-active': `var(--plume-color-${colorScheme}-solid-active)`,
-    '--tabs-text-color': `var(--plume-color-${colorScheme}-solid-contrast)`,
+    '--tabs-scheme': schemeVar(colorScheme, 'text'),
+    '--tabs-solid': schemeVar(colorScheme, 'solid'),
+    '--tabs-solid-active': schemeVar(colorScheme, 'solid-active'),
+    '--tabs-text-color': schemeVar(colorScheme, 'solid-contrast'),
     ...style,
   }) as CSSProperties
 

@@ -55,14 +55,14 @@ The library aims to stay small: a prop, a part or an export earns its place by w
 
 ## Theming
 
-Components never compute colors in JavaScript. A `colorScheme` is mapped to local CSS variables that point to the tokens emitted by `<ThemeProvider>`:
+Components never compute colors in JavaScript. A `colorScheme` (a `ColorScheme`, never a shade) is mapped with `schemeVar` to local CSS variables that point to the colors the theme derives for the scheme:
 
 ```tsx
-'--badge-solid': `var(--plume-color-${colorScheme}-solid)`,
-'--badge-contrast': `var(--plume-color-${colorScheme}-solid-contrast)`,
+'--badge-solid': schemeVar(colorScheme, 'solid'),
+'--badge-contrast': schemeVar(colorScheme, 'solid-contrast'),
 ```
 
-The stylesheet uses those variables and the `--plume-*` scales (`--plume-space-*`, `--plume-radius-*`, `--plume-font-size-*`), never raw values. The schemes expose `solid`, `solid-contrast`, `solid-hover`, `solid-active`, `text`, `text-hover`, `text-active`, `tint`, `tint-strong` and `tint-text`, already adjusted for contrast in light and dark mode, so a component works in both without extra rules. Text over a `tint` or `tint-strong` background takes `tint-text`: the plain `text` color is tuned for the page surfaces and can fall short of 4.5:1 on a tint.
+The stylesheet uses those variables and the `--plume-*` scales (`--plume-space-*`, `--plume-radius-*`, `--plume-font-size-*`), never raw values. The schemes expose the colors of `SchemeToken`: `solid`, `solid-contrast`, `solid-hover`, `solid-active`, `text`, `text-hover`, `text-active`, `tint`, `tint-strong` and `tint-text`, already adjusted for contrast in light and dark mode, so a component works in both without extra rules. The shades of a scheme are only the input of the theme and are not variables. `tokens.css` declares only the tokens some component reads (`scripts/emitted-tokens.ts` finds them in `src`), so a new token a component reads gets declared on its own. Text over a `tint` or `tint-strong` background takes `tint-text`: the plain `text` color is tuned for the page surfaces and can fall short of 4.5:1 on a tint.
 
 ## Server and client components
 

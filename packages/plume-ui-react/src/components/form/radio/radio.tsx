@@ -9,6 +9,7 @@ import type {
 } from 'react'
 import { forwardRef } from 'react'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { joinClasses } from '../../../overlay/class-names'
 import { useRadioGroupContext } from './radio-group-context'
 import styles from './radio.module.css'
@@ -63,9 +64,9 @@ export type RadioProps = Omit<ComponentProps, 'index'> & RadioRootAttributes & R
 
 const radioColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--radio-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--radio-contrast': `var(--plume-color-${colorScheme}-solid-contrast)`,
-    '--radio-text': `var(--plume-color-${colorScheme}-text)`,
+    '--radio-solid': schemeVar(colorScheme, 'solid'),
+    '--radio-contrast': schemeVar(colorScheme, 'solid-contrast'),
+    '--radio-text': schemeVar(colorScheme, 'text'),
     ...style,
   }) as CSSProperties
 

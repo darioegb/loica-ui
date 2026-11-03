@@ -2,6 +2,7 @@ import type { CSSProperties, ForwardedRef, HTMLAttributes } from 'react'
 import { forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import styles from './icon.module.css'
 
 export type IconVariant = 'default' | 'unstyled'
@@ -37,7 +38,7 @@ type IconRootAttributes = Pick<
 export type IconProps = Omit<ComponentProps, 'index'> & IconRootAttributes & IconOwnProps
 
 const iconColorVars = (colorScheme?: ColorScheme, style?: CSSProperties): CSSProperties => ({
-  ...(colorScheme ? { '--icon-color': `var(--plume-color-${colorScheme}-text)` } : {}),
+  ...(colorScheme ? { '--icon-color': schemeVar(colorScheme, 'text') } : {}),
   ...style,
 })
 

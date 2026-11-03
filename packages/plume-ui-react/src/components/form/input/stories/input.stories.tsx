@@ -154,7 +154,7 @@ export const Colors: Story = {
       source: {
         code: `<Input colorScheme="primary" placeholder="primary" />
 <Input colorScheme="success" placeholder="success" />
-<Input colorScheme="purple" placeholder="purple" />`,
+<Input colorScheme="warning" placeholder="warning" />`,
       },
     },
   },

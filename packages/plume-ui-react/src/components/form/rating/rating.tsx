@@ -6,6 +6,7 @@ import { joinClasses } from '../../../overlay/class-names'
 import { hasPart } from '../../../overlay/has-part'
 import { useLabels } from '../../../locale/locale-provider'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { useFieldContext } from '../field/field-context'
 import { RatingContext } from './rating-context'
 import type { RatingContextValue, RatingLabels } from './rating-context'
@@ -200,8 +201,8 @@ export const Rating = forwardRef<HTMLFieldSetElement, RatingProps>(
     const resolvedName = name ?? generatedName
     const classes = ratingClasses({ className, disabled, isStyled, readOnly, size, variant })
     const colorVars = {
-      '--rating-edge': `var(--plume-color-${colorScheme}-text)`,
-      '--rating-solid': `var(--plume-color-${colorScheme}-solid)`,
+      '--rating-edge': schemeVar(colorScheme, 'text'),
+      '--rating-solid': schemeVar(colorScheme, 'solid'),
       '--rating-empty': 'var(--plume-border-strong)',
       ...style,
     } as CSSProperties

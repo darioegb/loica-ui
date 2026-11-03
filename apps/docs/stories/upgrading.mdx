@@ -24,6 +24,8 @@ Search your code for these, one by one. The rest of the page explains each chang
 - A `BadgeDot`, a `DividerLabel`, a `SkeletonLine` or a part of the `EmptyState`: [single components](#badge-emptystate-divider-and-skeleton-are-single-components).
 - Parts used outside their component: [they throw](#parts-outside-their-component-throw).
 - Imports from `@plume-ui-react/*`: [one package now](#from-the-plume-ui-react-packages).
+- `colorScheme` set to `brown`, `pink`, `purple`, `teal` or `yellow`, a shade such as `primary.700` on a `Loader`,
+  `colorVar`, `ColorShade`, or a `--plume-color-<scheme>-<shade>` variable: [the palette](#the-palette-has-the-six-colors-the-components-use).
 
 ## From the `@plume-ui-react/*` packages
 
@@ -598,6 +600,119 @@ read a variable. The build writes those queries from `defaultTheme.breakpoints` 
 widths of every component come from one place: `sm` 40rem, `md` 48rem, `lg` 64rem, `xl` 80rem and `2xl` 96rem, the
 same as Tailwind v4. The calendars of the `DatePicker` now stack below `md` (48rem, before 45rem) and the `Paginator`
 tightens its spacing below `sm` (40rem, before 30rem).
+
+## The palette has the six colors the components use
+
+`defaultTheme.colors` keeps `primary`, `secondary`, `info`, `success`, `warning` and `error`, the colors that the
+components give a role. `brown`, `pink`, `purple`, `teal` and `yellow` are removed: no component used them, and an app
+with a CSS framework has its own palette.
+
+The shades of a color are no longer variables either. The components only read the colors that the theme works out
+from them (`--plume-color-<scheme>-solid`, `-text`, `-tint`... see **Colors**), which keep their contrast in both modes.
+
+<table>
+  <thead>
+    <tr><th>Before</th><th>After</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>colorScheme='purple'</code> (or <code>brown</code>, <code>pink</code>, <code>teal</code>, <code>yellow</code>)</td><td>a color of the palette, or add it back to your theme (below)</td></tr>
+    <tr><td><code>--plume-color-&lt;scheme&gt;-&lt;shade&gt;</code>, Tailwind <code>bg-primary-500</code> and <code>bg-primary</code></td><td>removed: use <code>--plume-color-&lt;scheme&gt;-solid</code>, <code>-text</code> or <code>-tint</code>, and Tailwind <code>bg-primary-solid</code>, <code>text-primary-text</code>…</td></tr>
+    <tr><td><code>&lt;Loader colorScheme='primary.700' /&gt;</code>, the <code>ColorShade</code> and <code>Shade</code> types</td><td><code>colorScheme</code> takes a scheme, like in every other component, and the Loader takes its <code>text</code> color</td></tr>
+    <tr><td><code>colorVar('primary.700')</code></td><td><code>schemeVar('primary', 'text')</code>, with any of the colors of a scheme</td></tr>
+  </tbody>
+</table>
+
+To keep using a removed color, add it to your theme with the shades it had, and to the `ColorPalette` type with module
+augmentation (see **Theming**):
+
+```tsx
+import type { DeepPartial, Theme } from 'plume-ui-react'
+
+export const theme: DeepPartial<Theme> = {
+  colors: {
+    brown: {
+      50: '#f6f3f0',
+      100: '#e9e1d8',
+      200: '#d4c5b4',
+      300: '#bba289',
+      400: '#a78568',
+      500: '#98745a',
+      600: '#825f4c',
+      700: '#6d4c41',
+      800: '#5a3f39',
+      900: '#4f3834',
+      950: '#2c1e1c',
+    },
+    pink: {
+      50: '#fff1f3',
+      100: '#ffe3e7',
+      200: '#ffc0cb',
+      300: '#ffa2b3',
+      400: '#fe6e8b',
+      500: '#f83b66',
+      600: '#e51951',
+      700: '#c20e43',
+      800: '#a20f40',
+      900: '#8a113c',
+      950: '#4d041c',
+    },
+    purple: {
+      50: '#fcf4ff',
+      100: '#f9e6ff',
+      200: '#f3d2ff',
+      300: '#eaaeff',
+      400: '#dd7bff',
+      500: '#d149ff',
+      600: '#c325f8',
+      700: '#ab15db',
+      800: '#8f17b2',
+      900: '#74148f',
+      950: '#680085',
+    },
+    teal: {
+      50: '#eefffc',
+      100: '#c5fffa',
+      200: '#8bfff5',
+      300: '#4afef0',
+      400: '#15ece2',
+      500: '#00d0c9',
+      600: '#00a8a5',
+      700: '#008080',
+      800: '#066769',
+      900: '#0a5757',
+      950: '#003235',
+    },
+    yellow: {
+      50: '#fcffe7',
+      100: '#f5ffc1',
+      200: '#f0ff86',
+      300: '#efff41',
+      400: '#f6ff0d',
+      500: '#f0ec00',
+      600: '#d1bb00',
+      700: '#a68802',
+      800: '#896a0a',
+      900: '#74560f',
+      950: '#442f04',
+    },
+  },
+}
+```
+
+```ts
+// plume-ui.d.ts
+import type { ShadeLevel } from 'plume-ui-react'
+
+declare module 'plume-ui-react' {
+  interface ColorPalette {
+    brown: ShadeLevel
+    pink: ShadeLevel
+    purple: ShadeLevel
+    teal: ShadeLevel
+    yellow: ShadeLevel
+  }
+}
+```
 
 ## The CSS of Plume is in the layer `plume`
 

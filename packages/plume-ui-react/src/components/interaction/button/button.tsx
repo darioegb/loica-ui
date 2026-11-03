@@ -11,6 +11,7 @@ import { forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import { visuallyHidden } from '../../../overlay/visually-hidden'
 import type { ColorScheme, Shape, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { Loader } from '../../presentation/loader'
 import styles from './button.module.css'
 
@@ -68,16 +69,16 @@ const ignoreClick = (event: MouseEvent<HTMLButtonElement>): void => {
 
 const buttonColorVars = (colorScheme: ColorScheme): CSSProperties =>
   ({
-    '--button-color': `var(--plume-color-${colorScheme}-text)`,
-    '--button-contrast-color': `var(--plume-color-${colorScheme}-solid-contrast)`,
-    '--button-solid-bg': `var(--plume-color-${colorScheme}-solid)`,
-    '--button-solid-hover': `var(--plume-color-${colorScheme}-solid-hover)`,
-    '--button-solid-active': `var(--plume-color-${colorScheme}-solid-active)`,
-    '--button-hover-color': `var(--plume-color-${colorScheme}-text-hover)`,
-    '--button-focus-color': `var(--plume-color-${colorScheme}-text-active)`,
-    '--button-hover-alt-color': `var(--plume-color-${colorScheme}-tint)`,
-    '--button-focus-alt-color': `var(--plume-color-${colorScheme}-tint-strong)`,
-    '--button-tint-text': `var(--plume-color-${colorScheme}-tint-text)`,
+    '--button-color': schemeVar(colorScheme, 'text'),
+    '--button-contrast-color': schemeVar(colorScheme, 'solid-contrast'),
+    '--button-solid-bg': schemeVar(colorScheme, 'solid'),
+    '--button-solid-hover': schemeVar(colorScheme, 'solid-hover'),
+    '--button-solid-active': schemeVar(colorScheme, 'solid-active'),
+    '--button-hover-color': schemeVar(colorScheme, 'text-hover'),
+    '--button-focus-color': schemeVar(colorScheme, 'text-active'),
+    '--button-hover-alt-color': schemeVar(colorScheme, 'tint'),
+    '--button-focus-alt-color': schemeVar(colorScheme, 'tint-strong'),
+    '--button-tint-text': schemeVar(colorScheme, 'tint-text'),
   }) as CSSProperties
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(

@@ -1,11 +1,8 @@
-import { colorVar } from '../shared.utils'
+import { schemeVar } from '../shared.utils'
 
-describe('colorVar', () => {
-  it('defaults a bare scheme to the shade 500, with the default value as fallback', () => {
-    expect(colorVar('primary')).toBe('var(--plume-color-primary-500, #5263ff)')
-  })
-
-  it('maps a shade to its variable, with the default value as fallback', () => {
-    expect(colorVar('primary.900')).toBe('var(--plume-color-primary-900, #24278b)')
+describe('schemeVar', () => {
+  it('points to the variable of a color the theme derives from a scheme', () => {
+    expect(schemeVar('primary', 'solid')).toBe('var(--plume-color-primary-solid)')
+    expect(schemeVar('error', 'tint-text')).toBe('var(--plume-color-error-tint-text)')
   })
 })

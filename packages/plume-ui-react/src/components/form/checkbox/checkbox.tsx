@@ -9,6 +9,7 @@ import type {
 } from 'react'
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { joinClasses } from '../../../overlay/class-names'
 import styles from './checkbox.module.css'
 
@@ -71,9 +72,9 @@ export type CheckboxProps = Omit<ComponentProps, 'index'> &
 
 const checkboxColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--checkbox-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--checkbox-contrast': `var(--plume-color-${colorScheme}-solid-contrast)`,
-    '--checkbox-text': `var(--plume-color-${colorScheme}-text)`,
+    '--checkbox-solid': schemeVar(colorScheme, 'solid'),
+    '--checkbox-contrast': schemeVar(colorScheme, 'solid-contrast'),
+    '--checkbox-text': schemeVar(colorScheme, 'text'),
     ...style,
   }) as CSSProperties
 

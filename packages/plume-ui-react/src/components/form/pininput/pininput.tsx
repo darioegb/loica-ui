@@ -5,6 +5,7 @@ import { forwardRef, useEffect, useMemo } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import { useLabels } from '../../../locale/locale-provider'
 import type { ColorScheme, ComponentProps, Shape, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { useFieldContext } from '../field/field-context'
 import { PinInputCell } from './pininput-cell'
 import { PinInputContext } from './pininput-context'
@@ -168,7 +169,7 @@ export const PinInput = forwardRef<HTMLFieldSetElement, PinInputProps>(
     const defaults = useMemo(() => defaultLabels(type), [type])
     const text = useLabels('pinInput', defaults)
     const colorVars = {
-      '--pininput-color': `var(--plume-color-${invalid ? 'error' : colorScheme}-text)`,
+      '--pininput-color': schemeVar(invalid ? 'error' : colorScheme, 'text'),
       ...style,
     } as CSSProperties
     const classes = joinClasses(

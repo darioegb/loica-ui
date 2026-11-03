@@ -37,14 +37,10 @@ describe('Loader component', () => {
     expect(loader.children).toHaveLength(3)
   })
 
-  it('maps the color scheme and its shades to a CSS variable', () => {
-    const { rerender } = render(<Loader colorScheme="primary" />)
-    expect(screen.getByRole('status')).toHaveStyle(
-      '--loader-color: var(--plume-color-primary-500, #5263ff)',
-    )
-    rerender(<Loader colorScheme="primary.700" style={{ opacity: 0.5 }} />)
+  it('takes the text color of the color scheme', () => {
+    render(<Loader colorScheme="success" style={{ opacity: 0.5 }} />)
     expect(screen.getByRole('status')).toHaveStyle({
-      '--loader-color': 'var(--plume-color-primary-700, #2727db)',
+      '--loader-color': 'var(--plume-color-success-text)',
       opacity: '0.5',
     })
   })

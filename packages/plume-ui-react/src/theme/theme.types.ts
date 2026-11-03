@@ -62,11 +62,6 @@ export interface ColorPalette {
   warning: ShadeLevel
   error: ShadeLevel
   success: ShadeLevel
-  brown: ShadeLevel
-  pink: ShadeLevel
-  purple: ShadeLevel
-  teal: ShadeLevel
-  yellow: ShadeLevel
 }
 
 export interface Typography {

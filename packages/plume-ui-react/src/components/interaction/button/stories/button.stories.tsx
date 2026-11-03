@@ -146,11 +146,6 @@ export const Colors: Story = {
       <Button colorScheme='warning'>Warning Button</Button>
       <Button colorScheme='error'>Error Button</Button>
       <Button colorScheme='success'>Success Button</Button>
-      <Button colorScheme='brown'>Brown Button</Button>
-      <Button colorScheme='pink'>Pink Button</Button>
-      <Button colorScheme='purple'>Purple Button</Button>
-      <Button colorScheme='teal'>Teal Button</Button>
-      <Button colorScheme='yellow'>Yellow Button</Button>
     </div>
   ),
 }

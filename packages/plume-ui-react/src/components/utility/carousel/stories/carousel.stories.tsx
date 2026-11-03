@@ -19,10 +19,10 @@ const gradient = (from: string, to: string): string =>
   `linear-gradient(135deg, var(--plume-color-${from}-solid), var(--plume-color-${to}-solid))`
 
 const slides = [
-  { background: gradient('primary', 'purple'), caption: 'Above the clouds', title: 'Mountains' },
-  { background: gradient('success', 'teal'), caption: 'A walk under the trees', title: 'Forest' },
-  { background: gradient('error', 'brown'), caption: 'Sand, heat and wind', title: 'Desert' },
-  { background: gradient('pink', 'purple'), caption: 'Cut by a river', title: 'Canyon' },
+  { background: gradient('primary', 'info'), caption: 'Above the clouds', title: 'Mountains' },
+  { background: gradient('success', 'info'), caption: 'A walk under the trees', title: 'Forest' },
+  { background: gradient('warning', 'error'), caption: 'Sand, heat and wind', title: 'Desert' },
+  { background: gradient('error', 'secondary'), caption: 'Cut by a river', title: 'Canyon' },
 ]
 
 const frame = { maxWidth: '100%', width: '28rem' }

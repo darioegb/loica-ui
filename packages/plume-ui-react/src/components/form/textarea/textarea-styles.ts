@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import type { ColorScheme, Shape, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import type { TextareaResize, TextareaVariant } from './textarea-types'
 import styles from './textarea.module.css'
 
@@ -38,7 +39,7 @@ export const textareaFieldClasses = ({
 
 export const textareaColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--textarea-color': `var(--plume-color-${colorScheme}-text)`,
+    '--textarea-color': schemeVar(colorScheme, 'text'),
     ...style,
   }) as CSSProperties
 

@@ -4,10 +4,6 @@ import { defaultTheme } from '../../../../theme'
 import { Loader } from '..'
 
 const colors = defaultTheme.colors
-const allKeys: string[] = Object.keys(colors).flatMap((colorScheme) => [
-  colorScheme,
-  ...Object.keys(colors[colorScheme as ColorScheme]).map((shade) => `${colorScheme}.${shade}`),
-])
 
 /**
  * The Loader shows that something is on its way: data that is loading or an action in progress.
@@ -31,7 +27,7 @@ export default {
     layout: 'centered',
   },
   argTypes: {
-    colorScheme: { control: 'select', options: allKeys },
+    colorScheme: { control: 'select', options: Object.keys(colors) },
     className: { control: 'text' },
     label: { control: 'text' },
     size: { control: 'radio', options: ['sm', 'md', 'lg'] },
@@ -99,8 +95,8 @@ export const Sizes: Story = {
 }
 
 /**
- * Use the **colorScheme** prop to color the Loader with any color of the theme, or with a shade
- * (`primary.700`). Every variant takes the color the same way.
+ * Use the **colorScheme** prop to color the Loader with any color scheme of the theme. Every variant
+ * takes the color the same way.
  */
 export const Colors: Story = {
   parameters: {

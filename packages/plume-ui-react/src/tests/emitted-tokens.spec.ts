@@ -1,5 +1,6 @@
 import path from 'node:path'
 import { getEmittedTokens } from '../../scripts/emitted-tokens'
+import { defaultTheme } from '../theme/config'
 
 describe('getEmittedTokens', () => {
   const emitted = getEmittedTokens(path.join(__dirname, '..'))
@@ -10,10 +11,11 @@ describe('getEmittedTokens', () => {
     expect(emitted).toContain('--plume-z-modal')
   })
 
-  it('has the tokens of a color scheme that a component reads by its name', () => {
-    expect(emitted).toContain('--plume-color-teal-solid')
-    expect(emitted).toContain('--plume-color-teal-tint-text')
-    expect(emitted).not.toContain('--plume-color-teal-300')
+  it('has every color of every color scheme, which a component reads by its name', () => {
+    for (const scheme of Object.keys(defaultTheme.colors)) {
+      expect(emitted).toContain(`--plume-color-${scheme}-solid`)
+      expect(emitted).toContain(`--plume-color-${scheme}-tint-text`)
+    }
   })
 
   it('has what a token resolves to', () => {
@@ -27,7 +29,6 @@ describe('getEmittedTokens', () => {
   })
 
   it('leaves out the rest', () => {
-    expect(emitted).not.toContain('--plume-color-primary-300')
     expect(emitted).not.toContain('--plume-space-48')
     expect(emitted).not.toContain('--plume-container-7xl')
     expect(emitted).not.toContain('--plume-font-family-mono')

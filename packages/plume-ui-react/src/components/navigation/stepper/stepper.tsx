@@ -5,6 +5,7 @@ import { Children, forwardRef, useMemo } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import { useLabels } from '../../../locale/locale-provider'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import {
   StepIndexContext,
   StepperContext,
@@ -66,10 +67,10 @@ const DEFAULT_LABELS: StepperLabels = {
 
 const stepperColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--stepper-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--stepper-contrast': `var(--plume-color-${colorScheme}-solid-contrast)`,
-    '--stepper-text': `var(--plume-color-${colorScheme}-text)`,
-    '--stepper-tint': `var(--plume-color-${colorScheme}-tint)`,
+    '--stepper-solid': schemeVar(colorScheme, 'solid'),
+    '--stepper-contrast': schemeVar(colorScheme, 'solid-contrast'),
+    '--stepper-text': schemeVar(colorScheme, 'text'),
+    '--stepper-tint': schemeVar(colorScheme, 'tint'),
     ...style,
   }) as CSSProperties
 

@@ -5,6 +5,10 @@ import { defaultTheme } from '../theme/config'
 describe('buildTailwindCss', () => {
   const css = buildTailwindCss(path.join(__dirname, '..'))
 
+  it('has no utility for the shades of a color scheme, which are not variables', () => {
+    expect(css).not.toMatch(/--color-primary(-\d+)?:/)
+  })
+
   it('points the utilities to the variables of Plume with an inline theme', () => {
     expect(css.startsWith('@theme inline {')).toBe(true)
     expect(css).toContain('--color-primary-solid: var(--plume-color-primary-solid);')
@@ -22,7 +26,7 @@ describe('buildTailwindCss', () => {
   })
 
   it('gives the default value to the variables that tokens.css does not declare', () => {
-    expect(css).toContain('--color-primary-300: var(--plume-color-primary-300, #9bb4ff);')
+    expect(css).toContain('--plume-font-family-mono, ui-monospace')
     expect(css).toContain('--container-7xl: var(--plume-container-7xl, 80rem);')
   })
 

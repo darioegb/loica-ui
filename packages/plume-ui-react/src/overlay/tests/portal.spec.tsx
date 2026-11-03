@@ -33,7 +33,7 @@ describe('Portal', () => {
 
   it('renders into the theme root so the content inherits the tokens', () => {
     render(
-      <ThemeProvider applyToBody={false} theme={{ colors: { primary: { 500: '#ff0000' } } }}>
+      <ThemeProvider applyToBody={false} theme={{ colors: { primary: { 100: '#ff0000' } } }}>
         <Portal>
           <p>portaled</p>
         </Portal>
@@ -41,7 +41,7 @@ describe('Portal', () => {
     )
     const root = screen.getByText('portaled').closest('.plume-root') as HTMLElement
     expect(root).not.toBeNull()
-    expect(root).toHaveStyle('--plume-color-primary-500: #ff0000')
+    expect(root).toHaveStyle('--plume-color-primary-tint: #ff0000')
     expect(root).toHaveAttribute('data-plume-color-mode', 'light')
   })
 

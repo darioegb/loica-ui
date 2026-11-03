@@ -152,7 +152,7 @@ export const Colors: Story = {
       source: {
         code: `<NumberInput aria-label="primary" colorScheme="primary" defaultValue={1} />
 <NumberInput aria-label="success" colorScheme="success" defaultValue={1} />
-<NumberInput aria-label="purple" colorScheme="purple" defaultValue={1} />`,
+<NumberInput aria-label="warning" colorScheme="warning" defaultValue={1} />`,
       },
     },
   },

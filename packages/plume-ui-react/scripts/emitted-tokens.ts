@@ -5,8 +5,6 @@ import { getDefaultCssVars } from '../src/theme/default-css-vars'
 const SKIPPED_FOLDERS = new Set(['tests', 'stories'])
 const NAME = '[a-z0-9]+(?:-[a-z0-9]+)*'
 const REFERENCE = new RegExp(`--plume-${NAME}`, 'g')
-const SCHEME_REFERENCE = new RegExp(`--plume-color-\\$\\{[^}]*\\}-(${NAME})`, 'g')
-const SCHEME_TOKEN = new RegExp(`^--plume-color-[a-z0-9]+-(${NAME})$`)
 const NESTED_REFERENCE = new RegExp(`var\\((--plume-${NAME})\\)`, 'g')
 
 /**
@@ -29,23 +27,19 @@ function readSources(srcDir: string): string {
 /**
  * The tokens `tokens.css` declares: the ones the components read, plus what those resolve to
  * (`--plume-text-heading-2-size` is `var(--plume-font-size-3xl)`), plus the ones that change with
- * the color mode, so a framework theme built on them follows it. The rest of the default theme
- * (the other shades, the long spaces scale...) is not declared; a `<ThemeProvider>` still emits
- * any of them as soon as its theme changes the value.
- *
- * The color schemes are read by `var(--plume-color-${colorScheme}-solid)`, so a suffix found there
- * brings that token of every scheme.
+ * the color mode, so a framework theme built on them follows it, plus every color of every scheme,
+ * because a `colorScheme` takes any of them at runtime through `schemeVar`. The rest of the default
+ * theme (the long spaces scale, the largest containers...) is not declared; a `<ThemeProvider>`
+ * still emits any of them as soon as its theme changes the value.
  */
 export function getEmittedTokens(srcDir: string): Set<string> {
   const source = readSources(srcDir)
   const light = getDefaultCssVars('light')
   const dark = getDefaultCssVars('dark')
-  const schemeSuffixes = new Set([...source.matchAll(SCHEME_REFERENCE)].map((match) => match[1]))
 
   const emitted = new Set((source.match(REFERENCE) ?? []).filter((name) => name in light))
   for (const name of Object.keys(light)) {
-    const suffix = SCHEME_TOKEN.exec(name)?.[1]
-    if (light[name] !== dark[name] || (suffix && schemeSuffixes.has(suffix))) emitted.add(name)
+    if (light[name] !== dark[name] || name.startsWith('--plume-color-')) emitted.add(name)
   }
 
   const pending = [...emitted]
