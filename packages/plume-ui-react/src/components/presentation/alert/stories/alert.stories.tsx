@@ -371,34 +371,34 @@ export const Tailwind: Story = {
     docs: {
       source: {
         code: `<Alert
-  className="w-[28rem] max-w-full rounded-lg border-l-4 border-blue-700 bg-blue-50 text-blue-900"
+  className="w-[28rem] max-w-full rounded-lg border-l-4 border-blue-700 bg-blue-50 text-blue-900 dark:border-blue-400 dark:bg-blue-950 dark:text-blue-100"
   status="info"
   style={{ padding: '0.75rem 1rem' }}
   variant="unstyled"
 >
-  <AlertIcon className="text-blue-700" />
+  <AlertIcon className="text-blue-700 dark:text-blue-300" />
   <AlertContent className="text-sm">
     <AlertTitle className="font-semibold">Your trial ends tomorrow</AlertTitle>
     <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
   </AlertContent>
-  <AlertDismiss className="rounded-sm p-1 hover:bg-blue-100" />
+  <AlertDismiss className="rounded-sm p-1 hover:bg-blue-100 dark:hover:bg-blue-900" />
 </Alert>`,
       },
     },
   },
   render: () => (
     <Alert
-      className="w-[28rem] max-w-full rounded-lg border-l-4 border-blue-700 bg-blue-50 text-blue-900"
+      className="w-[28rem] max-w-full rounded-lg border-l-4 border-blue-700 bg-blue-50 text-blue-900 dark:border-blue-400 dark:bg-blue-950 dark:text-blue-100"
       status="info"
       style={{ padding: '0.75rem 1rem' }}
       variant="unstyled"
     >
-      <AlertIcon className="text-blue-700" />
+      <AlertIcon className="text-blue-700 dark:text-blue-300" />
       <AlertContent className="text-sm">
         <AlertTitle className="font-semibold">Your trial ends tomorrow</AlertTitle>
         <AlertDescription>Choose a plan to keep your projects.</AlertDescription>
       </AlertContent>
-      <AlertDismiss className="rounded-sm p-1 hover:bg-blue-100" />
+      <AlertDismiss className="rounded-sm p-1 hover:bg-blue-100 dark:hover:bg-blue-900" />
     </Alert>
   ),
 }

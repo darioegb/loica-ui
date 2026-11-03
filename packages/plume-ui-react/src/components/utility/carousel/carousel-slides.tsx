@@ -4,6 +4,7 @@ import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
 import { Children, forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import { mergeRefs } from '../../../overlay/trigger'
+import { useIsomorphicLayoutEffect } from '../../../overlay/use-isomorphic-layout-effect'
 import { useMediaQuery } from '../../../overlay/use-media-query'
 import type { ComponentProps } from '../../../theme'
 import { CarouselSlideIndexContext, useCarouselContext } from './carousel-context'
@@ -51,6 +52,19 @@ export const CarouselSlides = forwardRef<HTMLDivElement, CarouselSlidesProps>(
     const frame = useRef<number | undefined>(undefined)
 
     useEffect(() => setCount(count), [count, setCount])
+
+    // The slides turn inert as the index changes, so focus inside the old one would drop to the body.
+    const refocus = useRef(false)
+    useIsomorphicLayoutEffect(() => {
+      const focused = document.activeElement
+      refocus.current =
+        !!scroller?.contains(focused) && !scroller.children.item(index)?.contains(focused)
+    }, [index, scroller])
+    useEffect(() => {
+      if (!refocus.current) return
+      refocus.current = false
+      ;(scroller?.children.item(index) as HTMLElement | null)?.focus({ preventScroll: true })
+    }, [index, scroller])
 
     useEffect(() => {
       if (!scroller || settled.current === index) return

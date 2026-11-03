@@ -108,10 +108,10 @@ describe('Carousel component', () => {
       expect(screen.getByRole('tabpanel', { name: 'Custom' })).toBeInTheDocument()
     })
 
-    it('lets only the visible slide be focused, so the strip can be scrolled with the keyboard', () => {
+    it('puts only the visible slide in the tab order, so the strip can be scrolled with the keyboard', () => {
       render(<Demo />)
       expect(slide(1)).toHaveAttribute('tabindex', '0')
-      expect(slide(2)).not.toHaveAttribute('tabindex')
+      expect(slide(2)).toHaveAttribute('tabindex', '-1')
     })
 
     it('shows only the first slide to assistive technology and the keyboard', () => {
@@ -332,6 +332,23 @@ describe('Carousel component', () => {
       await vi.waitFor(() => expect(onIndexChange).toHaveBeenCalledWith(2))
       expect(slide(3)).not.toHaveAttribute('inert')
       expect(scrollTo).not.toHaveBeenCalled()
+    })
+
+    it('keeps focus on the visible slide when the keyboard scrolls the strip', async () => {
+      render(<Demo />)
+      act(() => slide(1).focus())
+      mockPositions(1)
+      fireEvent.scroll(scroller())
+      await vi.waitFor(() => expect(slide(2)).toHaveFocus())
+    })
+
+    it('leaves focus alone when it is outside the slides', async () => {
+      render(<Demo />)
+      act(() => next().focus())
+      mockPositions(1)
+      fireEvent.scroll(scroller())
+      await vi.waitFor(() => expect(slide(2)).not.toHaveAttribute('inert'))
+      expect(next()).toHaveFocus()
     })
 
     it('ignores the scroll it caused itself, until it ends', async () => {

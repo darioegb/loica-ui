@@ -479,6 +479,14 @@ describe('Select component', () => {
       expect(screen.queryByRole('listbox')).toBeNull()
     })
 
+    it('moves focus to the combobox when the keyboard removes a chip', async () => {
+      render(<Example defaultValue={['apple', 'banana']} multiple />)
+      await userEvent.tab()
+      await userEvent.keyboard('{Enter}')
+      expect(chips()).toEqual(['Banana'])
+      expect(trigger()).toHaveFocus()
+    })
+
     it('has no remove buttons when it is disabled or read only', () => {
       const { rerender } = render(<Example defaultValue={['apple']} disabled multiple />)
       expect(chips()).toEqual([])
@@ -616,6 +624,7 @@ describe('Select component', () => {
       expect(onValueChange).toHaveBeenCalledWith('')
       expect(trigger()).toHaveTextContent('Pick a fruit')
       expect(screen.queryByRole('button', { name: 'Clear' })).toBeNull()
+      expect(trigger()).toHaveFocus()
     })
 
     it('has no clear button when there is no value or it is not clearable', () => {

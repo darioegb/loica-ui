@@ -270,7 +270,7 @@ export const Tailwind: Story = {
   <Text className="text-sm leading-6 text-muted" variant="unstyled">
     With utilities of Tailwind
   </Text>
-  <Text as="span" className="rounded-full bg-primary-solid px-3 py-0.5 text-xs text-primary-on-solid" variant="unstyled">
+  <Text as="span" className="self-start rounded-full bg-primary-solid px-3 py-0.5 text-xs text-primary-on-solid" variant="unstyled">
     Badge-like
   </Text>
 </div>`,
@@ -287,7 +287,7 @@ export const Tailwind: Story = {
       </Text>
       <Text
         as="span"
-        className="rounded-full bg-primary-solid px-3 py-0.5 text-xs text-primary-on-solid"
+        className="self-start rounded-full bg-primary-solid px-3 py-0.5 text-xs text-primary-on-solid"
         variant="unstyled"
       >
         Badge-like
@@ -310,7 +310,7 @@ export const Bootstrap: Story = {
   <Text className="small text-body-secondary" variant="unstyled">
     A small, secondary paragraph
   </Text>
-  <Text as="span" className="badge text-bg-primary" variant="unstyled">
+  <Text as="span" className="badge text-bg-primary align-self-start" variant="unstyled">
     Badge
   </Text>
 </div>`,
@@ -325,7 +325,7 @@ export const Bootstrap: Story = {
       <Text className="small text-body-secondary" variant="unstyled">
         A small, secondary paragraph
       </Text>
-      <Text as="span" className="badge text-bg-primary" variant="unstyled">
+      <Text as="span" className="badge text-bg-primary align-self-start" variant="unstyled">
         Badge
       </Text>
     </div>
