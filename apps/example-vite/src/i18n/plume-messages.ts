@@ -3,7 +3,6 @@ import type { PlumeMessages } from "plume-ui-react";
 
 export function plumeMessages(t: TFunction): PlumeMessages {
   return {
-    alert: { dismiss: t("plume.alert.dismiss") },
     avatar: {
       away: t("plume.avatar.away"),
       busy: t("plume.avatar.busy"),
@@ -14,7 +13,7 @@ export function plumeMessages(t: TFunction): PlumeMessages {
       overflow: (hidden) => t("plume.avatarGroup.overflow", { hidden }),
     },
     breadcrumb: { breadcrumb: t("plume.breadcrumb.breadcrumb") },
-    button: { busy: t("plume.button.busy") },
+    close: { label: t("plume.close.label") },
     datePicker: {
       apply: t("plume.datePicker.apply"),
       calendar: t("plume.datePicker.calendar"),
@@ -27,8 +26,8 @@ export function plumeMessages(t: TFunction): PlumeMessages {
       previousYears: t("plume.datePicker.previousYears"),
     },
     input: { reveal: t("plume.input.reveal") },
+    loader: { label: t("plume.loader.label") },
     navbarToggle: { label: t("plume.navbarToggle.label") },
-    overlayClose: { label: t("plume.overlayClose.label") },
     paginator: {
       first: t("plume.paginator.first"),
       last: t("plume.paginator.last"),
@@ -51,7 +50,6 @@ export function plumeMessages(t: TFunction): PlumeMessages {
       search: t("plume.select.search"),
     },
     sidebarToggle: { label: t("plume.sidebarToggle.label") },
-    table: { loading: t("plume.table.loading") },
     textarea: {
       count: (current, max) =>
         max === undefined
@@ -61,7 +59,6 @@ export function plumeMessages(t: TFunction): PlumeMessages {
         t("plume.textarea.remaining", { count: remaining }),
     },
     toast: {
-      dismiss: t("plume.toast.dismiss"),
       region: t("plume.toast.region"),
     },
   };

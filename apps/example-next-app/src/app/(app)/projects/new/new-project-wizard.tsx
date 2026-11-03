@@ -245,7 +245,7 @@ export function NewProjectWizard({
               >
                 {t('back')}
               </Button>
-              <Button busy={pending} busyText="…" type="submit">
+              <Button loading={pending} loadingText="…" type="submit">
                 {isLast ? t('create') : t('continue')}
               </Button>
             </div>

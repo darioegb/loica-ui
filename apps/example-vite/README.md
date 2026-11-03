@@ -48,7 +48,7 @@ to serve `index.html` for client-side routes such as `/projects`.
   custom `salmon` color scheme (the visibility badge of the project detail uses it), and `src/plume-ui.d.ts` extends `ColorPalette`
   (see [Colors › Customization](https://darioegb.github.io/plume-ui-react/?path=/docs/theme-colors--docs)).
 
-It installs `plume-ui-react` `^0.47.0` from npm.
+It installs `plume-ui-react` `^0.61.0` from npm.
 
 ## Plume with Bootstrap 5
 

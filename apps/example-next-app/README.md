@@ -1,7 +1,7 @@
 # Plume UI React — Next.js App Router example
 
 A [Next.js](https://nextjs.org) **App Router** app that consumes the **published npm
-package** (`plume-ui-react` `^0.47.0`, the 1.0 contract: parts, `unstyled`, `@layer plume`,
+package** (`plume-ui-react` `^0.61.0`, the 1.0 contract: parts, `unstyled`, `@layer plume`,
 `labels` and `LocaleProvider`) next to **Tailwind CSS 4**. It is a small project dashboard ("Plume Projects") with a
 simulated sign in, a sidebar, a top bar and a dashboard, and it shows that
 `<ThemeProvider>` is **SSR/RSC-safe**: the theme is serialized to CSS variables and

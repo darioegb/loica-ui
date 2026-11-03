@@ -279,7 +279,7 @@ export function NewProjectDrawer({
             >
               {t("newProject.cancel")}
             </Button>
-            <Button busy={isSubmitting} busyText="…" type="submit">
+            <Button loading={isSubmitting} loadingText="…" type="submit">
               {t("newProject.submit")}
             </Button>
           </DrawerFooter>
