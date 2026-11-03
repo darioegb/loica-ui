@@ -1,5 +1,22 @@
 # plume-ui-react
 
+## 0.62.0
+
+### Minor Changes
+
+- [#317](https://github.com/darioegb/plume-ui-react/pull/317) [`46ee01e37b51529eb48dca3aec13983129852eea`](https://github.com/darioegb/plume-ui-react/commit/46ee01e37b51529eb48dca3aec13983129852eea) Thanks [@darioegb](https://github.com/darioegb)! - `DropdownGroup` gathers related items of a `DropdownMenu` with `role="group"`, named by its `DropdownLabel` or its `label`, so a screen reader announces the title when the focus enters it. The `DropdownTrigger` points to the open menu with `aria-controls`.
+
+  A `Tree` with `selection="multiple"` selects ranges: <kbd>Shift</kbd> with the arrows, <kbd>Space</kbd> or a click, <kbd>Ctrl</kbd> <kbd>Shift</kbd> with <kbd>Home</kbd> or <kbd>End</kbd>, and <kbd>Ctrl</kbd> or <kbd>⌘</kbd> with <kbd>A</kbd> for every visible item.
+
+  `CarouselPlayPause` can be written before the `CarouselSlides`, to be the first stop of the Tab order as the WAI-ARIA carousel pattern asks, and the Carousel still shows it under the slides. The examples do so.
+
+### Patch Changes
+
+- [#317](https://github.com/darioegb/plume-ui-react/pull/317) [`bc737cd0a98670087ce2f68350ae27d43dac3279`](https://github.com/darioegb/plume-ui-react/commit/bc737cd0a98670087ce2f68350ae27d43dac3279) Thanks [@darioegb](https://github.com/darioegb)! - Keyboard focus no longer drops to the page when a `Select` chip is removed or the value is cleared, or when the arrow
+  keys scroll a `Carousel` with focus on a slide. An unstyled `Paginator` in a container sized to its content keeps all
+  its pages instead of dropping them one by one. The `filled` `Select` and `NumberInput` darken on hover like the other
+  filled fields.
+
 ## 0.61.0
 
 ### Minor Changes
