@@ -160,14 +160,15 @@ Copy it into the pull request description.
 **API**
 - [ ] `<Name>OwnProps` documented, and `<Name>Props` adds every native attribute of the root element
 - [ ] `forwardRef` and `displayName`; `className` and `style` work
-- [ ] Has variants (`solid` and `outline` at least, when it makes sense) and a `Variants` story with one example per variant, `unstyled` included
+- [ ] Has variants (`solid` and `outline` at least, when it makes sense) and a `Variants` story with one example per variant, `unstyled` included and bare
 - [ ] `unstyled` is usable: the root and every part can take a class and keep the structure they need, and there are `Tailwind` and `Bootstrap` stories that prove it, in light and dark mode
 - [ ] `variant="unstyled"` leaves only the user's classes
 - [ ] Parts only where the user composes; they are separate prefixed exports, with a context and a hook that throws outside the root (a presentational one holds only `isStyled`, and the root's CSS variables do the rest)
 - [ ] Form controls accept `FieldControlProps` on the real element and forward the ref
 
 **Styling**
-- [ ] Only `--plume-*` tokens and local variables, no color math in JavaScript
+- [ ] Only `--plume-*` tokens and local variables, no color math in JavaScript; colors come from `schemeVar(colorScheme, ...)`
+- [ ] Every scale value the CSS reads exists in the theme; a missing one is added to the scale, and one no component reads any more is removed (`src/tests/unread-tokens.spec.ts`)
 - [ ] A measure is a theme token only when several components share it or it is part of a scale (`--plume-space-*`, `--plume-container-*`); the size of one component is a local variable with a default (`--sidebar-width`), documented in its story if the user can override it
 - [ ] Media queries use the named breakpoints, `@media (--md)` and `@media (--below-md)` (`sm`, `md`, `lg`, `xl`, `2xl`), which the build writes from `defaultTheme.breakpoints`; stylelint rejects a literal width
 - [ ] No literal `rem` in `padding`, `margin` or `gap`, no literal `font-size`, `z-index` of 10 or more, or transition time under a second: use `--plume-space-*`, `--plume-font-size-*`, `--plume-z-*` and `--plume-duration-*` (`pnpm lint` runs stylelint on the `*.module.css`)

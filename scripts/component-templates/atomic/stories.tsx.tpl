@@ -76,7 +76,7 @@ export const Variants: Story = {
   render: () => (
     <div className='flex flex-wrap justify-center items-center gap-4'>
       <__Name__ variant='solid'>Solid</__Name__>
-      <__Name__ className='px-3 py-1 rounded bg-black text-white' variant='unstyled'>
+      <__Name__ variant='unstyled'>
         Unstyled
       </__Name__>
     </div>
