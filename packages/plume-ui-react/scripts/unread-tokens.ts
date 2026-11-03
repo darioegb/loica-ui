@@ -27,7 +27,7 @@ function readSources(srcDir: string): string {
 /**
  * The tokens of the default theme that no component reads, directly or through another token
  * (`--plume-text-heading-2-size` is `var(--plume-font-size-3xl)`). The theme keeps only what the
- * components use, so this list is empty, and a token a change stops reading shows up here. The
+ * components use, so a token a change stops reading shows up here. The
  * colors of a scheme are left out: a component reads them by the name of its `colorScheme`, through
  * `schemeVar`, and `SchemeToken` lists the ones that exist.
  */
