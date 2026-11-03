@@ -312,6 +312,14 @@ describe('Table component', () => {
       expect(screen.getByRole('region', { name: 'Users' })).toBe(container.firstChild)
     })
 
+    it('marks the box that scrolls', () => {
+      const { container } = render(<Demo />)
+      expect(container.firstChild).not.toHaveAttribute('data-scrollable')
+      width = 300
+      act(() => observe?.())
+      expect(container.firstChild).toHaveAttribute('data-scrollable')
+    })
+
     it('can be named by another element', () => {
       width = 300
       render(

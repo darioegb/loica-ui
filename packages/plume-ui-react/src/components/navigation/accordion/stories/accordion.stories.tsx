@@ -464,7 +464,9 @@ export const Compound: Story = {
         <AccordionHeading level={2}>
           <AccordionTrigger>
             <AccordionIcon>
-              <span>▸</span>
+              <svg aria-hidden="true" fill="currentColor" height="1em" viewBox="0 0 24 24" width="1em">
+                <path d="m9 6 7 6-7 6Z" />
+              </svg>
             </AccordionIcon>
             <AccordionTitle>The icon goes first</AccordionTitle>
           </AccordionTrigger>

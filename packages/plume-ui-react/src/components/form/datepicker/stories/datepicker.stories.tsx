@@ -813,7 +813,7 @@ export const Bootstrap: Story = {
                 <DatePickerMonths className="gap-1">
                   {(month) => (
                     <DatePickerMonthOption
-                      className={\`btn btn-sm \${month.selected ? 'btn-primary' : 'btn-outline-secondary border-0'}\`}
+                      className={\`btn btn-sm \${month.selected ? 'btn-primary' : 'border-0 text-body'}\`}
                       key={month.index}
                       month={month}
                     />
@@ -826,7 +826,7 @@ export const Bootstrap: Story = {
                 <DatePickerYears className="gap-1">
                   {(year) => (
                     <DatePickerYearOption
-                      className={\`btn btn-sm \${year.selected ? 'btn-primary' : 'btn-outline-secondary border-0'}\`}
+                      className={\`btn btn-sm \${year.selected ? 'btn-primary' : 'border-0 text-body'}\`}
                       key={year.value}
                       year={year}
                     />
@@ -840,7 +840,7 @@ export const Bootstrap: Story = {
                 <DatePickerGrid className="gap-1">
                   {(day) => (
                     <DatePickerDay
-                      className={\`btn btn-sm p-0 mx-auto rounded-circle border-0 d-flex align-items-center justify-content-center \${day.isSelected ? 'btn-primary' : 'btn-outline-secondary'} \${day.isCurrentMonth ? '' : 'opacity-25'} \${day.isToday ? 'fw-bold' : ''}\`}
+                      className={\`btn btn-sm p-0 mx-auto rounded-circle border-0 d-flex align-items-center justify-content-center \${day.isSelected ? 'btn-primary' : 'text-body'} \${day.isCurrentMonth ? '' : 'opacity-25'} \${day.isToday ? 'fw-bold' : ''}\`}
                       day={day}
                       key={day.dataDate}
                       style={{ height: '2.25rem', width: '2.25rem' }}
@@ -882,7 +882,7 @@ export const Bootstrap: Story = {
                     <DatePickerMonths className='gap-1'>
                       {(month) => (
                         <DatePickerMonthOption
-                          className={`btn btn-sm ${month.selected ? 'btn-primary' : 'btn-outline-secondary border-0'}`}
+                          className={`btn btn-sm ${month.selected ? 'btn-primary' : 'border-0 text-body'}`}
                           key={month.index}
                           month={month}
                         />
@@ -895,7 +895,7 @@ export const Bootstrap: Story = {
                     <DatePickerYears className='gap-1'>
                       {(year) => (
                         <DatePickerYearOption
-                          className={`btn btn-sm ${year.selected ? 'btn-primary' : 'btn-outline-secondary border-0'}`}
+                          className={`btn btn-sm ${year.selected ? 'btn-primary' : 'border-0 text-body'}`}
                           key={year.value}
                           year={year}
                         />
@@ -909,7 +909,7 @@ export const Bootstrap: Story = {
                     <DatePickerGrid className='gap-1'>
                       {(day) => (
                         <DatePickerDay
-                          className={`btn btn-sm p-0 mx-auto rounded-circle border-0 d-flex align-items-center justify-content-center ${day.isSelected ? 'btn-primary' : 'btn-outline-secondary'} ${day.isCurrentMonth ? '' : 'opacity-25'} ${day.isToday ? 'fw-bold' : ''}`}
+                          className={`btn btn-sm p-0 mx-auto rounded-circle border-0 d-flex align-items-center justify-content-center ${day.isSelected ? 'btn-primary' : 'text-body'} ${day.isCurrentMonth ? '' : 'opacity-25'} ${day.isToday ? 'fw-bold' : ''}`}
                           day={day}
                           key={day.dataDate}
                           style={{ height: '2.25rem', width: '2.25rem' }}

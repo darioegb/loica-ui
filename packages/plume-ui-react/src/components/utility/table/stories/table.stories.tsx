@@ -25,6 +25,12 @@ import {
   useTableState,
 } from '..'
 
+const sortIcon = (
+  <svg aria-hidden="true" fill="currentColor" height="0.75em" viewBox="0 0 24 24" width="0.75em">
+    <path d="M12 5 21 19H3Z" />
+  </svg>
+)
+
 const people = [
   { age: 36, name: 'Ada Lovelace', role: 'Mathematician' },
   { age: 45, name: 'Grace Hopper', role: 'Rear admiral' },
@@ -1235,7 +1241,9 @@ export const Empty: Story = {
 
 /**
  * With **stickyHeader** and **maxHeight** the header stays in view while the body scrolls inside the box. Because
- * the box scrolls, it can be focused to scroll it with the keyboard.
+ * the box scrolls, it can be focused to scroll it with the keyboard. A box that scrolls has an opaque background,
+ * the page's by default: set `--table-background` on the Table (or on a parent) when it sits on another surface, such
+ * as `--table-background: var(--plume-surface)` inside a card.
  */
 export const StickyHeader: Story = {
   parameters: {
@@ -1370,7 +1378,7 @@ export const Compound: Story = {
         <TableHead sort="ascending">
           <TableHeadSort onClick={sortByName}>
             Name
-            <TableHeadSortIcon>▲</TableHeadSortIcon>
+            <TableHeadSortIcon>{sortIcon}</TableHeadSortIcon>
           </TableHeadSort>
         </TableHead>
         <TableHead>Role</TableHead>
@@ -1395,7 +1403,7 @@ export const Compound: Story = {
             <TableHead sort="ascending">
               <TableHeadSort>
                 Name
-                <TableHeadSortIcon>▲</TableHeadSortIcon>
+                <TableHeadSortIcon>{sortIcon}</TableHeadSortIcon>
               </TableHeadSort>
             </TableHead>
             <TableHead>Role</TableHead>

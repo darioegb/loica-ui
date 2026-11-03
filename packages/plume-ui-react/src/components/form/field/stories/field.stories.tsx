@@ -837,7 +837,8 @@ export const Tailwind: Story = {
 
 /**
  * A Field with Bootstrap classes: `form-label`, `form-text` and `invalid-feedback` on the parts, and `form-control`
- * with `is-invalid` on the control.
+ * with `is-invalid` on the control. The `backgroundImage: 'none'` drops the red icon that `is-invalid` draws inside
+ * the input, which tools that check the contrast can't see through.
  */
 export const Bootstrap: Story = {
   parameters: {
@@ -845,7 +846,7 @@ export const Bootstrap: Story = {
       source: {
         code: `<Field invalid variant="unstyled">
   <FieldLabel className="form-label">Email</FieldLabel>
-  <Input className="form-control is-invalid" type="email" variant="unstyled" />
+  <Input className="form-control is-invalid" defaultValue="name@" style={{ backgroundImage: 'none' }} type="email" variant="unstyled" />
   <FieldHelperText className="form-text">We'll never share your email.</FieldHelperText>
   <FieldErrorText className="invalid-feedback d-block">Enter a valid email address.</FieldErrorText>
 </Field>`,
@@ -855,7 +856,7 @@ export const Bootstrap: Story = {
   render: () => (
     <Field invalid variant='unstyled'>
       <FieldLabel className='form-label'>Email</FieldLabel>
-      <Input className='form-control is-invalid' type='email' variant='unstyled' />
+      <Input className='form-control is-invalid' defaultValue='name@' style={{ backgroundImage: 'none' }} type='email' variant='unstyled' />
       <FieldHelperText className='form-text'>We&apos;ll never share your email.</FieldHelperText>
       <FieldErrorText className='invalid-feedback d-block'>Enter a valid email address.</FieldErrorText>
     </Field>

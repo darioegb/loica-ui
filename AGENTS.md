@@ -52,8 +52,9 @@ English.
 ## While you work
 
 - Run the narrowest check while iterating: `pnpm --filter plume-ui-react exec vitest run <path>` for a spec,
-  `pnpm --filter plume-ui-react exec eslint <file>`, `pnpm --filter @plume-ui-react/docs check:api` for the JSDoc.
-  Leave the full commands below for the end.
+  `pnpm --filter plume-ui-react exec eslint <file>`, `pnpm --filter @plume-ui-react/docs check:api` for the JSDoc,
+  `pnpm --filter @plume-ui-react/docs check:a11y --url http://localhost:6006 <name>` for the stories you touched,
+  against the running `pnpm dev`. Leave the full commands below for the end.
 - `pnpm dev` starts Storybook on port 6006.
 - Skip `.claude/worktrees/` (full copies of the repository), `node_modules`, `dist`, `coverage`, `storybook-static`,
   the `*.generated.json` and `pnpm-lock.yaml` when you search or read.
@@ -66,7 +67,9 @@ pnpm test:coverage   # CI fails under 90 % coverage
 pnpm build           # includes the 'use client' check
 ```
 
-CI also runs `pnpm --filter plume-ui-react check:package` (publint and attw) after the build.
+CI also runs `pnpm --filter plume-ui-react check:package` (publint and attw) after the build, and
+`pnpm --filter @plume-ui-react/docs check:a11y` on the static Storybook (`pnpm build:docs`). The first run needs a
+browser: `pnpm --filter @plume-ui-react/docs exec playwright install chromium`.
 
 What these check, so a failure is easy to place:
 
@@ -74,6 +77,8 @@ What these check, so a failure is easy to place:
   guide compiles against the public API. Sample names a snippet uses without defining go in its `PLACEHOLDERS` or
   `DATA`.
 - `apps/docs/scripts/check-api.mjs`: every own prop and every exported part has a JSDoc description.
+- `apps/docs/scripts/check-a11y.mjs`: every story has no axe violation in light and dark mode. What keeps a story
+  measurable is in AUTHORING.md, under the story rules.
 - `packages/plume-ui-react/scripts/check-client-directives.mjs`: `'use client'` is on exactly the modules that need it.
 - `src/tests/index.spec.ts` and `src/tests/token-names.spec.ts`: the list of exports and of `--plume-*` variables, so a rename is
   always on purpose.

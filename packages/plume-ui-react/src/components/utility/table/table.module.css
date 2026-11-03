@@ -80,6 +80,11 @@
   border-radius: var(--plume-radius-3);
 }
 
+/* Axe reads the background under the text of the cells scrolled out of view from the first opaque box that covers them. */
+.container[data-scrollable] {
+  background-color: var(--table-background, var(--plume-background));
+}
+
 .table {
   color: var(--plume-foreground);
   font-family: var(--plume-font-family);

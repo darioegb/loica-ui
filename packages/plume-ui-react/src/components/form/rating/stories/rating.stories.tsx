@@ -7,6 +7,12 @@ import { LocaleProvider } from "../../../../locale";
 
 const colorSchemes = Object.keys(defaultTheme.colors);
 
+const star = (
+  <svg aria-hidden="true" fill="currentColor" height="1em" viewBox="0 0 24 24" width="1em">
+    <path d="m12 2.5 2.9 6.2 6.6.7-5 4.5 1.4 6.6L12 17.1l-5.9 3.4 1.4-6.6-5-4.5 6.6-.7Z" />
+  </svg>
+);
+
 const heart = (
   <svg
     aria-hidden="true"
@@ -472,8 +478,8 @@ export const Bootstrap: Story = {
   aria-label="Rate this product"
   className="d-inline-flex gap-1 fs-3"
   defaultValue={3}
-  emptyIcon={<span className="text-body-tertiary">★</span>}
-  icon={<span className="text-warning">★</span>}
+  emptyIcon={<span className="text-body-tertiary">{star}</span>}
+  icon={<span className="text-warning">{star}</span>}
   variant="unstyled"
 />`,
       },
@@ -484,8 +490,8 @@ export const Bootstrap: Story = {
       aria-label="Rate this product"
       className="d-inline-flex gap-1 fs-3"
       defaultValue={3}
-      emptyIcon={<span className="text-body-tertiary">★</span>}
-      icon={<span className="text-warning">★</span>}
+      emptyIcon={<span className="text-body-tertiary">{star}</span>}
+      icon={<span className="text-warning">{star}</span>}
       variant="unstyled"
     />
   ),

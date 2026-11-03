@@ -162,6 +162,8 @@ const preview: Preview = {
       config: {
         rules: [{ id: 'region', enabled: false }],
       },
+      // A busy Table has a translucent veil over its text on purpose, so axe can't measure what is under it.
+      context: { exclude: ['[data-plume-table-element][aria-busy="true"]'] },
     },
     controls: {
       matchers: {
