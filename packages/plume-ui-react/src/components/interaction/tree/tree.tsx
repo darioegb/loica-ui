@@ -127,7 +127,16 @@ export const Tree = forwardRef<HTMLDivElement, TreeProps>(
     const root = useRef<HTMLDivElement | null>(null)
     const [activeValue, setActiveValue] = useState<string | undefined>(undefined)
     const isStyled = variant !== 'unstyled'
-    const { activate, checkState, expanded, select, selected, toggleExpanded } = useTreeState({
+    const {
+      activate,
+      checkState,
+      expanded,
+      select,
+      selectAll,
+      selected,
+      selectRange,
+      toggleExpanded,
+    } = useTreeState({
       cascade,
       children,
       defaultExpanded,
@@ -144,7 +153,16 @@ export const Tree = forwardRef<HTMLDivElement, TreeProps>(
       [expanded, toggleExpanded],
     )
 
-    const onItemKeyDown = useTreeKeyboard({ activate, expanded, root, select, toggleExpanded })
+    const onItemKeyDown = useTreeKeyboard({
+      activate,
+      expanded,
+      multiple: selection === 'multiple',
+      root,
+      select,
+      selectAll,
+      selectRange,
+      toggleExpanded,
+    })
 
     useEffect(() => {
       const items = visibleItems(root.current)
@@ -165,6 +183,7 @@ export const Tree = forwardRef<HTMLDivElement, TreeProps>(
         onItemKeyDown,
         select,
         selected,
+        selectRange,
         selection,
         setActive: setActiveValue,
         size,
@@ -179,6 +198,7 @@ export const Tree = forwardRef<HTMLDivElement, TreeProps>(
         onItemKeyDown,
         select,
         selected,
+        selectRange,
         selection,
         size,
         toggleItem,

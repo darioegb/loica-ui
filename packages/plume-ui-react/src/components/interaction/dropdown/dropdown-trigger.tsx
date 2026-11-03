@@ -31,12 +31,14 @@ export const DropdownTrigger = forwardRef<HTMLElement, DropdownTriggerProps>(
     { children, className, style }: DropdownTriggerProps,
     ref: ForwardedRef<HTMLElement>,
   ): ReactElement => {
-    const { open, openMenu, setOpen, setTrigger, triggerId } = useDropdownContext('DropdownTrigger')
+    const { menuId, open, openMenu, setOpen, setTrigger, triggerId } =
+      useDropdownContext('DropdownTrigger')
     const childProps = isValidElement(children)
       ? (children.props as { className?: string; id?: string; style?: CSSProperties })
       : undefined
 
     const injected = {
+      'aria-controls': open ? menuId : undefined,
       'aria-expanded': open,
       'aria-haspopup': 'menu' as const,
       'data-open': open ? '' : undefined,

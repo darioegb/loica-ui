@@ -4,6 +4,7 @@ export {
   type DropdownProps,
   type DropdownVariant,
 } from './dropdown'
+export { DropdownGroup, type DropdownGroupOwnProps, type DropdownGroupProps } from './dropdown-group'
 export { DropdownItem, type DropdownItemOwnProps, type DropdownItemProps } from './dropdown-item'
 export { DropdownItemIcon, type DropdownItemIconProps } from './dropdown-item-icon'
 export { DropdownItemLabel, type DropdownItemLabelProps } from './dropdown-item-label'

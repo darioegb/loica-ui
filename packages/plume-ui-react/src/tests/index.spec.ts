@@ -83,6 +83,7 @@ describe('plume-ui-react', () => {
       'DrawerHeader',
       'DrawerTrigger',
       'Dropdown',
+      'DropdownGroup',
       'DropdownItem',
       'DropdownItemIcon',
       'DropdownItemLabel',

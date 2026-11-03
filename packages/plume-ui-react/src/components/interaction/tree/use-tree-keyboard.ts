@@ -36,11 +36,58 @@ const keyActions: Record<string, (context: KeyContext) => void> = {
   ' ': ({ select, value }) => select(value),
 }
 
+interface RangeContext {
+  index: number
+  items: HTMLElement[]
+  select: (value: string) => void
+  selectAll: () => void
+  selectRange: (to: string, from?: string) => void
+  value: string
+}
+
+const valueOf = (item: HTMLElement): string => item.dataset.plumeTreeValue ?? ''
+
+const extendTo = (target: HTMLElement | undefined, select: (value: string) => void): void => {
+  if (!target) return
+  target.focus()
+  select(valueOf(target))
+}
+
+const rangeTo = (
+  target: HTMLElement | undefined,
+  { selectRange, value }: RangeContext,
+): void => {
+  if (!target) return
+  target.focus()
+  selectRange(valueOf(target), value)
+}
+
+const rangeActions: Record<string, (context: RangeContext) => void> = {
+  all: ({ selectAll }) => selectAll(),
+  ArrowDown: ({ index, items, select }) => extendTo(items[index + 1], select),
+  ArrowUp: ({ index, items, select }) => extendTo(items[index - 1], select),
+  End: (context) => rangeTo(context.items[context.items.length - 1], context),
+  Home: (context) => rangeTo(context.items[0], context),
+  ' ': ({ selectRange, value }) => selectRange(value),
+}
+
+const rangeKey = (event: KeyboardEvent<HTMLElement>): string | undefined => {
+  if (event.altKey) return undefined
+  const command = event.ctrlKey || event.metaKey
+  if (command && !event.shiftKey) return event.key.toLowerCase() === 'a' ? 'all' : undefined
+  if (!event.shiftKey) return undefined
+  const keys = command ? ['End', 'Home'] : ['ArrowDown', 'ArrowUp', ' ']
+  return keys.includes(event.key) ? event.key : undefined
+}
+
 interface TreeKeyboardOptions {
   activate: (value: string, hasChildren: boolean) => void
   expanded: readonly string[]
+  multiple: boolean
   root: RefObject<HTMLElement | null>
   select: (value: string) => void
+  selectAll: () => void
+  selectRange: (to: string, from?: string) => void
   toggleExpanded: (value: string, expand: boolean) => void
 }
 
@@ -52,8 +99,11 @@ const isCharacter = (event: KeyboardEvent<HTMLElement>): boolean =>
 export function useTreeKeyboard({
   activate,
   expanded,
+  multiple,
   root,
   select,
+  selectAll,
+  selectRange,
   toggleExpanded,
 }: TreeKeyboardOptions): ItemKeyDown {
   const typed = useRef('')
@@ -66,6 +116,13 @@ export function useTreeKeyboard({
       if (event.target !== event.currentTarget) return
       const items = visibleItems(root.current)
       const index = items.indexOf(event.currentTarget)
+      const range = multiple ? rangeKey(event) : undefined
+      if (range) {
+        event.preventDefault()
+        rangeActions[range]?.({ index, items, select, selectAll, selectRange, value })
+        return
+      }
+
       const action = keyActions[event.key]
 
       if (action && !event.altKey && !event.ctrlKey && !event.metaKey) {
@@ -93,6 +150,6 @@ export function useTreeKeyboard({
       }, typeaheadDelay)
       findTypeaheadMatch(items, index, typed.current)?.focus()
     },
-    [activate, expanded, root, select, toggleExpanded],
+    [activate, expanded, multiple, root, select, selectAll, selectRange, toggleExpanded],
   )
 }

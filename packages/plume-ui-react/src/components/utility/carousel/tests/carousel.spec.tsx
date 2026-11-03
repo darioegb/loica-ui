@@ -32,6 +32,7 @@ beforeEach(() => {
 function Demo({ slides = 3, ...props }: Readonly<Partial<CarouselProps> & { slides?: number }>) {
   return (
     <Carousel aria-label="Photos" {...props}>
+      <CarouselPlayPause />
       <CarouselSlides>
         {Array.from({ length: slides }, (_, position) => (
           <CarouselSlide key={position}>Slide {position + 1}</CarouselSlide>
@@ -39,7 +40,6 @@ function Demo({ slides = 3, ...props }: Readonly<Partial<CarouselProps> & { slid
       </CarouselSlides>
       <CarouselPrev />
       <CarouselNext />
-      <CarouselPlayPause />
       <CarouselDots />
     </Carousel>
   )
@@ -439,6 +439,13 @@ describe('Carousel component', () => {
         vi.advanceTimersByTime(1000)
       })
       expect(slide(2)).not.toHaveAttribute('inert')
+    })
+
+    it('reaches the play and pause button first with Tab', async () => {
+      vi.useRealTimers()
+      render(<Demo autoplay={60000} />)
+      await userEvent.tab()
+      expect(screen.getByRole('button', { name: 'Pause the slideshow' })).toHaveFocus()
     })
 
     it('does not run for a reduced motion preference', () => {
