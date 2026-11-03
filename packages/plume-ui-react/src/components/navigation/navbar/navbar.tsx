@@ -8,6 +8,7 @@ import { useLayer } from '../../../overlay/layer'
 import { useDismiss, type DismissReason } from '../../../overlay/use-dismiss'
 import { mergeRefs } from '../../../overlay/trigger'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { NavbarContext, type NavbarBreakpoint, type NavbarVariant } from './navbar-context'
 import styles from './navbar.module.css'
 
@@ -70,13 +71,13 @@ export type NavbarProps = Omit<ComponentProps, 'index'> & NavbarRootAttributes &
 
 const navbarColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--navbar-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--navbar-contrast': `var(--plume-color-${colorScheme}-solid-contrast)`,
-    '--navbar-solid-active': `var(--plume-color-${colorScheme}-solid-active)`,
-    '--navbar-solid-hover': `var(--plume-color-${colorScheme}-solid-hover)`,
-    '--navbar-text': `var(--plume-color-${colorScheme}-text)`,
-    '--navbar-tint': `var(--plume-color-${colorScheme}-tint)`,
-    '--navbar-tint-text': `var(--plume-color-${colorScheme}-tint-text)`,
+    '--navbar-solid': schemeVar(colorScheme, 'solid'),
+    '--navbar-contrast': schemeVar(colorScheme, 'solid-contrast'),
+    '--navbar-solid-active': schemeVar(colorScheme, 'solid-active'),
+    '--navbar-solid-hover': schemeVar(colorScheme, 'solid-hover'),
+    '--navbar-text': schemeVar(colorScheme, 'text'),
+    '--navbar-tint': schemeVar(colorScheme, 'tint'),
+    '--navbar-tint-text': schemeVar(colorScheme, 'tint-text'),
     ...style,
   }) as CSSProperties
 

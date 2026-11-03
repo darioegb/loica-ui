@@ -210,8 +210,8 @@ export const Colors: Story = {
   <Field label="success" orientation="inline">
     <Radio colorScheme="success" defaultChecked />
   </Field>
-  <Field label="purple" orientation="inline">
-    <Radio colorScheme="purple" defaultChecked />
+  <Field label="warning" orientation="inline">
+    <Radio colorScheme="warning" defaultChecked />
   </Field>
 </div>`,
       },
@@ -330,7 +330,7 @@ export const GroupSizesAndColors: Story = {
       </RadioGroup>
       <RadioGroup
         aria-label="Small"
-        colorScheme="purple"
+        colorScheme="info"
         defaultValue="a"
         orientation="horizontal"
         size="sm"
@@ -361,7 +361,7 @@ export const GroupSizesAndColors: Story = {
   </RadioGroup>
   <RadioGroup
     aria-label="Small"
-    colorScheme="purple"
+    colorScheme="info"
     defaultValue="a"
     orientation="horizontal"
     size="sm"

@@ -166,11 +166,10 @@ export const Variants: Story = {
   </List>
   <List
     aria-label="unstyled"
-    className="divide-y divide-gray-300 rounded-sm border border-gray-400"
     variant="unstyled"
   >
-    <ListItem className="p-2">Annual report.pdf</ListItem>
-    <ListItem className="p-2">Budget.xlsx</ListItem>
+    <ListItem>Annual report.pdf</ListItem>
+    <ListItem>Budget.xlsx</ListItem>
   </List>
 </div>`,
       },
@@ -190,16 +189,9 @@ export const Variants: Story = {
           ))}
         </List>
       ))}
-      <List
-        aria-label="unstyled"
-        className="border border-gray-400 rounded-sm divide-y divide-gray-300"
-        style={{ maxWidth: '100%', width: '14rem' }}
-        variant="unstyled"
-      >
+      <List aria-label="unstyled" style={{ maxWidth: '100%', width: '14rem' }} variant="unstyled">
         {files.map((file) => (
-          <ListItem className="p-2" key={file}>
-            {file}
-          </ListItem>
+          <ListItem key={file}>{file}</ListItem>
         ))}
       </List>
     </div>

@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode, Ref, RefObject } from 'react'
 import type { ColorScheme } from '../../../theme'
+import { schemeVar } from '../../../theme'
 
 export interface SliderMark {
   label?: ReactNode
@@ -38,8 +39,8 @@ export interface SliderState {
 
 export const sliderColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--slider-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--slider-text': `var(--plume-color-${colorScheme}-text)`,
-    '--slider-tint': `var(--plume-color-${colorScheme}-tint)`,
+    '--slider-solid': schemeVar(colorScheme, 'solid'),
+    '--slider-text': schemeVar(colorScheme, 'text'),
+    '--slider-tint': schemeVar(colorScheme, 'tint'),
     ...style,
   }) as CSSProperties

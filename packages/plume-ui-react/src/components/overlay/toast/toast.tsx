@@ -4,7 +4,8 @@ import type { CSSProperties, ForwardedRef, HTMLAttributes, KeyboardEvent, ReactN
 import { Children, forwardRef, useCallback, useMemo } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import { StatusIcon } from '../../../overlay/status-icon'
-import type { ComponentProps } from '../../../theme'
+import type { ColorScheme, ComponentProps } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import type { ToastData, ToastIcons, ToastStatus } from './toast-context'
 import { ToastActionButton } from './toast-action-button'
 import { ToastBody } from './toast-body'
@@ -26,7 +27,7 @@ type ToastRootAttributes = Pick<HTMLAttributes<HTMLDivElement>, 'children'>
 
 export type ToastProps = Omit<ComponentProps, 'index'> & ToastRootAttributes & ToastOwnProps
 
-const colors: Record<ToastStatus, string> = {
+const colors: Record<ToastStatus, ColorScheme> = {
   error: 'error',
   info: 'info',
   neutral: 'secondary',
@@ -45,10 +46,10 @@ function resolveIcon(toast: ToastData, icons: false | ToastIcons | undefined): R
 export function toastColorVars(status: ToastStatus, style?: CSSProperties): CSSProperties {
   const scheme = colors[status]
   return {
-    '--toast-contrast': `var(--plume-color-${scheme}-solid-contrast)`,
-    '--toast-solid': `var(--plume-color-${scheme}-solid)`,
-    '--toast-tint': `var(--plume-color-${scheme}-tint)`,
-    '--toast-tint-text': `var(--plume-color-${scheme}-tint-text)`,
+    '--toast-contrast': schemeVar(scheme, 'solid-contrast'),
+    '--toast-solid': schemeVar(scheme, 'solid'),
+    '--toast-tint': schemeVar(scheme, 'tint'),
+    '--toast-tint-text': schemeVar(scheme, 'tint-text'),
     ...style,
   } as CSSProperties
 }

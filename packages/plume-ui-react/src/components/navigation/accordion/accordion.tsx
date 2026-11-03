@@ -5,6 +5,7 @@ import { forwardRef, useCallback, useMemo } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import { useSelectionState } from '../../../overlay/use-selection-state'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { AccordionContext, type AccordionVariant } from './accordion-context'
 import styles from './accordion.module.css'
 
@@ -86,10 +87,10 @@ export type AccordionProps = Omit<ComponentProps, 'index'> &
 
 const accordionColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--accordion-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--accordion-text': `var(--plume-color-${colorScheme}-text)`,
-    '--accordion-tint': `var(--plume-color-${colorScheme}-tint)`,
-    '--accordion-tint-text': `var(--plume-color-${colorScheme}-tint-text)`,
+    '--accordion-solid': schemeVar(colorScheme, 'solid'),
+    '--accordion-text': schemeVar(colorScheme, 'text'),
+    '--accordion-tint': schemeVar(colorScheme, 'tint'),
+    '--accordion-tint-text': schemeVar(colorScheme, 'tint-text'),
     ...style,
   }) as CSSProperties
 

@@ -9,6 +9,7 @@ import type {
 } from 'react'
 import { forwardRef } from 'react'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { joinClasses } from '../../../overlay/class-names'
 import styles from './toggle.module.css'
 
@@ -61,9 +62,9 @@ export type ToggleProps = Omit<ComponentProps, 'index'> & ToggleRootAttributes &
 
 const toggleColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--toggle-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--toggle-contrast': `var(--plume-color-${colorScheme}-solid-contrast)`,
-    '--toggle-text': `var(--plume-color-${colorScheme}-text)`,
+    '--toggle-solid': schemeVar(colorScheme, 'solid'),
+    '--toggle-contrast': schemeVar(colorScheme, 'solid-contrast'),
+    '--toggle-text': schemeVar(colorScheme, 'text'),
     ...style,
   }) as CSSProperties
 

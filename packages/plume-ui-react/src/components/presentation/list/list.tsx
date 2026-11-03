@@ -4,6 +4,7 @@ import type { CSSProperties, ForwardedRef, HTMLAttributes } from 'react'
 import { forwardRef, useMemo } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { ListContext } from './list-context'
 import styles from './list.module.css'
 
@@ -59,10 +60,10 @@ export type ListProps = Omit<ComponentProps, 'index'> & ListRootAttributes & Lis
 
 const listColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--list-text': `var(--plume-color-${colorScheme}-text)`,
-    '--list-tint': `var(--plume-color-${colorScheme}-tint)`,
-    '--list-tint-strong': `var(--plume-color-${colorScheme}-tint-strong)`,
-    '--list-tint-text': `var(--plume-color-${colorScheme}-tint-text)`,
+    '--list-text': schemeVar(colorScheme, 'text'),
+    '--list-tint': schemeVar(colorScheme, 'tint'),
+    '--list-tint-strong': schemeVar(colorScheme, 'tint-strong'),
+    '--list-tint-text': schemeVar(colorScheme, 'tint-text'),
     ...style,
   }) as CSSProperties
 

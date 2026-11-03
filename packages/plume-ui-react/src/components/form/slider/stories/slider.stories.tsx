@@ -1,19 +1,19 @@
-import type { StoryObj, Meta } from '@storybook/react-vite'
-import { useState } from 'react'
-import { defaultTheme } from '../../../../theme'
-import { Field } from '../../field'
-import { Slider, type SliderValue } from '..'
+import type { StoryObj, Meta } from "@storybook/react-vite";
+import { useState } from "react";
+import { defaultTheme } from "../../../../theme";
+import { Field } from "../../field";
+import { Slider, type SliderValue } from "..";
 
-const colorSchemes = Object.keys(defaultTheme.colors)
+const colorSchemes = Object.keys(defaultTheme.colors);
 
-const frame = { maxWidth: '100%', width: '22rem' }
+const frame = { maxWidth: "100%", width: "22rem" };
 
 const stack = (gap: string): React.CSSProperties => ({
-  display: 'flex',
-  flexDirection: 'column',
+  display: "flex",
+  flexDirection: "column",
   gap,
   ...frame,
-})
+});
 
 /**
  * A control to pick a number, or a range of two, by dragging a thumb along a track. Use it for a value where the
@@ -45,21 +45,21 @@ const stack = (gap: string): React.CSSProperties => ({
  * `LocaleProvider`.
  */
 export default {
-  title: 'Components/Slider',
+  title: "Components/Slider",
   component: Slider,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       toc: {
-        title: 'On this page',
+        title: "On this page",
         disable: false,
       },
     },
-    layout: 'centered',
+    layout: "centered",
   },
   argTypes: {
     className: {
-      control: 'text',
+      control: "text",
     },
     style: {
       control: false,
@@ -68,7 +68,7 @@ export default {
       control: false,
     },
     defaultValue: {
-      control: 'number',
+      control: "number",
     },
     onValueChange: {
       control: false,
@@ -77,83 +77,83 @@ export default {
       control: false,
     },
     min: {
-      control: 'number',
+      control: "number",
     },
     max: {
-      control: 'number',
+      control: "number",
     },
     step: {
-      control: 'number',
+      control: "number",
     },
     marks: {
       control: false,
     },
     orientation: {
-      control: 'radio',
-      options: ['horizontal', 'vertical'],
+      control: "radio",
+      options: ["horizontal", "vertical"],
     },
     formatValue: {
       control: false,
     },
     disabled: {
-      control: 'boolean',
+      control: "boolean",
     },
     readOnly: {
-      control: 'boolean',
+      control: "boolean",
     },
     invalid: {
-      control: 'boolean',
+      control: "boolean",
     },
     colorScheme: {
-      control: 'select',
+      control: "select",
       options: colorSchemes,
     },
     size: {
-      control: 'radio',
-      options: ['sm', 'md', 'lg'],
+      control: "radio",
+      options: ["sm", "md", "lg"],
     },
     variant: {
-      control: 'radio',
-      options: ['solid', 'outline', 'unstyled'],
+      control: "radio",
+      options: ["solid", "outline", "unstyled"],
     },
     id: {
       control: false,
     },
     name: {
-      control: 'text',
+      control: "text",
     },
     title: {
-      control: 'text',
+      control: "text",
     },
     hidden: {
       control: false,
     },
-    'aria-label': {
-      control: 'text',
+    "aria-label": {
+      control: "text",
     },
-    'aria-labelledby': {
+    "aria-labelledby": {
       control: false,
     },
-    'aria-describedby': {
+    "aria-describedby": {
       control: false,
     },
-    'aria-invalid': {
+    "aria-invalid": {
       control: false,
     },
   },
   args: {
-    'aria-label': 'Volume',
+    "aria-label": "Volume",
     defaultValue: 40,
     style: frame,
   },
-} satisfies Meta<typeof Slider>
+} satisfies Meta<typeof Slider>;
 
-type Story = StoryObj<typeof Slider>
+type Story = StoryObj<typeof Slider>;
 
 /**
  * This is the default Slider, from 0 to 100.
  */
-export const Default: Story = {}
+export const Default: Story = {};
 
 /**
  * Use the **variant** prop to pick how the Slider looks. `unstyled` renders only the native input, to style it
@@ -167,7 +167,6 @@ export const Variants: Story = {
 <Slider aria-label="outline" defaultValue={40} variant="outline" />
 <Slider
   aria-label="unstyled"
-  className="[&_input]:w-full [&_input]:accent-purple-600"
   defaultValue={40}
   variant="unstyled"
 />`,
@@ -175,19 +174,19 @@ export const Variants: Story = {
     },
   },
   render: () => (
-    <div style={stack('1.5rem')}>
-      {(['solid', 'outline'] as const).map((variant) => (
-        <Slider aria-label={variant} defaultValue={40} key={variant} variant={variant} />
+    <div style={stack("1.5rem")}>
+      {(["solid", "outline"] as const).map((variant) => (
+        <Slider
+          aria-label={variant}
+          defaultValue={40}
+          key={variant}
+          variant={variant}
+        />
       ))}
-      <Slider
-        aria-label="unstyled"
-        className="[&_input]:w-full [&_input]:accent-purple-600"
-        defaultValue={40}
-        variant="unstyled"
-      />
+      <Slider aria-label="unstyled" defaultValue={40} variant="unstyled" />
     </div>
   ),
-}
+};
 
 /**
  * Use the **size** prop to change the size of the thumb and the track.
@@ -203,13 +202,18 @@ export const Sizes: Story = {
     },
   },
   render: () => (
-    <div style={stack('1.5rem')}>
-      {(['sm', 'md', 'lg'] as const).map((size) => (
-        <Slider aria-label={`Size ${size}`} defaultValue={40} key={size} size={size} />
+    <div style={stack("1.5rem")}>
+      {(["sm", "md", "lg"] as const).map((size) => (
+        <Slider
+          aria-label={`Size ${size}`}
+          defaultValue={40}
+          key={size}
+          size={size}
+        />
       ))}
     </div>
   ),
-}
+};
 
 /**
  * Use the **colorScheme** prop to pick a color from the theme. It colors the filled part and the thumb in `solid`,
@@ -226,7 +230,7 @@ export const Colors: Story = {
     },
   },
   render: () => (
-    <div style={stack('1rem')}>
+    <div style={stack("1rem")}>
       {colorSchemes.map((scheme) => (
         <Slider
           aria-label={scheme}
@@ -237,7 +241,7 @@ export const Colors: Story = {
       ))}
     </div>
   ),
-}
+};
 
 /**
  * Pass a pair in **defaultValue** or **value** for a range with two thumbs. They are named "Minimum" and
@@ -245,11 +249,11 @@ export const Colors: Story = {
  */
 export const Range: Story = {
   args: {
-    'aria-label': 'Price',
+    "aria-label": "Price",
     defaultValue: [20, 70],
     formatValue: (value: number) => `$${value}`,
   },
-}
+};
 
 /**
  * **step** sets the distance between values, and **marks** shows them on the track. Use a list of
@@ -257,23 +261,34 @@ export const Range: Story = {
  */
 export const Marks: Story = {
   render: () => (
-    <div style={stack('3rem')}>
-      <Slider aria-label="Every step" defaultValue={30} marks max={50} step={10} />
+    <div style={stack("3rem")}>
+      <Slider
+        aria-label="Every step"
+        defaultValue={30}
+        marks
+        max={50}
+        step={10}
+      />
       <Slider
         aria-label="Temperature"
         defaultValue={20}
         formatValue={(value) => `${value} degrees`}
         marks={[
-          { label: '0°', value: 0 },
-          { label: '20°', value: 20 },
-          { label: '50°', value: 50 },
-          { label: '100°', value: 100 },
+          { label: "0°", value: 0 },
+          { label: "20°", value: 20 },
+          { label: "50°", value: 50 },
+          { label: "100°", value: 100 },
         ]}
       />
-      <Slider aria-label="Budget" defaultValue={[25, 75]} marks={[0, 25, 50, 75, 100]} step={25} />
+      <Slider
+        aria-label="Budget"
+        defaultValue={[25, 75]}
+        marks={[0, 25, 50, 75, 100]}
+        step={25}
+      />
     </div>
   ),
-}
+};
 
 /**
  * A vertical slider is 12rem high, with the minimum at the bottom. Use it where the height is the natural way to
@@ -281,26 +296,31 @@ export const Marks: Story = {
  */
 export const Vertical: Story = {
   render: () => (
-    <div style={{ alignItems: 'flex-start', display: 'flex', gap: '3rem' }}>
-      <Slider aria-label="Volume" defaultValue={40} orientation="vertical" style={undefined} />
+    <div style={{ alignItems: "flex-start", display: "flex", gap: "3rem" }}>
+      <Slider
+        aria-label="Volume"
+        defaultValue={40}
+        orientation="vertical"
+        style={undefined}
+      />
       <Slider
         aria-label="Range"
         defaultValue={[20, 70]}
         marks={[
-          { label: 'Low', value: 0 },
-          { label: 'High', value: 100 },
+          { label: "Low", value: 0 },
+          { label: "High", value: 100 },
         ]}
         orientation="vertical"
         style={undefined}
       />
     </div>
   ),
-}
+};
 
 function ControlledSlider(): React.ReactNode {
-  const [value, setValue] = useState<SliderValue>(40)
+  const [value, setValue] = useState<SliderValue>(40);
   return (
-    <div style={stack('0.75rem')}>
+    <div style={stack("0.75rem")}>
       <Slider aria-label="Opacity" onValueChange={setValue} value={value} />
       <p className="text-sm">Opacity: {String(value)}%</p>
       <div className="flex gap-2">
@@ -316,7 +336,7 @@ function ControlledSlider(): React.ReactNode {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 /**
@@ -352,13 +372,13 @@ export const Controlled: Story = {
     },
   },
   render: () => <ControlledSlider />,
-}
+};
 
 function CommitSlider(): React.ReactNode {
-  const [value, setValue] = useState<SliderValue>(30)
-  const [committed, setCommitted] = useState<SliderValue>(30)
+  const [value, setValue] = useState<SliderValue>(30);
+  const [committed, setCommitted] = useState<SliderValue>(30);
   return (
-    <div style={stack('0.75rem')}>
+    <div style={stack("0.75rem")}>
       <Slider
         aria-label="Zoom"
         onValueChange={setValue}
@@ -369,7 +389,7 @@ function CommitSlider(): React.ReactNode {
         Dragging: {String(value)}. Last committed: {String(committed)}.
       </p>
     </div>
-  )
+  );
 }
 
 /**
@@ -401,7 +421,7 @@ export const Commit: Story = {
     },
   },
   render: () => <CommitSlider />,
-}
+};
 
 /**
  * A disabled slider can't be used. A read only one shows the value, can be focused and says so with
@@ -409,26 +429,26 @@ export const Commit: Story = {
  */
 export const Disabled: Story = {
   render: () => (
-    <div style={stack('1.5rem')}>
+    <div style={stack("1.5rem")}>
       <Slider aria-label="Disabled" defaultValue={40} disabled />
       <Slider aria-label="Read only" defaultValue={40} readOnly />
     </div>
   ),
-}
+};
 
 /**
  * **invalid** (or `aria-invalid`) turns the slider to the error color.
  */
 export const Invalid: Story = {
   args: { invalid: true },
-}
+};
 
 /**
  * Inside a `Field` it gets its label, its helper and error text, and the disabled, read only and invalid states.
  */
 export const WithField: Story = {
   render: () => (
-    <div style={stack('1.5rem')}>
+    <div style={stack("1.5rem")}>
       <Field helperText="Between 0 and 100" label="Volume">
         <Slider defaultValue={40} />
       </Field>
@@ -437,7 +457,7 @@ export const WithField: Story = {
       </Field>
     </div>
   ),
-}
+};
 
 /**
  * Some examples of Slider with Tailwind classes. With `variant="unstyled"` only the native input is rendered, so
@@ -463,7 +483,7 @@ export const Tailwind: Story = {
     },
   },
   render: () => (
-    <div style={stack('1.5rem')}>
+    <div style={stack("1.5rem")}>
       <Slider
         aria-label="Volume"
         className="[&_input]:h-2 [&_input]:w-full [&_input]:cursor-pointer [&_input]:accent-primary-solid"
@@ -477,7 +497,7 @@ export const Tailwind: Story = {
       />
     </div>
   ),
-}
+};
 
 /**
  * Some examples of Slider with Bootstrap classes. Bootstrap's `form-range` is a class of the `<input>`, which the
@@ -494,9 +514,19 @@ export const Bootstrap: Story = {
     },
   },
   render: () => (
-    <div style={stack('1.5rem')}>
-      <Slider aria-label="Volume" className="d-flex" defaultValue={40} variant="unstyled" />
-      <Slider aria-label="Quality" className="d-flex" defaultValue={70} variant="unstyled" />
+    <div style={stack("1.5rem")}>
+      <Slider
+        aria-label="Volume"
+        className="d-flex"
+        defaultValue={40}
+        variant="unstyled"
+      />
+      <Slider
+        aria-label="Quality"
+        className="d-flex"
+        defaultValue={70}
+        variant="unstyled"
+      />
     </div>
   ),
-}
+};

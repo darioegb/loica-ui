@@ -16,15 +16,14 @@ export const names = {
   warning: 'Amber',
   error: 'Red',
   success: 'Green',
-  brown: 'Leather',
-  pink: 'Radical Red',
-  purple: 'Magenta / Fuchsia',
-  teal: 'Turquoise',
-  yellow: 'Yellow',
 }
 
-Every color of the theme is a scale of eleven shades, from `50` to `950`, and a `colorScheme` that every component takes.
-Each shade is the variable `--plume-color-<color>-<shade>`.
+The palette has one color for each role a component gives it: `primary` for the main action, `secondary` for the
+neutral one, and `info`, `success`, `warning` and `error` for a status. Each one is a `colorScheme` that every component
+takes, and you can add your own (see <a href='./?path=/docs/theme-theming--docs' target='_top'>Theming</a>).
+
+A color is a scale of eleven shades, from `50` to `950`. The shades are not variables: they are what the theme works
+out [the colors of a scheme](#the-colors-of-a-scheme) from.
 
 <ColorPalette>
   {Object.entries(defaultTheme.colors).map(([color, shades]) => (
@@ -65,9 +64,9 @@ export const kebab = (name) => name.replace(/[A-Z]/g, (letter) => `-${letter.toL
 
 ## The colors of a scheme
 
-Every color of the palette also gets these variables, worked out from its shades when the theme is built. They are
-what the components use, and what to use in your own CSS: they are adjusted to keep their contrast in light and dark
-mode, which a raw shade does not.
+Every color of the palette gets these variables, worked out from its shades when the theme is built. They are what
+the components use, and what to use in your own CSS: they are adjusted to keep their contrast in light and dark mode,
+which a raw shade does not. In JavaScript, `schemeVar('primary', 'solid')` gives `var(--plume-color-primary-solid)`.
 
 <table>
   <thead>

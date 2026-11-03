@@ -188,11 +188,11 @@ export const Variants: Story = {
     <DropdownTrigger>
       <Button variant="outline">Unstyled</Button>
     </DropdownTrigger>
-    <DropdownMenu className="min-w-40 rounded-sm border border-border bg-surface p-1 text-foreground shadow-sm">
-      <DropdownItem className="block w-full rounded-sm px-3 py-1 text-left hover:bg-surface-muted focus:bg-surface-muted focus:outline-hidden">
+    <DropdownMenu>
+      <DropdownItem>
         Profile
       </DropdownItem>
-      <DropdownItem className="block w-full rounded-sm px-3 py-1 text-left hover:bg-surface-muted focus:bg-surface-muted focus:outline-hidden">
+      <DropdownItem>
         Settings
       </DropdownItem>
     </DropdownMenu>
@@ -209,13 +209,9 @@ export const Variants: Story = {
         <DropdownTrigger>
           <Button variant="outline">Unstyled</Button>
         </DropdownTrigger>
-        <DropdownMenu className="min-w-40 rounded-sm border border-border bg-surface p-1 text-foreground shadow-sm">
-          <DropdownItem className="block w-full rounded-sm px-3 py-1 text-left hover:bg-surface-muted focus:bg-surface-muted focus:outline-hidden">
-            Profile
-          </DropdownItem>
-          <DropdownItem className="block w-full rounded-sm px-3 py-1 text-left hover:bg-surface-muted focus:bg-surface-muted focus:outline-hidden">
-            Settings
-          </DropdownItem>
+        <DropdownMenu>
+          <DropdownItem>Profile</DropdownItem>
+          <DropdownItem>Settings</DropdownItem>
         </DropdownMenu>
       </Dropdown>
     </div>

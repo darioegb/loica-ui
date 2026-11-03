@@ -3,6 +3,7 @@
 import type { ComponentPropsWithoutRef, CSSProperties, ForwardedRef } from 'react'
 import { forwardRef, useId, useMemo } from 'react'
 import type { ColorScheme, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { __Name__Context } from './__slug__-context'
 import styles from './__slug__.module.css'
 
@@ -18,8 +19,8 @@ export type __Name__Props = ComponentPropsWithoutRef<'div'> & __Name__OwnProps
 
 const __camel__ColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--__slug__-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--__slug__-contrast': `var(--plume-color-${colorScheme}-solid-contrast)`,
+    '--__slug__-solid': schemeVar(colorScheme, 'solid'),
+    '--__slug__-contrast': schemeVar(colorScheme, 'solid-contrast'),
     ...style,
   }) as CSSProperties
 

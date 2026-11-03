@@ -135,8 +135,8 @@ export const Colors: Story = {
 <Field label="success" orientation="inline">
   <Checkbox colorScheme="success" defaultChecked />
 </Field>
-<Field label="purple" orientation="inline">
-  <Checkbox colorScheme="purple" defaultChecked />
+<Field label="warning" orientation="inline">
+  <Checkbox colorScheme="warning" defaultChecked />
 </Field>`,
       },
     },

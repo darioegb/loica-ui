@@ -76,3 +76,5 @@ What these check, so a failure is easy to place:
 - `packages/plume-ui-react/scripts/check-client-directives.mjs`: `'use client'` is on exactly the modules that need it.
 - `src/tests/index.spec.ts` and `src/tests/token-names.spec.ts`: the list of exports and of `--plume-*` variables, so a rename is
   always on purpose.
+- `src/tests/unread-tokens.spec.ts`: every token of the default theme is read by some component, so the theme only
+  holds what the components use.

@@ -24,10 +24,26 @@ const withColors = (colors: Record<string, Ramp>, base: Theme = defaultTheme): T
 const darkTheme = deepMerge<Theme>(defaultTheme, defaultDarkTheme as Theme)
 
 describe('themeToCssVars', () => {
-  it('emits every shade of every color scheme', () => {
+  it('emits the derived colors of every color scheme and not its shades', () => {
     const vars = themeToCssVars(defaultTheme)
-    expect(vars['--plume-color-primary-500']).toBe(defaultTheme.colors.primary[500])
-    expect(vars['--plume-color-secondary-950']).toBe(defaultTheme.colors.secondary[950])
+    const tokens = [
+      'solid',
+      'solid-contrast',
+      'solid-hover',
+      'solid-active',
+      'text',
+      'text-hover',
+      'text-active',
+      'tint',
+      'tint-strong',
+      'tint-text',
+    ]
+    for (const scheme of Object.keys(defaultTheme.colors)) {
+      const names = Object.keys(vars).filter((key) => key.startsWith(`--plume-color-${scheme}-`))
+      expect(names.map((name) => name.slice(`--plume-color-${scheme}-`.length)).sort()).toEqual(
+        [...tokens].sort(),
+      )
+    }
   })
 
   it('emits the semantic colors in kebab case', () => {
@@ -79,17 +95,14 @@ describe('themeToCssVars', () => {
 
   it('names the half steps of the spacing scale without a dot', () => {
     const vars = themeToCssVars(defaultTheme)
-    expect(vars['--plume-space-0-5']).toBe('0.125rem')
     expect(vars['--plume-space-1-5']).toBe('0.375rem')
-    expect(vars['--plume-space-2-5']).toBe('0.625rem')
     expect(Object.keys(vars).some((key) => key.includes('.'))).toBe(false)
   })
 
-  it('emits the larger sizes, the letter spacings and the monospace family', () => {
+  it('emits the larger sizes and the letter spacings', () => {
     const vars = themeToCssVars(defaultTheme)
-    expect(vars['--plume-font-size-5xl']).toBe('3rem')
+    expect(vars['--plume-font-size-4xl']).toBe('2.25rem')
     expect(vars['--plume-letter-spacing-tight']).toBe('-0.025em')
-    expect(vars['--plume-font-family-mono']).toBe(defaultTheme.typography.fontFamilyMono)
   })
 
   it('emits the four properties of every text style', () => {
@@ -126,7 +139,7 @@ describe('themeToCssVars', () => {
 
   it('includes custom color schemes', () => {
     const vars = themeToCssVars(withColors({ salmon: ramp('#fa8072') }))
-    expect(vars['--plume-color-salmon-500']).toBe('#fa8072')
+    expect(vars['--plume-color-salmon-tint']).toBe('#fa8072')
   })
 
   it('pairs dark fills with white text', () => {

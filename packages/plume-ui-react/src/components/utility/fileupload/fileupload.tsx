@@ -7,6 +7,7 @@ import { hasPart } from '../../../overlay/has-part'
 import { useLabels } from '../../../locale/locale-provider'
 import { mergeRefs } from '../../../overlay/trigger'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { type FileRejection, type FileRejectionReason, formatBytes } from './file-utils'
 import { FileUploadContext } from './fileupload-context'
 import { FileUploadDropzone } from './fileupload-dropzone'
@@ -128,9 +129,9 @@ const FILE_UPLOAD_PARTS = [
 
 const fileUploadColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--fileupload-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--fileupload-text': `var(--plume-color-${colorScheme}-text)`,
-    '--fileupload-tint': `var(--plume-color-${colorScheme}-tint)`,
+    '--fileupload-solid': schemeVar(colorScheme, 'solid'),
+    '--fileupload-text': schemeVar(colorScheme, 'text'),
+    '--fileupload-tint': schemeVar(colorScheme, 'tint'),
     ...style,
   }) as CSSProperties
 

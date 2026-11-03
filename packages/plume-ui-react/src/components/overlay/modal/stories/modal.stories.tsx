@@ -158,10 +158,10 @@ export const Variants: Story = {
     <ModalTrigger>
       <Button variant="outline">Open unstyled modal</Button>
     </ModalTrigger>
-    <ModalContent className="fixed inset-0 m-auto h-fit max-w-sm rounded-xl bg-white p-6 text-black shadow-2xl">
-      <ModalHeader className="mb-2 text-lg font-bold">Unstyled</ModalHeader>
-      <ModalBody className="mb-4">The Plume styles are gone.</ModalBody>
-      <ModalFooter className="flex justify-end">
+    <ModalContent>
+      <ModalHeader>Unstyled</ModalHeader>
+      <ModalBody>The Plume styles are gone.</ModalBody>
+      <ModalFooter>
         <ModalClose>
           <Button>Close</Button>
         </ModalClose>
@@ -179,10 +179,10 @@ export const Variants: Story = {
         <ModalTrigger>
           <Button variant="outline">Open unstyled modal</Button>
         </ModalTrigger>
-        <ModalContent className="fixed inset-0 m-auto h-fit max-w-sm rounded-xl bg-white p-6 text-black shadow-2xl">
-          <ModalHeader className="mb-2 text-lg font-bold">Unstyled</ModalHeader>
-          <ModalBody className="mb-4">The Plume styles are gone.</ModalBody>
-          <ModalFooter className="flex justify-end">
+        <ModalContent>
+          <ModalHeader>Unstyled</ModalHeader>
+          <ModalBody>The Plume styles are gone.</ModalBody>
+          <ModalFooter>
             <ModalClose>
               <Button>Close</Button>
             </ModalClose>

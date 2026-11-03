@@ -157,16 +157,15 @@ export const Variants: Story = {
   <Stepper
     activeStep={1}
     aria-label="Unstyled"
-    className="flex-wrap gap-x-6 gap-y-2"
     variant="unstyled"
   >
-    <Step className="flex-none">
-      <StepIndicator className="mr-2 font-bold data-[state=completed]:text-green-600" />
-      <StepTitle className="data-[state=current]:font-bold">Account</StepTitle>
+    <Step>
+      <StepIndicator />
+      <StepTitle>Account</StepTitle>
     </Step>
-    <Step className="flex-none">
-      <StepIndicator className="mr-2 font-bold data-[state=completed]:text-green-600" />
-      <StepTitle className="data-[state=current]:font-bold">Profile</StepTitle>
+    <Step>
+      <StepIndicator />
+      <StepTitle>Profile</StepTitle>
     </Step>
   </Stepper>
 </div>`,
@@ -181,16 +180,11 @@ export const Variants: Story = {
       <Stepper activeStep={1} aria-label="Outline" variant="outline">
         {renderSteps(false)}
       </Stepper>
-      <Stepper
-        activeStep={1}
-        aria-label="Unstyled"
-        className="flex-wrap gap-x-6 gap-y-2"
-        variant="unstyled"
-      >
+      <Stepper activeStep={1} aria-label="Unstyled" variant="unstyled">
         {steps.map(({ title }) => (
-          <Step className="flex-none" key={title}>
-            <StepIndicator className="mr-2 font-bold data-[state=completed]:text-green-600" />
-            <StepTitle className="data-[state=current]:font-bold">{title}</StepTitle>
+          <Step key={title}>
+            <StepIndicator />
+            <StepTitle>{title}</StepTitle>
           </Step>
         ))}
       </Stepper>

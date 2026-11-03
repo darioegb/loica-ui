@@ -146,12 +146,7 @@ export const Variants: Story = {
       <Textarea aria-label="Outline" placeholder="Outline" variant="outline" />
       <Textarea aria-label="Filled" placeholder="Filled" variant="filled" />
       <Textarea aria-label="Underline" placeholder="Underline" variant="underline" />
-      <Textarea
-        aria-label="Unstyled"
-        className="border border-gray-400 rounded-sm p-2"
-        placeholder="Unstyled"
-        variant="unstyled"
-      />
+      <Textarea aria-label="Unstyled" placeholder="Unstyled" variant="unstyled" />
     </div>
   ),
 }
@@ -179,7 +174,7 @@ export const Colors: Story = {
       source: {
         code: `<Textarea aria-label="primary" colorScheme="primary" placeholder="Focus me: primary" rows={1} />
 <Textarea aria-label="success" colorScheme="success" placeholder="Focus me: success" rows={1} />
-<Textarea aria-label="purple" colorScheme="purple" placeholder="Focus me: purple" rows={1} />`,
+<Textarea aria-label="warning" colorScheme="warning" placeholder="Focus me: warning" rows={1} />`,
       },
     },
   },

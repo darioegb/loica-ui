@@ -124,22 +124,21 @@ export const Variants: Story = {
   </Breadcrumb>
   <Breadcrumb
     aria-label="Unstyled"
-    className="text-sm"
-    separator={<span className="mx-2 text-gray-400">/</span>}
+    separator={<span>/</span>}
     variant="unstyled"
   >
     <BreadcrumbItem>
-      <BreadcrumbLink className="underline" href="/">
+      <BreadcrumbLink href="/">
         Home
       </BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbItem>
-      <BreadcrumbLink className="underline" href="/components">
+      <BreadcrumbLink href="/components">
         Components
       </BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbItem>
-      <BreadcrumbLink className="font-bold" current>
+      <BreadcrumbLink current>
         Breadcrumb
       </BreadcrumbLink>
     </BreadcrumbItem>
@@ -156,26 +155,15 @@ export const Variants: Story = {
       <Breadcrumb aria-label="Filled" variant="filled">
         <Trail />
       </Breadcrumb>
-      <Breadcrumb
-        aria-label="Unstyled"
-        className="text-sm"
-        separator={<span className="mx-2 text-gray-400">/</span>}
-        variant="unstyled"
-      >
+      <Breadcrumb aria-label="Unstyled" separator={<span>/</span>} variant="unstyled">
         <BreadcrumbItem>
-          <BreadcrumbLink className="underline" href="#home">
-            Home
-          </BreadcrumbLink>
+          <BreadcrumbLink href="#home">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
-          <BreadcrumbLink className="underline" href="#components">
-            Components
-          </BreadcrumbLink>
+          <BreadcrumbLink href="#components">Components</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
-          <BreadcrumbLink className="font-bold" current>
-            Breadcrumb
-          </BreadcrumbLink>
+          <BreadcrumbLink current>Breadcrumb</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
     </div>

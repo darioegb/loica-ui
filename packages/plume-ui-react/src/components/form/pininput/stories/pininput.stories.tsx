@@ -1,10 +1,10 @@
-import type { StoryObj, Meta } from '@storybook/react-vite'
-import { useState } from 'react'
-import { defaultTheme } from '../../../../theme'
-import { Field } from '../../field'
-import { PinInput } from '..'
+import type { StoryObj, Meta } from "@storybook/react-vite";
+import { useState } from "react";
+import { defaultTheme } from "../../../../theme";
+import { Field } from "../../field";
+import { PinInput } from "..";
 
-const colorSchemes = Object.keys(defaultTheme.colors)
+const colorSchemes = Object.keys(defaultTheme.colors);
 
 /**
  * A row of one-character boxes for a code the user types or pastes: a one-time password, a verification code, a
@@ -28,58 +28,61 @@ const colorSchemes = Object.keys(defaultTheme.colors)
  * (`variant`, `size`, `shape`), the type and the mask go on the `PinInput`.
  */
 export default {
-  title: 'Components/PinInput',
+  title: "Components/PinInput",
   component: PinInput,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       toc: {
-        title: 'On this page',
+        title: "On this page",
         disable: false,
       },
     },
-    layout: 'centered',
+    layout: "centered",
   },
   argTypes: {
-    className: { control: 'text' },
+    className: { control: "text" },
     style: { control: false },
-    length: { control: { type: 'number', min: 1, max: 10 } },
-    type: { control: 'radio', options: ['numeric', 'alphanumeric', 'text'] },
-    mask: { control: 'boolean' },
-    placeholder: { control: 'text' },
+    length: { control: { type: "number", min: 1, max: 10 } },
+    type: { control: "radio", options: ["numeric", "alphanumeric", "text"] },
+    mask: { control: "boolean" },
+    placeholder: { control: "text" },
     value: { control: false },
-    defaultValue: { control: 'text' },
+    defaultValue: { control: "text" },
     onValueChange: { control: false },
     onComplete: { control: false },
-    colorScheme: { control: 'select', options: colorSchemes },
-    size: { control: 'radio', options: ['sm', 'md', 'lg'] },
-    shape: { control: 'radio', options: ['rounded', 'pill'] },
-    variant: { control: 'radio', options: ['outline', 'filled', 'underline', 'unstyled'] },
-    disabled: { control: 'boolean' },
-    readOnly: { control: 'boolean' },
-    focusOnMount: { control: 'boolean' },
-    autoComplete: { control: 'text' },
-    name: { control: 'text' },
-    required: { control: 'boolean' },
+    colorScheme: { control: "select", options: colorSchemes },
+    size: { control: "radio", options: ["sm", "md", "lg"] },
+    shape: { control: "radio", options: ["rounded", "pill"] },
+    variant: {
+      control: "radio",
+      options: ["outline", "filled", "underline", "unstyled"],
+    },
+    disabled: { control: "boolean" },
+    readOnly: { control: "boolean" },
+    focusOnMount: { control: "boolean" },
+    autoComplete: { control: "text" },
+    name: { control: "text" },
+    required: { control: "boolean" },
     id: { control: false },
-    title: { control: 'text' },
+    title: { control: "text" },
     hidden: { control: false },
-    'aria-label': { control: 'text' },
-    'aria-labelledby': { control: false },
-    'aria-describedby': { control: false },
-    'aria-invalid': { control: 'boolean' },
+    "aria-label": { control: "text" },
+    "aria-labelledby": { control: false },
+    "aria-describedby": { control: false },
+    "aria-invalid": { control: "boolean" },
   },
   args: {
-    'aria-label': 'Verification code',
+    "aria-label": "Verification code",
   },
-} satisfies Meta<typeof PinInput>
+} satisfies Meta<typeof PinInput>;
 
-type Story = StoryObj<typeof PinInput>
+type Story = StoryObj<typeof PinInput>;
 
 /**
  * This is the default PinInput: six digits. Type, or paste a code.
  */
-export const Default: Story = {}
+export const Default: Story = {};
 
 /**
  * Use the **variant** prop to pick how the boxes look, the same ones as the `Input`. `unstyled` drops the Plume
@@ -94,7 +97,6 @@ export const Variants: Story = {
 <PinInput aria-label="Underline" length={4} variant="underline" />
 <PinInput
   aria-label="Unstyled"
-  className="flex gap-2 [&>[data-plume-pininput-cell]]:h-10 [&>[data-plume-pininput-cell]]:w-10 [&>[data-plume-pininput-cell]]:rounded-sm [&>[data-plume-pininput-cell]]:border [&>[data-plume-pininput-cell]]:border-gray-400 [&>[data-plume-pininput-cell]]:text-center"
   length={4}
   variant="unstyled"
 />`,
@@ -106,15 +108,10 @@ export const Variants: Story = {
       <PinInput aria-label="Outline" length={4} variant="outline" />
       <PinInput aria-label="Filled" length={4} variant="filled" />
       <PinInput aria-label="Underline" length={4} variant="underline" />
-      <PinInput
-        aria-label="Unstyled"
-        className="flex gap-2 [&>[data-plume-pininput-cell]]:h-10 [&>[data-plume-pininput-cell]]:w-10 [&>[data-plume-pininput-cell]]:rounded-sm [&>[data-plume-pininput-cell]]:border [&>[data-plume-pininput-cell]]:border-gray-400 [&>[data-plume-pininput-cell]]:text-center"
-        length={4}
-        variant="unstyled"
-      />
+      <PinInput aria-label="Unstyled" length={4} variant="unstyled" />
     </div>
   ),
-}
+};
 
 /**
  * Use the **size** prop to change the size of the boxes.
@@ -131,12 +128,12 @@ export const Sizes: Story = {
   },
   render: () => (
     <div className="flex flex-col gap-4">
-      {(['sm', 'md', 'lg'] as const).map((size) => (
+      {(["sm", "md", "lg"] as const).map((size) => (
         <PinInput aria-label={size} key={size} length={4} size={size} />
       ))}
     </div>
   ),
-}
+};
 
 /**
  * Use the **colorScheme** prop to pick the color of the focus ring from the theme. It is the color of the focused
@@ -165,7 +162,7 @@ export const Colors: Story = {
       ))}
     </div>
   ),
-}
+};
 
 /**
  * Use the **shape** prop for rounded or pill boxes.
@@ -177,7 +174,7 @@ export const Shapes: Story = {
       <PinInput aria-label="Pill" length={4} shape="pill" />
     </div>
   ),
-}
+};
 
 /**
  * **length** is the number of boxes, and **type** what they accept: `numeric` (the default), `alphanumeric` or
@@ -190,19 +187,25 @@ export const LengthAndType: Story = {
       <PinInput aria-label="Licence code" length={5} type="alphanumeric" />
     </div>
   ),
-}
+};
 
 /**
  * **mask** hides what is typed, for a PIN. Pair it with `autoComplete="off"` so the browser doesn't offer to save
  * it, and with a **placeholder** if you want to show the empty boxes.
  */
 export const Masked: Story = {
-  args: { 'aria-label': 'PIN', autoComplete: 'off', length: 4, mask: true, placeholder: '○' },
-}
+  args: {
+    "aria-label": "PIN",
+    autoComplete: "off",
+    length: 4,
+    mask: true,
+    placeholder: "○",
+  },
+};
 
 function OtpExample(): React.ReactNode {
-  const [value, setValue] = useState('')
-  const [done, setDone] = useState<string | null>(null)
+  const [value, setValue] = useState("");
+  const [done, setDone] = useState<string | null>(null);
   return (
     <div className="flex flex-col items-start gap-3">
       <PinInput
@@ -210,23 +213,23 @@ function OtpExample(): React.ReactNode {
         focusOnMount
         onComplete={setDone}
         onValueChange={(next) => {
-          setValue(next)
-          setDone(null)
+          setValue(next);
+          setDone(null);
         }}
         value={value}
       />
       <p className="text-sm">
-        {done ? `Code entered: ${done}` : `Typed: ${value || 'nothing yet'}`}
+        {done ? `Code entered: ${done}` : `Typed: ${value || "nothing yet"}`}
       </p>
       <button
         className="rounded-sm border border-gray-400 px-2 py-1 text-sm"
-        onClick={() => setValue('')}
+        onClick={() => setValue("")}
         type="button"
       >
         Clear
       </button>
     </div>
-  )
+  );
 }
 
 /**
@@ -265,7 +268,7 @@ export const Controlled: Story = {
       },
     },
   },
-}
+};
 
 /**
  * A pin can be disabled, read only or invalid. A read only code stays readable and focusable, but it can't be
@@ -279,7 +282,7 @@ export const States: Story = {
       <PinInput aria-invalid aria-label="Invalid" defaultValue="123456" />
     </div>
   ),
-}
+};
 
 /**
  * With a **name** the code takes part in a form: it is submitted in a hidden input, as one string.
@@ -289,18 +292,21 @@ export const InAForm: Story = {
     <form
       className="flex flex-col items-start gap-3"
       onSubmit={(event) => {
-        event.preventDefault()
-        const code = new FormData(event.currentTarget).get('code')
-        window.alert(`code = "${typeof code === 'string' ? code : ''}"`)
+        event.preventDefault();
+        const code = new FormData(event.currentTarget).get("code");
+        window.alert(`code = "${typeof code === "string" ? code : ""}"`);
       }}
     >
       <PinInput aria-label="Verification code" length={4} name="code" />
-      <button className="rounded-sm border border-gray-400 px-3 py-1 text-sm" type="submit">
+      <button
+        className="rounded-sm border border-gray-400 px-3 py-1 text-sm"
+        type="submit"
+      >
         Verify
       </button>
     </form>
   ),
-}
+};
 
 /**
  * Wrap the PinInput in a `Field` to give it a label, a helper text and an error message. The Field names the
@@ -315,12 +321,17 @@ export const WithField: Story = {
       <Field helperText="We sent it by SMS." label="Verification code">
         <PinInput length={4} />
       </Field>
-      <Field errorText="That code is not right." invalid label="Verification code" required>
+      <Field
+        errorText="That code is not right."
+        invalid
+        label="Verification code"
+        required
+      >
         <PinInput defaultValue="1234" length={4} />
       </Field>
     </div>
   ),
-}
+};
 
 /**
  * Some examples of PinInput with Tailwind classes. With `variant="unstyled"` the boxes have none of the Plume
@@ -349,7 +360,7 @@ export const Tailwind: Story = {
       variant="unstyled"
     />
   ),
-}
+};
 
 /**
  * Some examples of PinInput with Bootstrap classes: `d-flex gap-2` for the group. Bootstrap has no class for the
@@ -374,8 +385,8 @@ export const Bootstrap: Story = {
       aria-label="Verification code"
       className="d-flex gap-2"
       length={6}
-      style={{ maxWidth: '100%', width: '20rem' }}
+      style={{ maxWidth: "100%", width: "20rem" }}
       variant="unstyled"
     />
   ),
-}
+};

@@ -154,12 +154,12 @@ export const Variants: Story = {
     </AccordionItem>
   </Accordion>
   <Accordion defaultValue="Is it accessible?" variant="unstyled">
-    <AccordionItem className="border-b border-gray-300" value="Is it accessible?">
-      <AccordionTrigger className="py-2 text-left font-bold">
+    <AccordionItem value="Is it accessible?">
+      <AccordionTrigger>
         Is it accessible?
       </AccordionTrigger>
       <AccordionContent>
-        <AccordionBody className="pb-2">It follows the WAI-ARIA accordion pattern.</AccordionBody>
+        <AccordionBody>It follows the WAI-ARIA accordion pattern.</AccordionBody>
       </AccordionContent>
     </AccordionItem>
   </Accordion>
@@ -177,10 +177,10 @@ export const Variants: Story = {
       </Accordion>
       <Accordion defaultValue={questions[2].title} variant="unstyled">
         {questions.map(({ answer, title }) => (
-          <AccordionItem className="border-b border-gray-300" key={title} value={title}>
-            <AccordionTrigger className="py-2 text-left font-bold">{title}</AccordionTrigger>
+          <AccordionItem key={title} value={title}>
+            <AccordionTrigger>{title}</AccordionTrigger>
             <AccordionContent>
-              <AccordionBody className="pb-2">{answer}</AccordionBody>
+              <AccordionBody>{answer}</AccordionBody>
             </AccordionContent>
           </AccordionItem>
         ))}

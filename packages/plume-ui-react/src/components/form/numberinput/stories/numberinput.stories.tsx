@@ -110,12 +110,7 @@ export const Variants: Story = {
       <NumberInput aria-label="Outline" defaultValue={1} variant="outline" />
       <NumberInput aria-label="Filled" defaultValue={1} variant="filled" />
       <NumberInput aria-label="Underline" defaultValue={1} variant="underline" />
-      <NumberInput
-        aria-label="Unstyled"
-        className="rounded-sm border border-gray-400"
-        defaultValue={1}
-        variant="unstyled"
-      />
+      <NumberInput aria-label="Unstyled" defaultValue={1} variant="unstyled" />
     </div>
   ),
 }
@@ -152,7 +147,7 @@ export const Colors: Story = {
       source: {
         code: `<NumberInput aria-label="primary" colorScheme="primary" defaultValue={1} />
 <NumberInput aria-label="success" colorScheme="success" defaultValue={1} />
-<NumberInput aria-label="purple" colorScheme="purple" defaultValue={1} />`,
+<NumberInput aria-label="warning" colorScheme="warning" defaultValue={1} />`,
       },
     },
   },

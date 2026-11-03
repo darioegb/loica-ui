@@ -7,6 +7,7 @@ import { useLabels } from '../../../locale/locale-provider'
 import { useControllableState } from '../../../overlay/use-controllable-state'
 import { useMediaQuery } from '../../../overlay/use-media-query'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import {
   CarouselContext,
   type CarouselControls,
@@ -103,11 +104,11 @@ const reducedMotionQuery = '(prefers-reduced-motion: reduce)'
 
 const carouselColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--carousel-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--carousel-contrast': `var(--plume-color-${colorScheme}-solid-contrast)`,
-    '--carousel-hover': `var(--plume-color-${colorScheme}-solid-hover)`,
-    '--carousel-text': `var(--plume-color-${colorScheme}-text)`,
-    '--carousel-tint': `var(--plume-color-${colorScheme}-tint)`,
+    '--carousel-solid': schemeVar(colorScheme, 'solid'),
+    '--carousel-contrast': schemeVar(colorScheme, 'solid-contrast'),
+    '--carousel-hover': schemeVar(colorScheme, 'solid-hover'),
+    '--carousel-text': schemeVar(colorScheme, 'text'),
+    '--carousel-tint': schemeVar(colorScheme, 'tint'),
     ...style,
   }) as CSSProperties
 

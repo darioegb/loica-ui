@@ -4,16 +4,16 @@ import type { ComponentPropsWithoutRef, CSSProperties, ForwardedRef } from 'reac
 import { forwardRef } from 'react'
 import { useLabels } from '../../../locale/locale-provider'
 import { joinClasses } from '../../../overlay/class-names'
-import type { ColorShade, Size } from '../../../theme'
-import { colorVar } from '../../../theme'
+import type { ColorScheme, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import styles from './loader.module.css'
 
 export interface LoaderOwnProps {
   /**
-   * Color from the theme palette: a scheme (`primary`) or a specific shade (`primary.700`). Without
-   * it the Loader takes the color of the text around it.
+   * Color scheme of the Loader, which takes its `text` color. Without it the Loader takes the color
+   * of the text around it.
    */
-  colorScheme?: ColorShade
+  colorScheme?: ColorScheme
   /**
    * Accessible name of the Loader, announced while it is shown. It defaults to the `loader` text of
    * the `LocaleProvider`, or `Loading`.
@@ -64,7 +64,7 @@ export const Loader = forwardRef<HTMLOutputElement, LoaderProps>(
         ref={ref}
         style={
           colorScheme
-            ? ({ '--loader-color': colorVar(colorScheme), ...style } as CSSProperties)
+            ? ({ '--loader-color': schemeVar(colorScheme, 'text'), ...style } as CSSProperties)
             : style
         }
         {...rest}

@@ -199,7 +199,7 @@ export const Variants: Story = {
 <Collapse open={open} variant="outline">Content</Collapse>
 <Collapse open={open} variant="accent">Content</Collapse>
 <Collapse open={open} variant="unstyled">
-  <CollapseBody className="rounded-lg bg-gray-900 p-3 text-sm text-gray-100">Content</CollapseBody>
+  <CollapseBody>Content</CollapseBody>
 </Collapse>`,
       },
     },
@@ -212,9 +212,7 @@ export const Variants: Story = {
         </Collapse>
       ))}
       <Collapse open variant="unstyled">
-        <CollapseBody className="rounded-lg bg-gray-900 p-3 text-sm text-gray-100">
-          unstyled: {text}
-        </CollapseBody>
+        <CollapseBody>unstyled: {text}</CollapseBody>
       </Collapse>
     </Showcase>
   ),

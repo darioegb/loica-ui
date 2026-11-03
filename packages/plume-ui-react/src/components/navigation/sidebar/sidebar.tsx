@@ -9,6 +9,7 @@ import { useLayer } from '../../../overlay/layer'
 import { useScrollLock } from '../../../overlay/use-scroll-lock'
 import { mergeRefs } from '../../../overlay/trigger'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { SidebarBackdrop } from './sidebar-backdrop'
 import {
   SidebarStyleContext,
@@ -58,13 +59,13 @@ export type SidebarProps = Omit<ComponentProps, 'index'> & SidebarRootAttributes
 
 const sidebarColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--sidebar-contrast': `var(--plume-color-${colorScheme}-solid-contrast)`,
-    '--sidebar-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--sidebar-solid-active': `var(--plume-color-${colorScheme}-solid-active)`,
-    '--sidebar-solid-hover': `var(--plume-color-${colorScheme}-solid-hover)`,
-    '--sidebar-text': `var(--plume-color-${colorScheme}-text)`,
-    '--sidebar-tint': `var(--plume-color-${colorScheme}-tint)`,
-    '--sidebar-tint-text': `var(--plume-color-${colorScheme}-tint-text)`,
+    '--sidebar-contrast': schemeVar(colorScheme, 'solid-contrast'),
+    '--sidebar-solid': schemeVar(colorScheme, 'solid'),
+    '--sidebar-solid-active': schemeVar(colorScheme, 'solid-active'),
+    '--sidebar-solid-hover': schemeVar(colorScheme, 'solid-hover'),
+    '--sidebar-text': schemeVar(colorScheme, 'text'),
+    '--sidebar-tint': schemeVar(colorScheme, 'tint'),
+    '--sidebar-tint-text': schemeVar(colorScheme, 'tint-text'),
     ...style,
   }) as CSSProperties
 

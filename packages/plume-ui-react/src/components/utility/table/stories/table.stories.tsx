@@ -274,31 +274,31 @@ export const Variants: Story = {
       </TableRow>
     </TableBody>
   </Table>
-  <Table aria-label="unstyled" className="w-full text-left text-sm" variant="unstyled">
-    <TableCaption className="pb-2 text-left font-bold">
-      unstyled, with Tailwind classes
+  <Table aria-label="unstyled" variant="unstyled">
+    <TableCaption>
+      unstyled
     </TableCaption>
     <TableHeader>
-      <TableRow className="border-b-2 border-gray-400">
-        <TableHead className="py-1">Name</TableHead>
-        <TableHead className="py-1">Role</TableHead>
-        <TableHead align="end" className="py-1">
+      <TableRow>
+        <TableHead>Name</TableHead>
+        <TableHead>Role</TableHead>
+        <TableHead align="end">
           Age
         </TableHead>
       </TableRow>
     </TableHeader>
     <TableBody>
-      <TableRow className="border-b border-gray-300">
-        <TableCell className="py-1">Ada Lovelace</TableCell>
-        <TableCell className="py-1">Mathematician</TableCell>
-        <TableCell align="end" className="py-1">
+      <TableRow>
+        <TableCell>Ada Lovelace</TableCell>
+        <TableCell>Mathematician</TableCell>
+        <TableCell align="end">
           36
         </TableCell>
       </TableRow>
-      <TableRow className="border-b border-gray-300">
-        <TableCell className="py-1">Grace Hopper</TableCell>
-        <TableCell className="py-1">Rear admiral</TableCell>
-        <TableCell align="end" className="py-1">
+      <TableRow>
+        <TableCell>Grace Hopper</TableCell>
+        <TableCell>Rear admiral</TableCell>
+        <TableCell align="end">
           45
         </TableCell>
       </TableRow>
@@ -333,27 +333,21 @@ export const Variants: Story = {
           </TableBody>
         </Table>
       ))}
-      <Table aria-label="unstyled" className="w-full text-left text-sm" variant="unstyled">
-        <TableCaption className="pb-2 text-left font-bold">
-          unstyled, with Tailwind classes
-        </TableCaption>
+      <Table aria-label="unstyled" variant="unstyled">
+        <TableCaption>unstyled</TableCaption>
         <TableHeader>
-          <TableRow className="border-b-2 border-gray-400">
-            <TableHead className="py-1">Name</TableHead>
-            <TableHead className="py-1">Role</TableHead>
-            <TableHead align="end" className="py-1">
-              Age
-            </TableHead>
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Role</TableHead>
+            <TableHead align="end">Age</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {people.map(({ age, name, role }) => (
-            <TableRow className="border-b border-gray-300" key={name}>
-              <TableCell className="py-1">{name}</TableCell>
-              <TableCell className="py-1">{role}</TableCell>
-              <TableCell align="end" className="py-1">
-                {age}
-              </TableCell>
+            <TableRow key={name}>
+              <TableCell>{name}</TableCell>
+              <TableCell>{role}</TableCell>
+              <TableCell align="end">{age}</TableCell>
             </TableRow>
           ))}
         </TableBody>

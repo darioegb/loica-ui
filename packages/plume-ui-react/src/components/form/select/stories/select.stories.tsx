@@ -279,23 +279,20 @@ export const Variants: Story = {
   <Select variant="unstyled">
     <SelectTrigger
       aria-label="Unstyled"
-      className="w-full rounded-sm border border-border bg-surface px-3 py-2 text-foreground"
       placeholder="Unstyled"
     >
       <SelectField>
-        <SelectCombobox className="data-[placeholder]:text-[var(--plume-muted)]" />
+        <SelectCombobox />
       </SelectField>
-      <SelectChevron className="text-[var(--plume-muted)]" />
+      <SelectChevron />
     </SelectTrigger>
-    <SelectContent className="rounded-sm border border-border bg-surface p-1 text-foreground shadow-sm">
+    <SelectContent>
       <SelectOption
-        className="cursor-pointer rounded-sm px-3 py-1 data-[active]:bg-surface-muted"
         value="apple"
       >
         Apple
       </SelectOption>
       <SelectOption
-        className="cursor-pointer rounded-sm px-3 py-1 data-[active]:bg-surface-muted"
         value="banana"
       >
         Banana
@@ -312,23 +309,15 @@ export const Variants: Story = {
       <Example label="Filled" variant="filled" />
       <Example label="Underline" variant="underline" />
       <Select variant="unstyled">
-        <SelectTrigger
-          aria-label="Unstyled"
-          className="w-full rounded-sm border border-border bg-surface px-3 py-2 text-foreground"
-          placeholder="Unstyled"
-        >
+        <SelectTrigger aria-label="Unstyled" placeholder="Unstyled">
           <SelectField>
-            <SelectCombobox className="data-[placeholder]:text-[var(--plume-muted)]" />
+            <SelectCombobox />
           </SelectField>
-          <SelectChevron className="text-[var(--plume-muted)]" />
+          <SelectChevron />
         </SelectTrigger>
-        <SelectContent className="rounded-sm border border-border bg-surface p-1 text-foreground shadow-sm">
+        <SelectContent>
           {fruits.map((fruit) => (
-            <SelectOption
-              className="cursor-pointer rounded-sm px-3 py-1 data-[active]:bg-surface-muted"
-              key={fruit}
-              value={fruit.toLowerCase()}
-            >
+            <SelectOption key={fruit} value={fruit.toLowerCase()}>
               {fruit}
             </SelectOption>
           ))}

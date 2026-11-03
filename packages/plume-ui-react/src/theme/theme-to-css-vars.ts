@@ -1,4 +1,5 @@
 import { getContrastRatio, getDarkenColor, getLightenColor } from '../utils/colors'
+import type { SchemeToken } from './shared.types'
 import type { TextStyle, Theme } from './theme.types'
 
 const PREFIX = '--plume'
@@ -55,7 +56,8 @@ const toKebabKeys = (record: TokenRecord): TokenRecord =>
 
 /**
  * Flattens a resolved Theme into a map of CSS custom properties
- * (e.g. `--plume-color-primary-500`, `--plume-space-4`, `--plume-radius-2`).
+ * (e.g. `--plume-color-primary-solid`, `--plume-space-4`, `--plume-radius-2`). The shades of a color
+ * scheme are not variables: the theme derives from them the colors of every `SchemeToken`.
  * Custom color schemes added via module augmentation are included automatically.
  */
 export function themeToCssVars(theme: Theme): Record<string, string> {
@@ -66,27 +68,25 @@ export function themeToCssVars(theme: Theme): Record<string, string> {
   const darkSurface = isDarkSurface(background)
   const colors = theme.colors as unknown as Record<string, TokenRecord>
   for (const [scheme, shades] of Object.entries(colors)) {
-    flatten(`${PREFIX}-color-${scheme}`, shades, vars)
-
     const { bg: solid, fg: onSolid } = pickSolidPair(shades)
-    vars[`${PREFIX}-color-${scheme}-solid`] = solid
-    vars[`${PREFIX}-color-${scheme}-solid-contrast`] = onSolid
-    vars[`${PREFIX}-color-${scheme}-solid-hover`] = getDarkenColor(solid, 12)
-    vars[`${PREFIX}-color-${scheme}-solid-active`] = getDarkenColor(solid, 24)
-
     const text = pickTextOnSurface(shades, surfaces)
-    vars[`${PREFIX}-color-${scheme}-text`] = text
-    vars[`${PREFIX}-color-${scheme}-text-hover`] = darkSurface
-      ? getLightenColor(text, 12)
-      : getDarkenColor(text, 12)
-    vars[`${PREFIX}-color-${scheme}-text-active`] = darkSurface
-      ? getLightenColor(text, 24)
-      : getDarkenColor(text, 24)
     const tint = String(shades[darkSurface ? '900' : '100'])
     const tintStrong = String(shades[darkSurface ? '800' : '200'])
-    vars[`${PREFIX}-color-${scheme}-tint`] = tint
-    vars[`${PREFIX}-color-${scheme}-tint-strong`] = tintStrong
-    vars[`${PREFIX}-color-${scheme}-tint-text`] = pickTextOnSurface(shades, [tint, tintStrong])
+    const derived: Record<SchemeToken, string> = {
+      solid,
+      'solid-contrast': onSolid,
+      'solid-hover': getDarkenColor(solid, 12),
+      'solid-active': getDarkenColor(solid, 24),
+      text,
+      'text-hover': darkSurface ? getLightenColor(text, 12) : getDarkenColor(text, 12),
+      'text-active': darkSurface ? getLightenColor(text, 24) : getDarkenColor(text, 24),
+      tint,
+      'tint-strong': tintStrong,
+      'tint-text': pickTextOnSurface(shades, [tint, tintStrong]),
+    }
+    for (const [token, value] of Object.entries(derived)) {
+      vars[`${PREFIX}-color-${scheme}-${token}`] = value
+    }
   }
 
   const semantic = theme.semantic as unknown as Record<string, string>
@@ -95,7 +95,6 @@ export function themeToCssVars(theme: Theme): Record<string, string> {
   }
 
   vars[`${PREFIX}-font-family`] = theme.typography.fontFamily
-  vars[`${PREFIX}-font-family-mono`] = theme.typography.fontFamilyMono
   flatten(`${PREFIX}-font-size`, theme.typography.fontSizes as unknown as TokenRecord, vars)
   flatten(`${PREFIX}-font-weight`, theme.typography.fontWeights as unknown as TokenRecord, vars)
   flatten(`${PREFIX}-line-height`, theme.typography.lineHeights as unknown as TokenRecord, vars)

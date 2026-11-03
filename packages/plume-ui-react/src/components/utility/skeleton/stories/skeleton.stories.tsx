@@ -58,7 +58,7 @@ export const Variants: Story = {
     <div className="flex flex-col gap-4" style={{ width: '16rem' }}>
       <Skeleton variant="pulse" />
       <Skeleton variant="wave" />
-      <Skeleton className="rounded-sm bg-gray-300" height={16} variant="unstyled" />
+      <Skeleton height={16} variant="unstyled" />
     </div>
   ),
 }

@@ -79,8 +79,8 @@ export const Variants: Story = {
       <__Name__ variant='solid'>
         <__Name__Content>Solid</__Name__Content>
       </__Name__>
-      <__Name__ className='px-3 py-1 rounded bg-black text-white' variant='unstyled'>
-        <__Name__Content className='p-2'>Unstyled</__Name__Content>
+      <__Name__ variant='unstyled'>
+        <__Name__Content>Unstyled</__Name__Content>
       </__Name__>
     </div>
   ),

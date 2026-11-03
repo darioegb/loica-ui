@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import type { ColorScheme } from '../../../theme'
+import { schemeVar } from '../../../theme'
 
 export const tagColorVars = (
   name: 'alert' | 'avatar' | 'badge' | 'chip',
@@ -7,11 +8,11 @@ export const tagColorVars = (
   style?: CSSProperties,
 ): CSSProperties =>
   ({
-    [`--${name}-solid`]: `var(--plume-color-${colorScheme}-solid)`,
-    [`--${name}-contrast`]: `var(--plume-color-${colorScheme}-solid-contrast)`,
-    [`--${name}-text`]: `var(--plume-color-${colorScheme}-text)`,
-    [`--${name}-tint`]: `var(--plume-color-${colorScheme}-tint)`,
-    [`--${name}-tint-text`]: `var(--plume-color-${colorScheme}-tint-text)`,
+    [`--${name}-solid`]: schemeVar(colorScheme, 'solid'),
+    [`--${name}-contrast`]: schemeVar(colorScheme, 'solid-contrast'),
+    [`--${name}-text`]: schemeVar(colorScheme, 'text'),
+    [`--${name}-tint`]: schemeVar(colorScheme, 'tint'),
+    [`--${name}-tint-text`]: schemeVar(colorScheme, 'tint-text'),
     '--tag-solid': `var(--${name}-solid)`,
     '--tag-contrast': `var(--${name}-contrast)`,
     '--tag-text': `var(--${name}-text)`,

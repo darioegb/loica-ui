@@ -3,6 +3,7 @@
 import type { CSSProperties, ForwardedRef, ReactNode } from 'react'
 import { forwardRef, useMemo, useState } from 'react'
 import type { ColorScheme, ComponentProps, Shape, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { customProperties } from '../shared/picker-panel'
 import { DatePickerCalendar } from './datepicker-calendar'
 import { DatePickerInput, type DatePickerInputProps } from './datepicker-input'
@@ -89,14 +90,14 @@ export type DatePickerProps = Omit<ComponentProps, 'index'> &
 
 const datePickerColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
-    '--datepicker-scheme': `var(--plume-color-${colorScheme}-text)`,
+    '--datepicker-scheme': schemeVar(colorScheme, 'text'),
     '--picker-scheme': 'var(--datepicker-scheme)',
-    '--datepicker-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--datepicker-contrast': `var(--plume-color-${colorScheme}-solid-contrast)`,
-    '--datepicker-range-item-color': `var(--plume-color-${colorScheme}-tint-strong)`,
-    '--datepicker-range-item-text': `var(--plume-color-${colorScheme}-tint-text)`,
-    '--datepicker-hover-color': `var(--plume-color-${colorScheme}-tint)`,
-    '--datepicker-selected-hover-color': `var(--plume-color-${colorScheme}-solid-hover)`,
+    '--datepicker-solid': schemeVar(colorScheme, 'solid'),
+    '--datepicker-contrast': schemeVar(colorScheme, 'solid-contrast'),
+    '--datepicker-range-item-color': schemeVar(colorScheme, 'tint-strong'),
+    '--datepicker-range-item-text': schemeVar(colorScheme, 'tint-text'),
+    '--datepicker-hover-color': schemeVar(colorScheme, 'tint'),
+    '--datepicker-selected-hover-color': schemeVar(colorScheme, 'solid-hover'),
     ...style,
   }) as CSSProperties
 

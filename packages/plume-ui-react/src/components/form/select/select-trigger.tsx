@@ -5,6 +5,7 @@ import { forwardRef, useEffect, useMemo, useRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import { mergeRefs } from '../../../overlay/trigger'
 import type { ComponentProps } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { useFieldContext } from '../field/field-context'
 import { SelectChevron } from './select-chevron'
 import { SelectChips } from './select-chips'
@@ -115,7 +116,7 @@ export const SelectTrigger = forwardRef<HTMLDivElement, SelectTriggerProps>(
     const composed = hasPart(children, TRIGGER_PARTS)
     const showChips = context.multiple && display === 'chips' && children === undefined
     const colorVars = {
-      '--select-color': `var(--plume-color-${context.colorScheme}-text)`,
+      '--select-color': schemeVar(context.colorScheme, 'text'),
       ...style,
     } as CSSProperties
     const rootRef = useMemo(

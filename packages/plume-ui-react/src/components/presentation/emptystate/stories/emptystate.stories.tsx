@@ -133,16 +133,11 @@ export const Variants: Story = {
         />
       ))}
       <EmptyState
-        action={
-          <Button className="mt-3" size="sm">
-            Create a project
-          </Button>
-        }
-        className="flex flex-col items-center gap-2 rounded-lg border border-border p-6 text-center"
-        description={<span className="text-sm text-muted">Projects you create will show up here.</span>}
-        icon={<span className="text-muted [&>svg]:size-12">{inbox}</span>}
+        action={<Button size="sm">Create a project</Button>}
+        description={<span>Projects you create will show up here.</span>}
+        icon={<span>{inbox}</span>}
         style={{ width: '18rem' }}
-        title={<span className="text-lg font-bold">Unstyled</span>}
+        title={<span>Unstyled</span>}
         variant="unstyled"
       />
     </div>

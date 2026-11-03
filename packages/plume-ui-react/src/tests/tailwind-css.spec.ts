@@ -4,6 +4,10 @@ import { defaultTheme } from '../theme/config'
 describe('buildTailwindCss', () => {
   const css = buildTailwindCss()
 
+  it('has no utility for the shades of a color scheme, which are not variables', () => {
+    expect(css).not.toMatch(/--color-primary(-\d+)?:/)
+  })
+
   it('points the utilities to the variables of Plume with an inline theme', () => {
     expect(css.startsWith('@theme inline {')).toBe(true)
     expect(css).toContain('--color-primary-solid: var(--plume-color-primary-solid);')

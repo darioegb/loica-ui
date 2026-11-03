@@ -258,19 +258,16 @@ export const Variants: Story = {
     <div className="flex">
       <Sidebar
         aria-label="Application"
-        className="rounded-r-2xl bg-slate-900 p-3 text-slate-100"
         variant="unstyled"
       >
-        <SidebarContent aria-label="Pages unstyled" className="gap-1">
+        <SidebarContent aria-label="Pages unstyled">
           <SidebarItem
             active
-            className="rounded-lg px-3 py-2 hover:bg-slate-700 data-[active]:bg-slate-700"
             href="#home"
           >
             Home
           </SidebarItem>
           <SidebarItem
-            className="rounded-lg px-3 py-2 hover:bg-slate-700 data-[active]:bg-slate-700"
             href="#projects"
           >
             Projects
@@ -299,22 +296,16 @@ export const Variants: Story = {
         />
       ))}
       <Shell
-        caption="unstyled, with Tailwind classes"
+        caption="unstyled"
         compact
         label="Pages unstyled"
         sidebar={{
-          className: 'rounded-r-2xl bg-slate-900 p-3 text-slate-100',
           variant: 'unstyled',
         }}
       >
-        <SidebarContent aria-label="Pages unstyled" className="gap-1">
+        <SidebarContent aria-label="Pages unstyled">
           {pages.map(({ href, label }, index) => (
-            <SidebarItem
-              active={index === 0}
-              className="rounded-lg px-3 py-2 hover:bg-slate-700 data-[active]:bg-slate-700 data-[active]:font-bold"
-              href={href}
-              key={label}
-            >
+            <SidebarItem active={index === 0} href={href} key={label}>
               {label}
             </SidebarItem>
           ))}

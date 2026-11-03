@@ -3,6 +3,7 @@
 import type { CSSProperties, FocusEvent, ForwardedRef, ReactNode } from 'react'
 import { useCallback, useId, useMemo, useState } from 'react'
 import type { ColorScheme, Shape, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
 import { useLabels } from '../../../locale/locale-provider'
 import { useControllableState } from '../../../overlay/use-controllable-state'
 import { useFloatingPanel } from '../../../overlay/use-floating-panel'
@@ -48,11 +49,11 @@ interface TimePickerController {
 
 export const timePickerColorVars = (colorScheme: ColorScheme): CSSProperties =>
   ({
-    '--picker-scheme': `var(--plume-color-${colorScheme}-text)`,
-    '--timepicker-solid': `var(--plume-color-${colorScheme}-solid)`,
-    '--timepicker-contrast': `var(--plume-color-${colorScheme}-solid-contrast)`,
-    '--timepicker-hover': `var(--plume-color-${colorScheme}-tint)`,
-    '--timepicker-selected-hover': `var(--plume-color-${colorScheme}-solid-hover)`,
+    '--picker-scheme': schemeVar(colorScheme, 'text'),
+    '--timepicker-solid': schemeVar(colorScheme, 'solid'),
+    '--timepicker-contrast': schemeVar(colorScheme, 'solid-contrast'),
+    '--timepicker-hover': schemeVar(colorScheme, 'tint'),
+    '--timepicker-selected-hover': schemeVar(colorScheme, 'solid-hover'),
   }) as CSSProperties
 
 export function useTimePickerController({

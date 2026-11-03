@@ -122,10 +122,12 @@ or copy it from the end of this section), and import it after the CSS of Plume:
 @import './plume-theme.css';
 ```
 
-It turns the tokens of Plume into utilities: the colors (`bg-primary-solid`, `text-primary-on-solid`, `bg-surface`,
-`border-border`), the text styles (`text-heading-1`, `text-body`), the font families (`font-plume`), sizes, weights,
-line heights and letter spacings, the radii, the shadows, the container widths (`max-w-md`) and the easings, plus
-`z-modal`, `duration-fast`, `opacity-disabled` and `h-control-md`. Plume doesn't ship this file, so it stays independent
+It turns the tokens of Plume into utilities: the colors of every scheme and of the page (`bg-primary-solid`,
+`text-primary-on-solid`, `bg-surface`, `border-border`), the text styles (`text-heading-1`, `text-body`), the font
+family (`font-plume`), sizes, weights, line heights and letter spacings, the radii, the shadows, the container widths
+(`max-w-md`) and the easings, plus `z-modal`, `duration-fast`, `opacity-disabled` and `h-control-md`. The shades of a
+color are not variables, so there is no `bg-primary-500`, and the values a scale of Plume doesn't have (`shadow-sm`,
+`max-w-xl`) stay the ones of Tailwind. Plume doesn't ship this file, so it stays independent
 of any CSS framework: keep only the utilities you use, or rename them.
 
 The utilities point to the variables of Plume (`@theme inline`), so they follow the theme, a nested provider and the
@@ -158,7 +160,6 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: 'var(--plume-color-primary-500)',
           solid: 'var(--plume-color-primary-solid)',
           'on-solid': 'var(--plume-color-primary-solid-contrast)',
           text: 'var(--plume-color-primary-text)',
@@ -173,9 +174,8 @@ export default {
 }
 ```
 
-Every token is a variable named `--plume-<group>-<name>` (`--plume-color-primary-500`, `--plume-space-4`,
-`--plume-shadow-md`), listed in [Tokens](?path=/docs/theme-tokens--docs). For a filled surface use `solid` with
-`solid-contrast`, and for colored text `text`: unlike the raw `500` shade, they keep a contrast of 4.5:1 in light and
+Every token is a variable named `--plume-<group>-<name>` (`--plume-color-primary-solid`, `--plume-space-4`,
+`--plume-shadow-md`), listed in [Tokens](?path=/docs/theme-tokens--docs). For a filled surface use `solid` with `solid-contrast`, and for colored text `text`: they keep a contrast of 4.5:1 in light and
 dark.
 
 ## Bootstrap, or any other framework

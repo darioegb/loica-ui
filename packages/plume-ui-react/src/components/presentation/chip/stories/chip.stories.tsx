@@ -117,9 +117,7 @@ export const Variants: Story = {
       <Chip variant="subtle">Subtle</Chip>
       <Chip variant="solid">Solid</Chip>
       <Chip variant="outline">Outline</Chip>
-      <Chip className="rounded-sm border border-gray-400 px-2 py-0.5 text-sm" variant="unstyled">
-        Unstyled
-      </Chip>
+      <Chip variant="unstyled">Unstyled</Chip>
     </div>
   ),
 }

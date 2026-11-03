@@ -117,11 +117,7 @@ export const Variants: Story = {
       <Tooltip content="An outline tooltip" variant="outline">
         <Button variant="outline">Outline</Button>
       </Tooltip>
-      <Tooltip
-        className="rounded-sm bg-yellow-200 px-2 py-1 text-black"
-        content="An unstyled tooltip"
-        variant="unstyled"
-      >
+      <Tooltip content="An unstyled tooltip" variant="unstyled">
         <Button variant="outline">Unstyled</Button>
       </Tooltip>
     </div>

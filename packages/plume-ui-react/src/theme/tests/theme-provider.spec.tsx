@@ -56,7 +56,7 @@ describe('ThemeProvider', () => {
         <ColorModeProbe />
       </ThemeProvider>,
     )
-    expect(root().style.getPropertyValue('--plume-color-primary-500')).toBe('')
+    expect(root().style.getPropertyValue('--plume-color-primary-solid')).toBe('')
     expect(root().style.getPropertyValue('--plume-space-4')).toBe('')
     expect(root()).toHaveAttribute('data-plume-color-mode', 'light')
   })
@@ -77,12 +77,12 @@ describe('ThemeProvider', () => {
 
   it('merges a partial theme over the default one', () => {
     render(
-      <ThemeProvider theme={{ colors: { primary: { 500: '#ff0000' } } }}>
+      <ThemeProvider theme={{ colors: { primary: { 100: '#ff0000' } } }}>
         <ColorModeProbe />
       </ThemeProvider>,
     )
-    expect(root()).toHaveStyle('--plume-color-primary-500: #ff0000')
-    expect(root().style.getPropertyValue('--plume-color-primary-600')).toBe('')
+    expect(root()).toHaveStyle('--plume-color-primary-tint: #ff0000')
+    expect(root().style.getPropertyValue('--plume-color-primary-solid')).toBe('')
   })
 
   it('switches between light and dark at runtime', async () => {
