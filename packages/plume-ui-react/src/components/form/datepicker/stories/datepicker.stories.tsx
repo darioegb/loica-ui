@@ -644,8 +644,8 @@ export const Tailwind: Story = {
       source: {
         code: `<DatePicker onValueChange={handleValueChange} value={value} variant="unstyled">
   <DatePickerInput aria-label="Pick a date" className="relative" placeholder="Pick a date">
-    <DatePickerField className="w-full rounded-lg border border-border bg-surface py-2.5 pr-11 pl-4 text-sm text-foreground outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-200" />
-    <DatePickerTrigger className="absolute inset-y-0 right-0 flex items-center px-3 text-muted" />
+    <DatePickerField className="w-full rounded-lg border border-border bg-surface py-2.5 pr-11 pl-4 text-sm text-foreground outline-none hover:border-border-hover focus:border-blue-500 focus:ring-3 focus:ring-blue-200" />
+    <DatePickerTrigger className="absolute inset-y-0 right-0 flex items-center px-3 text-muted hover:text-foreground" />
   </DatePickerInput>
   <DatePickerCalendar className="w-72 rounded-xl border border-border bg-surface p-3 text-sm text-foreground shadow-lg">
     <DatePickerPages>
@@ -712,8 +712,8 @@ export const Tailwind: Story = {
   render: () => (
     <ControlledDatePicker variant='unstyled'>
       <DatePickerInput aria-label='Pick a date' className='relative' placeholder='Pick a date'>
-        <DatePickerField className='w-full rounded-lg border border-border bg-surface py-2.5 pr-11 pl-4 text-sm text-foreground outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-200' />
-        <DatePickerTrigger className='absolute inset-y-0 right-0 flex items-center px-3 text-muted' />
+        <DatePickerField className='w-full rounded-lg border border-border bg-surface py-2.5 pr-11 pl-4 text-sm text-foreground outline-none hover:border-border-hover focus:border-blue-500 focus:ring-3 focus:ring-blue-200' />
+        <DatePickerTrigger className='absolute inset-y-0 right-0 flex items-center px-3 text-muted hover:text-foreground' />
       </DatePickerInput>
       <DatePickerCalendar className='w-72 rounded-xl border border-border bg-surface p-3 text-sm text-foreground shadow-lg'>
         <DatePickerPages>
@@ -793,7 +793,7 @@ export const Bootstrap: Story = {
         code: `<DatePicker onValueChange={handleValueChange} value={value} variant="unstyled">
   <DatePickerInput aria-label="Pick a date" className="position-relative" placeholder="Pick a date">
     <DatePickerField className="form-control pe-5" />
-    <DatePickerTrigger className="btn btn-sm border-0 position-absolute top-50 end-0 translate-middle-y me-1" />
+    <DatePickerTrigger className="btn btn-sm btn-outline-secondary border-0 position-absolute top-50 end-0 translate-middle-y me-1" />
   </DatePickerInput>
   <DatePickerCalendar className="card shadow p-3" style={{ width: '19rem' }}>
     <DatePickerPages>
@@ -813,7 +813,7 @@ export const Bootstrap: Story = {
                 <DatePickerMonths className="gap-1">
                   {(month) => (
                     <DatePickerMonthOption
-                      className={\`btn btn-sm \${month.selected ? 'btn-primary' : ''}\`}
+                      className={\`btn btn-sm \${month.selected ? 'btn-primary' : 'btn-outline-secondary border-0'}\`}
                       key={month.index}
                       month={month}
                     />
@@ -826,7 +826,7 @@ export const Bootstrap: Story = {
                 <DatePickerYears className="gap-1">
                   {(year) => (
                     <DatePickerYearOption
-                      className={\`btn btn-sm \${year.selected ? 'btn-primary' : ''}\`}
+                      className={\`btn btn-sm \${year.selected ? 'btn-primary' : 'btn-outline-secondary border-0'}\`}
                       key={year.value}
                       year={year}
                     />
@@ -840,7 +840,7 @@ export const Bootstrap: Story = {
                 <DatePickerGrid className="gap-1">
                   {(day) => (
                     <DatePickerDay
-                      className={\`btn btn-sm p-0 mx-auto rounded-circle border-0 d-flex align-items-center justify-content-center \${day.isSelected ? 'btn-primary' : ''} \${day.isCurrentMonth ? '' : 'opacity-25'} \${day.isToday ? 'fw-bold' : ''}\`}
+                      className={\`btn btn-sm p-0 mx-auto rounded-circle border-0 d-flex align-items-center justify-content-center \${day.isSelected ? 'btn-primary' : 'btn-outline-secondary'} \${day.isCurrentMonth ? '' : 'opacity-25'} \${day.isToday ? 'fw-bold' : ''}\`}
                       day={day}
                       key={day.dataDate}
                       style={{ height: '2.25rem', width: '2.25rem' }}
@@ -862,7 +862,7 @@ export const Bootstrap: Story = {
     <ControlledDatePicker variant='unstyled'>
       <DatePickerInput aria-label='Pick a date' className='position-relative' placeholder='Pick a date'>
         <DatePickerField className='form-control pe-5' />
-        <DatePickerTrigger className='btn btn-sm border-0 position-absolute top-50 end-0 translate-middle-y me-1' />
+        <DatePickerTrigger className='btn btn-sm btn-outline-secondary border-0 position-absolute top-50 end-0 translate-middle-y me-1' />
       </DatePickerInput>
       <DatePickerCalendar className='card shadow p-3' style={{ width: '19rem' }}>
         <DatePickerPages>
@@ -882,7 +882,7 @@ export const Bootstrap: Story = {
                     <DatePickerMonths className='gap-1'>
                       {(month) => (
                         <DatePickerMonthOption
-                          className={`btn btn-sm ${month.selected ? 'btn-primary' : ''}`}
+                          className={`btn btn-sm ${month.selected ? 'btn-primary' : 'btn-outline-secondary border-0'}`}
                           key={month.index}
                           month={month}
                         />
@@ -895,7 +895,7 @@ export const Bootstrap: Story = {
                     <DatePickerYears className='gap-1'>
                       {(year) => (
                         <DatePickerYearOption
-                          className={`btn btn-sm ${year.selected ? 'btn-primary' : ''}`}
+                          className={`btn btn-sm ${year.selected ? 'btn-primary' : 'btn-outline-secondary border-0'}`}
                           key={year.value}
                           year={year}
                         />
@@ -909,7 +909,7 @@ export const Bootstrap: Story = {
                     <DatePickerGrid className='gap-1'>
                       {(day) => (
                         <DatePickerDay
-                          className={`btn btn-sm p-0 mx-auto rounded-circle border-0 d-flex align-items-center justify-content-center ${day.isSelected ? 'btn-primary' : ''} ${day.isCurrentMonth ? '' : 'opacity-25'} ${day.isToday ? 'fw-bold' : ''}`}
+                          className={`btn btn-sm p-0 mx-auto rounded-circle border-0 d-flex align-items-center justify-content-center ${day.isSelected ? 'btn-primary' : 'btn-outline-secondary'} ${day.isCurrentMonth ? '' : 'opacity-25'} ${day.isToday ? 'fw-bold' : ''}`}
                           day={day}
                           key={day.dataDate}
                           style={{ height: '2.25rem', width: '2.25rem' }}

@@ -483,8 +483,8 @@ export const Tailwind: Story = {
       source: {
         code: `<TimePicker defaultValue="09:30" variant="unstyled">
   <TimePickerInput aria-label="Time" className="relative">
-    <TimePickerField className="w-full rounded-lg border border-border bg-surface py-2.5 pr-11 pl-4 text-sm text-foreground outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-200" />
-    <TimePickerTrigger className="absolute inset-y-0 right-0 flex items-center px-3 text-muted" />
+    <TimePickerField className="w-full rounded-lg border border-border bg-surface py-2.5 pr-11 pl-4 text-sm text-foreground outline-none hover:border-border-hover focus:border-blue-500 focus:ring-3 focus:ring-blue-200" />
+    <TimePickerTrigger className="absolute inset-y-0 right-0 flex items-center px-3 text-muted hover:text-foreground" />
   </TimePickerInput>
   <TimePickerPanel className="gap-1 rounded-xl border border-border bg-surface p-2 text-sm text-foreground shadow-lg">
     <TimePickerHours className="w-14 gap-0.5">
@@ -513,8 +513,8 @@ export const Tailwind: Story = {
   render: () => (
     <TimePicker defaultValue='09:30' variant='unstyled'>
       <TimePickerInput aria-label='Time' className='relative'>
-        <TimePickerField className='w-full rounded-lg border border-border bg-surface py-2.5 pr-11 pl-4 text-sm text-foreground outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-200' />
-        <TimePickerTrigger className='absolute inset-y-0 right-0 flex items-center px-3 text-muted' />
+        <TimePickerField className='w-full rounded-lg border border-border bg-surface py-2.5 pr-11 pl-4 text-sm text-foreground outline-none hover:border-border-hover focus:border-blue-500 focus:ring-3 focus:ring-blue-200' />
+        <TimePickerTrigger className='absolute inset-y-0 right-0 flex items-center px-3 text-muted hover:text-foreground' />
       </TimePickerInput>
       <TimePickerPanel className='gap-1 rounded-xl border border-border bg-surface p-2 text-sm text-foreground shadow-lg'>
         <TimePickerHours className='w-14 gap-0.5'>
@@ -560,13 +560,13 @@ export const Bootstrap: Story = {
     <TimePicker onValueChange={setValue} value={value} variant="unstyled">
       <TimePickerInput aria-label="Time" className="position-relative">
         <TimePickerField className="form-control pe-5" />
-        <TimePickerTrigger className="btn btn-sm border-0 position-absolute top-50 end-0 translate-middle-y me-1" />
+        <TimePickerTrigger className="btn btn-sm btn-outline-secondary border-0 position-absolute top-50 end-0 translate-middle-y me-1" />
       </TimePickerInput>
       <TimePickerPanel className="d-flex gap-1 p-2 bg-body border rounded-3 shadow">
         <TimePickerHours className="gap-1" style={{ width: '4rem' }}>
           {(option) => (
             <TimePickerOption
-              className={\`btn btn-sm \${option.value === hours ? 'btn-primary' : ''}\`}
+              className={\`btn btn-sm \${option.value === hours ? 'btn-primary' : 'btn-outline-secondary border-0'}\`}
               key={option.value}
               option={option}
             />
@@ -575,7 +575,7 @@ export const Bootstrap: Story = {
         <TimePickerMinutes className="gap-1" style={{ width: '4rem' }}>
           {(option) => (
             <TimePickerOption
-              className={\`btn btn-sm \${option.value === minutes ? 'btn-primary' : ''}\`}
+              className={\`btn btn-sm \${option.value === minutes ? 'btn-primary' : 'btn-outline-secondary border-0'}\`}
               key={option.value}
               option={option}
             />
@@ -596,13 +596,13 @@ export const Bootstrap: Story = {
       <TimePicker onValueChange={setValue} value={value} variant='unstyled'>
         <TimePickerInput aria-label='Time' className='position-relative'>
           <TimePickerField className='form-control pe-5' />
-          <TimePickerTrigger className='btn btn-sm border-0 position-absolute top-50 end-0 translate-middle-y me-1' />
+          <TimePickerTrigger className='btn btn-sm btn-outline-secondary border-0 position-absolute top-50 end-0 translate-middle-y me-1' />
         </TimePickerInput>
         <TimePickerPanel className='d-flex gap-1 p-2 bg-body border rounded-3 shadow'>
           <TimePickerHours className='gap-1' style={{ width: '4rem' }}>
             {(option) => (
               <TimePickerOption
-                className={`btn btn-sm ${option.value === hours ? 'btn-primary' : ''}`}
+                className={`btn btn-sm ${option.value === hours ? 'btn-primary' : 'btn-outline-secondary border-0'}`}
                 key={option.value}
                 option={option}
               />
@@ -611,7 +611,7 @@ export const Bootstrap: Story = {
           <TimePickerMinutes className='gap-1' style={{ width: '4rem' }}>
             {(option) => (
               <TimePickerOption
-                className={`btn btn-sm ${option.value === minutes ? 'btn-primary' : ''}`}
+                className={`btn btn-sm ${option.value === minutes ? 'btn-primary' : 'btn-outline-secondary border-0'}`}
                 key={option.value}
                 option={option}
               />
