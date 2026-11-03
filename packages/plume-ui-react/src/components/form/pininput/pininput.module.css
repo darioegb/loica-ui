@@ -69,6 +69,14 @@
   border-radius: var(--plume-radius-full);
 }
 
+:is(.outline, .filled, .underline) .cell:enabled:hover {
+  border-color: var(--plume-border-hover);
+}
+
+.filled .cell:enabled:hover {
+  background-color: color-mix(in srgb, var(--plume-foreground) var(--plume-overlay-hover), var(--plume-surface-muted));
+}
+
 .outline .cell:enabled:focus {
   border-color: var(--pininput-color);
   outline-color: var(--pininput-color);
@@ -78,7 +86,8 @@
   border-block-end: var(--plume-border-width-medium) solid var(--pininput-color);
 }
 
-.invalid .cell {
+.invalid .cell,
+.invalid .cell:enabled:hover {
   border-color: var(--plume-color-error-text);
 }
 

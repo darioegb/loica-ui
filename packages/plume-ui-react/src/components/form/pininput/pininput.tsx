@@ -1,15 +1,13 @@
 'use client'
 
-import type { CSSProperties, ForwardedRef, InputHTMLAttributes, ReactNode } from 'react'
+import type { ComponentPropsWithoutRef, CSSProperties, ForwardedRef, ReactNode } from 'react'
 import { forwardRef, useEffect, useMemo } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import { useLabels } from '../../../locale/locale-provider'
-import type { ColorScheme, ComponentProps, Shape, Size } from '../../../theme'
+import type { ColorScheme, Shape, Size } from '../../../theme'
 import { schemeVar } from '../../../theme'
 import { useFieldContext } from '../field/field-context'
 import { PinInputCell } from './pininput-cell'
-import { PinInputContext } from './pininput-context'
-import { PinInputHidden } from './pininput-hidden'
 import type { PinInputType } from './pin-utils'
 import styles from './pininput.module.css'
 import { usePinInput } from './use-pin-input'
@@ -27,10 +25,6 @@ export interface PinInputOwnProps {
    * @default 'one-time-code'
    */
   autoComplete?: string
-  /**
-   * The parts of the PinInput: `PinInputCell` for each box and `PinInputHidden` for the hidden input of a `name`. Without children it renders the boxes.
-   */
-  children?: ReactNode
   /**
    * Gives the focus to the first box when the component mounts. It is `autoFocus` with another name: moving the focus on its own is only right on a screen that exists to enter the code.
    *
@@ -72,6 +66,18 @@ export interface PinInputOwnProps {
    */
   shape?: Shape
   /**
+   * Makes the boxes read only: they keep the code and can be focused, but not edited.
+   *
+   * @default false
+   */
+  readOnly?: boolean
+  /**
+   * Marks the boxes as required for assistive technology.
+   *
+   * @default false
+   */
+  required?: boolean
+  /**
    * Size of the boxes.
    *
    * @default 'md'
@@ -95,22 +101,10 @@ export interface PinInputOwnProps {
   variant?: PinInputVariant
 }
 
-type PinInputRootAttributes = Pick<
-  InputHTMLAttributes<HTMLFieldSetElement>,
-  | 'aria-describedby'
-  | 'aria-invalid'
-  | 'aria-label'
-  | 'aria-labelledby'
-  | 'disabled'
-  | 'hidden'
-  | 'id'
-  | 'readOnly'
-  | 'required'
-  | 'title'
->
-
-export type PinInputProps = Omit<ComponentProps, 'index'> &
-  PinInputRootAttributes &
+export type PinInputProps = Omit<
+  ComponentPropsWithoutRef<'fieldset'>,
+  'children' | 'defaultValue' | 'name' | 'onChange' | 'placeholder'
+> &
   PinInputOwnProps
 
 const defaultLabels = (type: PinInputType): PinInputLabels => ({
@@ -125,7 +119,6 @@ export const PinInput = forwardRef<HTMLFieldSetElement, PinInputProps>(
       'aria-label': ariaLabel,
       'aria-labelledby': ariaLabelledby,
       autoComplete = 'one-time-code',
-      children,
       focusOnMount = false,
       className,
       colorScheme = 'secondary',
@@ -187,67 +180,45 @@ export const PinInput = forwardRef<HTMLFieldSetElement, PinInputProps>(
       label.addEventListener('click', focus)
       return () => label.removeEventListener('click', focus)
     }, [cells, fieldLabel, tabbable])
-    const context = useMemo(
-      () => ({
-        autoComplete,
-        disabled,
-        invalid,
-        isStyled,
-        labels: text,
-        length,
-        mask,
-        name,
-        pin,
-        placeholder,
-        readOnly,
-        required,
-        type,
-      }),
-      [
-        autoComplete,
-        disabled,
-        invalid,
-        isStyled,
-        length,
-        mask,
-        name,
-        pin,
-        placeholder,
-        readOnly,
-        required,
-        text,
-        type,
-      ],
-    )
 
     return (
-      <PinInputContext.Provider value={context}>
-        <fieldset
-          aria-describedby={describedBy}
-          aria-invalid={invalid || undefined}
-          aria-label={ariaLabel}
-          aria-labelledby={labelledBy}
-          className={classes}
-          data-disabled={disabled ? '' : undefined}
-          data-invalid={invalid ? '' : undefined}
-          data-plume-pininput=""
-          data-readonly={readOnly ? '' : undefined}
-          disabled={disabled}
-          id={id}
-          ref={ref}
-          style={colorVars}
-          {...rest}
-        >
-          {children ?? (
-            <>
-              {[...new Array(length).keys()].map((index) => (
-                <PinInputCell index={index} key={index} />
-              ))}
-              {name ? <PinInputHidden /> : null}
-            </>
-          )}
-        </fieldset>
-      </PinInputContext.Provider>
+      <fieldset
+        aria-describedby={describedBy}
+        aria-invalid={invalid || undefined}
+        aria-label={ariaLabel}
+        aria-labelledby={labelledBy}
+        className={classes}
+        data-disabled={disabled ? '' : undefined}
+        data-invalid={invalid ? '' : undefined}
+        data-plume-pininput=""
+        data-readonly={readOnly ? '' : undefined}
+        disabled={disabled}
+        id={id}
+        ref={ref}
+        style={colorVars}
+        {...rest}
+      >
+        {[...new Array(length).keys()].map((index) => (
+          <PinInputCell
+            autoComplete={autoComplete}
+            disabled={disabled}
+            index={index}
+            invalid={invalid}
+            isStyled={isStyled}
+            key={index}
+            label={text.input(index + 1, length)}
+            mask={mask}
+            pin={pin}
+            placeholder={placeholder}
+            readOnly={readOnly}
+            required={required}
+            type={type}
+          />
+        ))}
+        {name ? (
+          <input data-plume-pininput-hidden="" name={name} type="hidden" value={pin.value} />
+        ) : null}
+      </fieldset>
     )
   },
 )

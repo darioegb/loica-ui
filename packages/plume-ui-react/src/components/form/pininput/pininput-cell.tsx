@@ -1,76 +1,65 @@
 'use client'
 
-import type { ForwardedRef, InputHTMLAttributes, ReactNode } from 'react'
-import { forwardRef } from 'react'
-import { joinClasses } from '../../../overlay/class-names'
+import type { ReactNode } from 'react'
 import { mergeRefs } from '../../../overlay/trigger'
-import type { ComponentProps } from '../../../theme'
-import { usePinInputContext } from './pininput-context'
+import type { PinInputType } from './pin-utils'
 import styles from './pininput.module.css'
+import type { PinInputState } from './use-pin-input'
 
-export interface PinInputCellOwnProps {
-  /** Position of the box in the code, starting from 0. */
+interface PinInputCellProps {
+  autoComplete: string
+  disabled: boolean
   index: number
+  invalid: boolean
+  isStyled: boolean
+  label: string
+  mask: boolean
+  pin: PinInputState
+  placeholder: string | undefined
+  readOnly: boolean
+  required: boolean
+  type: PinInputType
 }
 
-type PinInputCellRootAttributes = Pick<
-  InputHTMLAttributes<HTMLInputElement>,
-  'aria-label' | 'autoComplete' | 'id' | 'inputMode' | 'placeholder' | 'title'
->
-
-export type PinInputCellProps = Omit<ComponentProps, 'index'> &
-  PinInputCellRootAttributes &
-  PinInputCellOwnProps
-
-/** One box of the code. It is filled when the position has a character. */
-export const PinInputCell = forwardRef<HTMLInputElement, PinInputCellProps>(
-  (
-    {
-      'aria-label': ariaLabel,
-      autoComplete,
-      className,
-      index,
-      inputMode,
-      placeholder,
-      style,
-      ...rest
-    }: PinInputCellProps,
-    ref: ForwardedRef<HTMLInputElement>,
-  ): ReactNode => {
-    const context = usePinInputContext('PinInputCell')
-    const { pin } = context
-    const filled = Boolean(pin.value[index])
-
-    return (
-      <input
-        aria-invalid={context.invalid || undefined}
-        aria-label={ariaLabel ?? context.labels.input(index + 1, context.length)}
-        aria-required={context.required || undefined}
-        autoComplete={autoComplete ?? context.autoComplete}
-        className={joinClasses(context.isStyled && styles.cell, className)}
-        data-disabled={context.disabled ? '' : undefined}
-        data-filled={filled ? '' : undefined}
-        data-invalid={context.invalid ? '' : undefined}
-        data-plume-pininput-cell=""
-        disabled={context.disabled}
-        inputMode={inputMode ?? (context.type === 'numeric' ? 'numeric' : 'text')}
-        onChange={(event) => pin.onChange(index, event.target.value)}
-        onFocus={(event) => event.target.select()}
-        onKeyDown={(event) => pin.onKeyDown(index, event)}
-        onPaste={(event) => pin.onPaste(index, event)}
-        placeholder={placeholder ?? context.placeholder}
-        readOnly={context.readOnly}
-        ref={mergeRefs<HTMLInputElement>(ref, (element) => {
-          pin.cells.current[index] = element
-        })}
-        style={style}
-        tabIndex={index === pin.tabbable ? 0 : -1}
-        type={context.mask ? 'password' : 'text'}
-        value={pin.value[index] ?? ''}
-        {...rest}
-      />
-    )
-  },
-)
-
-PinInputCell.displayName = 'PinInputCell'
+export function PinInputCell({
+  autoComplete,
+  disabled,
+  index,
+  invalid,
+  isStyled,
+  label,
+  mask,
+  pin,
+  placeholder,
+  readOnly,
+  required,
+  type,
+}: Readonly<PinInputCellProps>): ReactNode {
+  return (
+    <input
+      aria-invalid={invalid || undefined}
+      aria-label={label}
+      aria-required={required || undefined}
+      autoComplete={autoComplete}
+      className={isStyled ? styles.cell : undefined}
+      data-disabled={disabled ? '' : undefined}
+      data-filled={pin.value[index] ? '' : undefined}
+      data-invalid={invalid ? '' : undefined}
+      data-plume-pininput-cell=""
+      disabled={disabled}
+      inputMode={type === 'numeric' ? 'numeric' : 'text'}
+      onChange={(event) => pin.onChange(index, event.target.value)}
+      onFocus={(event) => event.target.select()}
+      onKeyDown={(event) => pin.onKeyDown(index, event)}
+      onPaste={(event) => pin.onPaste(index, event)}
+      placeholder={placeholder}
+      readOnly={readOnly}
+      ref={mergeRefs<HTMLInputElement>((element) => {
+        pin.cells.current[index] = element
+      })}
+      tabIndex={index === pin.tabbable ? 0 : -1}
+      type={mask ? 'password' : 'text'}
+      value={pin.value[index] ?? ''}
+    />
+  )
+}

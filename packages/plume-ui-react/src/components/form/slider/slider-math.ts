@@ -1,4 +1,4 @@
-import type { SliderMark } from './slider-context'
+import type { SliderMark } from './slider-types'
 
 export const clamp = (value: number, min: number, max: number): number =>
   Math.min(Math.max(value, min), max)

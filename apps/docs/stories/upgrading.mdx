@@ -176,7 +176,7 @@ and you style it from the parent. The sections below list each family.
   <tbody>
     <tr><td><code>Input</code></td><td><code>inputClassName</code>, <code>revealClassName</code></td><td><code>data-plume-input-field</code> and <code>-reveal</code>, styled from the <code>Input</code></td></tr>
     <tr><td><code>Textarea</code></td><td><code>inputClassName</code>, <code>countClassName</code></td><td><code>data-plume-textarea-field</code> and <code>-count</code>, styled from the <code>Textarea</code></td></tr>
-    <tr><td><code>PinInput</code></td><td><code>inputClassName</code></td><td><code>PinInputCell</code></td></tr>
+    <tr><td><code>PinInput</code></td><td><code>inputClassName</code></td><td><code>data-plume-pininput-cell</code>, styled from the <code>PinInput</code></td></tr>
     <tr><td><code>SelectGroup</code></td><td><code>labelClassName</code></td><td><code>SelectGroupLabel</code></td></tr>
     <tr><td><code>TimePicker</code></td><td><code>panelClassName</code></td><td><code>TimePickerPanel</code></td></tr>
     <tr><td><code>Sidebar</code>, <code>ModalContent</code>, <code>DrawerContent</code></td><td><code>backdropClassName</code></td><td><code>SidebarBackdrop</code>, <code>ModalBackdrop</code>, <code>DrawerBackdrop</code></td></tr>
@@ -224,8 +224,8 @@ longer on the `DatePickerInput`.
   <tbody>
     <tr><td><code>Input</code> with addons, elements or <code>revealable</code></td><td><code>className</code> on the <code>&lt;input&gt;</code></td><td><code>className</code> on the group, <code>{'[&_[data-plume-input-field]]'}</code> for the <code>&lt;input&gt;</code></td></tr>
     <tr><td><code>Textarea</code> with <code>showCount</code></td><td><code>className</code> on the <code>&lt;textarea&gt;</code></td><td><code>className</code> on the wrapper, <code>{'[&_[data-plume-textarea-field]]'}</code> for the <code>&lt;textarea&gt;</code></td></tr>
-    <tr><td><code>DatePicker</code>, <code>TimePicker</code></td><td><code>className</code> on the <code>&lt;input&gt;</code></td><td><code>className</code> on the root, <code>{'[&_[data-plume-input-field]]'}</code> for the <code>&lt;input&gt;</code></td></tr>
-    <tr><td><code>DatePickerInput</code>, <code>TimePickerInput</code></td><td><code>className</code> on the <code>&lt;input&gt;</code></td><td><code>className</code> on the field with its button, <code>{'[&_[data-plume-input-field]]'}</code> for the <code>&lt;input&gt;</code></td></tr>
+    <tr><td><code>DatePicker</code>, <code>TimePicker</code></td><td><code>className</code> on the <code>&lt;input&gt;</code></td><td><code>className</code> on the root, <code>DatePickerField</code> or <code>TimePickerField</code> for the <code>&lt;input&gt;</code></td></tr>
+    <tr><td><code>DatePickerInput</code>, <code>TimePickerInput</code></td><td><code>className</code> on the <code>&lt;input&gt;</code></td><td><code>className</code> on the field with its button, <code>DatePickerField</code> or <code>TimePickerField</code> for the <code>&lt;input&gt;</code></td></tr>
   </tbody>
 </table>
 
@@ -267,7 +267,7 @@ provider, and a single text can be set on the part that shows it.
     <tr><td><code>Input</code></td><td><code>revealLabel</code></td><td>the <code>input.reveal</code> text of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Textarea</code></td><td><code>formatCount</code>, <code>formatRemaining</code></td><td>the <code>textarea.count</code> and <code>textarea.remaining</code> texts of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>NumberInput</code></td><td><code>decrementLabel</code>, <code>incrementLabel</code></td><td>the <code>numberInput.decrement</code> and <code>numberInput.increment</code> texts of the <code>LocaleProvider</code></td></tr>
-    <tr><td><code>PinInput</code></td><td><code>getInputLabel</code></td><td>the <code>pinInput.input</code> text of the <code>LocaleProvider</code>, or <code>aria-label</code> on <code>PinInputCell</code></td></tr>
+    <tr><td><code>PinInput</code></td><td><code>getInputLabel</code></td><td>the <code>pinInput.input</code> text of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Rating</code></td><td><code>getItemLabel</code>, <code>readOnlyLabel</code></td><td>the <code>rating.item</code> and <code>rating.readOnly</code> texts of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Slider</code></td><td><code>getThumbLabel</code></td><td>the <code>slider.thumb</code> text of the <code>LocaleProvider</code></td></tr>
     <tr><td><code>Select</code></td><td><code>clearLabel</code> and <code>removeLabel</code> on <code>SelectTrigger</code>; <code>emptyText</code> and <code>searchLabel</code> on <code>SelectContent</code></td><td>the <code>select</code> texts of the <code>LocaleProvider</code> (<code>clear</code>, <code>remove</code>, <code>empty</code>, <code>search</code>, <code>overflow</code>)</td></tr>
@@ -290,14 +290,16 @@ provider, and a single text can be set on the part that shows it.
 The type of each one is exported, for example `PaginatorLabels`. The `Loader` says `Loading` instead of `loading` by
 default.
 
-## `Input`, `Textarea` and `NumberInput` are single components, `PinInput` is made of parts
+## Text fields, `PinInput`, `Rating` and `Slider` are single components
 
-`Input`, `Textarea`, `NumberInput` and `PinInput` no longer take `classNames`. `Input`, `Textarea` and `NumberInput` draw
-their addons, elements, reveal button, counter and steppers themselves, so `InputGroup`, `InputControl`, `InputAddon`,
-`InputElement`, `InputField`, `InputReveal`, `TextareaField`, `TextareaCount`, `TextareaStatus`, `NumberInputField`,
-`NumberInputDecrement`, `NumberInputIncrement` and `NumberInputHidden` do not exist. They take no `children`, and all the
-native attributes of the `<input>` or `<textarea>`. Each element carries a `data-plume-<component>-<element>`
-attribute, to style it from the parent. `PinInput` keeps its parts for now.
+`Input`, `Textarea`, `NumberInput`, `PinInput`, `Rating` and `Slider` no longer take `classNames`. They draw their
+addons, elements, reveal button, counter, steppers, boxes, stars, track and thumbs themselves, so `InputGroup`,
+`InputControl`, `InputAddon`, `InputElement`, `InputField`, `InputReveal`, `TextareaField`, `TextareaCount`,
+`TextareaStatus`, `NumberInputField`, `NumberInputDecrement`, `NumberInputIncrement`, `NumberInputHidden`,
+`PinInputCell`, `PinInputHidden`, `RatingItem`, `RatingEmpty`, `RatingFilled`, `RatingRadio`, `RatingValueText`,
+`SliderBody`, `SliderTrack`, `SliderRange`, `SliderThumb`, `SliderMarks`, `SliderMarkItem` and `SliderMarkLabel` do not
+exist. They take no `children`, and all the native attributes of their element. Each element carries a
+`data-plume-<component>-<element>` attribute, to style it from the parent.
 
 ```tsx
 // Before
@@ -319,19 +321,21 @@ attribute, to style it from the parent. `PinInput` keeps its parts for now.
     <tr><td><code>Input</code></td><td><code>classNames.input</code>, <code>classNames.reveal</code></td><td><code>data-plume-input-field</code>, <code>-reveal</code>, <code>-group</code>, <code>-control</code>, <code>-addon</code> and <code>-element</code>; set them with <code>addonBefore</code>, <code>addonAfter</code>, <code>elementBefore</code>, <code>elementAfter</code> and <code>revealable</code></td></tr>
     <tr><td><code>Textarea</code></td><td><code>classNames.input</code>, <code>classNames.count</code></td><td><code>data-plume-textarea-field</code>, <code>-count</code> and <code>-status</code>, drawn by <code>showCount</code></td></tr>
     <tr><td><code>NumberInput</code></td><td><code>classNames.input</code>, <code>classNames.decrement</code>, <code>classNames.increment</code></td><td><code>data-plume-numberinput-field</code> and <code>data-plume-numberinput-stepper</code> (<code>decrement</code> or <code>increment</code>), drawn by <code>steppers</code></td></tr>
-    <tr><td><code>PinInput</code></td><td><code>classNames.input</code></td><td><code>PinInputCell</code> (one per position, with <code>index</code>) and <code>PinInputHidden</code> for the <code>name</code></td></tr>
+    <tr><td><code>PinInput</code></td><td><code>classNames.input</code></td><td><code>data-plume-pininput-cell</code> (one per position, with <code>data-filled</code>) and <code>data-plume-pininput-hidden</code> for the <code>name</code>; set the boxes with <code>length</code></td></tr>
+    <tr><td><code>Rating</code></td><td><code>classNames.item</code>, <code>.empty</code>, <code>.filled</code></td><td><code>data-plume-rating-item</code> (with <code>data-state</code>), <code>-empty</code>, <code>-filled</code>, <code>-radio</code> and <code>-value-text</code>; set the icons with <code>icon</code> and <code>emptyIcon</code></td></tr>
+    <tr><td><code>Slider</code></td><td><code>classNames.track</code>, <code>.range</code>, <code>.thumb</code>, <code>.mark</code>, <code>.markLabel</code></td><td><code>data-plume-slider-body</code>, <code>-track</code>, <code>-range</code>, <code>-thumb</code>, <code>-marks</code>, <code>-mark-item</code> and <code>-mark-label</code>; set the marks with <code>marks</code></td></tr>
   </tbody>
 </table>
 
-The names of the stepper buttons and of the reveal button come from the `numberInput` and `input` texts of the
-`LocaleProvider`. The `ref` of the root is always the native `<input>` or `<textarea>`, so react-hook-form's `register`
+The names of the stepper, reveal and pin buttons, of the stars and of the thumbs of a range come from the `numberInput`,
+`input`, `pinInput`, `rating` and `slider` texts of the `LocaleProvider`, with no per-element override. The `ref` of the root is always the native `<input>` or `<textarea>`, so react-hook-form's `register`
 works on the root. `className` and `style` of the root go to the outermost element. The `data-plume-*-input` attribute
 of `NumberInput` is now `data-plume-numberinput-field`.
 
 ## `Select` and the pickers are made of parts
 
-`Select`, `DatePicker` and `TimePicker` no longer take `classNames`. The input and the button of the pickers are an `Input`
-that draws them, and every other element they render is a part you can import, with its own `className`, `style` and `ref`. Given no `children`, they render the same default composition as
+`Select`, `DatePicker` and `TimePicker` no longer take `classNames`. Every element they render is a part you can import,
+with its own `className`, `style` and `ref`. Given no `children`, they render the same default composition as
 before, and a data-driven part (the chips of a `Select`, the days of a `DatePicker`, the options of a `TimePicker`)
 takes a render function to style or replace each item.
 
@@ -340,7 +344,20 @@ takes a render function to style or replace each item.
 <DatePicker onChange={onChange} classNames={{ input: 'font-mono' }} />
 
 // After
-<DatePicker className='[&_[data-plume-input-field]]:font-mono' onValueChange={onChange} />
+<DatePicker onValueChange={onChange}>
+  <DatePickerInput>
+    <DatePickerField className='font-mono' />
+    <DatePickerTrigger />
+  </DatePickerInput>
+  <DatePickerCalendar />
+</DatePicker>
+```
+
+The button of the pickers is not a part: its icon is the `icon` prop of the `DatePicker` and the `TimePicker`, and its
+name comes from the `datePicker.openCalendar` and `timePicker.openTimePicker` texts of the `LocaleProvider`.
+
+```tsx
+<DatePicker icon={<MyCalendarIcon />} onValueChange={onChange} />
 ```
 
 <table>
@@ -349,28 +366,38 @@ takes a render function to style or replace each item.
   </thead>
   <tbody>
     <tr><td><code>Select</code></td><td><code>classNames</code> of <code>SelectTrigger</code> (<code>field</code>, <code>trigger</code>, <code>chevron</code>, <code>clear</code>, <code>chip</code>, <code>chipRemove</code>), <code>SelectContent</code> (<code>search</code>, <code>searchInput</code>, <code>list</code>, <code>empty</code>), <code>SelectGroup</code> (<code>label</code>) and <code>SelectOption</code> (<code>icon</code>, <code>description</code>, <code>check</code>)</td><td><code>SelectField</code>, <code>SelectCombobox</code>, <code>SelectChevron</code>, <code>SelectClear</code>, <code>SelectChips</code> with <code>SelectChip</code>, <code>SelectSearch</code>, <code>SelectSearchInput</code>, <code>SelectList</code>, <code>SelectEmpty</code>, <code>SelectGroupLabel</code>, <code>SelectOptionIcon</code>, <code>SelectOptionDescription</code>, <code>SelectOptionCheck</code></td></tr>
-    <tr><td><code>DatePicker</code></td><td><code>classNames.input</code>, <code>classNames.calendar</code></td><td><code>data-plume-input-field</code> and <code>data-plume-datepicker-trigger</code>, and <code>className</code> on <code>DatePickerCalendar</code> plus its parts (<code>DatePickerHeader</code>, <code>DatePickerPrevious</code>, <code>DatePickerNext</code>, <code>DatePickerGrid</code>, <code>DatePickerDay</code>, <code>DatePickerFooter</code>, <code>DatePickerApply</code>, <code>DatePickerCancel</code>...)</td></tr>
-    <tr><td><code>TimePicker</code></td><td><code>classNames.input</code>, <code>classNames.panel</code></td><td><code>data-plume-input-field</code> and <code>data-plume-timepicker-trigger</code>; <code>className</code> on <code>TimePickerPanel</code> plus <code>TimePickerHours</code>, <code>TimePickerMinutes</code>, <code>TimePickerPeriod</code> and <code>TimePickerOption</code></td></tr>
+    <tr><td><code>DatePicker</code></td><td><code>classNames.input</code>, <code>classNames.calendar</code></td><td><code>DatePickerField</code>, <code>DatePickerTrigger</code>, and <code>className</code> on <code>DatePickerCalendar</code> plus its parts (<code>DatePickerHeader</code>, <code>DatePickerPrevious</code>, <code>DatePickerNext</code>, <code>DatePickerGrid</code>, <code>DatePickerDay</code>, <code>DatePickerFooter</code>, <code>DatePickerApply</code>, <code>DatePickerCancel</code>...)</td></tr>
+    <tr><td><code>TimePicker</code></td><td><code>classNames.input</code>, <code>classNames.panel</code></td><td><code>TimePickerField</code> and <code>TimePickerTrigger</code> inside <code>TimePickerInput</code>; <code>className</code> on <code>TimePickerPanel</code> plus <code>TimePickerHours</code>, <code>TimePickerMinutes</code>, <code>TimePickerPeriod</code> and <code>TimePickerOption</code></td></tr>
   </tbody>
 </table>
 
 The `data-plume-select-trigger` attribute of the combobox is now `data-plume-select-combobox`. The remove button of a
 `SelectChip` is `data-plume-chip-remove`.
 
-## `Alert`, `Chip` and `Avatar` are single components
+## `Chip` and `Avatar` are single components, `Alert` is made of parts
 
-These components no longer take `classNames`, and they export no parts for the elements they draw by themselves. What
-used to be a key of `classNames` is a `data-plume-<component>-<element>` attribute, so you style it from the parent
-(`[&_[data-plume-chip-remove]]:opacity-60` in Tailwind), or you put your own element in the prop that fills it.
-`children` keeps its meaning: the text of the alert and of the chip. The `Avatar` takes no `children`; its fallback is
+These components no longer take `classNames`. The `Chip` and the `Avatar` export no parts for the elements they draw
+by themselves. What used to be a key of `classNames` is a `data-plume-<component>-<element>` attribute, so you style
+it from the parent (`[&_[data-plume-chip-remove]]:opacity-60` in Tailwind), or you put your own element in the prop
+that fills it. `children` keeps its meaning: the text of the chip. The `Avatar` takes no `children`; its fallback is
 the `fallback` prop.
+
+Every element of the `Alert` is a part you can import (`AlertIcon`, `AlertContent`, `AlertTitle`,
+`AlertDescription`, `AlertAction` and `AlertDismiss`), with its own `className`, `style` and `ref`. Given no parts,
+it renders the same default composition as before, and `children` keeps its meaning (the text of the alert); the
+root switches to your composition when a direct child is one of its parts. With parts, the props that only fill the
+default (`icon`, `action` and `dismissible`) have no effect: compose the part instead.
 
 ```tsx
 // Before
 <Alert dismissible classNames={{ dismiss: 'opacity-60' }}>Saved</Alert>
 
 // After
-<Alert className='[&_[data-plume-alert-dismiss]]:opacity-60' dismissible>Saved</Alert>
+<Alert>
+  <AlertIcon />
+  <AlertContent>Saved</AlertContent>
+  <AlertDismiss className='opacity-60' />
+</Alert>
 ```
 
 <table>
@@ -378,7 +405,7 @@ the `fallback` prop.
     <tr><th>Component</th><th>Before</th><th>After</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>Alert</code></td><td><code>classNames.icon</code>, <code>.content</code>, <code>.action</code>, <code>.dismiss</code></td><td><code>data-plume-alert-icon</code>, <code>-content</code>, <code>-action</code> and <code>-dismiss</code>; set them with <code>icon</code>, <code>action</code> and <code>dismissible</code>. <code>AlertTitle</code> and <code>AlertDescription</code> are still parts, inside the <code>children</code></td></tr>
+    <tr><td><code>Alert</code></td><td><code>classNames.icon</code>, <code>.content</code>, <code>.action</code>, <code>.dismiss</code></td><td><code>AlertIcon</code>, <code>AlertContent</code>, <code>AlertAction</code>, <code>AlertDismiss</code></td></tr>
     <tr><td><code>Chip</code></td><td><code>classNames.icon</code>, <code>.label</code>, <code>.remove</code></td><td><code>data-plume-chip-icon</code>, <code>-label</code> and <code>-remove</code>; set them with <code>icon</code>, <code>children</code> and <code>onRemove</code></td></tr>
     <tr><td><code>Avatar</code></td><td><code>classNames.image</code>, <code>.fallback</code>, <code>.status</code></td><td><code>data-plume-avatar-image</code>, <code>-fallback</code> and <code>-status-dot</code>; set them with <code>src</code>, <code>fallback</code> and <code>status</code>. The counter of an <code>AvatarGroup</code> is <code>AvatarOverflow</code></td></tr>
   </tbody>

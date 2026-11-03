@@ -3,8 +3,10 @@
 import type { ChangeEvent, ForwardedRef, ReactNode } from 'react'
 import { forwardRef, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { ComponentProps } from '../../../theme'
+import { hasPart } from '../../../overlay/has-part'
 import { mergeRefs } from '../../../overlay/trigger'
-import { Input } from '../input'
+import { InputLayout } from '../input/input-layout'
+import { inputColorVars } from '../input/input-types'
 import {
   getDateFormatByLanguage,
   getDateFromDateString,
@@ -12,12 +14,18 @@ import {
   validateFormatDate,
 } from '../../../utils/dates'
 import type { DatePickerRootAttributes, DateRange } from './datepicker-types'
+import { DatePickerField } from './datepicker-field'
 import { DatePickerFormatHint } from './datepicker-format-hint'
 import { DatePickerInputContext } from './datepicker-input-context'
 import { DatePickerTrigger } from './datepicker-trigger'
 import { useDatePickerContext } from './datepicker-context'
+import { useDatePickerFieldProps } from './use-datepicker-field-props'
 
 export interface DatePickerInputOwnProps {
+  /**
+   * The parts to show instead of the default field and button: a `DatePickerField` and a `DatePickerTrigger`, in the order you want. A `DatePickerFormatHint` among them takes the place of the default one.
+   */
+  children?: ReactNode
   /** Called with the current value when the input loses focus. */
   onBlur?: (value?: DateRange) => void
 }
@@ -34,6 +42,7 @@ const sameTime = (a: Date | null, b: Date | null): boolean => a?.getTime() === b
 export const DatePickerInput = forwardRef<HTMLInputElement, DatePickerInputProps>(
   (
     {
+      children,
       className,
       disabled = false,
       onBlur,
@@ -130,10 +139,13 @@ export const DatePickerInput = forwardRef<HTMLInputElement, DatePickerInputProps
       toggle()
     }, [toggle])
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
       setIsButtonClick(false)
       setInputValue(e.target.value)
-    }
+    }, [])
+    const handleBlur = useCallback((): void => {
+      onBlur?.({ startDate, endDate })
+    }, [endDate, onBlur, startDate])
 
     const currentFormat = displayFormat ?? getDateFormatByLanguage(language)
     const singleMask = currentFormat.replace(/[a-zA-Z]/g, '#')
@@ -141,47 +153,60 @@ export const DatePickerInput = forwardRef<HTMLInputElement, DatePickerInputProps
     const describedBy = [rest['aria-describedby'], hintId].filter(Boolean).join(' ')
     const hint = labels.format(isRange ? `${currentFormat} - ${currentFormat}` : currentFormat)
 
+    const fieldProps = useDatePickerFieldProps({
+      describedBy,
+      disabled,
+      mask,
+      onBlur: handleBlur,
+      onChange: handleChange,
+      placeholder:
+        placeholder ?? (isRange ? `${currentFormat} - ${currentFormat}` : currentFormat),
+      readOnly,
+      rest,
+      shape,
+      size,
+      value: inputValue,
+      variant,
+    })
     const inputContext = useMemo(
       () => ({
         disabled: disabled || Boolean(readOnly),
+        fieldProps,
         hint,
         hintId,
         onTriggerClick: handleButtonClick,
+        setRef,
       }),
-      [disabled, handleButtonClick, hint, hintId, readOnly],
+      [disabled, fieldProps, handleButtonClick, hint, hintId, readOnly, setRef],
     )
 
     if (isPanel) return null
 
+    const invalid = rest['aria-invalid'] === true || rest['aria-invalid'] === 'true'
+
     return (
       <DatePickerInputContext.Provider value={inputContext}>
-        <Input
-          autoComplete="off"
+        <InputLayout
+          addonAfter={null}
+          addonBefore={null}
           className={className}
-          colorScheme={colorScheme}
-          data-plume-datepicker-input=""
           disabled={disabled}
-          inputMode="numeric"
-          mask={mask}
-          onBlur={() => {
-            onBlur?.({ startDate, endDate })
-          }}
-          onChange={handleChange}
-          placeholder={
-            placeholder ?? (isRange ? `${currentFormat} - ${currentFormat}` : currentFormat)
+          elementAfter={null}
+          elementBefore={null}
+          field={
+            children ?? (
+              <>
+                <DatePickerField />
+                <DatePickerTrigger />
+              </>
+            )
           }
-          readOnly={readOnly}
-          shape={shape}
-          size={size}
-          type="text"
-          value={inputValue}
-          variant={variant}
-          {...rest}
-          aria-describedby={describedBy}
-          elementAfter={<DatePickerTrigger />}
-          ref={setRef}
+          invalid={invalid}
+          isStyled={variant !== 'unstyled'}
+          reveal={null}
+          style={inputColorVars(invalid ? 'error' : colorScheme)}
         />
-        <DatePickerFormatHint />
+        {hasPart(children, [DatePickerFormatHint]) ? null : <DatePickerFormatHint />}
       </DatePickerInputContext.Provider>
     )
   },

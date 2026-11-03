@@ -5,6 +5,9 @@ import {
   DatePickerCalendar,
   DatePickerDay,
   DatePickerDayNumber,
+  DatePickerField,
+  DatePickerFormatHint,
+  DatePickerInput,
   DatePickerPage,
   DatePickerPages,
 } from '..'
@@ -46,11 +49,21 @@ describe('DatePicker contract', () => {
     expect(document.querySelector('[data-plume-datepicker-day-number]')).toBeInTheDocument()
   })
 
-  it('renders a single format hint that describes the input', () => {
-    render(<DatePicker onValueChange={vi.fn()} />)
-    const hint = document.querySelector('[data-plume-datepicker-format-hint]')
+  it('replaces the format hint and the day number with the ones given', () => {
+    const hint = createRef<HTMLSpanElement>()
+    render(
+      <DatePicker onValueChange={vi.fn()}>
+        <DatePickerInput>
+          <DatePickerField />
+          <DatePickerFormatHint className="mine" ref={hint}>
+            Type a date
+          </DatePickerFormatHint>
+        </DatePickerInput>
+      </DatePicker>,
+    )
     expect(document.querySelectorAll('[data-plume-datepicker-format-hint]')).toHaveLength(1)
-    expect(screen.getByRole('textbox').getAttribute('aria-describedby')).toContain(hint?.id)
+    expect(hint.current).toHaveTextContent('Type a date')
+    expect(hint.current).toHaveClass('mine')
   })
 
   it('takes children in the day number', () => {
@@ -70,6 +83,7 @@ describe('DatePicker contract', () => {
 
   it('throws when a part is used outside its root', () => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined)
+    expect(() => render(<DatePickerFormatHint />)).toThrow('DatePickerFormatHint')
     expect(() =>
       render(
         <DatePicker onValueChange={vi.fn()} panel>

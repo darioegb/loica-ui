@@ -170,13 +170,8 @@
   inline-size: var(--carousel-dot);
 }
 
-.dot[data-active] {
-  inline-size: max(var(--plume-target-min), calc(var(--carousel-dot) * 2.2));
-}
-
 .dot[data-active]::before {
   background-color: var(--carousel-solid);
-  inline-size: calc(var(--carousel-dot) * 2.2);
 }
 
 .vertical {
@@ -217,16 +212,6 @@
 .vertical .dot {
   block-size: max(var(--plume-target-min), var(--carousel-dot));
   inline-size: var(--plume-target-min);
-}
-
-.vertical .dot[data-active] {
-  block-size: max(var(--plume-target-min), calc(var(--carousel-dot) * 2.2));
-  inline-size: var(--plume-target-min);
-}
-
-.vertical .dot[data-active]::before {
-  block-size: calc(var(--carousel-dot) * 2.2);
-  inline-size: var(--carousel-dot);
 }
 
 .inline .prev,
@@ -342,9 +327,7 @@
   }
 
   .dot::before {
-    transition:
-      background-color var(--plume-duration-normal) var(--plume-easing-standard),
-      inline-size var(--plume-duration-normal) var(--plume-easing-standard);
+    transition: background-color var(--plume-duration-normal) var(--plume-easing-standard);
   }
 }
 

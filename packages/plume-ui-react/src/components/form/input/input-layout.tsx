@@ -9,7 +9,7 @@ interface InputSlotProps {
   position: 'after' | 'before'
 }
 
-function InputSlot({ children, isStyled, kind, position }: Readonly<InputSlotProps>): ReactNode {
+export function InputSlot({ children, isStyled, kind, position }: Readonly<InputSlotProps>): ReactNode {
   const base = kind === 'addon' ? styles.addOn : styles.element
   const side =
     kind === 'addon'

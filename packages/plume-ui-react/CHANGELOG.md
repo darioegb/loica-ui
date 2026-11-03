@@ -1,5 +1,29 @@
 # plume-ui-react
 
+## 0.60.0
+
+### Minor Changes
+
+- [#309](https://github.com/darioegb/plume-ui-react/pull/309) [`3d45e89632f421149b6c3677ef9c63201e3e7e38`](https://github.com/darioegb/plume-ui-react/commit/3d45e89632f421149b6c3677ef9c63201e3e7e38) Thanks [@darioegb](https://github.com/darioegb)! - The `Alert` is made of parts again: `AlertIcon`, `AlertContent`, `AlertAction` and `AlertDismiss` are back next to `AlertTitle` and `AlertDescription`, each with its own `className`, `style` and `ref`. Given no parts it renders the same default composition, and `icon`, `action` and `dismissible` fill it as before.
+
+### Patch Changes
+
+- [#309](https://github.com/darioegb/plume-ui-react/pull/309) [`3d45e89632f421149b6c3677ef9c63201e3e7e38`](https://github.com/darioegb/plume-ui-react/commit/3d45e89632f421149b6c3677ef9c63201e3e7e38) Thanks [@darioegb](https://github.com/darioegb)! - The filled part of the `Slider` follows the thumb while it is dragged, with no delay. The cells of the `PinInput` get a hover border, like the `Input`. The selected dot of the `Carousel` keeps its size and only changes color, as the selected bar does.
+
+## 0.59.0
+
+### Minor Changes
+
+- [#306](https://github.com/darioegb/plume-ui-react/pull/306) [`a8c09c07f7494c580d6a0c043c226807586a89a4`](https://github.com/darioegb/plume-ui-react/commit/a8c09c07f7494c580d6a0c043c226807586a89a4) Thanks [@darioegb](https://github.com/darioegb)! - The `TimePicker` gets a `TimePickerField` part, the native input of the `TimePickerInput`, that takes the place of the `InputField` its compositions used. `DatePickerTrigger` and `TimePickerTrigger` take a `position` (`before` or `after` the field, `after` by default), because they draw their own slot now that the `Input` has no `InputElement`.
+
+## 0.58.0
+
+### Minor Changes
+
+- [#303](https://github.com/darioegb/plume-ui-react/pull/303) [`fa244acad9410a8b9bad19b6aa0b020586bd6411`](https://github.com/darioegb/plume-ui-react/commit/fa244acad9410a8b9bad19b6aa0b020586bd6411) Thanks [@darioegb](https://github.com/darioegb)! - `DatePicker` and `TimePicker` take an `icon` prop for the button that opens the calendar or the panel. It replaces the icon that the exported `DatePickerTrigger` and `TimePickerTrigger` parts used to take as `children`, which are no longer exported because the field of the pickers is an `Input`. The button keeps its name, which comes from the `datePicker.openCalendar` and `timePicker.openTimePicker` texts of the `LocaleProvider`.
+
+- [#300](https://github.com/darioegb/plume-ui-react/pull/300) [`b7bece59e7d20f897a692fdab313c55d141b6624`](https://github.com/darioegb/plume-ui-react/commit/b7bece59e7d20f897a692fdab313c55d141b6624) Thanks [@darioegb](https://github.com/darioegb)! - `PinInput`, `Rating` and `Slider` are single components. `PinInputCell`, `PinInputHidden`, `RatingItem`, `RatingEmpty`, `RatingFilled`, `RatingRadio`, `RatingValueText`, `SliderBody`, `SliderTrack`, `SliderRange`, `SliderThumb`, `SliderMarks`, `SliderMarkItem` and `SliderMarkLabel` are removed, and the three take no `children`. The boxes come from `length` and `name`, the stars from `icon` and `emptyIcon`, and the track, the marks and the thumbs from `marks` and the value. Each inner element carries a `data-plume-<component>-<element>` attribute, so it can be styled from the parent. They take all the native attributes of their element, and the names of the boxes, the stars and the thumbs of a range come from the `pinInput`, `rating` and `slider` texts of the `LocaleProvider` only. A `Rating` can no longer render a function per star.
+
 ## 0.57.0
 
 ### Minor Changes

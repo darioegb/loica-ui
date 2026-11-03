@@ -1,6 +1,6 @@
 'use client'
 
-import type { CSSProperties, FocusEvent, ForwardedRef } from 'react'
+import type { CSSProperties, FocusEvent, ForwardedRef, ReactNode } from 'react'
 import { useCallback, useId, useMemo, useState } from 'react'
 import type { ColorScheme, Shape, Size } from '../../../theme'
 import { schemeVar } from '../../../theme'
@@ -29,6 +29,7 @@ interface TimePickerControllerOptions {
   colorScheme: ColorScheme
   defaultValue: string
   hour12: boolean
+  icon?: ReactNode
   inputRef: ForwardedRef<HTMLInputElement>
   isPanel: boolean
   minuteStep: number
@@ -59,6 +60,7 @@ export function useTimePickerController({
   colorScheme,
   defaultValue,
   hour12,
+  icon,
   inputRef,
   isPanel,
   minuteStep,
@@ -135,6 +137,7 @@ export function useTimePickerController({
     () => ({
       colorScheme,
       hour12,
+      icon,
       inputRef,
       isPanel,
       labels,
@@ -157,6 +160,7 @@ export function useTimePickerController({
     [
       colorScheme,
       hour12,
+      icon,
       inputRef,
       isPanel,
       labels,

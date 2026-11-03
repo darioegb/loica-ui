@@ -3,11 +3,10 @@
 import type { ComponentPropsWithoutRef, ForwardedRef, ReactNode } from 'react'
 import { forwardRef } from 'react'
 import type { ColorScheme, Shape, Size } from '../../../theme'
-import { useMask } from '../../../hooks/use-mask'
 import { useLabels } from '../../../locale/locale-provider'
+import { InputField } from './input-field'
 import { InputLayout } from './input-layout'
 import { InputRevealButton, usePasswordReveal } from './input-reveal'
-import { inputFieldClasses, stateAttributes } from './input-styles'
 import { inputColorVars } from './input-types'
 import type { InputLabels, InputVariant } from './input-types'
 
@@ -79,10 +78,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       size = 'md',
       type = 'text',
       variant = 'outline',
-      mask,
-      value,
-      defaultValue,
-      onChange,
       ...rest
     }: InputProps,
     ref: ForwardedRef<HTMLInputElement>,
@@ -90,12 +85,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const text = useLabels('input', DEFAULT_LABELS)
     const { canReveal, revealed, toggle } = usePasswordReveal(type, revealable)
     const invalid = rest['aria-invalid'] === true || rest['aria-invalid'] === 'true'
-    const { value: maskedValue, onChange: maskedOnChange } = useMask({
-      mask,
-      value: typeof value === 'string' ? value : undefined,
-      defaultValue: typeof defaultValue === 'string' ? defaultValue : undefined,
-      onChange,
-    })
     const isStyled = variant !== 'unstyled'
     const colorVars = {
       ...inputColorVars(invalid ? 'error' : colorScheme),
@@ -105,26 +94,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       addonBefore || addonAfter || elementBefore || elementAfter || canReveal,
     )
     const field = (
-      <input
+      <InputField
         {...rest}
-        {...stateAttributes(disabled, invalid)}
-        className={inputFieldClasses({
-          className: hasGroup ? undefined : className,
-          disabled,
-          invalid,
-          shape,
-          size,
-          variant,
-        })}
-        data-plume-input-field=""
-        defaultValue={mask ? undefined : defaultValue}
+        className={hasGroup ? undefined : className}
         disabled={disabled}
-        onChange={maskedOnChange}
         readOnly={readOnly}
         ref={ref}
+        shape={shape}
+        size={size}
         style={hasGroup ? undefined : colorVars}
         type={revealed && type === 'password' ? 'text' : type}
-        value={mask ? maskedValue : value}
+        variant={variant}
       />
     )
 

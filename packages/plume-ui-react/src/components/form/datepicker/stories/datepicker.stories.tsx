@@ -7,16 +7,26 @@ import {
   DatePickerApply,
   DatePickerCalendar,
   DatePickerCancel,
+  DatePickerDay,
+  DatePickerField,
   DatePickerFooter,
+  DatePickerGrid,
   DatePickerHeader,
   DatePickerInput,
   DatePickerMonthButton,
+  DatePickerMonthOption,
+  DatePickerMonths,
   DatePickerNav,
   DatePickerNext,
   DatePickerPage,
   DatePickerPages,
   DatePickerPrevious,
+  DatePickerTrigger,
   DatePickerView,
+  DatePickerWeekdays,
+  DatePickerYearButton,
+  DatePickerYearOption,
+  DatePickerYears,
 } from '..'
 import { LocaleProvider } from '../../../../locale'
 import type { DatePickerProps, DateRange } from '../datepicker'
@@ -44,8 +54,8 @@ const StatefulDatePicker = ({ maxDate, minDate, ...args }: DatePickerProps): Rea
  * It supports single and range selection modes, configurable color schemes, and localization options.
  *
  * On its own it shows an input with a button that opens the calendar. To change what it shows or the order, give
- * it its parts as children: `DatePickerInput` is the field with the button (an `Input` with the button as its
- * `elementAfter`, so its `className` goes to the box that holds both), and `DatePickerCalendar` the calendar
+ * it its parts as children: `DatePickerInput` is the field with the button (a `DatePickerField` and a
+ * `DatePickerTrigger`, in the order you want), and `DatePickerCalendar` the calendar
  * (a popup under the input, or always visible with `panel`). The `DatePicker` keeps the value and the state
  * and shares them with its parts. All the props of the `DatePicker` keep working when it has no children; with
  * children, the props of the field (`placeholder`, `disabled`, `readOnly`, `onBlur`, `id`, `name`,
@@ -56,8 +66,8 @@ const StatefulDatePicker = ({ maxDate, minDate, ...args }: DatePickerProps): Rea
  * attributes (the days also carry `data-selected`, `data-today`, `data-outside`, `data-in-range`, `data-disabled`,
  * and `data-hovered` and `data-preview` while the pointer or the focus is over the calendar). The `ref` of the
  * `DatePicker` and of the `DatePickerInput` goes to the native `<input>`, so a form library can focus it.
- * Next to the input there is a visually hidden text that describes the expected format
- * (`data-plume-datepicker-format-hint`), and `DatePickerDayNumber` is the number inside a `DatePickerDay`. The cells that
+ * `DatePickerFormatHint` is the visually hidden text that describes the expected format, and `DatePickerDayNumber`
+ * the number inside a `DatePickerDay`. The cells that
  * repeat (weekdays, days, months and years) take a function as children, like
  * `<DatePickerGrid>{(day) => <DatePickerDay day={day} />}</DatePickerGrid>`, to render each one yourself.
  *
@@ -77,7 +87,11 @@ export default {
   title: 'Components/DatePicker',
   component: DatePicker,
   tags: ['autodocs'],
-  decorators: [(Story) => <div className='w-72 max-w-full pb-[22rem]'>{Story()}</div>],
+  decorators: [
+    (Story, { args }) => (
+      <div className={args.panel ? 'w-72 max-w-full' : 'w-72 max-w-full pb-[22rem]'}>{Story()}</div>
+    ),
+  ],
   parameters: {
     docs: {
       importNames: ['DatePicker', 'DatePickerInput', 'DatePickerCalendar'],
@@ -347,11 +361,29 @@ export const WithFooterActions: Story = {
 }
 
 /**
+ * With **panel** the calendar is shown on its own, always visible and without the input, to put it in the page
+ * (a booking form, a side panel). It keeps the value, the range and the footer like the popup does, and picking a
+ * day doesn't hide it.
+ */
+export const Panel: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker aria-label="Date" onValueChange={handleValueChange} panel value={value} />`,
+      },
+    },
+  },
+  args: {
+    panel: true,
+  },
+}
+
+/**
  * DatePicker localized to Spanish through **locale** and the `datePicker` texts of the `LocaleProvider`.
  * Every key is optional: `locale` alone localizes the month and weekday names and the date format,
  * and the messages only need the texts you want to change.
  */
-export const CustomConfiguration: Story = {
+export const Localized: Story = {
   parameters: {
     docs: {
       source: {
@@ -369,7 +401,7 @@ export const CustomConfiguration: Story = {
     },
   }}
 >
-  <DatePicker aria-label="Fecha" locale="es" showFooter />
+  <DatePicker aria-label="Fecha" locale="es" onValueChange={handleValueChange} showFooter value={value} />
 </LocaleProvider>`,
       },
     },
@@ -393,7 +425,7 @@ export const CustomConfiguration: Story = {
         },
       }}
     >
-      <DatePicker {...args} />
+      <StatefulDatePicker {...args} />
     </LocaleProvider>
   ),
 }
@@ -543,6 +575,36 @@ export const Disabled: Story = {
 }
 
 /**
+ * Use **icon** to change the icon of the button that opens the calendar. The button keeps its name, which comes from
+ * the `datePicker.openCalendar` text of the `LocaleProvider`.
+ */
+export const CustomIcon: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker aria-label="Date" icon={<MyCalendarIcon />} onValueChange={setDate} />`,
+      },
+    },
+  },
+  args: {
+    'aria-label': 'Date',
+    icon: (
+      <svg
+        aria-hidden="true"
+        fill="none"
+        height="18"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        width="18"
+      >
+        <path d="M8 2v4M16 2v4M3 10h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" />
+      </svg>
+    ),
+  },
+}
+
+/**
  * Give the `DatePicker` its parts to choose what it shows and in which order. The props of the field, here its
  * placeholder, go on the `DatePickerInput`, the look (here small and filled) on the `DatePicker`, and the
  * `DatePickerCalendar` opens under it. The state is shared, so picking a day in the calendar updates the field.
@@ -567,91 +629,300 @@ export const Compound: Story = {
 }
 
 /**
- * An example of DatePicker with custom classes from tailwind.
- * Set **variant="unstyled"** so Plume styles don't override your utility classes.
+ * An example of DatePicker with custom classes from Tailwind.
+ * Set **variant="unstyled"** so Plume styles don't override the Tailwind classes.
  *
- * Note: with a button, the `className` of the `DatePickerInput` goes to the box that holds the input and the button,
- * so the input is reached with a selector like `[&_input]`, and with `variant="unstyled"` the
- * calendar keeps just its structural styles. It is themed through `colorScheme` and the
- * `--datepicker-*` CSS variables (see the **Calendar Theming** story).
+ * `DatePickerInput` is the box that holds the field and the button, so its `className` styles the box and the
+ * `className` of the `DatePickerField` the input, and the one of the `DatePickerTrigger` the button. With
+ * `variant="unstyled"` the calendar has no look at all, so the example builds it from its parts: the state of a day,
+ * a month or a year is in a `data-*` attribute (`data-selected`, `data-today`, `data-outside`), which Tailwind reads
+ * with `data-selected:`.
  */
 export const Tailwind: Story = {
   parameters: {
     docs: {
       source: {
         code: `<DatePicker onValueChange={handleValueChange} value={value} variant="unstyled">
-  <DatePickerInput
-    aria-label="Pick a date"
-    className="flex items-center rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-gray-700 focus-within:border-blue-500 focus-within:ring-3 focus-within:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white [&_input]:w-full [&_input]:bg-transparent [&_input]:outline-none"
-    placeholder="Pick a date"
-  />
-  <DatePickerCalendar />
+  <DatePickerInput aria-label="Pick a date" className="relative" placeholder="Pick a date">
+    <DatePickerField className="w-full rounded-lg border border-border bg-surface py-2.5 pr-11 pl-4 text-sm text-foreground outline-none hover:border-border-hover focus:border-blue-500 focus:ring-3 focus:ring-blue-200" />
+    <DatePickerTrigger className="absolute inset-y-0 right-0 flex items-center px-3 text-muted hover:text-foreground" />
+  </DatePickerInput>
+  <DatePickerCalendar className="w-72 rounded-xl border border-border bg-surface p-3 text-sm text-foreground shadow-lg">
+    <DatePickerPages>
+      <DatePickerPage className="w-full">
+        <DatePickerHeader>
+          <DatePickerNav className="mb-2 w-full gap-1">
+            <DatePickerPrevious className="rounded-md p-1.5 hover:bg-surface-muted" />
+            <DatePickerMonthButton className="ml-auto rounded-md px-2 py-1 font-medium hover:bg-surface-muted" />
+            <DatePickerYearButton className="mr-auto rounded-md px-2 py-1 font-medium hover:bg-surface-muted" />
+            <DatePickerNext className="rounded-md p-1.5 hover:bg-surface-muted" />
+          </DatePickerNav>
+        </DatePickerHeader>
+        <DatePickerView>
+          {(view) => {
+            if (view === 'month') {
+              return (
+                <DatePickerMonths className="gap-1">
+                  {(month) => (
+                    <DatePickerMonthOption
+                      className="rounded-md py-2 hover:bg-surface-muted data-selected:bg-primary-solid data-selected:text-primary-on-solid"
+                      key={month.index}
+                      month={month}
+                    />
+                  )}
+                </DatePickerMonths>
+              )
+            }
+            if (view === 'year') {
+              return (
+                <DatePickerYears className="gap-1">
+                  {(year) => (
+                    <DatePickerYearOption
+                      className="rounded-md py-2 hover:bg-surface-muted data-selected:bg-primary-solid data-selected:text-primary-on-solid"
+                      key={year.value}
+                      year={year}
+                    />
+                  )}
+                </DatePickerYears>
+              )
+            }
+            return (
+              <>
+                <DatePickerWeekdays className="mb-1 text-xs text-muted" />
+                <DatePickerGrid className="gap-y-1">
+                  {(day) => (
+                    <DatePickerDay
+                      className="mx-auto size-9 rounded-full hover:bg-surface-muted disabled:cursor-not-allowed data-outside:opacity-30 data-today:font-bold data-selected:bg-primary-solid data-selected:text-primary-on-solid"
+                      day={day}
+                      key={day.dataDate}
+                    />
+                  )}
+                </DatePickerGrid>
+              </>
+            )
+          }}
+        </DatePickerView>
+      </DatePickerPage>
+    </DatePickerPages>
+  </DatePickerCalendar>
 </DatePicker>`,
       },
     },
   },
-  render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks -- Render is valid storybook function
-    const [value, setValue] = useState<DateRange>({
-      startDate: null,
-      endDate: null,
-    })
-
-    const handleValueChange = (newValue: DateRange): void => {
-      setValue(newValue)
-    }
-    return (
-      <div className='w-72 max-w-full'>
-        <DatePicker onValueChange={handleValueChange} value={value} variant='unstyled'>
-          <DatePickerInput
-            aria-label='Pick a date'
-            className='flex items-center rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-gray-700 focus-within:border-blue-500 focus-within:ring-3 focus-within:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white [&_input]:w-full [&_input]:bg-transparent [&_input]:outline-none'
-            placeholder='Pick a date'
-          />
-          <DatePickerCalendar />
-        </DatePicker>
-      </div>
-    )
-  },
+  render: () => (
+    <ControlledDatePicker variant='unstyled'>
+      <DatePickerInput aria-label='Pick a date' className='relative' placeholder='Pick a date'>
+        <DatePickerField className='w-full rounded-lg border border-border bg-surface py-2.5 pr-11 pl-4 text-sm text-foreground outline-none hover:border-border-hover focus:border-blue-500 focus:ring-3 focus:ring-blue-200' />
+        <DatePickerTrigger className='absolute inset-y-0 right-0 flex items-center px-3 text-muted hover:text-foreground' />
+      </DatePickerInput>
+      <DatePickerCalendar className='w-72 rounded-xl border border-border bg-surface p-3 text-sm text-foreground shadow-lg'>
+        <DatePickerPages>
+          <DatePickerPage className='w-full'>
+            <DatePickerHeader>
+              <DatePickerNav className='mb-2 w-full gap-1'>
+                <DatePickerPrevious className='rounded-md p-1.5 hover:bg-surface-muted' />
+                <DatePickerMonthButton className='ml-auto rounded-md px-2 py-1 font-medium hover:bg-surface-muted' />
+                <DatePickerYearButton className='mr-auto rounded-md px-2 py-1 font-medium hover:bg-surface-muted' />
+                <DatePickerNext className='rounded-md p-1.5 hover:bg-surface-muted' />
+              </DatePickerNav>
+            </DatePickerHeader>
+            <DatePickerView>
+              {(view) => {
+                if (view === 'month') {
+                  return (
+                    <DatePickerMonths className='gap-1'>
+                      {(month) => (
+                        <DatePickerMonthOption
+                          className='rounded-md py-2 hover:bg-surface-muted data-selected:bg-primary-solid data-selected:text-primary-on-solid'
+                          key={month.index}
+                          month={month}
+                        />
+                      )}
+                    </DatePickerMonths>
+                  )
+                }
+                if (view === 'year') {
+                  return (
+                    <DatePickerYears className='gap-1'>
+                      {(year) => (
+                        <DatePickerYearOption
+                          className='rounded-md py-2 hover:bg-surface-muted data-selected:bg-primary-solid data-selected:text-primary-on-solid'
+                          key={year.value}
+                          year={year}
+                        />
+                      )}
+                    </DatePickerYears>
+                  )
+                }
+                return (
+                  <>
+                    <DatePickerWeekdays className='mb-1 text-xs text-muted' />
+                    <DatePickerGrid className='gap-y-1'>
+                      {(day) => (
+                        <DatePickerDay
+                          className='mx-auto size-9 rounded-full hover:bg-surface-muted disabled:cursor-not-allowed data-outside:opacity-30 data-today:font-bold data-selected:bg-primary-solid data-selected:text-primary-on-solid'
+                          day={day}
+                          key={day.dataDate}
+                        />
+                      )}
+                    </DatePickerGrid>
+                  </>
+                )
+              }}
+            </DatePickerView>
+          </DatePickerPage>
+        </DatePickerPages>
+      </DatePickerCalendar>
+    </ControlledDatePicker>
+  ),
 }
 
 /**
- * An example of DatePicker with custom classes from bootstrap.
- * Set **variant="unstyled"** so Plume styles don't override the bootstrap classes.
+ * An example of DatePicker with custom classes from Bootstrap.
+ * Set **variant="unstyled"** so Plume styles don't override the Bootstrap classes.
  *
- * Note: `variant` and the `className` of the `DatePickerInput` only restyle the **input** and its button, and
- * Bootstrap has no selector for the input inside the box. The calendar
- * popup keeps its structural styles and is themed through `colorScheme` and the
- * `--datepicker-*` CSS variables (see the **Calendar Theming** story).
+ * The `DatePickerField` takes `form-control` and the `DatePickerTrigger` is placed over its end with Bootstrap's
+ * position utilities. With `variant="unstyled"` the calendar has no look either, so the example builds it from its
+ * parts with `card`, `btn` and the other Bootstrap classes. A day, a month and a year come with their state
+ * (`day.isSelected`, `month.selected`), which picks `btn-primary`.
  */
 export const Bootstrap: Story = {
   parameters: {
     docs: {
       source: {
         code: `<DatePicker onValueChange={handleValueChange} value={value} variant="unstyled">
-  <DatePickerInput aria-label="Default date" className="d-flex align-items-center gap-2 border rounded-3 px-2 py-1" placeholder="Default date" />
-  <DatePickerCalendar />
+  <DatePickerInput aria-label="Pick a date" className="position-relative" placeholder="Pick a date">
+    <DatePickerField className="form-control pe-5" />
+    <DatePickerTrigger className="btn btn-sm btn-outline-secondary border-0 position-absolute top-50 end-0 translate-middle-y me-1" />
+  </DatePickerInput>
+  <DatePickerCalendar className="card shadow p-3" style={{ width: '19rem' }}>
+    <DatePickerPages>
+      <DatePickerPage className="w-100">
+        <DatePickerHeader>
+          <DatePickerNav className="mb-2 w-100 gap-1">
+            <DatePickerPrevious className="btn btn-sm btn-outline-secondary" />
+            <DatePickerMonthButton className="btn btn-sm btn-link text-body text-decoration-none fw-semibold ms-auto" />
+            <DatePickerYearButton className="btn btn-sm btn-link text-body text-decoration-none fw-semibold me-auto" />
+            <DatePickerNext className="btn btn-sm btn-outline-secondary" />
+          </DatePickerNav>
+        </DatePickerHeader>
+        <DatePickerView>
+          {(view) => {
+            if (view === 'month') {
+              return (
+                <DatePickerMonths className="gap-1">
+                  {(month) => (
+                    <DatePickerMonthOption
+                      className={\`btn btn-sm \${month.selected ? 'btn-primary' : 'btn-outline-secondary border-0'}\`}
+                      key={month.index}
+                      month={month}
+                    />
+                  )}
+                </DatePickerMonths>
+              )
+            }
+            if (view === 'year') {
+              return (
+                <DatePickerYears className="gap-1">
+                  {(year) => (
+                    <DatePickerYearOption
+                      className={\`btn btn-sm \${year.selected ? 'btn-primary' : 'btn-outline-secondary border-0'}\`}
+                      key={year.value}
+                      year={year}
+                    />
+                  )}
+                </DatePickerYears>
+              )
+            }
+            return (
+              <>
+                <DatePickerWeekdays className="small text-body-secondary mb-1" />
+                <DatePickerGrid className="gap-1">
+                  {(day) => (
+                    <DatePickerDay
+                      className={\`btn btn-sm p-0 mx-auto rounded-circle border-0 d-flex align-items-center justify-content-center \${day.isSelected ? 'btn-primary' : 'btn-outline-secondary'} \${day.isCurrentMonth ? '' : 'opacity-25'} \${day.isToday ? 'fw-bold' : ''}\`}
+                      day={day}
+                      key={day.dataDate}
+                      style={{ height: '2.25rem', width: '2.25rem' }}
+                    />
+                  )}
+                </DatePickerGrid>
+              </>
+            )
+          }}
+        </DatePickerView>
+      </DatePickerPage>
+    </DatePickerPages>
+  </DatePickerCalendar>
 </DatePicker>`,
       },
     },
   },
-  render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks -- Render is valid storybook function
-    const [value, setValue] = useState<DateRange>({
-      startDate: null,
-      endDate: null,
-    })
-
-    const handleValueChange = (newValue: DateRange): void => {
-      setValue(newValue)
-    }
-    return (
-      <div style={{ width: '18rem', maxWidth: '100%' }}>
-        <DatePicker onValueChange={handleValueChange} value={value} variant='unstyled'>
-          <DatePickerInput aria-label='Default date' className='d-flex align-items-center gap-2 border rounded-3 px-2 py-1' placeholder='Default date' />
-          <DatePickerCalendar />
-        </DatePicker>
-      </div>
-    )
-  },
+  render: () => (
+    <ControlledDatePicker variant='unstyled'>
+      <DatePickerInput aria-label='Pick a date' className='position-relative' placeholder='Pick a date'>
+        <DatePickerField className='form-control pe-5' />
+        <DatePickerTrigger className='btn btn-sm btn-outline-secondary border-0 position-absolute top-50 end-0 translate-middle-y me-1' />
+      </DatePickerInput>
+      <DatePickerCalendar className='card shadow p-3' style={{ width: '19rem' }}>
+        <DatePickerPages>
+          <DatePickerPage className='w-100'>
+            <DatePickerHeader>
+              <DatePickerNav className='mb-2 w-100 gap-1'>
+                <DatePickerPrevious className='btn btn-sm btn-outline-secondary' />
+                <DatePickerMonthButton className='btn btn-sm btn-link text-body text-decoration-none fw-semibold ms-auto' />
+                <DatePickerYearButton className='btn btn-sm btn-link text-body text-decoration-none fw-semibold me-auto' />
+                <DatePickerNext className='btn btn-sm btn-outline-secondary' />
+              </DatePickerNav>
+            </DatePickerHeader>
+            <DatePickerView>
+              {(view) => {
+                if (view === 'month') {
+                  return (
+                    <DatePickerMonths className='gap-1'>
+                      {(month) => (
+                        <DatePickerMonthOption
+                          className={`btn btn-sm ${month.selected ? 'btn-primary' : 'btn-outline-secondary border-0'}`}
+                          key={month.index}
+                          month={month}
+                        />
+                      )}
+                    </DatePickerMonths>
+                  )
+                }
+                if (view === 'year') {
+                  return (
+                    <DatePickerYears className='gap-1'>
+                      {(year) => (
+                        <DatePickerYearOption
+                          className={`btn btn-sm ${year.selected ? 'btn-primary' : 'btn-outline-secondary border-0'}`}
+                          key={year.value}
+                          year={year}
+                        />
+                      )}
+                    </DatePickerYears>
+                  )
+                }
+                return (
+                  <>
+                    <DatePickerWeekdays className='small text-body-secondary mb-1' />
+                    <DatePickerGrid className='gap-1'>
+                      {(day) => (
+                        <DatePickerDay
+                          className={`btn btn-sm p-0 mx-auto rounded-circle border-0 d-flex align-items-center justify-content-center ${day.isSelected ? 'btn-primary' : 'btn-outline-secondary'} ${day.isCurrentMonth ? '' : 'opacity-25'} ${day.isToday ? 'fw-bold' : ''}`}
+                          day={day}
+                          key={day.dataDate}
+                          style={{ height: '2.25rem', width: '2.25rem' }}
+                        />
+                      )}
+                    </DatePickerGrid>
+                  </>
+                )
+              }}
+            </DatePickerView>
+          </DatePickerPage>
+        </DatePickerPages>
+      </DatePickerCalendar>
+    </ControlledDatePicker>
+  ),
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import type { CSSProperties, FocusEvent, ForwardedRef } from 'react'
+import type { CSSProperties, FocusEvent, ForwardedRef, ReactNode } from 'react'
 import { useCallback, useEffect, useId, useMemo, useReducer, useRef } from 'react'
 import type { ColorScheme, Shape, Size } from '../../../theme'
 import { useLabels, useLocale } from '../../../locale/locale-provider'
@@ -35,6 +35,7 @@ interface DatePickerControllerOptions {
   colorScheme: ColorScheme
   locale?: string
   displayFormat?: string
+  icon?: ReactNode
   inputRef: ForwardedRef<HTMLInputElement>
   isPanel: boolean
   isRange: boolean
@@ -71,6 +72,7 @@ export function useDatePickerController({
   colorScheme,
   locale: localeProp,
   displayFormat,
+  icon,
   inputRef,
   isPanel,
   isRange,
@@ -265,6 +267,7 @@ export function useDatePickerController({
       colorScheme,
       dispatch,
       displayFormat,
+      icon,
       inputRef,
       isPanel,
       isRange,
@@ -294,6 +297,7 @@ export function useDatePickerController({
       commitTypedValue,
       colorScheme,
       displayFormat,
+      icon,
       inputRef,
       isPanel,
       isRange,
