@@ -94,9 +94,7 @@ export const Variants: Story = {
       <Badge variant="solid">Solid</Badge>
       <Badge variant="subtle">Subtle</Badge>
       <Badge variant="outline">Outline</Badge>
-      <Badge className="px-2 py-1 rounded-sm bg-black text-white" variant="unstyled">
-        Unstyled
-      </Badge>
+      <Badge variant="unstyled">Unstyled</Badge>
     </div>
   ),
 }

@@ -110,12 +110,7 @@ export const Variants: Story = {
       <NumberInput aria-label="Outline" defaultValue={1} variant="outline" />
       <NumberInput aria-label="Filled" defaultValue={1} variant="filled" />
       <NumberInput aria-label="Underline" defaultValue={1} variant="underline" />
-      <NumberInput
-        aria-label="Unstyled"
-        className="rounded-sm border border-gray-400"
-        defaultValue={1}
-        variant="unstyled"
-      />
+      <NumberInput aria-label="Unstyled" defaultValue={1} variant="unstyled" />
     </div>
   ),
 }

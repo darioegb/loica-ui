@@ -71,13 +71,8 @@ export const Variants: Story = {
     <div className="flex flex-col gap-4" style={{ maxWidth: '100%', width: '20rem' }}>
       <ProgressBar aria-label="Solid" value={60} variant="solid" />
       <ProgressBar aria-label="Striped" value={60} variant="striped" />
-      <ProgressBar
-        aria-label="Unstyled"
-        className="h-2 rounded-sm bg-gray-200"
-        value={60}
-        variant="unstyled"
-      >
-        <ProgressBarIndicator className="rounded-sm bg-black" />
+      <ProgressBar aria-label="Unstyled" value={60} variant="unstyled">
+        <ProgressBarIndicator />
       </ProgressBar>
     </div>
   ),

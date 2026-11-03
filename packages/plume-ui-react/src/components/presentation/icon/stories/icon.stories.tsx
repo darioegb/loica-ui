@@ -96,7 +96,7 @@ export const Variants: Story = {
       source: {
         code: `<div className="flex flex-wrap items-center justify-center gap-4">
   <Icon variant="default">{bell}</Icon>
-  <Icon className="size-8 text-gray-500" variant="unstyled">
+  <Icon variant="unstyled">
     {bell}
   </Icon>
 </div>`,
@@ -106,9 +106,7 @@ export const Variants: Story = {
   render: () => (
     <div className="flex flex-wrap justify-center items-center gap-4">
       <Icon variant="default">{bell}</Icon>
-      <Icon className="size-8 text-gray-500" variant="unstyled">
-        {bell}
-      </Icon>
+      <Icon variant="unstyled">{bell}</Icon>
     </div>
   ),
 }

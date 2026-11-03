@@ -146,12 +146,7 @@ export const Variants: Story = {
       <Textarea aria-label="Outline" placeholder="Outline" variant="outline" />
       <Textarea aria-label="Filled" placeholder="Filled" variant="filled" />
       <Textarea aria-label="Underline" placeholder="Underline" variant="underline" />
-      <Textarea
-        aria-label="Unstyled"
-        className="border border-gray-400 rounded-sm p-2"
-        placeholder="Unstyled"
-        variant="unstyled"
-      />
+      <Textarea aria-label="Unstyled" placeholder="Unstyled" variant="unstyled" />
     </div>
   ),
 }

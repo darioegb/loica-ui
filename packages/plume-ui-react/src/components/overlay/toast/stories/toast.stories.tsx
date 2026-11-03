@@ -201,10 +201,8 @@ function UnstyledExample() {
   </LocaleProvider>
   <LocaleProvider messages={{ toast: { region: 'unstyled notifications' } }}>
     <ToastProvider
-      className="fixed bottom-4 right-4 flex flex-col gap-2"
       render={(toast) => (
         <Toast
-          className="flex items-center gap-3 rounded-sm bg-black px-4 py-2 text-white"
           toast={toast}
         />
       )}
@@ -230,23 +228,19 @@ function UnstyledExample() {
           <ToastProvider position={position} variant={variant}>
             <Fire
               label={variant[0].toUpperCase() + variant.slice(1)}
-              make={(api) => api.success({ description: `A ${variant} toast.`, title: 'Saved' })}
+              make={(api) =>
+                api.success({
+                  description: `A ${variant} toast.`,
+                  title: 'Saved',
+                })
+              }
               variant="outline"
             />
           </ToastProvider>
         </LocaleProvider>
       ))}
       <LocaleProvider messages={{ toast: { region: 'unstyled notifications' } }}>
-        <ToastProvider
-          className="fixed bottom-4 right-4 flex flex-col gap-2"
-          render={(toast) => (
-            <Toast
-              className="flex items-center gap-3 rounded-sm bg-black px-4 py-2 text-white"
-              toast={toast}
-            />
-          )}
-          variant="unstyled"
-        >
+        <ToastProvider render={(toast) => <Toast toast={toast} />} variant="unstyled">
           <Fire
             label="Unstyled"
             make={(api) => api.toast({ title: 'An unstyled toast' })}

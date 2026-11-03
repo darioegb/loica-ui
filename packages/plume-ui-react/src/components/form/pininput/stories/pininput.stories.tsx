@@ -94,11 +94,11 @@ export const Variants: Story = {
         code: `<PinInput aria-label="Outline" length={4} variant="outline" />
 <PinInput aria-label="Filled" length={4} variant="filled" />
 <PinInput aria-label="Underline" length={4} variant="underline" />
-<PinInput aria-label="Unstyled" className="flex gap-2" length={4} variant="unstyled">
-  <PinInputCell className="h-10 w-10 rounded-sm border border-gray-400 text-center" index={0} />
-  <PinInputCell className="h-10 w-10 rounded-sm border border-gray-400 text-center" index={1} />
-  <PinInputCell className="h-10 w-10 rounded-sm border border-gray-400 text-center" index={2} />
-  <PinInputCell className="h-10 w-10 rounded-sm border border-gray-400 text-center" index={3} />
+<PinInput aria-label="Unstyled" length={4} variant="unstyled">
+  <PinInputCell index={0} />
+  <PinInputCell index={1} />
+  <PinInputCell index={2} />
+  <PinInputCell index={3} />
 </PinInput>`,
       },
     },
@@ -108,13 +108,9 @@ export const Variants: Story = {
       <PinInput aria-label="Outline" length={4} variant="outline" />
       <PinInput aria-label="Filled" length={4} variant="filled" />
       <PinInput aria-label="Underline" length={4} variant="underline" />
-      <PinInput aria-label="Unstyled" className="flex gap-2" length={4} variant="unstyled">
+      <PinInput aria-label="Unstyled" length={4} variant="unstyled">
         {[0, 1, 2, 3].map((index) => (
-          <PinInputCell
-            className="h-10 w-10 rounded-sm border border-gray-400 text-center"
-            index={index}
-            key={index}
-          />
+          <PinInputCell index={index} key={index} />
         ))}
       </PinInput>
     </div>

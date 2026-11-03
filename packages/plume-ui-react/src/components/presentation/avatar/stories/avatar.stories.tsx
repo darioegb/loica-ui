@@ -128,8 +128,7 @@ export const Variants: Story = {
   <Avatar colorScheme="primary" name="Ada Lovelace" variant="solid" />
   <Avatar colorScheme="primary" name="Ada Lovelace" variant="outline" />
   <Avatar
-    className="size-10 rounded-full"
-    fallback={<span className="flex size-full items-center justify-center bg-gray-900 text-white">AL</span>}
+    fallback={<span>AL</span>}
     name="Ada Lovelace"
     variant="unstyled"
   />
@@ -142,14 +141,7 @@ export const Variants: Story = {
       {(['subtle', 'solid', 'outline'] as const).map((variant) => (
         <Avatar colorScheme="primary" key={variant} name="Ada Lovelace" variant={variant} />
       ))}
-      <Avatar
-        className="size-10 rounded-full"
-        fallback={
-          <span className="flex size-full items-center justify-center bg-gray-900 text-white">AL</span>
-        }
-        name="Ada Lovelace"
-        variant="unstyled"
-      />
+      <Avatar fallback={<span>AL</span>} name="Ada Lovelace" variant="unstyled" />
     </div>
   ),
 }

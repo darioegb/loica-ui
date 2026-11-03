@@ -53,7 +53,6 @@ export const Variants: Story = {
 <Loader colorScheme="primary" variant="dots" />
 <Loader colorScheme="primary" variant="bars" />
 <Loader
-  className="animate-spin inline-block h-8 w-8 rounded-full border-[3px] border-current border-t-transparent text-blue-600"
   variant="unstyled"
 />`,
       },
@@ -64,10 +63,7 @@ export const Variants: Story = {
       <Loader colorScheme="primary" />
       <Loader colorScheme="primary" variant="dots" />
       <Loader colorScheme="primary" variant="bars" />
-      <Loader
-        className="animate-spin inline-block h-8 w-8 rounded-full border-[3px] border-current border-t-transparent text-blue-600"
-        variant="unstyled"
-      />
+      <Loader variant="unstyled" />
     </div>
   ),
 }

@@ -143,9 +143,9 @@ export const Variants: Story = {
         </FileUpload>
       ))}
       <FileUpload aria-label="unstyled" variant="unstyled">
-        <FileUploadDropzone className="rounded-lg bg-slate-900 p-6 text-center text-slate-100">
+        <FileUploadDropzone>
           <FileUploadInput />
-          <FileUploadPrompt>unstyled, with Tailwind classes</FileUploadPrompt>
+          <FileUploadPrompt>unstyled</FileUploadPrompt>
         </FileUploadDropzone>
       </FileUpload>
     </div>

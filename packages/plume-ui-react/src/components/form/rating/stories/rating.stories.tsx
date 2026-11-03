@@ -166,11 +166,11 @@ export const Variants: Story = {
       source: {
         code: `<Rating aria-label="Solid" defaultValue={3} variant="solid" />
 <Rating aria-label="Outline" defaultValue={3} variant="outline" />
-<Rating aria-label="Unstyled" className="gap-1 text-3xl" defaultValue={3} variant="unstyled">
+<Rating aria-label="Unstyled" defaultValue={3} variant="unstyled">
   {(position) => (
     <RatingItem position={position}>
-      <RatingEmpty className="text-gray-300" />
-      <RatingFilled className="text-black" />
+      <RatingEmpty />
+      <RatingFilled />
       <RatingRadio />
     </RatingItem>
   )}
@@ -182,11 +182,11 @@ export const Variants: Story = {
     <div className="flex flex-col gap-3">
       <Rating aria-label="Solid" defaultValue={3} variant="solid" />
       <Rating aria-label="Outline" defaultValue={3} variant="outline" />
-      <Rating aria-label="Unstyled" className="gap-1 text-3xl" defaultValue={3} variant="unstyled">
+      <Rating aria-label="Unstyled" defaultValue={3} variant="unstyled">
         {(position) => (
           <RatingItem position={position}>
-            <RatingEmpty className="text-gray-300" />
-            <RatingFilled className="text-black" />
+            <RatingEmpty />
+            <RatingFilled />
             <RatingRadio />
           </RatingItem>
         )}

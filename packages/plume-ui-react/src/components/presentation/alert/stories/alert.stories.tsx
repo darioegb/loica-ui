@@ -136,7 +136,7 @@ export const Variants: Story = {
     <AlertTitle>Outline</AlertTitle>
     <AlertDescription>An alert with the outline variant.</AlertDescription>
   </Alert>
-  <Alert className="flex gap-2 rounded-md border border-gray-400 p-3" variant="unstyled">
+  <Alert variant="unstyled">
     <AlertTitle>Unstyled</AlertTitle>
     <AlertDescription>An alert with the unstyled variant.</AlertDescription>
   </Alert>
@@ -152,11 +152,7 @@ export const Variants: Story = {
           <AlertDescription>An alert with the {variant} variant.</AlertDescription>
         </Alert>
       ))}
-      <Alert
-        {...args}
-        className="flex gap-2 rounded-md border border-gray-400 p-3"
-        variant="unstyled"
-      >
+      <Alert {...args} variant="unstyled">
         <AlertTitle>Unstyled</AlertTitle>
         <AlertDescription>An alert with the unstyled variant.</AlertDescription>
       </Alert>

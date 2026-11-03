@@ -110,9 +110,9 @@ export const Variants: Story = {
     <CardHeader>Filled</CardHeader>
     <CardBody>A card with the filled variant.</CardBody>
   </Card>
-  <Card className="rounded-lg border border-gray-400" variant="unstyled">
-    <CardHeader className="p-4 font-bold">Unstyled</CardHeader>
-    <CardBody className="p-4 pt-0">A card with the unstyled variant.</CardBody>
+  <Card variant="unstyled">
+    <CardHeader>Unstyled</CardHeader>
+    <CardBody>A card with the unstyled variant.</CardBody>
   </Card>
 </div>`,
       },
@@ -126,13 +126,9 @@ export const Variants: Story = {
           <CardBody>A card with the {variant} variant.</CardBody>
         </Card>
       ))}
-      <Card
-        className="border border-gray-400 rounded-lg"
-        style={{ maxWidth: '100%', width: '16rem' }}
-        variant="unstyled"
-      >
-        <CardHeader className="p-4 font-bold">Unstyled</CardHeader>
-        <CardBody className="p-4 pt-0">A card with the unstyled variant.</CardBody>
+      <Card style={{ maxWidth: '100%', width: '16rem' }} variant="unstyled">
+        <CardHeader>Unstyled</CardHeader>
+        <CardBody>A card with the unstyled variant.</CardBody>
       </Card>
     </div>
   ),

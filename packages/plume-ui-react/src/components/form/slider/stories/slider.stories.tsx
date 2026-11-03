@@ -174,7 +174,7 @@ export const Variants: Story = {
         code: `<Slider aria-label="solid" defaultValue={40} variant="solid" />
 <Slider aria-label="outline" defaultValue={40} variant="outline" />
 <Slider aria-label="unstyled" defaultValue={40} variant="unstyled">
-  <SliderThumb className="w-full accent-purple-600" />
+  <SliderThumb />
 </Slider>`,
       },
     },
@@ -185,7 +185,7 @@ export const Variants: Story = {
         <Slider aria-label={variant} defaultValue={40} key={variant} variant={variant} />
       ))}
       <Slider aria-label="unstyled" defaultValue={40} variant="unstyled">
-        <SliderThumb className="w-full accent-purple-600" />
+        <SliderThumb />
       </Slider>
     </div>
   ),

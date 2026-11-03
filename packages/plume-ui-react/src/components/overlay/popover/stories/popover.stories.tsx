@@ -129,12 +129,7 @@ export const Variants: Story = {
         <PopoverTrigger>
           <Button variant="outline">Unstyled</Button>
         </PopoverTrigger>
-        <PopoverContent
-          aria-label="unstyled"
-          className="rounded-lg border-2 border-gray-400 bg-white p-3 text-black"
-        >
-          A popover with the unstyled variant.
-        </PopoverContent>
+        <PopoverContent aria-label="unstyled">A popover with the unstyled variant.</PopoverContent>
       </Popover>
     </div>
   ),

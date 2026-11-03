@@ -202,20 +202,18 @@ export const Variants: Story = {
 </Carousel>
 <Carousel aria-label="Unstyled" variant="unstyled">
   <CarouselSlides>{/* slides */}</CarouselSlides>
-  <div className="mt-2 flex items-center justify-between">
+  <div>
     <CarouselPrev
-      className="rounded-sm border border-gray-400 px-3 py-1 disabled:opacity-40"
       label="Back"
     >
       Back
     </CarouselPrev>
-    <CarouselDots className="flex gap-2">
+    <CarouselDots>
       {() => (
-        <CarouselDot className="size-3 rounded-full bg-gray-300 data-[active]:bg-gray-800" />
+        <CarouselDot />
       )}
     </CarouselDots>
     <CarouselNext
-      className="rounded-sm border border-gray-400 px-3 py-1 disabled:opacity-40"
       label="Next"
     >
       Next
@@ -226,7 +224,14 @@ export const Variants: Story = {
     },
   },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', ...frame }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '2rem',
+        ...frame,
+      }}
+    >
       {(['solid', 'overlay'] as const).map((variant) => (
         <Carousel aria-label={variant} key={variant} variant={variant}>
           <Panels />
@@ -234,25 +239,20 @@ export const Variants: Story = {
         </Carousel>
       ))}
       <Carousel aria-label="unstyled" variant="unstyled">
-        <Panels />
-        <div className="mt-2 flex items-center justify-between">
-          <CarouselPrev
-            className="rounded-sm border border-gray-400 px-3 py-1 disabled:opacity-40"
-            label="Back"
-          >
-            Back
-          </CarouselPrev>
-          <CarouselDots className="flex gap-2">
-            {() => (
-              <CarouselDot className="size-3 rounded-full bg-gray-300 data-[active]:bg-gray-800" />
-            )}
-          </CarouselDots>
-          <CarouselNext
-            className="rounded-sm border border-gray-400 px-3 py-1 disabled:opacity-40"
-            label="Next"
-          >
-            Next
-          </CarouselNext>
+        <CarouselSlides>
+          {slides.map(({ caption, title }) => (
+            <CarouselSlide key={title}>
+              <div>
+                <strong>{title}</strong>
+                <span>{caption}</span>
+              </div>
+            </CarouselSlide>
+          ))}
+        </CarouselSlides>
+        <div>
+          <CarouselPrev label="Back">Back</CarouselPrev>
+          <CarouselDots>{() => <CarouselDot />}</CarouselDots>
+          <CarouselNext label="Next">Next</CarouselNext>
         </div>
       </Carousel>
     </div>

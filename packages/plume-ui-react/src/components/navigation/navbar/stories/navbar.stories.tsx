@@ -151,21 +151,18 @@ export const Variants: Story = {
   </Navbar>
   <Navbar
     aria-label="unstyled"
-    className="gap-4 rounded-xl bg-slate-900 px-4 py-2 text-slate-100"
     variant="unstyled"
   >
     <NavbarBrand href="/">Plume</NavbarBrand>
     <NavbarToggle />
-    <NavbarContent className="gap-2">
+    <NavbarContent>
       <NavbarItem
         active
-        className="rounded-lg px-3 py-1 hover:bg-slate-700 data-[active]:bg-slate-700 data-[active]:font-bold"
         href="/"
       >
         Home
       </NavbarItem>
       <NavbarItem
-        className="rounded-lg px-3 py-1 hover:bg-slate-700 data-[active]:bg-slate-700 data-[active]:font-bold"
         href="/docs"
       >
         Docs
@@ -187,16 +184,9 @@ export const Variants: Story = {
         </div>
       ))}
       <div className="flex flex-col gap-2">
-        <p className="text-sm font-semibold">unstyled, with Tailwind classes</p>
-        <Navbar
-          aria-label="unstyled"
-          className="gap-4 rounded-xl bg-slate-900 px-4 py-2 text-slate-100"
-          variant="unstyled"
-        >
-          <Parts
-            contentClassName="gap-2"
-            itemClassName="rounded-lg px-3 py-1 hover:bg-slate-700 data-[active]:bg-slate-700 data-[active]:font-bold"
-          />
+        <p className="text-sm font-semibold">unstyled</p>
+        <Navbar aria-label="unstyled" variant="unstyled">
+          <Parts />
         </Navbar>
       </div>
     </div>

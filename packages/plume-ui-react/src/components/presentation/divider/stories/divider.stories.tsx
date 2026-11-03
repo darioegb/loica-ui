@@ -110,7 +110,6 @@ export const Variants: Story = {
   <Divider spacing="md" variant="dashed" />
   <Divider spacing="md" variant="dotted" />
   <Divider
-    className="border-0 border-t-4 border-double border-gray-500"
     spacing="md"
     variant="unstyled"
   />
@@ -123,11 +122,7 @@ export const Variants: Story = {
       {(['solid', 'dashed', 'dotted'] as const).map((variant) => (
         <Divider {...args} key={variant} variant={variant} />
       ))}
-      <Divider
-        {...args}
-        className="border-0 border-t-4 border-double border-gray-500"
-        variant="unstyled"
-      />
+      <Divider {...args} variant="unstyled" />
     </div>
   ),
 }

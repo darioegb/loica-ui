@@ -171,16 +171,7 @@ export const Variants: Story = {
           variant={variant}
         />
       ))}
-      <Styled
-        aria-label="unstyled"
-        classes={{
-          list: 'flex gap-2',
-          page: 'rounded border border-gray-400 px-3 py-1 data-[current]:bg-gray-900 data-[current]:text-white',
-        }}
-        total={100}
-        defaultPage={4}
-        variant="unstyled"
-      />
+      <Paginator aria-label="unstyled" total={100} defaultPage={4} variant="unstyled" />
     </div>
   ),
 }
