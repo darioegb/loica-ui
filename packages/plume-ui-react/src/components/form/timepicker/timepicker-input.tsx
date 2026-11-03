@@ -3,8 +3,12 @@
 import type { ForwardedRef, InputHTMLAttributes, ReactNode } from 'react'
 import { forwardRef, useId, useMemo } from 'react'
 import type { ComponentProps } from '../../../theme'
+import { hasPart } from '../../../overlay/has-part'
 import { mergeRefs } from '../../../overlay/trigger'
-import { Input } from '../input'
+import { InputLayout } from '../input/input-layout'
+import { inputColorVars } from '../input/input-types'
+import { useShallowStable } from '../shared/use-shallow-stable'
+import { TimePickerField } from './timepicker-field'
 import { TimePickerFormatHint } from './timepicker-format-hint'
 import { TimePickerInputContext } from './timepicker-input-context'
 import { TimePickerTrigger } from './timepicker-trigger'
@@ -26,6 +30,10 @@ export type TimePickerRootAttributes = Pick<
 >
 
 export interface TimePickerInputOwnProps {
+  /**
+   * The parts to show instead of the default field and button: a `TimePickerField` and a `TimePickerTrigger`, in the order you want. A `TimePickerFormatHint` among them takes the place of the default one.
+   */
+  children?: ReactNode
   /** Called with the current value when the input loses focus, after applying the typed text. */
   onBlur?: (value: string) => void
 }
@@ -37,12 +45,14 @@ export type TimePickerInputProps = Omit<ComponentProps, 'index' | 'style'> &
 const TIME_MASK = '##:##'
 
 /**
- * The field and the button that opens the panel. It is an `Input` with the button as its `elementAfter`.
- * Its `ref` goes to the native `<input>`. It renders nothing when the picker is `panel`.
+ * The field and the button that opens the panel. Given children, compose `TimePickerField` and
+ * `TimePickerTrigger` in any order. Its `ref` goes to the native `<input>`. It renders nothing when the
+ * picker is `panel`.
  */
 export const TimePickerInput = forwardRef<HTMLInputElement, TimePickerInputProps>(
   (
     {
+      children,
       className,
       disabled = false,
       onBlur,
@@ -69,41 +79,84 @@ export const TimePickerInput = forwardRef<HTMLInputElement, TimePickerInputProps
     const hintId = useId()
     const format = placeholder ?? labels.placeholder(hour12 ? labels.am : undefined)
     const setRef = useMemo(() => mergeRefs(setInput, inputRef, ref), [inputRef, ref, setInput])
+    const stableRest = useShallowStable(rest)
+    const describedBy = [rest['aria-describedby'], hintId].filter(Boolean).join(' ')
+    const fieldProps = useMemo(
+      () => ({
+        ...stableRest,
+        'aria-describedby': describedBy,
+        autoComplete: 'off',
+        'data-plume-timepicker-input': '',
+        disabled,
+        inputMode: 'numeric' as const,
+        mask: hour12 ? undefined : TIME_MASK,
+        onBlur: () => {
+          const committed = commit()
+          onBlur?.(committed)
+        },
+        onChange: handleChange,
+        placeholder: format,
+        readOnly,
+        shape,
+        size,
+        type: 'text',
+        value: text,
+        variant,
+      }),
+      [
+        commit,
+        describedBy,
+        disabled,
+        format,
+        handleChange,
+        hour12,
+        onBlur,
+        readOnly,
+        shape,
+        size,
+        stableRest,
+        text,
+        variant,
+      ],
+    )
     const inputContext = useMemo(
-      () => ({ blocked: disabled || Boolean(readOnly), hint: labels.format(format), hintId }),
-      [disabled, format, hintId, labels, readOnly],
+      () => ({
+        blocked: disabled || Boolean(readOnly),
+        fieldProps,
+        hint: labels.format(format),
+        hintId,
+        setRef,
+      }),
+      [disabled, fieldProps, format, hintId, labels, readOnly, setRef],
     )
 
     if (isPanel) return null
 
+    const invalid = rest['aria-invalid'] === true || rest['aria-invalid'] === 'true'
+
     return (
       <TimePickerInputContext.Provider value={inputContext}>
-        <Input
-          {...rest}
-          aria-describedby={[rest['aria-describedby'], hintId].filter(Boolean).join(' ')}
-          autoComplete="off"
+        <InputLayout
+          addonAfter={null}
+          addonBefore={null}
           className={className}
-          colorScheme={colorScheme}
-          data-plume-timepicker-input=""
           disabled={disabled}
-          inputMode="numeric"
-          mask={hour12 ? undefined : TIME_MASK}
-          onBlur={() => {
-            const committed = commit()
-            onBlur?.(committed)
-          }}
-          onChange={handleChange}
-          placeholder={format}
-          readOnly={readOnly}
-          ref={setRef}
-          shape={shape}
-          size={size}
-          type="text"
-          value={text}
-          variant={variant}
-          elementAfter={<TimePickerTrigger />}
+          elementAfter={null}
+          elementBefore={null}
+          field={
+            children ?? (
+              <>
+                <TimePickerField />
+                <TimePickerTrigger />
+              </>
+            )
+          }
+          invalid={invalid}
+          isStyled={variant !== 'unstyled'}
+          reveal={null}
+          style={inputColorVars(invalid ? 'error' : colorScheme)}
         />
-        <TimePickerFormatHint />
+        {hasPart(children, [TimePickerFormatHint]) ? null : <TimePickerFormatHint />}
       </TimePickerInputContext.Provider>
     )
   },

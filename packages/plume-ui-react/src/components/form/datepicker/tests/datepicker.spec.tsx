@@ -4,7 +4,9 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import {
   DatePicker,
   DatePickerCalendar,
+  DatePickerField,
   DatePickerInput,
+  DatePickerTrigger,
 } from '..'
 import { LocaleProvider } from '../../../../locale/locale-provider'
 import type { DateRange } from '../datepicker'
@@ -850,11 +852,14 @@ describe('DatePicker component', () => {
     it('styles the input with its own props and the look of the DatePicker', () => {
       render(
         <DatePicker onValueChange={vi.fn()} shape="pill" size="lg" variant="filled">
-          <DatePickerInput className="mine" disabled />
+          <DatePickerInput className="mine" disabled>
+            <DatePickerField className="inner" />
+            <DatePickerTrigger />
+          </DatePickerInput>
         </DatePicker>,
       )
       const input = screen.getByRole('textbox')
-      expect(input).toHaveClass('lg', 'pill', 'filled', 'disabled')
+      expect(input).toHaveClass('inner', 'lg', 'pill', 'filled', 'disabled')
       expect(input.closest('[data-plume-input-group]')).toHaveClass('mine')
       expect(screen.getByRole('button', { name: 'Open calendar' })).toBeDisabled()
     })

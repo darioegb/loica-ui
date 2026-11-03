@@ -6,6 +6,7 @@ import {
   DatePickerCalendar,
   DatePickerCancel,
   DatePickerDay,
+  DatePickerField,
   DatePickerFooter,
   DatePickerGrid,
   DatePickerHeader,
@@ -19,6 +20,7 @@ import {
   DatePickerPages,
   DatePickerPrevious,
   DatePickerSeparator,
+  DatePickerTrigger,
   DatePickerView,
   DatePickerWeekday,
   DatePickerWeekdays,
@@ -61,7 +63,7 @@ describe('DatePicker parts', () => {
     }
     expect(document.querySelectorAll('[data-plume-datepicker-weekday]')).toHaveLength(7)
     expect(document.querySelectorAll('[data-plume-datepicker-day]')).toHaveLength(42)
-    expect(part('input')).toBe(screen.getByRole('textbox'))
+    expect(part('field')).toBe(screen.getByRole('textbox'))
   })
 
   it('renders two pages for a range', () => {
@@ -94,18 +96,33 @@ describe('DatePicker parts', () => {
     vi.restoreAllMocks()
   })
 
-  describe('input parts', () => {
-    it('puts the trigger after the field and opens the calendar from it', () => {
+  it('throws when the field or the trigger is outside a DatePickerInput', () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined)
+    expect(() =>
       render(
         <DatePicker onValueChange={vi.fn()}>
-          <DatePickerInput />
+          <DatePickerTrigger />
+        </DatePicker>,
+      ),
+    ).toThrow('DatePickerTrigger must be used within a <DatePickerInput>')
+    vi.restoreAllMocks()
+  })
+
+  describe('input parts', () => {
+    it('lets the trigger go before the field', () => {
+      render(
+        <DatePicker onValueChange={vi.fn()}>
+          <DatePickerInput>
+            <DatePickerTrigger position="before" />
+            <DatePickerField />
+          </DatePickerInput>
           <DatePickerCalendar />
         </DatePicker>,
       )
-      const field = screen.getByRole('textbox')
-      const trigger = screen.getByRole('button', { name: 'Open calendar' })
-      expect(trigger).toHaveAttribute('data-plume-datepicker-trigger')
-      expect(field.compareDocumentPosition(trigger) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+      const control = document.querySelector('[data-plume-input-control]') as HTMLElement
+      expect(control.firstElementChild?.querySelector('button')).toBe(
+        screen.getByRole('button', { name: 'Open calendar' }),
+      )
       openCalendar()
       expect(screen.getByRole('dialog')).toBeInTheDocument()
     })
@@ -118,6 +135,28 @@ describe('DatePicker parts', () => {
       )
       const trigger = screen.getByRole('button', { name: 'Abrir' })
       expect(within(trigger).getByTestId('mine')).toBeInTheDocument()
+    })
+
+    it('styles the field and the trigger and forwards their refs', () => {
+      const fieldRef = createRef<HTMLInputElement>()
+      const triggerRef = createRef<HTMLButtonElement>()
+      render(
+        <DatePicker onValueChange={vi.fn()}>
+          <DatePickerInput>
+            <DatePickerField className="field-mine" ref={fieldRef} />
+            <DatePickerTrigger className="trigger-mine" ref={triggerRef} style={{ margin: 1 }}>
+              <span>cal</span>
+            </DatePickerTrigger>
+          </DatePickerInput>
+        </DatePicker>,
+      )
+      expect(fieldRef.current).toBe(screen.getByRole('textbox'))
+      expect(screen.getByRole('textbox')).toHaveClass('field-mine')
+      expect(triggerRef.current).toBe(screen.getByRole('button', { name: 'Open calendar' }))
+      expect(triggerRef.current).toHaveClass('trigger-mine')
+      expect(triggerRef.current?.style.margin).toBe('1px')
+      expect(screen.getByText('cal')).toBeInTheDocument()
+      expect(triggerRef.current).toHaveAttribute('data-plume-datepicker-trigger')
     })
 
     it('marks the trigger as open', () => {
