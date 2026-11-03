@@ -113,7 +113,8 @@ function Files(
  * selected and are skipped by the keyboard.
  *
  * **Selection.** With the default `selection="single"` one item is selected, and **value** / **defaultValue** hold
- * its `value`. With `selection="multiple"` they hold a list and the tree has `aria-multiselectable`. With
+ * its `value`. With `selection="multiple"` they hold a list, the tree has `aria-multiselectable` and it takes
+ * ranges from the keyboard and with <kbd>Shift</kbd> and a click (see the multiple selection example). With
  * `selection="none"` nothing is selected and the tree only opens and closes, for navigation. **expanded** /
  * **defaultExpanded** hold the list of open branches.
  *
@@ -499,7 +500,17 @@ const file = 'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h
 
 /**
  * With `selection="multiple"` any number of items can be selected: pressing one toggles it, and the Tree has
- * `aria-multiselectable`.
+ * `aria-multiselectable`. It also selects ranges, from the last item you selected:
+ *
+ * | Key | What it does |
+ * | --- | --- |
+ * | <kbd>Shift</kbd> + <kbd>↓</kbd> <kbd>↑</kbd> | Move to the next or the previous item and select or unselect it. |
+ * | <kbd>Shift</kbd> + <kbd>Space</kbd> | Select every item from the last selected one to this one. |
+ * | <kbd>Shift</kbd> + a click | The same, with the pointer. |
+ * | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Home</kbd> <kbd>End</kbd> | Select up to the first or the last item. |
+ * | <kbd>Ctrl</kbd> or <kbd>⌘</kbd> + <kbd>A</kbd> | Select every visible item. |
+ *
+ * Ranges only take the visible items that are not disabled.
  */
 export const MultipleSelection: Story = {
   parameters: {

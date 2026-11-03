@@ -1,7 +1,7 @@
 'use client'
 
 import type { RefObject } from 'react'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSelectionState } from '../../../overlay/use-selection-state'
 import {
   checkStateOf,
@@ -12,6 +12,7 @@ import {
   type TreeStructure,
 } from './tree-checks'
 import type { TreeSelection } from './tree-context'
+import { visibleItems } from './tree-navigation'
 
 interface TreeStateOptions {
   cascade: boolean
@@ -31,7 +32,9 @@ interface TreeState {
   checkState: (item: string) => TreeCheckState | undefined
   expanded: readonly string[]
   select: (item: string) => void
+  selectAll: () => void
   selected: readonly string[]
+  selectRange: (to: string, from?: string) => void
   toggleExpanded: (item: string, expand: boolean) => void
 }
 
@@ -61,6 +64,7 @@ export function useTreeState({
     onValueChange,
     value,
   })
+  const anchor = useRef<string | undefined>(undefined)
   const checked = useMemo(
     () => expandChecked(selected, structure, isCheckbox && cascade),
     [cascade, isCheckbox, selected, structure],
@@ -83,6 +87,7 @@ export function useTreeState({
   const select = useCallback(
     (item: string): void => {
       const isSelected = selected.includes(item)
+      anchor.current = item
       if (isCheckbox) commitSelected(toggleChecked(item, checked, structure, cascade))
       else if (selection === 'single' && !isSelected) commitSelected([item])
       else if (selection === 'multiple') {
@@ -93,6 +98,31 @@ export function useTreeState({
     },
     [cascade, checked, commitSelected, isCheckbox, selected, selection, structure],
   )
+
+  const addToSelection = useCallback(
+    (items: readonly string[]): void => {
+      const added = items.filter((item) => !selected.includes(item))
+      if (added.length > 0) commitSelected([...selected, ...added])
+    },
+    [commitSelected, selected],
+  )
+
+  const selectRange = useCallback(
+    (to: string, from: string = anchor.current ?? to): void => {
+      if (selection !== 'multiple') return
+      const values = visibleItems(root.current).map((row) => row.dataset.plumeTreeValue ?? '')
+      const end = values.indexOf(to)
+      const start = values.includes(from) ? values.indexOf(from) : end
+      if (end === -1) return
+      addToSelection(values.slice(Math.min(start, end), Math.max(start, end) + 1))
+    },
+    [addToSelection, root, selection],
+  )
+
+  const selectAll = useCallback((): void => {
+    if (selection !== 'multiple') return
+    addToSelection(visibleItems(root.current).map((row) => row.dataset.plumeTreeValue ?? ''))
+  }, [addToSelection, root, selection])
 
   const activate = useCallback(
     (item: string, hasChildren: boolean): void => {
@@ -108,5 +138,14 @@ export function useTreeState({
     [cascade, checked, isCheckbox, structure],
   )
 
-  return { activate, checkState, expanded, select, selected, toggleExpanded }
+  return {
+    activate,
+    checkState,
+    expanded,
+    select,
+    selectAll,
+    selected,
+    selectRange,
+    toggleExpanded,
+  }
 }

@@ -93,6 +93,34 @@ describe('Paginator fit', () => {
     expect(document.querySelectorAll('[data-plume-paginator-item]')).toHaveLength(2)
   })
 
+  it('keeps every page when a row sized to its buttons rounds its width down', () => {
+    const widthOf = (element: Element): number => {
+      if (element.querySelector('[data-plume-paginator-page]')) return 10.3
+      if (element.querySelector('[data-plume-paginator-ellipsis]')) return 13.1
+      return 16.7
+    }
+    vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockImplementation(function (
+      this: HTMLElement,
+    ) {
+      if (!this.hasAttribute('data-plume-paginator')) return 0
+      return Math.floor(
+        Array.from(this.querySelectorAll('[data-plume-paginator-item]')).reduce(
+          (sum, item) => sum + widthOf(item),
+          0,
+        ),
+      )
+    })
+    vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (
+      this: Element,
+    ) {
+      return {
+        width: this.hasAttribute('data-plume-paginator-item') ? widthOf(this) : 0,
+      } as DOMRect
+    })
+    render(<Paginator defaultPage={4} total={100} variant="unstyled" />)
+    expect(pageNumbers()).toEqual(['1', '2', '3', '4', '5', '10'])
+  })
+
   it('shows more pages when the row gets wider', () => {
     mockLayout(BUTTON_WIDTH * 7)
     const { rerender } = render(<Paginator pageSize={10} total={240} />)

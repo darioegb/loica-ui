@@ -3,6 +3,7 @@ import { userEvent } from '@testing-library/user-event'
 import { createRef } from 'react'
 import {
   Dropdown,
+  DropdownGroup,
   DropdownItem,
   DropdownLabel,
   DropdownMenu,
@@ -344,6 +345,80 @@ describe('Dropdown component', () => {
       expect(trigger()).toHaveAttribute('aria-haspopup', 'menu')
     })
 
+    it('points the trigger to the menu only while it is open', async () => {
+      render(<Example />)
+      expect(trigger()).not.toHaveAttribute('aria-controls')
+      await userEvent.click(trigger())
+      expect(trigger()).toHaveAttribute('aria-controls', menu().id)
+    })
+
+    it('names a group after its DropdownLabel', async () => {
+      render(
+        <Dropdown>
+          <DropdownTrigger>Actions</DropdownTrigger>
+          <DropdownMenu>
+            <DropdownGroup>
+              <DropdownLabel>Account</DropdownLabel>
+              <DropdownItem>Profile</DropdownItem>
+            </DropdownGroup>
+            <DropdownGroup>
+              <DropdownLabel id="mine">Workspace</DropdownLabel>
+              <DropdownItem>Members</DropdownItem>
+            </DropdownGroup>
+          </DropdownMenu>
+        </Dropdown>,
+      )
+      await userEvent.click(trigger())
+      expect(screen.getByRole('group', { name: 'Account' })).toContainElement(item('Profile'))
+      expect(screen.getByRole('group', { name: 'Workspace' })).toHaveAttribute(
+        'aria-labelledby',
+        'mine',
+      )
+    })
+
+    it('renders the label of a group and leaves a group without one unnamed', async () => {
+      render(
+        <Dropdown>
+          <DropdownTrigger>Actions</DropdownTrigger>
+          <DropdownMenu>
+            <DropdownGroup label="Account">
+              <DropdownItem>Profile</DropdownItem>
+            </DropdownGroup>
+            <DropdownGroup className="group-mine">
+              <DropdownItem>Sign out</DropdownItem>
+            </DropdownGroup>
+          </DropdownMenu>
+        </Dropdown>,
+      )
+      await userEvent.click(trigger())
+      const [named, plain] = screen.getAllByRole('group')
+      expect(named).toHaveAccessibleName('Account')
+      expect(named?.firstElementChild).toHaveAttribute('data-plume-dropdown-label')
+      expect(plain).not.toHaveAttribute('aria-labelledby')
+      expect(plain).toHaveClass('group-mine')
+    })
+
+    it('moves with the arrows through the items of every group', async () => {
+      render(
+        <Dropdown>
+          <DropdownTrigger>Actions</DropdownTrigger>
+          <DropdownMenu>
+            <DropdownGroup label="Account">
+              <DropdownItem>Profile</DropdownItem>
+            </DropdownGroup>
+            <DropdownGroup label="Workspace">
+              <DropdownItem>Members</DropdownItem>
+            </DropdownGroup>
+          </DropdownMenu>
+        </Dropdown>,
+      )
+      trigger().focus()
+      await userEvent.keyboard('{ArrowDown}')
+      expect(item('Profile')).toHaveFocus()
+      await userEvent.keyboard('{ArrowDown}')
+      expect(item('Members')).toHaveFocus()
+    })
+
     it('names the menu after the trigger', async () => {
       render(<Example />)
       await userEvent.click(trigger())
@@ -606,6 +681,7 @@ describe('Dropdown component', () => {
       ['DropdownItem', <DropdownItem key="c">x</DropdownItem>],
       ['DropdownSeparator', <DropdownSeparator key="d" />],
       ['DropdownLabel', <DropdownLabel key="e">x</DropdownLabel>],
+      ['DropdownGroup', <DropdownGroup key="f">x</DropdownGroup>],
     ])('throws when %s is outside of a Dropdown', (name, part) => {
       const error = vi.spyOn(console, 'error').mockImplementation(() => undefined)
       expect(() => render(part)).toThrow(`${name} must be used within a <Dropdown>`)

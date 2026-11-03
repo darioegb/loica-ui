@@ -363,30 +363,24 @@ export const Tailwind: Story = {
 };
 
 /**
- * Some examples of PinInput with Bootstrap classes: `d-flex gap-2` for the group. Bootstrap has no class for the
- * boxes inside a group, so they keep the look of the browser; and `form-control` can't reach them.
+ * Some examples of PinInput with Bootstrap classes: `d-flex gap-2` for the group. `form-control` can't reach the
+ * boxes inside the group, so a rule gives them its look with Bootstrap's variables.
  */
 export const Bootstrap: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<PinInput
-  aria-label="Verification code"
-  className="d-flex gap-2"
-  length={6}
-  style={{ maxWidth: '100%', width: '20rem' }}
-  variant="unstyled"
-/>`,
+        code: `<>
+  <style>{"[data-plume-pininput-cell] { width: 2.5rem; height: 3rem; text-align: center; color: var(--bs-body-color); background-color: var(--bs-body-bg); border: var(--bs-border-width) solid var(--bs-border-color); border-radius: var(--bs-border-radius); }"}</style>
+  <PinInput aria-label="Verification code" className="d-flex gap-2" length={6} variant="unstyled" />
+</>`,
       },
     },
   },
   render: () => (
-    <PinInput
-      aria-label="Verification code"
-      className="d-flex gap-2"
-      length={6}
-      style={{ maxWidth: "100%", width: "20rem" }}
-      variant="unstyled"
-    />
+    <>
+      <style>{"[data-plume-pininput-cell] { width: 2.5rem; height: 3rem; text-align: center; color: var(--bs-body-color); background-color: var(--bs-body-bg); border: var(--bs-border-width) solid var(--bs-border-color); border-radius: var(--bs-border-radius); }"}</style>
+      <PinInput aria-label="Verification code" className="d-flex gap-2" length={6} variant="unstyled" />
+    </>
   ),
 };

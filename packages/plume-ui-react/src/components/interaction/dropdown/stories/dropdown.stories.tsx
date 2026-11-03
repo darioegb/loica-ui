@@ -4,6 +4,7 @@ import { Icon } from '../../../presentation/icon'
 import { Button } from '../../button'
 import {
   Dropdown,
+  DropdownGroup,
   DropdownItem,
   DropdownItemIcon,
   DropdownItemLabel,
@@ -87,6 +88,7 @@ export default {
         'DropdownMenu',
         'DropdownItem',
         'DropdownSeparator',
+        'DropdownGroup',
         'DropdownLabel',
         'DropdownItemIcon',
         'DropdownItemLabel',
@@ -364,8 +366,9 @@ export const IconsAndShortcuts: Story = {
 }
 
 /**
- * A **DropdownLabel** titles the items that follow and a **DropdownSeparator** draws a line between groups.
- * Neither can take the focus, so the arrows go from item to item.
+ * A **DropdownGroup** gathers related items with `role="group"`, named by its **DropdownLabel** (or its **label**),
+ * so a screen reader announces the title when the focus enters it. A **DropdownSeparator** draws a line between
+ * groups. Neither the label nor the separator can take the focus, so the arrows go from item to item.
  */
 export const Groups: Story = {
   render: () => (
@@ -374,13 +377,16 @@ export const Groups: Story = {
         <Button variant="outline">Menu</Button>
       </DropdownTrigger>
       <DropdownMenu>
-        <DropdownLabel>Account</DropdownLabel>
-        <DropdownItem>Profile</DropdownItem>
-        <DropdownItem>Billing</DropdownItem>
+        <DropdownGroup>
+          <DropdownLabel>Account</DropdownLabel>
+          <DropdownItem>Profile</DropdownItem>
+          <DropdownItem>Billing</DropdownItem>
+        </DropdownGroup>
         <DropdownSeparator />
-        <DropdownLabel>Workspace</DropdownLabel>
-        <DropdownItem>Members</DropdownItem>
-        <DropdownItem>Invite people</DropdownItem>
+        <DropdownGroup label="Workspace">
+          <DropdownItem>Members</DropdownItem>
+          <DropdownItem>Invite people</DropdownItem>
+        </DropdownGroup>
         <DropdownSeparator />
         <DropdownItem>Sign out</DropdownItem>
       </DropdownMenu>

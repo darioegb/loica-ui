@@ -255,12 +255,16 @@ export function Select({
     [canEdit, setOpenState],
   )
 
+  const focusCombobox = useCallback((): void => {
+    trigger?.querySelector<HTMLElement>('[role="combobox"]')?.focus()
+  }, [trigger])
+
   const close = useCallback(
     (returnFocus: boolean): void => {
       setOpenState(false)
-      if (returnFocus) trigger?.querySelector<HTMLElement>('[role="combobox"]')?.focus()
+      if (returnFocus) focusCombobox()
     },
-    [setOpenState, trigger],
+    [focusCombobox, setOpenState],
   )
 
   const select = useCallback(
@@ -282,15 +286,20 @@ export function Select({
     return () => form.removeEventListener('reset', reset)
   }, [commit, defaultValue, isControlled, trigger])
 
+  // The clear button and the chip of a removed option unmount, so focus moves to the combobox.
   const clear = useCallback((): void => {
-    if (canEdit && selected.length > 0) commit([])
-  }, [canEdit, commit, selected])
+    if (!canEdit || selected.length === 0) return
+    commit([])
+    focusCombobox()
+  }, [canEdit, commit, focusCombobox, selected])
 
   const remove = useCallback(
     (item: string): void => {
-      if (canEdit) commit(selected.filter((current) => current !== item))
+      if (!canEdit) return
+      commit(selected.filter((current) => current !== item))
+      focusCombobox()
     },
-    [canEdit, commit, selected],
+    [canEdit, commit, focusCombobox, selected],
   )
 
   const clearLast = useCallback((): void => {

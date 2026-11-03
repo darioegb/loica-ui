@@ -88,7 +88,8 @@ function Arrows(): React.ReactNode {
  * **Autoplay.** With **autoplay** (the time in milliseconds between slides) the carousel moves by itself, and goes
  * back to the first slide after the last. It pauses while the pointer is over it or the focus is inside, and it
  * doesn't run at all with `prefers-reduced-motion`. Moving content has to be stoppable, so always add a
- * `CarouselPlayPause` button. While it runs, the slides are not announced by screen readers.
+ * `CarouselPlayPause` button, before the slides so it is the first stop of the Tab order. While it runs, the slides
+ * are not announced by screen readers.
  *
  * The slides have no background or text of their own: what is inside a `CarouselSlide` is yours, usually an image or
  * a card. The colors in these examples come from the examples themselves, each slide is a `div` with a gradient of
@@ -671,13 +672,18 @@ export const Peek: Story = {
 /**
  * With **autoplay** the Carousel moves by itself every number of milliseconds. It pauses while the pointer is
  * over it or the focus is inside, and it doesn't run with `prefers-reduced-motion`. Always add a
- * `CarouselPlayPause` so the user can stop it.
+ * `CarouselPlayPause` so the user can stop it, and write it first so it is the first stop of the Tab
+ * order: the Carousel still shows it under the slides.
  */
 export const Autoplay: Story = {
   parameters: {
     docs: {
       source: {
         code: `<Carousel aria-label="Featured places" autoplay={3500}>
+  <div className="mt-2 flex items-center justify-center gap-2">
+    <CarouselPlayPause />
+    <CarouselDots />
+  </div>
   <CarouselSlides>
     <CarouselSlide>
       <img alt="Mountains above the clouds" src="/mountains.jpg" />
@@ -691,10 +697,6 @@ export const Autoplay: Story = {
   </CarouselSlides>
   <CarouselPrev />
   <CarouselNext />
-  <div className="mt-2 flex items-center justify-center gap-2">
-    <CarouselPlayPause />
-    <CarouselDots />
-  </div>
 </Carousel>`,
       },
     },
@@ -703,9 +705,6 @@ export const Autoplay: Story = {
     autoplay: 3500,
     children: (
       <>
-        <Panels />
-        <CarouselPrev />
-        <CarouselNext />
         <div
           style={{
             alignItems: 'center',
@@ -718,6 +717,9 @@ export const Autoplay: Story = {
           <CarouselPlayPause style={{ margin: 0 }} />
           <CarouselDots />
         </div>
+        <Panels />
+        <CarouselPrev />
+        <CarouselNext />
       </>
     ),
   },

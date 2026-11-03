@@ -375,6 +375,69 @@ describe('Tree component', () => {
       expect(screen.getByRole('tree')).toHaveAttribute('aria-multiselectable', 'true')
     })
 
+    describe('ranges in multiple mode', () => {
+      const selectedValues = (): string[] =>
+        Array.from(document.querySelectorAll('[aria-selected="true"]')).map(
+          (row) => (row as HTMLElement).dataset.plumeTreeValue ?? '',
+        )
+
+      it('extends the selection with Shift and the arrows', async () => {
+        render(<Files defaultExpanded={['docs']} selection="multiple" />)
+        await userEvent.click(label('alpha'))
+        await userEvent.keyboard('{Shift>}{ArrowDown}{ArrowDown}{/Shift}')
+        expect(item('pictures')).toHaveFocus()
+        expect(selectedValues()).toEqual(['alpha', 'beta', 'pictures'])
+        await userEvent.keyboard('{Shift>}{ArrowUp}{/Shift}')
+        expect(selectedValues()).toEqual(['alpha', 'pictures'])
+      })
+
+      it('selects from the last selected item with Shift and Space, skipping the disabled ones', async () => {
+        render(<Files defaultExpanded={['docs']} selection="multiple" />)
+        await userEvent.click(label('alpha'))
+        await userEvent.keyboard('{ArrowDown}{ArrowDown}{ArrowDown}{Shift>} {/Shift}')
+        expect(item('videos')).toHaveFocus()
+        expect(selectedValues()).toEqual(['alpha', 'beta', 'pictures', 'videos'])
+      })
+
+      it('selects a range with Shift and a click', async () => {
+        const onValueChange = vi.fn()
+        render(<Files onValueChange={onValueChange} selection="multiple" />)
+        await userEvent.click(label('pictures'))
+        await userEvent.keyboard('{Shift>}')
+        await userEvent.click(label('videos'))
+        await userEvent.keyboard('{/Shift}')
+        expect(onValueChange).toHaveBeenLastCalledWith(['pictures', 'videos'])
+        expect(item('videos')).toHaveFocus()
+      })
+
+      it('selects up to the first or the last item with Ctrl, Shift and Home or End', async () => {
+        render(<Files selection="multiple" />)
+        item('docs').focus()
+        await userEvent.keyboard('{ArrowDown}{Control>}{Shift>}{End}{/Shift}{/Control}')
+        expect(item('videos')).toHaveFocus()
+        expect(selectedValues()).toEqual(['pictures', 'videos'])
+        await userEvent.keyboard('{Control>}{Shift>}{Home}{/Shift}{/Control}')
+        expect(item('docs')).toHaveFocus()
+        expect(selectedValues()).toEqual(['docs', 'pictures', 'videos'])
+      })
+
+      it('selects every visible item with Ctrl or Cmd and A', async () => {
+        render(<Files selection="multiple" />)
+        item('docs').focus()
+        await userEvent.keyboard('{Meta>}a{/Meta}')
+        expect(selectedValues()).toEqual(['docs', 'pictures', 'videos'])
+      })
+
+      it('only moves with Shift and the arrows in single mode', async () => {
+        const onValueChange = vi.fn()
+        render(<Files onValueChange={onValueChange} />)
+        item('docs').focus()
+        await userEvent.keyboard('{Shift>}{ArrowDown}{/Shift}{Control>}a{/Control}')
+        expect(item('pictures')).toHaveFocus()
+        expect(onValueChange).not.toHaveBeenCalled()
+      })
+    })
+
     it('is not multiselectable by default', () => {
       render(<Files />)
       expect(screen.getByRole('tree')).not.toHaveAttribute('aria-multiselectable')

@@ -18,6 +18,7 @@ export interface TreeContextValue {
   onItemKeyDown: (event: KeyboardEvent<HTMLElement>, value: string, hasChildren: boolean) => void
   select: (value: string) => void
   selected: readonly string[]
+  selectRange: (to: string, from?: string) => void
   selection: TreeSelection
   setActive: (value: string) => void
   size: Size

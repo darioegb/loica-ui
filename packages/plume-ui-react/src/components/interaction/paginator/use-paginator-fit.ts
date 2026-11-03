@@ -38,11 +38,16 @@ const roomForEntries = (root: HTMLElement): number | undefined => {
   if (items.length === fixed || root.clientWidth === 0) return undefined
 
   const listGap = gapOf(list)
-  const unit = items.reduce((sum, item) => sum + width(item), 0) / items.length + listGap
+  const row = items.reduce((sum, item) => sum + width(item), 0)
+  const unit = row / items.length + listGap
   const others = Array.from(root.children).filter((child) => child !== list)
   const taken = others.reduce((sum, child) => sum + width(child), 0) + gapOf(root) * others.length
   const available = root.clientWidth - taken
-  return Math.floor((available + listGap) / unit) - fixed
+  const estimate = Math.floor((available + listGap) / unit) - fixed
+  // clientWidth is rounded but the buttons measure fractions, so a root sized to its content looks a
+  // little short; a row that fits keeps what it has, or every measure would drop a page.
+  const fits = row + listGap * (items.length - 1) <= available + 0.5
+  return fits ? Math.max(estimate, items.length - fixed) : estimate
 }
 
 const pickFit = ({ current, pages }: Pick<FitOptions, 'current' | 'pages'>, room: number): Fit => {

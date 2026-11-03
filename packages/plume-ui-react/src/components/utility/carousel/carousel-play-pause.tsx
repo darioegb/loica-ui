@@ -16,7 +16,11 @@ type CarouselPlayPauseRootAttributes = Pick<
 export type CarouselPlayPauseProps = Omit<ComponentProps, 'index'> &
   CarouselPlayPauseRootAttributes
 
-/** Pauses and resumes the autoplay. It has `data-playing` while the carousel moves. */
+/**
+ * Pauses and resumes the autoplay. It has `data-playing` while the carousel moves. Write it before
+ * the `CarouselSlides` so it is the first stop of the Tab order, as the WAI-ARIA carousel pattern
+ * asks: the Carousel still shows it under the slides.
+ */
 export const CarouselPlayPause = forwardRef<HTMLButtonElement, CarouselPlayPauseProps>(
   (
     {

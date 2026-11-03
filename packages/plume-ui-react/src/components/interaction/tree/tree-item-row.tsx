@@ -53,10 +53,17 @@ export const TreeItemRow = forwardRef<HTMLDivElement, TreeItemRowProps>(
           )
           if (onChevron && hasChildren && tree.selection === 'checkbox')
             tree.toggleExpanded(value)
-          else tree.activate(value, hasChildren)
+          else if (event.shiftKey && tree.selection === 'multiple') {
+            event.currentTarget.focus()
+            tree.selectRange(value)
+          } else tree.activate(value, hasChildren)
         }}
         onFocus={(event) => {
           if (event.target === event.currentTarget) tree.setActive(value)
+        }}
+        onMouseDown={(event) => {
+          // Shift+click would otherwise also select the text between the two rows.
+          if (event.shiftKey && tree.selection === 'multiple') event.preventDefault()
         }}
         onKeyDown={(event) => {
           if (!disabled) tree.onItemKeyDown(event, value, hasChildren)

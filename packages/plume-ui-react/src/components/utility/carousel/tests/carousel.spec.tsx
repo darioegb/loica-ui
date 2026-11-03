@@ -32,6 +32,7 @@ beforeEach(() => {
 function Demo({ slides = 3, ...props }: Readonly<Partial<CarouselProps> & { slides?: number }>) {
   return (
     <Carousel aria-label="Photos" {...props}>
+      <CarouselPlayPause />
       <CarouselSlides>
         {Array.from({ length: slides }, (_, position) => (
           <CarouselSlide key={position}>Slide {position + 1}</CarouselSlide>
@@ -39,7 +40,6 @@ function Demo({ slides = 3, ...props }: Readonly<Partial<CarouselProps> & { slid
       </CarouselSlides>
       <CarouselPrev />
       <CarouselNext />
-      <CarouselPlayPause />
       <CarouselDots />
     </Carousel>
   )
@@ -108,10 +108,10 @@ describe('Carousel component', () => {
       expect(screen.getByRole('tabpanel', { name: 'Custom' })).toBeInTheDocument()
     })
 
-    it('lets only the visible slide be focused, so the strip can be scrolled with the keyboard', () => {
+    it('puts only the visible slide in the tab order, so the strip can be scrolled with the keyboard', () => {
       render(<Demo />)
       expect(slide(1)).toHaveAttribute('tabindex', '0')
-      expect(slide(2)).not.toHaveAttribute('tabindex')
+      expect(slide(2)).toHaveAttribute('tabindex', '-1')
     })
 
     it('shows only the first slide to assistive technology and the keyboard', () => {
@@ -334,6 +334,23 @@ describe('Carousel component', () => {
       expect(scrollTo).not.toHaveBeenCalled()
     })
 
+    it('keeps focus on the visible slide when the keyboard scrolls the strip', async () => {
+      render(<Demo />)
+      act(() => slide(1).focus())
+      mockPositions(1)
+      fireEvent.scroll(scroller())
+      await vi.waitFor(() => expect(slide(2)).toHaveFocus())
+    })
+
+    it('leaves focus alone when it is outside the slides', async () => {
+      render(<Demo />)
+      act(() => next().focus())
+      mockPositions(1)
+      fireEvent.scroll(scroller())
+      await vi.waitFor(() => expect(slide(2)).not.toHaveAttribute('inert'))
+      expect(next()).toHaveFocus()
+    })
+
     it('ignores the scroll it caused itself, until it ends', async () => {
       const onIndexChange = vi.fn()
       render(<Demo onIndexChange={onIndexChange} />)
@@ -422,6 +439,13 @@ describe('Carousel component', () => {
         vi.advanceTimersByTime(1000)
       })
       expect(slide(2)).not.toHaveAttribute('inert')
+    })
+
+    it('reaches the play and pause button first with Tab', async () => {
+      vi.useRealTimers()
+      render(<Demo autoplay={60000} />)
+      await userEvent.tab()
+      expect(screen.getByRole('button', { name: 'Pause the slideshow' })).toHaveFocus()
     })
 
     it('does not run for a reduced motion preference', () => {

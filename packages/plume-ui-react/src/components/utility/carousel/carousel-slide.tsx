@@ -43,7 +43,7 @@ export const CarouselSlide = forwardRef<HTMLDivElement, CarouselSlideProps>(
         ref={mergeRefs(ref, setElement)}
         role="tabpanel"
         style={style}
-        tabIndex={active ? 0 : undefined}
+        tabIndex={active ? 0 : -1}
         {...rest}
       >
         {children}

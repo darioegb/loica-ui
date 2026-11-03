@@ -71,6 +71,10 @@
   border-color: var(--plume-border-hover);
 }
 
+.filled:hover:not(.disabled) {
+  background-color: color-mix(in srgb, var(--plume-foreground) var(--plume-overlay-hover), var(--plume-surface-muted));
+}
+
 .outline:focus-within {
   border-color: var(--numberinput-color);
   outline: var(--plume-focus-ring-width) solid var(--numberinput-color);

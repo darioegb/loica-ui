@@ -4,6 +4,13 @@
   overscroll-behavior: contain;
 }
 
+:global(:where([data-plume-dropdown-group])) {
+  border: 0;
+  margin: 0;
+  min-inline-size: 0;
+  padding: 0;
+}
+
 :global(:where([data-plume-dropdown-item-label])) {
   flex: 1 1 auto;
   min-width: 0;
