@@ -56,7 +56,6 @@ export const en = {
     visibilityLabel: "Who can see it",
   },
   plume: {
-    alert: { dismiss: "Dismiss" },
     avatar: {
       away: "Away",
       busy: "Busy",
@@ -65,7 +64,7 @@ export const en = {
     },
     avatarGroup: { overflow: "{{hidden}} more" },
     breadcrumb: { breadcrumb: "Breadcrumb" },
-    button: { busy: "Loading" },
+    close: { label: "Close" },
     datePicker: {
       apply: "Apply",
       calendar: "Calendar",
@@ -78,8 +77,8 @@ export const en = {
       previousYears: "Previous years",
     },
     input: { reveal: "Show password" },
+    loader: { label: "Loading" },
     navbarToggle: { label: "Toggle navigation" },
-    overlayClose: { label: "Close" },
     paginator: {
       first: "First page",
       last: "Last page",
@@ -99,14 +98,13 @@ export const en = {
       search: "Search",
     },
     sidebarToggle: { label: "Toggle sidebar" },
-    table: { loading: "Loading" },
     textarea: {
       count: "{{current}}",
       countMax: "{{current}} / {{max}}",
       remaining_one: "{{count}} character left",
       remaining_other: "{{count}} characters left",
     },
-    toast: { dismiss: "Dismiss notification", region: "Notifications" },
+    toast: { region: "Notifications" },
   },
   preferences: {
     accountMenu: "Account menu for {{name}}",

@@ -296,12 +296,11 @@
     }
   },
   "plume": {
-    "alert": { "dismiss": "Cerrar aviso" },
     "avatar": { "away": "Ausente", "busy": "Ocupado", "offline": "Desconectado", "online": "En línea" },
     "avatarGroup": { "overflow": "{hidden} más" },
     "breadcrumb": { "breadcrumb": "Ruta de navegación" },
-    "button": { "busy": "Cargando" },
     "chip": { "remove": "Quitar" },
+    "close": { "label": "Cerrar" },
     "datePicker": {
       "apply": "Aplicar",
       "calendar": "Calendario",
@@ -314,8 +313,8 @@
       "previousYears": "Años anteriores"
     },
     "input": { "reveal": "Mostrar contraseña" },
+    "loader": { "label": "Cargando" },
     "navbarToggle": { "label": "Mostrar u ocultar la navegación" },
-    "overlayClose": { "label": "Cerrar" },
     "paginator": {
       "first": "Primera página",
       "last": "Última página",
@@ -335,9 +334,7 @@
       "search": "Buscar"
     },
     "sidebarToggle": { "label": "Mostrar u ocultar la barra lateral" },
-    "spinner": { "label": "Cargando" },
     "stepper": { "completed": "Completado", "upcoming": "Sin empezar" },
-    "table": { "loading": "Cargando" },
-    "toast": { "dismiss": "Descartar notificación", "region": "Notificaciones" }
+    "toast": { "region": "Notificaciones" }
   }
 }

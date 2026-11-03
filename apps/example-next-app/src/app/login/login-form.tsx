@@ -35,7 +35,7 @@ export function LoginForm(): ReactNode {
           </div>
         </CardBody>
         <CardFooter>
-          <Button busy={pending} busyText="…" type="submit">
+          <Button loading={pending} loadingText="…" type="submit">
             {t('submit')}
           </Button>
         </CardFooter>

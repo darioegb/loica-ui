@@ -58,7 +58,6 @@ export const es: Translation = {
     visibilityLabel: "Quién puede verlo",
   },
   plume: {
-    alert: { dismiss: "Descartar" },
     avatar: {
       away: "Ausente",
       busy: "Ocupado",
@@ -67,7 +66,7 @@ export const es: Translation = {
     },
     avatarGroup: { overflow: "{{hidden}} más" },
     breadcrumb: { breadcrumb: "Ruta de navegación" },
-    button: { busy: "Cargando" },
+    close: { label: "Cerrar" },
     datePicker: {
       apply: "Aplicar",
       calendar: "Calendario",
@@ -80,8 +79,8 @@ export const es: Translation = {
       previousYears: "Años anteriores",
     },
     input: { reveal: "Mostrar contraseña" },
+    loader: { label: "Cargando" },
     navbarToggle: { label: "Alternar navegación" },
-    overlayClose: { label: "Cerrar" },
     paginator: {
       first: "Primera página",
       last: "Última página",
@@ -101,14 +100,13 @@ export const es: Translation = {
       search: "Buscar",
     },
     sidebarToggle: { label: "Alternar barra lateral" },
-    table: { loading: "Cargando" },
     textarea: {
       count: "{{current}}",
       countMax: "{{current}} / {{max}}",
       remaining_one: "Queda {{count}} carácter",
       remaining_other: "Quedan {{count}} caracteres",
     },
-    toast: { dismiss: "Descartar notificación", region: "Notificaciones" },
+    toast: { region: "Notificaciones" },
   },
   preferences: {
     accountMenu: "Menú de la cuenta de {{name}}",

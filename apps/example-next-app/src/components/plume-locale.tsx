@@ -12,7 +12,6 @@ export function PlumeLocale({ children }: Readonly<{ children: ReactNode }>): Re
 
   const messages = useMemo<PlumeMessages>(
     () => ({
-      alert: { dismiss: t('alert.dismiss') },
       avatar: {
         away: t('avatar.away'),
         busy: t('avatar.busy'),
@@ -21,8 +20,8 @@ export function PlumeLocale({ children }: Readonly<{ children: ReactNode }>): Re
       },
       avatarGroup: { overflow: (hidden) => t('avatarGroup.overflow', { hidden }) },
       breadcrumb: { breadcrumb: t('breadcrumb.breadcrumb') },
-      button: { busy: t('button.busy') },
       chip: { remove: t('chip.remove') },
+      close: { label: t('close.label') },
       datePicker: {
         apply: t('datePicker.apply'),
         calendar: t('datePicker.calendar'),
@@ -35,8 +34,8 @@ export function PlumeLocale({ children }: Readonly<{ children: ReactNode }>): Re
         previousYears: t('datePicker.previousYears'),
       },
       input: { reveal: t('input.reveal') },
+      loader: { label: t('loader.label') },
       navbarToggle: { label: t('navbarToggle.label') },
-      overlayClose: { label: t('overlayClose.label') },
       paginator: {
         first: t('paginator.first'),
         last: t('paginator.last'),
@@ -55,10 +54,8 @@ export function PlumeLocale({ children }: Readonly<{ children: ReactNode }>): Re
         search: t('select.search'),
       },
       sidebarToggle: { label: t('sidebarToggle.label') },
-      spinner: { label: t('spinner.label') },
       stepper: { completed: t('stepper.completed'), upcoming: t('stepper.upcoming') },
-      table: { loading: t('table.loading') },
-      toast: { dismiss: t('toast.dismiss'), region: t('toast.region') },
+      toast: { region: t('toast.region') },
     }),
     [t],
   )
