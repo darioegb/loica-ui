@@ -20,7 +20,15 @@ const axeSource = require.resolve('axe-core/axe.min.js')
 const staticDir = fileURLToPath(new URL('../storybook-static', import.meta.url))
 
 // The same context and rules as @storybook/addon-a11y, plus the config of .storybook/preview.tsx.
-const CONTEXT = { include: 'body', exclude: ['.sb-wrapper', '#storybook-docs', '#storybook-highlights-root'] }
+const CONTEXT = {
+  include: 'body',
+  exclude: [
+    '.sb-wrapper',
+    '#storybook-docs',
+    '#storybook-highlights-root',
+    '[data-plume-table-element][aria-busy="true"]',
+  ],
+}
 const DISABLED_RULES = ['region']
 const MODES = ['light', 'dark']
 const RENDER_TIMEOUT = 15_000

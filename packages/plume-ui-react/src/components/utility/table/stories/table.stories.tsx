@@ -1241,7 +1241,9 @@ export const Empty: Story = {
 
 /**
  * With **stickyHeader** and **maxHeight** the header stays in view while the body scrolls inside the box. Because
- * the box scrolls, it can be focused to scroll it with the keyboard.
+ * the box scrolls, it can be focused to scroll it with the keyboard. A box that scrolls has an opaque background,
+ * the page's by default: set `--table-background` on the Table (or on a parent) when it sits on another surface, such
+ * as `--table-background: var(--plume-surface)` inside a card.
  */
 export const StickyHeader: Story = {
   parameters: {

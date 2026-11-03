@@ -135,6 +135,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
           aria-labelledby={scrollable ? ariaLabelledBy : undefined}
           className={joinClasses(isStyled && styles.container, className)}
           data-plume-table=""
+          data-scrollable={scrollable ? '' : undefined}
           ref={setContainer}
           style={containerStyle}
           {...(scrollable && { tabIndex: 0 })}
