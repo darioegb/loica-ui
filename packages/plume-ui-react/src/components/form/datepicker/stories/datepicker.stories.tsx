@@ -782,7 +782,8 @@ export const Tailwind: Story = {
  * Set **variant="unstyled"** so Plume styles don't override the Bootstrap classes.
  *
  * The `DatePickerField` takes `form-control` and the `DatePickerTrigger` is placed over its end with Bootstrap's
- * position utilities. With `variant="unstyled"` the calendar has no look either, so the example builds it from its
+ * position utilities. Bootstrap has no hover state for a field, so a small rule of your own (the `style` element)
+ * adds it. With `variant="unstyled"` the calendar has no look either, so the example builds it from its
  * parts with `card`, `btn` and the other Bootstrap classes. A day, a month and a year come with their state
  * (`day.isSelected`, `month.selected`), which picks `btn-primary`.
  */
@@ -791,8 +792,9 @@ export const Bootstrap: Story = {
     docs: {
       source: {
         code: `<DatePicker onValueChange={handleValueChange} value={value} variant="unstyled">
+  <style>{'.picker-field:hover:not(:focus) { border-color: var(--bs-secondary-color); }'}</style>
   <DatePickerInput aria-label="Pick a date" className="position-relative" placeholder="Pick a date">
-    <DatePickerField className="form-control pe-5" />
+    <DatePickerField className="form-control picker-field pe-5" />
     <DatePickerTrigger className="btn btn-sm btn-outline-secondary border-0 position-absolute top-50 end-0 translate-middle-y me-1" />
   </DatePickerInput>
   <DatePickerCalendar className="card shadow p-3" style={{ width: '19rem' }}>
@@ -860,8 +862,9 @@ export const Bootstrap: Story = {
   },
   render: () => (
     <ControlledDatePicker variant='unstyled'>
+      <style>{'.picker-field:hover:not(:focus) { border-color: var(--bs-secondary-color); }'}</style>
       <DatePickerInput aria-label='Pick a date' className='position-relative' placeholder='Pick a date'>
-        <DatePickerField className='form-control pe-5' />
+        <DatePickerField className='form-control picker-field pe-5' />
         <DatePickerTrigger className='btn btn-sm btn-outline-secondary border-0 position-absolute top-50 end-0 translate-middle-y me-1' />
       </DatePickerInput>
       <DatePickerCalendar className='card shadow p-3' style={{ width: '19rem' }}>

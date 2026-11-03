@@ -545,7 +545,8 @@ export const Tailwind: Story = {
  * Set **variant="unstyled"** so Plume styles don't override the Bootstrap classes.
  *
  * The `TimePickerField` takes `form-control` and the `TimePickerTrigger` is placed over its end with Bootstrap's
- * position utilities. With `variant="unstyled"` the popup has no look either, so the example builds it from its
+ * position utilities. Bootstrap has no hover state for a field, so a small rule of your own (the `style` element)
+ * adds it. With `variant="unstyled"` the popup has no look either, so the example builds it from its
  * parts with `btn` and the other Bootstrap classes. Bootstrap can't read `data-selected`, so the example keeps the
  * value and compares it with each option to pick `btn-primary`.
  */
@@ -558,8 +559,9 @@ export const Bootstrap: Story = {
   const [hours, minutes] = value.split(':').map(Number)
   return (
     <TimePicker onValueChange={setValue} value={value} variant="unstyled">
+      <style>{'.picker-field:hover:not(:focus) { border-color: var(--bs-secondary-color); }'}</style>
       <TimePickerInput aria-label="Time" className="position-relative">
-        <TimePickerField className="form-control pe-5" />
+        <TimePickerField className="form-control picker-field pe-5" />
         <TimePickerTrigger className="btn btn-sm btn-outline-secondary border-0 position-absolute top-50 end-0 translate-middle-y me-1" />
       </TimePickerInput>
       <TimePickerPanel className="d-flex gap-1 p-2 bg-body border rounded-3 shadow">
@@ -594,8 +596,9 @@ export const Bootstrap: Story = {
     const [hours, minutes] = value.split(':').map(Number)
     return (
       <TimePicker onValueChange={setValue} value={value} variant='unstyled'>
+        <style>{'.picker-field:hover:not(:focus) { border-color: var(--bs-secondary-color); }'}</style>
         <TimePickerInput aria-label='Time' className='position-relative'>
-          <TimePickerField className='form-control pe-5' />
+          <TimePickerField className='form-control picker-field pe-5' />
           <TimePickerTrigger className='btn btn-sm btn-outline-secondary border-0 position-absolute top-50 end-0 translate-middle-y me-1' />
         </TimePickerInput>
         <TimePickerPanel className='d-flex gap-1 p-2 bg-body border rounded-3 shadow'>
