@@ -25,6 +25,12 @@ import {
   useTableState,
 } from '..'
 
+const sortIcon = (
+  <svg aria-hidden="true" fill="currentColor" height="0.75em" viewBox="0 0 24 24" width="0.75em">
+    <path d="M12 5 21 19H3Z" />
+  </svg>
+)
+
 const people = [
   { age: 36, name: 'Ada Lovelace', role: 'Mathematician' },
   { age: 45, name: 'Grace Hopper', role: 'Rear admiral' },
@@ -1370,7 +1376,7 @@ export const Compound: Story = {
         <TableHead sort="ascending">
           <TableHeadSort onClick={sortByName}>
             Name
-            <TableHeadSortIcon>▲</TableHeadSortIcon>
+            <TableHeadSortIcon>{sortIcon}</TableHeadSortIcon>
           </TableHeadSort>
         </TableHead>
         <TableHead>Role</TableHead>
@@ -1395,7 +1401,7 @@ export const Compound: Story = {
             <TableHead sort="ascending">
               <TableHeadSort>
                 Name
-                <TableHeadSortIcon>▲</TableHeadSortIcon>
+                <TableHeadSortIcon>{sortIcon}</TableHeadSortIcon>
               </TableHeadSort>
             </TableHead>
             <TableHead>Role</TableHead>

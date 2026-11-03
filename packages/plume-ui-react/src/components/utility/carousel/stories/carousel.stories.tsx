@@ -15,14 +15,16 @@ import {
 
 const colorSchemes = Object.keys(defaultTheme.colors)
 
-const gradient = (from: string, to: string): string =>
-  `linear-gradient(135deg, var(--plume-color-${from}-solid), var(--plume-color-${to}-solid))`
+const scheme = (name: string): { background: string; color: string } => ({
+  background: `var(--plume-color-${name}-solid)`,
+  color: `var(--plume-color-${name}-solid-contrast)`,
+})
 
 const slides = [
-  { background: gradient('primary', 'info'), caption: 'Above the clouds', title: 'Mountains' },
-  { background: gradient('success', 'info'), caption: 'A walk under the trees', title: 'Forest' },
-  { background: gradient('warning', 'error'), caption: 'Sand, heat and wind', title: 'Desert' },
-  { background: gradient('error', 'secondary'), caption: 'Cut by a river', title: 'Canyon' },
+  { ...scheme('primary'), caption: 'Above the clouds', title: 'Mountains' },
+  { ...scheme('success'), caption: 'A walk under the trees', title: 'Forest' },
+  { ...scheme('warning'), caption: 'Sand, heat and wind', title: 'Desert' },
+  { ...scheme('error'), caption: 'Cut by a river', title: 'Canyon' },
 ]
 
 const frame = { maxWidth: '100%', width: '28rem' }
@@ -33,24 +35,23 @@ function Panels({
 }: Readonly<{ className?: string; fill?: boolean }>): React.ReactNode {
   return (
     <CarouselSlides>
-      {slides.map(({ background, caption, title }) => (
+      {slides.map(({ background, caption, color, title }) => (
         <CarouselSlide className={className} key={title}>
           <div
             style={{
               alignItems: 'flex-start',
               background,
               boxSizing: 'border-box',
-              color: '#fff',
+              color,
               display: 'flex',
               flexDirection: 'column',
               height: fill ? '100%' : '11rem',
               justifyContent: 'flex-end',
               padding: fill ? '1rem 1rem 3.75rem 1.5rem' : '1rem 3.5rem',
-              textShadow: '0 1px 2px rgb(0 0 0 / 50%)',
             }}
           >
             <strong style={{ fontSize: '1.25rem' }}>{title}</strong>
-            <span style={{ fontSize: '0.875rem', opacity: 0.9 }}>{caption}</span>
+            <span style={{ fontSize: '0.875rem' }}>{caption}</span>
           </div>
         </CarouselSlide>
       ))}
@@ -92,8 +93,8 @@ function Arrows(): React.ReactNode {
  * are not announced by screen readers.
  *
  * The slides have no background or text of their own: what is inside a `CarouselSlide` is yours, usually an image or
- * a card. The colors in these examples come from the examples themselves, each slide is a `div` with a gradient of
- * two theme colors. The **colorScheme** only colors the buttons and the active dot.
+ * a card. The colors in these examples come from the examples themselves, each slide is a `div` with the `solid`
+ * color of a scheme and its `solid-contrast` text. The **colorScheme** only colors the buttons and the active dot.
  *
  * Each slide takes the full width. Give a `CarouselSlide` a width (`className` or `style`, like `flex-basis: 50%`)
  * to show several at once.
@@ -645,14 +646,14 @@ export const Peek: Story = {
   render: () => (
     <Carousel aria-label="Several slides" style={frame}>
       <CarouselSlides style={{ gap: '0.75rem' }}>
-        {slides.map(({ background, title }) => (
+        {slides.map(({ background, color, title }) => (
           <CarouselSlide key={title} style={{ flexBasis: '45%' }}>
             <div
               style={{
                 alignItems: 'center',
                 background,
                 borderRadius: '0.5rem',
-                color: '#fff',
+                color,
                 display: 'flex',
                 fontWeight: 600,
                 height: '8rem',

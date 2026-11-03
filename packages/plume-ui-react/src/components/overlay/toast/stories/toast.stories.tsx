@@ -951,7 +951,7 @@ export const Bootstrap: Story = {
               title: 'Saved',
             })
           }
-          className="btn btn-outline-secondary"
+          className="btn btn-secondary"
           variant="unstyled"
         />
       </ToastProvider>

@@ -4,6 +4,12 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbS
 
 const colorSchemes = Object.keys(defaultTheme.colors)
 
+const arrow = (
+  <svg aria-hidden="true" fill="none" height="1em" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" width="1em">
+    <path d="M4 12h15m-6-6 6 6-6 6" />
+  </svg>
+)
+
 function Trail(): React.ReactNode {
   return (
     <>
@@ -296,7 +302,7 @@ export const Separators: Story = {
       <BreadcrumbLink current>Breadcrumb</BreadcrumbLink>
     </BreadcrumbItem>
   </Breadcrumb>
-  <Breadcrumb aria-label="Long arrow" separator="→">
+  <Breadcrumb aria-label="Long arrow" separator={arrow}>
     <BreadcrumbItem>
       <BreadcrumbLink href="/">Home</BreadcrumbLink>
     </BreadcrumbItem>
@@ -327,7 +333,7 @@ export const Separators: Story = {
       <Breadcrumb aria-label="Arrow" separator="›">
         <Trail />
       </Breadcrumb>
-      <Breadcrumb aria-label="Long arrow" separator="→">
+      <Breadcrumb aria-label="Long arrow" separator={arrow}>
         <Trail />
       </Breadcrumb>
       <Breadcrumb aria-label="Per item">

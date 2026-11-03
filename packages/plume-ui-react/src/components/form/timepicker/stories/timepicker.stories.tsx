@@ -566,7 +566,7 @@ export const Bootstrap: Story = {
         <TimePickerHours className="gap-1" style={{ width: '4rem' }}>
           {(option) => (
             <TimePickerOption
-              className={\`btn btn-sm \${option.value === hours ? 'btn-primary' : 'btn-outline-secondary border-0'}\`}
+              className={\`btn btn-sm \${option.value === hours ? 'btn-primary' : 'border-0 text-body'}\`}
               key={option.value}
               option={option}
             />
@@ -575,7 +575,7 @@ export const Bootstrap: Story = {
         <TimePickerMinutes className="gap-1" style={{ width: '4rem' }}>
           {(option) => (
             <TimePickerOption
-              className={\`btn btn-sm \${option.value === minutes ? 'btn-primary' : 'btn-outline-secondary border-0'}\`}
+              className={\`btn btn-sm \${option.value === minutes ? 'btn-primary' : 'border-0 text-body'}\`}
               key={option.value}
               option={option}
             />
@@ -602,7 +602,7 @@ export const Bootstrap: Story = {
           <TimePickerHours className='gap-1' style={{ width: '4rem' }}>
             {(option) => (
               <TimePickerOption
-                className={`btn btn-sm ${option.value === hours ? 'btn-primary' : 'btn-outline-secondary border-0'}`}
+                className={`btn btn-sm ${option.value === hours ? 'btn-primary' : 'border-0 text-body'}`}
                 key={option.value}
                 option={option}
               />
@@ -611,7 +611,7 @@ export const Bootstrap: Story = {
           <TimePickerMinutes className='gap-1' style={{ width: '4rem' }}>
             {(option) => (
               <TimePickerOption
-                className={`btn btn-sm ${option.value === minutes ? 'btn-primary' : 'btn-outline-secondary border-0'}`}
+                className={`btn btn-sm ${option.value === minutes ? 'btn-primary' : 'border-0 text-body'}`}
                 key={option.value}
                 option={option}
               />
