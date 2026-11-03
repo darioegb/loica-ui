@@ -370,20 +370,30 @@ name comes from the `datePicker.openCalendar` and `timePicker.openTimePicker` te
 The `data-plume-select-trigger` attribute of the combobox is now `data-plume-select-combobox`. The remove button of a
 `SelectChip` is `data-plume-chip-remove`.
 
-## `Alert`, `Chip` and `Avatar` are single components
+## `Chip` and `Avatar` are single components, `Alert` is made of parts
 
-These components no longer take `classNames`, and they export no parts for the elements they draw by themselves. What
-used to be a key of `classNames` is a `data-plume-<component>-<element>` attribute, so you style it from the parent
-(`[&_[data-plume-chip-remove]]:opacity-60` in Tailwind), or you put your own element in the prop that fills it.
-`children` keeps its meaning: the text of the alert and of the chip. The `Avatar` takes no `children`; its fallback is
+These components no longer take `classNames`. The `Chip` and the `Avatar` export no parts for the elements they draw
+by themselves. What used to be a key of `classNames` is a `data-plume-<component>-<element>` attribute, so you style
+it from the parent (`[&_[data-plume-chip-remove]]:opacity-60` in Tailwind), or you put your own element in the prop
+that fills it. `children` keeps its meaning: the text of the chip. The `Avatar` takes no `children`; its fallback is
 the `fallback` prop.
+
+Every element of the `Alert` is a part you can import (`AlertIcon`, `AlertContent`, `AlertTitle`,
+`AlertDescription`, `AlertAction` and `AlertDismiss`), with its own `className`, `style` and `ref`. Given no parts,
+it renders the same default composition as before, and `children` keeps its meaning (the text of the alert); the
+root switches to your composition when a direct child is one of its parts. With parts, the props that only fill the
+default (`icon`, `action` and `dismissible`) have no effect: compose the part instead.
 
 ```tsx
 // Before
 <Alert dismissible classNames={{ dismiss: 'opacity-60' }}>Saved</Alert>
 
 // After
-<Alert className='[&_[data-plume-alert-dismiss]]:opacity-60' dismissible>Saved</Alert>
+<Alert>
+  <AlertIcon />
+  <AlertContent>Saved</AlertContent>
+  <AlertDismiss className='opacity-60' />
+</Alert>
 ```
 
 <table>
@@ -391,7 +401,7 @@ the `fallback` prop.
     <tr><th>Component</th><th>Before</th><th>After</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>Alert</code></td><td><code>classNames.icon</code>, <code>.content</code>, <code>.action</code>, <code>.dismiss</code></td><td><code>data-plume-alert-icon</code>, <code>-content</code>, <code>-action</code> and <code>-dismiss</code>; set them with <code>icon</code>, <code>action</code> and <code>dismissible</code>. <code>AlertTitle</code> and <code>AlertDescription</code> are still parts, inside the <code>children</code></td></tr>
+    <tr><td><code>Alert</code></td><td><code>classNames.icon</code>, <code>.content</code>, <code>.action</code>, <code>.dismiss</code></td><td><code>AlertIcon</code>, <code>AlertContent</code>, <code>AlertAction</code>, <code>AlertDismiss</code></td></tr>
     <tr><td><code>Chip</code></td><td><code>classNames.icon</code>, <code>.label</code>, <code>.remove</code></td><td><code>data-plume-chip-icon</code>, <code>-label</code> and <code>-remove</code>; set them with <code>icon</code>, <code>children</code> and <code>onRemove</code></td></tr>
     <tr><td><code>Avatar</code></td><td><code>classNames.image</code>, <code>.fallback</code>, <code>.status</code></td><td><code>data-plume-avatar-image</code>, <code>-fallback</code> and <code>-status-dot</code>; set them with <code>src</code>, <code>fallback</code> and <code>status</code>. The counter of an <code>AvatarGroup</code> is <code>AvatarOverflow</code></td></tr>
   </tbody>

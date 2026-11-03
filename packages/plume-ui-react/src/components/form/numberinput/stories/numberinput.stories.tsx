@@ -384,9 +384,10 @@ export const Tailwind: Story = {
 }
 
 /**
- * Some examples of NumberInput with Bootstrap classes: `input-group` for the row. Bootstrap has no way to reach the
- * elements inside it, so the buttons and the field keep the look of the browser; style them from your own CSS with
- * the `data-plume-numberinput-*` attributes.
+ * Some examples of NumberInput with Bootstrap classes: `d-flex flex-nowrap`, `border` and `rounded-3` for the row, so
+ * the buttons and the field stay on one line inside a box. Bootstrap has no way to reach the elements inside it, so
+ * the buttons and the field keep the look of the browser; style them from your own CSS with the
+ * `data-plume-numberinput-*` attributes.
  */
 export const Bootstrap: Story = {
   parameters: {
@@ -394,7 +395,7 @@ export const Bootstrap: Story = {
       source: {
         code: `<NumberInput
   aria-label="Quantity"
-  className="input-group"
+  className="d-flex flex-nowrap align-items-center gap-2 border rounded-3 px-2 py-1"
   defaultValue={2}
   max={10}
   min={0}
@@ -407,7 +408,7 @@ export const Bootstrap: Story = {
   render: () => (
     <NumberInput
       aria-label="Quantity"
-      className="input-group"
+      className="d-flex flex-nowrap align-items-center gap-2 border rounded-3 px-2 py-1"
       defaultValue={2}
       max={10}
       min={0}

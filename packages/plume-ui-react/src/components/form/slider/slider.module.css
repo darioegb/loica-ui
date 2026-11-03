@@ -263,14 +263,6 @@
   cursor: not-allowed;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .range {
-    transition:
-      inline-size var(--plume-duration-fast) var(--plume-easing-standard),
-      inset-inline-start var(--plume-duration-fast) var(--plume-easing-standard);
-  }
-}
-
 @media (forced-colors: active) {
   .track {
     background-color: CanvasText;
