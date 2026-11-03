@@ -1,5 +1,11 @@
 # plume-ui-react
 
+## 0.59.0
+
+### Minor Changes
+
+- [#306](https://github.com/darioegb/plume-ui-react/pull/306) [`a8c09c07f7494c580d6a0c043c226807586a89a4`](https://github.com/darioegb/plume-ui-react/commit/a8c09c07f7494c580d6a0c043c226807586a89a4) Thanks [@darioegb](https://github.com/darioegb)! - The `TimePicker` gets a `TimePickerField` part, the native input of the `TimePickerInput`, that takes the place of the `InputField` its compositions used. `DatePickerTrigger` and `TimePickerTrigger` take a `position` (`before` or `after` the field, `after` by default), because they draw their own slot now that the `Input` has no `InputElement`.
+
 ## 0.58.0
 
 ### Minor Changes
