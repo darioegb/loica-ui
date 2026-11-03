@@ -31,18 +31,24 @@ const manifest = JSON.parse(files['package.json'])
 const pick = (source, names) => Object.fromEntries(names.map((name) => [name, source[name]]))
 const docsRequire = createRequire(path.join(here, '../package.json'))
 const packageRequire = createRequire(path.join(packageDir, 'package.json'))
-const themeSource = packageRequire('esbuild').buildSync({
-  bundle: true,
-  entryPoints: [path.join(packageDir, 'scripts/tailwind-css.ts')],
-  format: 'cjs',
-  logLevel: 'silent',
-  platform: 'node',
-  write: false,
-}).outputFiles[0].text
-const themeModule = { exports: {} }
-new Function('module', 'exports', 'require', themeSource)(themeModule, themeModule.exports, packageRequire)
-const tailwindTheme = themeModule.exports.buildTailwindCss(path.join(packageDir, 'src'))
+const loadScript = (name) => {
+  const source = packageRequire('esbuild').buildSync({
+    bundle: true,
+    entryPoints: [path.join(packageDir, 'scripts', name)],
+    format: 'cjs',
+    logLevel: 'silent',
+    platform: 'node',
+    write: false,
+  }).outputFiles[0].text
+  const module = { exports: {} }
+  new Function('module', 'exports', 'require', source)(module, module.exports, packageRequire)
+  return module.exports
+}
+const packageSrc = path.join(packageDir, 'src')
+const tailwindTheme = loadScript('tailwind-css.ts').buildTailwindCss(packageSrc)
 writeFileSync(path.resolve(here, '../tailwind-theme.generated.css'), tailwindTheme)
+const declaredTokens = [...loadScript('emitted-tokens.ts').getEmittedTokens(packageSrc)].sort()
+writeFileSync(path.resolve(here, '../src/declared-tokens.generated.json'), `${JSON.stringify(declaredTokens)}\n`)
 const sandbox = {
   preflight: readFileSync(docsRequire.resolve('tailwindcss/preflight.css'), 'utf8'),
   tailwindTheme,

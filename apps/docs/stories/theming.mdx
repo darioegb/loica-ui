@@ -105,9 +105,14 @@ To change a token, redefine its variable in your own CSS. A rule with no cascade
 }
 ```
 
+A token the components don't read is not declared (the
+<a href='./?path=/docs/theme-tokens--docs' target='_top'>Tokens</a> page shows which), so declare it there too before
+you use it.
+
 The colors of a scheme (`--plume-color-primary-solid`, `-text`, `-tint`...) are worked out from its shades when the
-theme is built, and the shades are not variables: change colors with a provider, or redefine those variables. Without a provider there is no `useTheme`, and the `colorScheme` of a component can only be
-one of the default theme.
+theme is built, and the shades are not variables: change a color with a provider, or redefine the variables of its
+scheme. Without a provider there is no `useTheme`, and the `colorScheme` of a component can only be one of the default
+theme.
 
 ## New colors
 

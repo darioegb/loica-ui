@@ -123,9 +123,11 @@ or copy it from the end of this section), and import it after the CSS of Plume:
 ```
 
 It turns the tokens of Plume into utilities: the colors of every scheme and of the page (`bg-primary-solid`,
-`text-primary-on-solid`, `bg-surface`, `border-border`), but not the shades, which are not variables, the text styles (`text-heading-1`, `text-body`), the font families (`font-plume`), sizes, weights,
-line heights and letter spacings, the radii, the shadows, the container widths (`max-w-md`) and the easings, plus
-`z-modal`, `duration-fast`, `opacity-disabled` and `h-control-md`. Plume doesn't ship this file, so it stays independent
+`text-primary-on-solid`, `bg-surface`, `border-border`), the text styles (`text-heading-1`, `text-body`), the font
+families (`font-plume`), sizes, weights, line heights and letter spacings, the radii, the shadows, the container widths
+(`max-w-md`) and the easings, plus `z-modal`, `duration-fast`, `opacity-disabled` and `h-control-md`. The shades of a
+color are not variables, so there is no `bg-primary-500`, and a token that `styles.css` doesn't declare comes with its
+default value as fallback. Plume doesn't ship this file, so it stays independent
 of any CSS framework: keep only the utilities you use, or rename them.
 
 The utilities point to the variables of Plume (`@theme inline`), so they follow the theme, a nested provider and the
