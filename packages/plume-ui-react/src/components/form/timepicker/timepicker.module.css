@@ -38,8 +38,13 @@
   position: relative;
 }
 
+/* An opaque background equal to the panel's lets axe measure the contrast of an option scrolled out of view. */
+.column,
 .option {
-  background: transparent;
+  background-color: inherit;
+}
+
+.option {
   border: 0;
   border-radius: var(--plume-radius-4);
   color: inherit;
