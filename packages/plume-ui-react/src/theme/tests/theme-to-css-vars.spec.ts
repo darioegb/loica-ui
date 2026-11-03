@@ -95,17 +95,14 @@ describe('themeToCssVars', () => {
 
   it('names the half steps of the spacing scale without a dot', () => {
     const vars = themeToCssVars(defaultTheme)
-    expect(vars['--plume-space-0-5']).toBe('0.125rem')
     expect(vars['--plume-space-1-5']).toBe('0.375rem')
-    expect(vars['--plume-space-2-5']).toBe('0.625rem')
     expect(Object.keys(vars).some((key) => key.includes('.'))).toBe(false)
   })
 
-  it('emits the larger sizes, the letter spacings and the monospace family', () => {
+  it('emits the larger sizes and the letter spacings', () => {
     const vars = themeToCssVars(defaultTheme)
-    expect(vars['--plume-font-size-5xl']).toBe('3rem')
+    expect(vars['--plume-font-size-4xl']).toBe('2.25rem')
     expect(vars['--plume-letter-spacing-tight']).toBe('-0.025em')
-    expect(vars['--plume-font-family-mono']).toBe(defaultTheme.typography.fontFamilyMono)
   })
 
   it('emits the four properties of every text style', () => {

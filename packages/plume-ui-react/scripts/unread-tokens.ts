@@ -25,33 +25,28 @@ function readSources(srcDir: string): string {
 }
 
 /**
- * The tokens `tokens.css` declares: the ones the components read, plus what those resolve to
- * (`--plume-text-heading-2-size` is `var(--plume-font-size-3xl)`), plus the ones that change with
- * the color mode, so a framework theme built on them follows it, plus every color of every scheme,
- * because a `colorScheme` takes any of them at runtime through `schemeVar`. The rest of the default
- * theme (the long spaces scale, the largest containers...) is not declared; a `<ThemeProvider>`
- * still emits any of them as soon as its theme changes the value.
+ * The tokens of the default theme that no component reads, directly or through another token
+ * (`--plume-text-heading-2-size` is `var(--plume-font-size-3xl)`). The theme keeps only what the
+ * components use, so this list is empty, and a token a change stops reading shows up here. The
+ * colors of a scheme are left out: a component reads them by the name of its `colorScheme`, through
+ * `schemeVar`, and `SchemeToken` lists the ones that exist.
  */
-export function getEmittedTokens(srcDir: string): Set<string> {
+export function getUnreadTokens(srcDir: string): string[] {
   const source = readSources(srcDir)
   const light = getDefaultCssVars('light')
   const dark = getDefaultCssVars('dark')
 
-  const emitted = new Set((source.match(REFERENCE) ?? []).filter((name) => name in light))
-  for (const name of Object.keys(light)) {
-    if (light[name] !== dark[name] || name.startsWith('--plume-color-')) emitted.add(name)
-  }
-
-  const pending = [...emitted]
+  const read = new Set((source.match(REFERENCE) ?? []).filter((name) => name in light))
+  const pending = [...read]
   for (let name = pending.pop(); name; name = pending.pop()) {
     for (const vars of [light, dark]) {
       for (const [, nested] of (vars[name] ?? '').matchAll(NESTED_REFERENCE)) {
-        if (nested in light && !emitted.has(nested)) {
-          emitted.add(nested)
+        if (nested in light && !read.has(nested)) {
+          read.add(nested)
           pending.push(nested)
         }
       }
     }
   }
-  return emitted
+  return Object.keys(light).filter((name) => !read.has(name) && !name.startsWith('--plume-color-'))
 }

@@ -1,45 +1,6 @@
-type RadiusValue = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 'full'
+type RadiusValue = 2 | 3 | 4 | 6 | 'full'
 
-type SpaceValue =
-  | 0
-  | 0.5
-  | 1
-  | 1.5
-  | 2
-  | 2.5
-  | 3
-  | 4
-  | 5
-  | 6
-  | 7
-  | 8
-  | 9
-  | 10
-  | 11
-  | 12
-  | 13
-  | 14
-  | 16
-  | 20
-  | 24
-  | 28
-  | 32
-  | 36
-  | 40
-  | 44
-  | 48
-  | 52
-  | 56
-  | 60
-  | 64
-  | 68
-  | 72
-  | 76
-  | 80
-  | 84
-  | 88
-  | 92
-  | 96
+type SpaceValue = 1 | 1.5 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12 | 14 | 16 | 20
 
 export interface ShadeLevel {
   50: string
@@ -66,7 +27,6 @@ export interface ColorPalette {
 
 export interface Typography {
   fontFamily: string
-  fontFamilyMono: string
   fontSizes: FontSizes
   fontWeights: FontWeights
   lineHeights: LineHeights
@@ -82,19 +42,13 @@ export interface FontSizes {
   '2xl': string
   '3xl': string
   '4xl': string
-  '5xl': string
 }
 
 export interface FontWeights {
-  thin: number
-  extralight: number
-  light: number
   normal: number
   medium: number
   semibold: number
   bold: number
-  extrabold: number
-  black: number
 }
 
 export interface LineHeights {
@@ -102,8 +56,6 @@ export interface LineHeights {
   tight: number
   snug: number
   normal: number
-  relaxed: number
-  loose: number
 }
 
 export interface LetterSpacings {
@@ -151,12 +103,9 @@ export interface ZIndices {
 }
 
 export interface Shadows {
-  none: string
-  sm: string
   md: string
   lg: string
   xl: string
-  '2xl': string
 }
 
 export interface Breakpoints {
@@ -174,13 +123,7 @@ export interface Containers {
   sm: string
   md: string
   lg: string
-  xl: string
-  '2xl': string
   '3xl': string
-  '4xl': string
-  '5xl': string
-  '6xl': string
-  '7xl': string
 }
 
 export interface Motion {

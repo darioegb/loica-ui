@@ -95,7 +95,6 @@ export function themeToCssVars(theme: Theme): Record<string, string> {
   }
 
   vars[`${PREFIX}-font-family`] = theme.typography.fontFamily
-  vars[`${PREFIX}-font-family-mono`] = theme.typography.fontFamilyMono
   flatten(`${PREFIX}-font-size`, theme.typography.fontSizes as unknown as TokenRecord, vars)
   flatten(`${PREFIX}-font-weight`, theme.typography.fontWeights as unknown as TokenRecord, vars)
   flatten(`${PREFIX}-line-height`, theme.typography.lineHeights as unknown as TokenRecord, vars)

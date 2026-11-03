@@ -26,6 +26,8 @@ Search your code for these, one by one. The rest of the page explains each chang
 - Imports from `@plume-ui-react/*`: [one package now](#from-the-plume-ui-react-packages).
 - `colorScheme` set to `brown`, `pink`, `purple`, `teal` or `yellow`, a shade such as `primary.700` on a `Loader`,
   `colorVar`, `ColorShade`, or a `--plume-color-<scheme>-<shade>` variable: [the palette](#the-palette-has-the-six-colors-the-components-use).
+- `--plume-space-48`, `--plume-container-7xl`, `--plume-font-family-mono`, `--plume-shadow-sm` and the other values that
+  [the scales no longer have](#the-scales-keep-the-values-the-components-use).
 
 ## From the `@plume-ui-react/*` packages
 
@@ -711,6 +713,43 @@ declare module 'plume-ui-react' {
     teal: ShadeLevel
     yellow: ShadeLevel
   }
+}
+```
+
+## The scales keep the values the components use
+
+The scales of the theme have only the values some component reads, so `tokens.css` declares 184 variables instead of
+402. An app with a CSS framework takes the rest from it: `p-12`, `max-w-7xl` and `font-mono` of Tailwind, or the
+utilities of Bootstrap.
+
+<table>
+  <thead>
+    <tr><th>Scale</th><th>Removed</th><th>Kept</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>spaces</code>, <code>--plume-space-&#42;</code></td><td><code>0</code>, <code>0.5</code>, <code>2.5</code>, <code>7</code>, <code>9</code>, <code>11</code>, <code>13</code> and <code>24</code> to <code>96</code></td><td><code>1</code>, <code>1.5</code>, <code>2</code> to <code>6</code>, <code>8</code>, <code>10</code>, <code>12</code>, <code>14</code>, <code>16</code>, <code>20</code></td></tr>
+    <tr><td><code>radii</code>, <code>--plume-radius-&#42;</code></td><td><code>0</code>, <code>1</code>, <code>5</code></td><td><code>2</code>, <code>3</code>, <code>4</code>, <code>6</code>, <code>full</code></td></tr>
+    <tr><td><code>shadows</code>, <code>--plume-shadow-&#42;</code></td><td><code>none</code>, <code>sm</code>, <code>2xl</code></td><td><code>md</code>, <code>lg</code>, <code>xl</code></td></tr>
+    <tr><td><code>containers</code>, <code>--plume-container-&#42;</code></td><td><code>xl</code> and <code>2xl</code> to <code>7xl</code> except <code>3xl</code></td><td><code>3xs</code>, <code>2xs</code>, <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>3xl</code></td></tr>
+    <tr><td><code>typography.fontSizes</code></td><td><code>5xl</code></td><td><code>xs</code> to <code>4xl</code></td></tr>
+    <tr><td><code>typography.fontWeights</code></td><td><code>thin</code>, <code>extralight</code>, <code>light</code>, <code>extrabold</code>, <code>black</code></td><td><code>normal</code>, <code>medium</code>, <code>semibold</code>, <code>bold</code></td></tr>
+    <tr><td><code>typography.lineHeights</code></td><td><code>relaxed</code>, <code>loose</code></td><td><code>none</code>, <code>tight</code>, <code>snug</code>, <code>normal</code></td></tr>
+    <tr><td><code>typography.fontFamilyMono</code>, <code>--plume-font-family-mono</code>, Tailwind <code>font-plume-mono</code></td><td>removed</td><td></td></tr>
+  </tbody>
+</table>
+
+To keep using one of those variables in your CSS, declare it with the value it had:
+
+```css
+:root {
+  --plume-space-48: 12rem;
+  --plume-container-7xl: 80rem;
+  --plume-font-family-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --plume-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+[data-plume-color-mode='dark'] {
+  --plume-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 ```
 
