@@ -1,12 +1,15 @@
 'use client'
 
 import { createContext, useContext } from 'react'
+import type { InputFieldProps } from '../input/input-field'
 
 export interface DatePickerInputContextProps {
   disabled: boolean
+  fieldProps: InputFieldProps
   hint: string
   hintId: string
   onTriggerClick: () => void
+  setRef: (node: HTMLInputElement | null) => void
 }
 
 export const DatePickerInputContext = createContext<DatePickerInputContextProps | undefined>(

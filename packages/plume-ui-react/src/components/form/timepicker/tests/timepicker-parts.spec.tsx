@@ -1,16 +1,18 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import { createRef } from 'react'
-import { Input } from '../../input'
 import {
   TimePicker,
+  TimePickerField,
   TimePickerHours,
   TimePickerInput,
   TimePickerMinutes,
   TimePickerOption,
   TimePickerPanel,
   TimePickerPeriod,
+  TimePickerTrigger,
 } from '..'
 import { LocaleProvider } from '../../../../locale/locale-provider'
+import { Input } from '../../input'
 
 const column = (name: string): HTMLElement => screen.getByRole('listbox', { name })
 
@@ -193,17 +195,21 @@ describe('TimePicker parts', () => {
   })
 
   describe('the input and the trigger', () => {
-    it('puts the button after the field and marks it', () => {
+    it('compose the field and the button in any order', () => {
       render(
         <TimePicker>
-          <TimePickerInput />
-          <TimePickerPanel />
+          <TimePickerInput>
+            <TimePickerTrigger className="mine" position="before" />
+            <TimePickerField className="field" />
+          </TimePickerInput>
         </TimePicker>,
       )
       const field = screen.getByRole('textbox')
       const button = screen.getByRole('button', { name: 'Open time picker' })
+      expect(field).toHaveClass('field')
+      expect(button).toHaveClass('mine')
       expect(button).toHaveAttribute('data-plume-timepicker-trigger')
-      expect(field.compareDocumentPosition(button) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+      expect(button.compareDocumentPosition(field) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     })
 
     it('shows the icon of the TimePicker in the trigger, named by the LocaleProvider', () => {
@@ -216,10 +222,13 @@ describe('TimePicker parts', () => {
       expect(within(trigger).getByTestId('mine')).toBeInTheDocument()
     })
 
-    it('opens the panel from the trigger and marks it', () => {
+    it('open the panel from the composed trigger and mark it', () => {
       render(
         <TimePicker>
-          <TimePickerInput />
+          <TimePickerInput>
+            <TimePickerField />
+            <TimePickerTrigger />
+          </TimePickerInput>
           <TimePickerPanel />
         </TimePicker>,
       )
@@ -230,11 +239,13 @@ describe('TimePicker parts', () => {
       expect(screen.getByRole('dialog')).toBeInTheDocument()
     })
 
-    it('keeps the ref of the input pointing to the field', () => {
+    it('keeps the ref of the input pointing to the field when composed', () => {
       const inputRef = vi.fn()
       render(
         <TimePicker>
-          <TimePickerInput ref={inputRef} />
+          <TimePickerInput ref={inputRef}>
+            <TimePickerField />
+          </TimePickerInput>
         </TimePicker>,
       )
       expect(inputRef).toHaveBeenCalledWith(screen.getByRole('textbox'))
@@ -245,6 +256,42 @@ describe('TimePicker parts', () => {
       expect(screen.getByRole('button', { name: 'Open time picker' })).toBeDisabled()
       rerender(<TimePicker readOnly />)
       expect(screen.getByRole('button', { name: 'Open time picker' })).toBeDisabled()
+    })
+
+    it('lets the trigger be disabled on its own and renames it', () => {
+      render(
+        <TimePicker>
+          <TimePickerInput>
+            <TimePickerField />
+            <TimePickerTrigger aria-label="Choose" disabled title="Pick">
+              go
+            </TimePickerTrigger>
+          </TimePickerInput>
+        </TimePicker>,
+      )
+      const trigger = screen.getByRole('button', { name: 'Choose' })
+      expect(trigger).toBeDisabled()
+      expect(trigger).toHaveAttribute('title', 'Pick')
+      expect(trigger).toHaveTextContent('go')
+    })
+
+    it('works as a lone trigger beside a panel, outside of any Input', () => {
+      render(
+        <TimePicker>
+          <TimePickerTrigger />
+          <TimePickerPanel />
+        </TimePicker>,
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Open time picker' }))
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+    })
+
+    it('throws when a trigger is used outside of a TimePicker', () => {
+      const error = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+      expect(() => render(<TimePickerTrigger />)).toThrow(
+        'TimePickerTrigger must be used within a <TimePicker>',
+      )
+      error.mockRestore()
     })
   })
 

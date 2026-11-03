@@ -1,6 +1,6 @@
 import { createRef } from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import { TimePicker, TimePickerInput } from '..'
+import { TimePicker, TimePickerField, TimePickerFormatHint, TimePickerInput } from '..'
 import { LocaleProvider } from '../../../../locale/locale-provider'
 
 const classesOf = (selector: string): string[] =>
@@ -41,12 +41,31 @@ describe('TimePicker contract', () => {
     expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'hh:mm 24h')
   })
 
-  it('renders the format hint and describes the input with it', () => {
-    render(<TimePicker />)
+  it('renders the format hint as a part that can be replaced', () => {
+    const { rerender } = render(<TimePicker />)
     const hint = document.querySelector('[data-plume-timepicker-format-hint]')
     expect(hint).toHaveTextContent('Format: hh:mm')
-    expect(document.querySelectorAll('[data-plume-timepicker-format-hint]')).toHaveLength(1)
     expect(screen.getByRole('textbox').getAttribute('aria-describedby')).toContain(hint?.id)
+
+    const ref = createRef<HTMLSpanElement>()
+    rerender(
+      <TimePicker>
+        <TimePickerInput>
+          <TimePickerField />
+          <TimePickerFormatHint className="mine" ref={ref}>
+            Type the time
+          </TimePickerFormatHint>
+        </TimePickerInput>
+      </TimePicker>,
+    )
+    expect(document.querySelectorAll('[data-plume-timepicker-format-hint]')).toHaveLength(1)
+    expect(ref.current).toHaveTextContent('Type the time')
+    expect(ref.current).toHaveClass('mine')
+  })
+
+  it('throws when the format hint is used outside its input', () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined)
+    expect(() => render(<TimePickerFormatHint />)).toThrow('TimePickerFormatHint')
   })
 
   it('drops every Plume class of the parts with the unstyled variant', () => {
