@@ -9,7 +9,8 @@
     "clean": "rm -rf .turbo && rm -rf node_modules",
     "lint": "node scripts/generate-stackblitz.mjs && eslint src/ && node scripts/generate-api.mjs && node scripts/check-api.mjs",
     "lint:fix": "node scripts/generate-stackblitz.mjs && eslint src/ --fix",
-    "check:api": "node scripts/generate-api.mjs && node scripts/check-api.mjs"
+    "check:api": "node scripts/generate-api.mjs && node scripts/check-api.mjs",
+    "check:a11y": "node scripts/check-a11y.mjs"
   },
   "dependencies": {
     "plume-ui-react": "workspace:*"
@@ -22,8 +23,10 @@
     "@storybook/addon-themes": "^9.1.20",
     "@storybook/react-vite": "^9.1.20",
     "@tailwindcss/postcss": "^4.3.3",
+    "axe-core": "4.14.0",
     "bootstrap": "^5.3.1",
     "eslint-config-custom": "workspace:*",
+    "playwright": "^1.64.1",
     "prettier-config": "workspace:*",
     "react-docgen": "^7.0.3",
     "serve": "^13.0.4",

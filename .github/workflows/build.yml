@@ -36,6 +36,25 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+  accessibility:
+    name: Accessibility
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v6
+
+      - name: Install
+        uses: ./.github/composite-actions/common
+
+      - name: Build docs
+        run: pnpm build:docs
+
+      - name: Install the browser
+        run: pnpm --filter @plume-ui-react/docs exec playwright install --with-deps chromium
+
+      - name: Check the stories with axe
+        run: pnpm --filter @plume-ui-react/docs check:a11y
+
   examples:
     name: Examples
     runs-on: ubuntu-latest

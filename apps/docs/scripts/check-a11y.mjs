@@ -1,0 +1,159 @@
+// Runs axe on every story, in light and dark mode, the way the Storybook accessibility panel does, and fails on
+// any violation. It reads the static build (`storybook-static`), or a running Storybook with `--url`.
+//
+//   node scripts/check-a11y.mjs                          every story of the static build
+//   node scripts/check-a11y.mjs carousel toast           only the stories whose id contains one of the words
+//   node scripts/check-a11y.mjs --url http://localhost:6006 carousel
+//
+// "Incomplete" results (a background axe can't compute: an overlay, a scroll container, a background image) are
+// not failures, as in the panel. An overlay the story doesn't open is not checked: open it and look at the panel.
+import { createReadStream, existsSync, statSync } from 'node:fs'
+import { createServer } from 'node:http'
+import { createRequire } from 'node:module'
+import { availableParallelism } from 'node:os'
+import { extname, join, normalize } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { chromium } from 'playwright'
+
+const require = createRequire(import.meta.url)
+const axeSource = require.resolve('axe-core/axe.min.js')
+const staticDir = fileURLToPath(new URL('../storybook-static', import.meta.url))
+
+// The same context and rules as @storybook/addon-a11y, plus the config of .storybook/preview.tsx.
+const CONTEXT = { include: 'body', exclude: ['.sb-wrapper', '#storybook-docs', '#storybook-highlights-root'] }
+const DISABLED_RULES = ['region']
+const MODES = ['light', 'dark']
+const RENDER_TIMEOUT = 15_000
+
+const args = process.argv.slice(2)
+const urlFlag = args.indexOf('--url')
+const remoteUrl = urlFlag === -1 ? undefined : args[urlFlag + 1]
+const filters = args.filter((_, index) => urlFlag === -1 || (index !== urlFlag && index !== urlFlag + 1))
+
+const TYPES = {
+  '.css': 'text/css',
+  '.html': 'text/html',
+  '.js': 'text/javascript',
+  '.json': 'application/json',
+  '.mjs': 'text/javascript',
+  '.svg': 'image/svg+xml',
+  '.woff2': 'font/woff2',
+}
+
+function serveStatic() {
+  if (!existsSync(join(staticDir, 'index.json'))) {
+    console.error('No storybook-static: run `pnpm build:docs` first, or pass --url of a running Storybook.')
+    process.exit(1)
+  }
+  const server = createServer((request, response) => {
+    const path = normalize(decodeURIComponent(new URL(request.url, 'http://localhost').pathname))
+    let file = join(staticDir, path)
+    if (!file.startsWith(staticDir)) {
+      response.writeHead(403).end()
+      return
+    }
+    if (existsSync(file) && statSync(file).isDirectory()) file = join(file, 'index.html')
+    if (!existsSync(file)) {
+      response.writeHead(404).end()
+      return
+    }
+    response.writeHead(200, { 'Content-Type': TYPES[extname(file)] ?? 'application/octet-stream' })
+    createReadStream(file).pipe(response)
+  })
+  return new Promise((resolve) => {
+    server.listen(0, '127.0.0.1', () => resolve(server))
+  })
+}
+
+const server = remoteUrl ? undefined : await serveStatic()
+const baseUrl = remoteUrl?.replace(/\/$/, '') ?? `http://127.0.0.1:${server.address().port}`
+
+const index = await (await fetch(`${baseUrl}/index.json`)).json()
+const stories = Object.values(index.entries)
+  .filter((entry) => entry.type === 'story')
+  .map((entry) => entry.id)
+  .filter((id) => filters.length === 0 || filters.some((word) => id.includes(word.toLowerCase())))
+
+if (stories.length === 0) {
+  console.error(`No story matches ${filters.join(', ')}.`)
+  process.exit(1)
+}
+
+const jobs = MODES.flatMap((mode) => stories.map((id) => ({ id, mode })))
+const browser = await chromium.launch()
+const context = await browser.newContext({ reducedMotion: 'reduce', viewport: { height: 900, width: 1280 } })
+const failures = []
+
+async function check(page, { id, mode }) {
+  await page.goto(`${baseUrl}/iframe.html?id=${id}&viewMode=story&globals=colorMode:${mode}`)
+  await page.waitForFunction(
+    () => document.body.classList.contains('sb-show-main') || document.body.classList.contains('sb-show-errordisplay'),
+    undefined,
+    { timeout: RENDER_TIMEOUT },
+  )
+  if (await page.evaluate(() => document.body.classList.contains('sb-show-errordisplay'))) {
+    return [{ help: 'The story throws while rendering', id: 'render-error', nodes: [] }]
+  }
+  await page.evaluate(() => document.fonts.ready)
+  await page.addScriptTag({ path: axeSource })
+  // The addon runs axe by itself when the story loads, and axe refuses a second run until it ends.
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await runAxe(page)
+    } catch (error) {
+      if (attempt === 20 || !error.message.includes('Axe is already running')) throw error
+      await page.waitForTimeout(250)
+    }
+  }
+}
+
+function runAxe(page) {
+  return page.evaluate(
+    async ({ context: axeContext, disabled }) => {
+      window.axe.configure({ rules: disabled.map((rule) => ({ enabled: false, id: rule })) })
+      const { violations } = await window.axe.run(axeContext)
+      return violations.map(({ help, id, nodes }) => ({
+        help,
+        id,
+        nodes: nodes.map(({ failureSummary, html }) => ({ failureSummary, html })),
+      }))
+    },
+    { context: CONTEXT, disabled: DISABLED_RULES },
+  )
+}
+
+async function worker() {
+  const page = await context.newPage()
+  for (let job = jobs.shift(); job; job = jobs.shift()) {
+    try {
+      const violations = await check(page, job)
+      if (violations.length > 0) failures.push({ ...job, violations })
+    } catch (error) {
+      failures.push({ ...job, violations: [{ help: error.message.split('\n')[0], id: 'error', nodes: [] }] })
+    }
+  }
+  await page.close()
+}
+
+const total = jobs.length
+await Promise.all(Array.from({ length: Math.min(8, availableParallelism()) }, worker))
+await browser.close()
+server?.close()
+
+for (const { id, mode, violations } of failures.sort((a, b) => a.id.localeCompare(b.id))) {
+  console.error(`\n${id} (${mode})`)
+  for (const violation of violations) {
+    console.error(`  ${violation.id}: ${violation.help}`)
+    for (const node of violation.nodes.slice(0, 3)) {
+      console.error(`    ${node.html.slice(0, 160)}`)
+      if (node.failureSummary) console.error(`      ${node.failureSummary.split('\n').slice(1).join(' ').trim()}`)
+    }
+    if (violation.nodes.length > 3) console.error(`    …and ${violation.nodes.length - 3} more`)
+  }
+}
+
+if (failures.length > 0) {
+  console.error(`\nAccessibility: ${failures.length} of ${total} story renders have violations.`)
+  process.exit(1)
+}
+console.log(`Accessibility: ${stories.length} stories pass axe in light and dark mode.`)
