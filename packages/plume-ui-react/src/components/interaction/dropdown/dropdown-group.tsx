@@ -24,13 +24,13 @@ const findLabel = (children: ReactNode): DropdownLabelProps | undefined => {
 }
 
 /**
- * A set of related items with `role="group"`, named by its `DropdownLabel` or its **label**, so a
- * screen reader announces the title when the focus enters the group.
+ * A set of related items in a `fieldset`, which is a `group` for screen readers, named by its
+ * `DropdownLabel` or its **label**, so the title is announced when the focus enters the group.
  */
-export const DropdownGroup = forwardRef<HTMLDivElement, DropdownGroupProps>(
+export const DropdownGroup = forwardRef<HTMLFieldSetElement, DropdownGroupProps>(
   (
     { children, className, label, style }: DropdownGroupProps,
-    ref: ForwardedRef<HTMLDivElement>,
+    ref: ForwardedRef<HTMLFieldSetElement>,
   ): ReactNode => {
     useDropdownContext('DropdownGroup')
     const labelId = useId()
@@ -40,17 +40,16 @@ export const DropdownGroup = forwardRef<HTMLDivElement, DropdownGroupProps>(
 
     return (
       <DropdownGroupContext.Provider value={groupContext}>
-        <div
+        <fieldset
           aria-labelledby={hasLabel ? (ownLabel?.id ?? labelId) : undefined}
           className={className}
           data-plume-dropdown-group=""
           ref={ref}
-          role="group"
           style={style}
         >
           {ownLabel === undefined && label !== undefined && <DropdownLabel>{label}</DropdownLabel>}
           {children}
-        </div>
+        </fieldset>
       </DropdownGroupContext.Provider>
     )
   },
