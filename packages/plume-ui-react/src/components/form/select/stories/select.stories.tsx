@@ -279,6 +279,14 @@ export const Variants: Story = {
       <SelectOption value="cherry">Cherry</SelectOption>
     </SelectContent>
   </Select>
+  <Select variant="underline">
+    <SelectTrigger aria-label="Underline" placeholder="Pick a fruit" />
+    <SelectContent>
+      <SelectOption value="apple">Apple</SelectOption>
+      <SelectOption value="banana">Banana</SelectOption>
+      <SelectOption value="cherry">Cherry</SelectOption>
+    </SelectContent>
+  </Select>
   <Select variant="unstyled">
     <SelectTrigger
       aria-label="Unstyled"

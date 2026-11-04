@@ -32,7 +32,7 @@ function Example(props: Readonly<Omit<PopoverProps, 'children'>>): React.ReactNo
 }
 
 /**
- * A panel of content that opens next to the element that triggers it, for details, a small form or a set of
+ * A panel of content that opens next to the element that triggers it. Use it for details, a small form or a set of
  * options that don't deserve a whole dialog. It stays where it is anchored when the page scrolls or the window
  * resizes, and flips or shifts to stay inside the screen.
  *

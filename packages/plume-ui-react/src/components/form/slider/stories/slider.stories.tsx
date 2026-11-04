@@ -156,8 +156,8 @@ type Story = StoryObj<typeof Slider>;
 export const Default: Story = {};
 
 /**
- * Use the **variant** prop to pick how the Slider looks. `unstyled` renders only the native input, to style it
- * yourself.
+ * Use the **variant** prop to pick how the Slider looks: `solid` has a thick track and a filled thumb, and `outline`
+ * a thin track and a hollow thumb. `unstyled` renders only the native input, to style it yourself.
  */
 export const Variants: Story = {
   parameters: {

@@ -6,7 +6,7 @@ import { Loader } from '..'
 const colors = defaultTheme.colors
 
 /**
- * The Loader shows that something is on its way: data that is loading or an action in progress.
+ * An animated indicator that data is loading or an action is in progress.
  * It is a `status`, named `Loading` by default, so a screen reader announces it. For content whose
  * shape you know, a `Skeleton` keeps the layout; for a measurable task, a `ProgressBar`.
  *
@@ -49,7 +49,7 @@ export const Variants: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Loader colorScheme="primary" />
+        code: `<Loader colorScheme="primary" variant="spinner" />
 <Loader colorScheme="primary" variant="dots" />
 <Loader colorScheme="primary" variant="bars" />
 <Loader
@@ -60,7 +60,7 @@ export const Variants: Story = {
   },
   render: () => (
     <div className="flex flex-wrap justify-center items-center gap-6">
-      <Loader colorScheme="primary" />
+      <Loader colorScheme="primary" variant="spinner" />
       <Loader colorScheme="primary" variant="dots" />
       <Loader colorScheme="primary" variant="bars" />
       <Loader variant="unstyled" />

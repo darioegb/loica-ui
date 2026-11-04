@@ -206,8 +206,9 @@ export const Default: Story = {
 }
 
 /**
- * Use the **variant** prop to pick how the Table looks. `unstyled` drops the Plume styles so you can style it
- * yourself.
+ * Use the **variant** prop to pick how the Table looks: `plain` draws a line under every row, `bordered` borders
+ * every cell and `striped` alternates the background of the rows. `unstyled` drops the Plume styles so you can style
+ * it yourself.
  */
 export const Variants: Story = {
   parameters: {

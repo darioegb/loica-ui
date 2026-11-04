@@ -41,7 +41,7 @@ function renderSteps(withDescription = true): React.ReactNode {
 }
 
 /**
- * A row (or a column) of numbered steps that shows how far the user is in a process, like a checkout or a setup
+ * A row or a column of numbered steps that shows how far the user is in a process, like a checkout or a setup
  * wizard. The Stepper shows the progress; the content of each step and the buttons to move are yours.
  *
  * It is an ordered list: every `Step` is a `<li>`, and the one the user is on has `aria-current="step"`. A screen
@@ -112,8 +112,9 @@ type Story = StoryObj<typeof Stepper>
 export const Default: Story = {}
 
 /**
- * Use the **variant** prop to pick how the Stepper looks. `unstyled` drops the Plume styles so you can style it
- * yourself with the `data-state` of every part.
+ * Use the **variant** prop to pick how the Stepper looks: `solid` fills the indicators of the completed and current
+ * steps, and `outline` only draws their border. `unstyled` drops the Plume styles so you can style it yourself with
+ * the `data-state` of every part.
  */
 export const Variants: Story = {
   parameters: {

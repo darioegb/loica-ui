@@ -2,9 +2,9 @@ import type { StoryObj, Meta } from '@storybook/react-vite'
 import { Heading } from '..'
 
 /**
- * A heading of the page, with the text styles `heading-1` to `heading-6` of the theme: the size, the weight, the
- * line height and the letter spacing of each one come from the tokens, so a theme that changes them changes
- * every heading.
+ * A heading of the page, from `h1` to `h6`, with the text styles of the theme.
+ * The size, the weight, the line height and the letter spacing of each style (`heading-1` to `heading-6`) come from
+ * the tokens, so a theme that changes them changes every heading.
  *
  * The **level** is the element (`h1` to `h6`) and says where the heading is in the outline of the page, which is
  * what assistive technology reads. The **size** is how it looks, and follows the level unless you give it: an

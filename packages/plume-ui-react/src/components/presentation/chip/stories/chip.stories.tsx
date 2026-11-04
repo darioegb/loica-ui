@@ -19,8 +19,9 @@ const avatar = (letter: string, color: string): React.ReactNode => (
 const noop = (): void => undefined
 
 /**
- * A compact element for a value the user has entered or picked: a tag, a filter, a recipient, an option of a
- * `Select` that allows several. It can have an icon or an image and, with `onRemove`, a button to remove it.
+ * A compact element for a value the user has entered or picked, like a tag, a filter or a recipient.
+ * It can have an icon or an image and, with `onRemove`, a button to remove it. A `Select` that allows several values
+ * shows each one as a chip.
  *
  * It renders a `<span>`. The remove button is named after the chip (`Remove Design`), and an icon is decorative, so the text has to say what the chip is. A `Badge` labels a status
  * or a count and is never interactive, a `Chip` is a value that can go away.

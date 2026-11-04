@@ -210,7 +210,8 @@ type Story = StoryObj<typeof Sidebar>
 export const Default: Story = {}
 
 /**
- * Use the **variant** prop to pick how the Sidebar looks. `unstyled` drops the Plume styles so you can style it
+ * Use the **variant** prop to pick how the Sidebar looks: `plain` has a line on the edge next to the page, `filled`
+ * a muted background and `solid` the color of the scheme. `unstyled` drops the Plume styles so you can style it
  * yourself.
  */
 export const Variants: Story = {
@@ -222,6 +223,24 @@ export const Variants: Story = {
     <div className="flex">
       <Sidebar aria-label="Application" variant="plain">
         <SidebarContent aria-label="Pages plain">
+          <SidebarItem active href="#home" icon={<HomeIcon />}>
+            Home
+          </SidebarItem>
+          <SidebarItem href="#projects" icon={<FolderIcon />}>
+            Projects
+          </SidebarItem>
+        </SidebarContent>
+      </Sidebar>
+      <main className="flex-1 p-4">
+        <SidebarToggle />
+        <p>The page.</p>
+      </main>
+    </div>
+  </SidebarProvider>
+  <SidebarProvider breakpoint="never">
+    <div className="flex">
+      <Sidebar aria-label="Application" variant="filled">
+        <SidebarContent aria-label="Pages filled">
           <SidebarItem active href="#home" icon={<HomeIcon />}>
             Home
           </SidebarItem>

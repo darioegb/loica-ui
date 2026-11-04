@@ -17,7 +17,7 @@ import { LocaleProvider } from '../../../../locale'
 const colorSchemes = Object.keys(defaultTheme.colors)
 
 /**
- * TimePicker lets users type a time or pick it from lists of hours and minutes.
+ * A field to type a time or pick it from lists of hours and minutes.
  *
  * Its value is a string in 24-hour `HH:mm` format (for example `"14:30"`, or `""` when empty), the same shape
  * a native `<input type="time">` has, so it fits forms and APIs directly. With `hour12` the field shows and
@@ -154,9 +154,9 @@ export const Default: Story = {
 }
 
 /**
- * This is a list of TimePicker with different variants.
- * Just adding the **variant** prop in one of these values **outline**, **underline**, **filled** and **unstyled**.
- * Open them to see how the popup follows the variant.
+ * Use the **variant** prop to pick how the field looks: `outline`, `filled` or `underline`, as in the `Input`.
+ * `unstyled` drops the Plume styles so you can style it yourself. Open them to see how the popup follows the
+ * variant.
  */
 export const Variants: Story = {
   parameters: {

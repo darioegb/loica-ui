@@ -19,9 +19,10 @@ const bell = (
 )
 
 /**
- * Sizes an SVG and gives it a color and an accessible name. Plume doesn't ship an icon set: bring your own SVG
- * (from Heroicons, Lucide, Phosphor or your own files) as the child. The SVG fills the Icon, so its `viewBox`
- * is all it needs, and it takes the current text color when it uses `currentColor`.
+ * A wrapper that sizes and colors an SVG and gives it an accessible name.
+ * Plume doesn't ship an icon set: bring your own SVG (from Heroicons, Lucide, Phosphor or your own files) as the
+ * child. The SVG fills the Icon, so its `viewBox` is all it needs, and it takes the current text color when it uses
+ * `currentColor`.
  *
  * An Icon draws nothing of its own besides its size and color, so it has one look, `default`, and `unstyled`,
  * which drops the Plume classes: it is then one em wide and tall, and its size and color are up to your classes.

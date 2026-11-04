@@ -125,8 +125,8 @@ export const Default: Story = {
 }
 
 /**
- * Use the **variant** prop to pick how the Accordion looks. `unstyled` drops the Plume styles so you can style it
- * yourself.
+ * Use the **variant** prop to pick how the Accordion looks: `outline` draws one border around the items, `filled`
+ * gives each item its own background, and `unstyled` drops the Plume styles so you can style it yourself.
  */
 export const Variants: Story = {
   parameters: {

@@ -32,7 +32,7 @@ const commonTabs = (
 )
 
 /**
- * Tabs split related content into panels and show one at a time.
+ * A set of tabs that splits related content into panels and shows one at a time.
  * Compose them with `TabList`, `Tab`, `TabPanels` and `TabPanel`; tabs and panels are linked by position, and a `Tab` or a `TabPanel` can be wrapped by another component (a tooltip, for example) and keep its position. If a wrapper holds more than one `Tab`, give each one its `index`.
  *
  * The Tabs keep their own state, starting on **defaultIndex**, or you control them with **index** and **onIndexChange**: with `index` set, a click only asks for the change.

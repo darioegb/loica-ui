@@ -101,8 +101,8 @@ type Story = StoryObj<typeof NumberInput>
 export const Default: Story = {}
 
 /**
- * Use the **variant** prop to pick how the field looks, the same ones as the `Input`. `unstyled` drops the Plume
- * styles so you can style it yourself.
+ * Use the **variant** prop to pick how the field looks: `outline`, `filled` or `underline`, as in the `Input`.
+ * `unstyled` drops the Plume styles so you can style it yourself.
  */
 export const Variants: Story = {
   render: () => (
