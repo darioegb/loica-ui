@@ -55,7 +55,12 @@ function ComponentOverview(): ReactNode {
   const count = groups.reduce((total, { entries }) => total + entries.length, 0)
 
   return (
-    <ThemeProvider applyToBody={false} className="plume-overview" defaultColorMode={currentMode()}>
+    <ThemeProvider
+      applyToBody={false}
+      className="plume-overview"
+      defaultColorMode={currentMode()}
+      style={{ backgroundColor: 'transparent', color: 'inherit' }}
+    >
       <SyncColorMode />
       <div className="plume-overview-search">
         <label htmlFor={searchId}>Filter components</label>
@@ -79,7 +84,7 @@ function ComponentOverview(): ReactNode {
               <li key={entry.id}>
                 <div className="plume-overview-card">
                   <div aria-hidden="true" className="plume-overview-preview" inert>
-                    {previews[entry.name]}
+                    <div className="plume-overview-preview-content">{previews[entry.name]}</div>
                   </div>
                   <a className="plume-overview-name" href={`./?path=/docs/${entry.id}`} target="_top">
                     {entry.name}

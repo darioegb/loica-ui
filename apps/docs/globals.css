@@ -285,6 +285,14 @@ html[data-plume-color-mode='dark'] .sbdocs a.plume-page-nav-link:hover {
   color: #71717a;
 }
 
+.plume-overview-search input {
+  transition: border-color 0.15s ease;
+}
+
+.plume-overview-search input:hover {
+  border-color: #52525b;
+}
+
 .plume-overview-search input:focus-visible {
   border-color: #047857;
   outline: 2px solid #047857;
@@ -336,7 +344,7 @@ html[data-plume-color-mode='dark'] .sbdocs a.plume-page-nav-link:hover {
   background-color: var(--plume-surface-muted, #f4f4f5);
   border-block-end: 1px solid #e4e4e7;
   display: flex;
-  height: 9.5rem;
+  height: 8rem;
   justify-content: center;
   margin-block-end: 0.5rem;
   overflow: hidden;
@@ -344,15 +352,36 @@ html[data-plume-color-mode='dark'] .sbdocs a.plume-page-nav-link:hover {
   pointer-events: none;
 }
 
+/* The previews are drawn smaller than life, so the whole component fits the card. */
+.plume-overview-preview-content {
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+  zoom: 0.75;
+}
+
 .plume-overview-name,
 .plume-overview-summary {
   padding-inline: 1.125rem;
 }
 
-/* The docs style every link of the page; the links inside a preview keep the look of the component. */
+/* The docs style every link and list of the page; inside a preview they keep the look of the component. */
 .sbdocs .plume-overview-preview a {
   color: inherit;
   text-decoration: none;
+}
+
+.sbdocs .plume-overview-preview li {
+  list-style: none;
+}
+
+.sbdocs .plume-overview-preview :is(p, h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+}
+
+/* The docs reset the margin of the elements of the page, which the separator of the Breadcrumb needs. */
+.sbdocs .plume-overview-preview [data-plume-breadcrumb-separator] {
+  margin-inline: var(--breadcrumb-gap);
 }
 
 .sbdocs div.plume-overview-card:hover {
@@ -397,6 +426,10 @@ html[data-plume-color-mode='dark'] .plume-overview-search input {
   background-color: #18181b;
   border-color: #52525b;
   color: #fafafa;
+}
+
+html[data-plume-color-mode='dark'] .plume-overview-search input:hover {
+  border-color: #a1a1aa;
 }
 
 html[data-plume-color-mode='dark'] .plume-overview-search input::placeholder {

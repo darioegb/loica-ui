@@ -208,11 +208,15 @@ const previews: Record<string, ReactNode> = {
   ),
   DatePicker: <DatePicker aria-label="Date" onValueChange={noop} style={{ width: '12rem' }} />,
   Divider: (
-    <div style={column}>
-      <Text>Account</Text>
-      <Divider />
-      <Text>Security</Text>
-    </div>
+    <Card style={{ width: '10rem' }} variant="outline">
+      <CardBody>
+        <div style={{ ...column, gap: '0.75rem' }}>
+          <Text>Account</Text>
+          <Divider />
+          <Text>Security</Text>
+        </div>
+      </CardBody>
+    </Card>
   ),
   Drawer: (
     <div style={{ display: 'flex', justifyContent: 'flex-end', width: '14rem' }}>
@@ -352,13 +356,17 @@ const previews: Record<string, ReactNode> = {
     </Card>
   ),
   Skeleton: (
-    <div style={{ ...row, width: '14rem' }}>
-      <Skeleton height={40} shape="circle" width={40} />
-      <div style={column}>
-        <Skeleton />
-        <Skeleton width="60%" />
-      </div>
-    </div>
+    <Card style={{ width: '14rem' }} variant="outline">
+      <CardBody>
+        <div style={row}>
+          <Skeleton height={40} shape="circle" width={40} />
+          <div style={column}>
+            <Skeleton />
+            <Skeleton width="60%" />
+          </div>
+        </div>
+      </CardBody>
+    </Card>
   ),
   Slider: <Slider aria-label="Volume" defaultValue={40} style={{ width: '12rem' }} />,
   Stepper: (
