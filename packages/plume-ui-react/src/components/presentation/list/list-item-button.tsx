@@ -1,11 +1,6 @@
-'use client'
-
 import type { ForwardedRef, HTMLAttributes } from 'react'
 import { forwardRef } from 'react'
-import { joinClasses } from '../../../overlay/class-names'
 import type { ComponentProps } from '../../../theme'
-import { useListContext } from './list-context'
-import styles from './list.module.css'
 
 export interface ListItemButtonOwnProps {
   /**
@@ -71,12 +66,6 @@ export const ListItemButton = forwardRef<HTMLElement, ListItemButtonProps>(
     }: ListItemButtonProps,
     ref: ForwardedRef<HTMLElement>,
   ) => {
-    const { isStyled } = useListContext('ListItemButton')
-    const classes = joinClasses(
-      isStyled && styles.button,
-      isStyled && selected && styles.selected,
-      className,
-    )
     const current = ariaCurrent ?? (selected ? 'true' : undefined)
 
     if (href !== undefined) {
@@ -84,7 +73,7 @@ export const ListItemButton = forwardRef<HTMLElement, ListItemButtonProps>(
         <a
           aria-current={current}
           aria-disabled={disabled || undefined}
-          className={classes}
+          className={className}
           data-disabled={disabled ? '' : undefined}
           data-plume-list-item-button=""
           data-selected={selected ? '' : undefined}
@@ -102,7 +91,7 @@ export const ListItemButton = forwardRef<HTMLElement, ListItemButtonProps>(
     return (
       <button
         aria-current={current}
-        className={classes}
+        className={className}
         data-disabled={disabled ? '' : undefined}
         data-plume-list-item-button=""
         data-selected={selected ? '' : undefined}
