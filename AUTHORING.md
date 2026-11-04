@@ -97,7 +97,7 @@ Do **not** attach the parts to the root (`Accordion.Item`). A Client Component c
 The rest of the pattern:
 
 - **One context per component that shares state**, in its own file (`<name>-context.ts`), created with `undefined` as default. The root provides it and the parts read it through a `use<Name>Context` hook that throws a clear error when a part is rendered outside the root. Memoize the context value.
-- **Presentational compounds** (`Card`, `List`) have no state to share, but they have a context all the same: it holds `isStyled`, so a part drops its Plume classes when the root is `unstyled`, and its hook throws outside the root. The root also sets CSS variables (`--card-padding`) that the parts read. Their modules are client modules, which a Server Component can still render.
+- **Presentational compounds** (`Card`, `List`) have no state to share, so they have no context: their parts carry no Plume class, and the root styles them from its own class through their `data-plume-*` attributes (`.card > [data-plume-card-header]`), with the child combinator where the markup allows it so a nested `unstyled` one isn't styled. `variant="unstyled"` drops the class of the root, so the parts are bare too. The root sets the CSS variables (`--card-padding`) that the rules read. With no context and no hooks, the root and the parts are server modules: they render with no JavaScript in the browser, and a part works outside its root. `Table` rows and `AlertTitle` follow the same rule.
 - **The root owns the state** and the shared options (`size`, `colorScheme`, `variant`). Parts read them from the context instead of repeating props.
 - **Ids link the parts** (`aria-controls`, `aria-labelledby`) and come from `useId` in the part that owns them, as `AccordionItem` does for its trigger and its content.
 - **Parts forward refs and accept `className` and `style`** like any other component.
@@ -171,7 +171,7 @@ Copy it into the pull request description.
 - [ ] `unstyled` is usable: the root and every part can take a class and keep the structure they need, and there are `Tailwind` and `Bootstrap` stories that prove it, in light and dark mode
 - [ ] `variant="unstyled"` leaves only the user's classes
 - [ ] The simple case closes on itself: simple, hybrid or compound, as [the rule](#api-conventions) says
-- [ ] Parts only where the user composes; they are separate prefixed exports, with a context and a hook that throws outside the root (a presentational one holds only `isStyled`, and the root's CSS variables do the rest)
+- [ ] Parts only where the user composes; they are separate prefixed exports, with a context and a hook that throws outside the root when they share state (a presentational compound has no context: the root styles its parts through their `data-plume-*` attributes, so they stay server modules)
 - [ ] Form controls accept `FieldControlProps` on the real element and forward the ref
 
 **Styling**

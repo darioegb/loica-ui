@@ -12,6 +12,8 @@
   display: flex;
 }
 
+/* The parts carry no class: the root styles its direct children, so they need no context and
+   render on the server. */
 .card {
   border-radius: var(--plume-radius-4);
   box-sizing: border-box;
@@ -49,47 +51,47 @@
   background-color: var(--plume-surface-muted);
 }
 
-.card .header,
-.card .body,
-.card .footer {
+.card > [data-plume-card-header],
+.card > [data-plume-card-body],
+.card > [data-plume-card-footer] {
   padding: var(--card-padding);
 }
 
-.card .header {
+.card > [data-plume-card-header] {
   font-size: 1.125em;
   font-weight: var(--plume-font-weight-semibold);
 }
 
-.card .body {
+.card > [data-plume-card-body] {
   line-height: var(--plume-line-height-normal);
 }
 
-.card .footer {
+.card > [data-plume-card-footer] {
   gap: var(--plume-space-2);
 }
 
-.card .header + .body,
-.card .body + .footer,
-.card .header + .footer {
+.card > [data-plume-card-header] + [data-plume-card-body],
+.card > [data-plume-card-body] + [data-plume-card-footer],
+.card > [data-plume-card-header] + [data-plume-card-footer] {
   padding-block-start: 0;
 }
 
-.outline .header,
-.outline .footer {
+.outline > [data-plume-card-header],
+.outline > [data-plume-card-footer] {
   background-color: var(--plume-surface-muted);
 }
 
-.outline .header {
+.outline > [data-plume-card-header] {
   border-block-end: var(--plume-border-width-thin) solid var(--plume-border);
 }
 
-.outline .footer {
+.outline > [data-plume-card-footer] {
   border-block-start: var(--plume-border-width-thin) solid var(--plume-border);
 }
 
-.outline .header + .body,
-.outline .body + .footer,
-.outline .header + .footer {
+.outline > [data-plume-card-header] + [data-plume-card-body],
+.outline > [data-plume-card-body] + [data-plume-card-footer],
+.outline > [data-plume-card-header] + [data-plume-card-footer] {
   padding-block-start: var(--card-padding);
 }
 

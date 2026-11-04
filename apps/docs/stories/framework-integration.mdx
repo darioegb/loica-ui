@@ -40,9 +40,10 @@ read before the first render, from `localStorage`, so `'system'` is the only cas
 ## Next.js App Router
 
 Every component can be rendered from a Server Component. The package keeps `'use client'` on each module that needs it,
-so a Server Component imports from `plume-ui-react` directly. The presentational ones (`Badge`,
-`Divider`, `EmptyState`, `Heading`, `Icon`, `Text`, `Skeleton`, the rows and cells of `Table`...) don't need it and
-render on the server with no JavaScript in the browser.
+so a Server Component imports from `plume-ui-react` directly. The presentational ones (`Badge`, `Card`, `Divider`,
+`EmptyState`, `Heading`, `Icon`, `List`, `Text`, `Skeleton`, the rows and cells of `Table`...) don't need it and
+render on the server with no JavaScript in the browser. The page of each component says which one it is, with a
+**Server** or **Client** badge under its title, and the API reference marks the parts when they differ.
 
 What a Server Component can't do is pass a function: `onValueChange`, `onClick` or a render prop go in a component of
 yours that starts with `'use client'`. Put the providers in one of them too, when they need state:

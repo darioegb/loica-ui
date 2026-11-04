@@ -1,11 +1,8 @@
-'use client'
-
 import type { CSSProperties, ForwardedRef, HTMLAttributes } from 'react'
-import { forwardRef, useMemo } from 'react'
+import { forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
 import { schemeVar } from '../../../theme'
-import { ListContext } from './list-context'
 import styles from './list.module.css'
 
 export interface ListOwnProps {
@@ -87,7 +84,6 @@ export const List = forwardRef<HTMLUListElement, ListProps>(
     const Element = as ?? (marker === 'number' ? 'ol' : 'ul')
     const isStyled = variant !== 'unstyled'
     const hasDividers = divided ?? variant === 'bordered'
-    const context = useMemo(() => ({ isStyled }), [isStyled])
     const classes = joinClasses(
       isStyled && styles.list,
       isStyled && styles[variant],
@@ -98,18 +94,16 @@ export const List = forwardRef<HTMLUListElement, ListProps>(
     )
 
     return (
-      <ListContext.Provider value={context}>
-        <Element
-          className={classes}
-          data-plume-list=""
-          ref={ref as ForwardedRef<HTMLOListElement>}
-          role={role ?? (marker === 'none' ? 'list' : undefined)}
-          style={listColorVars(colorScheme, style)}
-          {...rest}
-        >
-          {children}
-        </Element>
-      </ListContext.Provider>
+      <Element
+        className={classes}
+        data-plume-list=""
+        ref={ref as ForwardedRef<HTMLOListElement>}
+        role={role ?? (marker === 'none' ? 'list' : undefined)}
+        style={listColorVars(colorScheme, style)}
+        {...rest}
+      >
+        {children}
+      </Element>
     )
   },
 )

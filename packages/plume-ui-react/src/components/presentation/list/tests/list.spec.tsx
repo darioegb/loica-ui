@@ -209,7 +209,7 @@ describe('ListItem', () => {
       </List>,
     )
     const item = screen.getByRole('listitem')
-    expect(item).toHaveClass('item', 'custom')
+    expect(item.className).toBe('custom')
     expect(item).toHaveStyle({ width: '80px' })
     expect(item).toHaveAttribute('value', '4')
     expect(ref.current).toBe(item)
@@ -226,7 +226,7 @@ describe('ListItemButton', () => {
       </List>,
     )
     const button = screen.getByRole('button', { name: 'Inbox' })
-    expect(button).toHaveClass('button')
+    expect(button).toHaveAttribute('data-plume-list-item-button')
     expect(button).toHaveAttribute('type', 'button')
   })
 
@@ -268,7 +268,7 @@ describe('ListItemButton', () => {
       </List>,
     )
     const button = screen.getByRole('button')
-    expect(button).toHaveClass('selected')
+    expect(button).toHaveAttribute('data-selected')
     expect(button).toHaveAttribute('aria-current', 'true')
   })
 
@@ -342,7 +342,7 @@ describe('ListItemButton', () => {
       </List>,
     )
     const button = screen.getByRole('button')
-    expect(button).toHaveClass('button', 'custom')
+    expect(button.className).toBe('custom')
     expect(button).toHaveStyle({ width: '80px' })
     expect(ref.current).toBe(button)
   })
@@ -375,7 +375,6 @@ describe('ListItemIcon', () => {
       </List>,
     )
     expect(screen.getByTestId('icon')).toHaveAttribute('aria-hidden', 'true')
-    expect(screen.getByTestId('icon')).toHaveClass('icon')
   })
 
   it('takes className, style and a ref', () => {
@@ -390,7 +389,7 @@ describe('ListItemIcon', () => {
       </List>,
     )
     const icon = ref.current as HTMLSpanElement
-    expect(icon).toHaveClass('icon', 'custom')
+    expect(icon.className).toBe('custom')
     expect(icon).toHaveStyle({ width: '32px' })
   })
 })
@@ -404,8 +403,8 @@ describe('ListItemText', () => {
         </ListItem>
       </List>,
     )
-    expect(screen.getByText('Inbox')).toHaveClass('primary')
-    expect(screen.getByText('12 unread')).toHaveClass('secondary')
+    expect(screen.getByText('Inbox')).toHaveAttribute('data-plume-list-item-text-primary')
+    expect(screen.getByText('12 unread')).toHaveAttribute('data-plume-list-item-text-secondary')
   })
 
   it('takes its children as the primary text', () => {
@@ -416,7 +415,7 @@ describe('ListItemText', () => {
         </ListItem>
       </List>,
     )
-    expect(screen.getByText('Inbox')).toHaveClass('primary')
+    expect(screen.getByText('Inbox')).toHaveAttribute('data-plume-list-item-text-primary')
   })
 
   it('renders no secondary line without it', () => {
@@ -452,7 +451,7 @@ describe('ListItemText', () => {
       </List>,
     )
     const text = ref.current as HTMLDivElement
-    expect(text).toHaveClass('text', 'custom')
+    expect(text.className).toBe('custom')
     expect(text).toHaveStyle({ width: '80px' })
   })
 })
@@ -469,7 +468,7 @@ describe('ListSubheader', () => {
     )
     const subheader = screen.getByText('Folders')
     expect(subheader.tagName).toBe('LI')
-    expect(subheader).toHaveClass('subheader', 'custom')
+    expect(subheader.className).toBe('custom')
     expect(subheader).toHaveStyle({ width: '80px' })
     expect(ref.current).toBe(subheader)
   })
@@ -488,7 +487,7 @@ describe('ListDivider', () => {
     const divider = ref.current as HTMLLIElement
     expect(divider).toHaveAttribute('aria-hidden', 'true')
     expect(screen.getAllByRole('listitem')).toHaveLength(2)
-    expect(divider).toHaveClass('divider', 'custom')
+    expect(divider.className).toBe('custom')
     expect(divider).toHaveStyle({ width: '80px' })
   })
 })
@@ -511,9 +510,9 @@ describe('ListItemText parts', () => {
   })
 
   it.each([
-    ['ListItemTextPrimary', ListItemTextPrimary, 'primary'],
-    ['ListItemTextSecondary', ListItemTextSecondary, 'secondary'],
-  ] as const)('%s takes className, style and a ref', (_name, Part, className) => {
+    ['ListItemTextPrimary', ListItemTextPrimary],
+    ['ListItemTextSecondary', ListItemTextSecondary],
+  ] as const)('%s takes className, style and a ref', (_name, Part) => {
     const ref = createRef<HTMLSpanElement>()
     render(
       <List>
@@ -527,7 +526,7 @@ describe('ListItemText parts', () => {
       </List>,
     )
     const part = screen.getByText('Part')
-    expect(part).toHaveClass(className, 'custom')
+    expect(part.className).toBe('custom')
     expect(part).toHaveStyle({ width: '80px' })
     expect(ref.current).toBe(part)
   })
@@ -628,9 +627,8 @@ describe('List parts model', () => {
     ['ListItemTextSecondary', <ListItemTextSecondary key="a">One</ListItemTextSecondary>],
     ['ListSubheader', <ListSubheader key="a">One</ListSubheader>],
     ['ListDivider', <ListDivider key="a" />],
-  ])('%s throws outside a List', (name, part) => {
-    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined)
-    expect(() => render(part)).toThrow(`${name} must be used within a <List>`)
-    error.mockRestore()
+  ])('%s renders without a List and with no class of its own', (_name, part) => {
+    const { container } = render(part)
+    expect(container.firstElementChild).not.toHaveAttribute('class')
   })
 })

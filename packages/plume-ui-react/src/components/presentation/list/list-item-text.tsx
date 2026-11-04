@@ -1,14 +1,9 @@
-'use client'
-
 import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
 import { forwardRef } from 'react'
-import { joinClasses } from '../../../overlay/class-names'
 import { hasPart } from '../../../overlay/has-part'
 import type { ComponentProps } from '../../../theme'
-import { useListContext } from './list-context'
 import { ListItemTextPrimary } from './list-item-text-primary'
 import { ListItemTextSecondary } from './list-item-text-secondary'
-import styles from './list.module.css'
 
 export interface ListItemTextOwnProps {
   /**
@@ -34,12 +29,11 @@ export const ListItemText = forwardRef<HTMLDivElement, ListItemTextProps>(
     { children, className, primary, secondary, style, ...rest }: ListItemTextProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
-    const { isStyled } = useListContext('ListItemText')
     const main = primary ?? children
 
     return (
       <div
-        className={joinClasses(isStyled && styles.text, className)}
+        className={className}
         data-plume-list-item-text=""
         ref={ref}
         style={style}

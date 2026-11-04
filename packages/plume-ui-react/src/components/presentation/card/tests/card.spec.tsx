@@ -110,10 +110,10 @@ describe('Card component', () => {
   })
 
   it.each([
-    ['CardHeader', CardHeader, 'header'],
-    ['CardBody', CardBody, 'body'],
-    ['CardFooter', CardFooter, 'footer'],
-  ] as const)('%s takes className, style and a ref', (_name, Part, className) => {
+    ['CardHeader', CardHeader],
+    ['CardBody', CardBody],
+    ['CardFooter', CardFooter],
+  ] as const)('%s takes className, style and a ref', (_name, Part) => {
     const ref = createRef<HTMLDivElement>()
     render(
       <Card>
@@ -123,7 +123,7 @@ describe('Card component', () => {
       </Card>,
     )
     const part = screen.getByText('Part')
-    expect(part).toHaveClass(className, 'custom')
+    expect(part.className).toBe('custom')
     expect(part).toHaveStyle({ width: '80px' })
     expect(ref.current).toBe(part)
   })
@@ -160,9 +160,8 @@ describe('Card parts model', () => {
     ['CardHeader', <CardHeader key="a">Part</CardHeader>],
     ['CardBody', <CardBody key="a">Part</CardBody>],
     ['CardFooter', <CardFooter key="a">Part</CardFooter>],
-  ])('%s throws outside a Card', (name, part) => {
-    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined)
-    expect(() => render(part)).toThrow(`${name} must be used within a <Card>`)
-    error.mockRestore()
+  ])('%s renders without a Card and with no class of its own', (_name, part) => {
+    render(part)
+    expect(screen.getByText('Part')).not.toHaveAttribute('class')
   })
 })
