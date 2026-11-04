@@ -6,6 +6,7 @@ import { deepMerge } from '../utils/merge'
 import { defaultDarkTheme, defaultTheme } from './config'
 import type { DeepPartial, Theme } from './theme.types'
 import type { ColorMode, ColorModeSetting, ThemeContextValue } from './theme-context'
+import { useApplyToBody } from './apply-to-body'
 import { ThemeContext } from './theme-context'
 import { ThemeRootContext } from './theme-root'
 import { getCssVarOverrides, getDefaultCssVars } from './default-css-vars'
@@ -70,25 +71,12 @@ export function ThemeProvider({
     [activeTheme, colorMode],
   )
 
-  useEffect(() => {
-    if (!applyToBody || typeof document === 'undefined') return
-    const { documentElement: html, body } = document
-    const prevMode = html.dataset.plumeColorMode
-    const prevScheme = html.style.colorScheme
-    const prevBackground = body.style.backgroundColor
-    const prevColor = body.style.color
-    html.dataset.plumeColorMode = colorMode
-    html.style.colorScheme = colorMode
-    body.style.backgroundColor = activeTheme.semantic.background
-    body.style.color = activeTheme.semantic.foreground
-    return () => {
-      if (prevMode === undefined) delete html.dataset.plumeColorMode
-      else html.dataset.plumeColorMode = prevMode
-      html.style.colorScheme = prevScheme
-      body.style.backgroundColor = prevBackground
-      body.style.color = prevColor
-    }
-  }, [applyToBody, colorMode, activeTheme])
+  useApplyToBody(
+    applyToBody,
+    colorMode,
+    activeTheme.semantic.background,
+    activeTheme.semantic.foreground,
+  )
 
   const value = useMemo<ThemeContextValue>(
     () => ({ theme: activeTheme, colorMode, setColorMode: setSetting }),
