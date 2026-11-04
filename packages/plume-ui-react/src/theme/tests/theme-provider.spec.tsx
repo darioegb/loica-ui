@@ -153,6 +153,67 @@ describe('ThemeProvider', () => {
     expect(document.documentElement).not.toHaveAttribute('data-plume-color-mode')
   })
 
+  describe('with several providers that theme the page', () => {
+    const page = (): { mode: string | undefined; scheme: string; color: string } => ({
+      mode: document.documentElement.dataset.plumeColorMode,
+      scheme: document.documentElement.style.colorScheme,
+      color: document.body.style.color,
+    })
+
+    afterEach(() => {
+      document.documentElement.style.colorScheme = ''
+    })
+
+    it.each([
+      ['in the order they mounted', 'first'],
+      ['in the reverse order', 'last'],
+    ])('leaves the page as it was when they unmount %s', (_, unmountFirst) => {
+      const first = render(<ThemeProvider defaultColorMode="dark">{null}</ThemeProvider>)
+      const second = render(<ThemeProvider defaultColorMode="dark">{null}</ThemeProvider>)
+      expect(page().mode).toBe('dark')
+
+      if (unmountFirst === 'first') {
+        first.unmount()
+        second.unmount()
+      } else {
+        second.unmount()
+        first.unmount()
+      }
+      expect(page()).toEqual({ mode: undefined, scheme: '', color: '' })
+    })
+
+    it('keeps the theme of the provider that is left when another one unmounts', () => {
+      const first = render(<ThemeProvider defaultColorMode="dark">{null}</ThemeProvider>)
+      const second = render(<ThemeProvider defaultColorMode="dark">{null}</ThemeProvider>)
+
+      first.unmount()
+      expect(page().mode).toBe('dark')
+      expect(page().scheme).toBe('dark')
+      second.unmount()
+    })
+
+    it('follows the last mounted provider when the mode changes', async () => {
+      const first = render(
+        <ThemeProvider>
+          <ColorModeProbe />
+        </ThemeProvider>,
+      )
+      const second = render(
+        <ThemeProvider defaultColorMode="dark">
+          <ColorModeProbe />
+        </ThemeProvider>,
+      )
+      await userEvent.click(screen.getAllByRole('button', { name: 'light' })[1])
+      expect(page().mode).toBe('light')
+      expect(page().scheme).toBe('light')
+
+      second.unmount()
+      expect(page().mode).toBe('light')
+      first.unmount()
+      expect(page().mode).toBeUndefined()
+    })
+  })
+
   it('leaves the page alone when applyToBody is false', () => {
     render(
       <ThemeProvider applyToBody={false}>
