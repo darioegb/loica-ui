@@ -32,13 +32,44 @@ const es: PlumeMessages = {
 </LocaleProvider>
 ```
 
-`messages` is keyed by component (`avatar`, `avatarGroup`, `breadcrumb`, `carousel`, `chip`, `close`, `datePicker`,
-`fileUpload`, `input`, `loader`, `navbarToggle`, `numberInput`, `paginator`, `pinInput`, `rating`, `select`,
-`sidebarToggle`, `slider`, `stepper`, `textarea`, `timePicker`, `toast`). A text is translated once, under the
-component that shows it: `loader` also names the `Loader` of a loading `Button` and of a loading `Table`, and `close`
-names the close button of a `Modal`, a `Drawer`, a `Popover`, an `Alert` and a `Toast`. Each value is the same
-`Partial<<Name>Labels>` the component takes in its `labels` prop, so you only write what you change. `PlumeMessages`
-types all of it.
+`messages` is keyed by component, with the keys of the table below. A text is translated once, under the component
+that shows it: `loader` also names the `Loader` of a loading `Button` and of a loading `Table`, and `close` names the
+close button of a `Modal`, a `Drawer`, a `Popover`, an `Alert` and a `Toast`. Each value is partial, so you only write
+what you change. `PlumeMessages` types all of it, and a component with several texts exports their type as
+`<Name>Labels` (`PaginatorLabels`, `DatePickerLabels`...).
+
+<table>
+  <thead>
+    <tr><th>Key</th><th>Texts</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>avatar</code></td><td><code>online</code>, <code>away</code>, <code>busy</code>, <code>offline</code></td></tr>
+    <tr><td><code>avatarGroup</code></td><td><code>overflow(hidden)</code></td></tr>
+    <tr><td><code>breadcrumb</code></td><td><code>breadcrumb</code></td></tr>
+    <tr><td><code>carousel</code></td><td><code>previous</code>, <code>next</code>, <code>play</code>, <code>pause</code>, <code>dots</code>, <code>dot(index, count)</code>, <code>slide(index, count)</code>, <code>roleDescription</code>, <code>slideRoleDescription</code></td></tr>
+    <tr><td><code>chip</code></td><td><code>remove</code></td></tr>
+    <tr><td><code>close</code></td><td><code>label</code></td></tr>
+    <tr><td><code>datePicker</code></td><td><code>apply</code>, <code>cancel</code>, <code>calendar</code>, <code>openCalendar</code>, <code>previousMonth</code>, <code>nextMonth</code>, <code>previousYears</code>, <code>nextYears</code>, <code>format(format)</code></td></tr>
+    <tr><td><code>fileUpload</code></td><td><code>prompt</code>, <code>fileSize(bytes)</code>, <code>progress(file)</code>, <code>remove(file)</code>, <code>rejection(rejection)</code></td></tr>
+    <tr><td><code>input</code></td><td><code>reveal</code></td></tr>
+    <tr><td><code>loader</code></td><td><code>label</code></td></tr>
+    <tr><td><code>navbarToggle</code></td><td><code>label</code></td></tr>
+    <tr><td><code>numberInput</code></td><td><code>decrement</code>, <code>increment</code></td></tr>
+    <tr><td><code>paginator</code></td><td><code>first</code>, <code>previous</code>, <code>next</code>, <code>last</code>, <code>page(page, current)</code>, <code>pageSize</code>, <code>pagination</code>, <code>summary(from, to, total)</code></td></tr>
+    <tr><td><code>pinInput</code></td><td><code>input(index, length)</code></td></tr>
+    <tr><td><code>rating</code></td><td><code>item(value, max)</code>, <code>readOnly(value, max)</code></td></tr>
+    <tr><td><code>select</code></td><td><code>clear</code>, <code>search</code>, <code>empty</code> (any node), <code>overflow(hidden)</code>, <code>remove(label)</code></td></tr>
+    <tr><td><code>sidebarToggle</code></td><td><code>label</code></td></tr>
+    <tr><td><code>slider</code></td><td><code>thumb(index)</code></td></tr>
+    <tr><td><code>stepper</code></td><td><code>completed</code>, <code>current</code>, <code>upcoming</code></td></tr>
+    <tr><td><code>textarea</code></td><td><code>count(count, max)</code>, <code>remaining(remaining)</code></td></tr>
+    <tr><td><code>timePicker</code></td><td><code>timePicker</code>, <code>openTimePicker</code>, <code>hours</code>, <code>minutes</code>, <code>period</code>, <code>am</code>, <code>pm</code>, <code>format(format)</code>, <code>placeholder(period)</code></td></tr>
+    <tr><td><code>toast</code></td><td><code>region</code></td></tr>
+  </tbody>
+</table>
+
+A text written with arguments is a function that gets them and returns the string, like `page` in the example above.
+The others are strings.
 
 `locale` is a BCP 47 tag (`es`, `es-AR`, `en-US`). The `DatePicker` uses it for the names of the days and months
 and for the format of the date, and its own `locale` prop still wins when you set it. Read it in your own components
@@ -46,9 +77,11 @@ with `useLocale()`, which returns the `locale` of the closest provider (or `unde
 
 ## For one element: the `label` or `aria-label` of the part
 
-The part that shows a text takes it as a prop: `label` on a small part such as the `Loader`, the close button of a
-`Modal` or `CarouselPrev`, and `aria-label` on `PaginatorPage`.
-It wins over the provider.
+The part that shows a text takes it as a prop, and it wins over the provider: `label` on the `Loader`, on
+`TableLoading`, on a close button (`ModalClose`, `AlertDismiss`, `ToastDismiss`...), on `NavbarToggle`,
+`SidebarToggle`, `CarouselPrev` and `CarouselNext`, and `aria-label` on `PaginatorPage`, `PaginatorNext` and the other
+buttons of the `Paginator`. The texts of an element a component draws by itself, such as the reveal button of an
+`Input` or the steppers of a `NumberInput`, have no prop: change them with a nested provider.
 
 ```tsx
 <Loader label='Guardando' />

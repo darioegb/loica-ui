@@ -14,7 +14,9 @@ public API follows semver: a breaking change only arrives in a major version, an
 Search your code for these, one by one. The rest of the page explains each change.
 
 - `classNames`, `inputClassName` and the other loose class props: [every element is a part](#every-element-is-a-part).
-- `aria-label` on `ToastDismiss`, `FileUploadRemove` and `SelectClear`: it is [`label`](#close-and-remove-buttons-take-label).
+- `aria-label` on `AlertDismiss`, `ToastDismiss`, `FileUploadRemove` and `SelectClear`: it is [`label`](#close-and-remove-buttons-take-label).
+- `labels`, or a text prop such as `nextLabel` or `dismissLabel`, on any component, and the `overlayClose`, `alert`,
+  `button`, `spinner` and `table` keys of a `LocaleProvider`: [the texts](#the-texts-come-from-the-localeprovider).
 - `inputRef` on a `DatePicker` or a `TimePicker`, and a `ref` on a `SelectTrigger`, a `Rating` or a `PinInput`: [the ref](#the-ref-goes-to-the-element-the-field-talks-to).
 - `data-plume-menu*`, `data-plume-select-control`, `data-plume-tree-*` and other [renamed CSS hooks](#renamed-css-hooks) in your stylesheets.
 - `label`, `busy`, `busyText` and `labels` on a `Button`, and `Spinner` anywhere: [`Button` and `Loader`](#button-takes-its-content-as-children-and-spinner-is-loader).
@@ -22,6 +24,9 @@ Search your code for these, one by one. The rest of the page explains each chang
 - `variant='unstyled'` anywhere: it now drops [every Plume class](#unstyled-drops-every-plume-class).
 - An `Icon`, a `List` or a `Card` that you style: [presentation components](#icon-list-and-card-are-made-of-parts).
 - A `BadgeDot`, a `DividerLabel`, a `SkeletonLine` or a part of the `EmptyState`: [single components](#badge-emptystate-divider-and-skeleton-are-single-components).
+- `InputGroup`, `InputAddon`, `TextareaCount`, `NumberInputField`, `PinInputCell`, `RatingItem`, `SliderThumb` and the
+  other parts of the text fields: [single components](#text-fields-pininput-rating-and-slider-are-single-components).
+- `ChipRemove`, `AvatarImage` and the other parts of the `Chip` and the `Avatar`: [single components](#chip-and-avatar-are-single-components-alert-is-made-of-parts).
 - Parts used outside their component: [they throw](#parts-outside-their-component-throw).
 - Imports from `@plume-ui-react/*`: [one package now](#from-the-plume-ui-react-packages).
 - `colorScheme` set to `brown`, `pink`, `purple`, `teal` or `yellow`, a shade such as `primary.700` on a `Loader`,
@@ -287,8 +292,10 @@ provider, and a single text can be set on the part that shows it.
   </tbody>
 </table>
 
-The type of each one is exported, for example `PaginatorLabels`. The `Loader` says `Loading` instead of `loading` by
-default.
+The type of each one is exported, for example `PaginatorLabels`; `AlertLabels`, `ButtonLabels` and `TableLabels` are
+removed. The `close` key names every close button and replaces the keys `overlayClose`, `alert.dismiss` and
+`toast.dismiss`, and its default is `Close` instead of `Dismiss` and `Dismiss notification`. The `Loader` says
+`Loading` instead of `loading` by default.
 
 ## Text fields, `PinInput`, `Rating` and `Slider` are single components
 
@@ -328,8 +335,10 @@ exist. They take no `children`, and all the native attributes of their element. 
 </table>
 
 The names of the stepper, reveal and pin buttons, of the stars and of the thumbs of a range come from the `numberInput`,
-`input`, `pinInput`, `rating` and `slider` texts of the `LocaleProvider`, with no per-element override. The `ref` of the root is always the native `<input>` or `<textarea>`, so react-hook-form's `register`
-works on the root. `className` and `style` of the root go to the outermost element. The `data-plume-*-input` attribute
+`input`, `pinInput`, `rating` and `slider` texts of the `LocaleProvider`, with no per-element override. The `ref` of
+`Input`, `Textarea` and `NumberInput` is always the native `<input>` or `<textarea>`, so react-hook-form's `register`
+works on the root; the one of the `Slider` is the input of its first thumb, and the one of `PinInput` and `Rating` their
+`<fieldset>`. `className` and `style` of the root go to the outermost element. The `data-plume-*-input` attribute
 of `NumberInput` is now `data-plume-numberinput-field`.
 
 ## `Select` and the pickers are made of parts
@@ -353,8 +362,9 @@ takes a render function to style or replace each item.
 </DatePicker>
 ```
 
-The button of the pickers is not a part: its icon is the `icon` prop of the `DatePicker` and the `TimePicker`, and its
-name comes from the `datePicker.openCalendar` and `timePicker.openTimePicker` texts of the `LocaleProvider`.
+The button of the pickers is `DatePickerTrigger` or `TimePickerTrigger`, which goes `before` or `after` the field with
+`position`. Its icon is the `icon` prop of the `DatePicker` and the `TimePicker` (or the `children` of the trigger), and
+its name comes from the `datePicker.openCalendar` and `timePicker.openTimePicker` texts of the `LocaleProvider`.
 
 ```tsx
 <DatePicker icon={<MyCalendarIcon />} onValueChange={onChange} />
@@ -377,7 +387,8 @@ The `data-plume-select-trigger` attribute of the combobox is now `data-plume-sel
 ## `Chip` and `Avatar` are single components, `Alert` is made of parts
 
 These components no longer take `classNames`. The `Chip` and the `Avatar` export no parts for the elements they draw
-by themselves. What used to be a key of `classNames` is a `data-plume-<component>-<element>` attribute, so you style
+by themselves, so `ChipIcon`, `ChipLabel`, `ChipRemove`, `AvatarImage`, `AvatarFallback` and `AvatarStatusDot` do not
+exist. What used to be a key of `classNames` is a `data-plume-<component>-<element>` attribute, so you style
 it from the parent (`[&_[data-plume-chip-remove]]:opacity-60` in Tailwind), or you put your own element in the prop
 that fills it. `children` keeps its meaning: the text of the chip. The `Avatar` takes no `children`; its fallback is
 the `fallback` prop.
@@ -419,11 +430,11 @@ With these, no component takes `classNames` and the `<Name>Part` types are gone.
 
 ## Close and remove buttons take `label`
 
-`ToastDismiss`, `FileUploadRemove` and `SelectClear` are built on the same close button as the modals, so they take
-`label` (the accessible name) instead of `aria-label`. An element you pass as `children` becomes the button, instead of
-going inside one, and the `ref` is an `HTMLElement`. `ToastDismiss`, the dismiss button of an `Alert` and the remove
-button of a `Chip` are named by the texts of the `LocaleProvider`, like the close button of a modal, and the rest by the
-texts of their component.
+`AlertDismiss`, `ToastDismiss`, `FileUploadRemove` and `SelectClear` are built on the same close button as the modals,
+so they take `label` (the accessible name) instead of `aria-label`. An element you pass as `children` becomes the
+button, instead of going inside one, and the `ref` is an `HTMLElement`. `AlertDismiss` and `ToastDismiss` are named by
+the `close` text of the `LocaleProvider`, like the close button of a modal, the remove button of a `Chip` by the
+`chip.remove` text, and the rest by the texts of their component.
 
 ```tsx
 // Before
@@ -543,7 +554,10 @@ context), and a Server Component can still render them.
 The `Badge`, the `EmptyState`, the `Divider` and the `Skeleton` are single components: their inner elements (the dot of
 the `Badge`, the icon, title, description and action of the `EmptyState`, the label of the `Divider`, the lines of the
 `Skeleton`) carry a `data-plume-*` attribute, and to style one you target it from the parent or put your own element
-in the prop that fills it.
+in the prop that fills it. `BadgeDot`, `DividerLabel`, `SkeletonLine`, `EmptyStateIcon`, `EmptyStateTitle`,
+`EmptyStateDescription` and `EmptyStateAction` do not exist: use `dot` on the `Badge`, the `children` of the `Divider`,
+`lines` on the `Skeleton`, and `icon`, `title`, `description` and `action` on the `EmptyState`, whose `children` go
+between the description and the action.
 
 ```tsx
 <EmptyState
