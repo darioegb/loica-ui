@@ -1,5 +1,7 @@
 // Runs axe on every story, in light and dark mode, the way the Storybook accessibility panel does, and fails on
-// any violation. It reads the static build (`storybook-static`), or a running Storybook with `--url`.
+// any violation or any error the story prints to the console (a React warning, an invalid prop). A story that
+// throws while rendering fails too, so this is also the smoke test of every story. It reads the static build
+// (`storybook-static`), or a running Storybook with `--url`.
 //
 //   node scripts/check-a11y.mjs                          every story of the static build
 //   node scripts/check-a11y.mjs carousel toast           only the stories whose id contains one of the words
@@ -92,7 +94,42 @@ const browser = await chromium.launch()
 const context = await browser.newContext({ reducedMotion: 'reduce', viewport: { height: 900, width: 1280 } })
 const failures = []
 
-async function check(page, { id, mode }) {
+// What the story prints as an error (a React warning, an invalid prop, a failed request) is a failure too.
+function collectConsoleErrors(page) {
+  const messages = []
+  const onConsole = (message) => {
+    if (message.type() === 'error') messages.push(message.text())
+  }
+  const onPageError = (error) => messages.push(error.message)
+  page.on('console', onConsole)
+  page.on('pageerror', onPageError)
+  return {
+    messages,
+    stop() {
+      page.off('console', onConsole)
+      page.off('pageerror', onPageError)
+    },
+  }
+}
+
+async function check(page, job) {
+  const errors = collectConsoleErrors(page)
+  try {
+    const violations = await checkStory(page, job)
+    return [
+      ...violations,
+      ...errors.messages.map((message) => ({
+        help: message.split('\n')[0].slice(0, 200),
+        id: 'console-error',
+        nodes: [],
+      })),
+    ]
+  } finally {
+    errors.stop()
+  }
+}
+
+async function checkStory(page, { id, mode }) {
   await page.goto(`${baseUrl}/iframe.html?id=${id}&viewMode=story&globals=colorMode:${mode}`)
   await page.waitForFunction(
     () => document.body.classList.contains('sb-show-main') || document.body.classList.contains('sb-show-errordisplay'),
