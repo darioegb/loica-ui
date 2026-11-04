@@ -1,11 +1,6 @@
-'use client'
-
 import type { ForwardedRef, HTMLAttributes } from 'react'
 import { forwardRef } from 'react'
-import { joinClasses } from '../../../overlay/class-names'
 import type { ComponentProps } from '../../../theme'
-import { useListContext } from './list-context'
-import styles from './list.module.css'
 
 type ListItemTextSecondaryRootAttributes = Pick<
   HTMLAttributes<HTMLSpanElement>,
@@ -21,11 +16,9 @@ export const ListItemTextSecondary = forwardRef<HTMLSpanElement, ListItemTextSec
     { children, className, style, ...rest }: ListItemTextSecondaryProps,
     ref: ForwardedRef<HTMLSpanElement>,
   ) => {
-    const { isStyled } = useListContext('ListItemTextSecondary')
-
     return (
       <span
-        className={joinClasses(isStyled && styles.secondary, className)}
+        className={className}
         data-plume-list-item-text-secondary=""
         ref={ref}
         style={style}

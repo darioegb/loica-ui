@@ -116,6 +116,66 @@ table.docblock-argstable {
   width: fit-content;
 }
 
+.sbdocs .api-rendering {
+  border: 1px solid currentcolor;
+  border-radius: 999px;
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1;
+  margin-inline-start: 0.5em;
+  padding: 0.25em 0.6em;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.sbdocs .api-rendering[data-kind='server'] {
+  color: #047857;
+}
+
+.sbdocs .api-rendering[data-kind='mixed'] {
+  color: #1d4ed8;
+}
+
+.sbdocs .api-rendering[data-kind='client'] {
+  color: #52525b;
+}
+
+html[data-plume-color-mode='dark'] .sbdocs .api-rendering[data-kind='server'] {
+  color: #34d399;
+}
+
+html[data-plume-color-mode='dark'] .sbdocs .api-rendering[data-kind='mixed'] {
+  color: #93c5fd;
+}
+
+html[data-plume-color-mode='dark'] .sbdocs .api-rendering[data-kind='client'] {
+  color: #a1a1aa;
+}
+
+.plume-title-row {
+  align-items: center;
+  column-gap: 0.875rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sbdocs a.plume-rendering-badge {
+  font-size: 0.75rem;
+  margin-inline-start: 0;
+  padding: 0.35em 0.75em;
+  text-decoration: none;
+}
+
+.sbdocs a.plume-rendering-badge:hover {
+  text-decoration: underline;
+}
+
+.sbdocs a.plume-rendering-badge:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 2px;
+}
+
 .api-native {
   font-size: 0.8125rem;
   margin-block: 0.25rem 1.5rem;

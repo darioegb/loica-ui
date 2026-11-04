@@ -507,8 +507,9 @@ class, write your own classes on its parts.
 
 A part that needs its component to work reads its context, and now throws when it is used outside it, with the name of
 the component it expects: `Tab` and `TabPanel` (they took position 0), `SidebarBackdrop`, `SidebarContent`,
-`SidebarItem`, `SidebarItemIcon` and `SidebarItemLabel` (they worked with default styles), `ListItem*`, `ListSubheader`,
-`ListDivider`, `CardHeader`, `CardBody` and `CardFooter`. Put them inside their `Tabs`, `Sidebar`, `List` or `Card`.
+`SidebarItem`, `SidebarItemIcon` and `SidebarItemLabel` (they worked with default styles). Put them inside their
+`Tabs` or `Sidebar`. The parts of `List` and `Card` don't throw: they need nothing from their root, so they render on
+the server with no JavaScript in the browser, and outside their root they are plain elements with no Plume style.
 
 ## `Tabs` are controlled with the same props as the rest
 

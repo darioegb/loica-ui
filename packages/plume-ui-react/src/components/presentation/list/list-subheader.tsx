@@ -1,11 +1,6 @@
-'use client'
-
 import type { ForwardedRef, LiHTMLAttributes } from 'react'
 import { forwardRef } from 'react'
-import { joinClasses } from '../../../overlay/class-names'
 import type { ComponentProps } from '../../../theme'
-import { useListContext } from './list-context'
-import styles from './list.module.css'
 
 type ListSubheaderRootAttributes = Pick<
   LiHTMLAttributes<HTMLLIElement>,
@@ -20,11 +15,9 @@ export const ListSubheader = forwardRef<HTMLLIElement, ListSubheaderProps>(
     { children, className, style, ...rest }: ListSubheaderProps,
     ref: ForwardedRef<HTMLLIElement>,
   ) => {
-    const { isStyled } = useListContext('ListSubheader')
-
     return (
       <li
-        className={joinClasses(isStyled && styles.subheader, className)}
+        className={className}
         data-plume-list-subheader=""
         ref={ref}
         style={style}

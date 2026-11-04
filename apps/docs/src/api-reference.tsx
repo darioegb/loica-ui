@@ -11,13 +11,53 @@ interface ApiProp {
   type: string
 }
 
+type Rendering = 'client' | 'server'
+
 interface ApiComponent {
+  clientPiece?: boolean
   description: string
   name: string
   native: string[]
   nativeAll: boolean
   props: ApiProp[]
+  rendering: Rendering
   since?: string
+}
+
+type RenderingKind = 'client' | 'mixed' | 'server'
+
+const kindOf = (component: ApiComponent): RenderingKind => {
+  if (component.rendering === 'client') return 'client'
+  return component.clientPiece ? 'mixed' : 'server'
+}
+
+const KIND_LABEL: Record<RenderingKind, string> = {
+  client: 'Client',
+  mixed: 'Server + client',
+  server: 'Server',
+}
+
+const KIND_TITLE: Record<RenderingKind, string> = {
+  client: 'Client Component',
+  mixed: 'Server + client',
+  server: 'Server Component',
+}
+
+const KIND_TEXT: Record<RenderingKind, string> = {
+  client:
+    "It loads JavaScript in the browser. A Server Component can render it, but can't pass it a function.",
+  mixed: 'It renders on the server and can bring a client component inside it.',
+  server: 'It renders on the server and loads no JavaScript in the browser.',
+}
+
+const FRAMEWORK_GUIDE = './?path=/docs/guides-framework-integration--docs#nextjs-app-router'
+
+function RenderingTag({ kind }: Readonly<{ kind: RenderingKind }>): ReactNode {
+  return (
+    <span className="api-rendering" data-kind={kind}>
+      {KIND_LABEL[kind]}
+    </span>
+  )
 }
 
 function Since({ version }: Readonly<{ version?: string }>): ReactNode {
@@ -126,6 +166,7 @@ export function ApiReference({
     notes.filter((note) => components.some((c) => c.name === note.title)).map((n) => [n.title, n]),
   )
   const otherNotes = notes.filter((note) => !ownNotes.has(note.title))
+  const kinds = new Set(components.map(kindOf))
   return (
     <>
       <h3 id="api-reference">API reference</h3>
@@ -137,6 +178,7 @@ export function ApiReference({
         <section key={component.name}>
           <h4 id={`api-${component.name}`}>
             {component.name}
+            {kinds.size > 1 ? <RenderingTag kind={kindOf(component)} /> : null}
             <Since version={component.since} />
           </h4>
           {index > 0 && component.description ? <Markdown>{component.description}</Markdown> : null}
@@ -152,5 +194,34 @@ export function ApiReference({
         </section>
       ))}
     </>
+  )
+}
+
+interface RenderingBadgeProps {
+  componentName: string
+  folder: string
+  importNames?: string[]
+}
+
+/** Server or Client Component, from the 'use client' of the module of the component. Links to the guide. */
+export function RenderingBadge({
+  componentName,
+  folder,
+  importNames,
+}: Readonly<RenderingBadgeProps>): ReactNode {
+  const [root] = orderComponents(folders[folder] ?? [], componentName, importNames)
+  if (!root) return null
+  const kind = kindOf(root)
+  return (
+    <a
+      aria-label={`${KIND_TITLE[kind]}: ${KIND_TEXT[kind]} Read about server and client components`}
+      className="api-rendering plume-rendering-badge"
+      data-kind={kind}
+      href={FRAMEWORK_GUIDE}
+      target="_top"
+      title={KIND_TEXT[kind]}
+    >
+      {KIND_TITLE[kind]}
+    </a>
   )
 }

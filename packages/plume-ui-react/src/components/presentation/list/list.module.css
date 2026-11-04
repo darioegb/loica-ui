@@ -52,6 +52,8 @@
   display: block;
 }
 
+/* The parts carry no class: the root styles them through their data attributes, so they need no
+   context and render on the server. */
 .list {
   box-sizing: border-box;
   color: var(--plume-foreground);
@@ -105,38 +107,38 @@
   list-style: decimal inside;
 }
 
-.list .item {
+.list > [data-plume-list-item] {
   align-items: center;
   display: flex;
   gap: var(--plume-space-3);
   padding: var(--list-padding-y) var(--list-padding-x);
 }
 
-.bullet .item,
-.number .item {
+.bullet > [data-plume-list-item],
+.number > [data-plume-list-item] {
   display: list-item;
 }
 
-.list .item:has(> .button) {
+.list > [data-plume-list-item]:has(> [data-plume-list-item-button]) {
   gap: 0;
   padding: 0;
 }
 
-.list .item:has(> .button) > :not(.button) {
+.list > [data-plume-list-item]:has(> [data-plume-list-item-button]) > :not([data-plume-list-item-button]) {
   margin-inline-end: var(--list-padding-x);
 }
 
-.divided > li:not(.divider) + li:not(.divider) {
+.divided > li:not([data-plume-list-divider]) + li:not([data-plume-list-divider]) {
   border-block-start: var(--plume-border-width-thin) solid var(--plume-border);
 }
 
-.list .button {
+.list > [data-plume-list-item] > [data-plume-list-item-button] {
   gap: var(--plume-space-3);
   padding: var(--list-padding-y) var(--list-padding-x);
   transition: background-color var(--plume-duration-fast);
 }
 
-.list .button:hover {
+.list > [data-plume-list-item] > [data-plume-list-item-button]:hover {
   background-color: color-mix(
     in srgb,
     currentcolor var(--plume-overlay-hover),
@@ -144,34 +146,34 @@
   );
 }
 
-.list .button:focus-visible {
+.list > [data-plume-list-item] > [data-plume-list-item-button]:focus-visible {
   outline: var(--plume-focus-ring-width) solid var(--list-text);
   outline-offset: var(--plume-focus-ring-inset);
 }
 
-.list .selected {
+.list > [data-plume-list-item] > [data-plume-list-item-button][data-selected] {
   background-color: var(--list-tint);
   color: var(--list-tint-text);
 }
 
-.list .selected .secondary {
+.list > [data-plume-list-item] > [data-plume-list-item-button][data-selected] [data-plume-list-item-text-secondary] {
   color: inherit;
 }
 
-.list .selected:hover {
+.list > [data-plume-list-item] > [data-plume-list-item-button][data-selected]:hover {
   background-color: var(--list-tint-strong);
 }
 
-.list .button:is(:disabled, [aria-disabled="true"]) {
+.list > [data-plume-list-item] > [data-plume-list-item-button]:is(:disabled, [aria-disabled="true"]) {
   opacity: var(--plume-opacity-disabled);
 }
 
-.list .secondary {
+.list > [data-plume-list-item] [data-plume-list-item-text-secondary] {
   color: var(--plume-muted);
   font-size: 0.875em;
 }
 
-.list .subheader {
+.list > [data-plume-list-subheader] {
   color: var(--plume-muted);
   font-size: 0.8em;
   font-weight: var(--plume-font-weight-semibold);
@@ -180,12 +182,14 @@
   text-transform: uppercase;
 }
 
-.list .divider {
+.list > [data-plume-list-divider] {
+  border-block-start: var(--plume-border-width-thin) solid var(--plume-border);
   list-style: none;
+  margin-block: var(--plume-space-1);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .list .button {
+  .list > [data-plume-list-item] > [data-plume-list-item-button] {
     transition: none;
   }
 }
@@ -195,7 +199,7 @@
     border-color: CanvasText;
   }
 
-  .list .selected {
+  .list > [data-plume-list-item] > [data-plume-list-item-button][data-selected] {
     background-color: Highlight;
     color: HighlightText;
     forced-color-adjust: none;
