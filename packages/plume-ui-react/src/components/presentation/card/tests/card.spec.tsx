@@ -3,6 +3,44 @@ import { createRef } from 'react'
 import { Card, CardBody, CardFooter, CardHeader } from '..'
 
 describe('Card component', () => {
+
+  describe('title and description', () => {
+    it('renders them in a header and a body, with the children in the same body', () => {
+      const { container } = render(
+        <Card description="10 projects." title="Plan">
+          <a href="#upgrade">Upgrade</a>
+        </Card>,
+      )
+      const card = container.firstElementChild
+      expect(card?.children[0]).toHaveAttribute('data-plume-card-header')
+      expect(card?.children[0]).toHaveTextContent('Plan')
+      expect(card?.children[1]).toHaveAttribute('data-plume-card-body')
+      expect(card?.children[1]).toHaveTextContent('10 projects.Upgrade')
+      expect(card).not.toHaveAttribute('title')
+    })
+
+    it('puts the title before the parts it is given', () => {
+      const { container } = render(
+        <Card description="Intro" title="Plan">
+          <CardFooter>Footer</CardFooter>
+        </Card>,
+      )
+      const parts = Array.from(container.firstElementChild?.children ?? [], (part) =>
+        part.getAttributeNames().find((name) => name.startsWith('data-plume-card-')),
+      )
+      expect(parts).toEqual(['data-plume-card-header', 'data-plume-card-body', 'data-plume-card-footer'])
+    })
+
+    it('renders only a header for a title alone', () => {
+      const { container } = render(<Card title="Plan" />)
+      expect(container.firstElementChild?.children).toHaveLength(1)
+    })
+
+    it('leaves the children as they are without them', () => {
+      const { container } = render(<Card>Text</Card>)
+      expect(container.firstElementChild?.innerHTML).toBe('Text')
+    })
+  })
   it('renders its parts', () => {
     render(
       <Card>

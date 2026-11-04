@@ -11,6 +11,14 @@ describe('Chip component', () => {
       expect(screen.getByText('Design')).toBeInTheDocument()
     })
 
+    it('takes its text from label when it has no children', () => {
+      const { rerender } = render(<Chip label="React" onRemove={() => undefined} />)
+      expect(screen.getByRole('button', { name: /React/ })).toBeInTheDocument()
+      rerender(<Chip label="React">Vue</Chip>)
+      expect(screen.getByText('Vue')).toBeInTheDocument()
+      expect(screen.queryByText('React')).toBeNull()
+    })
+
     it('is a subtle, medium, pill chip by default', () => {
       const { container } = render(<Chip>Design</Chip>)
       expect(container.firstChild).toHaveClass('chip', 'subtle', 'md', 'pill')

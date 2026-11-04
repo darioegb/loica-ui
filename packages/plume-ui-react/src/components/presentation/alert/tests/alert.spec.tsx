@@ -16,6 +16,19 @@ describe('Alert component', () => {
     expect(screen.getByText('Your plan ends tomorrow.')).toBeInTheDocument()
   })
 
+  it('renders a title and a description from its props', () => {
+    const { container } = render(
+      <Alert description="It is live." status="success" title="Saved">
+        <a href="#log">See the log</a>
+      </Alert>,
+    )
+    expect(screen.getByText('Saved')).toHaveAttribute('data-plume-alert-title')
+    expect(screen.getByText('It is live.')).toHaveAttribute('data-plume-alert-description')
+    const content = container.querySelector('[data-plume-alert-content]')
+    expect(content?.lastElementChild).toBe(screen.getByRole('link', { name: 'See the log' }))
+    expect(screen.getByRole('status')).not.toHaveAttribute('title')
+  })
+
   it('is an info status in a subtle medium alert by default', () => {
     const { container } = render(<Alert>Text</Alert>)
     expect(container.firstChild).toHaveClass('alert', 'md', 'subtle')

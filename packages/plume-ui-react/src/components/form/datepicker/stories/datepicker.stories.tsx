@@ -50,7 +50,7 @@ const StatefulDatePicker = ({ maxDate, minDate, ...args }: DatePickerProps): Rea
 )
 
 /**
- * DatePicker Component allows users to select dates from a calendar interface.
+ * A field to type a date or pick it from a calendar.
  * It supports single and range selection modes, configurable color schemes, and localization options.
  *
  * On its own it shows an input with a button that opens the calendar. To change what it shows or the order, give

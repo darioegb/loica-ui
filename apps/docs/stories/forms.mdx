@@ -28,7 +28,7 @@ The examples use <a href='https://react-hook-form.com/' target='_blank' rel='noo
     <tr><td><code>RadioGroup</code></td><td><code>Controller</code>, <code>value</code> and <code>onValueChange</code></td><td><code>string</code></td></tr>
     <tr><td><code>Select</code></td><td><code>Controller</code>, <code>value</code> and <code>onValueChange</code></td><td><code>string</code>, or <code>string[]</code> with <code>multiple</code></td></tr>
     <tr><td><code>NumberInput</code></td><td><code>Controller</code>, <code>value</code>, <code>onValueChange</code> and <code>ref</code></td><td><code>number</code> or <code>null</code></td></tr>
-    <tr><td><code>Slider</code></td><td><code>Controller</code>, <code>value</code> and <code>onValueChange</code></td><td><code>number</code>, or <code>[number, number]</code> for a range</td></tr>
+    <tr><td><code>Slider</code></td><td><code>Controller</code>, <code>value</code>, <code>onValueChange</code> and <code>ref</code></td><td><code>number</code>, or <code>[number, number]</code> for a range</td></tr>
     <tr><td><code>Rating</code></td><td><code>Controller</code>, <code>value</code> and <code>onValueChange</code></td><td><code>number</code></td></tr>
     <tr><td><code>PinInput</code></td><td><code>Controller</code>, <code>value</code> and <code>onValueChange</code></td><td><code>string</code></td></tr>
     <tr><td><code>DatePicker</code></td><td><code>Controller</code>, <code>value</code>, <code>onValueChange</code> and <code>ref</code></td><td><code>{'{ startDate, endDate }'}</code></td></tr>
@@ -52,7 +52,7 @@ const { register, handleSubmit, formState: { errors } } = useForm<Values>()
 ```
 
 `register` hands the `ref` to the `<input>`, so a failed rule focuses it. The `ref` of `Input`, `Textarea`, `Checkbox`,
-`Toggle` and `Radio` is always the native element, with or without parts.
+`Toggle` and `Radio` is always the native element, also when an `Input` draws addons or a reveal button around it.
 
 ## The other controls: `Controller`
 
@@ -97,6 +97,7 @@ Where the `ref` goes, so the form can focus the control when a rule fails:
 
 - `Select`: `ref` on its `SelectCombobox`, the button that takes the focus (the `ref` of `SelectTrigger` is its outer element).
 - `NumberInput`: `ref` on the root, which is the native input.
+- `Slider`: `ref` on the root, which is the native input of the first thumb.
 - `DatePicker` and `TimePicker`: `ref` on the root, which is the native input.
 
 `reset()` puts every control above back to its default value, because each one is controlled through `value`.

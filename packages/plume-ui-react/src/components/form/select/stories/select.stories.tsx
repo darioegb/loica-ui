@@ -93,7 +93,7 @@ function Example({
   placeholder = 'Pick a fruit',
   ...props
 }: Readonly<
-  Partial<SelectProps> & { children?: React.ReactNode; label?: string; placeholder?: string }
+  Partial<SelectProps> & { children?: React.ReactNode; label?: string }
 >): React.ReactNode {
   return (
     <Select {...(props as SelectProps)}>
@@ -106,6 +106,9 @@ function Example({
 /**
  * Choose one option, or several, from a list that opens under a field. Use it when there are too many options for
  * radio buttons and the user has to pick a value, and a `Dropdown` when each item is an action.
+ *
+ * Pass the options as data with **options** for a Select that closes on itself, or compose its parts (a
+ * `SelectTrigger` and a `SelectContent` with a `SelectOption` for each option) to change what it shows.
  *
  * It is the WAI-ARIA select-only combobox: the focus stays on the trigger and the list is followed with
  * `aria-activedescendant`. A click, <kbd>Enter</kbd>, <kbd>Space</kbd> or the arrows open it. The arrows,
@@ -421,6 +424,48 @@ export const Colors: Story = {
       ))}
     </div>
   ),
+}
+
+/**
+ * Give the Select its **options** as data and it draws the `SelectTrigger` and a `SelectOption` for each one, so it
+ * closes on itself. **placeholder**, **aria-label** and **aria-labelledby** go to that trigger; inside a `Field` the
+ * label names it. An option takes a `value`, a `label`, and optionally a `description`, an `icon` and `disabled`.
+ * Give it your own `SelectTrigger` or `SelectContent` as children and it keeps them.
+ */
+export const Options: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `const fruits = [
+  { label: 'Apple', value: 'apple' },
+  { label: 'Banana', value: 'banana' },
+  { description: 'Out of season', disabled: true, label: 'Cherry', value: 'cherry' },
+]
+
+<div className="flex flex-col gap-4">
+  <Select aria-label="Fruit" options={fruits} placeholder="Pick a fruit" />
+  <Field label="Fruit">
+    <Select options={fruits} placeholder="Pick a fruit" />
+  </Field>
+</div>`,
+      },
+    },
+  },
+  render: () => {
+    const fruits = [
+      { label: 'Apple', value: 'apple' },
+      { label: 'Banana', value: 'banana' },
+      { description: 'Out of season', disabled: true, label: 'Cherry', value: 'cherry' },
+    ]
+    return (
+      <div className="flex flex-col gap-4" style={{ width: '16rem' }}>
+        <Select aria-label="Fruit" options={fruits} placeholder="Pick a fruit" />
+        <Field label="Fruit">
+          <Select options={fruits} placeholder="Pick a fruit" />
+        </Field>
+      </div>
+    )
+  },
 }
 
 /**

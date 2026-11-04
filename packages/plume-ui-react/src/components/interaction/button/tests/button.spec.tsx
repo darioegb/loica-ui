@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import type { FormEvent } from 'react'
 import { Button } from '..'
 
@@ -67,6 +67,15 @@ describe('Button component', () => {
     const button = container.querySelector('button')
     const span = button?.querySelector('span')
     expect(span).toBeInTheDocument()
+  })
+
+  it('takes its content from label when it has no children', () => {
+    const { rerender } = render(<Button label="Save" />)
+    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument()
+    rerender(<Button label="Save">Send</Button>)
+    expect(screen.getByRole('button', { name: 'Send' })).toBeInTheDocument()
+    rerender(<Button label="Save" loading />)
+    expect(screen.getByRole('button', { name: /Save/ })).toHaveAttribute('aria-busy', 'true')
   })
 
   it('renders button with icons around the content', () => {

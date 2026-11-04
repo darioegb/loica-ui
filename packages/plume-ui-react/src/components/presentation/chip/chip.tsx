@@ -33,6 +33,11 @@ export interface ChipOwnProps {
    * give an image `alt=""`.
    */
   icon?: ReactNode
+  /**
+   * The content of the Chip, as a prop, so it can be written without children:
+   * `<Chip label="React" />`. `children` take its place when both are set.
+   */
+  label?: ReactNode
   /** Shows a remove button, and is called when it is clicked. */
   onRemove?: (event: MouseEvent<HTMLButtonElement>) => void
   /**
@@ -99,6 +104,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
       colorScheme = 'secondary',
       disabled = false,
       icon,
+      label,
       onRemove,
       shape = 'pill',
       size = 'md',
@@ -137,7 +143,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(
           </span>
         ) : null}
         <span className={isStyled ? styles.label : undefined} data-plume-chip-label="" id={labelId}>
-          {children}
+          {children ?? label}
         </span>
         {onRemove ? (
           <ChipRemoveButton

@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ForwardedRef } from 'react'
+import type { ComponentPropsWithoutRef, ForwardedRef, ReactNode } from 'react'
 import { Children, forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import type { ColorScheme, Shape, Size } from '../../../theme'
@@ -20,6 +20,11 @@ export interface BadgeOwnProps {
    * @default false
    */
   dot?: boolean
+  /**
+   * The content of the Badge, as a prop, so it can be written without children:
+   * `<Badge label="New" />`. `children` take its place when both are set.
+   */
+  label?: ReactNode
   /**
    * Corners of the Badge.
    *
@@ -52,6 +57,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       className = '',
       colorScheme = 'primary',
       dot = false,
+      label,
       role,
       shape = 'rounded',
       size = 'md',
@@ -62,7 +68,8 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     ref: ForwardedRef<HTMLSpanElement>,
   ) => {
     const isStyled = variant !== 'unstyled'
-    const isDotOnly = dot && Children.count(children) === 0
+    const content = children ?? label
+    const isDotOnly = dot && Children.count(content) === 0
     const isNamed = Boolean(rest['aria-label'] ?? rest['aria-labelledby'])
     const resolvedRole = role ?? (isNamed ? 'img' : undefined)
     const classes = joinClasses(
@@ -90,7 +97,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
             data-plume-badge-dot=""
           />
         ) : null}
-        {children}
+        {content}
       </span>
     )
   },

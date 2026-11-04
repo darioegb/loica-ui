@@ -33,9 +33,10 @@ import {
 } from '..'
 
 /**
- * Field wraps a form control with a label, a required or optional mark, helper text and an error message,
- * and wires them to the control: the label points to it, the texts describe it through `aria-describedby`,
- * and `invalid`, `required`, `disabled` and `readOnly` are passed down to it.
+ * The label, helper text and error message of a form control.
+ * Field wraps the control and wires them to it: the label points to it, the texts describe it through
+ * `aria-describedby`, and `invalid`, `required`, `disabled` and `readOnly` are passed down to it. The label can carry
+ * a required or optional mark.
  *
  * It works with `Input`, `DatePicker`, `Checkbox`, `Radio`, `Toggle` and any control that accepts `id`, `aria-describedby` and `aria-invalid`.
  * `Checkbox`, `Radio` and `Toggle` have no text of their own: their label always comes from a `Field`, with `orientation="inline"`.

@@ -104,7 +104,7 @@ function Content({ selected }: Readonly<{ selected?: string }>): React.ReactNode
  * - **Server** (**manual**). You pass the rows of the current page and the **total** of the server. The hook does
  *   not sort or filter: it only keeps the **params** (`page`, `pageSize`, `sort` and `filters`) for you to send.
  *
- * | Option | |
+ * | Option | Description |
  * | --- | --- |
  * | `rows`, `total`, `manual` | The data, the total of the server and the mode. |
  * | `defaultPage`, `defaultPageSize`, `defaultSort`, `defaultFilters` | The state to start with. The page size is 10 by default. |

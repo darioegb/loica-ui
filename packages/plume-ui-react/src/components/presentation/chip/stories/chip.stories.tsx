@@ -103,7 +103,8 @@ export default {
 type Story = StoryObj<typeof Chip>
 
 /**
- * This is the default Chip: a subtle, pill-shaped label.
+ * This is the default Chip: a subtle, pill-shaped label. Its text is its **children**, or the **label** prop, so
+ * the tag can close on itself: `<Chip label="React" />`.
  */
 export const Default: Story = {}
 

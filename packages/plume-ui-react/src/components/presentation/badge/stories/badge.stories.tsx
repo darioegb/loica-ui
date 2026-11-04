@@ -80,7 +80,8 @@ export default {
 type Story = StoryObj<typeof Badge>
 
 /**
- * This is the default Badge. Its **children** are the content.
+ * This is the default Badge. Its **children** are the content, or the **label** prop, so the tag can close on
+ * itself: `<Badge label="New" />`.
  */
 export const Default: Story = {}
 

@@ -27,6 +27,11 @@ export interface ButtonOwnProps {
   /** Icon shown after the content. It is hidden while `loading`. */
   iconRight?: ReactNode
   /**
+   * The content of the Button, as a prop, so it can be written without children:
+   * `<Button label="Save" />`. `children` take its place when both are set.
+   */
+  label?: ReactNode
+  /**
    * Shows a `Loader` and makes the Button ignore its clicks, so it keeps the focus. It is announced
    * as busy and disabled. Without `loadingText` the content is hidden while loading, but still names
    * the Button.
@@ -88,6 +93,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       iconLeft,
       iconRight,
+      label,
       loadingText,
       onClick,
       style,
@@ -103,6 +109,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref: ForwardedRef<HTMLButtonElement>,
   ) => {
     const isStyled = variant !== 'unstyled'
+    const content = children ?? label
 
     return (
       <button
@@ -127,13 +134,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {loading ? (
           <>
-            {loadingText ?? <span style={visuallyHidden}>{children}</span>}
+            {loadingText ?? <span style={visuallyHidden}>{content}</span>}
             <Loader size="sm" />
           </>
         ) : (
           <>
             {iconLeft}
-            {children}
+            {content}
             {iconRight}
           </>
         )}

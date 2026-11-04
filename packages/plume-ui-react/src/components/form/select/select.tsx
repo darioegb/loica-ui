@@ -13,6 +13,10 @@ import {
   type SelectLabels,
   type SelectVariant,
 } from './select-context'
+import { hasPart } from '../../../overlay/has-part'
+import { SelectContent } from './select-content'
+import { SelectOption } from './select-option'
+import { SelectTrigger } from './select-trigger'
 import { useSelectKeyboard } from './use-select-keyboard'
 import { useSelectRegistry } from './use-select-registry'
 
@@ -26,8 +30,15 @@ interface SelectBaseProps {
    * it.
    */
   'aria-invalid'?: boolean | 'true' | 'false'
-  /** The `SelectTrigger` and the `SelectContent`. */
-  children: ReactNode
+  /**
+   * The name of the select, given to the `SelectTrigger` it draws when it has `options`. Inside a
+   * `Field` the label names it.
+   */
+  'aria-label'?: string
+  /** Id of the element that names the select, given to the `SelectTrigger` it draws for `options`. */
+  'aria-labelledby'?: string
+  /** The `SelectTrigger` and the `SelectContent`. Optional when the select has `options`. */
+  children?: ReactNode
   /**
    * Shows a button to clear the value, and lets <kbd>Backspace</kbd> clear a single value.
    * @default false
@@ -75,10 +86,19 @@ interface SelectBaseProps {
   /** Whether the list is open, for a controlled select. Pair it with `onOpenChange`. */
   open?: boolean
   /**
+   * The options as data, so the select can be written without children:
+   * `<Select aria-label="Fruit" options={[{ value: 'apple', label: 'Apple' }]} />`. The select draws a
+   * `SelectTrigger` and a `SelectContent` with a `SelectOption` for each one, unless you give it
+   * your own as children.
+   */
+  options?: readonly SelectOptionData[]
+  /**
    * Where the list opens, relative to the field.
    * @default 'bottom-start'
    */
   placement?: Placement
+  /** What the `SelectTrigger` drawn for `options` shows when nothing is chosen. */
+  placeholder?: ReactNode
   /**
    * The value is shown and focusable, but the list does not open.
    * @default false
@@ -165,6 +185,54 @@ interface SelectMultipleProps {
   value?: string[]
 }
 
+/** An option of the `options` prop of a `Select`. */
+export interface SelectOptionData {
+  /** A second line of text under the option. */
+  description?: ReactNode
+  /** Makes the option impossible to choose. */
+  disabled?: boolean
+  /** An icon or an image before the text. */
+  icon?: ReactNode
+  /** The text of the option. */
+  label: string
+  /** The value the option gives to the select. */
+  value: string
+}
+
+function withOptions(
+  children: ReactNode,
+  options: readonly SelectOptionData[] | undefined,
+  trigger: Pick<SelectBaseProps, 'aria-label' | 'aria-labelledby' | 'placeholder'>,
+): ReactNode {
+  if (!options) return children
+  return (
+    <>
+      {hasPart(children, [SelectTrigger]) ? null : (
+        <SelectTrigger
+          aria-label={trigger['aria-label']}
+          aria-labelledby={trigger['aria-labelledby']}
+          placeholder={trigger.placeholder}
+        />
+      )}
+      {children}
+      {hasPart(children, [SelectContent]) ? null : (
+        <SelectContent>
+          {options.map(({ description, disabled, icon, label, value }) => (
+            <SelectOption
+              description={description}
+              disabled={disabled}
+              icon={icon}
+              key={value}
+              label={label}
+              value={value}
+            />
+          ))}
+        </SelectContent>
+      )}
+    </>
+  )
+}
+
 const DEFAULT_LABELS: SelectLabels = {
   clear: 'Clear',
   empty: 'No results',
@@ -192,6 +260,8 @@ function initialSelection(defaultValue: string | string[] | undefined): string[]
 export function Select({
   'aria-describedby': describedBy,
   'aria-invalid': ariaInvalid,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledby,
   children,
   clearable = false,
   closeOnSelect,
@@ -207,6 +277,8 @@ export function Select({
   onOpenChange,
   onValueChange,
   open: openProp,
+  options: optionsData,
+  placeholder,
   placement = 'bottom-start',
   readOnly = false,
   required = false,
@@ -417,7 +489,15 @@ export function Select({
     ],
   )
 
-  return <SelectContext.Provider value={context}>{children}</SelectContext.Provider>
+  return (
+    <SelectContext.Provider value={context}>
+      {withOptions(children, optionsData, {
+        'aria-label': ariaLabel,
+        'aria-labelledby': ariaLabelledby,
+        placeholder,
+      })}
+    </SelectContext.Provider>
+  )
 }
 
 Select.displayName = 'Select'

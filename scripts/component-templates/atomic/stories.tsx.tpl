@@ -5,7 +5,8 @@ import { __Name__ } from '..'
 const colorSchemes = Object.keys(defaultTheme.colors)
 
 /**
- * Describe what the __Name__ is for and when to use it.
+ * A __Name__ is ... (one plain sentence: it is the summary of the card on the Components page).
+ * Then say when to use it.
  */
 export default {
   title: 'Components/__Name__',
