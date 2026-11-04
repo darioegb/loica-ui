@@ -90,9 +90,10 @@ A control that has no visible text needs an `aria-label`. In a `RadioGroup`, giv
 ## `Button` takes its content as `children`, and `Spinner` is `Loader`
 
 `Button` is a single component. Its content is its `children`, and it takes every attribute of a `<button>` (`form`,
-`name`, `value`, `autoFocus`, `onPointerDown`...). `label`, `busy`, `busyText`, `labels` and the parts `ButtonIcon`,
+`name`, `value`, `autoFocus`, `onPointerDown`...). `busy`, `busyText`, `labels` and the parts `ButtonIcon`,
 `ButtonLabel` and `ButtonSpinner` are gone: the icons go in `iconLeft` and `iconRight`, and the loading state is
-`loading` and `loadingText`. Its `data-busy` is `data-loading`.
+`loading` and `loadingText`. Its `data-busy` is `data-loading`. `label` stays, as the content of a Button
+without children (`<Button label='Save' />`).
 
 ```tsx
 // Before
@@ -398,6 +399,10 @@ Every element of the `Alert` is a part you can import (`AlertIcon`, `AlertConten
 it renders the same default composition as before, and `children` keeps its meaning (the text of the alert); the
 root switches to your composition when a direct child is one of its parts. With parts, the props that only fill the
 default (`icon`, `action` and `dismissible`) have no effect: compose the part instead.
+
+`title` on an `Alert` or a `Card` is no longer the tooltip of the element: it is the title that the component shows,
+in an `AlertTitle` or a `CardHeader`, next to a `description`. Use the `title` of an element inside if you want a
+tooltip.
 
 ```tsx
 // Before

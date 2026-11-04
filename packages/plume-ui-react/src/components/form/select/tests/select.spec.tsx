@@ -242,6 +242,62 @@ describe('Select component', () => {
     })
   })
 
+  describe('options', () => {
+    const fruits = [
+      { label: 'Apple', value: 'apple' },
+      { disabled: true, label: 'Banana', value: 'banana' },
+      { description: 'Sour', label: 'Lemon', value: 'lemon' },
+    ]
+
+    it('draws the trigger and an option for each one', async () => {
+      const onValueChange = vi.fn()
+      render(
+        <Select aria-label="Fruit" onValueChange={onValueChange} options={fruits} placeholder="Pick" />,
+      )
+      expect(trigger()).toHaveTextContent('Pick')
+      await userEvent.click(trigger())
+      const options = screen.getAllByRole('option')
+      expect(options.map((option) => option.textContent)).toEqual(['Apple', 'Banana', 'Lemon Sour'])
+      expect(options[1]).toHaveAttribute('aria-disabled', 'true')
+      await userEvent.click(options[2])
+      expect(onValueChange).toHaveBeenCalledWith('lemon')
+      expect(trigger()).toHaveTextContent('Lemon')
+    })
+
+    it('takes its name from a Field', () => {
+      render(
+        <Field label="Fruit">
+          <Select options={fruits} />
+        </Field>,
+      )
+      expect(trigger()).toBeInTheDocument()
+    })
+
+    it('keeps a trigger of its own and fills the content', async () => {
+      render(
+        <Select options={fruits}>
+          <SelectTrigger aria-label="Fruit" placeholder="Choose" />
+        </Select>,
+      )
+      expect(screen.getAllByRole('combobox')).toHaveLength(1)
+      expect(trigger()).toHaveTextContent('Choose')
+      await userEvent.click(trigger())
+      expect(screen.getAllByRole('option')).toHaveLength(3)
+    })
+
+    it('keeps a content of its own', async () => {
+      render(
+        <Select aria-label="Fruit" options={fruits}>
+          <SelectContent>
+            <SelectOption value="kiwi">Kiwi</SelectOption>
+          </SelectContent>
+        </Select>,
+      )
+      await userEvent.click(trigger())
+      expect(screen.getAllByRole('option').map((option) => option.textContent)).toEqual(['Kiwi'])
+    })
+  })
+
   describe('keyboard', () => {
     it.each(['{ArrowDown}', '{ArrowUp}', '{Enter}', ' '])('opens with %s', async (key) => {
       render(<Example />)

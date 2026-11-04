@@ -11,8 +11,10 @@ import styles from './alert.module.css'
 import { AlertAction } from './alert-action'
 import { AlertContent } from './alert-content'
 import { AlertContext } from './alert-context'
+import { AlertDescription } from './alert-description'
 import { AlertDismiss } from './alert-dismiss'
 import { AlertIcon } from './alert-icon'
+import { AlertTitle } from './alert-title'
 import { hasPart } from '../../../overlay/has-part'
 
 export type AlertStatus = 'error' | 'info' | 'success' | 'warning'
@@ -22,6 +24,11 @@ export type AlertVariant = 'outline' | 'solid' | 'subtle' | 'unstyled'
 export interface AlertOwnProps {
   /** What the user can do about the message: a `Button` or a link, at the end. */
   action?: ReactNode
+  /**
+   * The text under the title, so the Alert can be written without children:
+   * `<Alert description="It will be ready in a minute." />`. `children` go after it.
+   */
+  description?: ReactNode
   /**
    * Shows a button that closes the Alert.
    *
@@ -48,6 +55,11 @@ export interface AlertOwnProps {
    */
   status?: AlertStatus
   /**
+   * The title, in bold, rendered as an `AlertTitle`: `<Alert status="success" title="Saved" />`.
+   * Use the `AlertTitle` part instead to render it as a heading.
+   */
+  title?: ReactNode
+  /**
    * Visual variant. `subtle` tints the background, `solid` fills it and `outline` draws its
    * border. `unstyled` drops the Plume styles so you can bring your own.
    *
@@ -58,7 +70,7 @@ export interface AlertOwnProps {
 
 type AlertRootAttributes = Pick<
   HTMLAttributes<HTMLDivElement>,
-  'aria-label' | 'aria-labelledby' | 'children' | 'hidden' | 'id' | 'role' | 'title'
+  'aria-label' | 'aria-labelledby' | 'children' | 'hidden' | 'id' | 'role'
 >
 
 export type AlertProps = Omit<ComponentProps, 'index'> & AlertRootAttributes & AlertOwnProps
@@ -71,6 +83,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
       action,
       children,
       className,
+      description,
       dismissible = false,
       icon,
       onDismiss,
@@ -78,6 +91,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
       size = 'md',
       status = 'info',
       style,
+      title,
       variant = 'subtle',
       ...rest
     }: AlertProps,
@@ -122,7 +136,11 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
           ) : (
             <>
               <AlertIcon />
-              <AlertContent>{children}</AlertContent>
+              <AlertContent>
+                {title == null ? null : <AlertTitle>{title}</AlertTitle>}
+                {description == null ? null : <AlertDescription>{description}</AlertDescription>}
+                {children}
+              </AlertContent>
               {action ? <AlertAction>{action}</AlertAction> : null}
               {dismissible ? <AlertDismiss /> : null}
             </>

@@ -51,7 +51,8 @@ export default {
 type Story = StoryObj<typeof Button>
 
 /**
- * The default Button. Its content is its `children`.
+ * The default Button. Its content is its `children`, or the **label** prop, so the tag can close on itself:
+ * `<Button label="Save" />`.
  */
 export const Default: Story = {
   args: {

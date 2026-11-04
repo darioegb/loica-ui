@@ -15,8 +15,9 @@ const sample = (
 )
 
 /**
- * A surface that groups related content. Compose it with `CardHeader`, `CardBody` and `CardFooter`, in any
- * combination: all three are optional. A Card is a plain container with no role of its own, so give it a
+ * A surface that groups related content. A simple Card takes a **title** and a **description** and closes on
+ * itself. Compose it with `CardHeader`, `CardBody` and `CardFooter` for more, in any combination: all three are
+ * optional. A Card is a plain container with no role of its own, so give it a
  * `role` and an `aria-label` only when it is a landmark or a group.
  *
  * Each part carries a `data-plume-card-*` attribute, and with `variant="unstyled"` the Card and its parts keep
@@ -166,6 +167,54 @@ export const Sizes: Story = {
           <CardBody>The padding and the text follow the size.</CardBody>
         </Card>
       ))}
+    </div>
+  ),
+}
+
+/**
+ * Give the Card a **title** and a **description** and it builds the `CardHeader` and the `CardBody`, so a simple
+ * Card closes on itself. Children without Card parts go in the same body, after the description. With parts, the
+ * title and the description come first and the parts follow, like the footer of the second Card.
+ */
+export const TitleAndDescription: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<div className="flex flex-wrap justify-center gap-6">
+  <Card
+    description="Up to ten members, with shared projects and a history of thirty days."
+    style={{ maxWidth: '100%', width: '16rem' }}
+    title="Team plan"
+  />
+  <Card
+    description="Every member, unlimited projects and a full history."
+    style={{ maxWidth: '100%', width: '16rem' }}
+    title="Business plan"
+  >
+    <CardFooter>
+      <Button size="sm">Choose</Button>
+    </CardFooter>
+  </Card>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-wrap justify-center gap-6">
+      <Card
+        description="Up to ten members, with shared projects and a history of thirty days."
+        style={{ maxWidth: '100%', width: '16rem' }}
+        title="Team plan"
+      />
+      <Card
+        description="Every member, unlimited projects and a full history."
+        style={{ maxWidth: '100%', width: '16rem' }}
+        title="Business plan"
+      >
+        <CardFooter>
+          <Button size="sm">Choose</Button>
+        </CardFooter>
+      </Card>
     </div>
   ),
 }

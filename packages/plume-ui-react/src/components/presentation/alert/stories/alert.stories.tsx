@@ -21,7 +21,9 @@ const statuses = ['info', 'success', 'warning', 'error'] as const
  * up after something the user did. When the Alert is part of the page from the start, use **role** to change it
  * (`note` for a message that doesn't need to be announced).
  *
- * Put a `AlertTitle` and a `AlertDescription` inside, or just the text. With **dismissible** it gets a close
+ * Give it a **title** and a **description**, so the tag closes on itself
+ * (`<Alert status="success" title="Saved" />`), or the text as children, which go after the description. To make the title a heading of the page, use the
+ * `AlertTitle` part with `as` (see Accessibility). With **dismissible** it gets a close
  * button, named by the `close` text of the `LocaleProvider`, and it goes away when it is pressed. **onDismiss** tells you, so you can keep
  * it away. An **action**, such as a button or a link, goes at the end.
  *
@@ -110,10 +112,11 @@ export default {
     style: { width: '28rem', maxWidth: '100%' },
   },
   render: (args) => (
-    <Alert {...args}>
-      <AlertTitle>Your trial ends tomorrow</AlertTitle>
-      <AlertDescription>Choose a plan to keep your projects and your history.</AlertDescription>
-    </Alert>
+    <Alert
+      {...args}
+      description="Choose a plan to keep your projects and your history."
+      title="Your trial ends tomorrow"
+    />
   ),
 } satisfies Meta<typeof Alert>
 
@@ -133,22 +136,10 @@ export const Variants: Story = {
     docs: {
       source: {
         code: `<div className="flex flex-col gap-3">
-  <Alert variant="subtle">
-    <AlertTitle>Subtle</AlertTitle>
-    <AlertDescription>An alert with the subtle variant.</AlertDescription>
-  </Alert>
-  <Alert variant="solid">
-    <AlertTitle>Solid</AlertTitle>
-    <AlertDescription>An alert with the solid variant.</AlertDescription>
-  </Alert>
-  <Alert variant="outline">
-    <AlertTitle>Outline</AlertTitle>
-    <AlertDescription>An alert with the outline variant.</AlertDescription>
-  </Alert>
-  <Alert variant="unstyled">
-    <AlertTitle>Unstyled</AlertTitle>
-    <AlertDescription>An alert with the unstyled variant.</AlertDescription>
-  </Alert>
+  <Alert description="An alert with the subtle variant." title="Subtle" variant="subtle" />
+  <Alert description="An alert with the solid variant." title="Solid" variant="solid" />
+  <Alert description="An alert with the outline variant." title="Outline" variant="outline" />
+  <Alert description="An alert with the unstyled variant." title="Unstyled" variant="unstyled" />
 </div>`,
       },
     },
@@ -156,15 +147,20 @@ export const Variants: Story = {
   render: (args) => (
     <div className="flex flex-col gap-3">
       {(['subtle', 'solid', 'outline'] as const).map((variant) => (
-        <Alert {...args} key={variant} variant={variant}>
-          <AlertTitle>{variant[0].toUpperCase() + variant.slice(1)}</AlertTitle>
-          <AlertDescription>An alert with the {variant} variant.</AlertDescription>
-        </Alert>
+        <Alert
+          {...args}
+          description={`An alert with the ${variant} variant.`}
+          key={variant}
+          title={variant[0].toUpperCase() + variant.slice(1)}
+          variant={variant}
+        />
       ))}
-      <Alert {...args} variant="unstyled">
-        <AlertTitle>Unstyled</AlertTitle>
-        <AlertDescription>An alert with the unstyled variant.</AlertDescription>
-      </Alert>
+      <Alert
+        {...args}
+        description="An alert with the unstyled variant."
+        title="Unstyled"
+        variant="unstyled"
+      />
     </div>
   ),
 }
@@ -177,18 +173,9 @@ export const Sizes: Story = {
     docs: {
       source: {
         code: `<div className="flex flex-col gap-3">
-  <Alert size="sm">
-    <AlertTitle>Size sm</AlertTitle>
-    <AlertDescription>The padding and the text follow the size.</AlertDescription>
-  </Alert>
-  <Alert size="md">
-    <AlertTitle>Size md</AlertTitle>
-    <AlertDescription>The padding and the text follow the size.</AlertDescription>
-  </Alert>
-  <Alert size="lg">
-    <AlertTitle>Size lg</AlertTitle>
-    <AlertDescription>The padding and the text follow the size.</AlertDescription>
-  </Alert>
+  <Alert description="The padding and the text follow the size." size="sm" title="Size sm" />
+  <Alert description="The padding and the text follow the size." size="md" title="Size md" />
+  <Alert description="The padding and the text follow the size." size="lg" title="Size lg" />
 </div>`,
       },
     },
@@ -196,10 +183,13 @@ export const Sizes: Story = {
   render: (args) => (
     <div className="flex flex-col gap-3">
       {(['sm', 'md', 'lg'] as const).map((size) => (
-        <Alert {...args} key={size} size={size}>
-          <AlertTitle>Size {size}</AlertTitle>
-          <AlertDescription>The padding and the text follow the size.</AlertDescription>
-        </Alert>
+        <Alert
+          {...args}
+          description="The padding and the text follow the size."
+          key={size}
+          size={size}
+          title={`Size ${size}`}
+        />
       ))}
     </div>
   ),
@@ -214,22 +204,10 @@ export const Colors: Story = {
     docs: {
       source: {
         code: `<div className="flex flex-col gap-3">
-  <Alert status="info">
-    <AlertTitle>Info</AlertTitle>
-    <AlertDescription>An alert with the info status.</AlertDescription>
-  </Alert>
-  <Alert status="success">
-    <AlertTitle>Success</AlertTitle>
-    <AlertDescription>An alert with the success status.</AlertDescription>
-  </Alert>
-  <Alert status="warning">
-    <AlertTitle>Warning</AlertTitle>
-    <AlertDescription>An alert with the warning status.</AlertDescription>
-  </Alert>
-  <Alert status="error">
-    <AlertTitle>Error</AlertTitle>
-    <AlertDescription>An alert with the error status.</AlertDescription>
-  </Alert>
+  <Alert description="An alert with the info status." status="info" title="Info" />
+  <Alert description="An alert with the success status." status="success" title="Success" />
+  <Alert description="An alert with the warning status." status="warning" title="Warning" />
+  <Alert description="An alert with the error status." status="error" title="Error" />
 </div>`,
       },
     },
@@ -237,10 +215,14 @@ export const Colors: Story = {
   render: (args) => (
     <div className="flex flex-col gap-3">
       {statuses.map((status) => (
-        <Alert {...args} key={status} status={status} variant="subtle">
-          <AlertTitle>{status[0].toUpperCase() + status.slice(1)}</AlertTitle>
-          <AlertDescription>An alert with the {status} status.</AlertDescription>
-        </Alert>
+        <Alert
+          {...args}
+          description={`An alert with the ${status} status.`}
+          key={status}
+          status={status}
+          title={status[0].toUpperCase() + status.slice(1)}
+          variant="subtle"
+        />
       ))}
     </div>
   ),
@@ -253,9 +235,7 @@ export const TextOnly: Story = {
   render: (args) => (
     <div className="flex flex-col gap-3">
       <Alert {...args}>Your changes were saved.</Alert>
-      <Alert {...args}>
-        <AlertTitle>Only a title</AlertTitle>
-      </Alert>
+      <Alert {...args} title="Only a title" />
     </div>
   ),
 }
@@ -281,13 +261,8 @@ export const Icons: Story = {
           >
             <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" />
           </svg>
-        }
-      >
-        <AlertTitle>A custom icon</AlertTitle>
-      </Alert>
-      <Alert {...args} icon={false}>
-        <AlertTitle>No icon</AlertTitle>
-      </Alert>
+        } title="A custom icon" />
+      <Alert {...args} icon={false} title="No icon" />
     </div>
   ),
 }

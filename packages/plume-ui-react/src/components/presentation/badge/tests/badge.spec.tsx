@@ -8,6 +8,19 @@ describe('Badge component', () => {
     expect(screen.getByText('New').tagName).toBe('SPAN')
   })
 
+  it('takes its content from label when it has no children', () => {
+    const { rerender } = render(<Badge label="New" />)
+    expect(screen.getByText('New')).toHaveAttribute('data-plume-badge')
+    rerender(<Badge label="New">Beta</Badge>)
+    expect(screen.getByText('Beta')).toBeInTheDocument()
+    expect(screen.queryByText('New')).toBeNull()
+  })
+
+  it('is not a lone dot when the label is its content', () => {
+    render(<Badge dot label="Online" />)
+    expect(screen.getByText('Online')).not.toHaveClass('dotOnly')
+  })
+
   it('applies the base, size, shape and variant classes', () => {
     render(
       <Badge shape="pill" size="lg" variant="subtle">
