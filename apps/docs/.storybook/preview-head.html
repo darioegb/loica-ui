@@ -54,6 +54,54 @@
     color: #f4f4f5;
   }
 
+  /* A link inside a sentence needs more than its color to stand out from the text around it. */
+  .sbdocs p a,
+  .sbdocs li a,
+  .sbdocs td a {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  /* The default code colors of Storybook fall under 4.5:1 for a few tokens. The import line of a
+     component page is always dark (`<Source dark>`), so it keeps the colors of that theme. */
+  html:not([data-plume-color-mode='dark']) .sbdocs pre.prismjs:not(.container > .docblock-source pre) .token.class-name {
+    color: #0e7490;
+  }
+
+  html:not([data-plume-color-mode='dark']) .sbdocs pre.prismjs:not(.container > .docblock-source pre) :is(.token.dom, .token.variable, .token.number, .token.boolean) {
+    color: #0f766e;
+  }
+
+  html:not([data-plume-color-mode='dark']) .sbdocs pre.prismjs:not(.container > .docblock-source pre) :is(.token.attr-name, .token.property) {
+    color: #c81e1e;
+  }
+
+  html[data-plume-color-mode='dark'] .sbdocs pre.prismjs .token.comment {
+    color: #a1a1aa;
+  }
+
+  html[data-plume-color-mode='dark'] .sbdocs pre.prismjs .token.class-name {
+    color: #67e8f9;
+  }
+
+  html[data-plume-color-mode='dark'] .sbdocs pre.prismjs :is(.token.dom, .token.variable, .token.number, .token.boolean) {
+    color: #5eead4;
+  }
+
+  html[data-plume-color-mode='dark'] .sbdocs pre.prismjs :is(.token.attr-name, .token.property) {
+    color: #fca5a5;
+  }
+
+  /* The striped rows of a docs table are lighter than the page, under the brand green. */
+  html[data-plume-color-mode='dark'] .sbdocs td a {
+    color: #6ee7b7;
+  }
+
+  /* The titles and values of a color palette are grey on grey in dark mode. */
+  html[data-plume-color-mode='dark'] .docblock-colorpalette div {
+    color: #a1a1aa;
+  }
+
   /* The docs skeleton imitates a stock Storybook page, which looks nothing like these pages: keep
      only the spinner. */
   .sb-preparing-docs .sb-previewBlock,

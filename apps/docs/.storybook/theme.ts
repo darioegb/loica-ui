@@ -4,7 +4,6 @@ import { create } from 'storybook/theming'
 const shared = {
   fontBase: '"Open Sans", sans-serif',
   fontCode: 'monospace',
-  colorSecondary: '#34d399',
   appBorderRadius: 8,
   inputBorderRadius: 4,
 }
@@ -13,6 +12,8 @@ export const lightTheme = create({
   ...shared,
   base: 'light',
   colorPrimary: '#5263ff',
+  // The brand green is too light for text on white: this darker shade keeps links and the selected item at 4.5:1.
+  colorSecondary: '#047857',
   appBg: '#ffffff',
   appContentBg: '#ffffff',
   appPreviewBg: '#ffffff',
@@ -31,6 +32,7 @@ export const darkTheme = create({
   ...shared,
   base: 'dark',
   colorPrimary: '#738bff',
+  colorSecondary: '#34d399',
   appBg: '#18181b',
   appContentBg: '#27272a',
   appPreviewBg: '#18181b',
