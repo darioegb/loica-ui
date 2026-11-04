@@ -94,6 +94,11 @@ const browser = await chromium.launch()
 const context = await browser.newContext({ reducedMotion: 'reduce', viewport: { height: 900, width: 1280 } })
 const failures = []
 
+// Console errors a story causes on purpose, by story id.
+const EXPECTED_ERRORS = {
+  'components-avatar--fallbacks': /^Failed to load resource/,
+}
+
 // What the story prints as an error (a React warning, an invalid prop, a failed request) is a failure too.
 function collectConsoleErrors(page) {
   const messages = []
@@ -118,11 +123,13 @@ async function check(page, job) {
     const violations = await checkStory(page, job)
     return [
       ...violations,
-      ...errors.messages.map((message) => ({
-        help: message.split('\n')[0].slice(0, 200),
-        id: 'console-error',
-        nodes: [],
-      })),
+      ...errors.messages
+        .filter((message) => !EXPECTED_ERRORS[job.id]?.test(message))
+        .map((message) => ({
+          help: message.split('\n')[0].slice(0, 200),
+          id: 'console-error',
+          nodes: [],
+        })),
     ]
   } finally {
     errors.stop()
