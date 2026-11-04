@@ -21,6 +21,7 @@ Search your code for these, one by one. The rest of the page explains each chang
 - `data-plume-menu*`, `data-plume-select-control`, `data-plume-tree-*` and other [renamed CSS hooks](#renamed-css-hooks) in your stylesheets.
 - `label`, `busy`, `busyText` and `labels` on a `Button`, and `Spinner` anywhere: [`Button` and `Loader`](#button-takes-its-content-as-children-and-spinner-is-loader).
 - `Tabs` with an `index` that you never update, and the `active` class of a tab: [Tabs](#tabs-are-controlled-with-the-same-props-as-the-rest).
+- `siblingCount`, `boundaryCount` or `count` on a `Paginator`: [other changes](#other-changes-that-dont-throw).
 - `variant='unstyled'` anywhere: it now drops [every Plume class](#unstyled-drops-every-plume-class).
 - An `Icon`, a `List` or a `Card` that you style: [presentation components](#icon-list-and-card-are-made-of-parts).
 - A `BadgeDot`, a `DividerLabel`, a `SkeletonLine` or a part of the `EmptyState`: [single components](#badge-emptystate-divider-and-skeleton-are-single-components).
@@ -583,6 +584,8 @@ between the description and the action.
 - The menu of the `Navbar` is in the stack of layers: <kbd>Esc</kbd> closes only the overlay on top, so a `Modal` over
   the open menu no longer closes it too.
 - `PaginatorPageSize` takes the parts of the `Select` (`SelectTrigger`, `SelectContent`, `SelectOption`) as children.
+- `Paginator` has no `siblingCount`, `boundaryCount` or `count`: it shows as many pages as fit the row (the current
+  page, one on each side, the first and the last, at least), and the number of pages is `total` divided by `pageSize`.
 - `Rating` and `Tree` have an `outline` variant, and the days in range of the `DatePicker` use `tint-strong`,
   `tint-text` and `tint`, so dark mode changes slightly. The hover of a `filled` field is the overlay token over
   `surface-muted`.
