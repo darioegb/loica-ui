@@ -1,5 +1,11 @@
 # plume-ui-react
 
+## 0.64.2
+
+### Patch Changes
+
+- [#332](https://github.com/darioegb/plume-ui-react/pull/332) [`4a7b4775a72f5a981ba87790a38bf7a06356d70c`](https://github.com/darioegb/plume-ui-react/commit/4a7b4775a72f5a981ba87790a38bf7a06356d70c) Thanks [@darioegb](https://github.com/darioegb)! - Several `ThemeProvider`s with `applyToBody` no longer leave the page themed wrong. Each one used to save what it found on the page and put it back on unmount, so with two of them, or after one unmounted before the other, the page kept the `color-scheme`, the background and the text color of a provider that was gone. The providers are now kept in a list: the last one that mounted themes the page, and the page goes back to how it was when none is left.
+
 ## 0.64.1
 
 ### Patch Changes
