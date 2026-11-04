@@ -22,10 +22,12 @@ const PlumeDocsContainer = ({
   const globals = (context as { store?: { userGlobals?: { globals?: Record<string, unknown> } } })
     .store?.userGlobals?.globals
   const colorMode = useToggledMode(globals?.colorMode === 'dark' ? 'dark' : 'light')
-  // preview-head.html themes the docs blocks the `theme` prop misses, keyed on this attribute.
+  // preview-head.html themes the docs blocks the `theme` prop misses, keyed on this attribute. The color-scheme
+  // is set inline there too, so it has to follow the mode: left on dark, the text of the page turns white.
   React.useEffect(() => {
     if (typeof document !== 'undefined') {
       document.documentElement.setAttribute('data-plume-color-mode', colorMode)
+      document.documentElement.style.colorScheme = colorMode
     }
   }, [colorMode])
   return (
