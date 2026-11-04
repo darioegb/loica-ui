@@ -181,6 +181,7 @@ const preview: Preview = {
           ['Theming', 'Colors', 'Tokens'],
           'Guides',
           'Components',
+          ['Overview', '*'],
         ],
       },
     },

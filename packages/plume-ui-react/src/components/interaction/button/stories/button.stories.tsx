@@ -6,10 +6,9 @@ import { Button } from '..'
 const colorSchemes = Object.keys(defaultTheme.colors)
 
 /**
- * Enhance user interactions with the Button component,
- * featuring customizable styles for triggering actions within forms, dialogs, and other contexts.
- * With support for various sizes and states,
- * it facilitates actions such as form submissions, dialog interactions, and deletion or cancellation operations.
+ * A button that triggers an action: submits a form, opens a dialog, saves or deletes something.
+ * It renders a native `<button>` with its content as children, and takes every attribute of one, so `type`, `form`,
+ * `name` and `value` just work. It has variants, sizes, shapes and color schemes, and a `loading` state.
  */
 export default {
   title: 'Components/Button',

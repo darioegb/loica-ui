@@ -7,7 +7,7 @@ import { Input } from '..'
 const colorSchemes = Object.keys(defaultTheme.colors)
 
 /**
- * Collect text from users with the Input component.
+ * A single-line text field.
  * It supports multiple variants, sizes, shapes and color schemes, optional addons
  * and inline elements, validation states, and an input mask for formatted values
  * such as dates, phone numbers or card numbers.

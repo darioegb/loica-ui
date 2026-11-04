@@ -3,12 +3,12 @@
   "version": "0.0.2",
   "private": true,
   "scripts": {
-    "dev": "node scripts/generate-api.mjs && node scripts/generate-stackblitz.mjs && node scripts/generate-bootstrap-scope.mjs && storybook dev -p 6006",
-    "build": "node scripts/generate-api.mjs && node scripts/generate-stackblitz.mjs && node scripts/generate-bootstrap-scope.mjs && NODE_ENV=prod storybook build --docs",
+    "dev": "node scripts/generate-components.mjs && node scripts/generate-api.mjs && node scripts/generate-stackblitz.mjs && node scripts/generate-bootstrap-scope.mjs && storybook dev -p 6006",
+    "build": "node scripts/generate-components.mjs && node scripts/generate-api.mjs && node scripts/generate-stackblitz.mjs && node scripts/generate-bootstrap-scope.mjs && NODE_ENV=prod storybook build --docs",
     "preview-storybook": "serve storybook-static",
     "clean": "rm -rf .turbo && rm -rf node_modules",
-    "lint": "node scripts/generate-stackblitz.mjs && eslint src/ && node scripts/generate-api.mjs && node scripts/check-api.mjs",
-    "lint:fix": "node scripts/generate-stackblitz.mjs && eslint src/ --fix",
+    "lint": "node scripts/generate-components.mjs && node scripts/generate-stackblitz.mjs && eslint src/ && node scripts/generate-api.mjs && node scripts/check-api.mjs",
+    "lint:fix": "node scripts/generate-components.mjs && node scripts/generate-stackblitz.mjs && eslint src/ --fix",
     "check:api": "node scripts/generate-api.mjs && node scripts/check-api.mjs",
     "check:a11y": "node scripts/check-a11y.mjs"
   },
