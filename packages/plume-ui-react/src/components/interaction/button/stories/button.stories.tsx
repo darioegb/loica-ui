@@ -61,14 +61,16 @@ export const Default: Story = {
 }
 
 /**
- * This is a list o Button with different variants.
- * Just adding the **variant** prop in one of these values **solid**, **outline**, **link**, **icon** and **unstyled**. For works with icons also we can use other variants not only **icon**, this variant allows us to show the icon alone without borders or background. Icons can be added using props **iconLeft**, **iconRight** and also with **children**
+ * Use the **variant** prop to pick how the Button looks: `solid` fills it with the color, `outline` draws its
+ * border, `ghost` has no border or fill until it is hovered, `link` looks like an underlined link, `icon` is a
+ * compact button for an icon alone, and `unstyled` drops the Plume styles so you can style it yourself. Add icons
+ * with **iconLeft** and **iconRight**, or as **children**.
  */
 export const Variants: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Button>Solid Button</Button>
+        code: `<Button variant="solid">Solid Button</Button>
 <Button variant="outline">Outline Button</Button>
 <Button variant="link">Link Button</Button>
 <Button variant="ghost">Ghost Button</Button>
@@ -81,7 +83,7 @@ export const Variants: Story = {
   },
   render: () => (
     <div className='flex flex-wrap justify-center items-center gap-4'>
-      <Button>Solid Button</Button>
+      <Button variant='solid'>Solid Button</Button>
       <Button variant='outline'>Outline Button</Button>
       <Button variant='link'>Link Button</Button>
       <Button variant='ghost'>Ghost Button</Button>

@@ -51,7 +51,8 @@ const StatefulDatePicker = ({ maxDate, minDate, ...args }: DatePickerProps): Rea
 
 /**
  * A field to type a date or pick it from a calendar.
- * It supports single and range selection modes, configurable color schemes, and localization options.
+ * It picks a single date or a range (`range`), takes a `colorScheme`, and is translated with `locale` and the
+ * `LocaleProvider`.
  *
  * On its own it shows an input with a button that opens the calendar. To change what it shows or the order, give
  * it its parts as children: `DatePickerInput` is the field with the button (a `DatePickerField` and a
@@ -150,9 +151,9 @@ export const Default: Story = {
 }
 
 /**
- * This is a list of DatePicker with different variants.
- * Just adding the **variant** prop in one of these values **outline**, **underline**, **filled** and **unstyled**.
- * The **variant**, **size** and **shape** go on the `DatePicker` and style the input and the calendar together, so open them to see the calendar of each one.
+ * Use the **variant** prop to pick how the field looks: `outline`, `filled` or `underline`, as in the `Input`.
+ * `unstyled` drops the Plume styles so you can style it yourself. The **variant**, **size** and **shape** go on the
+ * `DatePicker` and style the input and the calendar together, so open them to see the calendar of each one.
  */
 export const Variants: Story = {
   parameters: {

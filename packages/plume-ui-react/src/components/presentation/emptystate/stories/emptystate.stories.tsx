@@ -17,8 +17,8 @@ const inbox = (
 )
 
 /**
- * What a list, a table or a page shows when there is nothing to show yet: a title that says so, a line that
- * explains why or what to do, and an action. Every piece is optional, so use only the ones that help.
+ * The message a list, a table or a page shows when there is nothing to show yet. It is made of a title that says
+ * so, a line that explains why or what to do, and an action. Every piece is optional, so use only the ones that help.
  *
  * Plume doesn't ship an icon set: pass your own SVG as the **icon**. It is decorative, so it is hidden from
  * assistive technology, and its size follows the **size** of the EmptyState.

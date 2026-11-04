@@ -2,8 +2,8 @@ import type { StoryObj, Meta } from '@storybook/react-vite'
 import { Skeleton } from '..'
 
 /**
- * A placeholder that takes the place of content that is still loading, so the page keeps its shape and does not
- * jump when the content arrives. Use it for what will be text, an image or an avatar.
+ * A placeholder for content that is still loading, so the page keeps its shape and does not jump when the content
+ * arrives. Use it for what will be text, an image or an avatar.
  *
  * A Skeleton carries no information, so it is hidden from screen readers (`aria-hidden`). Tell them the area is
  * loading on the container that holds the skeletons, with `aria-busy="true"` and, if it helps, a visually hidden
@@ -51,7 +51,8 @@ type Story = StoryObj<typeof Skeleton>
 export const Default: Story = {}
 
 /**
- * Use the **variant** prop to pick the animation. `unstyled` drops the Plume styles so you can style it yourself.
+ * Use the **variant** prop to pick the animation: `pulse` fades it in and out and `wave` sweeps a light across it.
+ * `unstyled` drops the Plume styles, the animation too, so you can style it yourself.
  */
 export const Variants: Story = {
   render: () => (

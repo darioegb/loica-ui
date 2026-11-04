@@ -1,5 +1,7 @@
 import type { ChangeEvent, ReactNode } from 'react'
-import { useId, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useState } from 'react'
+import { ThemeProvider, useTheme } from 'plume-ui-react'
+import previews from './component-previews'
 import overview from './components.generated.json'
 
 interface ComponentEntry {
@@ -13,6 +15,26 @@ const { categories, components }: { categories: string[]; components: ComponentE
 
 const matches = (entry: ComponentEntry, query: string): boolean =>
   `${entry.name} ${entry.summary} ${entry.category}`.toLowerCase().includes(query)
+
+type ColorMode = 'dark' | 'light'
+
+const currentMode = (): ColorMode =>
+  document.documentElement.getAttribute('data-plume-color-mode') === 'dark' ? 'dark' : 'light'
+
+// The previews are Plume components, so they follow the color mode of the docs page.
+function SyncColorMode(): null {
+  const { setColorMode } = useTheme()
+  useEffect(() => {
+    setColorMode(currentMode())
+    const observer = new MutationObserver(() => setColorMode(currentMode()))
+    observer.observe(document.documentElement, {
+      attributeFilter: ['data-plume-color-mode'],
+      attributes: true,
+    })
+    return () => observer.disconnect()
+  }, [setColorMode])
+  return null
+}
 
 function ComponentOverview(): ReactNode {
   const [query, setQuery] = useState('')
@@ -33,7 +55,13 @@ function ComponentOverview(): ReactNode {
   const count = groups.reduce((total, { entries }) => total + entries.length, 0)
 
   return (
-    <div className="plume-overview">
+    <ThemeProvider
+      applyToBody={false}
+      className="plume-overview"
+      defaultColorMode={currentMode()}
+      style={{ backgroundColor: 'transparent', color: 'inherit' }}
+    >
+      <SyncColorMode />
       <div className="plume-overview-search">
         <label htmlFor={searchId}>Filter components</label>
         <input
@@ -54,17 +82,22 @@ function ComponentOverview(): ReactNode {
           <ul className="plume-overview-grid">
             {entries.map((entry) => (
               <li key={entry.id}>
-                <a className="plume-overview-card" href={`./?path=/docs/${entry.id}`} target="_top">
-                  <span className="plume-overview-name">{entry.name}</span>
+                <div className="plume-overview-card">
+                  <div aria-hidden="true" className="plume-overview-preview" inert>
+                    <div className="plume-overview-preview-content">{previews[entry.name]}</div>
+                  </div>
+                  <a className="plume-overview-name" href={`./?path=/docs/${entry.id}`} target="_top">
+                    {entry.name}
+                  </a>
                   <span className="plume-overview-summary">{entry.summary}</span>
-                </a>
+                </div>
               </li>
             ))}
           </ul>
         </section>
       ))}
       {count === 0 ? <p>No component matches “{query.trim()}”.</p> : null}
-    </div>
+    </ThemeProvider>
   )
 }
 

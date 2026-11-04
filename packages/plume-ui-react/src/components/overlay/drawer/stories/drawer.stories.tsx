@@ -51,11 +51,11 @@ function Example({
 }
 
 /**
- * A panel that slides in from an edge of the screen and blocks the page until it is closed, for the filters of a
- * list, the details of a row or a short form. It is a `Modal` that sticks to a side: the focus moves into it when
- * it opens, stays inside while the user tabs and goes back to the trigger when it closes, the page behind doesn't
- * scroll, and <kbd>Esc</kbd> or a click on the backdrop close it. It is not the `Sidebar`, which is the
- * navigation of the app and stays on the page.
+ * A panel that slides in from an edge of the screen and blocks the page until it is closed. Use it for the
+ * filters of a list, the details of a row or a short form. It is a `Modal` that sticks to a side: the focus moves
+ * into it when it opens, stays inside while the user tabs and goes back to the trigger when it closes, the page
+ * behind doesn't scroll, and <kbd>Esc</kbd> or a click on the backdrop close it. It is not the `Sidebar`, which is
+ * the navigation of the app and stays on the page.
  *
  * Compose it with `DrawerTrigger`, `DrawerContent` and the parts you need. The `Drawer` itself renders nothing: it
  * keeps the state and shares it with its parts. Its props, apart from **side** and **shape**, are the ones of `Modal`.
@@ -143,6 +143,81 @@ export const Default: Story = {
       },
     },
   },
+}
+
+/**
+ * Use the **variant** prop to pick how the Drawer looks: `default` has the backdrop, the surface and the spacing of
+ * the parts, and `unstyled` drops the Plume styles, so the backdrop, the panel and the parts are yours to style.
+ */
+export const Variants: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<div className="flex flex-wrap justify-center gap-4">
+  <Drawer variant="default">
+    <DrawerTrigger>
+      <Button>Open default drawer</Button>
+    </DrawerTrigger>
+    <DrawerContent>
+      <DrawerHeader>Default</DrawerHeader>
+      <DrawerBody>The Plume styles are on.</DrawerBody>
+      <DrawerFooter>
+        <DrawerClose>
+          <Button>Close</Button>
+        </DrawerClose>
+      </DrawerFooter>
+    </DrawerContent>
+  </Drawer>
+  <Drawer variant="unstyled">
+    <DrawerTrigger>
+      <Button variant="outline">Open unstyled drawer</Button>
+    </DrawerTrigger>
+    <DrawerContent>
+      <DrawerHeader>Unstyled</DrawerHeader>
+      <DrawerBody>The Plume styles are gone.</DrawerBody>
+      <DrawerFooter>
+        <DrawerClose>
+          <Button>Close</Button>
+        </DrawerClose>
+      </DrawerFooter>
+    </DrawerContent>
+  </Drawer>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
+      <Drawer variant="default">
+        <DrawerTrigger>
+          <Button>Open default drawer</Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader>Default</DrawerHeader>
+          <DrawerBody>The Plume styles are on.</DrawerBody>
+          <DrawerFooter>
+            <DrawerClose>
+              <Button>Close</Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+      <Drawer variant="unstyled">
+        <DrawerTrigger>
+          <Button variant="outline">Open unstyled drawer</Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader>Unstyled</DrawerHeader>
+          <DrawerBody>The Plume styles are gone.</DrawerBody>
+          <DrawerFooter>
+            <DrawerClose>
+              <Button>Close</Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </div>
+  ),
 }
 
 /**

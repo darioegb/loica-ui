@@ -98,8 +98,8 @@ export const Default: Story = {
 }
 
 /**
- * Use the **variant** prop to pick how the Breadcrumb looks. `unstyled` drops the Plume styles so you can style it
- * yourself.
+ * Use the **variant** prop to pick how the Breadcrumb looks: `plain` is text with underlined links, `filled` puts
+ * every item on a muted background, and `unstyled` drops the Plume styles so you can style it yourself.
  */
 export const Variants: Story = {
   parameters: {

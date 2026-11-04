@@ -126,8 +126,8 @@ export const Default: Story = {
 }
 
 /**
- * Use the **variant** prop to pick how the Modal looks. `unstyled` drops the Plume styles, so the backdrop, the
- * surface and the parts are yours to style.
+ * Use the **variant** prop to pick how the Modal looks: `default` has the backdrop, the surface and the spacing of
+ * the parts, and `unstyled` drops the Plume styles, so the backdrop, the surface and the parts are yours to style.
  */
 export const Variants: Story = {
   parameters: {

@@ -199,6 +199,11 @@ function UnstyledExample() {
       <Example variant="subtle" />
     </ToastProvider>
   </LocaleProvider>
+  <LocaleProvider messages={{ toast: { region: 'outline notifications' } }}>
+    <ToastProvider position="bottom-start" variant="outline">
+      <Example variant="outline" />
+    </ToastProvider>
+  </LocaleProvider>
   <LocaleProvider messages={{ toast: { region: 'unstyled notifications' } }}>
     <ToastProvider
       render={(toast) => (

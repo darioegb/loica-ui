@@ -119,8 +119,9 @@ export const Default: Story = {
 }
 
 /**
- * Use the **variant** prop to pick how the Navbar looks. `unstyled` drops the Plume styles so you can style it
- * yourself.
+ * Use the **variant** prop to pick how the Navbar looks: `plain` has a line under the bar and underlines the active
+ * item, `filled` a muted background and `solid` the color of the scheme. `unstyled` drops the Plume styles so you
+ * can style it yourself.
  */
 export const Variants: Story = {
   parameters: {
@@ -128,6 +129,17 @@ export const Variants: Story = {
       source: {
         code: `<div className="flex flex-col gap-6">
   <Navbar aria-label="plain" variant="plain">
+    <NavbarBrand href="/">Plume</NavbarBrand>
+    <NavbarToggle />
+    <NavbarContent>
+      <NavbarItem active href="/">
+        Home
+      </NavbarItem>
+      <NavbarItem href="/components">Components</NavbarItem>
+      <NavbarItem href="/docs">Docs</NavbarItem>
+    </NavbarContent>
+  </Navbar>
+  <Navbar aria-label="filled" variant="filled">
     <NavbarBrand href="/">Plume</NavbarBrand>
     <NavbarToggle />
     <NavbarContent>

@@ -131,8 +131,8 @@ type Story = StoryObj<typeof FileUpload>
 export const Default: Story = {}
 
 /**
- * Use the **variant** prop to pick how the FileUpload looks. `unstyled` drops the Plume styles so you can style it
- * yourself.
+ * Use the **variant** prop to pick how the FileUpload looks: `outline` draws a dashed border, `bordered` a
+ * continuous line and `filled` a muted background. `unstyled` drops the Plume styles so you can style it yourself.
  */
 export const Variants: Story = {
   render: () => (

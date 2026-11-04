@@ -137,8 +137,9 @@ type Story = StoryObj<typeof Textarea>
 export const Default: Story = {}
 
 /**
- * Use the **variant** prop to pick how the Textarea looks. `unstyled` leaves the native textarea so you can
- * style it yourself.
+ * Use the **variant** prop to pick how the Textarea looks: `outline` draws a border, `filled` gives it a muted
+ * background and `underline` only a line under it. `unstyled` leaves the native textarea so you can style it
+ * yourself.
  */
 export const Variants: Story = {
   render: () => (

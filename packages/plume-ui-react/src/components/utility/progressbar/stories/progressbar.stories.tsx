@@ -63,8 +63,8 @@ type Story = StoryObj<typeof ProgressBar>
 export const Default: Story = {}
 
 /**
- * Use the **variant** prop to pick how the bar looks. `unstyled` drops the Plume styles so you can style it
- * yourself.
+ * Use the **variant** prop to pick how the bar looks: `solid` fills it with one color and `striped` adds stripes.
+ * `unstyled` drops the Plume styles so you can style it yourself.
  */
 export const Variants: Story = {
   render: () => (

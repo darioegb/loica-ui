@@ -33,7 +33,7 @@ import {
 } from '..'
 
 /**
- * The label, helper text and error message of a form control.
+ * A wrapper that gives a form control its label, helper text and error message.
  * Field wraps the control and wires them to it: the label points to it, the texts describe it through
  * `aria-describedby`, and `invalid`, `required`, `disabled` and `readOnly` are passed down to it. The label can carry
  * a required or optional mark.
@@ -93,6 +93,38 @@ type Story = StoryObj<typeof Field>
  * A label linked to its control. Clicking the label focuses the input.
  */
 export const Default: Story = {}
+
+/**
+ * Use the **variant** prop to pick how the Field looks: `default` has the layout and the text styles of the label,
+ * the helper and the error, and `unstyled` drops the Plume styles of the field and of its parts, so you can lay it
+ * out yourself. The variants of the control belong to the control, not to the Field.
+ */
+export const Variants: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<div className="flex flex-col gap-6">
+  <Field helperText="We'll never share your email." label="Default" variant="default">
+    <Input type="email" />
+  </Field>
+  <Field helperText="We'll never share your email." label="Unstyled" variant="unstyled">
+    <Input type="email" />
+  </Field>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div className='flex flex-col gap-6'>
+      <Field helperText="We'll never share your email." label='Default' variant='default'>
+        <Input type='email' />
+      </Field>
+      <Field helperText="We'll never share your email." label='Unstyled' variant='unstyled'>
+        <Input type='email' />
+      </Field>
+    </div>
+  ),
+}
 
 /**
  * **helperText** adds a hint that screen readers read after the label.

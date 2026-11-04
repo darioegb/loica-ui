@@ -144,8 +144,9 @@ type Story = StoryObj<typeof Paginator>
 export const Default: Story = {}
 
 /**
- * Use the **variant** prop to pick how the buttons look. `unstyled` drops the Plume styles so you can style it
- * yourself.
+ * Use the **variant** prop to pick how the buttons look: `solid` fills the current page and leaves the others flat,
+ * `outline` draws a border on every button and tints the current one, and `ghost` has no border or fill, only the
+ * current page is tinted. `unstyled` drops the Plume styles so you can style it yourself.
  */
 export const Variants: Story = {
   parameters: {

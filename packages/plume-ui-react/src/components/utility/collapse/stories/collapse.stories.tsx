@@ -186,8 +186,8 @@ const id = useId()
 }
 
 /**
- * Use the **variant** prop to pick how the box looks. `unstyled` drops the Plume styles: it keeps the animation and
- * leaves the box to you.
+ * Use the **variant** prop to pick how the box looks: `filled` gives it a background, `outline` a border and
+ * `accent` a bar at the start. `unstyled` drops the Plume styles: it keeps the animation and leaves the box to you.
  */
 export const Variants: Story = {
   parameters: {

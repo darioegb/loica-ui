@@ -13,8 +13,8 @@ import {
 const statuses = ['info', 'success', 'warning', 'error'] as const
 
 /**
- * A message that stays in the page, next to the content it is about: a notice, a confirmation, a warning or an
- * error. It is the inline counterpart of the `Toast`, which appears for a moment and goes away on its own.
+ * An inline message next to the content it is about: a notice, a confirmation, a warning or an error. It stays in
+ * the page, unlike the `Toast`, which appears for a moment and goes away on its own.
  *
  * The **status** gives it its color and its icon. It is also its role: an `error` is announced right away
  * (`role="alert"`) and the other statuses politely (`role="status"`), so a screen reader reads a message that shows

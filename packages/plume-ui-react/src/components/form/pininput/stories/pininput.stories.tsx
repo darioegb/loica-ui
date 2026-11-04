@@ -7,8 +7,8 @@ import { PinInput } from "..";
 const colorSchemes = Object.keys(defaultTheme.colors);
 
 /**
- * A row of one-character boxes for a code the user types or pastes: a one-time password, a verification code, a
- * PIN. Use it when the length is fixed and short.
+ * A row of one-character boxes for a code the user types or pastes. Use it for a one-time password, a verification
+ * code or a PIN, when the length is fixed and short.
  *
  * Typing a character moves to the next box, <kbd>Backspace</kbd> removes it and goes back, and <kbd>←</kbd>,
  * <kbd>→</kbd>, <kbd>Home</kbd> and <kbd>End</kbd> move between the boxes. Pasting a code fills the boxes from the
@@ -85,8 +85,8 @@ type Story = StoryObj<typeof PinInput>;
 export const Default: Story = {};
 
 /**
- * Use the **variant** prop to pick how the boxes look, the same ones as the `Input`. `unstyled` drops the Plume
- * styles so you can style them yourself.
+ * Use the **variant** prop to pick how the boxes look: `outline`, `filled` or `underline`, as in the `Input`.
+ * `unstyled` drops the Plume styles so you can style them yourself.
  */
 export const Variants: Story = {
   parameters: {

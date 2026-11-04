@@ -95,8 +95,8 @@ export const Default: Story = {
 }
 
 /**
- * This is a list of Input with different variants.
- * Just adding the **variant** prop in one of these values **outline**, **underline**, **filled** and **unstyled**.
+ * Use the **variant** prop to pick how the field looks: `outline` draws a border, `filled` gives it a muted
+ * background and `underline` only a line under it. `unstyled` drops the Plume styles so you can style it yourself.
  */
 export const Variants: Story = {
   parameters: {
