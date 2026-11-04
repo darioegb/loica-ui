@@ -37,24 +37,17 @@ const KIND_LABEL: Record<RenderingKind, string> = {
   server: 'Server',
 }
 
-const KIND_TEXT: Record<RenderingKind, ReactNode> = {
-  client: (
-    <>
-      <strong>Client Component.</strong> It loads JavaScript in the browser. A Server Component can render it,
-      but can&apos;t pass it a function such as <code>onClick</code>.
-    </>
-  ),
-  mixed: (
-    <>
-      <strong>Server Component.</strong> It renders on the server and can bring a client component inside it, which
-      loads JavaScript in the browser.
-    </>
-  ),
-  server: (
-    <>
-      <strong>Server Component.</strong> It renders on the server and loads no JavaScript in the browser.
-    </>
-  ),
+const KIND_TITLE: Record<RenderingKind, string> = {
+  client: 'Client Component',
+  mixed: 'Server + client',
+  server: 'Server Component',
+}
+
+const KIND_TEXT: Record<RenderingKind, string> = {
+  client:
+    "It loads JavaScript in the browser. A Server Component can render it, but can't pass it a function.",
+  mixed: 'It renders on the server and can bring a client component inside it.',
+  server: 'It renders on the server and loads no JavaScript in the browser.',
 }
 
 const FRAMEWORK_GUIDE = './?path=/docs/guides-framework-integration--docs#nextjs-app-router'
@@ -204,29 +197,31 @@ export function ApiReference({
   )
 }
 
-interface RenderingNoteProps {
+interface RenderingBadgeProps {
   componentName: string
   folder: string
   importNames?: string[]
 }
 
-/** Says whether the component is a Server or a Client Component, from the 'use client' of its module. */
-export function RenderingNote({ componentName, folder, importNames }: Readonly<RenderingNoteProps>): ReactNode {
-  const components = orderComponents(folders[folder] ?? [], componentName, importNames)
-  const [root] = components
+/** Server or Client Component, from the 'use client' of the module of the component. Links to the guide. */
+export function RenderingBadge({
+  componentName,
+  folder,
+  importNames,
+}: Readonly<RenderingBadgeProps>): ReactNode {
+  const [root] = orderComponents(folders[folder] ?? [], componentName, importNames)
   if (!root) return null
   const kind = kindOf(root)
-  const mixedParts = components.some((component) => kindOf(component) !== kind)
   return (
-    <p className="plume-rendering">
-      <RenderingTag kind={kind} />
-      <span>
-        {KIND_TEXT[kind]}
-        {mixedParts ? ' Its parts are marked in the API reference.' : null}{' '}
-        <a href={FRAMEWORK_GUIDE} target="_top">
-          Server and client components
-        </a>
-      </span>
-    </p>
+    <a
+      aria-label={`${KIND_TITLE[kind]}: ${KIND_TEXT[kind]} Read about server and client components`}
+      className="api-rendering plume-rendering-badge"
+      data-kind={kind}
+      href={FRAMEWORK_GUIDE}
+      target="_top"
+      title={KIND_TEXT[kind]}
+    >
+      {KIND_TITLE[kind]}
+    </a>
   )
 }

@@ -153,17 +153,27 @@ html[data-plume-color-mode='dark'] .sbdocs .api-rendering[data-kind='client'] {
   color: #a1a1aa;
 }
 
-.plume-rendering {
-  align-items: baseline;
+.plume-title-row {
+  align-items: center;
+  column-gap: 0.875rem;
   display: flex;
-  font-size: 0.875rem;
-  gap: 0.5rem;
-  margin-block: 0.5rem 1.25rem;
+  flex-wrap: wrap;
 }
 
-.sbdocs .plume-rendering .api-rendering {
-  flex: none;
+.sbdocs a.plume-rendering-badge {
+  font-size: 0.75rem;
   margin-inline-start: 0;
+  padding: 0.35em 0.75em;
+  text-decoration: none;
+}
+
+.sbdocs a.plume-rendering-badge:hover {
+  text-decoration: underline;
+}
+
+.sbdocs a.plume-rendering-badge:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 2px;
 }
 
 .api-native {
