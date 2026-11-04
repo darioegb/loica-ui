@@ -110,12 +110,29 @@ addons.register('plume/theme-sync', (api) => {
         // Below 600px Storybook swaps the sidebar for a drawer that toggleNav() doesn't control,
         // so delegate to its own bottom-bar button instead.
         const mobileMenu = document.querySelector<HTMLButtonElement>(
-          'button[aria-label="Open navigation menu"]',
+          'button[aria-label$="navigation menu"]',
         )
         // Its bottom bar is hidden (see manager-head.html), so check the layout, not visibility.
         if (mobileMenu && window.matchMedia('(max-width: 599px)').matches) mobileMenu.click()
         else api.toggleNav()
       })
+    }
+    // The drawer is a modal <dialog>, so while it is open the header (and its hamburger) is inert and
+    // the bottom bar is hidden: give the drawer a close button of its own.
+    const drawer = document.querySelector<HTMLDialogElement>('#storybook-mobile-menu')
+    if (drawer && !drawer.querySelector('.plume-nav-close')) {
+      const close = document.createElement('button')
+      close.type = 'button'
+      close.className = 'plume-nav-close'
+      close.setAttribute('aria-label', 'Close menu')
+      close.insertAdjacentHTML(
+        'beforeend',
+        '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+      )
+      close.addEventListener('click', () => {
+        document.querySelector<HTMLElement>('[aria-label="Close navigation menu"]')?.click()
+      })
+      drawer.prepend(close)
     }
     // The sidebar filters docs and tokens too, not only components.
     const search = document.querySelector<HTMLInputElement>('#storybook-explorer-searchfield')

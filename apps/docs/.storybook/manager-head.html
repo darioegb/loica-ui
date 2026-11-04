@@ -219,6 +219,35 @@
     }
   }
 
+  .plume-nav-close {
+    align-items: center;
+    background: transparent;
+    border: none;
+    color: #52525b;
+    cursor: pointer;
+    display: flex;
+    height: 2rem;
+    justify-content: center;
+    padding: 0;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.25rem;
+    width: 2rem;
+    z-index: 2;
+  }
+
+  html[data-plume-mode='dark'] .plume-nav-close {
+    color: #a1a1aa;
+  }
+
+  .plume-nav-close:hover {
+    color: #047857;
+  }
+
+  html[data-plume-mode='dark'] .plume-nav-close:hover {
+    color: #34d399;
+  }
+
   .brand {
     display: block;
     width: 1.5rem;
