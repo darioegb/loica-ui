@@ -1,5 +1,15 @@
 # plume-ui-react
 
+## 0.64.0
+
+### Minor Changes
+
+- [#323](https://github.com/darioegb/plume-ui-react/pull/323) [`edfbfbb05393a39994999bb71f1aa48e847845ed`](https://github.com/darioegb/plume-ui-react/commit/edfbfbb05393a39994999bb71f1aa48e847845ed) Thanks [@darioegb](https://github.com/darioegb)! - The simple case of a component can close on itself:
+
+  - `Button`, `Badge` and `Chip` take their content as `label` too: `<Button label="Save" />`. `children` win when both are set.
+  - `Alert` and `Card` take `title` and `description`, and build their `AlertTitle` and `AlertDescription`, or `CardHeader` and `CardBody`. `title` is no longer the native tooltip of their element.
+  - `Select` takes its options as data with `options`, plus `placeholder`, `aria-label` and `aria-labelledby` for the trigger it draws. It keeps a `SelectTrigger` or a `SelectContent` you give it. The type of an option is `SelectOptionData`.
+
 ## 0.63.0
 
 ### Minor Changes
