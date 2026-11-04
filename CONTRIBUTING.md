@@ -57,6 +57,8 @@ Releases are managed with [Changesets](https://github.com/changesets/changesets)
 
 After a pull request is merged, the Release workflow opens a **Version packages** pull request; merging it publishes to npm.
 
+The two apps in `apps/` install `plume-ui-react` from npm, so after a release, bump them to the new version (`npm install plume-ui-react@^<version>` in each, and commit `package.json` and `package-lock.json`) and let the Examples job build them against it. A bump that fails to build shows a change that breaks a user.
+
 ## License
 
 By contributing, you agree that your contributions are licensed under the project's [MIT License](LICENSE).
