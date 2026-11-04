@@ -12,6 +12,7 @@ coverage
 server/dist
 public/dist
 storybook-static/
+apps/docs/story-screenshots/
 apps/docs/src/api.generated.json
 apps/docs/src/components.generated.json
 apps/docs/src/stackblitz-example.generated.json

@@ -9,17 +9,13 @@
 //
 // "Incomplete" results (a background axe can't compute: an overlay, a scroll container, a background image) are
 // not failures, as in the panel. An overlay the story doesn't open is not checked: open it and look at the panel.
-import { createReadStream, existsSync, statSync } from 'node:fs'
-import { createServer } from 'node:http'
 import { createRequire } from 'node:module'
 import { availableParallelism } from 'node:os'
-import { extname, join, normalize } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
+import { openStorybook } from './storybook-server.mjs'
 
 const require = createRequire(import.meta.url)
 const axeSource = require.resolve('axe-core/axe.min.js')
-const staticDir = fileURLToPath(new URL('../storybook-static', import.meta.url))
 
 // The same context and rules as @storybook/addon-a11y, plus the config of .storybook/preview.tsx.
 const CONTEXT = {
@@ -35,54 +31,7 @@ const DISABLED_RULES = ['region']
 const MODES = ['light', 'dark']
 const RENDER_TIMEOUT = 15_000
 
-const args = process.argv.slice(2)
-const urlFlag = args.indexOf('--url')
-const remoteUrl = urlFlag === -1 ? undefined : args[urlFlag + 1]
-const filters = args.filter((_, index) => urlFlag === -1 || (index !== urlFlag && index !== urlFlag + 1))
-
-const TYPES = {
-  '.css': 'text/css',
-  '.html': 'text/html',
-  '.js': 'text/javascript',
-  '.json': 'application/json',
-  '.mjs': 'text/javascript',
-  '.svg': 'image/svg+xml',
-  '.woff2': 'font/woff2',
-}
-
-function serveStatic() {
-  if (!existsSync(join(staticDir, 'index.json'))) {
-    console.error('No storybook-static: run `pnpm build:docs` first, or pass --url of a running Storybook.')
-    process.exit(1)
-  }
-  const server = createServer((request, response) => {
-    const path = normalize(decodeURIComponent(new URL(request.url, 'http://localhost').pathname))
-    let file = join(staticDir, path)
-    if (!file.startsWith(staticDir)) {
-      response.writeHead(403).end()
-      return
-    }
-    if (existsSync(file) && statSync(file).isDirectory()) file = join(file, 'index.html')
-    if (!existsSync(file)) {
-      response.writeHead(404).end()
-      return
-    }
-    response.writeHead(200, { 'Content-Type': TYPES[extname(file)] ?? 'application/octet-stream' })
-    createReadStream(file).pipe(response)
-  })
-  return new Promise((resolve) => {
-    server.listen(0, '127.0.0.1', () => resolve(server))
-  })
-}
-
-const server = remoteUrl ? undefined : await serveStatic()
-const baseUrl = remoteUrl?.replace(/\/$/, '') ?? `http://127.0.0.1:${server.address().port}`
-
-const index = await (await fetch(`${baseUrl}/index.json`)).json()
-const stories = Object.values(index.entries)
-  .filter((entry) => entry.type === 'story')
-  .map((entry) => entry.id)
-  .filter((id) => filters.length === 0 || filters.some((word) => id.includes(word.toLowerCase())))
+const { baseUrl, close, filters, stories } = await openStorybook(process.argv.slice(2))
 
 if (stories.length === 0) {
   console.error(`No story matches ${filters.join(', ')}.`)
@@ -190,7 +139,7 @@ async function worker() {
 const total = jobs.length
 await Promise.all(Array.from({ length: Math.min(8, availableParallelism()) }, worker))
 await browser.close()
-server?.close()
+close()
 
 for (const { id, mode, violations } of failures.sort((a, b) => a.id.localeCompare(b.id))) {
   console.error(`\n${id} (${mode})`)

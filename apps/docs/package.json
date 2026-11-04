@@ -10,7 +10,8 @@
     "lint": "node scripts/generate-components.mjs && node scripts/generate-stackblitz.mjs && eslint src/ && node scripts/generate-api.mjs && node scripts/check-api.mjs",
     "lint:fix": "node scripts/generate-components.mjs && node scripts/generate-stackblitz.mjs && eslint src/ --fix",
     "check:api": "node scripts/generate-api.mjs && node scripts/check-api.mjs",
-    "check:a11y": "node scripts/check-a11y.mjs"
+    "check:a11y": "node scripts/check-a11y.mjs",
+    "screenshots": "node scripts/screenshot-stories.mjs"
   },
   "dependencies": {
     "plume-ui-react": "workspace:*"

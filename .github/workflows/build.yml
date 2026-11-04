@@ -55,6 +55,16 @@ jobs:
       - name: Check the stories with axe
         run: pnpm --filter @plume-ui-react/docs check:a11y
 
+      - name: Screenshot the Tailwind and Bootstrap stories
+        run: pnpm --filter @plume-ui-react/docs screenshots
+
+      - name: Upload the screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: story-screenshots
+          path: apps/docs/story-screenshots
+          retention-days: 14
+
   examples:
     name: Examples
     runs-on: ubuntu-latest
