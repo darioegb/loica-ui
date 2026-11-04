@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { Description, Markdown, Source, Title, useOf } from '@storybook/addon-docs/blocks'
 import { Button } from 'plume-ui-react'
 import type { ApiNote } from './api-reference'
-import { ApiReference } from './api-reference'
+import { ApiReference, RenderingNote } from './api-reference'
 import StoryExamples from './story-examples'
 
 const GITHUB_URL = 'https://github.com/darioegb/plume-ui-react/tree/main/'
@@ -88,6 +88,11 @@ function DocsTemplate(): ReactNode {
   return (
     <div className="container">
       <Title />
+      <RenderingNote
+        componentName={componentName}
+        folder={sourcePath.slice(sourcePath.lastIndexOf('/') + 1)}
+        importNames={docsParameters?.importNames}
+      />
       {description ? <Markdown>{intro}</Markdown> : <Description />}
       <SourceLink sourcePath={sourcePath} />
       <h2>Import</h2>

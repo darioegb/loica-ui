@@ -133,6 +133,51 @@ const propsOfMember = (propsType, location) => {
   return { native, own }
 }
 
+const USE_CLIENT = /^\s*(['"])use client\1/
+
+// A module renders on the server when it has no 'use client' (check-client-directives keeps the directive exact).
+// It still brings a client piece when it renders a component from a client module, directly or through another
+// server module: the counter of a Textarea, the Modal parts behind the Drawer parts.
+const isClientFile = (sourceFile) => USE_CLIENT.test(sourceFile.text)
+const ownSource = (file) => file.startsWith(path.join(packageDir, 'src')) && !file.includes('node_modules')
+
+const clientPieceCache = new Map()
+const importsClientPiece = (sourceFile, seen = new Set()) => {
+  if (clientPieceCache.has(sourceFile.fileName)) return clientPieceCache.get(sourceFile.fileName)
+  if (seen.has(sourceFile.fileName)) return false
+  seen.add(sourceFile.fileName)
+  let found = false
+  for (const statement of sourceFile.statements) {
+    if (found) break
+    if (!ts.isImportDeclaration(statement) || statement.importClause?.isTypeOnly) continue
+    const clause = statement.importClause
+    const names = [
+      ...(clause?.name ? [clause.name] : []),
+      ...(clause?.namedBindings && ts.isNamedImports(clause.namedBindings)
+        ? clause.namedBindings.elements.filter((element) => !element.isTypeOnly).map((element) => element.name)
+        : []),
+    ]
+    for (const name of names) {
+      const symbol = checker.getSymbolAtLocation(name)
+      const target = symbol && symbol.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol
+      if (!target || !(target.flags & ts.SymbolFlags.Value)) continue
+      const declared = (target.valueDeclaration ?? target.declarations?.[0])?.getSourceFile()
+      if (!declared || !ownSource(declared.fileName)) continue
+      if (isClientFile(declared) || importsClientPiece(declared, seen)) {
+        found = true
+        break
+      }
+    }
+  }
+  clientPieceCache.set(sourceFile.fileName, found)
+  return found
+}
+
+const renderingOf = (sourceFile) => {
+  if (isClientFile(sourceFile)) return { rendering: 'client' }
+  return importsClientPiece(sourceFile) ? { clientPiece: true, rendering: 'server' } : { rendering: 'server' }
+}
+
 const api = {}
 
 for (const file of program.getRootFileNames().sort()) {
@@ -162,6 +207,7 @@ for (const file of program.getRootFileNames().sort()) {
       native: native.length > NATIVE_LIST_LIMIT ? [] : native,
       nativeAll: native.length > NATIVE_LIST_LIMIT,
       props: own,
+      ...renderingOf(declaration.getSourceFile()),
       ...sinceOf(target),
     })
   }
