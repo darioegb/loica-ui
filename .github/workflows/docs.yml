@@ -1,14 +1,8 @@
 name: Docs
 
 on:
-  push:
-    branches:
-      - main
-
-# Allow one concurrent deployment, cancelling in-progress runs.
-concurrency:
-  group: pages
-  cancel-in-progress: true
+  workflow_call:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -19,6 +13,10 @@ jobs:
   deploy:
     name: Deploy Storybook to GitHub Pages
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: pages
+      cancel-in-progress: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -27,6 +25,18 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+
+      # The docs follow the version on npm: deploying main with changesets that aren't published yet would
+      # document an API that nobody can install.
+      - name: Check there is nothing unreleased
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          pending=$(find .changeset -name '*.md' ! -name README.md)
+          if [ -n "$pending" ]; then
+            echo "::error::main has changesets that aren't published yet. Release them first, or wait for the release to deploy the docs."
+            echo "$pending"
+            exit 1
+          fi
 
       - name: Install
         uses: ./.github/composite-actions/common

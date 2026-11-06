@@ -16,6 +16,9 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v6
@@ -24,6 +27,9 @@ jobs:
 
       - name: Install
         uses: ./.github/composite-actions/common
+
+      - name: Build
+        run: pnpm build
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
@@ -47,3 +53,12 @@ jobs:
           pnpm changelog:commit
           gh pr create --base main --head changelog/main --title "Update Root Changelog" --body "This pull request updates the Main Changelog of the monorepo."
 
+  docs:
+    name: Docs
+    needs: release
+    if: needs.release.outputs.published == 'true'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/docs.yml

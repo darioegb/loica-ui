@@ -188,7 +188,9 @@ Versioning and publishing use [Changesets](https://github.com/changesets/changes
 2. When it is merged into `main`, the Release workflow opens (or updates) a **Version packages** pull request that bumps versions and updates the changelogs.
 3. Merging that pull request publishes the new versions to npm.
 
-The documentation site is deployed to GitHub Pages on every push to `main`.
+The documentation site is deployed to GitHub Pages when a release is published, so it always documents the version on
+npm. A fix to the docs alone can go out sooner with **Run workflow** on the Docs workflow, which refuses to deploy while
+`main` has unpublished changesets.
 
 ## Contributing
 
