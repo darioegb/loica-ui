@@ -87,7 +87,7 @@ export function AppShell({
               aria-hidden="true"
               className="inline-flex size-8 flex-none items-center justify-center rounded-(--loica-radius-2) bg-(--loica-color-primary-solid) text-(--loica-color-primary-solid-contrast)"
             >
-              P
+              L
             </span>
             <span className={styles.name}>{tApp('name')}</span>
           </div>

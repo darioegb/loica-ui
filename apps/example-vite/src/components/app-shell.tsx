@@ -102,7 +102,7 @@ export function AppShell({
               aria-hidden="true"
               className={`d-inline-flex align-items-center justify-content-center flex-shrink-0 ${styles.mark}`}
             >
-              P
+              L
             </span>
             <span className={styles.name}>{t("app.name")}</span>
           </div>
