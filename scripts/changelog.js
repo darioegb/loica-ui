@@ -48,7 +48,7 @@ async function getLatestMergedPrInfo(repoOwner, repoName) {
 async function generateChangelog() {
   let changelogEntries = []
   let releaseHeader = ''
-  const mergedPrInfo = await getLatestMergedPrInfo('darioegb', '@loica-ui/react')
+  const mergedPrInfo = await getLatestMergedPrInfo('darioegb', 'loica-ui')
   releaseHeader = `# Version ${mergedPrInfo.version}\nExplore the changelog for Loica UI React version ${mergedPrInfo.version}. Learn about the latest features, bug fixes, and improvements.\n\n[${mergedPrInfo.url}] - ${mergedPrInfo.date}\n\n`
 
   const combinedChangelog = changelogEntries.join('\n\n')
