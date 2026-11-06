@@ -14,8 +14,8 @@ export function LoginForm(): ReactNode {
   const [state, action, pending] = useActionState(signIn, initialState)
   const { email, password } = state.errors ?? {}
   return (
-    <Card className="w-full max-w-[26rem]" variant="outline">
-      <form action={action} noValidate>
+    <form action={action} className="w-full max-w-[26rem]" noValidate>
+      <Card variant="outline">
         <CardHeader>{t('heading')}</CardHeader>
         <CardBody>
           <div className="flex flex-col gap-4">
@@ -39,7 +39,7 @@ export function LoginForm(): ReactNode {
             {t('submit')}
           </Button>
         </CardFooter>
-      </form>
-    </Card>
+      </Card>
+    </form>
   )
 }
