@@ -1,5 +1,11 @@
 # @loica-ui/react
 
+## 0.65.0
+
+### Minor Changes
+
+- [#339](https://github.com/darioegb/loica-ui/pull/339) [`39df8fb6d23e60225204fdea8f79dab7c024a849`](https://github.com/darioegb/loica-ui/commit/39df8fb6d23e60225204fdea8f79dab7c024a849) Thanks [@darioegb](https://github.com/darioegb)! - The library is now `@loica-ui/react`, and everything that carried the name `plume` carries `loica`: the package and its stylesheets (`@loica-ui/react/styles.css`, `@loica-ui/react/tokens.css`, `@loica-ui/react/css/*`), the `--loica-*` variables, the `data-loica-*` attributes (and `data-loica-color-mode`), the cascade layer `loica`, the `loica-root` class of the `ThemeProvider`, and the types `LoicaMessages` and `LoicaLocale`. Nothing else changes: the components, their props and their look are the same. `plume-ui-react` stays on npm as deprecated and gets no more releases. See _The library is now `@loica-ui/react`_ in the upgrading guide for the list of equivalences.
+
 Up to 0.64.2 this package was published as `plume-ui-react`. The entries below keep the names of that time: where they say `plume`, read `loica`.
 
 ## 0.64.2
