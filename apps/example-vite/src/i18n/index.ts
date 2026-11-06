@@ -8,7 +8,7 @@ export const languages = ["en", "es"] as const;
 
 export type Language = (typeof languages)[number];
 
-const LANGUAGE_KEY = "plume-projects:language";
+const LANGUAGE_KEY = "loica-projects:language";
 
 const isLanguage = (value: unknown): value is Language =>
   languages.some((language) => language === value);

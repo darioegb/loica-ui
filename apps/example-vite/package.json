@@ -1,5 +1,5 @@
 {
-  "name": "plume-ui-react-vite-playground",
+  "name": "loica-ui-vite-playground",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,9 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@loica-ui/react": "^0.65.0",
     "bootstrap": "^5.3.8",
     "i18next": "^26.5.12",
-    "plume-ui-react": "^0.64.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.91.0",

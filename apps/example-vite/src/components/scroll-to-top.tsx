@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button } from "plume-ui-react";
+import { Button } from "@loica-ui/react";
 import { ArrowUpIcon } from "./icons";
 import styles from "./scroll-to-top.module.css";
 

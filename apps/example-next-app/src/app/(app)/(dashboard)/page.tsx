@@ -8,7 +8,7 @@ import {
   CardBody,
   CardHeader,
   ProgressBar,
-} from 'plume-ui-react'
+} from '@loica-ui/react'
 import { PageHeader } from '@/components/page-header'
 import { getDashboard } from '@/lib/data'
 import { formatDue, formatNumber } from '@/lib/format'
@@ -35,7 +35,7 @@ export default async function DashboardPage(): Promise<ReactNode> {
           <Card key={metric.id} variant="outline">
             <CardBody>
               <div className="flex flex-col items-start gap-2">
-                <span className="text-sm text-(--plume-muted)">{t(`metrics.${metric.id}.label`)}</span>
+                <span className="text-sm text-(--loica-muted)">{t(`metrics.${metric.id}.label`)}</span>
                 <span className="text-[2rem] leading-none font-bold">{formatNumber(metric.value, locale)}</span>
                 <Badge colorScheme={metric.trend === 'up' ? 'success' : 'warning'} size="sm" variant="subtle">
                   {t(`metrics.${metric.id}.change`, { change: metric.change })}
@@ -57,7 +57,7 @@ export default async function DashboardPage(): Promise<ReactNode> {
               >
                 <div className="flex flex-col">
                   <span className="font-semibold">{project.name}</span>
-                  <span className="text-sm text-(--plume-muted)">{t('due', { date: formatDue(project.due, locale) })}</span>
+                  <span className="text-sm text-(--loica-muted)">{t('due', { date: formatDue(project.due, locale) })}</span>
                 </div>
                 <Badge
                   className="justify-self-start"

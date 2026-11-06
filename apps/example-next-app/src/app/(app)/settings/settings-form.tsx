@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react'
 import { useTranslations } from 'next-intl'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from 'plume-ui-react'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@loica-ui/react'
 import { AppearanceSettings } from './appearance-settings'
 import { NotificationSettings } from './notification-settings'
 import { WorkspaceSettings } from './workspace-settings'

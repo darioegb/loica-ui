@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react'
 import { useActionState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Alert, Button, Card, CardBody, CardFooter, CardHeader, Field, Input } from 'plume-ui-react'
+import { Alert, Button, Card, CardBody, CardFooter, CardHeader, Field, Input } from '@loica-ui/react'
 import { signIn, type SignInState } from '@/app/actions'
 
 const initialState: SignInState = {}

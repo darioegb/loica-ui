@@ -4,7 +4,7 @@ export type Locale = (typeof locales)[number]
 
 export const defaultLocale: Locale = 'en'
 
-export const LOCALE_COOKIE = 'plume-locale'
+export const LOCALE_COOKIE = 'loica-locale'
 
 export const isLocale = (value: unknown): value is Locale =>
   locales.some((locale) => locale === value)

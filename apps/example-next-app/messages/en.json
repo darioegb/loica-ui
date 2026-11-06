@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "Plume Projects",
-    "description": "A project dashboard built with plume-ui-react on the Next.js App Router."
+    "name": "Loica Projects",
+    "description": "A project dashboard built with @loica-ui/react on the Next.js App Router."
   },
   "nav": {
     "application": "Application",
@@ -26,10 +26,10 @@
   },
   "login": {
     "title": "Sign in",
-    "heading": "Sign in to Plume Projects",
+    "heading": "Sign in to Loica Projects",
     "hint": "This is a simulated sign in: any email and a password of 6 or more characters work.",
     "email": "Email",
-    "emailPlaceholder": "ana@plume.dev",
+    "emailPlaceholder": "ana@loica.dev",
     "password": "Password",
     "submit": "Sign in"
   },
@@ -295,7 +295,7 @@
       "keptBody": "This is a demo: nothing was deleted."
     }
   },
-  "plume": {
+  "loica": {
     "avatar": { "away": "Away", "busy": "Busy", "offline": "Offline", "online": "Online" },
     "avatarGroup": { "overflow": "{hidden} more" },
     "breadcrumb": { "breadcrumb": "Breadcrumb" },

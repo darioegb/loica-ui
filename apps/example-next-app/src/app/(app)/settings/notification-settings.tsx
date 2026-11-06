@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Button, Checkbox, Field, Toggle, useToast } from 'plume-ui-react'
+import { Button, Checkbox, Field, Toggle, useToast } from '@loica-ui/react'
 
 const channels = ['email', 'push', 'digest'] as const
 

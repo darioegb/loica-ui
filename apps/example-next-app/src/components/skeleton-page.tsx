@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Skeleton } from 'plume-ui-react'
+import { Skeleton } from '@loica-ui/react'
 
 // The shared shape of every loading state: the title and the description, then the content of the page.
 export function SkeletonPage({

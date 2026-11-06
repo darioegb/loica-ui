@@ -42,7 +42,7 @@ import {
   useTableState,
   useToast,
   type DateRange,
-} from "plume-ui-react";
+} from "@loica-ui/react";
 import {
   CheckIcon,
   EyeIcon,

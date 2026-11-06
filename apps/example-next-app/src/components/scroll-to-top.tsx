@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Button } from 'plume-ui-react'
+import { Button } from '@loica-ui/react'
 import { ArrowUpIcon } from './icons'
 
 const THRESHOLD = 400
@@ -29,7 +29,7 @@ export function ScrollToTop(): ReactNode {
   return (
     <Button
       aria-label={t('scrollToTop')}
-      className="fixed end-5 bottom-5 z-10 size-12 animate-appear p-0 shadow-(--plume-shadow-lg) motion-reduce:animate-none dark:ring-1 dark:ring-(--plume-border)"
+      className="fixed end-5 bottom-5 z-10 size-12 animate-appear p-0 shadow-(--loica-shadow-lg) motion-reduce:animate-none dark:ring-1 dark:ring-(--loica-border)"
       colorScheme="primary"
       onClick={scrollToTop}
       shape="pill"

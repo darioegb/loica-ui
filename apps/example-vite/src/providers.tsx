@@ -6,14 +6,14 @@ import {
   ThemeProvider,
   ToastProvider,
   type ColorModeSetting,
-} from "plume-ui-react";
+} from "@loica-ui/react";
 import { BootstrapColorMode } from "./components/bootstrap-color-mode";
-import { plumeMessages } from "./i18n/plume-messages";
+import { loicaMessages } from "./i18n/loica-messages";
 import { read, write } from "./lib/storage";
 import { defaultBrand, isBrand, themeFor, type BrandId } from "./theme";
 
-const BRAND_KEY = "plume-projects:brand";
-const COLOR_MODE_KEY = "plume-projects:color-mode";
+const BRAND_KEY = "loica-projects:brand";
+const COLOR_MODE_KEY = "loica-projects:color-mode";
 
 interface PreferencesContextValue {
   brand: BrandId;
@@ -47,7 +47,7 @@ export function Providers({
   });
   const { i18n, t } = useTranslation();
   const theme = useMemo(() => themeFor(brand), [brand]);
-  const messages = useMemo(() => plumeMessages(t), [t]);
+  const messages = useMemo(() => loicaMessages(t), [t]);
   const value = useMemo(
     () => ({
       brand,

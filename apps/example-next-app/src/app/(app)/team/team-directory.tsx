@@ -39,7 +39,7 @@ import {
   TreeItemGroup,
   TreeItemLabel,
   useToast,
-} from 'plume-ui-react'
+} from '@loica-ui/react'
 import { SearchIcon, TeamIcon } from '@/components/icons'
 import type { Department, Role, TeamMember } from '@/lib/data'
 import { userFromEmail } from '@/lib/user'
@@ -158,7 +158,7 @@ export function TeamDirectory({ team: initial }: Readonly<{ team: TeamMember[] }
                           </Tooltip>
                           <div>
                             <div className="font-semibold">{member.name}</div>
-                            <div className="text-sm text-(--plume-muted)">{tRole(member.role)}</div>
+                            <div className="text-sm text-(--loica-muted)">{tRole(member.role)}</div>
                           </div>
                           {member.pending ? (
                             <Badge colorScheme="warning" size="sm" variant="subtle">
@@ -181,7 +181,7 @@ export function TeamDirectory({ team: initial }: Readonly<{ team: TeamMember[] }
                           </PopoverTrigger>
                           <PopoverContent aria-label={t('contactPerson', { name: member.name })}>
                             <p className="mb-3">
-                              <a className="text-(--plume-color-primary-text) underline" href={`mailto:${member.email}`}>{member.email}</a>
+                              <a className="text-(--loica-color-primary-text) underline" href={`mailto:${member.email}`}>{member.email}</a>
                             </p>
                             <PopoverClose>
                               <Button size="sm">{t('done')}</Button>
