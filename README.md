@@ -134,7 +134,7 @@ Standalone apps that consume the **published npm package** (not the workspace so
 
   [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://darioegb.github.io/loica-ui/?path=/docs/guides-examples--docs)
 
-- **[Next.js App Router](apps/example-next-app)**: a project dashboard with a sign in, a sidebar and dark mode, rendered on the server with no theme flash. [Live demo](https://plume-ui-react.vercel.app), deployed on Vercel.
+- **[Next.js App Router](apps/example-next-app)**: a project dashboard with a sign in, a sidebar and dark mode, rendered on the server with no theme flash. [Live demo](https://loica-ui.vercel.app), deployed on Vercel.
 
 Both are also linked from the [Examples page of the docs](https://darioegb.github.io/loica-ui/?path=/docs/guides-examples--docs).
 
