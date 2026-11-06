@@ -3,7 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
-const componentsDir = path.resolve(here, '../../../packages/plume-ui-react/src/components')
+const componentsDir = path.resolve(here, '../../../packages/react/src/components')
 const output = path.resolve(here, '../src/components.generated.json')
 
 const CATEGORIES = {

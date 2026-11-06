@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 import { useEffect, useState } from "react"
 import type StackBlitzSdk from "@stackblitz/sdk"
-import { Button } from "plume-ui-react"
+import { Button } from "@loica-ui/react"
 
 type Sdk = typeof StackBlitzSdk
 type Files = Record<string, string>
@@ -39,8 +39,8 @@ function OpenInStackBlitz({ label = "Open in StackBlitz" }: Readonly<OpenInStack
   const open = (): void => {
     loaded?.sdk.openProject(
       {
-        title: "Plume Projects (Vite)",
-        description: "A Vite and React SPA built with plume-ui-react",
+        title: "Loica Projects (Vite)",
+        description: "A Vite and React SPA built with @loica-ui/react",
         template: "node",
         files: loaded.files,
       },

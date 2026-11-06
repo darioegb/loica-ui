@@ -1,0 +1,102 @@
+:global(:where([data-loica-card])) {
+  display: flex;
+  flex-direction: column;
+}
+
+:global(:where([data-loica-card-body])) {
+  flex: 1 1 auto;
+}
+
+:global(:where([data-loica-card-footer])) {
+  align-items: center;
+  display: flex;
+}
+
+/* The parts carry no class: the root styles its direct children, so they need no context and
+   render on the server. */
+.card {
+  border-radius: var(--loica-radius-4);
+  box-sizing: border-box;
+  color: var(--loica-foreground);
+  font-family: var(--loica-font-family);
+  overflow: hidden;
+}
+
+.sm {
+  --card-padding: var(--loica-space-3);
+  font-size: var(--loica-font-size-xs);
+}
+
+.md {
+  --card-padding: var(--loica-space-4);
+  font-size: var(--loica-font-size-sm);
+}
+
+.lg {
+  --card-padding: var(--loica-space-6);
+  font-size: var(--loica-font-size-base);
+}
+
+.elevated {
+  background-color: var(--loica-surface);
+  box-shadow: var(--loica-shadow-md);
+}
+
+.outline {
+  background-color: var(--loica-surface);
+  border: var(--loica-border-width-thin) solid var(--loica-border);
+}
+
+.filled {
+  background-color: var(--loica-surface-muted);
+}
+
+.card > [data-loica-card-header],
+.card > [data-loica-card-body],
+.card > [data-loica-card-footer] {
+  padding: var(--card-padding);
+}
+
+.card > [data-loica-card-header] {
+  font-size: 1.125em;
+  font-weight: var(--loica-font-weight-semibold);
+}
+
+.card > [data-loica-card-body] {
+  line-height: var(--loica-line-height-normal);
+}
+
+.card > [data-loica-card-footer] {
+  gap: var(--loica-space-2);
+}
+
+.card > [data-loica-card-header] + [data-loica-card-body],
+.card > [data-loica-card-body] + [data-loica-card-footer],
+.card > [data-loica-card-header] + [data-loica-card-footer] {
+  padding-block-start: 0;
+}
+
+.outline > [data-loica-card-header],
+.outline > [data-loica-card-footer] {
+  background-color: var(--loica-surface-muted);
+}
+
+.outline > [data-loica-card-header] {
+  border-block-end: var(--loica-border-width-thin) solid var(--loica-border);
+}
+
+.outline > [data-loica-card-footer] {
+  border-block-start: var(--loica-border-width-thin) solid var(--loica-border);
+}
+
+.outline > [data-loica-card-header] + [data-loica-card-body],
+.outline > [data-loica-card-body] + [data-loica-card-footer],
+.outline > [data-loica-card-header] + [data-loica-card-footer] {
+  padding-block-start: var(--card-padding);
+}
+
+@media (forced-colors: active) {
+  .card {
+    border: var(--loica-border-width-thin) solid CanvasText;
+  }
+}

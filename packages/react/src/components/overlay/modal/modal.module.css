@@ -1,0 +1,147 @@
+:global(:where([data-loica-modal-backdrop])) {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: fixed;
+  z-index: var(--loica-z-modal);
+}
+
+:global(:where(dialog[data-loica-dialog])) {
+  background-color: transparent;
+  border: 0;
+  color: inherit;
+  height: auto;
+  inset: auto;
+  margin: 0;
+  max-height: none;
+  max-width: none;
+  padding: 0;
+  position: static;
+  width: auto;
+}
+
+.backdrop {
+  align-items: center;
+  background-color: var(--loica-backdrop);
+  box-sizing: border-box;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: var(--loica-space-4);
+  position: fixed;
+  z-index: var(--loica-z-modal);
+}
+
+.content {
+  background-color: var(--loica-surface);
+  border-radius: var(--loica-radius-6);
+  box-shadow: var(--loica-shadow-xl);
+  box-sizing: border-box;
+  color: var(--loica-foreground);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--loica-font-family);
+  font-size: var(--loica-font-size-sm);
+  line-height: var(--loica-line-height-normal);
+  max-height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.sm {
+  max-width: var(--loica-container-sm);
+}
+
+.md {
+  max-width: var(--loica-container-lg);
+}
+
+.lg {
+  max-width: var(--loica-container-3xl);
+}
+
+.header {
+  padding: var(--loica-space-5) var(--loica-space-12) var(--loica-space-3) var(--loica-space-6);
+}
+
+.body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--loica-space-3) var(--loica-space-6);
+}
+
+.body:focus-visible {
+  outline: var(--loica-focus-ring-width) solid var(--loica-focus-ring-color);
+  outline-offset: var(--loica-focus-ring-inset);
+}
+
+.footer {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--loica-space-2);
+  justify-content: flex-end;
+  padding: var(--loica-space-4) var(--loica-space-6) var(--loica-space-5);
+}
+
+.close {
+  align-items: center;
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--loica-radius-full);
+  color: var(--loica-muted);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: var(--loica-font-size-xl);
+  height: var(--loica-space-8);
+  inset-block-start: var(--loica-space-3);
+  inset-inline-end: var(--loica-space-3);
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  transition:
+    background-color var(--loica-duration-fast),
+    color var(--loica-duration-fast);
+  width: var(--loica-space-8);
+}
+
+.close:hover {
+  background-color: var(--loica-surface-muted);
+  color: var(--loica-foreground);
+}
+
+.close:focus-visible {
+  outline: var(--loica-focus-ring-width) solid var(--loica-focus-ring-color);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .backdrop {
+    animation: backdrop-in var(--loica-duration-fast) var(--loica-easing-out);
+  }
+
+  .content {
+    animation: content-in var(--loica-duration-normal) var(--loica-easing-out);
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes content-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.98);
+  }
+}
+
+@media (forced-colors: active) {
+  .content {
+    border: var(--loica-border-width-thin) solid CanvasText;
+  }
+}

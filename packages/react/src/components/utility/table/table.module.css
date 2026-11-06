@@ -1,0 +1,217 @@
+:global(:where([data-loica-table])) {
+  overflow: auto;
+  position: relative;
+}
+
+:global(:where([data-loica-table-element])) {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+:global(:where([data-loica-table-loading])) {
+  align-items: center;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: absolute;
+  z-index: 2;
+}
+
+:global(:where([data-loica-table-caption][data-side='top'])) {
+  caption-side: top;
+}
+
+:global(:where([data-loica-table-caption][data-side='bottom'])) {
+  caption-side: bottom;
+}
+
+:global(:where([data-loica-table] [data-align='start'])) {
+  text-align: start;
+}
+
+:global(:where([data-loica-table] [data-align='center'])) {
+  text-align: center;
+}
+
+:global(:where([data-loica-table] [data-align='end'])) {
+  text-align: end;
+}
+
+:global(:where([data-loica-table-head])) {
+  text-align: start;
+}
+
+:global(:where([data-loica-table-element][data-sticky] > [data-loica-table-header] > tr > th)) {
+  inset-block-start: 0;
+  position: sticky;
+  z-index: 1;
+}
+
+:global(:where([data-loica-table-sort])) {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  gap: var(--loica-space-1);
+  padding: 0;
+  position: relative;
+}
+
+:global(:where([data-loica-table-sort]))::after {
+  content: '';
+  inset-block: -0.25rem;
+  inset-inline: 0;
+  position: absolute;
+}
+
+:global(:where([data-loica-table-head][data-align='end'] [data-loica-table-sort])) {
+  justify-content: flex-end;
+  width: 100%;
+}
+
+:global(:where([data-loica-table-sort-icon])) {
+  display: inline-flex;
+}
+
+.container {
+  border-radius: var(--loica-radius-3);
+}
+
+/* Axe reads the background under the text of the cells scrolled out of view from the first opaque box that covers them. */
+.container[data-scrollable] {
+  background-color: var(--table-background, var(--loica-background));
+}
+
+.table {
+  color: var(--loica-foreground);
+  font-family: var(--loica-font-family);
+  line-height: var(--loica-line-height-normal);
+}
+
+.sm {
+  font-size: var(--loica-font-size-xs);
+  --table-padding: var(--loica-space-1) var(--loica-space-2);
+}
+
+.md {
+  font-size: var(--loica-font-size-sm);
+  --table-padding: var(--loica-space-2) var(--loica-space-3);
+}
+
+.lg {
+  font-size: var(--loica-font-size-base);
+  --table-padding: var(--loica-space-3) var(--loica-space-4);
+}
+
+.table th,
+.table td {
+  padding: var(--table-padding);
+}
+
+.table th {
+  font-weight: var(--loica-font-weight-semibold);
+}
+
+.table caption {
+  color: var(--loica-muted);
+  padding: var(--table-padding);
+  text-align: start;
+}
+
+.table [data-loica-table-sort]:focus-visible {
+  outline: var(--loica-focus-ring-width) solid currentcolor;
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+.table [data-loica-table-sort-icon] {
+  font-size: 1.1em;
+  opacity: 0.35;
+}
+
+.table [data-sort='ascending'] [data-loica-table-sort-icon],
+.table [data-sort='descending'] [data-loica-table-sort-icon] {
+  opacity: 1;
+}
+
+.table [data-sort='ascending'] [data-loica-table-sort-icon] {
+  transform: rotate(180deg);
+}
+
+.plain th,
+.plain td {
+  border-block-end: var(--loica-border-width-thin) solid var(--loica-border);
+}
+
+.plain thead th {
+  border-block-end-width: var(--loica-border-width-medium);
+}
+
+.plain tfoot td,
+.plain tfoot th {
+  border-block-end: 0;
+  border-block-start: var(--loica-border-width-medium) solid var(--loica-border);
+}
+
+.bordered {
+  border: var(--loica-border-width-thin) solid var(--loica-border);
+}
+
+.bordered th,
+.bordered td {
+  border: var(--loica-border-width-thin) solid var(--loica-border);
+}
+
+.bordered thead th,
+.bordered tfoot th,
+.bordered tfoot td {
+  background-color: var(--loica-surface-muted);
+}
+
+.striped thead th,
+.striped tfoot th,
+.striped tfoot td {
+  background-color: var(--loica-surface-muted);
+  text-align: start;
+}
+
+.striped tbody tr:nth-child(even) {
+  background-color: var(--loica-surface-muted);
+}
+
+.table[data-sticky] thead th {
+  background-color: var(--loica-surface-muted);
+}
+
+.table[data-hoverable] tbody tr:hover {
+  background-color: color-mix(in srgb, currentcolor var(--loica-overlay-hover), transparent);
+}
+
+.loading {
+  background-color: color-mix(in srgb, var(--loica-surface) 75%, transparent);
+}
+
+.table [data-loica-table-empty-cell] {
+  padding: 0;
+}
+
+.table tr[data-selected] {
+  background-color: color-mix(in srgb, var(--loica-color-primary-solid) var(--loica-overlay-active), transparent);
+}
+
+:global(:where([data-loica-table]:focus-visible)) {
+  outline: var(--loica-focus-ring-width) solid var(--loica-focus-ring-color);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+@media (forced-colors: active) {
+  .plain th,
+  .plain td,
+  .bordered,
+  .bordered th,
+  .bordered td {
+    border-color: CanvasText;
+  }
+}

@@ -1,0 +1,184 @@
+/* tabs.module.css */
+:global(:where([data-loica-tabs])) {
+  display: flex;
+  flex-direction: column;
+}
+
+:global(:where([data-loica-tabs][data-orientation='vertical'])) {
+  flex-direction: row;
+}
+
+:global(:where([data-loica-tabs-list])) {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  width: inherit;
+}
+
+:global(:where([data-loica-tabs-list][data-orientation='vertical'])) {
+  align-items: stretch;
+  flex-direction: column;
+}
+
+:global(:where([data-loica-tabs-list][data-alignment='center'])) {
+  justify-content: center;
+}
+
+:global(:where([data-loica-tabs-list][data-alignment='right'])) {
+  justify-content: flex-end;
+}
+
+:global(:where([data-loica-tabs-tab])) {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.sm {
+  padding: var(--loica-space-1) var(--loica-space-2);
+  font-size: var(--loica-font-size-sm);
+}
+
+.md {
+  padding: var(--loica-space-2) var(--loica-space-3);
+}
+
+.lg {
+  padding: var(--loica-space-3) var(--loica-space-4);
+  font-size: var(--loica-font-size-lg);
+}
+
+[data-orientation='vertical'] .underline {
+  border-inline-end: solid var(--loica-border-width-thin) var(--loica-border);
+  border-block-end: none;
+}
+
+.underline {
+  gap: var(--loica-space-4);
+  border-block-end: solid var(--loica-border-width-thin) var(--loica-border);
+}
+
+.tab {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--loica-space-2);
+  outline: var(--loica-focus-ring-width) solid transparent;
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+:is(.rounded, .segment) .tab {
+  border-radius: var(--loica-radius-4);
+}
+
+[data-orientation='vertical'] .underline .tab {
+  border-inline-end: var(--loica-border-width-medium) solid transparent;
+  border-block-end: none;
+  transition: border-inline-end var(--loica-duration-normal);
+}
+
+.underline .tab {
+  border-block-end: var(--loica-border-width-medium) solid transparent;
+  transition: border-block-end var(--loica-duration-normal);
+}
+
+[data-orientation='vertical'] .underline .tab[data-active] {
+  border-inline-end: var(--loica-border-width-medium) solid var(--tabs-scheme);
+  border-block-end: none;
+}
+
+.underline .tab[data-active] {
+  border-block-end: var(--loica-border-width-medium) solid var(--tabs-scheme);
+  color: var(--tabs-scheme);
+  transition: color var(--loica-duration-normal);
+}
+
+.rounded .tab[data-active] {
+  background-color: var(--tabs-solid);
+  color: var(--tabs-text-color);
+  border-radius: var(--loica-radius-4);
+  transition: color var(--loica-duration-normal);
+}
+
+[data-orientation='vertical'] .enclosed {
+  border-inline-end: var(--loica-border-width-thin) solid var(--tabs-scheme);
+  border-block-end: none;
+}
+
+.enclosed {
+  border-block-end: var(--loica-border-width-thin) solid var(--tabs-scheme);
+}
+
+[data-orientation='vertical'] .enclosed .tab[data-active] {
+  border: var(--loica-border-width-thin) solid var(--tabs-scheme);
+  border-radius: var(--loica-radius-4);
+  border-inline-end: none;
+  border-end-end-radius: 0;
+  border-start-end-radius: 0;
+  margin-inline-end: -1px;
+  transition: color var(--loica-duration-normal);
+}
+
+.enclosed .tab[data-active] {
+  border: var(--loica-border-width-thin) solid var(--tabs-scheme);
+  border-radius: var(--loica-radius-4);
+  background: var(--loica-surface);
+  border-block-end: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  color: var(--tabs-scheme);
+  margin-block-end: -1px;
+  transition: color var(--loica-duration-normal);
+}
+
+.segment {
+  background-color: var(--tabs-solid);
+  color: var(--tabs-text-color);
+  gap: var(--loica-space-1);
+  padding: var(--loica-space-3) var(--loica-space-4);
+  transition: background-color var(--loica-duration-normal);
+  border-radius: var(--loica-radius-4);
+}
+
+.segment .tab[data-active] {
+  background-color: var(--tabs-solid-active);
+  color: var(--tabs-text-color);
+  border-radius: var(--loica-radius-4);
+  transition: color var(--loica-duration-normal);
+}
+
+.tab:not([data-active], :disabled):hover {
+  color: color-mix(in hsl, var(--tabs-scheme), black 10%);
+}
+
+.tab:focus-visible {
+  outline-color: var(--tabs-scheme);
+}
+
+.segment .tab:focus-visible {
+  outline-color: var(--tabs-text-color);
+}
+
+.panel:focus-visible {
+  outline: var(--loica-focus-ring-width) solid var(--tabs-scheme);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+[data-orientation='vertical'] .panel {
+  padding: var(--loica-space-2) var(--loica-space-4);
+}
+
+.panel {
+  padding: var(--loica-space-4) var(--loica-space-2);
+  border: none;
+}
+
+@media (forced-colors: active) {
+  .tab[data-active][data-active][data-loica-tabs-tab] {
+    background-color: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+}

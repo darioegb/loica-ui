@@ -1,0 +1,117 @@
+.sm {
+  --checkbox-size: var(--loica-space-4);
+}
+
+.md {
+  --checkbox-size: var(--loica-space-5);
+}
+
+.lg {
+  --checkbox-size: var(--loica-space-6);
+}
+
+.checkbox {
+  appearance: none;
+  background-color: var(--loica-surface);
+  border: var(--loica-border-width-medium) solid var(--loica-border-strong);
+  border-radius: var(--loica-radius-2);
+  box-sizing: border-box;
+  cursor: pointer;
+  flex: none;
+  height: var(--checkbox-size);
+  margin: 0;
+  position: relative;
+  transition:
+    background-color var(--loica-duration-fast),
+    border-color var(--loica-duration-fast);
+  width: var(--checkbox-size);
+}
+
+.checkbox::before {
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  content: '';
+  inset: 17%;
+  position: absolute;
+  transform: scale(0);
+  transition: transform var(--loica-duration-fast);
+}
+
+.solid::before {
+  background-color: var(--checkbox-contrast);
+}
+
+.solid:checked,
+.solid:indeterminate {
+  background-color: var(--checkbox-solid);
+  border-color: var(--checkbox-solid);
+}
+
+.outline::before {
+  background-color: var(--checkbox-text);
+}
+
+.outline:checked,
+.outline:indeterminate {
+  border-color: var(--checkbox-text);
+}
+
+.checkbox:checked::before {
+  transform: scale(1);
+}
+
+.checkbox:indeterminate::before {
+  clip-path: none;
+  inset: calc(50% - 1px) 20%;
+  transform: scale(1);
+}
+
+.checkbox:enabled:hover:not(:checked, :indeterminate) {
+  border-color: var(--checkbox-text);
+}
+
+.checkbox:focus-visible {
+  outline: var(--loica-focus-ring-width) solid var(--checkbox-text);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+.invalid:not(:checked, :indeterminate) {
+  border-color: var(--checkbox-text);
+}
+
+.checkbox:disabled {
+  cursor: not-allowed;
+  opacity: var(--loica-opacity-disabled);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkbox,
+  .checkbox::before {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .checkbox {
+    border-color: CanvasText;
+    forced-color-adjust: none;
+  }
+
+  .solid:checked,
+  .solid:indeterminate {
+    background-color: Highlight;
+    border-color: Highlight;
+  }
+
+  .solid::before {
+    background-color: HighlightText;
+  }
+
+  .outline:checked,
+  .outline:indeterminate {
+    border-color: Highlight;
+  }
+
+  .outline::before {
+    background-color: Highlight;
+  }
+}

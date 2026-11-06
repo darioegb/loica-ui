@@ -10,8 +10,8 @@ const isProd = process.env.NODE_ENV === 'prod'
 const SUN_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`
 const MOON_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>`
 
-const STORAGE_KEY = 'plume-colormode'
-const COLOR_MODE_EVENT = 'plume/color-mode'
+const STORAGE_KEY = 'loica-colormode'
+const COLOR_MODE_EVENT = 'loica/color-mode'
 
 const getStoredMode = (): 'light' | 'dark' | null => {
   try {
@@ -39,16 +39,16 @@ const CHEVRON_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
 const createVersionMenu = (): [HTMLButtonElement, HTMLUListElement] => {
   const button = document.createElement('button')
   button.type = 'button'
-  button.className = 'plume-version'
+  button.className = 'loica-version'
   button.title = 'Change the version of the docs'
-  button.setAttribute('aria-controls', 'plume-version-list')
+  button.setAttribute('aria-controls', 'loica-version-list')
   button.setAttribute('aria-expanded', 'false')
   button.append(currentVersion.label)
   button.insertAdjacentHTML('beforeend', CHEVRON_ICON)
 
   const list = document.createElement('ul')
-  list.className = 'plume-version-list'
-  list.id = 'plume-version-list'
+  list.className = 'loica-version-list'
+  list.id = 'loica-version-list'
   list.hidden = true
   for (const version of versions) {
     const link = document.createElement('a')
@@ -68,7 +68,7 @@ const createVersionMenu = (): [HTMLButtonElement, HTMLUListElement] => {
     setOpen(list.hidden)
   })
   document.addEventListener('click', (event) => {
-    if (!list.hidden && !(event.target as Element).closest('.plume-version-menu')) setOpen(false)
+    if (!list.hidden && !(event.target as Element).closest('.loica-version-menu')) setOpen(false)
   })
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape' || list.hidden) return
@@ -79,12 +79,12 @@ const createVersionMenu = (): [HTMLButtonElement, HTMLUListElement] => {
 }
 
 // The toggle lives in the header so it stays visible when the production build hides the toolbar.
-addons.register('plume/theme-sync', (api) => {
+addons.register('loica/theme-sync', (api) => {
   const channel = api.getChannel()
   let colorMode: 'light' | 'dark' = getStoredMode() ?? (prefersDark() ? 'dark' : 'light')
 
   const renderToggle = (): void => {
-    const toggle = document.querySelector<HTMLButtonElement>('.plume-theme-toggle')
+    const toggle = document.querySelector<HTMLButtonElement>('.loica-theme-toggle')
     if (!toggle) return
     toggle.innerHTML = colorMode === 'dark' ? SUN_ICON : MOON_ICON
     toggle.title = colorMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
@@ -92,18 +92,18 @@ addons.register('plume/theme-sync', (api) => {
 
   const injectToggle = (): void => {
     const links = document.querySelector('header .header-links')
-    if (links && !links.querySelector('.plume-theme-toggle')) {
+    if (links && !links.querySelector('.loica-theme-toggle')) {
       const button = document.createElement('button')
       button.type = 'button'
-      button.className = 'plume-theme-toggle'
+      button.className = 'loica-theme-toggle'
       button.setAttribute('aria-label', 'Toggle color mode')
       button.addEventListener('click', () => {
         setMode(colorMode === 'dark' ? 'light' : 'dark')
       })
-      links.insertBefore(button, links.querySelector('.plume-version-menu')?.nextSibling ?? links.firstChild)
+      links.insertBefore(button, links.querySelector('.loica-version-menu')?.nextSibling ?? links.firstChild)
       renderToggle()
     }
-    const navToggle = document.querySelector<HTMLButtonElement>('.plume-nav-toggle')
+    const navToggle = document.querySelector<HTMLButtonElement>('.loica-nav-toggle')
     if (navToggle && !navToggle.dataset.wired) {
       navToggle.dataset.wired = 'true'
       navToggle.addEventListener('click', () => {
@@ -120,10 +120,10 @@ addons.register('plume/theme-sync', (api) => {
     // The drawer is a modal <dialog>, so while it is open the header (and its hamburger) is inert and
     // the bottom bar is hidden: give the drawer a close button of its own.
     const drawer = document.querySelector<HTMLDialogElement>('#storybook-mobile-menu')
-    if (drawer && !drawer.querySelector('.plume-nav-close')) {
+    if (drawer && !drawer.querySelector('.loica-nav-close')) {
       const close = document.createElement('button')
       close.type = 'button'
-      close.className = 'plume-nav-close'
+      close.className = 'loica-nav-close'
       close.setAttribute('aria-label', 'Close menu')
       close.insertAdjacentHTML(
         'beforeend',
@@ -144,12 +144,12 @@ addons.register('plume/theme-sync', (api) => {
 
   const injectVersion = (): void => {
     const links = document.querySelector('header .header-links')
-    if (!links || links.querySelector('.plume-version-menu')) return
+    if (!links || links.querySelector('.loica-version-menu')) return
     const wrapper = document.createElement('div')
-    wrapper.className = 'plume-version-menu'
+    wrapper.className = 'loica-version-menu'
     if (versions.length === 1) {
       const badge = document.createElement('span')
-      badge.className = 'plume-version'
+      badge.className = 'loica-version'
       badge.textContent = currentVersion.label
       badge.title = 'Version of the library these docs describe'
       wrapper.append(badge)
@@ -162,7 +162,7 @@ addons.register('plume/theme-sync', (api) => {
   const applyMode = (mode: 'light' | 'dark'): void => {
     colorMode = mode
     api.setOptions({ theme: mode === 'dark' ? darkTheme : lightTheme })
-    document.documentElement.setAttribute('data-plume-mode', mode)
+    document.documentElement.setAttribute('data-loica-mode', mode)
     renderToggle()
   }
 
@@ -196,7 +196,7 @@ addons.register('plume/theme-sync', (api) => {
     'click',
     (event) => {
       const target = event.target as Element | null
-      if (target?.closest('.plume-nav-toggle, button[aria-label="Open navigation menu"]')) {
+      if (target?.closest('.loica-nav-toggle, button[aria-label="Open navigation menu"]')) {
         openingMobileMenu = true
         setTimeout(() => (openingMobileMenu = false), 500)
       }

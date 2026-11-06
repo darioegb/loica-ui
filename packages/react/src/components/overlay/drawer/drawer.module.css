@@ -1,0 +1,154 @@
+:global(:where(dialog[data-loica-dialog]))[data-side='left'],
+:global(:where(dialog[data-loica-dialog]))[data-side='right'] {
+  align-self: stretch;
+}
+
+:global(:where(dialog[data-loica-dialog]))[data-side='right'] {
+  margin-inline-start: auto;
+}
+
+:global(:where(dialog[data-loica-dialog]))[data-side='bottom'],
+:global(:where(dialog[data-loica-dialog]))[data-side='top'] {
+  align-self: auto;
+  width: 100%;
+}
+
+.backdrop[data-loica-modal-backdrop] {
+  padding: 0;
+}
+
+.leftBackdrop[data-loica-modal-backdrop] {
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.rightBackdrop[data-loica-modal-backdrop] {
+  align-items: stretch;
+  justify-content: flex-end;
+}
+
+.topBackdrop[data-loica-modal-backdrop] {
+  align-items: flex-start;
+  justify-content: stretch;
+}
+
+.bottomBackdrop[data-loica-modal-backdrop] {
+  align-items: flex-end;
+  justify-content: stretch;
+}
+
+.drawer[data-loica-dialog] {
+  border-radius: 0;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.left.sm,
+.right.sm {
+  --drawer-size: 20rem;
+}
+
+.left.md,
+.right.md {
+  --drawer-size: 28rem;
+}
+
+.left.lg,
+.right.lg {
+  --drawer-size: 40rem;
+}
+
+.top.sm,
+.bottom.sm {
+  --drawer-size: 30vh;
+}
+
+.top.md,
+.bottom.md {
+  --drawer-size: 50vh;
+}
+
+.top.lg,
+.bottom.lg {
+  --drawer-size: 80vh;
+}
+
+.left.drawer[data-loica-dialog],
+.right.drawer[data-loica-dialog] {
+  max-height: none;
+  max-width: calc(100% - var(--loica-space-12));
+  width: var(--drawer-size);
+}
+
+.top.drawer[data-loica-dialog],
+.bottom.drawer[data-loica-dialog] {
+  max-height: var(--drawer-size);
+  max-width: none;
+  width: 100%;
+}
+
+.left.drawer[data-loica-dialog] {
+  border-start-end-radius: var(--loica-radius-6);
+  border-end-end-radius: var(--loica-radius-6);
+}
+
+.right.drawer[data-loica-dialog] {
+  border-start-start-radius: var(--loica-radius-6);
+  border-end-start-radius: var(--loica-radius-6);
+}
+
+.top.drawer[data-loica-dialog] {
+  border-end-start-radius: var(--loica-radius-6);
+  border-end-end-radius: var(--loica-radius-6);
+}
+
+.bottom.drawer[data-loica-dialog] {
+  border-start-start-radius: var(--loica-radius-6);
+  border-start-end-radius: var(--loica-radius-6);
+}
+
+.square.drawer[data-loica-dialog] {
+  border-radius: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .left.drawer[data-loica-dialog] {
+    animation: drawer-in-left var(--loica-duration-normal) var(--loica-easing-out);
+  }
+
+  .right.drawer[data-loica-dialog] {
+    animation: drawer-in-right var(--loica-duration-normal) var(--loica-easing-out);
+  }
+
+  .top.drawer[data-loica-dialog] {
+    animation: drawer-in-top var(--loica-duration-normal) var(--loica-easing-out);
+  }
+
+  .bottom.drawer[data-loica-dialog] {
+    animation: drawer-in-bottom var(--loica-duration-normal) var(--loica-easing-out);
+  }
+}
+
+@keyframes drawer-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes drawer-in-right {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes drawer-in-top {
+  from {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes drawer-in-bottom {
+  from {
+    transform: translateY(100%);
+  }
+}

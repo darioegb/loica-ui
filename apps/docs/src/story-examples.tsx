@@ -29,7 +29,7 @@ interface DocsStory {
   withToolbar: boolean
 }
 
-const PACKAGE_DIR = 'packages/plume-ui-react/'
+const PACKAGE_DIR = 'packages/react/'
 
 const STACKBLITZ_LOGO = (
   <svg aria-hidden="true" fill="currentColor" focusable="false" height="12" viewBox="0 0 28 28" width="12">
@@ -86,7 +86,7 @@ function CopyLabel({ register }: Readonly<{ register: (show: (copied: boolean) =
 }
 
 const colorModeOf = (): 'dark' | 'light' =>
-  document.documentElement.getAttribute('data-plume-color-mode') === 'dark' ? 'dark' : 'light'
+  document.documentElement.getAttribute('data-loica-color-mode') === 'dark' ? 'dark' : 'light'
 
 function StoryExample({ story, tools }: Readonly<{ story: DocsStory; tools: Tools | null }>): ReactNode {
   const docsContext = useContext(DocsContext)
@@ -98,7 +98,7 @@ function StoryExample({ story, tools }: Readonly<{ story: DocsStory; tools: Tool
     tools.sdk.openProject(
       {
         title: `${component} - ${story.name}`,
-        description: `Plume UI React: ${story.title} - ${story.name}`,
+        description: `Loica UI React: ${story.title} - ${story.name}`,
         template: 'node',
         files: tools.build(code, story.id, localsOf(tools, story.fileName), colorModeOf()),
       },

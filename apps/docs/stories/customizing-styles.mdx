@@ -16,7 +16,7 @@ need.
   <tbody>
     <tr><td>Change the color of a component</td><td><code>colorScheme</code>, or your own tokens in <code>ThemeProvider</code></td></tr>
     <tr><td>Change one value (a radius, a size, a color of a state)</td><td>The CSS variable the component reads</td></tr>
-    <tr><td>Add something Plume does not style (a margin, a width, a ring)</td><td><code>className</code>, in any variant</td></tr>
+    <tr><td>Add something Loica does not style (a margin, a width, a ring)</td><td><code>className</code>, in any variant</td></tr>
     <tr><td>Replace the look of a component or of one of its parts</td><td><code>variant='unstyled'</code> and your own classes</td></tr>
   </tbody>
 </table>
@@ -24,58 +24,58 @@ need.
 ## `className` in every variant
 
 `className` and `style` of a component go to the outermost element it renders. The elements a component draws by itself
-carry a `data-plume-<component>-<element>` attribute, so you style them from the parent, and the ones you compose
+carry a `data-loica-<component>-<element>` attribute, so you style them from the parent, and the ones you compose
 (the items of a `List`, the header of a `Modal`) are parts you can import, each with its own `className`, `style` and
 `ref`:
 
 ```tsx
 <Input
-  className='mt-4 [&_[data-plume-input-field]]:font-mono [&_[data-plume-input-reveal]]:opacity-60'
+  className='mt-4 [&_[data-loica-input-field]]:font-mono [&_[data-loica-input-reveal]]:opacity-60'
   revealable
   type='password'
 />
 ```
 
-The class is added **next to** the Plume classes of the part, in the `outline`, `filled`, `solid` and every other
-variant. It does not replace them, but it wins: the CSS of Plume is in the cascade layer `plume`, and CSS with no layer
+The class is added **next to** the Loica classes of the part, in the `outline`, `filled`, `solid` and every other
+variant. It does not replace them, but it wins: the CSS of Loica is in the cascade layer `loica`, and CSS with no layer
 beats CSS in a layer whatever its specificity, so `px-5` or a rule of yours for the same property always overrides the
-one of Plume.
+one of Loica.
 
 ## Cascade layers
 
-`plume-ui-react/styles.css` starts with `@layer base, plume, components, utilities;` and puts everything inside
-`@layer plume`. The order is the one of the layers that come before, so:
+`@loica-ui/react/styles.css` starts with `@layer base, loica, components, utilities;` and puts everything inside
+`@layer loica`. The order is the one of the layers that come before, so:
 
-- **Your own CSS and the utilities of Tailwind v3**: no layer, so they win over Plume. Nothing to do.
-- **Tailwind v4**: its utilities are in the layer `utilities`, which comes after `plume`, so they win. Declare the
-  order first if you import Tailwind before Plume: `@layer theme, base, plume, components, utilities;`.
+- **Your own CSS and the utilities of Tailwind v3**: no layer, so they win over Loica. Nothing to do.
+- **Tailwind v4**: its utilities are in the layer `utilities`, which comes after `loica`, so they win. Declare the
+  order first if you import Tailwind before Loica: `@layer theme, base, loica, components, utilities;`.
 - **A reset with no layer** (Bootstrap's reboot, `normalize.css`, and the **preflight of Tailwind v3**) **also beats
-  Plume**: its `button { padding: 0 }` or `* { border-width: 0 }` would strip the styles of the buttons and the inputs.
-  Import it into a layer that comes before `plume`. With Tailwind v3, turn the preflight off (`corePlugins: {
+  Loica**: its `button { padding: 0 }` or `* { border-width: 0 }` would strip the styles of the buttons and the inputs.
+  Import it into a layer that comes before `loica`. With Tailwind v3, turn the preflight off (`corePlugins: {
   preflight: false }`) and import a reset of your own the same way:
 
 ```css
-@layer reset, base, plume, components, utilities;
+@layer reset, base, loica, components, utilities;
 
 @import 'bootstrap/dist/css/bootstrap.min.css' layer(reset);
-@import 'plume-ui-react/styles.css';
+@import '@loica-ui/react/styles.css';
 ```
 
-Tailwind v4's preflight is already in `base`, which comes before `plume`, so it needs nothing.
+Tailwind v4's preflight is already in `base`, which comes before `loica`, so it needs nothing.
 
-That layer is for the reboot. When you style Plume with Bootstrap's own classes (`form-control`, `accordion-button`),
-import Bootstrap **without a layer**, after `plume-ui-react/styles.css`: the resets that `unstyled` keeps (`border: 0
-solid` on an input, for instance) are in the layer `plume`, and a layer that comes before it would lose to them. Its
-reboot then also beats the styled components of Plume, so use `variant='unstyled'` on every component of that page.
+That layer is for the reboot. When you style Loica with Bootstrap's own classes (`form-control`, `accordion-button`),
+import Bootstrap **without a layer**, after `@loica-ui/react/styles.css`: the resets that `unstyled` keeps (`border: 0
+solid` on an input, for instance) are in the layer `loica`, and a layer that comes before it would lose to them. Its
+reboot then also beats the styled components of Loica, so use `variant='unstyled'` on every component of that page.
 
 The sizes of one component are local variables you can override, like `--sidebar-width` or `--skeleton-height`, and the
-widths that components share come from the `--plume-container-*` scale.
+widths that components share come from the `--loica-container-*` scale.
 
-Adding what Plume does not set (`mt-4`, `max-w-md`, `ring-2`, `hidden`) always works.
+Adding what Loica does not set (`mt-4`, `max-w-md`, `ring-2`, `hidden`) always works.
 
 ## `variant='unstyled'`
 
-`variant='unstyled'` drops every Plume class and keeps only yours, so you style the component from scratch with
+`variant='unstyled'` drops every Loica class and keeps only yours, so you style the component from scratch with
 Tailwind or Bootstrap. It applies to the root and to all its parts at once:
 
 ```tsx
@@ -93,7 +93,7 @@ Every story of Tailwind and Bootstrap in the components shows the component in `
 
 ## Styling states
 
-Elements expose their state as attributes, and every one carries `data-plume-<component>-<element>`, so you can style a
+Elements expose their state as attributes, and every one carries `data-loica-<component>-<element>`, so you can style a
 state without a class of your own:
 
 ```tsx
@@ -101,7 +101,7 @@ state without a class of your own:
 ```
 
 ```css
-[data-plume-select-option][aria-selected='true'] {
+[data-loica-select-option][aria-selected='true'] {
   font-weight: 600;
 }
 ```

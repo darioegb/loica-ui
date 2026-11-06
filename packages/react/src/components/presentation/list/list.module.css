@@ -1,0 +1,207 @@
+:global(
+  :where(
+    [data-loica-list-item]:has(
+      > [data-loica-list-item-button],
+      > [data-loica-list-item-icon],
+      > [data-loica-list-item-text]
+    )
+  )
+) {
+  align-items: center;
+  display: flex;
+}
+
+:global(:where([data-loica-list-item-button])) {
+  align-items: center;
+  background-color: transparent;
+  border: 0;
+  box-sizing: border-box;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  flex: 1 1 auto;
+  font: inherit;
+  inline-size: 100%;
+  min-inline-size: 0;
+  text-align: start;
+  text-decoration: none;
+}
+
+:global(:where([data-loica-list-item-button][data-disabled])) {
+  cursor: default;
+  pointer-events: none;
+}
+
+:global(:where([data-loica-list-item-icon])) {
+  align-items: center;
+  display: inline-flex;
+  flex: none;
+}
+
+:global(:where([data-loica-list-item-text])) {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+:global(
+  :where(
+    [data-loica-list-item-text-primary],
+    [data-loica-list-item-text-secondary]
+  )
+) {
+  display: block;
+}
+
+/* The parts carry no class: the root styles them through their data attributes, so they need no
+   context and render on the server. */
+.list {
+  box-sizing: border-box;
+  color: var(--loica-foreground);
+  font-family: var(--loica-font-family);
+  line-height: var(--loica-line-height-normal);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sm {
+  --list-padding-x: var(--loica-space-2);
+  --list-padding-y: var(--loica-space-1);
+  font-size: var(--loica-font-size-xs);
+}
+
+.md {
+  --list-padding-x: var(--loica-space-3);
+  --list-padding-y: var(--loica-space-2);
+  font-size: var(--loica-font-size-sm);
+}
+
+.lg {
+  --list-padding-x: var(--loica-space-4);
+  --list-padding-y: var(--loica-space-3);
+  font-size: var(--loica-font-size-base);
+}
+
+.plain {
+  background-color: transparent;
+}
+
+.bordered {
+  background-color: var(--loica-surface);
+  border: var(--loica-border-width-thin) solid var(--loica-border);
+  border-radius: var(--loica-radius-4);
+  overflow: hidden;
+}
+
+.filled {
+  background-color: var(--loica-surface-muted);
+  border-radius: var(--loica-radius-4);
+  overflow: hidden;
+}
+
+.bullet {
+  list-style: disc inside;
+}
+
+.number {
+  list-style: decimal inside;
+}
+
+.list > [data-loica-list-item] {
+  align-items: center;
+  display: flex;
+  gap: var(--loica-space-3);
+  padding: var(--list-padding-y) var(--list-padding-x);
+}
+
+.bullet > [data-loica-list-item],
+.number > [data-loica-list-item] {
+  display: list-item;
+}
+
+.list > [data-loica-list-item]:has(> [data-loica-list-item-button]) {
+  gap: 0;
+  padding: 0;
+}
+
+.list > [data-loica-list-item]:has(> [data-loica-list-item-button]) > :not([data-loica-list-item-button]) {
+  margin-inline-end: var(--list-padding-x);
+}
+
+.divided > li:not([data-loica-list-divider]) + li:not([data-loica-list-divider]) {
+  border-block-start: var(--loica-border-width-thin) solid var(--loica-border);
+}
+
+.list > [data-loica-list-item] > [data-loica-list-item-button] {
+  gap: var(--loica-space-3);
+  padding: var(--list-padding-y) var(--list-padding-x);
+  transition: background-color var(--loica-duration-fast);
+}
+
+.list > [data-loica-list-item] > [data-loica-list-item-button]:hover {
+  background-color: color-mix(
+    in srgb,
+    currentcolor var(--loica-overlay-hover),
+    transparent
+  );
+}
+
+.list > [data-loica-list-item] > [data-loica-list-item-button]:focus-visible {
+  outline: var(--loica-focus-ring-width) solid var(--list-text);
+  outline-offset: var(--loica-focus-ring-inset);
+}
+
+.list > [data-loica-list-item] > [data-loica-list-item-button][data-selected] {
+  background-color: var(--list-tint);
+  color: var(--list-tint-text);
+}
+
+.list > [data-loica-list-item] > [data-loica-list-item-button][data-selected] [data-loica-list-item-text-secondary] {
+  color: inherit;
+}
+
+.list > [data-loica-list-item] > [data-loica-list-item-button][data-selected]:hover {
+  background-color: var(--list-tint-strong);
+}
+
+.list > [data-loica-list-item] > [data-loica-list-item-button]:is(:disabled, [aria-disabled="true"]) {
+  opacity: var(--loica-opacity-disabled);
+}
+
+.list > [data-loica-list-item] [data-loica-list-item-text-secondary] {
+  color: var(--loica-muted);
+  font-size: 0.875em;
+}
+
+.list > [data-loica-list-subheader] {
+  color: var(--loica-muted);
+  font-size: 0.8em;
+  font-weight: var(--loica-font-weight-semibold);
+  letter-spacing: var(--loica-letter-spacing-wide);
+  padding: var(--list-padding-y) var(--list-padding-x);
+  text-transform: uppercase;
+}
+
+.list > [data-loica-list-divider] {
+  border-block-start: var(--loica-border-width-thin) solid var(--loica-border);
+  list-style: none;
+  margin-block: var(--loica-space-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .list > [data-loica-list-item] > [data-loica-list-item-button] {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .bordered {
+    border-color: CanvasText;
+  }
+
+  .list > [data-loica-list-item] > [data-loica-list-item-button][data-selected] {
+    background-color: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+}

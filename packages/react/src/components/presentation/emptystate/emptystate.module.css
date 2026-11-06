@@ -1,0 +1,66 @@
+:global(:where([data-loica-emptystate])) {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+:global(:where([data-loica-emptystate-icon] > svg)) {
+  block-size: var(--emptystate-icon-size, 3rem);
+  inline-size: var(--emptystate-icon-size, 3rem);
+}
+
+.emptystate {
+  border-radius: var(--loica-radius-4);
+  box-sizing: border-box;
+  color: var(--loica-foreground);
+  font-family: var(--loica-font-family);
+  gap: var(--loica-space-2);
+}
+
+.sm {
+  --emptystate-icon-size: var(--loica-space-8);
+  font-size: var(--loica-font-size-xs);
+  padding: var(--loica-space-4);
+}
+
+.md {
+  --emptystate-icon-size: var(--loica-space-10);
+  font-size: var(--loica-font-size-sm);
+  padding: var(--loica-space-6);
+}
+
+.lg {
+  --emptystate-icon-size: var(--loica-space-12);
+  font-size: var(--loica-font-size-base);
+  padding: var(--loica-space-8);
+}
+
+.outline {
+  border: var(--loica-border-width-thin) dashed var(--loica-border);
+}
+
+.filled {
+  background-color: var(--loica-surface-muted);
+}
+
+:where(.emptystate) .icon {
+  color: var(--loica-muted);
+  display: inline-flex;
+}
+
+:where(.emptystate) .title {
+  font-size: 1.125em;
+  font-weight: var(--loica-font-weight-semibold);
+  margin: 0;
+}
+
+:where(.emptystate) .description {
+  color: var(--loica-muted);
+  margin: 0;
+  max-inline-size: 36ch;
+}
+
+:where(.emptystate) .action {
+  margin-block-start: var(--loica-space-2);
+}

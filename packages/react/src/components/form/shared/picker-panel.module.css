@@ -1,0 +1,36 @@
+.panel {
+  background-color: var(--loica-surface);
+}
+
+.panelOutline,
+.panelFilled,
+.panelUnderline {
+  box-shadow: var(--loica-shadow-lg);
+  border-radius: var(--loica-radius-6);
+}
+
+.panelOutline {
+  border: var(--loica-border-width-thin) solid var(--loica-border-strong);
+}
+
+.panelFilled {
+  background-color: var(--loica-surface-muted);
+  border-block-end: var(--loica-border-width-medium) solid var(--picker-scheme);
+}
+
+.panelUnderline {
+  border-radius: 0;
+  border-block-end: var(--loica-border-width-medium) solid var(--picker-scheme);
+}
+
+.panelPill:is(.panelOutline, .panelFilled) {
+  border-radius: 1.5rem;
+}
+
+.panelSm {
+  font-size: var(--loica-font-size-xs);
+}
+
+.panelLg {
+  font-size: var(--loica-font-size-lg);
+}

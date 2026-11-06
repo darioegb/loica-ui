@@ -16,7 +16,7 @@ describe('__Name__ component', () => {
   it('exposes the color scheme as CSS variables', () => {
     render(<__Name__ colorScheme="success">Content</__Name__>)
     expect(screen.getByText('Content')).toHaveStyle(
-      '--__slug__-solid: var(--plume-color-success-solid)',
+      '--__slug__-solid: var(--loica-color-success-solid)',
     )
   })
 
@@ -30,7 +30,7 @@ describe('__Name__ component', () => {
     expect(screen.getByText('Content')).toHaveClass('__slug__', 'custom')
   })
 
-  it('drops the Plume classes when unstyled', () => {
+  it('drops the Loica classes when unstyled', () => {
     render(
       <__Name__ className="custom" variant="unstyled">
         Content

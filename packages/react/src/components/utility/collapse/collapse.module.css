@@ -1,0 +1,88 @@
+:global(:where([data-loica-collapse])) {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+}
+
+:global(:where([data-loica-collapse][data-open])) {
+  grid-template-rows: 1fr;
+  visibility: visible;
+}
+
+:global(:where([data-loica-collapse-clip])) {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.collapse {
+  box-sizing: border-box;
+}
+
+:where(.collapse)
+  > :global(:where([data-loica-collapse-clip]))
+  > :global([data-loica-collapse-body]) {
+  box-sizing: border-box;
+  color: var(--loica-foreground);
+  font-family: var(--loica-font-family);
+  line-height: var(--loica-line-height-normal);
+}
+
+:where(.sm) > :global(:where([data-loica-collapse-clip])) > :global([data-loica-collapse-body]) {
+  font-size: var(--loica-font-size-xs);
+  padding: var(--loica-space-2) var(--loica-space-3);
+}
+
+:where(.md) > :global(:where([data-loica-collapse-clip])) > :global([data-loica-collapse-body]) {
+  font-size: var(--loica-font-size-sm);
+  padding: var(--loica-space-3) var(--loica-space-4);
+}
+
+:where(.lg) > :global(:where([data-loica-collapse-clip])) > :global([data-loica-collapse-body]) {
+  font-size: var(--loica-font-size-base);
+  padding: var(--loica-space-4) var(--loica-space-6);
+}
+
+:where(.filled)
+  > :global(:where([data-loica-collapse-clip]))
+  > :global([data-loica-collapse-body]) {
+  background-color: var(--collapse-tint, var(--loica-surface-muted));
+  border-radius: var(--loica-radius-4);
+  color: var(--collapse-tint-text, var(--loica-foreground));
+}
+
+:where(.outline)
+  > :global(:where([data-loica-collapse-clip]))
+  > :global([data-loica-collapse-body]) {
+  border: var(--loica-border-width-thin) solid var(--collapse-solid, var(--loica-border));
+  border-radius: var(--loica-radius-4);
+}
+
+:where(.accent)
+  > :global(:where([data-loica-collapse-clip]))
+  > :global([data-loica-collapse-body]) {
+  background-color: var(--collapse-tint, var(--loica-surface-muted));
+  border-inline-start: var(--loica-border-width-thick) solid
+    var(--collapse-solid, var(--loica-border-strong, var(--loica-border)));
+  border-radius: 0 var(--loica-radius-4) var(--loica-radius-4) 0;
+  color: var(--collapse-tint-text, var(--loica-foreground));
+}
+
+@media (forced-colors: active) {
+  :where(.filled)
+    > :global(:where([data-loica-collapse-clip]))
+    > :global([data-loica-collapse-body]) {
+    border: var(--loica-border-width-thin) solid CanvasText;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :global(:where([data-loica-collapse])) {
+    transition:
+      grid-template-rows var(--loica-duration-normal) var(--loica-easing-standard),
+      visibility 0s linear var(--loica-duration-normal);
+  }
+
+  :global(:where([data-loica-collapse][data-open])) {
+    transition-delay: 0s;
+  }
+}

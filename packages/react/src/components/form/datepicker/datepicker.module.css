@@ -1,0 +1,355 @@
+/* datepicker.module.css */
+
+:global(:where([data-loica-datepicker])) {
+  max-width: 100%;
+  position: relative;
+}
+
+:global(:where([data-loica-datepicker-calendar])) {
+  display: flex;
+  flex-direction: column;
+  max-height: var(--loica-available-height, none);
+  max-width: calc(100vw - var(--loica-space-4));
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  z-index: var(--loica-z-dropdown);
+}
+
+:global(:where([data-loica-datepicker-calendar][data-inline])) {
+  max-width: 100%;
+  position: relative;
+}
+
+:global(:where([data-loica-datepicker-pages])) {
+  display: flex;
+  max-width: 100%;
+}
+
+@media (--below-md) {
+  :global(:where([data-loica-datepicker-pages][data-range])) {
+    flex-direction: column;
+  }
+}
+
+:global(:where([data-loica-datepicker-header], [data-loica-datepicker-nav])) {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+:global(:where([data-loica-datepicker-weekdays], [data-loica-datepicker-grid])) {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+:global(:where([data-loica-datepicker-weekday])) {
+  text-align: center;
+}
+
+:global(:where([data-loica-datepicker-months])) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+:global(:where([data-loica-datepicker-years])) {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+:global(
+    :where(
+        [data-loica-datepicker-day],
+        [data-loica-datepicker-month-option],
+        [data-loica-datepicker-year-option],
+        [data-loica-datepicker-month-button],
+        [data-loica-datepicker-year-button],
+        [data-loica-datepicker-previous],
+        [data-loica-datepicker-next]
+      )
+  ) {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+:global(:where([data-loica-datepicker-day])) {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+:global(:where([data-loica-datepicker-day]:disabled)) {
+  cursor: not-allowed;
+}
+
+.datePickerModal {
+  --datepicker-day: var(--loica-space-10);
+  --datepicker-calendar-width: calc(var(--datepicker-day) * 7 + 3.5rem);
+  --datepicker-fill: color-mix(in srgb, var(--loica-foreground) var(--loica-overlay-hover), transparent);
+  margin-top: var(--loica-space-2);
+  position: absolute;
+}
+
+.variantOutline :is(.month, .year),
+.variantOutline .monthYearSelectors button:not([class*='icon']) {
+  border: var(--loica-border-width-thin) solid var(--loica-border-strong);
+}
+
+.variantFilled
+  :is(.month, .year, .day:not(.disabledDay), .monthYearSelectors button:not([class*='icon'])):not(
+    .selected
+  ) {
+  background-image: linear-gradient(var(--datepicker-fill), var(--datepicker-fill));
+}
+
+.variantUnderline :is(.month, .year, .day),
+.variantUnderline .monthYearSelectors button:not([class*='icon']) {
+  border-radius: 0;
+}
+
+.variantUnderline :is(.month, .year),
+.variantUnderline .monthYearSelectors button:not([class*='icon']) {
+  border-block-end: var(--loica-border-width-thin) solid var(--loica-border-strong);
+}
+
+.variantUnderline :is(.month, .year, .day).selected {
+  border-block-end: var(--loica-border-width-medium) solid var(--datepicker-scheme);
+}
+
+.inline {
+  margin-top: 0;
+  max-width: 100%;
+  position: relative;
+}
+
+.daySm {
+  --datepicker-day: var(--loica-space-8);
+}
+
+.dayLg {
+  --datepicker-day: 2.75rem;
+}
+
+.calendarContainer {
+  width: var(--datepicker-calendar-width);
+}
+
+.calendarContainerDouble {
+  width: calc(var(--datepicker-calendar-width) * 2);
+}
+
+@media (--below-md) {
+  .calendarContainerDouble {
+    width: var(--datepicker-calendar-width);
+  }
+}
+
+.calendar {
+  max-width: 100%;
+  width: var(--datepicker-calendar-width);
+  padding: var(--loica-space-3);
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--loica-space-3);
+}
+
+/* reset <button> defaults (variant="unstyled" applies none); state rules below override these */
+.day,
+.year,
+.month,
+.monthYearSelectors button {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.day:focus-visible,
+.year:focus-visible,
+.month:focus-visible,
+.monthYearSelectors button:focus-visible {
+  outline: var(--loica-focus-ring-width) solid var(--datepicker-scheme);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+.monthYearSelectors {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: var(--loica-space-1);
+}
+
+.monthYearSelectors button:not([class*='icon']) {
+  padding: var(--loica-space-2) var(--loica-space-4);
+  border-radius: var(--loica-radius-4);
+}
+
+.monthYearSelectors button[class*='icon'] {
+  padding: var(--loica-space-2);
+  border-radius: var(--loica-radius-full);
+}
+
+.monthYearSelectors button:hover {
+  background-color: var(--datepicker-hover-color);
+}
+
+.monthSelector,
+.yearSelector {
+  font-weight: var(--loica-font-weight-bold);
+}
+
+.yearSelectorGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--loica-space-2);
+}
+
+.year,
+.month {
+  display: inline-flex;
+  justify-content: center;
+  padding: var(--loica-space-2) var(--loica-space-4);
+  border-radius: var(--loica-radius-4);
+}
+
+.year:not(.selected):hover,
+.month:not(.selected):hover {
+  background-color: var(--datepicker-hover-color);
+}
+
+.year:hover,
+.month:hover {
+  background-color: var(--datepicker-selected-hover-color);
+}
+
+.monthSelectorGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--loica-space-2);
+}
+
+.daysOfWeek {
+  display: flex;
+  justify-content: center;
+  column-gap: var(--loica-space-1);
+  padding-bottom: var(--loica-space-1-5);
+}
+
+.dayOfWeek {
+  margin: 1px;
+  width: min(var(--datepicker-day), 100%);
+  display: block;
+  text-align: center;
+  font-size: var(--loica-font-size-sm);
+  color: var(--loica-muted);
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--loica-space-1);
+}
+
+.day {
+  margin-left: 1px;
+  margin-right: 1px;
+  display: flex;
+  aspect-ratio: 1;
+  width: min(var(--datepicker-day), 100%);
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--loica-radius-full);
+}
+
+.today {
+  box-shadow: inset 0 0 0 var(--loica-border-width-thin) currentColor;
+  color: var(--datepicker-scheme);
+}
+
+.rangeItem {
+  background-color: var(--datepicker-range-item-color);
+  color: var(--datepicker-range-item-text);
+}
+
+.selected {
+  background-color: var(--datepicker-solid);
+  color: var(--datepicker-contrast);
+}
+
+.day[data-hovered] {
+  background-color: var(--datepicker-hover-color);
+}
+
+.day[data-preview]:not(.selected) {
+  background-color: var(--datepicker-range-item-color);
+  color: var(--datepicker-range-item-text);
+}
+
+.day[data-hovered]:is(.selected, [data-preview]) {
+  background-color: var(--datepicker-selected-hover-color);
+  color: var(--datepicker-contrast);
+}
+
+.disabledDay {
+  color: var(--loica-muted);
+  cursor: not-allowed;
+}
+
+.day:disabled {
+  cursor: not-allowed;
+  opacity: var(--loica-opacity-disabled);
+}
+
+.outOfRangeDay {
+  text-decoration-line: line-through;
+}
+
+.footerActions {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--loica-space-3);
+  border-top: var(--loica-border-width-thin) solid var(--loica-border);
+}
+
+button.footerButton {
+  color: var(--loica-foreground);
+}
+
+button.footerButtonApply {
+  color: var(--datepicker-contrast);
+  margin-left: var(--loica-space-2);
+}
+
+@media (forced-colors: active) {
+  .selected,
+  .day[data-hovered]:is(.selected, [data-preview]) {
+    background-color: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+
+  .rangeItem,
+  .day[data-preview]:not(.selected) {
+    outline: 1px dashed Highlight;
+    outline-offset: var(--loica-focus-ring-inset);
+  }
+
+  .today {
+    outline: 1px solid CanvasText;
+    outline-offset: var(--loica-focus-ring-inset);
+  }
+
+  .day:focus-visible,
+  .year:focus-visible,
+  .month:focus-visible,
+  .monthYearSelectors button:focus-visible {
+    outline: var(--loica-focus-ring-width) solid Highlight;
+  }
+}

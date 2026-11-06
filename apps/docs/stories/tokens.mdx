@@ -1,14 +1,14 @@
 {/* tokens.mdx */}
 
 import { Meta } from '@storybook/addon-docs/blocks'
-import { defaultTheme } from 'plume-ui-react'
+import { defaultTheme } from '@loica-ui/react'
 
 <Meta title='Theme/Tokens' />
 
 # Design tokens
 
-Every token below is a CSS variable: the default values are declared in `plume-ui-react/styles.css`
-(and alone in `plume-ui-react/tokens.css`), and `<ThemeProvider>` declares only the ones your theme changes. Each scale
+Every token below is a CSS variable: the default values are declared in `@loica-ui/react/styles.css`
+(and alone in `@loica-ui/react/tokens.css`), and `<ThemeProvider>` declares only the ones your theme changes. Each scale
 has the values the components use, not a full design system: for the rest, use the scale of your CSS framework. The
 Tailwind v4 theme of
 <a href='./?path=/docs/guides-framework-integration--docs' target='_top'>Framework integration</a> turns them into
@@ -17,8 +17,8 @@ dedicated <a href='./?path=/docs/theme-colors--docs' target='_top'>Colors</a> pa
 
 ## Spacing
 
-`--plume-space-*`. The half step has a dash instead of the dot in the variable: `--plume-space-1-5`. Tailwind keeps its own spacing (`p-*`, `m-*`, `gap-*`), which has the same
-values as the default one of Plume but doesn't follow a theme that changes `spaces`.
+`--loica-space-*`. The half step has a dash instead of the dot in the variable: `--loica-space-1-5`. Tailwind keeps its own spacing (`p-*`, `m-*`, `gap-*`), which has the same
+values as the default one of Loica but doesn't follow a theme that changes `spaces`.
 
 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
   {Object.entries(defaultTheme.spaces)
@@ -34,7 +34,7 @@ values as the default one of Plume but doesn't follow a theme that changes `spac
 
 ## Radii
 
-`--plume-radius-*` · Tailwind `rounded-*`
+`--loica-radius-*` · Tailwind `rounded-*`
 
 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
   {Object.entries(defaultTheme.radii).map(([key, value]) => (
@@ -58,7 +58,7 @@ values as the default one of Plume but doesn't follow a theme that changes `spac
 
 ## Shadows
 
-`--plume-shadow-*` · Tailwind `shadow-*`
+`--loica-shadow-*` · Tailwind `shadow-*`
 
 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', padding: '1rem' }}>
   {Object.entries(defaultTheme.shadows).map(([key, value]) => (
@@ -81,7 +81,7 @@ values as the default one of Plume but doesn't follow a theme that changes `spac
 
 ## Typography
 
-`--plume-font-size-*`, `--plume-font-weight-*`, `--plume-line-height-*`, `--plume-letter-spacing-*` and `--plume-font-family` · Tailwind `text-*`, `font-*`, `leading-*`, `tracking-*` and `font-plume`
+`--loica-font-size-*`, `--loica-font-weight-*`, `--loica-line-height-*`, `--loica-letter-spacing-*` and `--loica-font-family` · Tailwind `text-*`, `font-*`, `leading-*`, `tracking-*` and `font-loica`
 
 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
   {Object.entries(defaultTheme.typography.fontSizes).map(([key, value]) => (
@@ -97,7 +97,7 @@ values as the default one of Plume but doesn't follow a theme that changes `spac
 
 ## Z‑index
 
-`--plume-z-*` · Tailwind `z-*`. Names, not numbers, in the order the layers stack (a `Select` opens over a `Modal`).
+`--loica-z-*` · Tailwind `z-*`. Names, not numbers, in the order the layers stack (a `Select` opens over a `Modal`).
 
 <ul>
   {Object.entries(defaultTheme.zIndices).map(([key, value]) => (
@@ -109,7 +109,7 @@ values as the default one of Plume but doesn't follow a theme that changes `spac
 
 ## Text styles
 
-`--plume-text-<name>-size`, `-weight`, `-line-height` and `-letter-spacing` · Tailwind `text-<name>` (`text-heading-1`, `text-body`, `text-caption`…)
+`--loica-text-<name>-size`, `-weight`, `-line-height` and `-letter-spacing` · Tailwind `text-<name>` (`text-heading-1`, `text-body`, `text-caption`…)
 
 A text style is a size, a weight, a line height and a letter spacing used together. They are made of the scales above,
 so changing `fontSizes` changes the styles too. `Heading` and `Text` use them, and so does the header of the `Modal`. The titles of components that have a `size` (`Card`, `Alert`, `EmptyState`, `Stepper`) stay relative to it, in `em`, so they scale with it.
@@ -121,8 +121,8 @@ so changing `fontSizes` changes the styles too. `Heading` and `Text` use them, a
       <span
         style={{
           fontFamily: defaultTheme.typography.fontFamily,
-          fontSize: style.fontSize.replace(/var\(--plume-font-size-(.+)\)/, (_, name) => defaultTheme.typography.fontSizes[name]),
-          fontWeight: style.fontWeight.replace(/var\(--plume-font-weight-(.+)\)/, (_, name) => defaultTheme.typography.fontWeights[name]),
+          fontSize: style.fontSize.replace(/var\(--loica-font-size-(.+)\)/, (_, name) => defaultTheme.typography.fontSizes[name]),
+          fontWeight: style.fontWeight.replace(/var\(--loica-font-weight-(.+)\)/, (_, name) => defaultTheme.typography.fontWeights[name]),
         }}
       >
         The quick brown fox
@@ -133,7 +133,7 @@ so changing `fontSizes` changes the styles too. `Heading` and `Text` use them, a
 
 ## Containers
 
-`--plume-container-<size>` · Tailwind `max-w-<size>`, `w-<size>`
+`--loica-container-<size>` · Tailwind `max-w-<size>`, `w-<size>`
 
 The named widths of the library, with the values of Tailwind v4. Use them for the max width of a dialog or a panel. The `Modal` uses `sm`, `lg` and `3xl` for its sizes `sm`, `md` and `lg`.
 
@@ -162,7 +162,7 @@ queries of the components, and `theme.breakpoints` is for your own code. They ar
 
 ## Motion
 
-`--plume-duration-*`, `--plume-easing-*` · Tailwind `duration-*`, `ease-*`
+`--loica-duration-*`, `--loica-easing-*` · Tailwind `duration-*`, `ease-*`
 
 <ul>
   {Object.entries(defaultTheme.motion.durations).map(([key, value]) => (
@@ -180,14 +180,14 @@ queries of the components, and `theme.breakpoints` is for your own code. They ar
 ## Focus ring, borders, controls and states
 
 <ul>
-  <li><code>--plume-focus-ring-width</code>, <code>-offset</code>, <code>-inset</code> and <code>-color</code> → {defaultTheme.focusRing.width}, {defaultTheme.focusRing.offset}, <code>{defaultTheme.focusRing.inset}</code>, <code>{defaultTheme.focusRing.color}</code>. Every ring around a control uses the offset, and the rings drawn inside an item (a row of a list or a menu, a day of the calendar) use the inset, so changing them in the theme moves all of them. The color is the fallback of the rings that have no <code>colorScheme</code>: the others take the <code>text</code> color of their scheme.</li>
-  <li><code>--plume-border-width-thin</code>, <code>-medium</code> and <code>-thick</code> → {defaultTheme.borderWidths.thin}, {defaultTheme.borderWidths.medium}, {defaultTheme.borderWidths.thick}</li>
-  <li><code>--plume-control-height-sm</code>, <code>-md</code> and <code>-lg</code> → {defaultTheme.controlHeights.sm}, {defaultTheme.controlHeights.md}, {defaultTheme.controlHeights.lg} · Tailwind <code>h-control-md</code></li>
-  <li><code>--plume-opacity-disabled</code> → {defaultTheme.opacities.disabled} · Tailwind <code>opacity-disabled</code></li>
-  <li><code>--plume-overlay-hover</code> and <code>-active</code> → {defaultTheme.overlays.hover}, {defaultTheme.overlays.active}: how much of the text color covers an item under the pointer or pressed, as in <code>color-mix(in srgb, currentcolor var(--plume-overlay-hover), transparent)</code>. Being a part of the text color, they work on any surface and in both modes.</li>
-  <li><code>--plume-target-min</code> → {defaultTheme.targets.min}: the smallest box a pointer has to hit (WCAG 2.5.8), for the small buttons and the dots.</li>
-  <li><code>--plume-border-hover</code> → {defaultTheme.semantic.borderHover}: the border of a field under the pointer, lighter than <code>--plume-border-strong</code> in dark mode.</li>
-  <li><code>--plume-backdrop</code>, the color behind a Modal or a Sidebar panel → {defaultTheme.semantic.backdrop} · Tailwind <code>bg-backdrop</code></li>
+  <li><code>--loica-focus-ring-width</code>, <code>-offset</code>, <code>-inset</code> and <code>-color</code> → {defaultTheme.focusRing.width}, {defaultTheme.focusRing.offset}, <code>{defaultTheme.focusRing.inset}</code>, <code>{defaultTheme.focusRing.color}</code>. Every ring around a control uses the offset, and the rings drawn inside an item (a row of a list or a menu, a day of the calendar) use the inset, so changing them in the theme moves all of them. The color is the fallback of the rings that have no <code>colorScheme</code>: the others take the <code>text</code> color of their scheme.</li>
+  <li><code>--loica-border-width-thin</code>, <code>-medium</code> and <code>-thick</code> → {defaultTheme.borderWidths.thin}, {defaultTheme.borderWidths.medium}, {defaultTheme.borderWidths.thick}</li>
+  <li><code>--loica-control-height-sm</code>, <code>-md</code> and <code>-lg</code> → {defaultTheme.controlHeights.sm}, {defaultTheme.controlHeights.md}, {defaultTheme.controlHeights.lg} · Tailwind <code>h-control-md</code></li>
+  <li><code>--loica-opacity-disabled</code> → {defaultTheme.opacities.disabled} · Tailwind <code>opacity-disabled</code></li>
+  <li><code>--loica-overlay-hover</code> and <code>-active</code> → {defaultTheme.overlays.hover}, {defaultTheme.overlays.active}: how much of the text color covers an item under the pointer or pressed, as in <code>color-mix(in srgb, currentcolor var(--loica-overlay-hover), transparent)</code>. Being a part of the text color, they work on any surface and in both modes.</li>
+  <li><code>--loica-target-min</code> → {defaultTheme.targets.min}: the smallest box a pointer has to hit (WCAG 2.5.8), for the small buttons and the dots.</li>
+  <li><code>--loica-border-hover</code> → {defaultTheme.semantic.borderHover}: the border of a field under the pointer, lighter than <code>--loica-border-strong</code> in dark mode.</li>
+  <li><code>--loica-backdrop</code>, the color behind a Modal or a Sidebar panel → {defaultTheme.semantic.backdrop} · Tailwind <code>bg-backdrop</code></li>
 </ul>
 
 The shadows and the backdrop have their own values in dark mode, because a dark shadow needs more opacity to be seen.

@@ -1,0 +1,116 @@
+:global(:where([data-loica-timepicker])) {
+  position: relative;
+}
+
+:global(:where([data-loica-timepicker-panel])) {
+  display: flex;
+  max-width: calc(100vw - var(--loica-space-4));
+  z-index: var(--loica-z-dropdown);
+}
+
+:global(:where([data-loica-timepicker-panel][data-inline])) {
+  max-width: 100%;
+  position: relative;
+  width: fit-content;
+}
+
+.panel {
+  --timepicker-fill: color-mix(in srgb, var(--loica-foreground) var(--loica-overlay-hover), transparent);
+  gap: var(--loica-space-1);
+  margin: 0;
+  padding: var(--loica-space-2);
+  position: absolute;
+}
+
+.inline {
+  margin-top: 0;
+  position: relative;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--loica-space-1);
+  max-height: 14rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-inline: var(--loica-space-1);
+  position: relative;
+}
+
+/* An opaque background equal to the panel's lets axe measure the contrast of an option scrolled out of view. */
+.column,
+.option {
+  background-color: inherit;
+}
+
+.option {
+  border: 0;
+  border-radius: var(--loica-radius-4);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  min-width: 3rem;
+  padding: var(--loica-space-2) var(--loica-space-3);
+  text-align: center;
+}
+
+.option:hover {
+  background-color: var(--timepicker-hover);
+}
+
+.option:focus-visible {
+  outline: var(--loica-focus-ring-width) solid var(--picker-scheme);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+.variantFilled .option:not(.selected) {
+  background-image: linear-gradient(var(--timepicker-fill), var(--timepicker-fill));
+}
+
+.variantUnderline .option {
+  border-radius: 0;
+}
+
+.variantUnderline .selected {
+  border-block-end: var(--loica-border-width-medium) solid var(--picker-scheme);
+}
+
+.selected {
+  background-color: var(--timepicker-solid);
+  color: var(--timepicker-contrast);
+}
+
+.selected:hover {
+  background-color: var(--timepicker-selected-hover);
+}
+
+:global(:where([data-loica-timepicker-column])) {
+  display: flex;
+  flex-direction: column;
+  max-height: 14rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  position: relative;
+}
+
+:global(:where([data-loica-timepicker-option])) {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+@media (forced-colors: active) {
+  .selected,
+  .selected:hover {
+    background-color: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+
+  .option:focus-visible {
+    outline: var(--loica-focus-ring-width) solid Highlight;
+  }
+}

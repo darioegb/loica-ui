@@ -215,7 +215,7 @@ export function RenderingBadge({
   return (
     <a
       aria-label={`${KIND_TITLE[kind]}: ${KIND_TEXT[kind]} Read about server and client components`}
-      className="api-rendering plume-rendering-badge"
+      className="api-rendering loica-rendering-badge"
       data-kind={kind}
       href={FRAMEWORK_GUIDE}
       target="_top"

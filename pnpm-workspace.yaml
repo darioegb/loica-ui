@@ -1,6 +1,6 @@
 packages:
   - "apps/*"
-  # Standalone consumption examples: resolve plume-ui-react from npm, not the workspace.
+  # Standalone consumption examples: resolve @loica-ui/react from npm, not the workspace.
   - "!apps/example-*"
   - "packages/*"
 

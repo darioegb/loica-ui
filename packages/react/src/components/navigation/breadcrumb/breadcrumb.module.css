@@ -1,0 +1,95 @@
+:global(:where([data-loica-breadcrumb-list])) {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+:global(:where([data-loica-breadcrumb-item])) {
+  align-items: center;
+  display: inline-flex;
+  min-width: 0;
+}
+
+:global(:where([data-loica-breadcrumb-item]:last-child > [data-loica-breadcrumb-separator])) {
+  display: none;
+}
+
+.breadcrumb {
+  color: var(--loica-muted);
+  font-family: var(--loica-font-family);
+  line-height: var(--loica-line-height-normal);
+}
+
+.sm {
+  font-size: var(--loica-font-size-xs);
+  --breadcrumb-gap: var(--loica-space-1);
+  --breadcrumb-padding: var(--loica-space-1) var(--loica-space-2);
+}
+
+.md {
+  font-size: var(--loica-font-size-sm);
+  --breadcrumb-gap: var(--loica-space-2);
+  --breadcrumb-padding: var(--loica-space-1) var(--loica-space-2);
+}
+
+.lg {
+  font-size: var(--loica-font-size-base);
+  --breadcrumb-gap: var(--loica-space-2);
+  --breadcrumb-padding: var(--loica-space-2) var(--loica-space-3);
+}
+
+.list {
+  gap: var(--breadcrumb-gap) 0;
+}
+
+.separator {
+  margin-inline: var(--breadcrumb-gap);
+  user-select: none;
+}
+
+.link {
+  border-radius: var(--loica-radius-2);
+  color: var(--breadcrumb-text);
+  text-decoration: none;
+}
+
+a.link {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+a.link:hover {
+  color: var(--breadcrumb-text-hover);
+  text-decoration-thickness: 2px;
+}
+
+.filled a.link {
+  text-decoration: none;
+}
+
+.filled a.link:hover {
+  text-decoration: underline;
+}
+
+.link:focus-visible {
+  outline: var(--loica-focus-ring-width) solid var(--breadcrumb-text);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+.link[data-current] {
+  color: var(--loica-foreground);
+  font-weight: var(--loica-font-weight-semibold);
+}
+
+.filled .link {
+  background-color: var(--loica-surface-muted);
+  padding: var(--breadcrumb-padding);
+}
+
+.filled .link[data-current] {
+  background-color: var(--breadcrumb-tint);
+  color: var(--breadcrumb-tint-text);
+}

@@ -3,8 +3,8 @@ import React from 'react'
 import type { Preview } from '@storybook/react-vite'
 import { DocsContainer } from '@storybook/addon-docs/blocks'
 import { addons } from 'storybook/preview-api'
-import { ThemeProvider, useTheme } from 'plume-ui-react'
-import 'plume-ui-react/styles.css'
+import { ThemeProvider, useTheme } from '@loica-ui/react'
+import '@loica-ui/react/styles.css'
 import '../globals.css'
 import DocsTemplate from '../src/docs-template'
 import PageNav from '../src/page-nav'
@@ -12,7 +12,7 @@ import ScrollToTop from '../src/scroll-to-top'
 import { darkTheme, lightTheme } from './theme'
 
 // Mirrors the colorMode toggle onto docs pages.
-const PlumeDocsContainer = ({
+const LoicaDocsContainer = ({
   context,
   children,
 }: {
@@ -26,7 +26,7 @@ const PlumeDocsContainer = ({
   // is set inline there too, so it has to follow the mode: left on dark, the text of the page turns white.
   React.useEffect(() => {
     if (typeof document !== 'undefined') {
-      document.documentElement.setAttribute('data-plume-color-mode', colorMode)
+      document.documentElement.setAttribute('data-loica-color-mode', colorMode)
       document.documentElement.style.colorScheme = colorMode
     }
   }, [colorMode])
@@ -44,7 +44,7 @@ type ColorMode = 'light' | 'dark'
 // The header toggle (see manager.ts) tells the preview through the channel instead of through the
 // globals: a change of globals ends up in the URL and reloads the whole preview, which sends the page
 // back to the top.
-const COLOR_MODE_EVENT = 'plume/color-mode'
+const COLOR_MODE_EVENT = 'loica/color-mode'
 let toggledMode: ColorMode | null = null
 const modeListeners = new Set<(mode: ColorMode) => void>()
 addons.getChannel().on(COLOR_MODE_EVENT, (mode: ColorMode) => {
@@ -65,7 +65,7 @@ const useToggledMode = (fallback: ColorMode): ColorMode => {
 
 const preferredColorMode = (): ColorMode => {
   try {
-    const stored = localStorage.getItem('plume-colormode')
+    const stored = localStorage.getItem('loica-colormode')
     if (stored === 'dark' || stored === 'light') return stored
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   } catch {
@@ -78,7 +78,7 @@ const docsColorMode = (): ColorMode | null => {
     if (window.parent === window || !window.parent.location.pathname.endsWith('iframe.html')) {
       return null
     }
-    const mode = window.parent.document.documentElement.getAttribute('data-plume-color-mode')
+    const mode = window.parent.document.documentElement.getAttribute('data-loica-color-mode')
     return mode === 'dark' || mode === 'light' ? mode : null
   } catch {
     return null
@@ -94,7 +94,7 @@ const useColorMode = (globalMode: ColorMode): ColorMode => {
     sync()
     const observer = new MutationObserver(sync)
     observer.observe(window.parent.document.documentElement, {
-      attributeFilter: ['data-plume-color-mode'],
+      attributeFilter: ['data-loica-color-mode'],
       attributes: true,
     })
     return () => observer.disconnect()
@@ -104,7 +104,7 @@ const useColorMode = (globalMode: ColorMode): ColorMode => {
 
 const storyLink = (event: MouseEvent): HTMLAnchorElement | null => {
   const link = event.target instanceof Element ? event.target.closest('a[href]') : null
-  return link instanceof HTMLAnchorElement && link.closest('div[data-plume-color-mode]')
+  return link instanceof HTMLAnchorElement && link.closest('div[data-loica-color-mode]')
     ? link
     : null
 }
@@ -141,7 +141,7 @@ const StoryFrame = ({
   const colorMode = useColorMode(useToggledMode(globalMode))
   useBlockStoryLinks()
   React.useEffect(() => {
-    document.documentElement.setAttribute('data-plume-color-mode', colorMode)
+    document.documentElement.setAttribute('data-loica-color-mode', colorMode)
     document.documentElement.setAttribute('data-bs-theme', colorMode)
   }, [colorMode])
   return (
@@ -165,7 +165,7 @@ const preview: Preview = {
         rules: [{ id: 'region', enabled: false }],
       },
       // A busy Table has a translucent veil over its text on purpose, so axe can't measure what is under it.
-      context: { exclude: ['[data-plume-table-element][aria-busy="true"]'] },
+      context: { exclude: ['[data-loica-table-element][aria-busy="true"]'] },
     },
     controls: {
       matchers: {
@@ -188,7 +188,7 @@ const preview: Preview = {
       },
     },
     docs: {
-      container: PlumeDocsContainer,
+      container: LoicaDocsContainer,
       page: () => DocsTemplate(),
       controls: {
         sort: 'requiredFirst',
@@ -202,7 +202,7 @@ const preview: Preview = {
   globalTypes: {
     // Rendered as a toggle in the custom header (see manager.ts), not in the toolbar.
     colorMode: {
-      description: 'Plume color mode',
+      description: 'Loica color mode',
     },
   },
   decorators: [

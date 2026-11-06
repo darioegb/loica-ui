@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react'
 import { Description, Markdown, Source, Title, useOf } from '@storybook/addon-docs/blocks'
-import { Button } from 'plume-ui-react'
+import { Button } from '@loica-ui/react'
 import type { ApiNote } from './api-reference'
 import { ApiReference, RenderingBadge } from './api-reference'
 import StoryExamples from './story-examples'
 
-const GITHUB_URL = 'https://github.com/darioegb/plume-ui-react/tree/main/'
-const PACKAGE_NAME = 'plume-ui-react'
+const GITHUB_URL = 'https://github.com/darioegb/loica-ui/tree/main/'
+const PACKAGE_NAME = '@loica-ui/react'
 
 interface IconLinkButtonProps {
   icon: ReactNode
@@ -87,7 +87,7 @@ function DocsTemplate(): ReactNode {
   const { intro, notes } = splitDescription(description ?? '')
   return (
     <div className="container">
-      <div className="plume-title-row">
+      <div className="loica-title-row">
         <Title />
         <RenderingBadge
           componentName={componentName}

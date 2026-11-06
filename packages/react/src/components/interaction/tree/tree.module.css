@@ -1,0 +1,154 @@
+:global(:where([data-loica-tree-item-label])) {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+}
+
+:global(:where([data-loica-tree-item-chevron])) {
+  block-size: 1em;
+  display: inline-flex;
+  flex: none;
+  inline-size: 1em;
+}
+
+:global(:where([data-loica-tree-item-checkbox])) {
+  align-items: center;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  justify-content: center;
+}
+
+.tree {
+  color: var(--loica-foreground);
+  font-family: var(--loica-font-family);
+  line-height: var(--loica-line-height-normal);
+  --tree-indent: 1.25rem;
+}
+
+.sm {
+  font-size: var(--loica-font-size-xs);
+  --tree-row: var(--loica-space-1);
+}
+
+.md {
+  font-size: var(--loica-font-size-sm);
+  --tree-row: var(--loica-space-2);
+}
+
+.lg {
+  font-size: var(--loica-font-size-base);
+  --tree-row: var(--loica-space-3);
+}
+
+.row {
+  outline: none;
+}
+
+.label {
+  border-inline-start: 3px solid transparent;
+  border-radius: var(--loica-radius-3);
+  cursor: pointer;
+  gap: var(--loica-space-2);
+  padding-block: var(--tree-row);
+  padding-inline: calc(var(--loica-space-2) + (var(--tree-level) - 1) * var(--tree-indent))
+    var(--loica-space-2);
+  user-select: none;
+}
+
+.label:hover {
+  background-color: var(--loica-surface-muted);
+}
+
+.checkbox {
+  background-color: var(--loica-surface);
+  block-size: 1.125em;
+  border: var(--loica-border-width-medium) solid var(--loica-border-strong, var(--loica-border));
+  border-radius: var(--loica-radius-2);
+  color: var(--tree-contrast);
+  font-size: 0.875em;
+  inline-size: 1.125em;
+}
+
+.checkbox[data-state='checked'],
+.checkbox[data-state='mixed'] {
+  background-color: var(--tree-solid);
+  border-color: var(--tree-solid);
+}
+
+.checkbox svg {
+  block-size: 100%;
+  inline-size: 100%;
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+}
+
+.row[aria-expanded='true'] > .label .chevron {
+  transform: rotate(90deg);
+}
+
+.row:focus-visible > .label {
+  outline: var(--loica-focus-ring-width) solid var(--tree-text);
+  outline-offset: var(--loica-focus-ring-inset);
+}
+
+.row[aria-disabled='true'] > .label {
+  cursor: not-allowed;
+  opacity: var(--loica-opacity-disabled);
+}
+
+.row[aria-disabled='true'] > .label:hover {
+  background-color: transparent;
+}
+
+.solid .row[aria-selected='true'] > .label {
+  background-color: var(--tree-solid);
+  color: var(--tree-contrast);
+}
+
+.solid .row[aria-selected='true'] > .label:hover {
+  background-color: var(--tree-hover);
+}
+
+.solid .row[aria-selected='true']:focus-visible > .label {
+  outline-color: var(--tree-contrast);
+}
+
+.outline .row[aria-selected='true'] > .label {
+  box-shadow: inset 0 0 0 var(--loica-border-width-medium) var(--tree-solid);
+  color: var(--tree-text);
+}
+
+.ghost .row[aria-selected='true'] > .label {
+  background-color: var(--tree-tint);
+  color: var(--tree-tint-text);
+}
+
+.accent .row[aria-selected='true'] > .label {
+  border-inline-start-color: var(--tree-solid);
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  color: var(--tree-text);
+  font-weight: var(--loica-font-weight-semibold);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chevron {
+    transition: transform var(--loica-duration-fast) var(--loica-easing-standard);
+  }
+}
+
+@media (forced-colors: active) {
+  .label {
+    border-inline-start-color: Canvas;
+  }
+
+  .row[aria-selected='true'] > .label {
+    background-color: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+}

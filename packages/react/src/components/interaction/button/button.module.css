@@ -1,0 +1,130 @@
+/* button.module.css */
+
+.button {
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  border-radius: var(--loica-radius-4);
+  display: inline-flex;
+  font-weight: var(--loica-font-weight-semibold);
+  gap: var(--loica-space-2);
+  justify-content: center;
+  padding-inline: var(--loica-space-4);
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .button {
+    transition:
+      color var(--loica-duration-slow),
+      background-color var(--loica-duration-slow);
+  }
+}
+
+.sm {
+  font-size: var(--loica-font-size-xs);
+  height: var(--loica-control-height-sm);
+  padding-inline: var(--loica-space-2);
+}
+
+.md {
+  height: var(--loica-control-height-md);
+  padding-inline: var(--loica-space-4);
+}
+
+.lg {
+  font-size: var(--loica-font-size-lg);
+  height: var(--loica-control-height-lg);
+  padding-inline: var(--loica-space-6);
+}
+
+.rounded {
+  border-radius: var(--loica-radius-4);
+}
+
+.pill {
+  border-radius: var(--loica-radius-full);
+}
+
+.solid {
+  composes: button;
+  background-color: var(--button-solid-bg);
+  color: var(--button-contrast-color);
+}
+
+.outline {
+  composes: button;
+  border: var(--loica-border-width-thin) solid var(--button-color);
+  color: var(--button-color);
+}
+
+.ghost {
+  composes: button;
+  color: var(--button-color);
+}
+
+.link {
+  composes: button;
+  color: var(--button-color);
+  text-decoration-line: underline;
+  text-underline-offset: var(--loica-space-2);
+}
+
+.icon {
+  composes: button;
+  color: var(--button-color);
+  padding: var(--loica-space-2);
+}
+
+:is(.outline, .ghost, .icon):enabled:not([aria-busy]):hover {
+  background-color: var(--button-hover-alt-color);
+  color: var(--button-tint-text);
+}
+
+.link:enabled:not([aria-busy]):hover {
+  color: var(--button-hover-color);
+  text-decoration-color: var(--button-hover-color);
+}
+
+.solid:enabled:not([aria-busy]):hover {
+  background-color: var(--button-solid-hover);
+}
+
+.outline:enabled:not([aria-busy]):hover {
+  border-color: var(--button-hover-color);
+}
+
+.button:enabled:focus-visible {
+  outline: var(--loica-focus-ring-width) solid var(--button-color);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+:is(.outline, .ghost):enabled:not([aria-busy]):active {
+  background-color: var(--button-focus-alt-color);
+  color: var(--button-tint-text);
+}
+
+.link:enabled:not([aria-busy]):active {
+  color: var(--button-focus-color);
+  text-decoration-color: var(--button-focus-color);
+}
+
+.icon:enabled:not([aria-busy]):active {
+  color: var(--button-tint-text);
+}
+
+.solid:enabled:not([aria-busy]):active {
+  background-color: var(--button-solid-active);
+}
+
+button.disabled {
+  opacity: var(--loica-opacity-disabled);
+  cursor: not-allowed;
+}
+
+@media (forced-colors: active) {
+  .solid,
+  .icon {
+    border: var(--loica-border-width-thin) solid ButtonText;
+  }
+}

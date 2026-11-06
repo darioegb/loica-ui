@@ -1,0 +1,130 @@
+:where(.base) {
+  background: transparent;
+  border: 0 solid;
+  outline: var(--loica-focus-ring-width) solid transparent;
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+.textarea {
+  border-radius: var(--loica-radius-4);
+  box-sizing: border-box;
+  color: var(--loica-foreground);
+  display: block;
+  font-family: var(--loica-font-family);
+  min-width: min(var(--loica-container-2xs), 100%);
+  padding: var(--loica-space-2) var(--loica-space-4);
+  width: 100%;
+}
+
+.textarea::placeholder {
+  color: var(--loica-muted);
+}
+
+.sm {
+  font-size: var(--loica-font-size-xs);
+  padding: var(--loica-space-1) var(--loica-space-2);
+}
+
+.md {
+  font-size: var(--loica-font-size-base);
+}
+
+.lg {
+  font-size: var(--loica-font-size-lg);
+  padding: var(--loica-space-3) var(--loica-space-6);
+}
+
+.rounded {
+  border-radius: var(--loica-radius-4);
+}
+
+:is(.outline).pill {
+  border-radius: var(--loica-radius-6);
+}
+
+.outline {
+  composes: textarea;
+  border: var(--loica-border-width-thin) solid var(--loica-border-strong);
+}
+
+.filled {
+  composes: textarea;
+  background-color: var(--loica-surface-muted);
+  border-block-end: var(--loica-border-width-thin) solid var(--loica-border-strong);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.underline {
+  composes: textarea;
+  border-radius: 0;
+  border-block-end: var(--loica-border-width-thin) solid var(--loica-border-strong);
+}
+
+.none {
+  resize: none;
+}
+
+.vertical {
+  resize: vertical;
+}
+
+.horizontal {
+  resize: horizontal;
+}
+
+.both {
+  resize: both;
+}
+
+:is(.outline, .filled, .underline):enabled:hover {
+  border-color: var(--loica-border-hover);
+}
+
+:is(.outline, .filled, .underline).invalid,
+:is(.outline, .filled, .underline).invalid:enabled:hover {
+  border-color: var(--textarea-color);
+}
+
+.filled:enabled:hover {
+  background-color: color-mix(in srgb, var(--loica-foreground) var(--loica-overlay-hover), var(--loica-surface-muted));
+}
+
+.outline:enabled:focus {
+  border-color: var(--textarea-color);
+  outline: var(--loica-focus-ring-width) solid var(--textarea-color);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+:is(.filled, .underline):enabled:focus {
+  border-block-end-color: var(--textarea-color);
+  border-block-end-width: var(--loica-border-width-medium);
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: var(--loica-opacity-disabled);
+}
+
+:global(:where([data-loica-textarea-group])) {
+  display: block;
+  width: 100%;
+}
+
+:global(:where([data-loica-textarea-count])) {
+  display: block;
+  text-align: end;
+}
+
+.count {
+  color: var(--loica-muted);
+  font-family: var(--loica-font-family);
+  font-size: var(--loica-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  margin-block-start: var(--loica-space-1);
+}
+
+.count[data-limit] {
+  color: var(--loica-color-error-text);
+  font-weight: var(--loica-font-weight-semibold);
+}

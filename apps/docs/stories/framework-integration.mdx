@@ -8,8 +8,8 @@ import sandbox from '../src/stackblitz-sandbox.generated.json'
 
 # Framework integration
 
-Plume ships its own CSS and needs no build plugin, so the setup is the same in every React app: import the stylesheet
-once and wrap the app in `<ThemeProvider>`. This page shows where they go in Vite and Next.js, and how to use Plume next
+Loica ships its own CSS and needs no build plugin, so the setup is the same in every React app: import the stylesheet
+once and wrap the app in `<ThemeProvider>`. This page shows where they go in Vite and Next.js, and how to use Loica next
 to Tailwind CSS or Bootstrap. The [Examples](?path=/docs/guides-examples--docs) page has a complete app of each kind.
 
 ## Vite (or any client-side app)
@@ -18,8 +18,8 @@ to Tailwind CSS or Bootstrap. The [Examples](?path=/docs/guides-examples--docs) 
 // src/main.tsx
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { ThemeProvider, ToastProvider } from 'plume-ui-react'
-import 'plume-ui-react/styles.css'
+import { ThemeProvider, ToastProvider } from '@loica-ui/react'
+import '@loica-ui/react/styles.css'
 import { App } from './app'
 
 createRoot(document.getElementById('root')!).render(
@@ -40,7 +40,7 @@ read before the first render, from `localStorage`, so `'system'` is the only cas
 ## Next.js App Router
 
 Every component can be rendered from a Server Component. The package keeps `'use client'` on each module that needs it,
-so a Server Component imports from `plume-ui-react` directly. The presentational ones (`Badge`, `Card`, `Divider`,
+so a Server Component imports from `@loica-ui/react` directly. The presentational ones (`Badge`, `Card`, `Divider`,
 `EmptyState`, `Heading`, `Icon`, `List`, `Text`, `Skeleton`, the rows and cells of `Table`...) don't need it and
 render on the server with no JavaScript in the browser. The page of each component says which one it is, with a
 **Server** or **Client** badge under its title, and the API reference marks the parts when they differ.
@@ -53,7 +53,7 @@ yours that starts with `'use client'`. Put the providers in one of them too, whe
 'use client'
 
 import type { ReactNode } from 'react'
-import { ThemeProvider, ToastProvider, type ColorModeSetting } from 'plume-ui-react'
+import { ThemeProvider, ToastProvider, type ColorModeSetting } from '@loica-ui/react'
 
 export function Providers({ children, colorMode }: { children: ReactNode; colorMode: ColorModeSetting }) {
   return (
@@ -67,7 +67,7 @@ export function Providers({ children, colorMode }: { children: ReactNode; colorM
 ```tsx
 // app/layout.tsx
 import { cookies } from 'next/headers'
-import 'plume-ui-react/styles.css'
+import '@loica-ui/react/styles.css'
 import { Providers } from './providers'
 
 export default async function RootLayout({ children }) {
@@ -98,46 +98,46 @@ The components work as they are next to Tailwind, and with `variant='unstyled'` 
 all it takes:
 
 ```css
-@layer theme, base, plume, components, utilities;
+@layer theme, base, loica, components, utilities;
 
 @import 'tailwindcss';
-@import 'plume-ui-react/styles.css';
+@import '@loica-ui/react/styles.css';
 
-@custom-variant dark (&:where([data-plume-color-mode='dark'], [data-plume-color-mode='dark'] *));
+@custom-variant dark (&:where([data-loica-color-mode='dark'], [data-loica-color-mode='dark'] *));
 ```
 
-The first line puts the layers in order, so the utilities win over the CSS of Plume (see
+The first line puts the layers in order, so the utilities win over the CSS of Loica (see
 [Customizing styles](?path=/docs/guides-customizing-styles--docs)). The last one is optional: it makes `dark:` follow
-the color mode of Plume instead of the system preference.
+the color mode of Loica instead of the system preference.
 
-The utilities of Tailwind can already read any variable of Plume, such as `bg-(--plume-color-primary-solid)`.
+The utilities of Tailwind can already read any variable of Loica, such as `bg-(--loica-color-primary-solid)`.
 
-### Optional: utilities with the tokens of Plume
+### Optional: utilities with the tokens of Loica
 
-If you style with Tailwind and want it to match the components, put the theme in a file of your app, `plume-theme.css`
-(<a href={`data:text/css;charset=utf-8,${encodeURIComponent(sandbox.tailwindTheme)}`} download='plume-theme.css'>download it</a>
-or copy it from the end of this section), and import it after the CSS of Plume:
+If you style with Tailwind and want it to match the components, put the theme in a file of your app, `loica-theme.css`
+(<a href={`data:text/css;charset=utf-8,${encodeURIComponent(sandbox.tailwindTheme)}`} download='loica-theme.css'>download it</a>
+or copy it from the end of this section), and import it after the CSS of Loica:
 
 ```css
-@import 'plume-ui-react/styles.css';
-@import './plume-theme.css';
+@import '@loica-ui/react/styles.css';
+@import './loica-theme.css';
 ```
 
-It turns the tokens of Plume into utilities: the colors of every scheme and of the page (`bg-primary-solid`,
+It turns the tokens of Loica into utilities: the colors of every scheme and of the page (`bg-primary-solid`,
 `text-primary-on-solid`, `bg-surface`, `border-border`), the text styles (`text-heading-1`, `text-body`), the font
-family (`font-plume`), sizes, weights, line heights and letter spacings, the radii, the shadows, the container widths
+family (`font-loica`), sizes, weights, line heights and letter spacings, the radii, the shadows, the container widths
 (`max-w-md`) and the easings, plus `z-modal`, `duration-fast`, `opacity-disabled` and `h-control-md`. The shades of a
-color are not variables, so there is no `bg-primary-500`, and the values a scale of Plume doesn't have (`shadow-sm`,
-`max-w-xl`) stay the ones of Tailwind. Plume doesn't ship this file, so it stays independent
+color are not variables, so there is no `bg-primary-500`, and the values a scale of Loica doesn't have (`shadow-sm`,
+`max-w-xl`) stay the ones of Tailwind. Loica doesn't ship this file, so it stays independent
 of any CSS framework: keep only the utilities you use, or rename them.
 
-The utilities point to the variables of Plume (`@theme inline`), so they follow the theme, a nested provider and the
-color mode. The spacing and the breakpoints are the ones of Tailwind, which are also the default ones of Plume: a
+The utilities point to the variables of Loica (`@theme inline`), so they follow the theme, a nested provider and the
+color mode. The spacing and the breakpoints are the ones of Tailwind, which are also the default ones of Loica: a
 theme that changes `spaces` or `breakpoints` doesn't change `p-4` or `md:`. The **Tailwind** example of every
 component uses this theme.
 
 <details>
-  <summary><code>plume-theme.css</code></summary>
+  <summary><code>loica-theme.css</code></summary>
 
 <Source code={sandbox.tailwindTheme} language='css' dark />
 
@@ -148,7 +148,7 @@ component uses this theme.
 ## Tailwind CSS v3
 
 There is no theme file for Tailwind v3: map the variables you need in `tailwind.config.ts`. Turn the preflight off,
-because a reset with no layer beats the CSS of Plume, and import a reset of your own into a layer before `plume`
+because a reset with no layer beats the CSS of Loica, and import a reset of your own into a layer before `loica`
 ([Customizing styles](?path=/docs/guides-customizing-styles--docs) explains why):
 
 ```ts
@@ -156,27 +156,27 @@ because a reset with no layer beats the CSS of Plume, and import a reset of your
 export default {
   content: ['./src/**/*.{ts,tsx}'],
   corePlugins: { preflight: false },
-  darkMode: ['class', '[data-plume-color-mode="dark"]'],
+  darkMode: ['class', '[data-loica-color-mode="dark"]'],
   theme: {
     extend: {
       colors: {
         primary: {
-          solid: 'var(--plume-color-primary-solid)',
-          'on-solid': 'var(--plume-color-primary-solid-contrast)',
-          text: 'var(--plume-color-primary-text)',
+          solid: 'var(--loica-color-primary-solid)',
+          'on-solid': 'var(--loica-color-primary-solid-contrast)',
+          text: 'var(--loica-color-primary-text)',
         },
-        surface: 'var(--plume-surface)',
-        foreground: 'var(--plume-foreground)',
-        border: 'var(--plume-border)',
+        surface: 'var(--loica-surface)',
+        foreground: 'var(--loica-foreground)',
+        border: 'var(--loica-border)',
       },
-      borderRadius: { 4: 'var(--plume-radius-4)' },
+      borderRadius: { 4: 'var(--loica-radius-4)' },
     },
   },
 }
 ```
 
-Every token is a variable named `--plume-<group>-<name>` (`--plume-color-primary-solid`, `--plume-space-4`,
-`--plume-shadow-md`), listed in [Tokens](?path=/docs/theme-tokens--docs). For a filled surface use `solid` with `solid-contrast`, and for colored text `text`: they keep a contrast of 4.5:1 in light and
+Every token is a variable named `--loica-<group>-<name>` (`--loica-color-primary-solid`, `--loica-space-4`,
+`--loica-shadow-md`), listed in [Tokens](?path=/docs/theme-tokens--docs). For a filled surface use `solid` with `solid-contrast`, and for colored text `text`: they keep a contrast of 4.5:1 in light and
 dark.
 
 ## Bootstrap, or any other framework
@@ -188,8 +188,8 @@ Give the component `variant='unstyled'` and the classes of the framework:
 <Input className='form-control' variant='unstyled' />
 ```
 
-Bootstrap's reboot has no layer and beats Plume, so import it after the CSS of Plume when the page styles the
-components with Bootstrap, or into a layer before `plume` when it doesn't. Every component page has a **Bootstrap**
+Bootstrap's reboot has no layer and beats Loica, so import it after the CSS of Loica when the page styles the
+components with Bootstrap, or into a layer before `loica` when it doesn't. Every component page has a **Bootstrap**
 example, and [Customizing styles](?path=/docs/guides-customizing-styles--docs) has both setups.
 
 <Canvas of={IntegrationStories.Bootstrap} />

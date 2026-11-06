@@ -18,9 +18,9 @@ There are three ways to give the texts, and they combine.
 closest provider, then from the English default. No component takes a `labels` prop.
 
 ```tsx
-import { LocaleProvider, type PlumeMessages } from 'plume-ui-react'
+import { LocaleProvider, type LoicaMessages } from '@loica-ui/react'
 
-const es: PlumeMessages = {
+const es: LoicaMessages = {
   close: { label: 'Cerrar' },
   datePicker: { apply: 'Aplicar', cancel: 'Cancelar', openCalendar: 'Abrir calendario' },
   paginator: { next: 'Siguiente', previous: 'Anterior', page: (page) => `Página ${page}` },
@@ -35,7 +35,7 @@ const es: PlumeMessages = {
 `messages` is keyed by component, with the keys of the table below. A text is translated once, under the component
 that shows it: `loader` also names the `Loader` of a loading `Button` and of a loading `Table`, and `close` names the
 close button of a `Modal`, a `Drawer`, a `Popover`, an `Alert` and a `Toast`. Each value is partial, so you only write
-what you change. `PlumeMessages` types all of it, and a component with several texts exports their type as
+what you change. `LoicaMessages` types all of it, and a component with several texts exports their type as
 `<Name>Labels` (`PaginatorLabels`, `DatePickerLabels`...).
 
 <table>
@@ -129,9 +129,9 @@ component renders again and the new messages reach every component.
 
 ```tsx
 // react-intl
-function PlumeLocale({ children }) {
+function LoicaLocale({ children }) {
   const intl = useIntl()
-  const messages = useMemo<PlumeMessages>(
+  const messages = useMemo<LoicaMessages>(
     () => ({
       close: { label: intl.formatMessage({ id: 'close' }) },
       paginator: {
@@ -152,9 +152,9 @@ function PlumeLocale({ children }) {
 
 ```tsx
 // i18next
-function PlumeLocale({ children }) {
+function LoicaLocale({ children }) {
   const { t, i18n } = useTranslation()
-  const messages = useMemo<PlumeMessages>(
+  const messages = useMemo<LoicaMessages>(
     () => ({
       close: { label: t('close') },
       paginator: { next: t('paginator.next'), page: (page) => t('paginator.page', { page }) },
@@ -170,7 +170,7 @@ function PlumeLocale({ children }) {
 }
 ```
 
-Plume also exports a `useLocale`, so import the one of next-intl with another name:
+Loica also exports a `useLocale`, so import the one of next-intl with another name:
 
 ```tsx
 // next-intl
@@ -178,10 +178,10 @@ Plume also exports a `useLocale`, so import the one of next-intl with another na
 
 import { useLocale as useIntlLocale, useTranslations } from 'next-intl'
 
-function PlumeLocale({ children }) {
-  const t = useTranslations('plume')
+function LoicaLocale({ children }) {
+  const t = useTranslations('loica')
   const locale = useIntlLocale()
-  const messages = useMemo<PlumeMessages>(
+  const messages = useMemo<LoicaMessages>(
     () => ({
       close: { label: t('close') },
       paginator: { next: t('paginator.next'), page: (page) => t('paginator.page', { page }) },

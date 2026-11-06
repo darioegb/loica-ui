@@ -1,18 +1,18 @@
-# Contributing to Plume UI React
+# Contributing to Loica UI React
 
-Thanks for your interest in improving Plume UI React. Please read the [Code of Conduct](CODE_OF_CONDUCT.md) before taking part.
+Thanks for your interest in improving Loica UI React. Please read the [Code of Conduct](CODE_OF_CONDUCT.md) before taking part.
 
 ## Reporting issues
 
-[Open an issue](https://github.com/darioegb/plume-ui-react/issues) for bugs, feature requests or questions. For bugs, include the package and version, what you expected, what happened, and a minimal reproduction (the [Vite playground on StackBlitz](https://darioegb.github.io/plume-ui-react/?path=/docs/guides-examples--docs) is a quick way to share one). For larger changes, open an issue to discuss them before sending a pull request.
+[Open an issue](https://github.com/darioegb/loica-ui/issues) for bugs, feature requests or questions. For bugs, include the package and version, what you expected, what happened, and a minimal reproduction (the [Vite playground on StackBlitz](https://darioegb.github.io/loica-ui/?path=/docs/guides-examples--docs) is a quick way to share one). For larger changes, open an issue to discuss them before sending a pull request.
 
 ## Setting up
 
 Requirements: Node.js 24 (see `.nvmrc`) and pnpm (`corepack enable` picks the version pinned in `package.json`).
 
 ```sh
-git clone https://github.com/<your-user>/plume-ui-react.git
-cd plume-ui-react
+git clone https://github.com/<your-user>/loica-ui.git
+cd @loica-ui/react
 pnpm install
 pnpm dev   # Storybook at http://localhost:6006
 ```
@@ -22,10 +22,10 @@ The [root README](README.md#development) lists the available commands and the re
 ## Making changes
 
 1. Fork the repository and create a branch from `main` (see [Branch names](#branch-names)).
-2. Make your change. Component code, styles, stories and tests live together in `packages/plume-ui-react/src/components/<category>/<name>`. To add a component, run `pnpm new:component` and follow [AUTHORING.md](AUTHORING.md).
+2. Make your change. Component code, styles, stories and tests live together in `packages/react/src/components/<category>/<name>`. To add a component, run `pnpm new:component` and follow [AUTHORING.md](AUTHORING.md).
 3. Add or update tests, and stories when the change is visible in the docs.
-4. Run `pnpm lint` and `pnpm test`, and check your change in Storybook. If you changed a story, run `pnpm --filter @plume-ui-react/docs check:a11y --url http://localhost:6006 <name>` while `pnpm dev` is running (the first time, install its browser with `pnpm --filter @plume-ui-react/docs exec playwright install chromium`).
-5. If you changed `plume-ui-react`, run `pnpm changeset` and commit the generated file (see [Changesets](#changesets)).
+4. Run `pnpm lint` and `pnpm test`, and check your change in Storybook. If you changed a story, run `pnpm --filter @loica-ui/docs check:a11y --url http://localhost:6006 <name>` while `pnpm dev` is running (the first time, install its browser with `pnpm --filter @loica-ui/docs exec playwright install chromium`).
+5. If you changed `@loica-ui/react`, run `pnpm changeset` and commit the generated file (see [Changesets](#changesets)).
 6. Open a pull request against `main` describing what changed and why.
 
 ## Commit messages
@@ -53,11 +53,11 @@ Name branches after the commit type: `feat/<topic>`, `fix/<topic>`, `docs/<topic
 
 ## Changesets
 
-Releases are managed with [Changesets](https://github.com/changesets/changesets). A pull request that changes the published package (`plume-ui-react`) needs a changeset describing the change and its version bump (`patch`, `minor` or `major`). Changes limited to the docs app, examples, stories or READMEs don't need one.
+Releases are managed with [Changesets](https://github.com/changesets/changesets). A pull request that changes the published package (`@loica-ui/react`) needs a changeset describing the change and its version bump (`patch`, `minor` or `major`). Changes limited to the docs app, examples, stories or READMEs don't need one.
 
 After a pull request is merged, the Release workflow opens a **Version packages** pull request; merging it publishes to npm.
 
-The two apps in `apps/` install `plume-ui-react` from npm, so after a release, bump them to the new version (`npm install plume-ui-react@^<version>` in each, and commit `package.json` and `package-lock.json`) and let the Examples job build them against it. A bump that fails to build shows a change that breaks a user.
+The two apps in `apps/` install `@loica-ui/react` from npm, so after a release, bump them to the new version (`npm install @loica-ui/react@^<version>` in each, and commit `package.json` and `package-lock.json`) and let the Examples job build them against it. A bump that fails to build shows a change that breaks a user.
 
 ## License
 

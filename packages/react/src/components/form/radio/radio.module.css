@@ -1,0 +1,107 @@
+.sm {
+  --radio-size: var(--loica-space-4);
+}
+
+.md {
+  --radio-size: var(--loica-space-5);
+}
+
+.lg {
+  --radio-size: var(--loica-space-6);
+}
+
+.radio {
+  appearance: none;
+  background-color: var(--loica-surface);
+  border: var(--loica-border-width-medium) solid var(--loica-border-strong);
+  border-radius: var(--loica-radius-full);
+  box-sizing: border-box;
+  cursor: pointer;
+  flex: none;
+  height: var(--radio-size);
+  margin: 0;
+  position: relative;
+  transition:
+    background-color var(--loica-duration-fast),
+    border-color var(--loica-duration-fast);
+  width: var(--radio-size);
+}
+
+.radio::before {
+  border-radius: var(--loica-radius-full);
+  content: '';
+  inset: 27.5%;
+  position: absolute;
+  transform: scale(0);
+  transition: transform var(--loica-duration-fast);
+}
+
+.solid::before {
+  background-color: var(--radio-contrast);
+}
+
+.solid:checked {
+  background-color: var(--radio-solid);
+  border-color: var(--radio-solid);
+}
+
+.outline::before {
+  background-color: var(--radio-text);
+}
+
+.outline:checked {
+  border-color: var(--radio-text);
+}
+
+.radio:checked::before {
+  transform: scale(1);
+}
+
+.radio:enabled:hover:not(:checked) {
+  border-color: var(--radio-text);
+}
+
+.radio:focus-visible {
+  outline: var(--loica-focus-ring-width) solid var(--radio-text);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+.invalid:not(:checked) {
+  border-color: var(--radio-text);
+}
+
+.radio:disabled {
+  cursor: not-allowed;
+  opacity: var(--loica-opacity-disabled);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radio,
+  .radio::before {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .radio {
+    border-color: CanvasText;
+    forced-color-adjust: none;
+  }
+
+  .solid:checked {
+    background-color: Highlight;
+    border-color: Highlight;
+  }
+
+  .solid::before {
+    background-color: HighlightText;
+  }
+
+  .outline:checked {
+    border-color: Highlight;
+  }
+
+  .outline::before {
+    background-color: Highlight;
+  }
+}

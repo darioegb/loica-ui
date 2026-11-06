@@ -1,7 +1,7 @@
 {/* Colors.mdx */}
 
 import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks'
-import { defaultDarkTheme, defaultTheme } from 'plume-ui-react'
+import { defaultDarkTheme, defaultTheme } from '@loica-ui/react'
 
 <Meta title='Theme/Colors' />
 
@@ -33,7 +33,7 @@ out [the colors of a scheme](#the-colors-of-a-scheme) from.
 
 ## Surfaces and text
 
-`--plume-<name>` · Tailwind `bg-<name>`, `text-<name>`, `border-<name>`
+`--loica-<name>` · Tailwind `bg-<name>`, `text-<name>`, `border-<name>`
 
 The colors of the page itself, which change with the color mode. Use them in your own CSS so it follows the theme.
 
@@ -57,7 +57,7 @@ export const kebab = (name) => name.replace(/[A-Z]/g, (letter) => `-${letter.toL
       colors={{ light: defaultTheme.semantic[name], dark: defaultDarkTheme.semantic[name] }}
       key={name}
       subtitle={roles[name]}
-      title={`--plume-${kebab(name)}`}
+      title={`--loica-${kebab(name)}`}
     />
   ))}
 </ColorPalette>
@@ -66,14 +66,14 @@ export const kebab = (name) => name.replace(/[A-Z]/g, (letter) => `-${letter.toL
 
 Every color of the palette gets these variables, worked out from its shades when the theme is built. They are what
 the components use, and what to use in your own CSS: they are adjusted to keep their contrast in light and dark mode,
-which a raw shade does not. In JavaScript, `schemeVar('primary', 'solid')` gives `var(--plume-color-primary-solid)`.
+which a raw shade does not. In JavaScript, `schemeVar('primary', 'solid')` gives `var(--loica-color-primary-solid)`.
 
 <table>
   <thead>
     <tr><th>Variable</th><th>Use it for</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>--plume-color-&lt;color&gt;-solid</code></td><td>A filled background, like a solid button (Tailwind <code>bg-&lt;color&gt;-solid</code>). The first of the <code>500</code>, <code>600</code> and <code>700</code> shades that reads well under white text.</td></tr>
+    <tr><td><code>--loica-color-&lt;color&gt;-solid</code></td><td>A filled background, like a solid button (Tailwind <code>bg-&lt;color&gt;-solid</code>). The first of the <code>500</code>, <code>600</code> and <code>700</code> shades that reads well under white text.</td></tr>
     <tr><td><code>-solid-contrast</code></td><td>The text and the icons on <code>solid</code> (Tailwind <code>text-&lt;color&gt;-on-solid</code>).</td></tr>
     <tr><td><code>-solid-hover</code>, <code>-solid-active</code></td><td><code>solid</code> under the pointer and pressed.</td></tr>
     <tr><td><code>-text</code></td><td>Colored text, an outline or an icon on the page surfaces, at 4.5:1 at least (Tailwind <code>text-&lt;color&gt;-text</code>).</td></tr>

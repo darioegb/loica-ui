@@ -3,7 +3,7 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const packageDir = join(root, 'packages/plume-ui-react')
+const packageDir = join(root, 'packages/react')
 const templatesDir = join(root, 'scripts/component-templates')
 
 const categories = ['form', 'interaction', 'presentation', 'navigation', 'overlay', 'utility']
@@ -92,7 +92,7 @@ update(join(packageDir, 'src/tests/index.spec.ts'), (text) =>
 )
 
 update(join(root, 'README.md'), (text) => {
-  const row = `| ${name} | [${name}](https://darioegb.github.io/plume-ui-react/?path=/docs/components-${slug}--docs) |`
+  const row = `| ${name} | [${name}](https://darioegb.github.io/loica-ui/?path=/docs/components-${slug}--docs) |`
   const lines = text.split('\n')
   const rowPattern = /^\| ([A-Za-z0-9]+) \| \[\1\]\(/
   const rows = lines.map((line, index) => ({ line, index })).filter(({ line }) => rowPattern.test(line))
@@ -104,9 +104,9 @@ update(join(root, 'README.md'), (text) => {
 })
 
 update(join(packageDir, 'README.md'), (text) => {
-  const item = `- [${name}](https://darioegb.github.io/plume-ui-react/?path=/docs/components-${slug}--docs)`
+  const item = `- [${name}](https://darioegb.github.io/loica-ui/?path=/docs/components-${slug}--docs)`
   const lines = text.split('\n')
-  const itemPattern = /^- \[([A-Za-z0-9]+)\]\(https:\/\/darioegb\.github\.io\/plume-ui-react\/\?path=\/docs\/components-/
+  const itemPattern = /^- \[([A-Za-z0-9]+)\]\(https:\/\/darioegb\.github\.io\/loica-ui\/\?path=\/docs\/components-/
   const items = lines.map((line, index) => ({ line, index })).filter(({ line }) => itemPattern.test(line))
   const nameOf = (line) => itemPattern.exec(line)[1]
   const next = items.find(({ line }) => nameOf(line).localeCompare(name) > 0)
@@ -115,7 +115,7 @@ update(join(packageDir, 'README.md'), (text) => {
   return lines.join('\n')
 })
 
-console.log(`Created ${name} (${compound ? 'compound' : 'atomic'}) in packages/plume-ui-react/src/components/${category}/${slug}
+console.log(`Created ${name} (${compound ? 'compound' : 'atomic'}) in packages/react/src/components/${category}/${slug}
 
 Registered it in src/index.ts, src/tests/index.spec.ts, the root README table and the component list of the package README.
 

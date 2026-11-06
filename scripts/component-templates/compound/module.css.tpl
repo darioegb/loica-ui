@@ -1,7 +1,7 @@
 .__slug__ {
-  border-radius: var(--plume-radius-4);
+  border-radius: var(--loica-radius-4);
   display: block;
-  font-family: var(--plume-font-family);
+  font-family: var(--loica-font-family);
 }
 
 .solid {
@@ -10,17 +10,17 @@
 }
 
 .content {
-  padding: var(--plume-space-2);
+  padding: var(--loica-space-2);
 }
 
 .sm {
-  font-size: var(--plume-font-size-xs);
+  font-size: var(--loica-font-size-xs);
 }
 
 .md {
-  font-size: var(--plume-font-size-sm);
+  font-size: var(--loica-font-size-sm);
 }
 
 .lg {
-  font-size: var(--plume-font-size-lg);
+  font-size: var(--loica-font-size-lg);
 }

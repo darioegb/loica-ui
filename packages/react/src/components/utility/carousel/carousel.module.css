@@ -1,0 +1,349 @@
+:global(:where([data-loica-carousel])) {
+  box-sizing: border-box;
+  position: relative;
+}
+
+:global(:where([data-loica-carousel-slides])) {
+  display: flex;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+:global(:where([data-loica-carousel-slides][data-orientation='vertical'])) {
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-x: auto;
+  overscroll-behavior-y: contain;
+  scroll-snap-type: y mandatory;
+}
+
+:global(:where([data-loica-carousel-slides]::-webkit-scrollbar)) {
+  display: none;
+}
+
+:global(:where([data-loica-carousel-slide])) {
+  box-sizing: border-box;
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+:global(:where([data-loica-carousel-arrow], [data-loica-carousel-play-pause])) {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  box-sizing: border-box;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  justify-content: center;
+}
+
+:global(:where([data-loica-carousel-dots])) {
+  display: flex;
+  justify-content: center;
+}
+
+:global(:where([data-loica-carousel-dots][data-orientation='vertical'])) {
+  flex-direction: column;
+}
+
+:global(:where([data-loica-carousel-dot])) {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}
+
+.carousel {
+  color: var(--loica-foreground);
+  display: grid;
+  font-family: var(--loica-font-family);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.sm {
+  --carousel-control: 1.75rem;
+  --carousel-dot: 0.5rem;
+}
+
+.md {
+  --carousel-control: 2.25rem;
+  --carousel-dot: 0.625rem;
+}
+
+.lg {
+  --carousel-control: 2.75rem;
+  --carousel-dot: 0.75rem;
+}
+
+.slides {
+  border-radius: var(--loica-radius-4);
+  grid-area: 1 / 1;
+}
+
+.slides:focus-visible {
+  outline: var(--loica-focus-ring-width) solid var(--carousel-text);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+.arrow {
+  block-size: var(--carousel-control);
+  border-radius: var(--loica-radius-full);
+  font-size: calc(var(--carousel-control) * 0.55);
+  inline-size: var(--carousel-control);
+}
+
+.prev,
+.next {
+  align-self: center;
+  grid-area: 1 / 1;
+  z-index: 1;
+}
+
+.prev {
+  justify-self: start;
+  margin-inline-start: var(--loica-space-3);
+}
+
+.next {
+  justify-self: end;
+  margin-inline-end: var(--loica-space-3);
+}
+
+.solid .arrow {
+  background-color: var(--carousel-solid);
+  color: var(--carousel-contrast);
+}
+
+.solid .arrow:hover:not(:disabled) {
+  background-color: var(--carousel-hover);
+}
+
+.overlay .arrow {
+  background-color: color-mix(in srgb, black 55%, transparent);
+  color: white;
+}
+
+.overlay .arrow:hover:not(:disabled) {
+  background-color: color-mix(in srgb, black 75%, transparent);
+}
+
+.arrow:disabled {
+  cursor: not-allowed;
+  opacity: var(--loica-opacity-disabled);
+}
+
+.arrow:focus-visible,
+.dot:focus-visible {
+  outline: var(--loica-focus-ring-width) solid var(--carousel-text);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+.playPause {
+  margin: var(--loica-space-2) auto 0;
+}
+
+.dots {
+  padding-block: var(--loica-space-1);
+}
+
+.dot {
+  align-items: center;
+  block-size: var(--loica-target-min);
+  border-radius: var(--loica-radius-full);
+  display: inline-flex;
+  inline-size: max(var(--loica-target-min), var(--carousel-dot));
+  justify-content: center;
+  position: relative;
+}
+
+.dot::before {
+  background-color: var(--loica-border-strong, var(--loica-border));
+  block-size: var(--carousel-dot);
+  border-radius: var(--loica-radius-full);
+  content: '';
+  inline-size: var(--carousel-dot);
+}
+
+.dot[data-active]::before {
+  background-color: var(--carousel-solid);
+}
+
+.vertical {
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.vertical .slides {
+  block-size: 100%;
+  min-block-size: 0;
+}
+
+.vertical .prev,
+.vertical .next {
+  justify-self: center;
+  margin-inline: 0;
+}
+
+.vertical .prev {
+  align-self: start;
+  margin-block-start: var(--loica-space-3);
+}
+
+.vertical .next {
+  align-self: end;
+  margin-block-end: var(--loica-space-3);
+}
+
+.vertical .dots {
+  align-self: center;
+  grid-area: 1 / 2;
+  max-block-size: 100%;
+  overflow-y: auto;
+  padding-block: 0;
+  padding-inline: var(--loica-space-1);
+}
+
+.vertical .dot {
+  block-size: max(var(--loica-target-min), var(--carousel-dot));
+  inline-size: var(--loica-target-min);
+}
+
+.inline .prev,
+.inline .next {
+  align-self: auto;
+  grid-area: auto;
+  justify-self: auto;
+  margin: 0;
+}
+
+.bars {
+  gap: var(--loica-space-1);
+}
+
+.bars .dot,
+.bars .dot[data-active] {
+  block-size: var(--loica-target-min);
+  inline-size: 2rem;
+  border-radius: var(--loica-radius-2);
+}
+
+.bars .dot::before,
+.bars .dot[data-active]::before {
+  block-size: 0.25rem;
+  inline-size: 100%;
+}
+
+.vertical .bars .dot,
+.vertical .bars .dot[data-active] {
+  block-size: 2rem;
+  inline-size: var(--loica-target-min);
+}
+
+.vertical .bars .dot::before,
+.vertical .bars .dot[data-active]::before {
+  block-size: 100%;
+  inline-size: 0.25rem;
+}
+
+.numbers {
+  gap: var(--loica-space-1);
+}
+
+.numbers .dot,
+.numbers .dot[data-active],
+.vertical .numbers .dot,
+.vertical .numbers .dot[data-active] {
+  block-size: var(--carousel-control);
+  color: var(--loica-muted);
+  font-size: calc(var(--carousel-control) * 0.4);
+  font-weight: var(--loica-font-weight-semibold);
+  inline-size: var(--carousel-control);
+}
+
+.numbers .dot::before {
+  display: none;
+}
+
+.numbers .dot:hover {
+  background-color: var(--carousel-tint);
+  color: var(--carousel-text);
+}
+
+.numbers .dot[data-active] {
+  background-color: var(--carousel-solid);
+  color: var(--carousel-contrast);
+}
+
+.thumbnails {
+  gap: var(--loica-space-2);
+  padding: var(--loica-space-2);
+}
+
+.thumbnails .dot,
+.thumbnails .dot[data-active],
+.vertical .thumbnails .dot,
+.vertical .thumbnails .dot[data-active] {
+  block-size: 3.5rem;
+  border: var(--loica-border-width-medium) solid transparent;
+  border-radius: var(--loica-radius-3);
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  inline-size: 5rem;
+  opacity: 0.6;
+  overflow: hidden;
+}
+
+.thumbnails .dot::before {
+  display: none;
+}
+
+.thumbnails .dot > * {
+  block-size: 100%;
+  display: block;
+  inline-size: 100%;
+  object-fit: cover;
+}
+
+.thumbnails .dot:hover {
+  opacity: 0.85;
+}
+
+.thumbnails .dot[data-active] {
+  border-color: var(--carousel-solid);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .thumbnails .dot {
+    transition:
+      border-color var(--loica-duration-normal) var(--loica-easing-standard),
+      opacity var(--loica-duration-normal) var(--loica-easing-standard);
+  }
+
+  .dot::before {
+    transition: background-color var(--loica-duration-normal) var(--loica-easing-standard);
+  }
+}
+
+@media (forced-colors: active) {
+  .arrow,
+  .dot::before {
+    border: var(--loica-border-width-thin) solid CanvasText;
+  }
+
+  .numbers .dot[data-active],
+  .thumbnails .dot[data-active] {
+    border-color: Highlight;
+    outline: var(--loica-focus-ring-width) solid Highlight;
+  }
+
+  .dot[data-active]::before {
+    background-color: Highlight;
+  }
+}

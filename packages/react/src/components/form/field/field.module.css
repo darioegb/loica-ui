@@ -1,0 +1,74 @@
+/* field.module.css */
+
+.field {
+  color: var(--loica-foreground);
+  display: flex;
+  flex-direction: column;
+  gap: var(--loica-space-1);
+}
+
+.vertical {
+  composes: field;
+}
+
+.horizontal {
+  composes: field;
+  align-items: center;
+  column-gap: var(--loica-space-4);
+  display: grid;
+  grid-template-columns: var(--field-label-width, 8rem) minmax(0, 1fr);
+}
+
+.horizontal > :not(.label) {
+  grid-column: 2;
+}
+
+.inline {
+  composes: field;
+  align-items: center;
+  column-gap: var(--loica-space-2);
+  display: grid;
+  grid-template-areas:
+    'control label'
+    '. helper'
+    '. error';
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.inline > :not(.label, .helperText, .errorText) {
+  grid-area: control;
+}
+
+.inline > .label {
+  cursor: pointer;
+  font-size: var(--loica-font-size-base);
+  font-weight: var(--loica-font-weight-normal);
+  grid-area: label;
+}
+
+.inline > .helperText {
+  grid-area: helper;
+}
+
+.inline > .errorText {
+  grid-area: error;
+}
+
+.requiredIndicator {
+  color: var(--loica-color-error-text);
+  margin-inline-start: var(--loica-space-1);
+}
+
+.optionalText {
+  color: var(--loica-muted);
+  font-weight: var(--loica-font-weight-normal);
+  margin-inline-start: var(--loica-space-1);
+}
+
+.errorText {
+  color: var(--loica-color-error-text);
+}
+
+.field[data-disabled] > .label {
+  opacity: var(--loica-opacity-disabled);
+}

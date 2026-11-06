@@ -1,0 +1,69 @@
+{/* why-loica.mdx */}
+
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title='Guides/Why Loica' />
+
+# Why Loica
+
+`@loica-ui/react` is a set of accessible React components that you can use with its own look or with the classes of
+the CSS framework you already have. This page says what you get, what it costs and when another library fits better.
+
+## What it costs
+
+Loica has no dependencies: `react` and `react-dom` are its only peers, so it adds nothing else to your
+`node_modules` or to your bundle. The package ships ES modules split by component, so a bundler only keeps the
+components you import. Measured on version 0.63, minified and gzipped, without React:
+
+<table>
+  <thead>
+    <tr><th>You import</th><th>JavaScript</th><th>CSS</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>Button</code></td><td>1.4 KB</td><td>1.2 KB</td></tr>
+    <tr><td><code>Button</code>, <code>Field</code>, <code>Input</code> and <code>Modal</code></td><td>7.1 KB</td><td>3.3 KB</td></tr>
+    <tr><td><code>Select</code></td><td>10.7 KB</td><td>2.2 KB</td></tr>
+    <tr><td><code>DatePicker</code></td><td>14.1 KB</td><td>3.6 KB</td></tr>
+    <tr><td>Every component</td><td>77.4 KB</td><td>22.6 KB (<code>styles.css</code>)</td></tr>
+  </tbody>
+</table>
+
+The CSS column counts the sheets of those components in `@loica-ui/react/css/`, with the ones they import (the
+`Button` brings the `Loader`), plus `tokens.css` once (2.2 KB) with the variables of the theme. See
+<a href='./?path=/docs/introduction--docs' target='_top'>Only the CSS you use</a>. Sizes change from one release to the next:
+to measure your own case, bundle the components you use with your bundler and look at the output.
+
+## Your styles, or ours
+
+- **With the Loica look**, every component has variants, sizes, shapes and color schemes, in light and dark mode.
+  The theme is a set of CSS variables (`--loica-*`), so changing a color is changing a variable, and a custom color
+  scheme is one key of the theme.
+- **With your own classes**, `variant="unstyled"` drops every Loica class and keeps only yours, while the component
+  keeps its behaviour, its keyboard support and its ARIA. Every component has a Tailwind and a Bootstrap example.
+- **Mixed**, `className` works in any variant and wins over Loica, because all the CSS of the package is in the
+  cascade layer `loica`. See <a href='./?path=/docs/guides-customizing-styles--docs' target='_top'>Customizing styles</a>.
+
+## Accessible from the start
+
+Every component follows its WAI-ARIA pattern: the roles, the names, the states, the keyboard and the focus. Overlays
+trap and return the focus, and close with <kbd>Esc</kbd> one layer at a time. The stories run through axe in light
+and dark mode on every pull request, so a contrast or a missing name doesn't reach a release.
+
+## Built for real apps
+
+- **Simple things stay simple.** The common case of a component closes on itself (`<Button label='Save' />`,
+  `<Select aria-label='Fruit' options={fruits} />`), and the parts are there when you need another layout.
+- **Server rendering.** `'use client'` is only on the components that need it, and `ThemeProvider` renders the
+  color mode on the server, so dark mode doesn't flash. See <a href='./?path=/docs/guides-framework-integration--docs' target='_top'>Framework integration</a>.
+- **Forms.** The controls are native elements with the `ref` on the input, so they work with a plain `<form>` and
+  with form libraries. See <a href='./?path=/docs/guides-forms--docs' target='_top'>Forms</a>.
+- **Any language.** Every text a component shows comes from a `LocaleProvider`, with no i18n library required. See
+  <a href='./?path=/docs/guides-internationalization--docs' target='_top'>Internationalization</a>.
+- **A stable API.** From 1.0 a breaking change only comes in a major version. See
+  <a href='./?path=/docs/guides-public-api--docs' target='_top'>Public API</a>.
+
+## When another library fits better
+
+Loica covers the components most apps use, not every one there is. If you need a data grid with virtual scrolling,
+charts, a rich text editor or a complete design system with its own layout primitives, a larger library or a
+specialized one will serve you better, and Loica can still live next to it for the rest.

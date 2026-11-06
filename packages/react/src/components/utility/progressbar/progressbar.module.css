@@ -1,0 +1,138 @@
+:global(:where([data-loica-progressbar-track])) {
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+:global(:where([data-loica-progressbar-field])) {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  gap: var(--loica-space-2);
+  width: 100%;
+}
+
+:global(:where([data-loica-progressbar-field] [data-loica-progressbar-track])) {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+:global(:where([data-loica-progressbar-value])) {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+  min-inline-size: 4ch;
+  text-align: end;
+}
+
+:global(:where([data-loica-progressbar-indicator])) {
+  block-size: 100%;
+}
+
+:global(
+  :where([data-loica-progressbar-track][data-indeterminate] [data-loica-progressbar-indicator])
+) {
+  inline-size: 40%;
+}
+
+.value {
+  color: var(--loica-foreground);
+  font-family: var(--loica-font-family);
+  font-size: var(--loica-font-size-sm);
+}
+
+.progressbar {
+  background-color: var(--loica-surface-muted);
+  box-shadow: inset 0 0 0 var(--loica-border-width-thin) var(--loica-border);
+}
+
+.sm {
+  height: var(--loica-space-1);
+}
+
+.md {
+  height: var(--loica-space-2);
+}
+
+.lg {
+  height: var(--loica-space-4);
+}
+
+.rounded,
+.rounded .indicator {
+  border-radius: var(--loica-radius-2);
+}
+
+.pill,
+.pill .indicator {
+  border-radius: var(--loica-radius-full);
+}
+
+.indicator {
+  background-color: var(--progressbar-solid);
+  box-shadow: inset 0 0 0 var(--loica-border-width-thin)
+    color-mix(in srgb, var(--progressbar-solid) 55%, var(--loica-foreground));
+}
+
+.striped {
+  background-image: linear-gradient(
+    45deg,
+    rgb(255 255 255 / 25%) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgb(255 255 255 / 25%) 50%,
+    rgb(255 255 255 / 25%) 75%,
+    transparent 75%
+  );
+  background-size: 1rem 1rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .indicator {
+    transition: inline-size var(--loica-duration-slow) var(--loica-easing-standard);
+  }
+
+  .animated {
+    animation: progressbar-stripes 1s linear infinite;
+  }
+
+  [data-indeterminate] .indicator {
+    animation: progressbar-indeterminate 1.4s var(--loica-easing-in-out) infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(
+    :where([data-loica-progressbar-track][data-indeterminate] [data-loica-progressbar-indicator])
+  ) {
+    inline-size: 100%;
+    opacity: var(--loica-opacity-disabled);
+  }
+}
+
+@keyframes progressbar-stripes {
+  to {
+    background-position: 1rem 0;
+  }
+}
+
+@keyframes progressbar-indeterminate {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(250%);
+  }
+}
+
+@media (forced-colors: active) {
+  .progressbar {
+    border: var(--loica-border-width-thin) solid CanvasText;
+  }
+
+  .indicator {
+    background-color: Highlight;
+    forced-color-adjust: none;
+  }
+}

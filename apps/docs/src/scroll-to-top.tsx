@@ -22,7 +22,7 @@ function ScrollToTop(): ReactNode {
   }
 
   return (
-    <button aria-label="Scroll to the top" className="plume-scroll-top" onClick={scrollToTop} type="button">
+    <button aria-label="Scroll to the top" className="loica-scroll-top" onClick={scrollToTop} type="button">
       <svg aria-hidden="true" fill="none" height="22" viewBox="0 0 24 24" width="22">
         <path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" />
       </svg>

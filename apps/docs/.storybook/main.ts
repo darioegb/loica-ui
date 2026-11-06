@@ -5,7 +5,7 @@ const config: StorybookConfig = {
   stories: [
     '../stories/**/*.mdx',
     '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)',
-    '../../../packages/plume-ui-react/src/components/**/stories/*.stories.@(js|jsx|mjs|ts|tsx|mdx)',
+    '../../../packages/react/src/components/**/stories/*.stories.@(js|jsx|mjs|ts|tsx|mdx)',
   ],
   staticDirs: ['../public'],
   addons: [
@@ -29,9 +29,9 @@ const config: StorybookConfig = {
             Array.isArray(config.resolve?.alias) ? (replacement as never) : { find, replacement },
           ),
           {
-            find: /^plume-ui-react$/,
+            find: /^@loica-ui\/react$/,
             replacement: fileURLToPath(
-              new URL('../../../packages/plume-ui-react/src/index.ts', import.meta.url),
+              new URL('../../../packages/react/src/index.ts', import.meta.url),
             ),
           },
         ],
