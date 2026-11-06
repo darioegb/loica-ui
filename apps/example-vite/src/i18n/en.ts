@@ -1,6 +1,6 @@
 export const en = {
   app: {
-    name: "Plume Projects",
+    name: "Loica Projects",
   },
   brands: {
     amber: "Amber",
@@ -55,7 +55,7 @@ export const en = {
     title: "New project",
     visibilityLabel: "Who can see it",
   },
-  plume: {
+  loica: {
     avatar: {
       away: "Away",
       busy: "Busy",

@@ -1,7 +1,7 @@
-@layer reset, base, plume, components, utilities;
+@layer reset, base, loica, components, utilities;
 
 @import "bootstrap/dist/css/bootstrap.min.css" layer(reset);
 
 body {
-  font-family: var(--plume-font-family);
+  font-family: var(--loica-font-family);
 }

@@ -18,7 +18,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-} from "plume-ui-react";
+} from "@loica-ui/react";
 import type { Project } from "../lib/data";
 import { formatAgo, formatDue } from "../lib/format";
 import { statusColor } from "../lib/status";

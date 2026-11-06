@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { getTranslations } from 'next-intl/server'
-import { Skeleton } from 'plume-ui-react'
+import { Skeleton } from '@loica-ui/react'
 import { SkeletonPage } from '@/components/skeleton-page'
 
 export default async function Loading(): Promise<ReactNode> {

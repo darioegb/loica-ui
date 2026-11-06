@@ -10,7 +10,7 @@ import {
   CardHeader,
   ProgressBar,
   Skeleton,
-} from "plume-ui-react";
+} from "@loica-ui/react";
 import { PageHeader } from "../components/page-header";
 import { SkeletonPage } from "../components/skeleton-page";
 import { getDashboard } from "../lib/data";

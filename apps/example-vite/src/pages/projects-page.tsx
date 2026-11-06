@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Skeleton } from "plume-ui-react";
+import { Alert, Skeleton } from "@loica-ui/react";
 import { PageHeader } from "../components/page-header";
 import { SkeletonPage } from "../components/skeleton-page";
 import { getProjects } from "../lib/data";

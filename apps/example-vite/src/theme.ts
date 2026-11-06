@@ -1,4 +1,4 @@
-import type { DeepPartial, Theme } from "plume-ui-react";
+import type { DeepPartial, Theme } from "@loica-ui/react";
 
 const salmon = {
   "50": "#fef3f1",

@@ -19,7 +19,7 @@ import {
   SelectOption,
   SelectTrigger,
   useToast,
-} from 'plume-ui-react'
+} from '@loica-ui/react'
 
 const regions = ['europe', 'northAmerica', 'asiaPacific'] as const
 

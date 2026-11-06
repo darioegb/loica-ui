@@ -179,7 +179,7 @@ const metrics: Metric[] = [
 ];
 
 // The simulated back end: the browser's localStorage plays the database.
-const STORAGE_KEY = "plume-projects:projects";
+const STORAGE_KEY = "loica-projects:projects";
 
 function isProject(value: unknown): value is Project {
   if (!value || typeof value !== "object") return false;

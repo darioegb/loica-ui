@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "Plume Projects",
-    "description": "Un panel de proyectos creado con plume-ui-react en el App Router de Next.js."
+    "name": "Loica Projects",
+    "description": "Un panel de proyectos creado con @loica-ui/react en el App Router de Next.js."
   },
   "nav": {
     "application": "Aplicación",
@@ -26,10 +26,10 @@
   },
   "login": {
     "title": "Iniciar sesión",
-    "heading": "Inicia sesión en Plume Projects",
+    "heading": "Inicia sesión en Loica Projects",
     "hint": "Este inicio de sesión es simulado: sirve cualquier correo y una contraseña de 6 o más caracteres.",
     "email": "Correo electrónico",
-    "emailPlaceholder": "ana@plume.dev",
+    "emailPlaceholder": "ana@loica.dev",
     "password": "Contraseña",
     "submit": "Iniciar sesión"
   },
@@ -295,7 +295,7 @@
       "keptBody": "Esto es una demostración: no se eliminó nada."
     }
   },
-  "plume": {
+  "loica": {
     "avatar": { "away": "Ausente", "busy": "Ocupado", "offline": "Desconectado", "online": "En línea" },
     "avatarGroup": { "overflow": "{hidden} más" },
     "breadcrumb": { "breadcrumb": "Ruta de navegación" },

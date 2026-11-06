@@ -12,7 +12,7 @@ import {
   RadioGroup,
   useTheme,
   type ColorModeSetting,
-} from 'plume-ui-react'
+} from '@loica-ui/react'
 import { saveBrand, saveColorMode } from '@/app/actions'
 import { usePreferences } from '@/app/providers'
 import { brands, type BrandId } from '@/theme'
@@ -81,7 +81,7 @@ export function AppearanceSettings(): ReactNode {
 
       <div
         aria-label={t('preview')}
-        className="flex flex-wrap items-center gap-3 rounded-(--plume-radius-2) border border-(--plume-border) p-4"
+        className="flex flex-wrap items-center gap-3 rounded-(--loica-radius-2) border border-(--loica-border) p-4"
         role="group"
       >
         <Button colorScheme="primary">{t('primaryAction')}</Button>

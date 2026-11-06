@@ -2,15 +2,15 @@
 
 import type { ReactNode } from 'react'
 import { useMemo } from 'react'
-import { LocaleProvider, type PlumeMessages } from 'plume-ui-react'
+import { LocaleProvider, type LoicaMessages } from '@loica-ui/react'
 import { useLocale as useIntlLocale, useTranslations } from 'next-intl'
 
-// Plume exports its own `useLocale`, so the one of next-intl is imported with another name.
-export function PlumeLocale({ children }: Readonly<{ children: ReactNode }>): ReactNode {
-  const t = useTranslations('plume')
+// Loica exports its own `useLocale`, so the one of next-intl is imported with another name.
+export function LoicaLocale({ children }: Readonly<{ children: ReactNode }>): ReactNode {
+  const t = useTranslations('loica')
   const locale = useIntlLocale()
 
-  const messages = useMemo<PlumeMessages>(
+  const messages = useMemo<LoicaMessages>(
     () => ({
       avatar: {
         away: t('avatar.away'),

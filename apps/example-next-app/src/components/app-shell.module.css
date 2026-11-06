@@ -1,11 +1,11 @@
 /* The rail only fits the monogram; below the breakpoint the sidebar is a panel and keeps the name. */
 @media (width >= 48rem) {
-  :global([data-plume-sidebar][data-collapsed]) .brand {
+  :global([data-loica-sidebar][data-collapsed]) .brand {
     justify-content: center;
     padding-inline: 0;
   }
 
-  :global([data-plume-sidebar][data-collapsed]) .name {
+  :global([data-loica-sidebar][data-collapsed]) .name {
     display: none;
   }
 }

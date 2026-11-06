@@ -30,7 +30,7 @@ import {
   Toggle,
   useToast,
   type DateRange,
-} from 'plume-ui-react'
+} from '@loica-ui/react'
 import { createProject } from '@/app/actions'
 import type { NewProjectInput, Visibility } from '@/lib/data'
 import { formatDue, toIsoDate } from '@/lib/format'
@@ -213,7 +213,7 @@ export function NewProjectWizard({
 
             {step === 2 ? (
               <>
-                <dl className="grid grid-cols-[max-content_1fr] items-start gap-x-4 gap-y-3 [&_dt]:text-(--plume-muted)">
+                <dl className="grid grid-cols-[max-content_1fr] items-start gap-x-4 gap-y-3 [&_dt]:text-(--loica-muted)">
                   <dt>{t('name')}</dt>
                   <dd>{values.name.trim()}</dd>
                   <dt>{t('projectDescription')}</dt>

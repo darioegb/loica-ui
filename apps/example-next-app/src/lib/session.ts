@@ -1,11 +1,11 @@
 import { cookies } from 'next/headers'
-import type { ColorModeSetting } from 'plume-ui-react'
+import type { ColorModeSetting } from '@loica-ui/react'
 import { defaultBrand, isBrand, type BrandId } from '@/theme'
 import { userFromEmail, type User } from '@/lib/user'
 
-export const SESSION_COOKIE = 'plume-session'
-export const COLOR_MODE_COOKIE = 'plume-color-mode'
-export const BRAND_COOKIE = 'plume-brand'
+export const SESSION_COOKIE = 'loica-session'
+export const COLOR_MODE_COOKIE = 'loica-color-mode'
+export const BRAND_COOKIE = 'loica-brand'
 
 // Simulated session: a real app would sign the cookie or keep a server-side session.
 export async function getUser(): Promise<User | null> {

@@ -2,7 +2,7 @@ import type { Translation } from "./en";
 
 export const es: Translation = {
   app: {
-    name: "Plume Projects",
+    name: "Loica Projects",
   },
   brands: {
     amber: "Ámbar",
@@ -57,7 +57,7 @@ export const es: Translation = {
     title: "Nuevo proyecto",
     visibilityLabel: "Quién puede verlo",
   },
-  plume: {
+  loica: {
     avatar: {
       away: "Ausente",
       busy: "Ocupado",

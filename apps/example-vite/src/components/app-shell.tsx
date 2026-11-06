@@ -22,7 +22,7 @@ import {
   SidebarProvider,
   SidebarToggle,
   useTheme,
-} from "plume-ui-react";
+} from "@loica-ui/react";
 import { languages, type Language } from "../i18n";
 import { resetData } from "../lib/data";
 import { usePreferences } from "../providers";
@@ -38,7 +38,7 @@ import {
 import { ScrollToTop } from "./scroll-to-top";
 import styles from "./app-shell.module.css";
 
-const user = { email: "ana.ruiz@plume.dev", name: "Ana Ruiz" };
+const user = { email: "ana.ruiz@loica.dev", name: "Ana Ruiz" };
 
 const pages = [
   { href: "/", icon: <DashboardIcon />, label: "nav.dashboard" },

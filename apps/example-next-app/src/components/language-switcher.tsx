@@ -9,7 +9,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from 'plume-ui-react'
+} from '@loica-ui/react'
 import { saveLocale } from '@/app/actions'
 import { locales, type Locale } from '@/i18n/config'
 import { CheckIcon } from './icons'

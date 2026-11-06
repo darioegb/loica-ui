@@ -257,15 +257,15 @@ export interface TeamMember {
 }
 
 const team: TeamMember[] = [
-  { department: 'product', email: 'ana.ruiz@plume.dev', name: 'Ana Ruiz', presence: 'online', role: 'productManager', skills: ['roadmaps', 'research'] },
-  { department: 'engineering', email: 'marco.silva@plume.dev', name: 'Marco Silva', presence: 'busy', role: 'frontendEngineer', skills: ['react', 'accessibility', 'css'] },
-  { department: 'design', email: 'lena.fischer@plume.dev', name: 'Lena Fischer', presence: 'online', role: 'productDesigner', skills: ['figma', 'designSystems'] },
-  { department: 'engineering', email: 'priya.nair@plume.dev', name: 'Priya Nair', presence: 'away', role: 'backendEngineer', skills: ['nodejs', 'postgresql'] },
-  { department: 'product', email: 'tom.becker@plume.dev', name: 'Tom Becker', presence: 'offline', role: 'dataAnalyst', skills: ['sql', 'dashboards'] },
-  { department: 'support', email: 'sara.lind@plume.dev', name: 'Sara Lind', presence: 'online', role: 'supportLead', skills: ['onboarding', 'docs'] },
-  { department: 'engineering', email: 'ken.ito@plume.dev', name: 'Ken Ito', presence: 'busy', role: 'staffEngineer', skills: ['architecture', 'security', 'go'] },
-  { department: 'design', email: 'noor.haddad@plume.dev', name: 'Noor Haddad', presence: 'away', role: 'uxResearcher', skills: ['interviews', 'surveys'] },
-  { department: 'support', email: 'diego.alvarez@plume.dev', name: 'Diego Alvarez', presence: 'offline', role: 'customerSuccess', skills: ['accounts', 'training'] },
+  { department: 'product', email: 'ana.ruiz@loica.dev', name: 'Ana Ruiz', presence: 'online', role: 'productManager', skills: ['roadmaps', 'research'] },
+  { department: 'engineering', email: 'marco.silva@loica.dev', name: 'Marco Silva', presence: 'busy', role: 'frontendEngineer', skills: ['react', 'accessibility', 'css'] },
+  { department: 'design', email: 'lena.fischer@loica.dev', name: 'Lena Fischer', presence: 'online', role: 'productDesigner', skills: ['figma', 'designSystems'] },
+  { department: 'engineering', email: 'priya.nair@loica.dev', name: 'Priya Nair', presence: 'away', role: 'backendEngineer', skills: ['nodejs', 'postgresql'] },
+  { department: 'product', email: 'tom.becker@loica.dev', name: 'Tom Becker', presence: 'offline', role: 'dataAnalyst', skills: ['sql', 'dashboards'] },
+  { department: 'support', email: 'sara.lind@loica.dev', name: 'Sara Lind', presence: 'online', role: 'supportLead', skills: ['onboarding', 'docs'] },
+  { department: 'engineering', email: 'ken.ito@loica.dev', name: 'Ken Ito', presence: 'busy', role: 'staffEngineer', skills: ['architecture', 'security', 'go'] },
+  { department: 'design', email: 'noor.haddad@loica.dev', name: 'Noor Haddad', presence: 'away', role: 'uxResearcher', skills: ['interviews', 'surveys'] },
+  { department: 'support', email: 'diego.alvarez@loica.dev', name: 'Diego Alvarez', presence: 'offline', role: 'customerSuccess', skills: ['accounts', 'training'] },
 ]
 
 export async function getTeam(): Promise<TeamMember[]> {

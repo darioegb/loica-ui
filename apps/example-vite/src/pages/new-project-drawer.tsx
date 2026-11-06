@@ -26,7 +26,7 @@ import {
   Textarea,
   useToast,
   type DateRange,
-} from "plume-ui-react";
+} from "@loica-ui/react";
 import {
   createProject,
   members,

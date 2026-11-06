@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Heading, Text } from 'plume-ui-react'
+import { Heading, Text } from '@loica-ui/react'
 
 export function PageHeader({
   description,

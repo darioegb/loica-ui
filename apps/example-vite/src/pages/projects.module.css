@@ -23,7 +23,7 @@
 .name {
   background: none;
   border: 0;
-  color: var(--plume-foreground);
+  color: var(--loica-foreground);
   cursor: pointer;
   font: inherit;
 }
@@ -41,7 +41,7 @@
 }
 
 .facts dt {
-  color: var(--plume-muted);
+  color: var(--loica-muted);
   font-weight: inherit;
 }
 

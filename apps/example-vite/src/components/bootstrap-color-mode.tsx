@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { useLayoutEffect } from "react";
-import { useTheme } from "plume-ui-react";
+import { useTheme } from "@loica-ui/react";
 
 export function BootstrapColorMode(): ReactNode {
   const { colorMode } = useTheme();

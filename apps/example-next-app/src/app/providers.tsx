@@ -2,9 +2,9 @@
 
 import type { ReactNode } from 'react'
 import { createContext, useContext, useMemo, useState } from 'react'
-import { ThemeProvider, ToastProvider, type ColorModeSetting } from 'plume-ui-react'
+import { ThemeProvider, ToastProvider, type ColorModeSetting } from '@loica-ui/react'
 import { themeFor, type BrandId } from '@/theme'
-import { PlumeLocale } from '@/components/plume-locale'
+import { LoicaLocale } from '@/components/loica-locale'
 
 interface PreferencesContextValue {
   brand: BrandId
@@ -38,9 +38,9 @@ export function Providers({
   return (
     <PreferencesContext.Provider value={value}>
       <ThemeProvider defaultColorMode={colorMode} style={{ minHeight: '100vh' }} theme={theme}>
-        <PlumeLocale>
+        <LoicaLocale>
           <ToastProvider>{children}</ToastProvider>
-        </PlumeLocale>
+        </LoicaLocale>
       </ThemeProvider>
     </PreferencesContext.Provider>
   )
