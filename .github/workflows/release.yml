@@ -16,6 +16,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     outputs:
       published: ${{ steps.changesets.outputs.published }}
     steps:

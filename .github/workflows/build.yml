@@ -44,6 +44,7 @@ jobs:
   checks:
     name: Checks
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v6
@@ -76,6 +77,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.library == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -101,6 +103,7 @@ jobs:
     needs: changes
     if: needs.changes.outputs.examples == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
