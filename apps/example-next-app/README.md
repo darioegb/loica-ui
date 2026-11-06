@@ -85,7 +85,7 @@ npm run dev
 
 ## Live demo
 
-<https://plume-ui-react.vercel.app>
+<https://loica-ui.vercel.app>
 
 ## Deploy to Vercel (free Hobby plan)
 
