@@ -1,19 +1,19 @@
 <p align="center">
-  <a href="https://darioegb.github.io/plume-ui-react/">
-    <img src="https://darioegb.github.io/plume-ui-react/logo.svg" alt="" width="72" />
+  <a href="https://darioegb.github.io/loica-ui/">
+    <img src="https://darioegb.github.io/loica-ui/logo.svg" alt="" width="72" />
   </a>
 </p>
 
-<h1 align="center">Plume UI React</h1>
+<h1 align="center">Loica UI React</h1>
 
 <p align="center">A lightweight design system for React</p>
 
 <p align="center">
-  <img alt="Bundle size" src="https://img.shields.io/bundlejs/size/plume-ui-react" />
-  <img alt="npm downloads" src="https://img.shields.io/npm/dm/plume-ui-react" />
-  <img alt="Last commit" src="https://img.shields.io/github/last-commit/darioegb/plume-ui-react" />
-  <img alt="License" src="https://img.shields.io/npm/l/plume-ui-react" />
-  <a href="https://sonarcloud.io/summary/new_code?id=darioegb_plume-ui-react"><img alt="Quality Gate Status" src="https://sonarcloud.io/api/project_badges/measure?project=darioegb_plume-ui-react&metric=alert_status" /></a>
+  <img alt="Bundle size" src="https://img.shields.io/bundlejs/size/@loica-ui/react" />
+  <img alt="npm downloads" src="https://img.shields.io/npm/dm/@loica-ui/react" />
+  <img alt="Last commit" src="https://img.shields.io/github/last-commit/darioegb/loica-ui" />
+  <img alt="License" src="https://img.shields.io/npm/l/@loica-ui/react" />
+  <a href="https://sonarcloud.io/summary/new_code?id=darioegb_loica-ui"><img alt="Quality Gate Status" src="https://sonarcloud.io/api/project_badges/measure?project=darioegb_loica-ui&metric=alert_status" /></a>
 </p>
 
 Components ship their own scoped styles and are themed entirely through CSS variables, so they adapt to your brand and switch between light and dark without runtime color math.
@@ -36,25 +36,25 @@ Components ship their own scoped styles and are themed entirely through CSS vari
 
 ## Documentation
 
-The [documentation site](https://darioegb.github.io/plume-ui-react/) has a live playground, props and examples for every component, plus the color palette, design tokens, framework integration guides and the [examples](https://darioegb.github.io/plume-ui-react/?path=/docs/guides-examples--docs).
+The [documentation site](https://darioegb.github.io/loica-ui/) has a live playground, props and examples for every component, plus the color palette, design tokens, framework integration guides and the [examples](https://darioegb.github.io/loica-ui/?path=/docs/guides-examples--docs).
 
 ## Installation
 
 ```sh
-npm install plume-ui-react
+npm install @loica-ui/react
 # or
-pnpm add plume-ui-react
+pnpm add @loica-ui/react
 # or
-yarn add plume-ui-react
+yarn add @loica-ui/react
 ```
 
-`plume-ui-react` is the only package you need: it includes every component, the theme (`ThemeProvider`, `useTheme`, tokens and types), the hooks and the utilities. `react` and `react-dom` (>= 18) are peer dependencies.
+`@loica-ui/react` is the only package you need: it includes every component, the theme (`ThemeProvider`, `useTheme`, tokens and types), the hooks and the utilities. `react` and `react-dom` (>= 18) are peer dependencies.
 
 Import the stylesheet once and wrap your app in `<ThemeProvider>`:
 
 ```tsx
-import 'plume-ui-react/styles.css'
-import { Button, ThemeProvider } from 'plume-ui-react'
+import '@loica-ui/react/styles.css'
+import { Button, ThemeProvider } from '@loica-ui/react'
 
 export function App() {
   return (
@@ -68,63 +68,63 @@ export function App() {
 To load only the CSS of some components, import `tokens.css` once and then the stylesheet of each component (each one brings the CSS of the components it renders):
 
 ```tsx
-import 'plume-ui-react/tokens.css'
-import 'plume-ui-react/css/button.css'
-import 'plume-ui-react/css/input.css'
+import '@loica-ui/react/tokens.css'
+import '@loica-ui/react/css/button.css'
+import '@loica-ui/react/css/input.css'
 ```
 
 ## Components
 
 | Component | Docs |
 | --- | --- |
-| Accordion | [Accordion](https://darioegb.github.io/plume-ui-react/?path=/docs/components-accordion--docs) |
-| Alert | [Alert](https://darioegb.github.io/plume-ui-react/?path=/docs/components-alert--docs) |
-| Avatar | [Avatar](https://darioegb.github.io/plume-ui-react/?path=/docs/components-avatar--docs) |
-| Badge | [Badge](https://darioegb.github.io/plume-ui-react/?path=/docs/components-badge--docs) |
-| Breadcrumb | [Breadcrumb](https://darioegb.github.io/plume-ui-react/?path=/docs/components-breadcrumb--docs) |
-| Button | [Button](https://darioegb.github.io/plume-ui-react/?path=/docs/components-button--docs) |
-| Card | [Card](https://darioegb.github.io/plume-ui-react/?path=/docs/components-card--docs) |
-| Carousel | [Carousel](https://darioegb.github.io/plume-ui-react/?path=/docs/components-carousel--docs) |
-| Checkbox | [Checkbox](https://darioegb.github.io/plume-ui-react/?path=/docs/components-checkbox--docs) |
-| Chip | [Chip](https://darioegb.github.io/plume-ui-react/?path=/docs/components-chip--docs) |
-| Collapse | [Collapse](https://darioegb.github.io/plume-ui-react/?path=/docs/components-collapse--docs) |
-| DatePicker | [DatePicker](https://darioegb.github.io/plume-ui-react/?path=/docs/components-datepicker--docs) |
-| Divider | [Divider](https://darioegb.github.io/plume-ui-react/?path=/docs/components-divider--docs) |
-| Drawer | [Drawer](https://darioegb.github.io/plume-ui-react/?path=/docs/components-drawer--docs) |
-| Dropdown | [Dropdown](https://darioegb.github.io/plume-ui-react/?path=/docs/components-dropdown--docs) |
-| EmptyState | [EmptyState](https://darioegb.github.io/plume-ui-react/?path=/docs/components-emptystate--docs) |
-| Field | [Field](https://darioegb.github.io/plume-ui-react/?path=/docs/components-field--docs) |
-| FileUpload | [FileUpload](https://darioegb.github.io/plume-ui-react/?path=/docs/components-fileupload--docs) |
-| Heading | [Heading](https://darioegb.github.io/plume-ui-react/?path=/docs/components-heading--docs) |
-| Icon | [Icon](https://darioegb.github.io/plume-ui-react/?path=/docs/components-icon--docs) |
-| Input | [Input](https://darioegb.github.io/plume-ui-react/?path=/docs/components-input--docs) |
-| List | [List](https://darioegb.github.io/plume-ui-react/?path=/docs/components-list--docs) |
-| Loader | [Loader](https://darioegb.github.io/plume-ui-react/?path=/docs/components-loader--docs) |
-| Modal | [Modal](https://darioegb.github.io/plume-ui-react/?path=/docs/components-modal--docs) |
-| Navbar | [Navbar](https://darioegb.github.io/plume-ui-react/?path=/docs/components-navbar--docs) |
-| NumberInput | [NumberInput](https://darioegb.github.io/plume-ui-react/?path=/docs/components-numberinput--docs) |
-| Paginator | [Paginator](https://darioegb.github.io/plume-ui-react/?path=/docs/components-paginator--docs) |
-| PinInput | [PinInput](https://darioegb.github.io/plume-ui-react/?path=/docs/components-pininput--docs) |
-| Popover | [Popover](https://darioegb.github.io/plume-ui-react/?path=/docs/components-popover--docs) |
-| ProgressBar | [ProgressBar](https://darioegb.github.io/plume-ui-react/?path=/docs/components-progressbar--docs) |
-| Radio | [Radio](https://darioegb.github.io/plume-ui-react/?path=/docs/components-radio--docs) |
-| Rating | [Rating](https://darioegb.github.io/plume-ui-react/?path=/docs/components-rating--docs) |
-| Select | [Select](https://darioegb.github.io/plume-ui-react/?path=/docs/components-select--docs) |
-| Sidebar | [Sidebar](https://darioegb.github.io/plume-ui-react/?path=/docs/components-sidebar--docs) |
-| Skeleton | [Skeleton](https://darioegb.github.io/plume-ui-react/?path=/docs/components-skeleton--docs) |
-| Slider | [Slider](https://darioegb.github.io/plume-ui-react/?path=/docs/components-slider--docs) |
-| Stepper | [Stepper](https://darioegb.github.io/plume-ui-react/?path=/docs/components-stepper--docs) |
-| Table | [Table](https://darioegb.github.io/plume-ui-react/?path=/docs/components-table--docs) |
-| Tabs | [Tabs](https://darioegb.github.io/plume-ui-react/?path=/docs/components-tabs--docs) |
-| Text | [Text](https://darioegb.github.io/plume-ui-react/?path=/docs/components-text--docs) |
-| Textarea | [Textarea](https://darioegb.github.io/plume-ui-react/?path=/docs/components-textarea--docs) |
-| TimePicker | [TimePicker](https://darioegb.github.io/plume-ui-react/?path=/docs/components-timepicker--docs) |
-| Toast | [Toast](https://darioegb.github.io/plume-ui-react/?path=/docs/components-toast--docs) |
-| Toggle | [Toggle](https://darioegb.github.io/plume-ui-react/?path=/docs/components-toggle--docs) |
-| Tooltip | [Tooltip](https://darioegb.github.io/plume-ui-react/?path=/docs/components-tooltip--docs) |
-| Tree | [Tree](https://darioegb.github.io/plume-ui-react/?path=/docs/components-tree--docs) |
+| Accordion | [Accordion](https://darioegb.github.io/loica-ui/?path=/docs/components-accordion--docs) |
+| Alert | [Alert](https://darioegb.github.io/loica-ui/?path=/docs/components-alert--docs) |
+| Avatar | [Avatar](https://darioegb.github.io/loica-ui/?path=/docs/components-avatar--docs) |
+| Badge | [Badge](https://darioegb.github.io/loica-ui/?path=/docs/components-badge--docs) |
+| Breadcrumb | [Breadcrumb](https://darioegb.github.io/loica-ui/?path=/docs/components-breadcrumb--docs) |
+| Button | [Button](https://darioegb.github.io/loica-ui/?path=/docs/components-button--docs) |
+| Card | [Card](https://darioegb.github.io/loica-ui/?path=/docs/components-card--docs) |
+| Carousel | [Carousel](https://darioegb.github.io/loica-ui/?path=/docs/components-carousel--docs) |
+| Checkbox | [Checkbox](https://darioegb.github.io/loica-ui/?path=/docs/components-checkbox--docs) |
+| Chip | [Chip](https://darioegb.github.io/loica-ui/?path=/docs/components-chip--docs) |
+| Collapse | [Collapse](https://darioegb.github.io/loica-ui/?path=/docs/components-collapse--docs) |
+| DatePicker | [DatePicker](https://darioegb.github.io/loica-ui/?path=/docs/components-datepicker--docs) |
+| Divider | [Divider](https://darioegb.github.io/loica-ui/?path=/docs/components-divider--docs) |
+| Drawer | [Drawer](https://darioegb.github.io/loica-ui/?path=/docs/components-drawer--docs) |
+| Dropdown | [Dropdown](https://darioegb.github.io/loica-ui/?path=/docs/components-dropdown--docs) |
+| EmptyState | [EmptyState](https://darioegb.github.io/loica-ui/?path=/docs/components-emptystate--docs) |
+| Field | [Field](https://darioegb.github.io/loica-ui/?path=/docs/components-field--docs) |
+| FileUpload | [FileUpload](https://darioegb.github.io/loica-ui/?path=/docs/components-fileupload--docs) |
+| Heading | [Heading](https://darioegb.github.io/loica-ui/?path=/docs/components-heading--docs) |
+| Icon | [Icon](https://darioegb.github.io/loica-ui/?path=/docs/components-icon--docs) |
+| Input | [Input](https://darioegb.github.io/loica-ui/?path=/docs/components-input--docs) |
+| List | [List](https://darioegb.github.io/loica-ui/?path=/docs/components-list--docs) |
+| Loader | [Loader](https://darioegb.github.io/loica-ui/?path=/docs/components-loader--docs) |
+| Modal | [Modal](https://darioegb.github.io/loica-ui/?path=/docs/components-modal--docs) |
+| Navbar | [Navbar](https://darioegb.github.io/loica-ui/?path=/docs/components-navbar--docs) |
+| NumberInput | [NumberInput](https://darioegb.github.io/loica-ui/?path=/docs/components-numberinput--docs) |
+| Paginator | [Paginator](https://darioegb.github.io/loica-ui/?path=/docs/components-paginator--docs) |
+| PinInput | [PinInput](https://darioegb.github.io/loica-ui/?path=/docs/components-pininput--docs) |
+| Popover | [Popover](https://darioegb.github.io/loica-ui/?path=/docs/components-popover--docs) |
+| ProgressBar | [ProgressBar](https://darioegb.github.io/loica-ui/?path=/docs/components-progressbar--docs) |
+| Radio | [Radio](https://darioegb.github.io/loica-ui/?path=/docs/components-radio--docs) |
+| Rating | [Rating](https://darioegb.github.io/loica-ui/?path=/docs/components-rating--docs) |
+| Select | [Select](https://darioegb.github.io/loica-ui/?path=/docs/components-select--docs) |
+| Sidebar | [Sidebar](https://darioegb.github.io/loica-ui/?path=/docs/components-sidebar--docs) |
+| Skeleton | [Skeleton](https://darioegb.github.io/loica-ui/?path=/docs/components-skeleton--docs) |
+| Slider | [Slider](https://darioegb.github.io/loica-ui/?path=/docs/components-slider--docs) |
+| Stepper | [Stepper](https://darioegb.github.io/loica-ui/?path=/docs/components-stepper--docs) |
+| Table | [Table](https://darioegb.github.io/loica-ui/?path=/docs/components-table--docs) |
+| Tabs | [Tabs](https://darioegb.github.io/loica-ui/?path=/docs/components-tabs--docs) |
+| Text | [Text](https://darioegb.github.io/loica-ui/?path=/docs/components-text--docs) |
+| Textarea | [Textarea](https://darioegb.github.io/loica-ui/?path=/docs/components-textarea--docs) |
+| TimePicker | [TimePicker](https://darioegb.github.io/loica-ui/?path=/docs/components-timepicker--docs) |
+| Toast | [Toast](https://darioegb.github.io/loica-ui/?path=/docs/components-toast--docs) |
+| Toggle | [Toggle](https://darioegb.github.io/loica-ui/?path=/docs/components-toggle--docs) |
+| Tooltip | [Tooltip](https://darioegb.github.io/loica-ui/?path=/docs/components-tooltip--docs) |
+| Tree | [Tree](https://darioegb.github.io/loica-ui/?path=/docs/components-tree--docs) |
 
-Coming from a 0.x version? See the [upgrading guide](https://darioegb.github.io/plume-ui-react/?path=/docs/guides-upgrading-to-1-0--docs).
+Coming from a 0.x version? See the [upgrading guide](https://darioegb.github.io/loica-ui/?path=/docs/guides-upgrading-to-1-0--docs).
 
 ## Examples
 
@@ -132,11 +132,11 @@ Standalone apps that consume the **published npm package** (not the workspace so
 
 - **[Vite](apps/example-vite)**: a client-only SPA with a slice of the same product, to try the components and edit the code.
 
-  [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://darioegb.github.io/plume-ui-react/?path=/docs/guides-examples--docs)
+  [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://darioegb.github.io/loica-ui/?path=/docs/guides-examples--docs)
 
 - **[Next.js App Router](apps/example-next-app)**: a project dashboard with a sign in, a sidebar and dark mode, rendered on the server with no theme flash. [Live demo](https://plume-ui-react.vercel.app), deployed on Vercel.
 
-Both are also linked from the [Examples page of the docs](https://darioegb.github.io/plume-ui-react/?path=/docs/guides-examples--docs).
+Both are also linked from the [Examples page of the docs](https://darioegb.github.io/loica-ui/?path=/docs/guides-examples--docs).
 
 ## Development
 
@@ -152,12 +152,12 @@ pnpm dev            # Storybook with hot reload at http://localhost:6006
 | Command | Description |
 | --- | --- |
 | `pnpm dev` | Run the docs (Storybook) in development mode |
-| `pnpm build` | Build the `plume-ui-react` package |
+| `pnpm build` | Build the `@loica-ui/react` package |
 | `pnpm build:docs` | Build the packages and the static Storybook site (`apps/docs/storybook-static`) |
 | `pnpm test` | Run the tests |
 | `pnpm test:coverage` | Run the tests with coverage |
 | `pnpm lint` / `pnpm lint:fix` | Lint every package |
-| `pnpm --filter @plume-ui-react/docs check:a11y` | Run axe on every story in light and dark mode (see [AUTHORING.md](AUTHORING.md)) |
+| `pnpm --filter @loica-ui/docs check:a11y` | Run axe on every story in light and dark mode (see [AUTHORING.md](AUTHORING.md)) |
 | `pnpm new:component <Name> <category>` | Scaffold a component (see [AUTHORING.md](AUTHORING.md)) |
 | `pnpm changeset` | Describe a change that should be released |
 | `pnpm clean` | Remove build output and `node_modules` |
@@ -169,7 +169,7 @@ apps/
   docs/                      Storybook documentation site
   example-*/                 Example apps (Vite, Next.js App Router), outside the pnpm workspace
 packages/
-  plume-ui-react/            The published package
+  @loica-ui/react/            The published package
     src/components/<category>/<name>/   One folder per component, with its stories and tests
     src/theme/               ThemeProvider, design tokens and shared types
     src/hooks/               Shared hooks (use-mask, use-debounce)
@@ -178,13 +178,13 @@ packages/
   tsconfig/                  Shared TypeScript configs
 ```
 
-Component stories live next to each component (`packages/plume-ui-react/src/components/<category>/<name>/stories`) and are picked up by the docs app.
+Component stories live next to each component (`packages/react/src/components/<category>/<name>/stories`) and are picked up by the docs app.
 
 ## Releasing
 
 Versioning and publishing use [Changesets](https://github.com/changesets/changesets):
 
-1. If a pull request changes `plume-ui-react`, add a changeset with `pnpm changeset` and commit the generated file. Changes to the docs, examples or stories don't need one.
+1. If a pull request changes `@loica-ui/react`, add a changeset with `pnpm changeset` and commit the generated file. Changes to the docs, examples or stories don't need one.
 2. When it is merged into `main`, the Release workflow opens (or updates) a **Version packages** pull request that bumps versions and updates the changelogs.
 3. Merging that pull request publishes the new versions to npm.
 
@@ -192,7 +192,7 @@ The documentation site is deployed to GitHub Pages on every push to `main`.
 
 ## Contributing
 
-Bug reports, ideas and pull requests are welcome. Please [open an issue](https://github.com/darioegb/plume-ui-react/issues) first for larger changes, and read the [contributing guidelines](CONTRIBUTING.md) and [code of conduct](CODE_OF_CONDUCT.md). Commit messages follow [Conventional Commits](https://www.conventionalcommits.org) (checked by commitlint).
+Bug reports, ideas and pull requests are welcome. Please [open an issue](https://github.com/darioegb/loica-ui/issues) first for larger changes, and read the [contributing guidelines](CONTRIBUTING.md) and [code of conduct](CODE_OF_CONDUCT.md). Commit messages follow [Conventional Commits](https://www.conventionalcommits.org) (checked by commitlint).
 
 ## Contributors
 
@@ -202,7 +202,7 @@ Bug reports, ideas and pull requests are welcome. Please [open an issue](https:/
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/darioegb"><img src="https://avatars2.githubusercontent.com/u/1558318?v=4?s=64" width="64px;" alt="Darío Gonzalez"/><br /><sub><b>Darío Gonzalez</b></sub></a><br /><a href="https://github.com/darioegb/plume-ui-react/commits?author=darioegb" title="Code">💻</a> <a href="#maintenance-darioegb" title="Maintenance">🚧</a> <a href="https://github.com/darioegb/plume-ui-react/commits?author=darioegb" title="Documentation">📖</a> <a href="#example-darioegb" title="Examples">💡</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/darioegb"><img src="https://avatars2.githubusercontent.com/u/1558318?v=4?s=64" width="64px;" alt="Darío Gonzalez"/><br /><sub><b>Darío Gonzalez</b></sub></a><br /><a href="https://github.com/darioegb/loica-ui/commits?author=darioegb" title="Code">💻</a> <a href="#maintenance-darioegb" title="Maintenance">🚧</a> <a href="https://github.com/darioegb/loica-ui/commits?author=darioegb" title="Documentation">📖</a> <a href="#example-darioegb" title="Examples">💡</a></td>
     </tr>
   </tbody>
 </table>

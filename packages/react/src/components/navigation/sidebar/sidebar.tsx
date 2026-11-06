@@ -1,0 +1,150 @@
+'use client'
+
+import type { CSSProperties, ForwardedRef, HTMLAttributes, ReactNode } from 'react'
+import { Children, forwardRef, isValidElement, useMemo, useState } from 'react'
+import { joinClasses } from '../../../overlay/class-names'
+import { useDismiss } from '../../../overlay/use-dismiss'
+import { useFocusTrap } from '../../../overlay/use-focus-trap'
+import { useLayer } from '../../../overlay/layer'
+import { useScrollLock } from '../../../overlay/use-scroll-lock'
+import { mergeRefs } from '../../../overlay/trigger'
+import type { ColorScheme, ComponentProps, Size } from '../../../theme'
+import { schemeVar } from '../../../theme'
+import { SidebarBackdrop } from './sidebar-backdrop'
+import {
+  SidebarStyleContext,
+  type SidebarSide,
+  type SidebarVariant,
+  useSidebarContext,
+} from './sidebar-context'
+import styles from './sidebar.module.css'
+
+export interface SidebarOwnProps {
+  /**
+   * Color scheme from the theme palette, including custom schemes added to it. It colors the active
+   * item, and the whole sidebar in the `solid` variant.
+   *
+   * @default 'primary'
+   */
+  colorScheme?: ColorScheme
+  /**
+   * The side of the screen it opens from on a small screen. Where it sits on a wide screen depends
+   * on your layout.
+   *
+   * @default 'left'
+   */
+  side?: SidebarSide
+  /**
+   * Size of the Sidebar.
+   *
+   * @default 'md'
+   */
+  size?: Size
+  /**
+   * Visual variant. `plain` has a line on the edge next to the page, `filled` a muted background
+   * and `solid` the color of the scheme. `unstyled` drops the Loica styles so you can bring your
+   * own; the collapsing and the off-canvas behavior keep working.
+   *
+   * @default 'plain'
+   */
+  variant?: SidebarVariant
+}
+
+type SidebarRootAttributes = Pick<
+  HTMLAttributes<HTMLDivElement>,
+  'aria-label' | 'aria-labelledby' | 'children' | 'hidden' | 'title'
+>
+
+export type SidebarProps = Omit<ComponentProps, 'index'> & SidebarRootAttributes & SidebarOwnProps
+
+const sidebarColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
+  ({
+    '--sidebar-contrast': schemeVar(colorScheme, 'solid-contrast'),
+    '--sidebar-solid': schemeVar(colorScheme, 'solid'),
+    '--sidebar-solid-active': schemeVar(colorScheme, 'solid-active'),
+    '--sidebar-solid-hover': schemeVar(colorScheme, 'solid-hover'),
+    '--sidebar-text': schemeVar(colorScheme, 'text'),
+    '--sidebar-tint': schemeVar(colorScheme, 'tint'),
+    '--sidebar-tint-text': schemeVar(colorScheme, 'tint-text'),
+    ...style,
+  }) as CSSProperties
+
+const isBackdrop = (node: ReactNode): boolean =>
+  isValidElement(node) && node.type === SidebarBackdrop
+
+export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
+  (
+    {
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledBy,
+      children,
+      className,
+      colorScheme = 'primary',
+      side = 'left',
+      size = 'md',
+      style,
+      variant = 'plain',
+      ...rest
+    }: SidebarProps,
+    ref: ForwardedRef<HTMLDivElement>,
+  ) => {
+    const { breakpoint, collapsed, isMobile, open, panelId, setOpen, toggle } =
+      useSidebarContext('Sidebar')
+    const isStyled = variant !== 'unstyled'
+    const modal = isMobile && open
+    const [panel, setPanel] = useState<HTMLDivElement | null>(null)
+    const isTopmost = useLayer(modal)
+    const panelRef = useMemo(() => mergeRefs(ref, setPanel), [ref])
+
+    useDismiss({
+      enabled: modal,
+      isTopmost,
+      onDismiss: () => setOpen(false),
+      outsidePress: false,
+      elements: [panel],
+    })
+    useFocusTrap(panel, { active: modal, isTopmost, returnFocus: toggle })
+    useScrollLock(modal)
+
+    const styleContext = useMemo(() => ({ isStyled }), [isStyled])
+    const nodes = Children.toArray(children)
+    const backdrops = nodes.filter(isBackdrop)
+    const content = nodes.filter((node) => !isBackdrop(node))
+    const modalProps = modal
+      ? {
+          'aria-label': ariaLabel,
+          'aria-labelledby': ariaLabelledBy,
+          'aria-modal': true,
+          role: 'dialog',
+        }
+      : {}
+
+    return (
+      <SidebarStyleContext.Provider value={styleContext}>
+        {backdrops.length > 0 ? backdrops : <SidebarBackdrop />}
+        <div
+          className={joinClasses(
+            isStyled && styles.sidebar,
+            isStyled && styles[variant],
+            isStyled && styles[size],
+            className,
+          )}
+          data-breakpoint={breakpoint}
+          data-collapsed={collapsed ? '' : undefined}
+          data-open={open ? '' : undefined}
+          data-loica-sidebar=""
+          data-side={side}
+          id={panelId}
+          ref={panelRef}
+          style={sidebarColorVars(colorScheme, style)}
+          {...modalProps}
+          {...rest}
+        >
+          {content}
+        </div>
+      </SidebarStyleContext.Provider>
+    )
+  },
+)
+
+Sidebar.displayName = 'Sidebar'

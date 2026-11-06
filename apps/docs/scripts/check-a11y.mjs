@@ -28,7 +28,7 @@ const CONTEXT = {
     '.sb-wrapper',
     '#storybook-docs',
     '#storybook-highlights-root',
-    '[data-plume-table-element][aria-busy="true"]',
+    '[data-loica-table-element][aria-busy="true"]',
   ],
 }
 const DISABLED_RULES = ['region']

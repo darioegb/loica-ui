@@ -1,0 +1,125 @@
+:global(:where([data-loica-avatar])) {
+  display: inline-flex;
+  flex: none;
+  position: relative;
+  vertical-align: middle;
+}
+
+:global(:where([data-loica-avatar-image])) {
+  block-size: 100%;
+  border-radius: inherit;
+  inline-size: 100%;
+  object-fit: cover;
+}
+
+:global(:where([data-loica-avatar-fallback])) {
+  align-items: center;
+  block-size: 100%;
+  display: inline-flex;
+  inline-size: 100%;
+  justify-content: center;
+}
+
+:global(:where([data-loica-avatar-group])) {
+  display: inline-flex;
+}
+
+.avatar {
+  block-size: var(--avatar-size);
+  font-family: var(--loica-font-family);
+  font-size: calc(var(--avatar-size) * 0.36);
+  font-weight: var(--loica-font-weight-semibold);
+  inline-size: var(--avatar-size);
+  line-height: var(--loica-line-height-none);
+  user-select: none;
+}
+
+.sm {
+  --avatar-size: var(--loica-space-8);
+}
+
+.md {
+  --avatar-size: var(--loica-space-10);
+}
+
+.lg {
+  --avatar-size: var(--loica-space-14);
+}
+
+.image,
+.fallback {
+  border-radius: inherit;
+}
+
+.fallback {
+  overflow: hidden;
+}
+
+.status {
+  background-color: var(--avatar-status-color);
+  block-size: 28%;
+  border-radius: var(--loica-radius-full);
+  box-shadow:
+    0 0 0 2px var(--loica-surface),
+    inset 0 0 0 var(--loica-border-width-thin) color-mix(in srgb, var(--avatar-status-color) 55%, var(--loica-foreground));
+  inline-size: 28%;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  position: absolute;
+}
+
+.avatar[data-status='online'] {
+  --avatar-status-color: var(--loica-color-success-solid);
+}
+
+.avatar[data-status='busy'] {
+  --avatar-status-color: var(--loica-color-error-solid);
+}
+
+.avatar[data-status='away'] {
+  --avatar-status-color: var(--loica-color-warning-solid);
+}
+
+.avatar[data-status='offline'] {
+  --avatar-status-color: var(--loica-muted);
+}
+
+.group > * {
+  box-shadow: 0 0 0 2px var(--loica-surface);
+}
+
+.group > :not(:first-child) {
+  margin-inline-start: calc(var(--avatar-size) * -0.15);
+}
+
+@media (forced-colors: active) {
+  .fallback {
+    border: var(--loica-border-width-thin) solid CanvasText;
+    forced-color-adjust: none;
+  }
+
+  .status {
+    background-image: none;
+    border: var(--loica-border-width-thin) solid CanvasText;
+    box-shadow: none;
+    forced-color-adjust: none;
+  }
+
+  .avatar[data-status='online'] .status {
+    background-color: CanvasText;
+  }
+
+  .avatar[data-status='offline'] .status {
+    background-color: Canvas;
+  }
+
+  .avatar[data-status='busy'] .status {
+    background:
+      linear-gradient(Canvas, Canvas) center / 60% 20% no-repeat,
+      CanvasText;
+  }
+
+  .avatar[data-status='away'] .status {
+    background: conic-gradient(Canvas 0 25%, CanvasText 0);
+  }
+}

@@ -1,11 +1,11 @@
-import * as plume from 'plume-ui-react'
+import * as loica from '@loica-ui/react'
 import sandbox from './stackblitz-sandbox.generated.json'
 
 export type SandboxFiles = Record<string, string>
 
 const REACT_HOOKS = ['useCallback', 'useEffect', 'useId', 'useMemo', 'useRef', 'useState']
 const FORM_LIBRARY = ['Controller', 'useForm']
-const PLUME_NAMES = new Set(Object.keys(plume))
+const LOICA_NAMES = new Set(Object.keys(loica))
 
 const WRAPPER_NAMES = ['App', 'Example', 'Story', 'Demo']
 
@@ -113,21 +113,21 @@ export function buildApp(original: string, locals: Locals = {}): string {
   const extra = collectLocals(code, locals)
   const all = [code, ...extra].join('\n')
   const used = words(all)
-  const wrapperName = WRAPPER_NAMES.find((name) => !used.includes(name)) ?? 'PlumeStoryExample'
+  const wrapperName = WRAPPER_NAMES.find((name) => !used.includes(name)) ?? 'LoicaStoryExample'
   const hooks = REACT_HOOKS.filter((hook) => used.includes(hook))
   const form = FORM_LIBRARY.filter((name) => used.includes(name) && !declares(all, name))
   const stubs = used.flatMap((name) => {
-    if (declares(all, name) || PLUME_NAMES.has(name)) return []
+    if (declares(all, name) || LOICA_NAMES.has(name)) return []
     if (!/Icon$/.test(name) && !referenced(code, name)) return []
     const stub = STUBS.find(([pattern]) => pattern.test(name))
     return stub ? [stub[1](name, code)] : []
   })
-  const plumeNames = words([all, ...stubs].join('\n')).filter((word) => PLUME_NAMES.has(word) && !declares(all, word))
+  const loicaNames = words([all, ...stubs].join('\n')).filter((word) => LOICA_NAMES.has(word) && !declares(all, word))
   const reactImport = used.includes('React') && !declares(all, 'React') ? 'React' : ''
   const reactNames = [reactImport, hooks.length ? `{ ${hooks.join(', ')} }` : ''].filter(Boolean)
   const header = [
     reactNames.length ? `import ${reactNames.join(', ')} from 'react'` : '',
-    plumeNames.length ? `import { ${plumeNames.join(', ')} } from 'plume-ui-react'` : '',
+    loicaNames.length ? `import { ${loicaNames.join(', ')} } from '@loica-ui/react'` : '',
     form.length ? `import { ${form.join(', ')} } from 'react-hook-form'` : '',
     ...stubs,
     ...extra,
@@ -160,17 +160,17 @@ const stylesheetOf = (code: string, name: string): 'bootstrap' | 'tailwind' | nu
 }
 
 const TAILWIND_CDN = 'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3'
-const LAYERS = '@layer theme, base, plume, components, utilities;'
+const LAYERS = '@layer theme, base, loica, components, utilities;'
 const DARK_VARIANT =
-  "@custom-variant dark (&:where([data-plume-color-mode='dark'], [data-plume-color-mode='dark'] *));"
+  "@custom-variant dark (&:where([data-loica-color-mode='dark'], [data-loica-color-mode='dark'] *));"
 const BOOTSTRAP_CSS = 'https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css'
 
 const mainFor = (colorMode: ColorMode): string => `import { Component, StrictMode } from 'react'
 import type { ErrorInfo, ReactNode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { ThemeProvider, ToastProvider } from 'plume-ui-react'
+import { ThemeProvider, ToastProvider } from '@loica-ui/react'
 import './index.css'
-import 'plume-ui-react/styles.css'
+import '@loica-ui/react/styles.css'
 import App from './App'
 import { theme } from './theme'
 
@@ -229,7 +229,7 @@ ${sandbox.tailwindTheme}${styles ? `\n${styles}\n` : ''}    </style>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Plume UI React</title>
+    <title>Loica UI React</title>
 ${tailwind}  </head>
   <body style="margin: 0">
     <div id="root"></div>
@@ -244,11 +244,11 @@ const indexCss = (stylesheet: 'bootstrap' | 'tailwind' | null, styles: string): 
     stylesheet === 'bootstrap' ? "@import './reset.css' layer(base);\n" : ''
   }${stylesheet === 'bootstrap' ? `@import url('${BOOTSTRAP_CSS}');\n` : ''}${styles ? `\n${styles}\n` : ''}`
 
-const themeFile = (): string => `import type { DeepPartial, Theme } from 'plume-ui-react'
+const themeFile = (): string => `import type { DeepPartial, Theme } from '@loica-ui/react'
 
 export const theme: DeepPartial<Theme> = {
   colors: {
-    primary: ${JSON.stringify(plume.defaultTheme.colors.primary, null, 2).replace(/\n/g, '\n    ')},
+    primary: ${JSON.stringify(loica.defaultTheme.colors.primary, null, 2).replace(/\n/g, '\n    ')},
   },
 }
 `
@@ -289,7 +289,7 @@ export function buildSandbox(
     'index.html': indexHtml(stylesheet, colorMode, tailwindStyles),
     'package.json': JSON.stringify(
       {
-        name: `plume-ui-react-${name}`,
+        name: `loica-ui-${name}`,
         private: true,
         type: 'module',
         scripts: { dev: 'vite' },

@@ -1,19 +1,19 @@
-<!-- Relative URLs: the site is served from a sub-path on GitHub Pages (/plume-ui-react/). -->
+<!-- Relative URLs: the site is served from a sub-path on GitHub Pages (/loica-ui/). -->
 <link rel="icon" href="./favicon.ico" sizes="any" />
 <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
 <script>
   // Same for the manager: set the mode and the dark canvas before the first paint.
   try {
-    var mode = localStorage.getItem('plume-colormode')
+    var mode = localStorage.getItem('loica-colormode')
     if (mode !== 'dark' && mode !== 'light') {
       mode = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     }
-    document.documentElement.setAttribute('data-plume-mode', mode)
+    document.documentElement.setAttribute('data-loica-mode', mode)
     document.documentElement.style.colorScheme = mode
   } catch (error) {}
 </script>
 <style>
-  html[data-plume-mode='dark'] body {
+  html[data-loica-mode='dark'] body {
     background-color: #18181b;
   }
 
@@ -72,8 +72,8 @@
     box-shadow: inset 0 0 0 1px #047857 !important;
   }
 
-  html[data-plume-mode='dark'] #storybook-explorer-searchfield:hover,
-  html[data-plume-mode='dark'] #storybook-explorer-searchfield:focus {
+  html[data-loica-mode='dark'] #storybook-explorer-searchfield:hover,
+  html[data-loica-mode='dark'] #storybook-explorer-searchfield:focus {
     box-shadow: inset 0 0 0 1px #34d399 !important;
   }
 
@@ -96,12 +96,12 @@
   }
 
   /* White text on the brand green is 1.9:1, so the selected item of the dark sidebar takes dark text. */
-  html[data-plume-mode='dark'] #storybook-explorer-tree div[data-selected='true'],
-  html[data-plume-mode='dark'] #storybook-explorer-tree div[data-selected='true'] * {
+  html[data-loica-mode='dark'] #storybook-explorer-tree div[data-selected='true'],
+  html[data-loica-mode='dark'] #storybook-explorer-tree div[data-selected='true'] * {
     color: #18181b;
   }
 
-  html[data-plume-mode='dark'] #storybook-explorer-tree div[data-selected='true']:hover {
+  html[data-loica-mode='dark'] #storybook-explorer-tree div[data-selected='true']:hover {
     background-color: color-mix(in hsl, #34d399, white 15%);
   }
 
@@ -118,7 +118,7 @@
     box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04);
   }
 
-  html[data-plume-mode='dark'] header {
+  html[data-loica-mode='dark'] header {
     background: rgba(24, 24, 27, 0.72);
     border-bottom-color: rgba(255, 255, 255, 0.08);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -153,33 +153,33 @@
 
   /* There is no room for the version next to the title and the icons. */
   @media (max-width: 359px) {
-    .header-links .plume-version-menu {
+    .header-links .loica-version-menu {
       display: none;
     }
   }
 
   .header-links a,
-  .plume-theme-toggle,
-  .plume-nav-toggle {
+  .loica-theme-toggle,
+  .loica-nav-toggle {
     color: #52525b;
     transition: color 0.15s ease;
   }
 
-  html[data-plume-mode='dark'] .header-links a,
-  html[data-plume-mode='dark'] .plume-theme-toggle,
-  html[data-plume-mode='dark'] .plume-nav-toggle {
+  html[data-loica-mode='dark'] .header-links a,
+  html[data-loica-mode='dark'] .loica-theme-toggle,
+  html[data-loica-mode='dark'] .loica-nav-toggle {
     color: #a1a1aa;
   }
 
   .header-links a:hover,
-  .plume-theme-toggle:hover,
-  .plume-nav-toggle:hover {
+  .loica-theme-toggle:hover,
+  .loica-nav-toggle:hover {
     color: #047857;
   }
 
-  html[data-plume-mode='dark'] .header-links a:hover,
-  html[data-plume-mode='dark'] .plume-theme-toggle:hover,
-  html[data-plume-mode='dark'] .plume-nav-toggle:hover {
+  html[data-loica-mode='dark'] .header-links a:hover,
+  html[data-loica-mode='dark'] .loica-theme-toggle:hover,
+  html[data-loica-mode='dark'] .loica-nav-toggle:hover {
     color: #34d399;
   }
 
@@ -189,7 +189,7 @@
     fill: currentColor;
   }
 
-  .plume-theme-toggle {
+  .loica-theme-toggle {
     background: transparent;
     border: none;
     cursor: pointer;
@@ -198,11 +198,11 @@
     align-items: center;
   }
 
-  .plume-theme-toggle svg {
+  .loica-theme-toggle svg {
     display: block;
   }
 
-  .plume-nav-toggle {
+  .loica-nav-toggle {
     background: transparent;
     border: none;
     cursor: pointer;
@@ -214,12 +214,12 @@
   }
 
   @media (min-width: 768px) {
-    .plume-nav-toggle {
+    .loica-nav-toggle {
       display: none;
     }
   }
 
-  .plume-nav-close {
+  .loica-nav-close {
     align-items: center;
     background: transparent;
     border: none;
@@ -236,15 +236,15 @@
     z-index: 2;
   }
 
-  html[data-plume-mode='dark'] .plume-nav-close {
+  html[data-loica-mode='dark'] .loica-nav-close {
     color: #a1a1aa;
   }
 
-  .plume-nav-close:hover {
+  .loica-nav-close:hover {
     color: #047857;
   }
 
-  html[data-plume-mode='dark'] .plume-nav-close:hover {
+  html[data-loica-mode='dark'] .loica-nav-close:hover {
     color: #34d399;
   }
 
@@ -264,7 +264,7 @@
     letter-spacing: -0.01em;
   }
 
-  html[data-plume-mode='dark'] .title {
+  html[data-loica-mode='dark'] .title {
     color: #fafafa;
   }
 
@@ -278,18 +278,18 @@
     color: #71717a;
   }
 
-  html[data-plume-mode='dark'] .wordmark-react {
+  html[data-loica-mode='dark'] .wordmark-react {
     color: #a1a1aa;
   }
 
   /* The version the docs describe: a badge, or a menu once there are archived versions. */
-  .plume-version-menu {
+  .loica-version-menu {
     align-items: center;
     display: flex;
     position: relative;
   }
 
-  .plume-version {
+  .loica-version {
     align-items: center;
     background: transparent;
     border: 1px solid rgba(24, 24, 27, 0.16);
@@ -305,37 +305,37 @@
     white-space: nowrap;
   }
 
-  button.plume-version {
+  button.loica-version {
     cursor: pointer;
     transition:
       border-color 0.15s ease,
       color 0.15s ease;
   }
 
-  button.plume-version:hover,
-  button.plume-version[aria-expanded='true'] {
+  button.loica-version:hover,
+  button.loica-version[aria-expanded='true'] {
     border-color: #047857;
     color: #047857;
   }
 
-  button.plume-version:focus-visible,
-  .plume-version-list a:focus-visible {
+  button.loica-version:focus-visible,
+  .loica-version-list a:focus-visible {
     outline: 2px solid #047857;
     outline-offset: 2px;
   }
 
-  .header-links .plume-version svg {
+  .header-links .loica-version svg {
     fill: none;
     height: 0.75rem;
     transition: transform 0.15s ease;
     width: 0.75rem;
   }
 
-  button.plume-version[aria-expanded='true'] svg {
+  button.loica-version[aria-expanded='true'] svg {
     transform: rotate(180deg);
   }
 
-  .plume-version-list {
+  .loica-version-list {
     background: #fff;
     border: 1px solid rgba(24, 24, 27, 0.1);
     border-radius: 0.6rem;
@@ -350,11 +350,11 @@
     z-index: 20;
   }
 
-  .plume-version-list[hidden] {
+  .loica-version-list[hidden] {
     display: none;
   }
 
-  .header-links .plume-version-list a {
+  .header-links .loica-version-list a {
     border-radius: 0.4rem;
     color: #3f3f46;
     display: block;
@@ -364,48 +364,48 @@
     white-space: nowrap;
   }
 
-  .header-links .plume-version-list a:hover {
+  .header-links .loica-version-list a:hover {
     background: rgba(52, 211, 153, 0.14);
     color: #047857;
   }
 
-  .header-links .plume-version-list a[aria-current='true'] {
+  .header-links .loica-version-list a[aria-current='true'] {
     color: #047857;
     font-weight: 600;
   }
 
-  html[data-plume-mode='dark'] .plume-version {
+  html[data-loica-mode='dark'] .loica-version {
     border-color: rgba(255, 255, 255, 0.18);
     color: #a1a1aa;
   }
 
-  html[data-plume-mode='dark'] button.plume-version:focus-visible,
-  html[data-plume-mode='dark'] .plume-version-list a:focus-visible {
+  html[data-loica-mode='dark'] button.loica-version:focus-visible,
+  html[data-loica-mode='dark'] .loica-version-list a:focus-visible {
     outline-color: #34d399;
   }
 
-  html[data-plume-mode='dark'] button.plume-version:hover,
-  html[data-plume-mode='dark'] button.plume-version[aria-expanded='true'] {
+  html[data-loica-mode='dark'] button.loica-version:hover,
+  html[data-loica-mode='dark'] button.loica-version[aria-expanded='true'] {
     border-color: #34d399;
     color: #34d399;
   }
 
-  html[data-plume-mode='dark'] .plume-version-list {
+  html[data-loica-mode='dark'] .loica-version-list {
     background: #27272a;
     border-color: rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
   }
 
-  html[data-plume-mode='dark'] .header-links .plume-version-list a {
+  html[data-loica-mode='dark'] .header-links .loica-version-list a {
     color: #d4d4d8;
   }
 
-  html[data-plume-mode='dark'] .header-links .plume-version-list a:hover {
+  html[data-loica-mode='dark'] .header-links .loica-version-list a:hover {
     background: rgba(52, 211, 153, 0.16);
     color: #34d399;
   }
 
-  html[data-plume-mode='dark'] .header-links .plume-version-list a[aria-current='true'] {
+  html[data-loica-mode='dark'] .header-links .loica-version-list a[aria-current='true'] {
     color: #34d399;
   }
 
@@ -424,31 +424,21 @@
 <header>
   <div class="container">
     <div class="header-start">
-      <button class="plume-nav-toggle" type="button" aria-label="Toggle sidebar" title="Toggle sidebar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      <button class="loica-nav-toggle" type="button" aria-label="Toggle sidebar" title="Toggle sidebar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
       <h1 class="title">
         <a href="./">
-          <svg
-            class="brand"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            fill="none"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" stroke="#34d399" />
-            <path d="M16 8 2 22" stroke="currentColor" />
-            <path d="M17.5 15 9 15" stroke="currentColor" />
+          <svg class="brand" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">
+            <path d="M2 20.5 9.5 11C10.6 9.6 11 8.6 11 7.4 11 5.2 12.9 3.5 15 3.5 17 3.5 18.6 4.9 18.9 6.8L22.5 8.6 18.9 10.2C18.6 15.6 14.6 20.5 8.6 20.5H2Z" fill="#71717a" />
+            <path d="M18.9 10.2C18.7 14.4 16.2 18 12.6 19.6 11.6 16.6 12.6 13.4 15 11.6 16.3 10.6 17.7 10.3 18.9 10.2Z" fill="#dc2626" />
+            <circle cx="15.2" cy="7" r="1" fill="#fff" />
           </svg>
-          <span class="wordmark">Plume&nbsp;UI <span class="wordmark-react">React</span></span>
+          <span class="wordmark">Loica&nbsp;UI <span class="wordmark-react">React</span></span>
         </a>
       </h1>
     </div>
     <div class="header-links">
       <a
-        href="https://github.com/darioegb/plume-ui-react"
+        href="https://github.com/darioegb/loica-ui"
         rel="noopener"
         target="_blank"
         title="GitHub repository"
@@ -459,7 +449,7 @@
         </svg>
       </a>
       <a
-        href="https://www.npmjs.com/package/plume-ui-react"
+        href="https://www.npmjs.com/package/@loica-ui/react"
         rel="noopener"
         target="_blank"
         title="npm package"

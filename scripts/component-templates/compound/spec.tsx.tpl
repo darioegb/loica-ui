@@ -58,10 +58,10 @@ describe('__Name__ component', () => {
       </__Name__>,
     )
     expect(container.firstChild).toHaveClass('__slug__', 'solid')
-    expect(container.firstChild).toHaveStyle('--__slug__-solid: var(--plume-color-success-solid)')
+    expect(container.firstChild).toHaveStyle('--__slug__-solid: var(--loica-color-success-solid)')
   })
 
-  it('drops the Plume classes when unstyled', () => {
+  it('drops the Loica classes when unstyled', () => {
     const { container } = render(
       <__Name__ className="custom" variant="unstyled">
         <__Name__Content className="inner">Content</__Name__Content>

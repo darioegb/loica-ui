@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/@changesets/config@2.0.0/schema.json",
   "changelog": [
     "@changesets/changelog-github", 
-    { "repo": "darioegb/plume-ui-react" }
+    { "repo": "darioegb/loica-ui" }
   ],
   "commit": false,
   "fixed": [],
@@ -10,5 +10,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@plume-ui-react/docs"]
+  "ignore": ["@loica-ui/docs"]
 }

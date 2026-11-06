@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(here, '../../..')
-const packageDir = path.join(root, 'packages/plume-ui-react')
+const packageDir = path.join(root, 'packages/react')
 const componentsDir = path.join(packageDir, 'src/components')
 const output = path.resolve(here, '../src/api.generated.json')
 

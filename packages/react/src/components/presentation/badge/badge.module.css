@@ -1,0 +1,46 @@
+:global(:where([data-loica-badge])) {
+  align-items: center;
+  display: inline-flex;
+}
+
+:global(:where([data-loica-badge-dot])) {
+  background-color: currentcolor;
+  block-size: 0.5em;
+  border-radius: var(--loica-radius-full);
+  flex: none;
+  inline-size: 0.5em;
+}
+
+.badge {
+  font-family: var(--loica-font-family);
+  font-weight: var(--loica-font-weight-semibold);
+  gap: var(--loica-space-1);
+  line-height: var(--loica-line-height-tight);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.dotOnly {
+  background-color: transparent;
+  box-shadow: none;
+  color: var(--badge-solid);
+  padding: 0;
+}
+
+.dotOnly .dot {
+  block-size: 0.75em;
+  box-shadow: inset 0 0 0 var(--loica-border-width-thin)
+    color-mix(in srgb, currentcolor 55%, var(--loica-foreground));
+  inline-size: 0.75em;
+}
+
+@media (forced-colors: active) {
+  .badge {
+    border: var(--loica-border-width-thin) solid CanvasText;
+    forced-color-adjust: none;
+  }
+
+  .dotOnly {
+    border: 0;
+  }
+}

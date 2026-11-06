@@ -1,28 +1,28 @@
 {
-  "name": "plume-ui-react-monorepo",
+  "name": "loica-ui-monorepo",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/darioegb/plume-ui-react.git"
+    "url": "https://github.com/darioegb/loica-ui.git"
   },
   "author": "Dario E Gonzalez B",
   "license": "MIT",
   "version": "0.0.2",
   "scripts": {
-    "build": "turbo run build --filter=@plume-ui-react/docs^...",
+    "build": "turbo run build --filter=@loica-ui/docs^...",
     "build:docs": "turbo run build  --filter=./apps/*",
     "dev": "turbo run dev --no-cache --continue --filter=./apps/*",
-    "lint": "turbo run lint --filter=@plume-ui-react/docs...",
-    "lint:fix": "turbo run lint:fix --filter=@plume-ui-react/docs...",
+    "lint": "turbo run lint --filter=@loica-ui/docs...",
+    "lint:fix": "turbo run lint:fix --filter=@loica-ui/docs...",
     "clean": "turbo run clean && rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,mdx}\"",
     "changelog": "node scripts/changelog.js",
     "changelog:commit": "git add CHANGELOG.md && git commit -m 'docs: add changelog' && git push --force origin changelog/main",
     "changeset": "changeset",
     "new:component": "node scripts/new-component.mjs",
-    "test": "turbo run test --filter=@plume-ui-react/docs^...",
-    "test:coverage": "turbo run test:coverage --filter=@plume-ui-react/docs^...",
-    "test:watch": "turbo run test:watch --filter=@plume-ui-react/docs^...",
+    "test": "turbo run test --filter=@loica-ui/docs^...",
+    "test:coverage": "turbo run test:coverage --filter=@loica-ui/docs^...",
+    "test:watch": "turbo run test:watch --filter=@loica-ui/docs^...",
     "version-packages": "changeset version",
     "release": "changeset publish",
     "prepare": "husky"

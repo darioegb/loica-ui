@@ -6,8 +6,38 @@ import { Meta } from '@storybook/addon-docs/blocks'
 
 # Upgrading to 1.0
 
-This page lists what changed for someone who comes from the 0.x versions of `plume-ui-react`. From 1.0 on, the
-public API follows semver: a breaking change only arrives in a major version, and this page will list it.
+This page lists what changed for someone who comes from the 0.x versions of `plume-ui-react`, the name this library was
+published under until 0.64. From 1.0 on, the public API follows semver: a breaking change only arrives in a major
+version, and this page will list it.
+
+## The library is now `@loica-ui/react`
+
+The name changed, and so did everything that carried it:
+
+<table>
+  <thead>
+    <tr><th>Before</th><th>Now</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>The package <code>plume-ui-react</code> and its stylesheets (<code>plume-ui-react/styles.css</code>, <code>tokens.css</code>, <code>css/&#42;</code>)</td><td><code>@loica-ui/react</code></td></tr>
+    <tr><td><code>--plume-&#42;</code> variables</td><td><code>--loica-&#42;</code></td></tr>
+    <tr><td><code>data-plume-&#42;</code> attributes, among them <code>data-plume-color-mode</code></td><td><code>data-loica-&#42;</code></td></tr>
+    <tr><td>The cascade layer <code>plume</code></td><td><code>loica</code></td></tr>
+    <tr><td>The class <code>plume-root</code> of the <code>ThemeProvider</code></td><td><code>loica-root</code></td></tr>
+    <tr><td>The types <code>PlumeMessages</code> and <code>PlumeLocale</code></td><td><code>LoicaMessages</code> and <code>LoicaLocale</code></td></tr>
+  </tbody>
+</table>
+
+```sh
+npm uninstall plume-ui-react
+npm install @loica-ui/react
+```
+
+Then search your code, your stylesheets and your theme overrides for `plume` and replace each match. `plume-ui-react`
+stays on npm, marked as deprecated, and is no longer updated.
+
+The rest of this page uses the new names. If your code still says `plume`, that is the name to look for where the page
+says `loica`: the checklist's `data-loica-menu*` is `data-plume-menu*` in a 0.x version.
 
 ## Checklist
 
@@ -18,11 +48,11 @@ Search your code for these, one by one. The rest of the page explains each chang
 - `labels`, or a text prop such as `nextLabel` or `dismissLabel`, on any component, and the `overlayClose`, `alert`,
   `button`, `spinner` and `table` keys of a `LocaleProvider`: [the texts](#the-texts-come-from-the-localeprovider).
 - `inputRef` on a `DatePicker` or a `TimePicker`, and a `ref` on a `SelectTrigger`, a `Rating` or a `PinInput`: [the ref](#the-ref-goes-to-the-element-the-field-talks-to).
-- `data-plume-menu*`, `data-plume-select-control`, `data-plume-tree-*` and other [renamed CSS hooks](#renamed-css-hooks) in your stylesheets.
+- `data-loica-menu*`, `data-loica-select-control`, `data-loica-tree-*` and other [renamed CSS hooks](#renamed-css-hooks) in your stylesheets.
 - `label`, `busy`, `busyText` and `labels` on a `Button`, and `Spinner` anywhere: [`Button` and `Loader`](#button-takes-its-content-as-children-and-spinner-is-loader).
 - `Tabs` with an `index` that you never update, and the `active` class of a tab: [Tabs](#tabs-are-controlled-with-the-same-props-as-the-rest).
 - `siblingCount`, `boundaryCount` or `count` on a `Paginator`: [other changes](#other-changes-that-dont-throw).
-- `variant='unstyled'` anywhere: it now drops [every Plume class](#unstyled-drops-every-plume-class).
+- `variant='unstyled'` anywhere: it now drops [every Loica class](#unstyled-drops-every-loica-class).
 - An `Icon`, a `List` or a `Card` that you style: [presentation components](#icon-list-and-card-are-made-of-parts).
 - A `BadgeDot`, a `DividerLabel`, a `SkeletonLine` or a part of the `EmptyState`: [single components](#badge-emptystate-divider-and-skeleton-are-single-components).
 - `InputGroup`, `InputAddon`, `TextareaCount`, `NumberInputField`, `PinInputCell`, `RatingItem`, `SliderThumb` and the
@@ -31,20 +61,20 @@ Search your code for these, one by one. The rest of the page explains each chang
 - Parts used outside their component: [they throw](#parts-outside-their-component-throw).
 - Imports from `@plume-ui-react/*`: [one package now](#from-the-plume-ui-react-packages).
 - `colorScheme` set to `brown`, `pink`, `purple`, `teal` or `yellow`, a shade such as `primary.700` on a `Loader`,
-  `colorVar`, `ColorShade`, or a `--plume-color-<scheme>-<shade>` variable: [the palette](#the-palette-has-the-six-colors-the-components-use).
-- `--plume-space-48`, `--plume-container-7xl`, `--plume-font-family-mono`, `--plume-shadow-sm` and the other values that
+  `colorVar`, `ColorShade`, or a `--loica-color-<scheme>-<shade>` variable: [the palette](#the-palette-has-the-six-colors-the-components-use).
+- `--loica-space-48`, `--loica-container-7xl`, `--loica-font-family-mono`, `--loica-shadow-sm` and the other values that
   [the scales no longer have](#the-scales-keep-the-values-the-components-use).
 
 ## From the `@plume-ui-react/*` packages
 
 If you installed the scoped packages (`@plume-ui-react/button`, `@plume-ui-react/input`, `@plume-ui-react/datepicker`,
-`@plume-ui-react/use-mask`...), they are replaced by a single package, `plume-ui-react`. Components, hooks and the
+`@plume-ui-react/use-mask`...), they are replaced by a single package, `@loica-ui/react`. Components, hooks and the
 theme are all imported from it, and each module keeps its own `'use client'`, so importing a few of them doesn't bring
 the rest.
 
 ```sh
 npm uninstall @plume-ui-react/button @plume-ui-react/input @plume-ui-react/datepicker
-npm install plume-ui-react
+npm install @loica-ui/react
 ```
 
 ```tsx
@@ -53,10 +83,10 @@ import { Button } from '@plume-ui-react/button'
 import { useMask } from '@plume-ui-react/use-mask'
 
 // After
-import { Button, useMask } from 'plume-ui-react'
+import { Button, useMask } from '@loica-ui/react'
 ```
 
-The styles come from `plume-ui-react/styles.css`, imported once. The scoped packages are no longer updated.
+The styles come from `@loica-ui/react/styles.css`, imported once. The scoped packages are no longer updated.
 
 ## `Checkbox`, `Radio` and `Toggle` are bare controls
 
@@ -163,9 +193,9 @@ native ones. The `range` option of `getDateStringByLanguage` has the same change
 In 0.x, a component with inner parts styled them through loose props (`inputClassName`, `backdropClassName`...) and
 later through a `classNames` record. Both are gone. When the user writes the structure (the items of a list, the
 header and body of a dialog), every element is a part you can import, with its own `className`, `style`, `ref` and
-`data-plume-<component>-<part>` attribute. Given no parts, a component renders the same default composition as before;
+`data-loica-<component>-<part>` attribute. Given no parts, a component renders the same default composition as before;
 when a direct child is one of its parts, it renders your composition. When the component draws the element by itself
-(the reveal button of an `Input`, the dot of a `Badge`), it is not a part: it carries the same `data-plume-*` attribute
+(the reveal button of an `Input`, the dot of a `Badge`), it is not a part: it carries the same `data-loica-*` attribute
 and you style it from the parent. The sections below list each family.
 
 ```tsx
@@ -173,7 +203,7 @@ and you style it from the parent. The sections below list each family.
 <Input type='password' revealable revealClassName='text-sm' />
 
 // After
-<Input type='password' revealable className='[&_[data-plume-input-reveal]]:text-sm' />
+<Input type='password' revealable className='[&_[data-loica-input-reveal]]:text-sm' />
 ```
 
 <table>
@@ -181,16 +211,16 @@ and you style it from the parent. The sections below list each family.
     <tr><th>Component</th><th>0.x prop</th><th>Part</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>Input</code></td><td><code>inputClassName</code>, <code>revealClassName</code></td><td><code>data-plume-input-field</code> and <code>-reveal</code>, styled from the <code>Input</code></td></tr>
-    <tr><td><code>Textarea</code></td><td><code>inputClassName</code>, <code>countClassName</code></td><td><code>data-plume-textarea-field</code> and <code>-count</code>, styled from the <code>Textarea</code></td></tr>
-    <tr><td><code>PinInput</code></td><td><code>inputClassName</code></td><td><code>data-plume-pininput-cell</code>, styled from the <code>PinInput</code></td></tr>
+    <tr><td><code>Input</code></td><td><code>inputClassName</code>, <code>revealClassName</code></td><td><code>data-loica-input-field</code> and <code>-reveal</code>, styled from the <code>Input</code></td></tr>
+    <tr><td><code>Textarea</code></td><td><code>inputClassName</code>, <code>countClassName</code></td><td><code>data-loica-textarea-field</code> and <code>-count</code>, styled from the <code>Textarea</code></td></tr>
+    <tr><td><code>PinInput</code></td><td><code>inputClassName</code></td><td><code>data-loica-pininput-cell</code>, styled from the <code>PinInput</code></td></tr>
     <tr><td><code>SelectGroup</code></td><td><code>labelClassName</code></td><td><code>SelectGroupLabel</code></td></tr>
     <tr><td><code>TimePicker</code></td><td><code>panelClassName</code></td><td><code>TimePickerPanel</code></td></tr>
     <tr><td><code>Sidebar</code>, <code>ModalContent</code>, <code>DrawerContent</code></td><td><code>backdropClassName</code></td><td><code>SidebarBackdrop</code>, <code>ModalBackdrop</code>, <code>DrawerBackdrop</code></td></tr>
     <tr><td><code>AccordionContent</code>, <code>Collapse</code></td><td><code>bodyClassName</code></td><td><code>AccordionBody</code>, <code>CollapseBody</code></td></tr>
     <tr><td><code>Breadcrumb</code></td><td><code>listClassName</code>, <code>separatorClassName</code></td><td><code>BreadcrumbList</code>, <code>BreadcrumbSeparator</code></td></tr>
     <tr><td><code>ToastProvider</code></td><td><code>toastClassName</code></td><td><code>Toast</code>, through the <code>render</code> prop</td></tr>
-    <tr><td><code>Skeleton</code></td><td><code>lineClassName</code></td><td>each line is a <code>data-plume-skeleton-line</code> span: style it from the <code>Skeleton</code> (<code>[&amp;&gt;span]:h-3</code> in Tailwind)</td></tr>
+    <tr><td><code>Skeleton</code></td><td><code>lineClassName</code></td><td>each line is a <code>data-loica-skeleton-line</code> span: style it from the <code>Skeleton</code> (<code>[&amp;&gt;span]:h-3</code> in Tailwind)</td></tr>
     <tr><td><code>ProgressBar</code></td><td><code>indicatorClassName</code>, <code>valueClassName</code></td><td><code>ProgressBarIndicator</code>, <code>ProgressBarValue</code></td></tr>
     <tr><td><code>CarouselDots</code></td><td><code>dotClassName</code></td><td><code>CarouselDot</code></td></tr>
     <tr><td><code>Table</code></td><td><code>containerClassName</code>, <code>loadingClassName</code></td><td><code>className</code> of the <code>Table</code>, <code>TableLoading</code></td></tr>
@@ -221,7 +251,7 @@ longer on the `DatePickerInput`.
 ## `className` goes to the outermost element
 
 `className` and `style` always land on the outermost element a component renders, and the native control carries a
-`data-plume-<component>-field` attribute to style it from there. It changes for the components that wrap their
+`data-loica-<component>-field` attribute to style it from there. It changes for the components that wrap their
 `<input>` or `<textarea>`:
 
 <table>
@@ -229,8 +259,8 @@ longer on the `DatePickerInput`.
     <tr><th>Component</th><th>Before</th><th>After</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>Input</code> with addons, elements or <code>revealable</code></td><td><code>className</code> on the <code>&lt;input&gt;</code></td><td><code>className</code> on the group, <code>{'[&_[data-plume-input-field]]'}</code> for the <code>&lt;input&gt;</code></td></tr>
-    <tr><td><code>Textarea</code> with <code>showCount</code></td><td><code>className</code> on the <code>&lt;textarea&gt;</code></td><td><code>className</code> on the wrapper, <code>{'[&_[data-plume-textarea-field]]'}</code> for the <code>&lt;textarea&gt;</code></td></tr>
+    <tr><td><code>Input</code> with addons, elements or <code>revealable</code></td><td><code>className</code> on the <code>&lt;input&gt;</code></td><td><code>className</code> on the group, <code>{'[&_[data-loica-input-field]]'}</code> for the <code>&lt;input&gt;</code></td></tr>
+    <tr><td><code>Textarea</code> with <code>showCount</code></td><td><code>className</code> on the <code>&lt;textarea&gt;</code></td><td><code>className</code> on the wrapper, <code>{'[&_[data-loica-textarea-field]]'}</code> for the <code>&lt;textarea&gt;</code></td></tr>
     <tr><td><code>DatePicker</code>, <code>TimePicker</code></td><td><code>className</code> on the <code>&lt;input&gt;</code></td><td><code>className</code> on the root, <code>DatePickerField</code> or <code>TimePickerField</code> for the <code>&lt;input&gt;</code></td></tr>
     <tr><td><code>DatePickerInput</code>, <code>TimePickerInput</code></td><td><code>className</code> on the <code>&lt;input&gt;</code></td><td><code>className</code> on the field with its button, <code>DatePickerField</code> or <code>TimePickerField</code> for the <code>&lt;input&gt;</code></td></tr>
   </tbody>
@@ -241,7 +271,7 @@ longer on the `DatePickerInput`.
 <Input type='password' revealable className='form-control' />
 
 // After
-<Input type='password' revealable className='[&_[data-plume-input-field]]:form-control' />
+<Input type='password' revealable className='[&_[data-loica-input-field]]:form-control' />
 ```
 
 An `Input` or a `Textarea` with nothing around it keeps `className` on the native element, because it is the
@@ -250,7 +280,7 @@ outermost one.
 ## The texts come from the `LocaleProvider`
 
 Every text the library shows or announces is changed in one place, the [`LocaleProvider`](?path=/docs/guides-internationalization--docs),
-keyed by component and typed as `PlumeMessages`. Texts that carry data are functions. The loose props of 0.x are gone,
+keyed by component and typed as `LoicaMessages`. Texts that carry data are functions. The loose props of 0.x are gone,
 and so are the `labels` props of the first 1.0 betas. A change for one section is a nested
 provider, and a single text can be set on the part that shows it.
 
@@ -308,7 +338,7 @@ addons, elements, reveal button, counter, steppers, boxes, stars, track and thum
 `PinInputCell`, `PinInputHidden`, `RatingItem`, `RatingEmpty`, `RatingFilled`, `RatingRadio`, `RatingValueText`,
 `SliderBody`, `SliderTrack`, `SliderRange`, `SliderThumb`, `SliderMarks`, `SliderMarkItem` and `SliderMarkLabel` do not
 exist. They take no `children`, and all the native attributes of their element. Each element carries a
-`data-plume-<component>-<element>` attribute, to style it from the parent.
+`data-loica-<component>-<element>` attribute, to style it from the parent.
 
 ```tsx
 // Before
@@ -316,7 +346,7 @@ exist. They take no `children`, and all the native attributes of their element. 
 
 // After
 <Input
-  className='[&_[data-plume-input-field]]:font-mono [&_[data-plume-input-reveal]]:text-sm'
+  className='[&_[data-loica-input-field]]:font-mono [&_[data-loica-input-reveal]]:text-sm'
   revealable
   type='password'
 />
@@ -327,12 +357,12 @@ exist. They take no `children`, and all the native attributes of their element. 
     <tr><th>Component</th><th>Before</th><th>After</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>Input</code></td><td><code>classNames.input</code>, <code>classNames.reveal</code></td><td><code>data-plume-input-field</code>, <code>-reveal</code>, <code>-group</code>, <code>-control</code>, <code>-addon</code> and <code>-element</code>; set them with <code>addonBefore</code>, <code>addonAfter</code>, <code>elementBefore</code>, <code>elementAfter</code> and <code>revealable</code></td></tr>
-    <tr><td><code>Textarea</code></td><td><code>classNames.input</code>, <code>classNames.count</code></td><td><code>data-plume-textarea-field</code>, <code>-count</code> and <code>-status</code>, drawn by <code>showCount</code></td></tr>
-    <tr><td><code>NumberInput</code></td><td><code>classNames.input</code>, <code>classNames.decrement</code>, <code>classNames.increment</code></td><td><code>data-plume-numberinput-field</code> and <code>data-plume-numberinput-stepper</code> (<code>decrement</code> or <code>increment</code>), drawn by <code>steppers</code></td></tr>
-    <tr><td><code>PinInput</code></td><td><code>classNames.input</code></td><td><code>data-plume-pininput-cell</code> (one per position, with <code>data-filled</code>) and <code>data-plume-pininput-hidden</code> for the <code>name</code>; set the boxes with <code>length</code></td></tr>
-    <tr><td><code>Rating</code></td><td><code>classNames.item</code>, <code>.empty</code>, <code>.filled</code></td><td><code>data-plume-rating-item</code> (with <code>data-state</code>), <code>-empty</code>, <code>-filled</code>, <code>-radio</code> and <code>-value-text</code>; set the icons with <code>icon</code> and <code>emptyIcon</code></td></tr>
-    <tr><td><code>Slider</code></td><td><code>classNames.track</code>, <code>.range</code>, <code>.thumb</code>, <code>.mark</code>, <code>.markLabel</code></td><td><code>data-plume-slider-body</code>, <code>-track</code>, <code>-range</code>, <code>-thumb</code>, <code>-marks</code>, <code>-mark-item</code> and <code>-mark-label</code>; set the marks with <code>marks</code></td></tr>
+    <tr><td><code>Input</code></td><td><code>classNames.input</code>, <code>classNames.reveal</code></td><td><code>data-loica-input-field</code>, <code>-reveal</code>, <code>-group</code>, <code>-control</code>, <code>-addon</code> and <code>-element</code>; set them with <code>addonBefore</code>, <code>addonAfter</code>, <code>elementBefore</code>, <code>elementAfter</code> and <code>revealable</code></td></tr>
+    <tr><td><code>Textarea</code></td><td><code>classNames.input</code>, <code>classNames.count</code></td><td><code>data-loica-textarea-field</code>, <code>-count</code> and <code>-status</code>, drawn by <code>showCount</code></td></tr>
+    <tr><td><code>NumberInput</code></td><td><code>classNames.input</code>, <code>classNames.decrement</code>, <code>classNames.increment</code></td><td><code>data-loica-numberinput-field</code> and <code>data-loica-numberinput-stepper</code> (<code>decrement</code> or <code>increment</code>), drawn by <code>steppers</code></td></tr>
+    <tr><td><code>PinInput</code></td><td><code>classNames.input</code></td><td><code>data-loica-pininput-cell</code> (one per position, with <code>data-filled</code>) and <code>data-loica-pininput-hidden</code> for the <code>name</code>; set the boxes with <code>length</code></td></tr>
+    <tr><td><code>Rating</code></td><td><code>classNames.item</code>, <code>.empty</code>, <code>.filled</code></td><td><code>data-loica-rating-item</code> (with <code>data-state</code>), <code>-empty</code>, <code>-filled</code>, <code>-radio</code> and <code>-value-text</code>; set the icons with <code>icon</code> and <code>emptyIcon</code></td></tr>
+    <tr><td><code>Slider</code></td><td><code>classNames.track</code>, <code>.range</code>, <code>.thumb</code>, <code>.mark</code>, <code>.markLabel</code></td><td><code>data-loica-slider-body</code>, <code>-track</code>, <code>-range</code>, <code>-thumb</code>, <code>-marks</code>, <code>-mark-item</code> and <code>-mark-label</code>; set the marks with <code>marks</code></td></tr>
   </tbody>
 </table>
 
@@ -340,8 +370,8 @@ The names of the stepper, reveal and pin buttons, of the stars and of the thumbs
 `input`, `pinInput`, `rating` and `slider` texts of the `LocaleProvider`, with no per-element override. The `ref` of
 `Input`, `Textarea` and `NumberInput` is always the native `<input>` or `<textarea>`, so react-hook-form's `register`
 works on the root; the one of the `Slider` is the input of its first thumb, and the one of `PinInput` and `Rating` their
-`<fieldset>`. `className` and `style` of the root go to the outermost element. The `data-plume-*-input` attribute
-of `NumberInput` is now `data-plume-numberinput-field`.
+`<fieldset>`. `className` and `style` of the root go to the outermost element. The `data-loica-*-input` attribute
+of `NumberInput` is now `data-loica-numberinput-field`.
 
 ## `Select` and the pickers are made of parts
 
@@ -383,15 +413,15 @@ its name comes from the `datePicker.openCalendar` and `timePicker.openTimePicker
   </tbody>
 </table>
 
-The `data-plume-select-trigger` attribute of the combobox is now `data-plume-select-combobox`. The remove button of a
-`SelectChip` is `data-plume-chip-remove`.
+The `data-loica-select-trigger` attribute of the combobox is now `data-loica-select-combobox`. The remove button of a
+`SelectChip` is `data-loica-chip-remove`.
 
 ## `Chip` and `Avatar` are single components, `Alert` is made of parts
 
 These components no longer take `classNames`. The `Chip` and the `Avatar` export no parts for the elements they draw
 by themselves, so `ChipIcon`, `ChipLabel`, `ChipRemove`, `AvatarImage`, `AvatarFallback` and `AvatarStatusDot` do not
-exist. What used to be a key of `classNames` is a `data-plume-<component>-<element>` attribute, so you style
-it from the parent (`[&_[data-plume-chip-remove]]:opacity-60` in Tailwind), or you put your own element in the prop
+exist. What used to be a key of `classNames` is a `data-loica-<component>-<element>` attribute, so you style
+it from the parent (`[&_[data-loica-chip-remove]]:opacity-60` in Tailwind), or you put your own element in the prop
 that fills it. `children` keeps its meaning: the text of the chip. The `Avatar` takes no `children`; its fallback is
 the `fallback` prop.
 
@@ -423,14 +453,14 @@ tooltip.
   </thead>
   <tbody>
     <tr><td><code>Alert</code></td><td><code>classNames.icon</code>, <code>.content</code>, <code>.action</code>, <code>.dismiss</code></td><td><code>AlertIcon</code>, <code>AlertContent</code>, <code>AlertAction</code>, <code>AlertDismiss</code></td></tr>
-    <tr><td><code>Chip</code></td><td><code>classNames.icon</code>, <code>.label</code>, <code>.remove</code></td><td><code>data-plume-chip-icon</code>, <code>-label</code> and <code>-remove</code>; set them with <code>icon</code>, <code>children</code> and <code>onRemove</code></td></tr>
-    <tr><td><code>Avatar</code></td><td><code>classNames.image</code>, <code>.fallback</code>, <code>.status</code></td><td><code>data-plume-avatar-image</code>, <code>-fallback</code> and <code>-status-dot</code>; set them with <code>src</code>, <code>fallback</code> and <code>status</code>. The counter of an <code>AvatarGroup</code> is <code>AvatarOverflow</code></td></tr>
+    <tr><td><code>Chip</code></td><td><code>classNames.icon</code>, <code>.label</code>, <code>.remove</code></td><td><code>data-loica-chip-icon</code>, <code>-label</code> and <code>-remove</code>; set them with <code>icon</code>, <code>children</code> and <code>onRemove</code></td></tr>
+    <tr><td><code>Avatar</code></td><td><code>classNames.image</code>, <code>.fallback</code>, <code>.status</code></td><td><code>data-loica-avatar-image</code>, <code>-fallback</code> and <code>-status-dot</code>; set them with <code>src</code>, <code>fallback</code> and <code>status</code>. The counter of an <code>AvatarGroup</code> is <code>AvatarOverflow</code></td></tr>
   </tbody>
 </table>
 
 The remove button of a `Chip` is named by the `chip.remove` text of the `LocaleProvider` followed by the text of the
-chip, and a `SelectChip` is named by the `select.remove` text. The `data-plume-avatar-status` attribute is now
-`data-plume-avatar-status-dot`.
+chip, and a `SelectChip` is named by the `select.remove` text. The `data-loica-avatar-status` attribute is now
+`data-loica-avatar-status-dot`.
 
 With these, no component takes `classNames` and the `<Name>Part` types are gone.
 
@@ -485,23 +515,23 @@ The attributes are named after the part they are on. Update the selectors of you
     <tr><th>Before</th><th>After</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>data-plume-menu*</code></td><td><code>data-plume-dropdown-*</code></td></tr>
-    <tr><td><code>data-plume-select-control</code>, <code>-panel</code></td><td><code>data-plume-select-trigger</code>, <code>-content</code></td></tr>
-    <tr><td><code>data-plume-tree-label</code>, <code>-chevron</code>, <code>-checkbox</code>, <code>-icon</code></td><td><code>data-plume-tree-item-label</code>, <code>-chevron</code>, <code>-checkbox</code>, <code>-icon</code></td></tr>
-    <tr><td><code>data-plume-tree-node</code></td><td>removed</td></tr>
-    <tr><td><code>InputReveal</code> as <code>span &gt; button</code></td><td><code>[data-plume-input-reveal]</code>, a single button</td></tr>
+    <tr><td><code>data-loica-menu*</code></td><td><code>data-loica-dropdown-*</code></td></tr>
+    <tr><td><code>data-loica-select-control</code>, <code>-panel</code></td><td><code>data-loica-select-trigger</code>, <code>-content</code></td></tr>
+    <tr><td><code>data-loica-tree-label</code>, <code>-chevron</code>, <code>-checkbox</code>, <code>-icon</code></td><td><code>data-loica-tree-item-label</code>, <code>-chevron</code>, <code>-checkbox</code>, <code>-icon</code></td></tr>
+    <tr><td><code>data-loica-tree-node</code></td><td>removed</td></tr>
+    <tr><td><code>InputReveal</code> as <code>span &gt; button</code></td><td><code>[data-loica-input-reveal]</code>, a single button</td></tr>
     <tr><td>the <code>active</code> class of a <code>Tab</code></td><td><code>[data-active]</code></td></tr>
   </tbody>
 </table>
 
-## `unstyled` drops every Plume class
+## `unstyled` drops every Loica class
 
 With `variant='unstyled'`, a component and all its parts keep only the classes you give them. Before, a few parts kept
-a class of Plume (the vertical and alignment classes of `Tabs`, the disabled class of a `Button`, parts of the calendar
+a class of Loica (the vertical and alignment classes of `Tabs`, the disabled class of a `Button`, parts of the calendar
 of the `DatePicker`...). What the component needs to work (a flex row, the reset of a `<button>`, the layer that centers
-a modal) stays through rules with zero specificity on the `data-plume-*` attributes, so any class of yours wins over
+a modal) stays through rules with zero specificity on the `data-loica-*` attributes, so any class of yours wins over
 them. It applies to `Alert`, `Badge`, `Button`, `Card`, `DatePicker`, `Icon`, `Input`, `List`, `Loader`, `RadioGroup`,
-`Tabs`, `Textarea`, `TimePicker` and `Tree`, among others. If you restyled an unstyled component by overriding a Plume
+`Tabs`, `Textarea`, `TimePicker` and `Tree`, among others. If you restyled an unstyled component by overriding a Loica
 class, write your own classes on its parts.
 
 ## Parts outside their component throw
@@ -510,7 +540,7 @@ A part that needs its component to work reads its context, and now throws when i
 the component it expects: `Tab` and `TabPanel` (they took position 0), `SidebarBackdrop`, `SidebarContent`,
 `SidebarItem`, `SidebarItemIcon` and `SidebarItemLabel` (they worked with default styles). Put them inside their
 `Tabs` or `Sidebar`. The parts of `List` and `Card` don't throw: they need nothing from their root, so they render on
-the server with no JavaScript in the browser, and outside their root they are plain elements with no Plume style.
+the server with no JavaScript in the browser, and outside their root they are plain elements with no Loica style.
 
 ## `Tabs` are controlled with the same props as the rest
 
@@ -540,16 +570,16 @@ A selected `Tab` is styled with `[data-active]`, and the `active` class is gone.
 ## `Icon`, `List` and `Card` are made of parts
 
 They follow the same model as the other families: every element is a part with its own `className`, `style`, `ref`
-and `data-plume-*` attribute.
+and `data-loica-*` attribute.
 
 <table>
   <thead>
     <tr><th>Component</th><th>Parts</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>Icon</code></td><td>has a <code>variant</code> (<code>default</code> or <code>unstyled</code>); its glyph and label are <code>data-plume-icon-glyph</code> and <code>data-plume-icon-label</code>, without classes, so a selector on the hashed <code>glyph</code> or <code>label</code> class no longer matches</td></tr>
+    <tr><td><code>Icon</code></td><td>has a <code>variant</code> (<code>default</code> or <code>unstyled</code>); its glyph and label are <code>data-loica-icon-glyph</code> and <code>data-loica-icon-label</code>, without classes, so a selector on the hashed <code>glyph</code> or <code>label</code> class no longer matches</td></tr>
     <tr><td><code>List</code></td><td><code>ListItemTextPrimary</code> and <code>ListItemTextSecondary</code> are what <code>ListItemText</code> renders for <code>primary</code> and <code>secondary</code>; <code>ListItemButton</code> has <code>data-selected</code> and <code>data-disabled</code>; <code>ListDivider</code> in an unstyled list is an empty <code>&lt;li&gt;</code> for your classes</td></tr>
-    <tr><td><code>Card</code></td><td><code>CardHeader</code>, <code>CardBody</code> and <code>CardFooter</code> with <code>data-plume-card-*</code></td></tr>
+    <tr><td><code>Card</code></td><td><code>CardHeader</code>, <code>CardBody</code> and <code>CardFooter</code> with <code>data-loica-card-*</code></td></tr>
   </tbody>
 </table>
 
@@ -560,7 +590,7 @@ context), and a Server Component can still render them.
 
 The `Badge`, the `EmptyState`, the `Divider` and the `Skeleton` are single components: their inner elements (the dot of
 the `Badge`, the icon, title, description and action of the `EmptyState`, the label of the `Divider`, the lines of the
-`Skeleton`) carry a `data-plume-*` attribute, and to style one you target it from the parent or put your own element
+`Skeleton`) carry a `data-loica-*` attribute, and to style one you target it from the parent or put your own element
 in the prop that fills it. `BadgeDot`, `DividerLabel`, `SkeletonLine`, `EmptyStateIcon`, `EmptyStateTitle`,
 `EmptyStateDescription` and `EmptyStateAction` do not exist: use `dot` on the `Badge`, the `children` of the `Divider`,
 `lines` on the `Skeleton`, and `icon`, `title`, `description` and `action` on the `EmptyState`, whose `children` go
@@ -624,7 +654,7 @@ useEffect(() => {
 
 The z-index scale has names instead of numbers, and the typo is fixed: `theme.zIndeces` is now `theme.zIndices`, with
 `sticky`, `overlay`, `modal`, `popover`, `dropdown`, `tooltip` and `toast`. They keep the order the layers had, so a
-`Select` still opens over a `Modal`. The variables are `--plume-z-<name>` and the Tailwind utilities `z-<name>`.
+`Select` still opens over a `Modal`. The variables are `--loica-z-<name>` and the Tailwind utilities `z-<name>`.
 
 <table>
   <thead>
@@ -632,19 +662,19 @@ The z-index scale has names instead of numbers, and the typo is fixed: `theme.zI
   </thead>
   <tbody>
     <tr><td><code>theme.zIndeces</code>, <code>ZIndeces</code></td><td><code>theme.zIndices</code>, <code>ZIndices</code></td></tr>
-    <tr><td><code>--plume-z-1</code> … <code>--plume-z-10</code>, <code>z-1</code> … <code>z-10</code></td><td><code>--plume-z-sticky</code> … <code>--plume-z-toast</code>, <code>z-sticky</code> … <code>z-toast</code></td></tr>
+    <tr><td><code>--loica-z-1</code> … <code>--loica-z-10</code>, <code>z-1</code> … <code>z-10</code></td><td><code>--loica-z-sticky</code> … <code>--loica-z-toast</code>, <code>z-sticky</code> … <code>z-toast</code></td></tr>
     <tr><td><code>theme.breakpoints</code> in <code>px</code> (<code>'768px'</code>)</td><td>in <code>rem</code> (<code>'48rem'</code>)</td></tr>
-    <tr><td><code>--plume-breakpoint-&#42;</code></td><td>not emitted: a <code>var()</code> does not work inside <code>@media</code>; read <code>useTheme().theme.breakpoints</code></td></tr>
-    <tr><td><code>theme.sizes</code>, <code>--plume-size-&#42;</code></td><td>removed, nothing used them</td></tr>
-    <tr><td><code>--plume-color-&lt;scheme&gt;-contrast</code></td><td>removed: use <code>--plume-color-&lt;scheme&gt;-solid-contrast</code></td></tr>
+    <tr><td><code>--loica-breakpoint-&#42;</code></td><td>not emitted: a <code>var()</code> does not work inside <code>@media</code>; read <code>useTheme().theme.breakpoints</code></td></tr>
+    <tr><td><code>theme.sizes</code>, <code>--loica-size-&#42;</code></td><td>removed, nothing used them</td></tr>
+    <tr><td><code>--loica-color-&lt;scheme&gt;-contrast</code></td><td>removed: use <code>--loica-color-&lt;scheme&gt;-solid-contrast</code></td></tr>
     <tr><td><code>theme.shadows.raised</code>, <code>theme.shadows.panel</code></td><td>removed, they belonged to one component each: the thumb of the <code>Slider</code> uses <code>md</code>, like the one of the <code>Toggle</code>, and the panel of the pickers <code>lg</code>, like the other popups</td></tr>
-    <tr><td><code>--plume-focus-ring-offset</code> is <code>1px</code>, and most rings write <code>0</code></td><td>it is <code>0</code>, and every ring around a control uses it; the rings inside an item use the new <code>--plume-focus-ring-inset</code></td></tr>
+    <tr><td><code>--loica-focus-ring-offset</code> is <code>1px</code>, and most rings write <code>0</code></td><td>it is <code>0</code>, and every ring around a control uses it; the rings inside an item use the new <code>--loica-focus-ring-inset</code></td></tr>
   </tbody>
 </table>
 
-New in the theme: `semantic.borderHover` (`--plume-border-hover`), `overlays.hover` and `overlays.active`
-(`--plume-overlay-*`, the share of the text color that covers an item under the pointer or pressed) and `targets.min`
-(`--plume-target-min`, 24px). The hover of the rows, the items and the small buttons is now the same in every component.
+New in the theme: `semantic.borderHover` (`--loica-border-hover`), `overlays.hover` and `overlays.active`
+(`--loica-overlay-*`, the share of the text color that covers an item under the pointer or pressed) and `targets.min`
+(`--loica-target-min`, 24px). The hover of the rows, the items and the small buttons is now the same in every component.
 
 `theme.breakpoints` is for your own code (`useTheme().theme.breakpoints`, a `useMediaQuery`). The `Sidebar` and the
 `Navbar` fold at the `sm`, `md` and `lg` of the default theme, because their CSS uses `@media` queries, which cannot
@@ -660,7 +690,7 @@ components give a role. `brown`, `pink`, `purple`, `teal` and `yellow` are remov
 with a CSS framework has its own palette.
 
 The shades of a color are no longer variables either. The components only read the colors that the theme works out
-from them (`--plume-color-<scheme>-solid`, `-text`, `-tint`... see **Colors**), which keep their contrast in both modes.
+from them (`--loica-color-<scheme>-solid`, `-text`, `-tint`... see **Colors**), which keep their contrast in both modes.
 
 <table>
   <thead>
@@ -668,7 +698,7 @@ from them (`--plume-color-<scheme>-solid`, `-text`, `-tint`... see **Colors**), 
   </thead>
   <tbody>
     <tr><td><code>colorScheme='purple'</code> (or <code>brown</code>, <code>pink</code>, <code>teal</code>, <code>yellow</code>)</td><td>a color of the palette, or add it back to your theme (below)</td></tr>
-    <tr><td><code>--plume-color-&lt;scheme&gt;-&lt;shade&gt;</code>, Tailwind <code>bg-primary-500</code> and <code>bg-primary</code></td><td>removed: use <code>--plume-color-&lt;scheme&gt;-solid</code>, <code>-text</code> or <code>-tint</code>, and Tailwind <code>bg-primary-solid</code>, <code>text-primary-text</code>…</td></tr>
+    <tr><td><code>--loica-color-&lt;scheme&gt;-&lt;shade&gt;</code>, Tailwind <code>bg-primary-500</code> and <code>bg-primary</code></td><td>removed: use <code>--loica-color-&lt;scheme&gt;-solid</code>, <code>-text</code> or <code>-tint</code>, and Tailwind <code>bg-primary-solid</code>, <code>text-primary-text</code>…</td></tr>
     <tr><td><code>&lt;Loader colorScheme='primary.700' /&gt;</code>, the <code>ColorShade</code> and <code>Shade</code> types</td><td><code>colorScheme</code> takes a scheme, like in every other component, and the Loader takes its <code>text</code> color</td></tr>
     <tr><td><code>colorVar('primary.700')</code></td><td><code>schemeVar('primary', 'text')</code>, with any of the colors of a scheme</td></tr>
   </tbody>
@@ -678,7 +708,7 @@ To keep using a removed color, add it to your theme with the shades it had, and 
 augmentation (see **Theming**):
 
 ```tsx
-import type { DeepPartial, Theme } from 'plume-ui-react'
+import type { DeepPartial, Theme } from '@loica-ui/react'
 
 export const theme: DeepPartial<Theme> = {
   colors: {
@@ -752,10 +782,10 @@ export const theme: DeepPartial<Theme> = {
 ```
 
 ```ts
-// plume-ui.d.ts
-import type { ShadeLevel } from 'plume-ui-react'
+// loica.d.ts
+import type { ShadeLevel } from '@loica-ui/react'
 
-declare module 'plume-ui-react' {
+declare module '@loica-ui/react' {
   interface ColorPalette {
     brown: ShadeLevel
     pink: ShadeLevel
@@ -777,14 +807,14 @@ utilities of Bootstrap.
     <tr><th>Scale</th><th>Removed</th><th>Kept</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>spaces</code>, <code>--plume-space-&#42;</code></td><td><code>0</code>, <code>0.5</code>, <code>2.5</code>, <code>7</code>, <code>9</code>, <code>11</code>, <code>13</code> and <code>24</code> to <code>96</code></td><td><code>1</code>, <code>1.5</code>, <code>2</code> to <code>6</code>, <code>8</code>, <code>10</code>, <code>12</code>, <code>14</code>, <code>16</code>, <code>20</code></td></tr>
-    <tr><td><code>radii</code>, <code>--plume-radius-&#42;</code></td><td><code>0</code>, <code>1</code>, <code>5</code></td><td><code>2</code>, <code>3</code>, <code>4</code>, <code>6</code>, <code>full</code></td></tr>
-    <tr><td><code>shadows</code>, <code>--plume-shadow-&#42;</code></td><td><code>none</code>, <code>sm</code>, <code>2xl</code></td><td><code>md</code>, <code>lg</code>, <code>xl</code></td></tr>
-    <tr><td><code>containers</code>, <code>--plume-container-&#42;</code></td><td><code>xl</code> and <code>2xl</code> to <code>7xl</code> except <code>3xl</code></td><td><code>3xs</code>, <code>2xs</code>, <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>3xl</code></td></tr>
+    <tr><td><code>spaces</code>, <code>--loica-space-&#42;</code></td><td><code>0</code>, <code>0.5</code>, <code>2.5</code>, <code>7</code>, <code>9</code>, <code>11</code>, <code>13</code> and <code>24</code> to <code>96</code></td><td><code>1</code>, <code>1.5</code>, <code>2</code> to <code>6</code>, <code>8</code>, <code>10</code>, <code>12</code>, <code>14</code>, <code>16</code>, <code>20</code></td></tr>
+    <tr><td><code>radii</code>, <code>--loica-radius-&#42;</code></td><td><code>0</code>, <code>1</code>, <code>5</code></td><td><code>2</code>, <code>3</code>, <code>4</code>, <code>6</code>, <code>full</code></td></tr>
+    <tr><td><code>shadows</code>, <code>--loica-shadow-&#42;</code></td><td><code>none</code>, <code>sm</code>, <code>2xl</code></td><td><code>md</code>, <code>lg</code>, <code>xl</code></td></tr>
+    <tr><td><code>containers</code>, <code>--loica-container-&#42;</code></td><td><code>xl</code> and <code>2xl</code> to <code>7xl</code> except <code>3xl</code></td><td><code>3xs</code>, <code>2xs</code>, <code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>3xl</code></td></tr>
     <tr><td><code>typography.fontSizes</code></td><td><code>5xl</code></td><td><code>xs</code> to <code>4xl</code></td></tr>
     <tr><td><code>typography.fontWeights</code></td><td><code>thin</code>, <code>extralight</code>, <code>light</code>, <code>extrabold</code>, <code>black</code></td><td><code>normal</code>, <code>medium</code>, <code>semibold</code>, <code>bold</code></td></tr>
     <tr><td><code>typography.lineHeights</code></td><td><code>relaxed</code>, <code>loose</code></td><td><code>none</code>, <code>tight</code>, <code>snug</code>, <code>normal</code></td></tr>
-    <tr><td><code>typography.fontFamilyMono</code>, <code>--plume-font-family-mono</code>, Tailwind <code>font-plume-mono</code></td><td>removed</td><td></td></tr>
+    <tr><td><code>typography.fontFamilyMono</code>, <code>--loica-font-family-mono</code>, Tailwind <code>font-loica-mono</code></td><td>removed</td><td></td></tr>
   </tbody>
 </table>
 
@@ -792,49 +822,49 @@ To keep using one of those variables in your CSS, declare it with the value it h
 
 ```css
 :root {
-  --plume-space-48: 12rem;
-  --plume-container-7xl: 80rem;
-  --plume-font-family-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-  --plume-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --loica-space-48: 12rem;
+  --loica-container-7xl: 80rem;
+  --loica-font-family-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --loica-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-[data-plume-color-mode='dark'] {
-  --plume-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+[data-loica-color-mode='dark'] {
+  --loica-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 ```
 
-## The CSS of Plume is in the layer `plume`
+## The CSS of Loica is in the layer `loica`
 
-`plume-ui-react/styles.css` now puts all its rules in `@layer plume`, after declaring `@layer base, plume, components,
-utilities;`. A `className` or a rule of yours wins over Plume without `variant='unstyled'` and without raising the
+`@loica-ui/react/styles.css` now puts all its rules in `@layer loica`, after declaring `@layer base, loica, components,
+utilities;`. A `className` or a rule of yours wins over Loica without `variant='unstyled'` and without raising the
 specificity, and Tailwind v4 utilities such as `px-5` win too.
 
-The other side is that CSS with no layer also beats Plume. If you use Bootstrap, `normalize.css` or the preflight of
-Tailwind v3, import it into a layer that comes before `plume` (`@import '...' layer(reset)`, after
-`@layer reset, base, plume, components, utilities;`), or the reset will remove the padding of the buttons and the
+The other side is that CSS with no layer also beats Loica. If you use Bootstrap, `normalize.css` or the preflight of
+Tailwind v3, import it into a layer that comes before `loica` (`@import '...' layer(reset)`, after
+`@layer reset, base, loica, components, utilities;`), or the reset will remove the padding of the buttons and the
 borders of the inputs. See **Customizing styles**.
 
 ## The default theme is in the stylesheet
 
-`plume-ui-react/styles.css` declares the default tokens (`:root` for light mode and
-`[data-plume-color-mode='dark']` for what changes in dark mode), so the components render with their colors, spacing
+`@loica-ui/react/styles.css` declares the default tokens (`:root` for light mode and
+`[data-loica-color-mode='dark']` for what changes in dark mode), so the components render with their colors, spacing
 and shadows even without a `<ThemeProvider>`. The provider is still the way to change the theme and the color mode,
 and it now writes inline only the variables that differ from the default, so the HTML it renders on the server is
 much smaller (a default theme emits about 40 variables instead of more than 300).
 
 Because the default values no longer come from the provider, a variable that is not in your theme is not on the
-element: read it with `getComputedStyle` instead of `element.style`. `plume-ui-react/tokens.css` has only the tokens,
+element: read it with `getComputedStyle` instead of `element.style`. `@loica-ui/react/tokens.css` has only the tokens,
 for an app that builds its own components over them.
 
-## `plume-ui-react/tailwind.css` is removed
+## `@loica-ui/react/tailwind.css` is removed
 
 The package no longer ships a theme for Tailwind, so it stays independent of any CSS framework. The same theme is in
 **Framework integration**: copy it into a file of your app and import that file instead.
 
 ```css
 /* Before */
-@import 'plume-ui-react/tailwind.css';
+@import '@loica-ui/react/tailwind.css';
 
 /* After */
-@import './plume-theme.css';
+@import './loica-theme.css';
 ```

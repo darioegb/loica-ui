@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import type { CSSProperties } from 'react'
-import { Button, Input } from 'plume-ui-react'
+import { Button, Input } from '@loica-ui/react'
 
 const meta: Meta = {
   title: 'Guides/Framework Integration',
@@ -25,7 +25,7 @@ const badges = [
 ]
 
 /**
- * Tailwind utilities backed by the variables of Plume, through the theme of the Framework integration guide, the same
+ * Tailwind utilities backed by the variables of Loica, through the theme of the Framework integration guide, the same
  * one this Storybook uses. They follow the theme and the color mode.
  */
 export const Tailwind: Story = {
@@ -49,7 +49,7 @@ export const Tailwind: Story = {
 }
 
 /**
- * Plume components with `variant="unstyled"`, styled only by the classes of Bootstrap.
+ * Loica components with `variant="unstyled"`, styled only by the classes of Bootstrap.
  */
 export const Bootstrap: Story = {
   render: () => (

@@ -1,0 +1,50 @@
+:global(:where([data-loica-icon])) {
+  align-items: center;
+  block-size: var(--icon-size, 1em);
+  display: inline-flex;
+  flex: none;
+  inline-size: var(--icon-size, 1em);
+  justify-content: center;
+  position: relative;
+  vertical-align: middle;
+}
+
+:global(:where([data-loica-icon-glyph])) {
+  block-size: 100%;
+  display: inline-flex;
+  inline-size: 100%;
+}
+
+:global(:where([data-loica-icon-glyph] > svg)) {
+  block-size: 100%;
+  display: block;
+  inline-size: 100%;
+}
+
+:global(:where([data-loica-icon-label])) {
+  block-size: 1px;
+  border: 0;
+  clip-path: inset(50%);
+  inline-size: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+}
+
+.icon {
+  color: var(--icon-color, currentcolor);
+}
+
+.sm {
+  --icon-size: var(--loica-space-4);
+}
+
+.md {
+  --icon-size: var(--loica-space-5);
+}
+
+.lg {
+  --icon-size: var(--loica-space-6);
+}

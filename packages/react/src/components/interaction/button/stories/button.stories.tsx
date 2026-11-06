@@ -1,0 +1,522 @@
+import type { StoryObj, Meta } from '@storybook/react-vite'
+import type { CSSProperties } from 'react'
+import { defaultTheme } from '../../../../theme'
+import { Button } from '..'
+
+const colorSchemes = Object.keys(defaultTheme.colors)
+
+/**
+ * A button that triggers an action: submits a form, opens a dialog, saves or deletes something.
+ * It renders a native `<button>` with its content as children, and takes every attribute of one, so `type`, `form`,
+ * `name` and `value` just work. It has variants, sizes, shapes and color schemes, and a `loading` state.
+ */
+export default {
+  title: 'Components/Button',
+  component: Button,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      toc: {
+        title: 'On this page',
+        disable: false,
+      },
+    },
+    layout: 'centered',
+  },
+  argTypes: {
+    children: { control: false },
+    className: { control: 'text' },
+    style: { control: false },
+    disabled: { control: 'boolean' },
+    onClick: { action: 'clicked' },
+    type: { control: 'radio', options: ['button', 'submit', 'reset'] },
+    colorScheme: { control: 'select', options: colorSchemes },
+    iconLeft: { control: false },
+    iconRight: { control: false },
+    loading: { control: 'boolean' },
+    loadingText: { control: 'text' },
+    shape: { control: 'inline-radio', options: ['pill', 'rounded'] },
+    size: { control: 'radio', options: ['sm', 'md', 'lg'] },
+    variant: {
+      control: 'select',
+      options: ['solid', 'outline', 'link', 'icon', 'ghost', 'unstyled'],
+    },
+  },
+  args: {
+    disabled: false,
+    loading: false,
+  },
+} satisfies Meta<typeof Button>
+
+type Story = StoryObj<typeof Button>
+
+/**
+ * The default Button. Its content is its `children`, or the **label** prop, so the tag can close on itself:
+ * `<Button label="Save" />`.
+ */
+export const Default: Story = {
+  args: {
+    children: 'Default Button',
+  },
+}
+
+/**
+ * Use the **variant** prop to pick how the Button looks: `solid` fills it with the color, `outline` draws its
+ * border, `ghost` has no border or fill until it is hovered, `link` looks like an underlined link, `icon` is a
+ * compact button for an icon alone, and `unstyled` drops the Loica styles so you can style it yourself. Add icons
+ * with **iconLeft** and **iconRight**, or as **children**.
+ */
+export const Variants: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button variant="solid">Solid Button</Button>
+<Button variant="outline">Outline Button</Button>
+<Button variant="link">Link Button</Button>
+<Button variant="ghost">Ghost Button</Button>
+<Button aria-label="Notifications" variant="icon">
+  <BellIcon />
+</Button>
+<Button variant="unstyled">Unstyled Button</Button>`,
+      },
+    },
+  },
+  render: () => (
+    <div className='flex flex-wrap justify-center items-center gap-4'>
+      <Button variant='solid'>Solid Button</Button>
+      <Button variant='outline'>Outline Button</Button>
+      <Button variant='link'>Link Button</Button>
+      <Button variant='ghost'>Ghost Button</Button>
+      <Button aria-label='Notifications' variant='icon'>
+        <svg
+          fill='currentColor'
+          height='1.5rem'
+          viewBox='0 0 256 256'
+          width='1.5rem'
+          xmlns='http://www.w3.org/2000/svg'
+        >
+          <path d='M152,224a8,8,0,0,1-8,8H112a8,8,0,0,1,0-16h32A8,8,0,0,1,152,224ZM128,112a12,12,0,1,0-12-12A12,12,0,0,0,128,112Zm95.62,43.83-12.36,55.63a16,16,0,0,1-25.51,9.11L158.51,200h-61L70.25,220.57a16,16,0,0,1-25.51-9.11L32.38,155.83a16.09,16.09,0,0,1,3.32-13.71l28.56-34.26a123.07,123.07,0,0,1,8.57-36.67c12.9-32.34,36-52.63,45.37-59.85a16,16,0,0,1,19.6,0c9.34,7.22,32.47,27.51,45.37,59.85a123.07,123.07,0,0,1,8.57,36.67l28.56,34.26A16.09,16.09,0,0,1,223.62,155.83ZM99.43,184h57.14c21.12-37.54,25.07-73.48,11.74-106.88C156.55,47.64,134.49,29,128,24c-6.51,5-28.57,23.64-40.33,53.12C74.36,110.52,78.31,146.46,99.43,184Zm-15,5.85Q68.28,160.5,64.83,132.16L48,152.36,60.36,208l.18-.13ZM208,152.36l-16.83-20.2q-3.42,28.28-19.56,57.69l23.85,18,.18.13Z' />
+        </svg>
+      </Button>
+      <Button variant='unstyled'>Unstyled Button</Button>
+    </div>
+  ),
+}
+
+/**
+ * This is a list o Button with different sizes.
+ * Just adding the **size** prop.
+ */
+export const Sizes: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button colorScheme="primary" size="sm">Small Button</Button>
+<Button colorScheme="primary">Medium Button</Button>
+<Button colorScheme="primary" size="lg">Large Button</Button>`,
+      },
+    },
+  },
+  render: () => (
+    <div className='flex flex-wrap justify-center items-center gap-4'>
+      <Button colorScheme='primary' size='sm'>Small Button</Button>
+      <Button colorScheme='primary' size='md'>Medium Button</Button>
+      <Button colorScheme='primary' size='lg'>Large Button</Button>
+    </div>
+  ),
+}
+
+/**
+ * This is a list o Button with different colors.
+ * Just adding the **colorScheme** prop.
+ */
+export const Colors: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button colorScheme="primary">Primary Button</Button>
+<Button colorScheme="secondary">Secondary Button</Button>
+<Button colorScheme="success">Success Button</Button>`,
+      },
+    },
+  },
+  render: () => (
+    <div className='flex flex-wrap justify-center items-center gap-4'>
+      <Button colorScheme='primary'>Primary Button</Button>
+      <Button colorScheme='secondary'>Secondary Button</Button>
+      <Button colorScheme='info'>Info Button</Button>
+      <Button colorScheme='warning'>Warning Button</Button>
+      <Button colorScheme='error'>Error Button</Button>
+      <Button colorScheme='success'>Success Button</Button>
+    </div>
+  ),
+}
+
+/**
+ * This is a Button with icon left & right.
+ */
+export const WithIcons: Story = {
+  args: {
+    children: 'Navigate',
+    colorScheme: 'primary',
+    iconLeft: (
+      <svg
+        fill='currentColor'
+        height='32'
+        viewBox='0 0 256 256'
+        width='32'
+        xmlns='http://www.w3.org/2000/svg'
+      >
+        <path d='M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z' />
+      </svg>
+    ),
+    iconRight: (
+      <svg
+        fill='currentColor'
+        height='32'
+        viewBox='0 0 256 256'
+        width='32'
+        xmlns='http://www.w3.org/2000/svg'
+      >
+        <path d='M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z' />
+      </svg>
+    ),
+  },
+}
+
+/**
+ * This is a Button with children.
+ * for customize the button body.
+ */
+export const WithChildren: Story = {
+  args: {
+    colorScheme: 'primary',
+    children: (
+      <>
+        <strong>With</strong>
+        <small style={{ marginLeft: '.25rem' }}>children</small>
+      </>
+    ),
+  },
+}
+
+/**
+ * This is a Button Pill. A pill is full rounded.
+ * Using **shape** prop in **pill** by default is rounded.
+ */
+export const Pill: Story = {
+  args: {
+    colorScheme: 'primary',
+    children: 'Pill Button',
+    shape: 'pill',
+  },
+}
+
+/**
+ * This is Button Block.
+ * Full-width setting width on **style** prop.
+ */
+export const Block: Story = {
+  args: {
+    ...Default.args,
+    children: 'Block Button',
+    colorScheme: 'primary',
+    style: { width: '100%' },
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: '20em', maxWidth: '100%' }}>
+        <Story />
+      </div>
+    ),
+  ],
+}
+
+/**
+ * Use **loading** while the action is in progress: the Button shows a `Loader`, ignores its clicks
+ * and stays focusable, announced as busy. Without **loadingText** the content is hidden but still
+ * names the Button; with it, the text replaces the content. The `Loader` takes the `loader` text of
+ * the `LocaleProvider` as its name.
+ */
+export const Loading: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button loading>Save</Button>
+<Button loading loadingText="Saving...">Save</Button>`,
+      },
+    },
+  },
+  render: () => (
+    <div className='flex flex-wrap justify-center items-center gap-4'>
+      <Button colorScheme='primary' loading>
+        Save
+      </Button>
+      <Button colorScheme='primary' loading loadingText='Saving...'>
+        Save
+      </Button>
+    </div>
+  ),
+}
+
+/**
+ * This is a button with custom inline styles.
+ * Using **style** prop setting different attributes.
+ */
+export const CustomStyle: Story = {
+  args: {
+    children: 'Custom Style Button',
+    style: {
+      backgroundColor: '#800080',
+      color: 'white',
+      border: 'none',
+      padding: '10px 20px',
+      borderRadius: '5px',
+    },
+  },
+}
+
+/**
+ * This is a Button with disabled state.
+ * Just adding the **disabled** prop in true.
+ * The Button gets `data-disabled` (also while `loading`, which adds `data-loading`), so an unstyled
+ * Button can be styled from those attributes.
+ */
+export const Disabled: Story = {
+  args: {
+    ...Default.args,
+    children: 'Disabled Button',
+    disabled: true,
+  },
+}
+
+/**
+ * Some examples of button with custom classes from tailwind.
+ */
+export const Tailwind: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button
+    className="py-3 px-4 inline-flex justify-center items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white border border-transparent font-semibold rounded-sm text-sm"
+    variant="unstyled"
+>
+  Primary Button
+</Button>
+<Button
+  className="py-3 px-4 inline-flex justify-center items-center gap-2 bg-gray-100 text-gray-700 hover:text-white hover:bg-gray-700 border border-transparent font-semibold rounded-sm text-sm"
+  variant="unstyled"
+>
+  Soft Button
+</Button>
+<Button
+  className="py-3 px-4 inline-flex justify-center items-center gap-2 hover:text-white hover:bg-blue-700 hover:border-blue-700 text-blue-700 dark:text-blue-400 border border-blue-300 font-semibold rounded-sm text-sm"
+  variant="unstyled"
+>
+  Outline Button
+</Button>
+<Button
+  className="py-3 px-4 inline-flex justify-center items-center gap-2 hover:bg-blue-100 dark:hover:bg-blue-950 text-blue-700 dark:text-blue-400 border border-transparent font-semibold rounded-sm text-sm"
+  variant="unstyled"
+>
+  Ghost Button
+</Button>
+<Button
+  className="py-3 px-4 inline-flex justify-center items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-full text-sm"
+  variant="unstyled"
+>
+  Pilled Button
+</Button>
+<Button
+  className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-700 text-white hover:bg-blue-800 transition-all text-sm"
+  iconRight={
+    <svg
+      className="w-2.5 h-auto"
+      width="17"
+      height="16"
+      viewBox="0 0 17 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M1 7C0.447715 7 -3.73832e-07 7.44771 -3.49691e-07 8C-3.2555e-07 8.55228 0.447715 9 1 9L13.0858 9L7.79289 14.2929C7.40237 14.6834 7.40237 15.3166 7.79289 15.7071C8.18342 16.0976 8.81658 16.0976 9.20711 15.7071L16.0303 8.88388C16.5185 8.39573 16.5185 7.60427 16.0303 7.11612L9.20711 0.292893C8.81658 -0.0976318 8.18342 -0.0976318 7.79289 0.292893C7.40237 0.683417 7.40237 1.31658 7.79289 1.70711L13.0858 7L1 7Z"
+        fill="currentColor"
+      />
+    </svg>
+  }
+  variant="unstyled"
+>
+  With icon right
+</Button>
+          `,
+      },
+    },
+  },
+  render: () => (
+    <div className='flex flex-wrap justify-center items-center gap-4'>
+      <Button
+        className='py-2 px-3 inline-flex justify-center items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white border border-transparent font-semibold rounded-sm text-sm'
+        variant='unstyled'
+      >
+        Primary Button
+      </Button>
+      <Button
+        className='py-2 px-3 inline-flex justify-center items-center gap-2 bg-gray-100 text-gray-700 hover:text-white hover:bg-gray-700 border border-transparent font-semibold rounded-sm text-sm'
+        variant='unstyled'
+      >
+        Soft Button
+      </Button>
+      <Button
+        className='py-2 px-3 inline-flex justify-center items-center gap-2 hover:text-white hover:bg-blue-700 hover:border-blue-700 text-blue-700 dark:text-blue-400 border border-blue-300 font-semibold rounded-sm text-sm'
+        variant='unstyled'
+      >
+        Outline Button
+      </Button>
+      <Button
+        className='py-2 px-3 inline-flex justify-center items-center gap-2 hover:bg-blue-100 dark:hover:bg-blue-950 text-blue-700 dark:text-blue-400 border border-transparent font-semibold rounded-sm text-sm'
+        variant='unstyled'
+      >
+        Ghost Button
+      </Button>
+      <Button
+        className='py-2 px-3 inline-flex justify-center items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-full text-sm'
+        variant='unstyled'
+      >
+        Pilled Button
+      </Button>
+      <Button
+        className='py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-700 text-white hover:bg-blue-800 transition-all text-sm'
+        iconRight={
+          <svg
+            className='w-2.5 h-auto'
+            fill='none'
+            height='16'
+            viewBox='0 0 17 16'
+            width='17'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path
+              clipRule='evenodd'
+              d='M1 7C0.447715 7 -3.73832e-07 7.44771 -3.49691e-07 8C-3.2555e-07 8.55228 0.447715 9 1 9L13.0858 9L7.79289 14.2929C7.40237 14.6834 7.40237 15.3166 7.79289 15.7071C8.18342 16.0976 8.81658 16.0976 9.20711 15.7071L16.0303 8.88388C16.5185 8.39573 16.5185 7.60427 16.0303 7.11612L9.20711 0.292893C8.81658 -0.0976318 8.18342 -0.0976318 7.79289 0.292893C7.40237 0.683417 7.40237 1.31658 7.79289 1.70711L13.0858 7L1 7Z'
+              fill='currentColor'
+              fillRule='evenodd'
+            />
+          </svg>
+        }
+        variant='unstyled'
+      >
+        With icon right
+      </Button>
+    </div>
+  ),
+}
+
+/**
+ * Some examples of button with custom classes from bootstrap.
+ */
+export const Bootstrap: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button
+  className="btn btn-primary"
+  variant="unstyled"
+>
+  Primary Button
+</Button>
+<Button
+  className="btn btn-light"
+  variant="unstyled"
+>
+  Soft Button
+</Button>
+<Button
+  className="btn btn-outline-primary"
+  style={{ '--bs-btn-color': 'var(--bs-primary-text-emphasis)' }}
+  variant="unstyled"
+>
+  Outline Button
+</Button>
+<Button
+  className="btn btn-link"
+  variant="unstyled"
+>
+  Link Button
+</Button>
+<Button
+  className="btn btn-primary rounded-pill"
+  variant="unstyled"
+>
+  Pill Button
+</Button>
+<Button
+  className="btn btn-primary d-inline-flex justify-content-center align-items-center gap-2"
+  iconRight={
+    <svg
+      width="17"
+      height="16"
+      viewBox="0 0 17 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M1 7C0.447715 7 -3.73832e-07 7.44771 -3.49691e-07 8C-3.2555e-07 8.55228 0.447715 9 1 9L13.0858 9L7.79289 14.2929C7.40237 14.6834 7.40237 15.3166 7.79289 15.7071C8.18342 16.0976 8.81658 16.0976 9.20711 15.7071L16.0303 8.88388C16.5185 8.39573 16.5185 7.60427 16.0303 7.11612L9.20711 0.292893C8.81658 -0.0976318 8.18342 -0.0976318 7.79289 0.292893C7.40237 0.683417 7.40237 1.31658 7.79289 1.70711L13.0858 7L1 7Z"
+        fill="currentColor"
+      />
+    </svg>
+  }
+  variant="unstyled"
+>
+  With icon right
+</Button>
+        `,
+      },
+    },
+  },
+  render: () => (
+    <div className='flex flex-wrap justify-center items-center gap-4'>
+      <Button className='btn btn-primary' variant='unstyled'>Primary Button</Button>
+      <Button className='btn btn-light' variant='unstyled'>Soft Button</Button>
+      <Button
+        className='btn btn-outline-primary'
+        style={{ '--bs-btn-color': 'var(--bs-primary-text-emphasis)' } as CSSProperties}
+        variant='unstyled'
+      >
+        Outline Button
+      </Button>
+      <Button className='btn btn-link' variant='unstyled'>Link Button</Button>
+      <Button
+        className='btn btn-primary rounded-pill'
+        variant='unstyled'
+      >
+        Pill Button
+      </Button>
+      <Button
+        className='btn btn-primary d-inline-flex justify-content-center align-items-center gap-2'
+        iconRight={
+          <svg
+            fill='none'
+            height='16'
+            viewBox='0 0 17 16'
+            width='17'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path
+              clipRule='evenodd'
+              d='M1 7C0.447715 7 -3.73832e-07 7.44771 -3.49691e-07 8C-3.2555e-07 8.55228 0.447715 9 1 9L13.0858 9L7.79289 14.2929C7.40237 14.6834 7.40237 15.3166 7.79289 15.7071C8.18342 16.0976 8.81658 16.0976 9.20711 15.7071L16.0303 8.88388C16.5185 8.39573 16.5185 7.60427 16.0303 7.11612L9.20711 0.292893C8.81658 -0.0976318 8.18342 -0.0976318 7.79289 0.292893C7.40237 0.683417 7.40237 1.31658 7.79289 1.70711L13.0858 7L1 7Z'
+              fill='currentColor'
+              fillRule='evenodd'
+            />
+          </svg>
+        }
+        variant='unstyled'
+      >
+        With icon right
+      </Button>
+    </div>
+  ),
+}

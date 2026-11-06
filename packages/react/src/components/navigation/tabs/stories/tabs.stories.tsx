@@ -1,0 +1,808 @@
+import type { StoryObj, Meta } from '@storybook/react-vite'
+import { useState } from 'react'
+import { defaultTheme } from '../../../../theme'
+import { Badge } from '../../../presentation/badge'
+import { Tabs } from '..'
+import { TabList } from '../tab-list'
+import { Tab } from '../tab'
+import { TabPanels } from '../tab-panels'
+import { TabPanel } from '../tab-panel'
+
+const colorSchemes = Object.keys(defaultTheme.colors)
+
+const commonTabs = (
+  <>
+    <TabList>
+      <Tab label="One" />
+      <Tab label="Two" />
+      <Tab label="Three" />
+    </TabList>
+    <TabPanels>
+      <TabPanel>
+        <p>one!</p>
+      </TabPanel>
+      <TabPanel>
+        <p>two!</p>
+      </TabPanel>
+      <TabPanel>
+        <p>three!</p>
+      </TabPanel>
+    </TabPanels>
+  </>
+)
+
+/**
+ * A set of tabs that splits related content into panels and shows one at a time.
+ * Compose them with `TabList`, `Tab`, `TabPanels` and `TabPanel`; tabs and panels are linked by position, and a `Tab` or a `TabPanel` can be wrapped by another component (a tooltip, for example) and keep its position. If a wrapper holds more than one `Tab`, give each one its `index`.
+ *
+ * The Tabs keep their own state, starting on **defaultIndex**, or you control them with **index** and **onIndexChange**: with `index` set, a click only asks for the change.
+ *
+ * ### Keyboard
+ *
+ * Only the selected tab is in the tab order, so <kbd>Tab</kbd> moves from it to its panel.
+ * Inside the tab list, <kbd>←</kbd> <kbd>→</kbd> (<kbd>↑</kbd> <kbd>↓</kbd> when vertical) select the previous or next tab,
+ * and <kbd>Home</kbd> / <kbd>End</kbd> the first or last one. Disabled tabs are skipped.
+ * Give the `TabList` an `aria-label` (or `aria-labelledby`) that describes the group.
+ */
+export default {
+  title: 'Components/Tabs',
+  component: Tabs,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      toc: {
+        title: 'On this page',
+        disable: false,
+      },
+    },
+    layout: 'padded',
+  },
+  argTypes: {
+    children: { control: false },
+    className: { control: 'text' },
+    index: { control: 'number' },
+    defaultIndex: { control: 'number' },
+    alignment: { control: 'radio', options: ['left', 'center', 'right'] },
+    colorScheme: { control: 'select', options: colorSchemes },
+    lazy: { control: 'boolean' },
+    onIndexChange: { action: 'tabChanged' },
+    orientation: { control: 'radio', options: ['horizontal', 'vertical'] },
+    size: { control: 'radio', options: ['sm', 'md', 'lg'] },
+    variant: {
+      control: 'select',
+      options: ['underline', 'rounded', 'enclosed', 'segment', 'unstyled'],
+    },
+    id: { control: false },
+    style: { control: false },
+    hidden: { control: false },
+  },
+} satisfies Meta<typeof Tabs>
+
+type Story = StoryObj<typeof Tabs>
+
+// This is the default Tabs
+export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs>
+  <TabList>
+    <Tab label="One" />
+    <Tab label="Two" />
+    <Tab label="Three" />
+  </TabList>
+  <TabPanels>
+    <TabPanel>
+      <p>one!</p>
+    </TabPanel>
+    <TabPanel>
+      <p>two!</p>
+    </TabPanel>
+    <TabPanel>
+      <p>three!</p>
+    </TabPanel>
+  </TabPanels>
+</Tabs>
+        `,
+      },
+    },
+  },
+  args: {
+    children: commonTabs,
+  },
+}
+
+/**
+ * Use the **variant** prop to pick how the Tabs look: **underline**, **rounded**, **enclosed**, **segment** or
+ * **unstyled**, which drops the Loica styles so you can style the parts yourself.
+ */
+export const Variants: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs variant="underline">
+  <TabList aria-label="Underline">
+    <Tab>One</Tab>
+    <Tab>Two</Tab>
+    <Tab>Three</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>one!</TabPanel>
+    <TabPanel>two!</TabPanel>
+    <TabPanel>three!</TabPanel>
+  </TabPanels>
+</Tabs>
+<Tabs variant="rounded">
+  <TabList aria-label="Rounded">
+    <Tab>One</Tab>
+    <Tab>Two</Tab>
+    <Tab>Three</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>one!</TabPanel>
+    <TabPanel>two!</TabPanel>
+    <TabPanel>three!</TabPanel>
+  </TabPanels>
+</Tabs>
+<Tabs variant="enclosed">
+  <TabList aria-label="Enclosed">
+    <Tab>One</Tab>
+    <Tab>Two</Tab>
+    <Tab>Three</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>one!</TabPanel>
+    <TabPanel>two!</TabPanel>
+    <TabPanel>three!</TabPanel>
+  </TabPanels>
+</Tabs>
+<Tabs variant="segment">
+  <TabList aria-label="Segment">
+    <Tab>One</Tab>
+    <Tab>Two</Tab>
+    <Tab>Three</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>one!</TabPanel>
+    <TabPanel>two!</TabPanel>
+    <TabPanel>three!</TabPanel>
+  </TabPanels>
+</Tabs>
+<Tabs variant="unstyled">
+  <TabList aria-label="Unstyled">
+    <Tab>One</Tab>
+    <Tab>Two</Tab>
+    <Tab>Three</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>one!</TabPanel>
+    <TabPanel>two!</TabPanel>
+    <TabPanel>three!</TabPanel>
+  </TabPanels>
+</Tabs>`,
+      },
+    },
+  },
+  render: () => (
+    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+      {(['underline', 'rounded', 'enclosed', 'segment', 'unstyled'] as const).map((variant) => (
+        <Tabs key={variant} variant={variant}>
+          {commonTabs}
+        </Tabs>
+      ))}
+    </div>
+  ),
+}
+
+/**
+ * Use the **size** prop to change the size: **sm**, **md** or **lg**.
+ */
+export const Sizes: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs size="sm">
+  <TabList aria-label="Small">
+    <Tab>One</Tab>
+    <Tab>Two</Tab>
+    <Tab>Three</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>one!</TabPanel>
+    <TabPanel>two!</TabPanel>
+    <TabPanel>three!</TabPanel>
+  </TabPanels>
+</Tabs>
+<Tabs size="md">
+  <TabList aria-label="Medium">
+    <Tab>One</Tab>
+    <Tab>Two</Tab>
+    <Tab>Three</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>one!</TabPanel>
+    <TabPanel>two!</TabPanel>
+    <TabPanel>three!</TabPanel>
+  </TabPanels>
+</Tabs>
+<Tabs size="lg">
+  <TabList aria-label="Large">
+    <Tab>One</Tab>
+    <Tab>Two</Tab>
+    <Tab>Three</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>one!</TabPanel>
+    <TabPanel>two!</TabPanel>
+    <TabPanel>three!</TabPanel>
+  </TabPanels>
+</Tabs>`,
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-wrap justify-center items-center gap-4">
+      {(['sm', 'md', 'lg'] as const).map((size) => (
+        <Tabs key={size} size={size}>
+          {commonTabs}
+        </Tabs>
+      ))}
+    </div>
+  ),
+}
+
+/**
+ * Use the **colorScheme** prop to pick a color from the theme. The color goes to the selected tab, the focus ring and
+ * the border of the `underline` variant, which is the default one.
+ */
+export const Colors: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs colorScheme="primary">
+  <TabList aria-label="Primary">
+    <Tab>One</Tab>
+    <Tab>Two</Tab>
+    <Tab>Three</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>one!</TabPanel>
+    <TabPanel>two!</TabPanel>
+    <TabPanel>three!</TabPanel>
+  </TabPanels>
+</Tabs>
+<Tabs colorScheme="success">
+  <TabList aria-label="Success">
+    <Tab>One</Tab>
+    <Tab>Two</Tab>
+    <Tab>Three</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>one!</TabPanel>
+    <TabPanel>two!</TabPanel>
+    <TabPanel>three!</TabPanel>
+  </TabPanels>
+</Tabs>
+<Tabs colorScheme="error">
+  <TabList aria-label="Error">
+    <Tab>One</Tab>
+    <Tab>Two</Tab>
+    <Tab>Three</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>one!</TabPanel>
+    <TabPanel>two!</TabPanel>
+    <TabPanel>three!</TabPanel>
+  </TabPanels>
+</Tabs>`,
+      },
+    },
+  },
+  render: () => (
+    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+      {colorSchemes.map((scheme) => (
+        <Tabs colorScheme={scheme as keyof typeof defaultTheme.colors} key={scheme}>
+          {commonTabs}
+        </Tabs>
+      ))}
+    </div>
+  ),
+}
+
+/**
+ * This is a list o Tabs with different alignments.
+ * Just adding the **alignment** prop. We support 3 alignments **left**, **center**, **right**.
+ */
+export const Alignments: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs
+  alignment="left"
+  colorScheme="primary"
+>
+  {commonTabs}
+</Tabs>
+<Tabs
+  alignment="center"
+  colorScheme="primary"
+>
+  {commonTabs}
+</Tabs>
+<Tabs
+  alignment="right"
+  colorScheme="primary"
+>
+  {commonTabs}
+</Tabs>
+          `,
+      },
+    },
+  },
+  render: () => (
+    <div className="grid gap-4 grid-rows-3">
+      <Tabs alignment="left" colorScheme="primary">
+        {commonTabs}
+      </Tabs>
+      <Tabs alignment="center" colorScheme="primary">
+        {commonTabs}
+      </Tabs>
+      <Tabs alignment="right" colorScheme="primary">
+        {commonTabs}
+      </Tabs>
+    </div>
+  ),
+}
+
+/**
+ * This is a list o Tabs with different orientations.
+ * Just adding the **orientation** prop. We support 2 orientations **horizontal**, **vertical**.
+ */
+export const Orientations: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs
+  colorScheme="primary"
+  orientation="horizontal"
+>
+  {commonTabs}
+</Tabs>
+<Tabs
+  colorScheme="primary"
+  orientation="vertical"
+>
+  {commonTabs}
+</Tabs>
+          `,
+      },
+    },
+  },
+  render: () => (
+    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+      <Tabs colorScheme="primary" orientation="horizontal">
+        {commonTabs}
+      </Tabs>
+      <Tabs colorScheme="primary" orientation="vertical">
+        {commonTabs}
+      </Tabs>
+    </div>
+  ),
+}
+
+/**
+ * This is a story for lazy-loaded tabs.
+ * Just set the **lazy** prop to true.
+ */
+export const LazyTabs: Story = {
+  args: {
+    colorScheme: 'primary',
+    lazy: true,
+    children: commonTabs,
+  },
+}
+
+/**
+ * This is a Tabs with extra content.
+ * Just adding the **extraContentLeft** & **extraContentRight** prop in tab object.
+ */
+export const ExtraContent: Story = {
+  args: {
+    colorScheme: 'primary',
+    children: (
+      <>
+        <TabList>
+          <Tab
+            extraContentLeft={
+              <svg
+                fill="none"
+                height="1rem"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                width="1rem"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+            }
+            label="One"
+          />
+          <Tab
+            extraContentLeft={
+              <svg
+                fill="none"
+                height="1rem"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                width="1rem"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <circle cx="12" cy="10" r="3" />
+                <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
+              </svg>
+            }
+            label="Two"
+          />
+          <Tab
+            extraContentRight={
+              <svg
+                fill="none"
+                height="1rem"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                width="1rem"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            }
+            label="Three"
+          />
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <p>one!</p>
+          </TabPanel>
+          <TabPanel>
+            <p>two!</p>
+          </TabPanel>
+          <TabPanel>
+            <p>three!</p>
+          </TabPanel>
+        </TabPanels>
+      </>
+    ),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs>
+  <TabList>
+    <Tab 
+      extraContentLeft={
+        <svg
+          fill="none"
+          height="1rem"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width="1rem"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+      } 
+      label="One" 
+    />
+    <Tab
+      extraContentLeft={
+        <svg
+          fill="none"
+          height="1rem"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width="1rem"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <circle cx="12" cy="10" r="3" />
+          <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
+        </svg>
+      } 
+      label="Two" 
+    />
+    <Tab
+      extraContentRight={
+        <svg
+          fill="none"
+          height="1rem"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          width="1rem"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      }
+      label="Three" 
+    />
+  </TabList>
+  <TabPanels>
+    <TabPanel>
+      <p>one!</p>
+    </TabPanel>
+    <TabPanel>
+      <p>two!</p>
+    </TabPanel>
+    <TabPanel>
+      <p>three!</p>
+    </TabPanel>
+  </TabPanels>
+</Tabs>
+        `,
+      },
+    },
+  },
+}
+
+/**
+ * This is a disabled Tabs.
+ * Just adding the **disabled** prop in true.
+ * The disabled state add **.disabled** class,
+ * that contain **opacity: .5** and **cursor: not-allowed**.
+ */
+export const Disabled: Story = {
+  args: {
+    colorScheme: 'primary',
+    children: (
+      <>
+        <TabList>
+          <Tab label="One" />
+          <Tab disabled label="Two" />
+          <Tab label="Three" />
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <p>one!</p>
+          </TabPanel>
+          <TabPanel>
+            <p>two!</p>
+          </TabPanel>
+          <TabPanel>
+            <p>three!</p>
+          </TabPanel>
+        </TabPanels>
+      </>
+    ),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs>
+  <TabList>
+    <Tab label="One" />
+    <Tab disabled label="Two" />
+    <Tab label="Three" />
+  </TabList>
+  <TabPanels>
+    <TabPanel>
+      <p>one!</p>
+    </TabPanel>
+    <TabPanel>
+      <p>two!</p>
+    </TabPanel>
+    <TabPanel>
+      <p>three!</p>
+    </TabPanel>
+  </TabPanels>
+</Tabs>
+        `,
+      },
+    },
+  },
+}
+
+/**
+ * Tabs are always built from their parts: a `TabList` with one `Tab` per panel, and `TabPanels` with one `TabPanel` for
+ * each. Every part takes `className`, `style` and `ref`, a `Tab` can have extra content on each side, such as a `Badge`,
+ * and a disabled one is skipped by the keyboard.
+ */
+export const Compound: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs variant="underline">
+  <TabList className="gap-2">
+    <Tab extraContentRight={<Badge shape="pill" size="sm">3</Badge>} label="Inbox" />
+    <Tab label="Sent" />
+    <Tab disabled label="Archived" />
+  </TabList>
+  <TabPanels>
+    <TabPanel className="py-4">
+      <p>Three new messages.</p>
+    </TabPanel>
+    <TabPanel className="py-4">
+      <p>Nothing sent today.</p>
+    </TabPanel>
+    <TabPanel className="py-4">
+      <p>Archived messages.</p>
+    </TabPanel>
+  </TabPanels>
+</Tabs>`,
+      },
+    },
+  },
+  render: () => (
+    <Tabs variant="underline">
+      <TabList className="gap-2">
+        <Tab
+          extraContentRight={
+            <Badge shape="pill" size="sm">
+              3
+            </Badge>
+          }
+          label="Inbox"
+        />
+        <Tab label="Sent" />
+        <Tab disabled label="Archived" />
+      </TabList>
+      <TabPanels>
+        <TabPanel className="py-4">
+          <p>Three new messages.</p>
+        </TabPanel>
+        <TabPanel className="py-4">
+          <p>Nothing sent today.</p>
+        </TabPanel>
+        <TabPanel className="py-4">
+          <p>Archived messages.</p>
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  ),
+}
+
+/**
+ * Example of Tabs with custom classes from tailwind
+ */
+export const Tailwind: Story = {
+  args: {
+    children: commonTabs,
+    className: 'underline-tabs',
+    variant: 'unstyled',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `// global.css
+/* Tailwind custom tabs underline styles */
+.underline-tabs div[role="tablist"] {
+  @apply border-b border-gray-200 dark:border-gray-700 flex gap-x-4;
+}
+
+.underline-tabs button[aria-selected="true"] {
+  @apply py-2 border-b-2 border-solid border-blue-700 text-blue-700 dark:border-blue-400 dark:text-blue-400;
+}
+
+.underline-tabs div[role="tabpanel"] {
+  @apply mt-3;
+}
+// custom-tab.tsx
+<Tabs className="underline-tabs">
+  <TabList>
+    <Tab label="One" />
+    <Tab label="Two" />
+    <Tab label="Three" />
+  </TabList>
+  <TabPanels>
+    <TabPanel>
+      <p>one!</p>
+    </TabPanel>
+    <TabPanel>
+      <p>two!</p>
+    </TabPanel>
+    <TabPanel>
+      <p>three!</p>
+    </TabPanel>
+  </TabPanels>
+</Tabs>
+        `,
+      },
+    },
+  },
+}
+
+/**
+ * Example of Tabs with custom classes from bootstrap
+ */
+export const Bootstrap: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `const [activeIndex, setActiveIndex] = useState(0)
+const handleOnChange = (i: number): void => { setActiveIndex(i); }
+return (
+  <Tabs onIndexChange={handleOnChange} variant="unstyled">
+    <TabList className="nav nav-underline">
+      <Tab className="nav-item">
+        <span className={\`nav-link \${activeIndex === 0 && 'active'}\`}>One</span>
+      </Tab>
+      <Tab className="nav-item">
+        <span className={\`nav-link \${activeIndex === 1 && 'active'}\`}>Two</span>
+      </Tab>
+      <Tab className="nav-item">
+        <span className={\`nav-link \${activeIndex === 2 && 'active'}\`}>Three</span>
+      </Tab>
+    </TabList>
+    <TabPanels className="mt-3">
+      <TabPanel>
+        <p>one!</p>
+      </TabPanel>
+      <TabPanel>
+        <p>two!</p>
+      </TabPanel>
+      <TabPanel>
+        <p>three!</p>
+      </TabPanel>
+    </TabPanels>
+  </Tabs>
+)
+          `,
+      },
+    },
+  },
+  render: () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Render is valid storybook function
+    const [activeIndex, setActiveIndex] = useState(0)
+    const handleOnChange = (i: number): void => {
+      setActiveIndex(i)
+    }
+    return (
+      <Tabs onIndexChange={handleOnChange} variant="unstyled">
+        <TabList className="nav nav-underline">
+          <Tab className="nav-item">
+            <span className={`nav-link ${activeIndex === 0 && 'active'}`}>One</span>
+          </Tab>
+          <Tab className="nav-item">
+            <span className={`nav-link ${activeIndex === 1 && 'active'}`}>Two</span>
+          </Tab>
+          <Tab className="nav-item">
+            <span className={`nav-link ${activeIndex === 2 && 'active'}`}>Three</span>
+          </Tab>
+        </TabList>
+        <TabPanels className="mt-3">
+          <TabPanel>
+            <p>one!</p>
+          </TabPanel>
+          <TabPanel>
+            <p>two!</p>
+          </TabPanel>
+          <TabPanel>
+            <p>three!</p>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    )
+  },
+}

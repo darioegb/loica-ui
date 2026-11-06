@@ -4,9 +4,9 @@
 @import './tailwind-theme.generated.css';
 @import './bootstrap-scoped.generated.css';
 
-@source '../../packages/plume-ui-react/src';
+@source '../../packages/react/src';
 
-@custom-variant dark (&:where([data-plume-color-mode='dark'], [data-plume-color-mode='dark'] *));
+@custom-variant dark (&:where([data-loica-color-mode='dark'], [data-loica-color-mode='dark'] *));
 
 div.sbdocs-wrapper {
   justify-content: flex-start;
@@ -18,7 +18,7 @@ div.sbdocs-content {
 /* A story with the centered layout is as wide as its content, so a width of `100%` inside it never
    shrinks: let it follow the screen on a phone. */
 .sb-main-centered #storybook-root,
-.sb-main-centered .plume-root {
+.sb-main-centered .loica-root {
   max-width: 100%;
 }
 
@@ -141,37 +141,37 @@ table.docblock-argstable {
   color: #52525b;
 }
 
-html[data-plume-color-mode='dark'] .sbdocs .api-rendering[data-kind='server'] {
+html[data-loica-color-mode='dark'] .sbdocs .api-rendering[data-kind='server'] {
   color: #34d399;
 }
 
-html[data-plume-color-mode='dark'] .sbdocs .api-rendering[data-kind='mixed'] {
+html[data-loica-color-mode='dark'] .sbdocs .api-rendering[data-kind='mixed'] {
   color: #93c5fd;
 }
 
-html[data-plume-color-mode='dark'] .sbdocs .api-rendering[data-kind='client'] {
+html[data-loica-color-mode='dark'] .sbdocs .api-rendering[data-kind='client'] {
   color: #a1a1aa;
 }
 
-.plume-title-row {
+.loica-title-row {
   align-items: center;
   column-gap: 0.875rem;
   display: flex;
   flex-wrap: wrap;
 }
 
-.sbdocs a.plume-rendering-badge {
+.sbdocs a.loica-rendering-badge {
   font-size: 0.75rem;
   margin-inline-start: 0;
   padding: 0.35em 0.75em;
   text-decoration: none;
 }
 
-.sbdocs a.plume-rendering-badge:hover {
+.sbdocs a.loica-rendering-badge:hover {
   text-decoration: underline;
 }
 
-.sbdocs a.plume-rendering-badge:focus-visible {
+.sbdocs a.loica-rendering-badge:focus-visible {
   outline: 2px solid currentcolor;
   outline-offset: 2px;
 }
@@ -206,14 +206,14 @@ html[data-plume-color-mode='dark'] .sbdocs .api-rendering[data-kind='client'] {
 }
 
 /* Previous and next page (see src/page-nav.tsx) */
-.plume-page-nav {
+.loica-page-nav {
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 4rem;
 }
 
-.sbdocs a.plume-page-nav-link {
+.sbdocs a.loica-page-nav-link {
   border: 1px solid #a1a1aa;
   border-radius: 0.5rem;
   color: inherit;
@@ -224,42 +224,42 @@ html[data-plume-color-mode='dark'] .sbdocs .api-rendering[data-kind='client'] {
   text-decoration: none;
 }
 
-.sbdocs a.plume-page-nav-link:hover {
+.sbdocs a.loica-page-nav-link:hover {
   border-color: #10b981;
 }
 
-.sbdocs a.plume-page-nav-link:focus-visible {
+.sbdocs a.loica-page-nav-link:focus-visible {
   outline: 2px solid #10b981;
   outline-offset: 2px;
 }
 
-.sbdocs a.plume-page-nav-next {
+.sbdocs a.loica-page-nav-next {
   align-items: flex-end;
   grid-column: 2;
   text-align: end;
 }
 
-.plume-page-nav-hint {
+.loica-page-nav-hint {
   font-size: 0.8125rem;
   opacity: 0.65;
 }
 
-.plume-page-nav-title {
+.loica-page-nav-title {
   align-items: center;
   display: flex;
   font-weight: 600;
   gap: 0.5rem;
 }
 
-html[data-plume-color-mode='dark'] .sbdocs a.plume-page-nav-link {
+html[data-loica-color-mode='dark'] .sbdocs a.loica-page-nav-link {
   border-color: #52525b;
 }
 
-html[data-plume-color-mode='dark'] .sbdocs a.plume-page-nav-link:hover {
+html[data-loica-color-mode='dark'] .sbdocs a.loica-page-nav-link:hover {
   border-color: #34d399;
 }
 
-.plume-overview-search {
+.loica-overview-search {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
@@ -267,11 +267,11 @@ html[data-plume-color-mode='dark'] .sbdocs a.plume-page-nav-link:hover {
   margin-block: 1.5rem 0.5rem;
 }
 
-.plume-overview-search label {
+.loica-overview-search label {
   font-weight: 600;
 }
 
-.plume-overview-search input {
+.loica-overview-search input {
   background-color: #ffffff;
   border: 1px solid #a1a1aa;
   border-radius: 0.5rem;
@@ -281,34 +281,34 @@ html[data-plume-color-mode='dark'] .sbdocs a.plume-page-nav-link:hover {
   padding: 0.5rem 0.75rem;
 }
 
-.plume-overview-search input::placeholder {
+.loica-overview-search input::placeholder {
   color: #71717a;
 }
 
-.plume-overview-search input {
+.loica-overview-search input {
   transition: border-color 0.15s ease;
 }
 
-.plume-overview-search input:hover {
+.loica-overview-search input:hover {
   border-color: #52525b;
 }
 
-.plume-overview-search input:focus-visible {
+.loica-overview-search input:focus-visible {
   border-color: #047857;
   outline: 2px solid #047857;
   outline-offset: 1px;
 }
 
-.plume-overview-search output {
+.loica-overview-search output {
   color: #52525b;
   font-size: 0.875rem;
 }
 
-.plume-overview section {
+.loica-overview section {
   margin-top: 2rem;
 }
 
-.sbdocs ul.plume-overview-grid {
+.sbdocs ul.loica-overview-grid {
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
@@ -317,13 +317,13 @@ html[data-plume-color-mode='dark'] .sbdocs a.plume-page-nav-link:hover {
   padding: 0;
 }
 
-.sbdocs ul.plume-overview-grid > li {
+.sbdocs ul.loica-overview-grid > li {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.sbdocs div.plume-overview-card {
+.sbdocs div.loica-overview-card {
   border: 1px solid #d4d4d8;
   border-radius: 0.5rem;
   color: inherit;
@@ -339,9 +339,9 @@ html[data-plume-color-mode='dark'] .sbdocs a.plume-page-nav-link:hover {
     box-shadow 0.15s ease;
 }
 
-.plume-overview-preview {
+.loica-overview-preview {
   align-items: center;
-  background-color: var(--plume-surface-muted, #f4f4f5);
+  background-color: var(--loica-surface-muted, #f4f4f5);
   border-block-end: 1px solid #e4e4e7;
   display: flex;
   height: 8rem;
@@ -353,66 +353,66 @@ html[data-plume-color-mode='dark'] .sbdocs a.plume-page-nav-link:hover {
 }
 
 /* The previews are drawn smaller than life, so the whole component fits the card. */
-.plume-overview-preview-content {
+.loica-overview-preview-content {
   display: flex;
   justify-content: center;
   max-width: 100%;
   zoom: 0.75;
 }
 
-.plume-overview-name,
-.plume-overview-summary {
+.loica-overview-name,
+.loica-overview-summary {
   padding-inline: 1.125rem;
 }
 
 /* The docs style every link and list of the page; inside a preview they keep the look of the component. */
-.sbdocs .plume-overview-preview a {
+.sbdocs .loica-overview-preview a {
   color: inherit;
   text-decoration: none;
 }
 
-.sbdocs .plume-overview-preview li {
+.sbdocs .loica-overview-preview li {
   list-style: none;
 }
 
-.sbdocs .plume-overview-preview :is(p, h1, h2, h3, h4, h5, h6) {
+.sbdocs .loica-overview-preview :is(p, h1, h2, h3, h4, h5, h6) {
   margin: 0;
 }
 
 /* The docs reset the margin of the elements of the page, which the separator of the Breadcrumb needs. */
-.sbdocs .plume-overview-preview [data-plume-breadcrumb-separator] {
+.sbdocs .loica-overview-preview [data-loica-breadcrumb-separator] {
   margin-inline: var(--breadcrumb-gap);
 }
 
-.sbdocs div.plume-overview-card:hover {
+.sbdocs div.loica-overview-card:hover {
   border-color: #047857;
   box-shadow: 0 2px 8px rgb(24 24 27 / 8%);
 }
 
-.sbdocs a.plume-overview-name {
+.sbdocs a.loica-overview-name {
   color: inherit;
   font-weight: 600;
   text-decoration: none;
 }
 
 /* The whole card is the target of the link, which can't wrap the previews (they hold links of their own). */
-.sbdocs a.plume-overview-name::after {
+.sbdocs a.loica-overview-name::after {
   content: '';
   inset: 0;
   position: absolute;
 }
 
-.sbdocs a.plume-overview-name:focus-visible {
+.sbdocs a.loica-overview-name:focus-visible {
   outline: none;
 }
 
-.sbdocs a.plume-overview-name:focus-visible::after {
+.sbdocs a.loica-overview-name:focus-visible::after {
   border-radius: 0.5rem;
   outline: 2px solid #047857;
   outline-offset: 2px;
 }
 
-.plume-overview-summary {
+.loica-overview-summary {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   color: #52525b;
@@ -422,43 +422,43 @@ html[data-plume-color-mode='dark'] .sbdocs a.plume-page-nav-link:hover {
   overflow: hidden;
 }
 
-html[data-plume-color-mode='dark'] .plume-overview-search input {
+html[data-loica-color-mode='dark'] .loica-overview-search input {
   background-color: #18181b;
   border-color: #52525b;
   color: #fafafa;
 }
 
-html[data-plume-color-mode='dark'] .plume-overview-search input:hover {
+html[data-loica-color-mode='dark'] .loica-overview-search input:hover {
   border-color: #a1a1aa;
 }
 
-html[data-plume-color-mode='dark'] .plume-overview-search input::placeholder {
+html[data-loica-color-mode='dark'] .loica-overview-search input::placeholder {
   color: #a1a1aa;
 }
 
-html[data-plume-color-mode='dark'] .plume-overview-search input:focus-visible {
+html[data-loica-color-mode='dark'] .loica-overview-search input:focus-visible {
   border-color: #34d399;
   outline-color: #34d399;
 }
 
-html[data-plume-color-mode='dark'] .sbdocs a.plume-overview-name:focus-visible::after {
+html[data-loica-color-mode='dark'] .sbdocs a.loica-overview-name:focus-visible::after {
   outline-color: #34d399;
 }
 
-html[data-plume-color-mode='dark'] .plume-overview-search output,
-html[data-plume-color-mode='dark'] .plume-overview-summary {
+html[data-loica-color-mode='dark'] .loica-overview-search output,
+html[data-loica-color-mode='dark'] .loica-overview-summary {
   color: #a1a1aa;
 }
 
-html[data-plume-color-mode='dark'] .sbdocs div.plume-overview-card {
+html[data-loica-color-mode='dark'] .sbdocs div.loica-overview-card {
   border-color: #3f3f46;
 }
 
-html[data-plume-color-mode='dark'] .plume-overview-preview {
+html[data-loica-color-mode='dark'] .loica-overview-preview {
   border-block-end-color: #3f3f46;
 }
 
-html[data-plume-color-mode='dark'] .sbdocs div.plume-overview-card:hover {
+html[data-loica-color-mode='dark'] .sbdocs div.loica-overview-card:hover {
   border-color: #34d399;
   box-shadow: none;
 }
@@ -479,10 +479,10 @@ html[data-plume-color-mode='dark'] .sbdocs div.plume-overview-card:hover {
   div.sbdocs-content {
     max-width: 100%;
   }
-  .plume-page-nav {
+  .loica-page-nav {
     grid-template-columns: minmax(0, 1fr);
   }
-  .sbdocs a.plume-page-nav-next {
+  .sbdocs a.loica-page-nav-next {
     grid-column: 1;
   }
   div.container {
@@ -510,9 +510,9 @@ h1.sbdocs-title {
   @apply mt-3;
 }
 /* Floating button to go back to the top of a docs page (see src/scroll-to-top.tsx) */
-.plume-scroll-top {
+.loica-scroll-top {
   align-items: center;
-  animation: plume-scroll-top-in 0.2s ease-out;
+  animation: loica-scroll-top-in 0.2s ease-out;
   background: #10b981;
   border: 0;
   border-radius: 999px;
@@ -530,16 +530,16 @@ h1.sbdocs-title {
   z-index: 10;
 }
 
-.plume-scroll-top:hover {
+.loica-scroll-top:hover {
   background: #059669;
 }
 
-.plume-scroll-top:focus-visible {
+.loica-scroll-top:focus-visible {
   outline: 2px solid #10b981;
   outline-offset: 3px;
 }
 
-@keyframes plume-scroll-top-in {
+@keyframes loica-scroll-top-in {
   from {
     opacity: 0;
     transform: translateY(0.5rem);
@@ -547,7 +547,7 @@ h1.sbdocs-title {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .plume-scroll-top {
+  .loica-scroll-top {
     animation: none;
   }
 }

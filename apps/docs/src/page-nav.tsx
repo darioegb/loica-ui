@@ -56,11 +56,11 @@ function PageNav(): ReactNode {
   if (!previous && !next) return null
 
   return (
-    <nav aria-label="Pages" className="plume-page-nav">
+    <nav aria-label="Pages" className="loica-page-nav">
       {previous ? (
-        <a className="plume-page-nav-link" href={`./?path=/docs/${previous.id}`} rel="prev" target="_top">
-          <span className="plume-page-nav-hint">Previous</span>
-          <span className="plume-page-nav-title">
+        <a className="loica-page-nav-link" href={`./?path=/docs/${previous.id}`} rel="prev" target="_top">
+          <span className="loica-page-nav-hint">Previous</span>
+          <span className="loica-page-nav-title">
             <ChevronLeft />
             {labelOf(previous.title)}
           </span>
@@ -69,9 +69,9 @@ function PageNav(): ReactNode {
         <span />
       )}
       {next ? (
-        <a className="plume-page-nav-link plume-page-nav-next" href={`./?path=/docs/${next.id}`} rel="next" target="_top">
-          <span className="plume-page-nav-hint">Next</span>
-          <span className="plume-page-nav-title">
+        <a className="loica-page-nav-link loica-page-nav-next" href={`./?path=/docs/${next.id}`} rel="next" target="_top">
+          <span className="loica-page-nav-hint">Next</span>
+          <span className="loica-page-nav-title">
             {labelOf(next.title)}
             <ChevronRight />
           </span>

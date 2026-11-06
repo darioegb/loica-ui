@@ -29,9 +29,9 @@ async function getLatestMergedPrInfo(repoOwner, repoName) {
     throw new Error('No merged "Version Packages" PR found')
   }
 
-  const versionMatch = pr.body?.match(/## plume-ui-react@(\d+\.\d+\.\d+)/)
+  const versionMatch = pr.body?.match(/## @loica-ui\/react@(\d+\.\d+\.\d+)/)
   if (!versionMatch) {
-    throw new Error(`Could not read the plume-ui-react version from PR #${pr.number}`)
+    throw new Error(`Could not read the @loica-ui/react version from PR #${pr.number}`)
   }
 
   return {
@@ -48,8 +48,8 @@ async function getLatestMergedPrInfo(repoOwner, repoName) {
 async function generateChangelog() {
   let changelogEntries = []
   let releaseHeader = ''
-  const mergedPrInfo = await getLatestMergedPrInfo('darioegb', 'plume-ui-react')
-  releaseHeader = `# Version ${mergedPrInfo.version}\nExplore the changelog for Plume UI React version ${mergedPrInfo.version}. Learn about the latest features, bug fixes, and improvements.\n\n[${mergedPrInfo.url}] - ${mergedPrInfo.date}\n\n`
+  const mergedPrInfo = await getLatestMergedPrInfo('darioegb', '@loica-ui/react')
+  releaseHeader = `# Version ${mergedPrInfo.version}\nExplore the changelog for Loica UI React version ${mergedPrInfo.version}. Learn about the latest features, bug fixes, and improvements.\n\n[${mergedPrInfo.url}] - ${mergedPrInfo.date}\n\n`
 
   const combinedChangelog = changelogEntries.join('\n\n')
   releaseHeader += combinedChangelog

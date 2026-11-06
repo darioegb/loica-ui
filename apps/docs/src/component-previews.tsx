@@ -71,7 +71,7 @@ import {
   TreeItem,
   TreeItemGroup,
   TreeItemLabel,
-} from 'plume-ui-react'
+} from '@loica-ui/react'
 
 const noop = (): void => undefined
 
@@ -202,7 +202,7 @@ const previews: Record<string, ReactNode> = {
         Details
       </Button>
       <Card variant="outline">
-        <CardBody>Plume is a set of accessible React components.</CardBody>
+        <CardBody>Loica is a set of accessible React components.</CardBody>
       </Card>
     </div>
   ),
@@ -305,7 +305,7 @@ const previews: Record<string, ReactNode> = {
   ),
   Navbar: (
     <Navbar aria-label="Main" style={{ width: '16rem' }}>
-      <NavbarBrand href="#">Plume</NavbarBrand>
+      <NavbarBrand href="#">Loica</NavbarBrand>
       <NavbarContent>
         <NavbarItem active href="#">
           Home

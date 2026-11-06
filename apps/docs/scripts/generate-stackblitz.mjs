@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 const here = path.dirname(fileURLToPath(import.meta.url))
 const exampleDir = path.resolve(here, '../../example-vite')
 const output = path.resolve(here, '../src/stackblitz-example.generated.json')
-const packageDir = path.resolve(here, '../../../packages/plume-ui-react')
+const packageDir = path.resolve(here, '../../../packages/react')
 const localsOutput = path.resolve(here, '../src/story-locals.generated.json')
 const sandboxOutput = path.resolve(here, '../src/stackblitz-sandbox.generated.json')
 
@@ -46,7 +46,7 @@ writeFileSync(path.resolve(here, '../tailwind-theme.generated.css'), tailwindThe
 const sandbox = {
   preflight: readFileSync(docsRequire.resolve('tailwindcss/preflight.css'), 'utf8'),
   tailwindTheme,
-  dependencies: pick(manifest.dependencies, ['plume-ui-react', 'react', 'react-dom']),
+  dependencies: pick(manifest.dependencies, ['@loica-ui/react', 'react', 'react-dom']),
   devDependencies: pick(manifest.devDependencies, ['@vitejs/plugin-react', 'vite']),
 }
 writeFileSync(sandboxOutput, `${JSON.stringify(sandbox)}\n`)

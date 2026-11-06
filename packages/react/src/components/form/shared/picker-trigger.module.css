@@ -1,0 +1,22 @@
+button.trigger {
+  align-self: center;
+  aspect-ratio: 1;
+  flex: none;
+  height: min(calc(100% - 0.5rem), 2rem);
+  margin: 0 var(--loica-space-1);
+  min-width: 0;
+  padding: 0;
+  width: auto;
+}
+
+:global(:where([data-loica-datepicker-trigger], [data-loica-timepicker-trigger])) {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  justify-content: center;
+  padding: 0;
+}

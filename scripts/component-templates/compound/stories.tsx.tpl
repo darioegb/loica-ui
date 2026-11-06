@@ -53,7 +53,7 @@ export default {
     },
     variant: {
       control: 'radio',
-      description: 'Visual variant. `unstyled` drops the Plume styles so you can bring your own.',
+      description: 'Visual variant. `unstyled` drops the Loica styles so you can bring your own.',
       options: ['solid', 'unstyled'],
       table: { type: { summary: `"solid" | "unstyled"` } },
     },
@@ -71,7 +71,7 @@ type Story = StoryObj<typeof __Name__>
 export const Default: Story = {}
 
 /**
- * Use the **variant** prop to pick how the __Name__ looks. `unstyled` drops the Plume styles so you can style it
+ * Use the **variant** prop to pick how the __Name__ looks. `unstyled` drops the Loica styles so you can style it
  * yourself. Show every variant of the component here, once each.
  */
 export const Variants: Story = {

@@ -1,0 +1,96 @@
+:global(:where(hr[data-loica-divider])) {
+  border: 0;
+  margin: 0;
+}
+
+:global(:where(div[data-loica-divider])) {
+  align-items: center;
+  display: flex;
+}
+
+.divider {
+  --divider-color: var(--loica-border);
+  box-sizing: border-box;
+  color: var(--loica-muted);
+}
+
+.sm {
+  --divider-thickness: 1px;
+}
+
+.md {
+  --divider-thickness: 2px;
+}
+
+.lg {
+  --divider-thickness: 3px;
+}
+
+.solid {
+  --divider-style: solid;
+}
+
+.dashed {
+  --divider-style: dashed;
+}
+
+.dotted {
+  --divider-style: dotted;
+}
+
+.spacingSm {
+  --divider-spacing: var(--loica-space-1);
+}
+
+.spacingMd {
+  --divider-spacing: var(--loica-space-3);
+}
+
+.spacingLg {
+  --divider-spacing: var(--loica-space-6);
+}
+
+hr.horizontal {
+  block-size: 0;
+  border-block-start: var(--divider-thickness) var(--divider-style) var(--divider-color);
+  inline-size: 100%;
+  margin-block: var(--divider-spacing, 0);
+}
+
+hr.vertical {
+  align-self: stretch;
+  border-inline-start: var(--divider-thickness) var(--divider-style) var(--divider-color);
+  display: inline-block;
+  inline-size: 0;
+  margin-inline: var(--divider-spacing, 0);
+  min-block-size: 1em;
+}
+
+.labeled {
+  font-family: var(--loica-font-family);
+  font-size: var(--loica-font-size-sm);
+  gap: var(--loica-space-3);
+  margin-block: var(--divider-spacing, 0);
+}
+
+.labeled::before,
+.labeled::after {
+  border-block-start: var(--divider-thickness) var(--divider-style) var(--divider-color);
+  content: '';
+  flex: 1 1 auto;
+}
+
+.labeled[data-align='start']::before,
+.labeled[data-align='end']::after {
+  flex: 0 0 var(--loica-space-6);
+}
+
+:where(.labeled) .label {
+  flex: none;
+}
+
+@media (forced-colors: active) {
+  .divider {
+    --divider-color: CanvasText;
+  }
+}

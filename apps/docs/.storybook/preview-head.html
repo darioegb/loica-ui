@@ -1,16 +1,16 @@
 <style>
-  @layer theme, base, plume, components, utilities;
+  @layer theme, base, loica, components, utilities;
 </style>
 <script>
   // Applies the saved (or preferred) color mode before the first paint, so a page opened in dark mode
   // doesn't show the light theme until React has mounted.
   try {
-    var mode = localStorage.getItem('plume-colormode')
+    var mode = localStorage.getItem('loica-colormode')
     if (mode !== 'dark' && mode !== 'light') {
       mode = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     }
     var root = document.documentElement
-    root.setAttribute('data-plume-color-mode', mode)
+    root.setAttribute('data-loica-color-mode', mode)
     root.setAttribute('data-bs-theme', mode)
     root.style.colorScheme = mode
   } catch (error) {}
@@ -48,7 +48,7 @@
     white-space: nowrap;
   }
 
-  html[data-plume-color-mode='dark'] .sbdocs kbd {
+  html[data-loica-color-mode='dark'] .sbdocs kbd {
     border-color: #52525b;
     background-color: #3f3f46;
     color: #f4f4f5;
@@ -64,41 +64,41 @@
 
   /* The default code colors of Storybook fall under 4.5:1 for a few tokens. The import line of a
      component page is always dark (`<Source dark>`), so it keeps the colors of that theme. */
-  html:not([data-plume-color-mode='dark']) .sbdocs pre.prismjs:not(.container > .docblock-source pre) .token.class-name {
+  html:not([data-loica-color-mode='dark']) .sbdocs pre.prismjs:not(.container > .docblock-source pre) .token.class-name {
     color: #0e7490;
   }
 
-  html:not([data-plume-color-mode='dark']) .sbdocs pre.prismjs:not(.container > .docblock-source pre) :is(.token.dom, .token.variable, .token.number, .token.boolean) {
+  html:not([data-loica-color-mode='dark']) .sbdocs pre.prismjs:not(.container > .docblock-source pre) :is(.token.dom, .token.variable, .token.number, .token.boolean) {
     color: #0f766e;
   }
 
-  html:not([data-plume-color-mode='dark']) .sbdocs pre.prismjs:not(.container > .docblock-source pre) :is(.token.attr-name, .token.property) {
+  html:not([data-loica-color-mode='dark']) .sbdocs pre.prismjs:not(.container > .docblock-source pre) :is(.token.attr-name, .token.property) {
     color: #c81e1e;
   }
 
-  html[data-plume-color-mode='dark'] .sbdocs pre.prismjs .token.comment {
+  html[data-loica-color-mode='dark'] .sbdocs pre.prismjs .token.comment {
     color: #a1a1aa;
   }
 
-  html[data-plume-color-mode='dark'] .sbdocs pre.prismjs .token.class-name {
+  html[data-loica-color-mode='dark'] .sbdocs pre.prismjs .token.class-name {
     color: #67e8f9;
   }
 
-  html[data-plume-color-mode='dark'] .sbdocs pre.prismjs :is(.token.dom, .token.variable, .token.number, .token.boolean) {
+  html[data-loica-color-mode='dark'] .sbdocs pre.prismjs :is(.token.dom, .token.variable, .token.number, .token.boolean) {
     color: #5eead4;
   }
 
-  html[data-plume-color-mode='dark'] .sbdocs pre.prismjs :is(.token.attr-name, .token.property) {
+  html[data-loica-color-mode='dark'] .sbdocs pre.prismjs :is(.token.attr-name, .token.property) {
     color: #fca5a5;
   }
 
   /* The striped rows of a docs table are lighter than the page, under the brand green. */
-  html[data-plume-color-mode='dark'] .sbdocs td a {
+  html[data-loica-color-mode='dark'] .sbdocs td a {
     color: #6ee7b7;
   }
 
   /* The titles and values of a color palette are grey on grey in dark mode. */
-  html[data-plume-color-mode='dark'] .docblock-colorpalette div {
+  html[data-loica-color-mode='dark'] .docblock-colorpalette div {
     color: #a1a1aa;
   }
 
@@ -112,22 +112,22 @@
   /* Dark-mode overrides for Storybook docs blocks that the DocsContainer theme
      prop leaves white, plus the body text color Bootstrap forces to #212529. The loading
      skeleton covers the page while a page not visited yet loads, so it is themed too. */
-  html[data-plume-color-mode='dark'] body {
+  html[data-loica-color-mode='dark'] body {
     background-color: #18181b;
     color: #e4e4e7;
   }
 
-  html[data-plume-color-mode='dark'] .sb-preparing-story,
-  html[data-plume-color-mode='dark'] .sb-preparing-docs,
-  html[data-plume-color-mode='dark'] .docs-story {
+  html[data-loica-color-mode='dark'] .sb-preparing-story,
+  html[data-loica-color-mode='dark'] .sb-preparing-docs,
+  html[data-loica-color-mode='dark'] .docs-story {
     background-color: #18181b;
   }
 
-  html[data-plume-color-mode='dark'] .sb-argstableBlock,
-  html[data-plume-color-mode='dark'] .sb-argstableBlock-body,
-  html[data-plume-color-mode='dark'] .sb-argstableBlock-body tr,
-  html[data-plume-color-mode='dark'] .sb-argstableBlock th,
-  html[data-plume-color-mode='dark'] .sb-argstableBlock td {
+  html[data-loica-color-mode='dark'] .sb-argstableBlock,
+  html[data-loica-color-mode='dark'] .sb-argstableBlock-body,
+  html[data-loica-color-mode='dark'] .sb-argstableBlock-body tr,
+  html[data-loica-color-mode='dark'] .sb-argstableBlock th,
+  html[data-loica-color-mode='dark'] .sb-argstableBlock td {
     background-color: #27272a !important;
     color: #e4e4e7 !important;
     border-color: #3f3f46 !important;

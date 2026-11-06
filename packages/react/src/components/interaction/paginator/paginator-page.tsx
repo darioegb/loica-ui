@@ -1,0 +1,72 @@
+'use client'
+
+import type { ButtonHTMLAttributes, ForwardedRef, ReactNode } from 'react'
+import { forwardRef } from 'react'
+import { joinClasses } from '../../../overlay/class-names'
+import type { ComponentProps } from '../../../theme'
+import { Button } from '../button'
+import { usePaginatorContext } from './paginator-context'
+import styles from './paginator.module.css'
+
+export interface PaginatorPageOwnProps {
+  /** The number of the page the button goes to, starting at 1. */
+  page: number
+}
+
+type PaginatorPageRootAttributes = Pick<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'aria-label' | 'children' | 'disabled' | 'id' | 'onClick' | 'title'
+>
+
+export type PaginatorPageProps = Omit<ComponentProps, 'index'> &
+  PaginatorPageRootAttributes &
+  PaginatorPageOwnProps
+
+/**
+ * The button of a page. It has `aria-current="page"` and `data-current` when it is the current one,
+ * its name comes from the `paginator.page` text of the `LocaleProvider` and its text is the number unless you pass children.
+ */
+export const PaginatorPage = forwardRef<HTMLButtonElement, PaginatorPageProps>(
+  (
+    {
+      'aria-label': ariaLabel,
+      children,
+      className,
+      disabled,
+      onClick,
+      page,
+      style,
+      ...rest
+    }: PaginatorPageProps,
+    ref: ForwardedRef<HTMLButtonElement>,
+  ): ReactNode => {
+    const paginator = usePaginatorContext('PaginatorPage')
+    const isCurrent = page === paginator.current
+
+    return (
+      <Button
+        aria-current={isCurrent ? 'page' : undefined}
+        aria-label={ariaLabel ?? paginator.labels.page(page, isCurrent)}
+        className={joinClasses(paginator.isStyled && styles.page, className)}
+        colorScheme={isCurrent ? paginator.colorScheme : 'secondary'}
+        data-current={isCurrent ? '' : undefined}
+        data-loica-paginator-page=""
+        disabled={paginator.disabled || disabled}
+        onClick={(event) => {
+          onClick?.(event)
+          if (!event.defaultPrevented) paginator.go(page)
+        }}
+        ref={ref}
+        shape={paginator.shape}
+        size={paginator.size}
+        style={style}
+        variant={isCurrent ? paginator.variants.current : paginator.variants.other}
+        {...rest}
+      >
+        {children ?? page}
+      </Button>
+    )
+  },
+)
+
+PaginatorPage.displayName = 'PaginatorPage'

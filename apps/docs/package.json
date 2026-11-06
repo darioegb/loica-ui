@@ -1,5 +1,5 @@
 {
-  "name": "@plume-ui-react/docs",
+  "name": "@loica-ui/docs",
   "version": "0.0.2",
   "private": true,
   "scripts": {
@@ -13,7 +13,7 @@
     "check:a11y": "node scripts/check-a11y.mjs"
   },
   "dependencies": {
-    "plume-ui-react": "workspace:*"
+    "@loica-ui/react": "workspace:*"
   },
   "devDependencies": {
     "@stackblitz/sdk": "1.11.1",

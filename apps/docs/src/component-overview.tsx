@@ -1,6 +1,6 @@
 import type { ChangeEvent, ReactNode } from 'react'
 import { useEffect, useId, useMemo, useState } from 'react'
-import { ThemeProvider, useTheme } from 'plume-ui-react'
+import { ThemeProvider, useTheme } from '@loica-ui/react'
 import previews from './component-previews'
 import overview from './components.generated.json'
 
@@ -19,16 +19,16 @@ const matches = (entry: ComponentEntry, query: string): boolean =>
 type ColorMode = 'dark' | 'light'
 
 const currentMode = (): ColorMode =>
-  document.documentElement.getAttribute('data-plume-color-mode') === 'dark' ? 'dark' : 'light'
+  document.documentElement.getAttribute('data-loica-color-mode') === 'dark' ? 'dark' : 'light'
 
-// The previews are Plume components, so they follow the color mode of the docs page.
+// The previews are Loica components, so they follow the color mode of the docs page.
 function SyncColorMode(): null {
   const { setColorMode } = useTheme()
   useEffect(() => {
     setColorMode(currentMode())
     const observer = new MutationObserver(() => setColorMode(currentMode()))
     observer.observe(document.documentElement, {
-      attributeFilter: ['data-plume-color-mode'],
+      attributeFilter: ['data-loica-color-mode'],
       attributes: true,
     })
     return () => observer.disconnect()
@@ -57,12 +57,12 @@ function ComponentOverview(): ReactNode {
   return (
     <ThemeProvider
       applyToBody={false}
-      className="plume-overview"
+      className="loica-overview"
       defaultColorMode={currentMode()}
       style={{ backgroundColor: 'transparent', color: 'inherit' }}
     >
       <SyncColorMode />
-      <div className="plume-overview-search">
+      <div className="loica-overview-search">
         <label htmlFor={searchId}>Filter components</label>
         <input
           autoComplete="off"
@@ -79,17 +79,17 @@ function ComponentOverview(): ReactNode {
       {groups.map(({ category, entries }) => (
         <section aria-labelledby={`${searchId}-${category}`} key={category}>
           <h2 id={`${searchId}-${category}`}>{category}</h2>
-          <ul className="plume-overview-grid">
+          <ul className="loica-overview-grid">
             {entries.map((entry) => (
               <li key={entry.id}>
-                <div className="plume-overview-card">
-                  <div aria-hidden="true" className="plume-overview-preview" inert>
-                    <div className="plume-overview-preview-content">{previews[entry.name]}</div>
+                <div className="loica-overview-card">
+                  <div aria-hidden="true" className="loica-overview-preview" inert>
+                    <div className="loica-overview-preview-content">{previews[entry.name]}</div>
                   </div>
-                  <a className="plume-overview-name" href={`./?path=/docs/${entry.id}`} target="_top">
+                  <a className="loica-overview-name" href={`./?path=/docs/${entry.id}`} target="_top">
                     {entry.name}
                   </a>
-                  <span className="plume-overview-summary">{entry.summary}</span>
+                  <span className="loica-overview-summary">{entry.summary}</span>
                 </div>
               </li>
             ))}

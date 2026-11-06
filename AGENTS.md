@@ -9,18 +9,18 @@ Read `docs/README.md` inside that installed package first, then read the relevan
 This block is written and re-added by `turbo` before repository-scoped commands when an AI agent is detected. In the Turborepo source repository, its template is defined in `crates/turborepo-cli/src/cli/agent_guidance.rs`. Removing the managed block while updates are enabled means a later qualifying invocation will add it again. Set `"agentGuidance": false` in the root `turbo.json` or `turbo.jsonc` to opt out; this does not remove an existing block. Keep the block committed with your work to avoid an uncommitted change on the next agent invocation.
 <!-- END:turborepo-agent-rules -->
 
-# Plume UI React
+# Loica UI React
 
-A React component library themed with CSS variables, published as a single package, `plume-ui-react`. pnpm and
+A React component library themed with CSS variables, published as a single package, `@loica-ui/react`. pnpm and
 Turborepo monorepo. Answer the user in the language they write in; code, docs, commits and pull requests are in
 English.
 
 ## Where things are
 
-- `packages/plume-ui-react/src/components/<category>/<name>/`: a component, with its CSS module, `index.ts`,
+- `packages/react/src/components/<category>/<name>/`: a component, with its CSS module, `index.ts`,
   `stories/` and `tests/`. The other folders of `src` are `theme/`, `locale/`, `hooks/`, `utils/` and `overlay/` (the
   internal primitives of the overlays: `useLayer`, `useDismiss`, `Portal`, `joinClasses`, `hasPart`...).
-- `packages/plume-ui-react/scripts/`: build-time code (tokens, Tailwind theme, breakpoints) and the checks that `lint`
+- `packages/react/scripts/`: build-time code (tokens, Tailwind theme, breakpoints) and the checks that `lint`
   and `build` run.
 - `apps/docs`: Storybook. The guides are the MDX files of `apps/docs/stories`; the component stories live with the
   components. The `*.generated.json` files of `apps/docs/src` are written by `apps/docs/scripts` on `dev`, `lint` and
@@ -51,9 +51,9 @@ English.
 
 ## While you work
 
-- Run the narrowest check while iterating: `pnpm --filter plume-ui-react exec vitest run <path>` for a spec,
-  `pnpm --filter plume-ui-react exec eslint <file>`, `pnpm --filter @plume-ui-react/docs check:api` for the JSDoc,
-  `pnpm --filter @plume-ui-react/docs check:a11y --url http://localhost:6006 <name>` for the stories you touched,
+- Run the narrowest check while iterating: `pnpm --filter @loica-ui/react exec vitest run <path>` for a spec,
+  `pnpm --filter @loica-ui/react exec eslint <file>`, `pnpm --filter @loica-ui/docs check:api` for the JSDoc,
+  `pnpm --filter @loica-ui/docs check:a11y --url http://localhost:6006 <name>` for the stories you touched,
   against the running `pnpm dev`. Leave the full commands below for the end.
 - `pnpm dev` starts Storybook on port 6006.
 - Skip `.claude/worktrees/` (full copies of the repository), `node_modules`, `dist`, `coverage`, `storybook-static`,
@@ -67,20 +67,20 @@ pnpm test:coverage   # CI fails under 90 % coverage
 pnpm build           # includes the 'use client' check
 ```
 
-CI also runs `pnpm --filter plume-ui-react check:package` (publint and attw) after the build, and
-`pnpm --filter @plume-ui-react/docs check:a11y` on the static Storybook (`pnpm build:docs`). The first run needs a
-browser: `pnpm --filter @plume-ui-react/docs exec playwright install chromium`.
+CI also runs `pnpm --filter @loica-ui/react check:package` (publint and attw) after the build, and
+`pnpm --filter @loica-ui/docs check:a11y` on the static Storybook (`pnpm build:docs`). The first run needs a
+browser: `pnpm --filter @loica-ui/docs exec playwright install chromium`.
 
 What these check, so a failure is easy to place:
 
-- `packages/plume-ui-react/scripts/check-story-snippets.mjs`: every "Show code" of a story and every `tsx` block of a
+- `packages/react/scripts/check-story-snippets.mjs`: every "Show code" of a story and every `tsx` block of a
   guide compiles against the public API. Sample names a snippet uses without defining go in its `PLACEHOLDERS` or
   `DATA`.
 - `apps/docs/scripts/check-api.mjs`: every own prop and every exported part has a JSDoc description.
 - `apps/docs/scripts/check-a11y.mjs`: every story has no axe violation in light and dark mode. What keeps a story
   measurable is in AUTHORING.md, under the story rules.
-- `packages/plume-ui-react/scripts/check-client-directives.mjs`: `'use client'` is on exactly the modules that need it.
-- `src/tests/index.spec.ts` and `src/tests/token-names.spec.ts`: the list of exports and of `--plume-*` variables, so a rename is
+- `packages/react/scripts/check-client-directives.mjs`: `'use client'` is on exactly the modules that need it.
+- `src/tests/index.spec.ts` and `src/tests/token-names.spec.ts`: the list of exports and of `--loica-*` variables, so a rename is
   always on purpose.
 - `src/tests/unread-tokens.spec.ts`: every token of the default theme is read by some component or waits for the next major
   in `KEPT_UNTIL_NEXT_MAJOR`.

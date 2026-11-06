@@ -4,7 +4,7 @@ import { Meta } from '@storybook/addon-docs/blocks'
 
 <Meta title='Introduction' />
 
-# Plume UI React
+# Loica UI React
 
 A lightweight, framework‑agnostic design system for React. Components ship their
 own scoped styles and are themed entirely through CSS variables, so they adapt to
@@ -21,14 +21,14 @@ your brand and flip between light and dark without any runtime color math.
 
 ```sh
 # npm
-npm install plume-ui-react
+npm install @loica-ui/react
 # yarn
-yarn add plume-ui-react
+yarn add @loica-ui/react
 # pnpm
-pnpm add plume-ui-react
+pnpm add @loica-ui/react
 ```
 
-`react` and `react-dom` (>= 18) are peer dependencies. `plume-ui-react` is the only
+`react` and `react-dom` (>= 18) are peer dependencies. `@loica-ui/react` is the only
 package you need: it includes every component, the theme (`ThemeProvider`, `useTheme`,
 tokens and types), the hooks and the utilities.
 
@@ -37,8 +37,8 @@ tokens and types), the hooks and the utilities.
 Wrap your app in `<ThemeProvider>` and import the stylesheet once:
 
 ```tsx
-import { Button, ThemeProvider } from 'plume-ui-react'
-import 'plume-ui-react/styles.css'
+import { Button, ThemeProvider } from '@loica-ui/react'
+import '@loica-ui/react/styles.css'
 
 export function App() {
   return (
@@ -51,15 +51,15 @@ export function App() {
 
 ### Only the CSS you use
 
-`plume-ui-react/styles.css` has the CSS of every component (about 23 KB gzipped). To load only some of them, import
-`plume-ui-react/tokens.css` once, with the default theme, and then the stylesheet of each component instead of
+`@loica-ui/react/styles.css` has the CSS of every component (about 23 KB gzipped). To load only some of them, import
+`@loica-ui/react/tokens.css` once, with the default theme, and then the stylesheet of each component instead of
 `styles.css`. Each one brings the CSS of the components it renders, so `css/button.css` also carries the `Loader`, and
 `css/paginator.css` the `Button`, the `Select` and the `Chip`:
 
 ```tsx
-import 'plume-ui-react/tokens.css'
-import 'plume-ui-react/css/button.css'
-import 'plume-ui-react/css/input.css'
+import '@loica-ui/react/tokens.css'
+import '@loica-ui/react/css/button.css'
+import '@loica-ui/react/css/input.css'
 ```
 
 The files of the parts are the ones of the component (`css/modal.css` styles `ModalContent`, `ModalHeader`...). The
@@ -94,7 +94,7 @@ toolbar, which opens that snippet as a small Vite project.
 - <a href='./?path=/docs/guides-customizing-styles--docs' target='_top'>Customizing styles</a> — `className`, CSS variables, cascade layers and `unstyled`.
 - <a href='./?path=/docs/guides-forms--docs' target='_top'>Forms</a> — react-hook-form and any other form library.
 - <a href='./?path=/docs/guides-internationalization--docs' target='_top'>Internationalization</a> — translate every text of the components.
-- <a href='./?path=/docs/guides-why-plume--docs' target='_top'>Why Plume</a> — what it costs, what you get and when another library fits better.
+- <a href='./?path=/docs/guides-why-loica--docs' target='_top'>Why Loica</a> — what it costs, what you get and when another library fits better.
 - <a href='./?path=/docs/guides-upgrading-to-1-0--docs' target='_top'>Upgrading to 1.0</a> — what changed since the 0.x versions.
 - <a href='./?path=/docs/components-overview--docs' target='_top'>Components</a> — every component in a card, with props and live examples on its page.
-- <a href='https://github.com/darioegb/plume-ui-react/blob/main/packages/plume-ui-react/CHANGELOG.md' target='_blank' rel='noopener noreferrer'>Changelog</a> and <a href='https://github.com/darioegb/plume-ui-react/issues/new' target='_blank' rel='noopener noreferrer'>report an issue</a>.
+- <a href='https://github.com/darioegb/loica-ui/blob/main/packages/react/CHANGELOG.md' target='_blank' rel='noopener noreferrer'>Changelog</a> and <a href='https://github.com/darioegb/loica-ui/issues/new' target='_blank' rel='noopener noreferrer'>report an issue</a>.
