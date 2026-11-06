@@ -55,7 +55,17 @@ Name branches after the commit type: `feat/<topic>`, `fix/<topic>`, `docs/<topic
 
 Releases are managed with [Changesets](https://github.com/changesets/changesets). A pull request that changes the published package (`@loica-ui/react`) needs a changeset describing the change and its version bump (`patch`, `minor` or `major`). Changes limited to the docs app, examples, stories or READMEs don't need one.
 
-After a pull request is merged, the Release workflow opens a **Version packages** pull request; merging it publishes to npm.
+After a pull request is merged, the Release workflow opens a **Version packages** pull request; merging it publishes to npm and deploys the docs.
+
+A pull request runs only the checks its changes need, and **Required** sums them up for branch protection:
+
+| Check | Runs when | What it does |
+| --- | --- | --- |
+| Checks | always | build, lint, tests with coverage, `check:package`, SonarCloud |
+| Accessibility (1/2, 2/2) | `packages`, `apps/docs` or the workspace config change | axe on every story in light and dark mode, half each |
+| Examples | `apps/example-*` changes | `npm ci` and build of each example against the published package |
+
+On `main`, Build runs Checks only (SonarCloud needs the analysis of `main`), and Release versions or publishes.
 
 The two apps in `apps/` install `@loica-ui/react` from npm, so after a release, bump them to the new version (`npm install @loica-ui/react@^<version>` in each, and commit `package.json` and `package-lock.json`) and let the Examples job build them against it. A bump that fails to build shows a change that breaks a user.
 

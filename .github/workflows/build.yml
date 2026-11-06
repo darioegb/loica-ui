@@ -5,9 +5,44 @@ on:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
-  sonarcloud:
-    name: SonarCloud
+  changes:
+    name: Changes
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      library: ${{ steps.filter.outputs.library }}
+      examples: ${{ steps.filter.outputs.examples }}
+    steps:
+      - name: Detect the changed areas
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            library:
+              - 'packages/**'
+              - 'apps/docs/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - 'turbo.json'
+              - '.nvmrc'
+              - '.github/workflows/build.yml'
+              - '.github/composite-actions/**'
+            examples:
+              - 'apps/example-*/**'
+              - '.nvmrc'
+              - '.github/workflows/build.yml'
+
+  checks:
+    name: Checks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -17,19 +52,19 @@ jobs:
 
       - name: Install
         uses: ./.github/composite-actions/common
-      
+
+      - name: Build
+        run: pnpm build
+
       - name: Lint
         run: pnpm lint
 
       - name: Test and coverage
         run: pnpm run test:coverage
 
-      - name: Build
-        run: pnpm build
-
       - name: Check the package
         run: pnpm --filter @loica-ui/react check:package
-      
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v8
         env:
@@ -37,8 +72,14 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   accessibility:
-    name: Accessibility
+    name: Accessibility (${{ matrix.shard }}/2)
+    needs: changes
+    if: needs.changes.outputs.library == 'true'
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v6
@@ -53,10 +94,12 @@ jobs:
         run: pnpm --filter @loica-ui/docs exec playwright install --with-deps chromium
 
       - name: Check the stories with axe
-        run: pnpm --filter @loica-ui/docs check:a11y
+        run: pnpm --filter @loica-ui/docs check:a11y --shard ${{ matrix.shard }}/2
 
   examples:
-    name: Examples
+    name: Examples (${{ matrix.example }})
+    needs: changes
+    if: needs.changes.outputs.examples == 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -81,3 +124,15 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  # The one check that branch protection requires: a job skipped by the path filter counts as passed, a failed
+  # or cancelled one blocks the merge.
+  required:
+    name: Required
+    if: always()
+    needs: [changes, checks, accessibility, examples]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if a job failed
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1

@@ -19,13 +19,9 @@ runs:
         path: .turbo
         key: turbo-${{ runner.os }}-${{ github.ref_name }}-${{ github.sha }}
         restore-keys: |
-          turbo-${{ runner.os }}-${{ github.ref_name }}
+          turbo-${{ runner.os }}-${{ github.ref_name }}-
+          turbo-${{ runner.os }}-main-
 
     - name: Install Dependencies
       shell: bash
       run: pnpm install
-
-    - name: Build
-      shell: bash
-      id: run-build
-      run: pnpm run build

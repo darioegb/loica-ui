@@ -101,3 +101,5 @@ folder instead of a workspace-wide `pnpm install` at the repo root. That install
 `@loica-ui/react` from npm — exactly what a real consumer would get — and avoids
 the root `pnpm-lock.yaml` (which pnpm 12 writes as a multi-document file that
 Vercel's bundled pnpm can't parse).
+
+`vercel.json` also sets `ignoreCommand`, so a commit that doesn't touch this folder doesn't build a new deployment.

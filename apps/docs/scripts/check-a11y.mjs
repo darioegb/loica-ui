@@ -6,6 +6,7 @@
 //   node scripts/check-a11y.mjs                          every story of the static build
 //   node scripts/check-a11y.mjs carousel toast           only the stories whose id contains one of the words
 //   node scripts/check-a11y.mjs --url http://localhost:6006 carousel
+//   node scripts/check-a11y.mjs --shard 1/2                  one half of the renders, for parallel CI jobs
 //
 // "Incomplete" results (a background axe can't compute: an overlay, a scroll container, a background image) are
 // not failures, as in the panel. An overlay the story doesn't open is not checked: open it and look at the panel.
@@ -36,9 +37,18 @@ const MODES = ['light', 'dark']
 const RENDER_TIMEOUT = 15_000
 
 const args = process.argv.slice(2)
-const urlFlag = args.indexOf('--url')
-const remoteUrl = urlFlag === -1 ? undefined : args[urlFlag + 1]
-const filters = args.filter((_, index) => urlFlag === -1 || (index !== urlFlag && index !== urlFlag + 1))
+const flags = {}
+const filters = []
+for (let index = 0; index < args.length; index++) {
+  if (args[index] === '--url' || args[index] === '--shard') flags[args[index].slice(2)] = args[++index]
+  else filters.push(args[index])
+}
+const remoteUrl = flags.url
+const [shard, shards] = (flags.shard ?? '1/1').split('/').map(Number)
+if (!(Number.isInteger(shard) && Number.isInteger(shards) && shard >= 1 && shard <= shards)) {
+  console.error(`--shard takes the shard and the count, as in 1/2 (got ${flags.shard}).`)
+  process.exit(1)
+}
 
 const TYPES = {
   '.css': 'text/css',
@@ -89,7 +99,9 @@ if (stories.length === 0) {
   process.exit(1)
 }
 
-const jobs = MODES.flatMap((mode) => stories.map((id) => ({ id, mode })))
+const jobs = MODES.flatMap((mode) => stories.map((id) => ({ id, mode }))).filter(
+  (_, index) => index % shards === shard - 1,
+)
 const browser = await chromium.launch()
 const context = await browser.newContext({ reducedMotion: 'reduce', viewport: { height: 900, width: 1280 } })
 const failures = []
@@ -208,4 +220,8 @@ if (failures.length > 0) {
   console.error(`\nAccessibility: ${failures.length} of ${total} story renders have violations.`)
   process.exit(1)
 }
-console.log(`Accessibility: ${stories.length} stories pass axe in light and dark mode.`)
+console.log(
+  shards === 1
+    ? `Accessibility: ${stories.length} stories pass axe in light and dark mode.`
+    : `Accessibility: shard ${shard}/${shards}, ${total} story renders pass axe.`,
+)

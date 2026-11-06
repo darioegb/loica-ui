@@ -67,9 +67,10 @@ pnpm test:coverage   # CI fails under 90 % coverage
 pnpm build           # includes the 'use client' check
 ```
 
-CI also runs `pnpm --filter @loica-ui/react check:package` (publint and attw) after the build, and
-`pnpm --filter @loica-ui/docs check:a11y` on the static Storybook (`pnpm build:docs`). The first run needs a
-browser: `pnpm --filter @loica-ui/docs exec playwright install chromium`.
+CI also runs `pnpm --filter @loica-ui/react check:package` (publint and attw) after the build, and, when the
+package or the docs change, `pnpm --filter @loica-ui/docs check:a11y --shard <n>/2` on the static Storybook
+(`pnpm build:docs`). The first run needs a browser: `pnpm --filter @loica-ui/docs exec playwright install chromium`.
+The docs deploy to GitHub Pages with each release, not with each merge (see CONTRIBUTING.md).
 
 What these check, so a failure is easy to place:
 
