@@ -26,6 +26,31 @@ describe('PaginatorSummary', () => {
     expect(attr('summary')).toHaveTextContent('11–20 of 54')
   })
 
+  it('writes the numbers with the separators of the locale', () => {
+    render(
+      <Paginator locale="de" total={12345}>
+        <PaginatorSummary />
+      </Paginator>,
+    )
+    expect(attr('summary')).toHaveTextContent('1–10 of 12.345')
+  })
+
+  it('takes the locale of the provider, and the prop wins over it', () => {
+    render(
+      <LocaleProvider locale="de">
+        <Paginator total={12345}>
+          <PaginatorSummary />
+        </Paginator>
+        <Paginator locale="en" total={12345}>
+          <PaginatorSummary />
+        </Paginator>
+      </LocaleProvider>,
+    )
+    const [provided, own] = document.querySelectorAll('[data-loica-paginator-summary]')
+    expect(provided).toHaveTextContent('1–10 of 12.345')
+    expect(own).toHaveTextContent('1–10 of 12,345')
+  })
+
   it('ends at the total on the last page', () => {
     render(
       <Paginator defaultPage={6} total={54}>

@@ -71,9 +71,12 @@ what you change. `LoicaMessages` types all of it, and a component with several t
 A text written with arguments is a function that gets them and returns the string, like `page` in the example above.
 The others are strings.
 
-`locale` is a BCP 47 tag (`es`, `es-AR`, `en-US`). The `DatePicker` uses it for the names of the days and months
-and for the format of the date, and its own `locale` prop still wins when you set it. Read it in your own components
-with `useLocale()`, which returns the `locale` of the closest provider (or `undefined`).
+`locale` is a BCP 47 tag (`es`, `es-AR`, `en-US`). It does not pick the texts, which are the ones you give in
+`messages`: it sets how the components write data, with `Intl`. The `DatePicker` uses it for the names of the days and
+months and for the format of the date, the `Paginator` for the numbers of its summary (`12.345` in `de`) and the
+`FileUpload` for the size of a file (`1,5 KB` in `es`). Each one takes its own `locale` prop, which wins over the
+provider, and falls back to `en`. Read it in your own components with `useLocale()`, which returns the `locale` of the
+closest provider (or `undefined`).
 
 ## For one element: the `label` or `aria-label` of the part
 

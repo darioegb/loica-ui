@@ -40,6 +40,11 @@ describe('formatBytes', () => {
   ])('formats %i bytes as %s', (bytes, text) => {
     expect(formatBytes(bytes)).toBe(text)
   })
+
+  it('writes the number with the separators of the locale', () => {
+    expect(formatBytes(1536, 'es')).toBe('1,5 KB')
+    expect(formatBytes(1536, 'en-US')).toBe('1.5 KB')
+  })
 })
 
 describe('selectFiles', () => {

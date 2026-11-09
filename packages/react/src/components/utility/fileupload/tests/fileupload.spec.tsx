@@ -103,6 +103,17 @@ describe('FileUpload component', () => {
       expect(screen.getByText('2 KB')).toBeInTheDocument()
     })
 
+    it('writes the size with the locale of the prop or of the provider', () => {
+      render(
+        <LocaleProvider locale="es">
+          <Demo defaultValue={[file('a.txt', 'text/plain', 1536)]} />
+          <Demo defaultValue={[file('b.txt', 'text/plain', 1536)]} locale="en" />
+        </LocaleProvider>,
+      )
+      expect(screen.getByText('1,5 KB')).toBeInTheDocument()
+      expect(screen.getByText('1.5 KB')).toBeInTheDocument()
+    })
+
     it('calls onValueChange with all the files', async () => {
       const onValueChange = vi.fn()
       render(<Demo multiple onValueChange={onValueChange} />)

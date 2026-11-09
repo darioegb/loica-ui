@@ -4,7 +4,7 @@ import type { CSSProperties, ForwardedRef, InputHTMLAttributes, ReactNode } from
 import { forwardRef, useId, useMemo } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import { hasPart } from '../../../overlay/has-part'
-import { useLabels } from '../../../locale/locale-provider'
+import { useLabels, useResolvedLocale } from '../../../locale/locale-provider'
 import { mergeRefs } from '../../../overlay/trigger'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
 import { schemeVar } from '../../../theme'
@@ -50,6 +50,10 @@ export interface FileUploadOwnProps {
   defaultValue?: File[]
   /** The most files the list can have. It only applies with `multiple`. */
   maxFiles?: number
+  /**
+   * BCP 47 tag (`es`, `es-AR`, `en-US`) that sets how the size of a file is written, such as the decimal separator of `1,5 KB`. Falls back to the `locale` of the `LocaleProvider`, then to `en`.
+   */
+  locale?: string
   /** The largest size of a file, in bytes. */
   maxSize?: number
   /**
@@ -110,13 +114,13 @@ const rejectionTexts: Record<FileRejectionReason, string> = {
   type: 'file type is not accepted',
 }
 
-const DEFAULT_LABELS: FileUploadLabels = {
-  fileSize: formatBytes,
+const createDefaultLabels = (locale: string): FileUploadLabels => ({
+  fileSize: (bytes) => formatBytes(bytes, locale),
   progress: (file) => `Uploading ${file.name}`,
   prompt: 'Drag files here, or press to choose them',
   rejection: ({ file, reason }) => `${file.name}: ${rejectionTexts[reason]}`,
   remove: (file) => `Remove ${file.name}`,
-}
+})
 
 const FILE_UPLOAD_PARTS = [
   FileUploadDropzone,
@@ -150,6 +154,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       disabled = false,
       hidden,
       id,
+      locale,
       maxFiles,
       maxSize,
       multiple = false,
@@ -167,7 +172,9 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
     }: FileUploadProps,
     ref: ForwardedRef<HTMLInputElement>,
   ): ReactNode => {
-    const text = useLabels('fileUpload', DEFAULT_LABELS)
+    const language = useResolvedLocale(locale)
+    const defaults = useMemo(() => createDefaultLabels(language), [language])
+    const text = useLabels('fileUpload', defaults)
     const promptId = useId()
     const { dragging, files, input, receive, rejections, remove, setDragging } = useFileUploadState(
       {
