@@ -29,7 +29,7 @@ English.
   from npm, so a change in `src` reaches them only after a release.
 - `packages/{eslint-config-custom,prettier-config,tailwind-config,tsconfig}`: the shared configs.
 - `scripts/new-component.mjs` and `scripts/component-templates/`: the component scaffold.
-- `PLAN-1.0.md`: the roadmap to 1.0, not committed. Context on what is planned, not a spec.
+- The roadmap lives in the open issues of the repository, not in a file.
 
 ## Rules
 
