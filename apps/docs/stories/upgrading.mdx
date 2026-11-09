@@ -502,6 +502,9 @@ A selected `Tab` is styled with `[data-active]`, and the `active` class is gone.
 - `PaginatorPageSize` takes the parts of the `Select` (`SelectTrigger`, `SelectContent`, `SelectOption`) as children.
 - `Paginator` has no `siblingCount`, `boundaryCount` or `count`: it shows as many pages as fit the row (the current
   page, one on each side, the first and the last, at least), and the number of pages is `total` divided by `pageSize`.
+- The summary of the `Paginator` has the thousands separator (`1,234–1,250 of 12,345`), and the `Paginator`, the
+  `FileUpload` and the `NumberInput` take a `locale` prop that sets how they write their numbers (`1,5` in `es`),
+  as the `DatePicker` does. See [Internationalization](?path=/docs/guides-internationalization--docs).
 - `Rating` and `Tree` have an `outline` variant, and the days in range of the `DatePicker` use `tint-strong`,
   `tint-text` and `tint`, so dark mode changes slightly. The hover of a `filled` field is the overlay token over
   `surface-muted`.
