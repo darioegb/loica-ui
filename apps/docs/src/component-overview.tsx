@@ -1,6 +1,6 @@
 import type { ChangeEvent, ReactNode } from 'react'
 import { useEffect, useId, useMemo, useState } from 'react'
-import { ThemeProvider, useTheme } from '@loica-ui/react'
+import { defaultTheme, ThemeProvider, useTheme } from '@loica-ui/react'
 import previews from './component-previews'
 import overview from './components.generated.json'
 
@@ -15,6 +15,13 @@ const { categories, components }: { categories: string[]; components: ComponentE
 
 const matches = (entry: ComponentEntry, query: string): boolean =>
   `${entry.name} ${entry.summary} ${entry.category}`.toLowerCase().includes(query)
+
+// Every color scheme takes the shades of the neutral one, so the cards read as a single family instead of mixing grey and color.
+const neutralTheme = {
+  colors: Object.fromEntries(
+    Object.keys(defaultTheme.colors).map((scheme) => [scheme, defaultTheme.colors.secondary]),
+  ),
+}
 
 type ColorMode = 'dark' | 'light'
 
@@ -60,6 +67,7 @@ function ComponentOverview(): ReactNode {
       className="loica-overview"
       defaultColorMode={currentMode()}
       style={{ backgroundColor: 'transparent', color: 'inherit' }}
+      theme={neutralTheme}
     >
       <SyncColorMode />
       <div className="loica-overview-search">
