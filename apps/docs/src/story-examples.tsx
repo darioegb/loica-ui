@@ -4,6 +4,7 @@ import type StackBlitzSdk from '@stackblitz/sdk'
 import {
   Anchor,
   Canvas,
+  Controls,
   Description,
   DocsContext,
   SourceContext,
@@ -27,6 +28,8 @@ interface DocsStory {
   name: string
   title: string
   withToolbar: boolean
+  /** The props the Controls of the story change, for the story that is the playground of the page. */
+  controls?: string[]
 }
 
 const PACKAGE_DIR = 'packages/react/'
@@ -91,7 +94,8 @@ const colorModeOf = (): 'dark' | 'light' =>
 function StoryExample({ story, tools }: Readonly<{ story: DocsStory; tools: Tools | null }>): ReactNode {
   const docsContext = useContext(DocsContext)
   const sourceContext = useContext(SourceContext)
-  const { code = '' } = useSourceProps({ of: story.moduleExport, __forceInitialArgs: true }, docsContext, sourceContext)
+  const live = story.controls !== undefined
+  const { code = '' } = useSourceProps({ of: story.moduleExport, __forceInitialArgs: !live }, docsContext, sourceContext)
   const open = (): void => {
     if (!tools || !code) return
     const component = story.title.split('/').pop() ?? story.title
@@ -134,12 +138,26 @@ function StoryExample({ story, tools }: Readonly<{ story: DocsStory; tools: Tool
           { title: <>{STACKBLITZ_LOGO} Open in StackBlitz</>, onClick: () => latestOpen.current() },
         ]}
         of={story.moduleExport}
-        source={{ __forceInitialArgs: true }}
-        story={{ __forceInitialArgs: true }}
+        source={{ __forceInitialArgs: !live }}
+        story={{ __forceInitialArgs: !live }}
         withToolbar={story.withToolbar}
       />
+      {story.controls ? <Controls include={story.controls} of={story.moduleExport} sort="requiredFirst" /> : null}
     </Anchor>
   )
+}
+
+type Control = { disable?: boolean; type?: string }
+type ArgTypes = Record<string, { control?: Control | false; table?: { disable?: boolean } }>
+
+// The Default story is the playground of the page while the docs run in development: its Controls change the props
+// that its argTypes give a control. The published docs don't show them.
+const controlsOf = (story: { name: string; argTypes?: unknown }): string[] | undefined => {
+  if (!__LOICA_PLAYGROUND__ || story.name !== 'Default') return undefined
+  const names = Object.entries((story.argTypes ?? {}) as ArgTypes)
+    .filter(([, arg]) => Boolean(arg.control && arg.control.type && !arg.control.disable) && !arg.table?.disable)
+    .map(([name]) => name)
+  return names.length > 0 ? names : undefined
 }
 
 function StoryExamples(): ReactNode {
@@ -167,6 +185,7 @@ function StoryExamples(): ReactNode {
             withToolbar:
               (story.parameters.docs as { canvas?: { withToolbar?: boolean } } | undefined)?.canvas?.withToolbar ??
               false,
+            controls: controlsOf(story),
           }}
           tools={tools}
         />
