@@ -91,6 +91,19 @@ table.docblock-argstable {
   min-width: 16rem;
 }
 
+/* The tables of the notes are written in markdown. The name of an option stays in one piece, since a word broken in the middle is hard to read, and the table scrolls when it does not fit a phone. */
+.sbdocs-content table:not(.api-table, .sb-argstableBlock) {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.sbdocs-content table:not(.api-table, .sb-argstableBlock) :is(th, td):first-child code {
+  overflow-wrap: normal;
+  white-space: nowrap;
+  word-break: normal;
+}
+
 .api-required {
   color: #dc2626;
   margin-inline-start: 0.2em;

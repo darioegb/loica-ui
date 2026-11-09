@@ -122,15 +122,15 @@ const previews: Record<string, ReactNode> = {
   Avatar: (
     <div style={row}>
       <Avatar name="Ada Lovelace" />
-      <Avatar colorScheme="success" name="Grace Hopper" variant="solid" />
-      <Avatar colorScheme="warning" name="Alan Turing" variant="outline" />
+      <Avatar name="Grace Hopper" variant="solid" />
+      <Avatar name="Alan Turing" variant="outline" />
     </div>
   ),
   Badge: (
     <div style={row}>
-      <Badge>New</Badge>
-      <Badge colorScheme="success">Paid</Badge>
-      <Badge colorScheme="error">Overdue</Badge>
+      <Badge variant="solid">New</Badge>
+      <Badge variant="subtle">Paid</Badge>
+      <Badge variant="outline">Overdue</Badge>
     </div>
   ),
   Breadcrumb: (
@@ -163,7 +163,7 @@ const previews: Record<string, ReactNode> = {
     <div style={{ width: '14rem' }}>
       <div
         style={{
-          background: 'linear-gradient(135deg, #4f46e5, #a21caf)',
+          background: 'color-mix(in srgb, currentcolor 12%, transparent)',
           borderRadius: '0.5rem',
           height: '4.5rem',
         }}
@@ -173,7 +173,8 @@ const previews: Record<string, ReactNode> = {
           <span
             key={dot}
             style={{
-              background: dot === 0 ? '#4f46e5' : '#a1a1aa',
+              background: 'currentcolor',
+              opacity: dot === 0 ? 1 : 0.3,
               borderRadius: '50%',
               height: '0.5rem',
               width: '0.5rem',
@@ -266,10 +267,10 @@ const previews: Record<string, ReactNode> = {
   ),
   Icon: (
     <div style={row}>
-      <Icon aria-label="Notifications" size="lg">
+      <Icon aria-label="Notifications" size="md">
         {bell}
       </Icon>
-      <Icon aria-label="Notifications" colorScheme="primary" size="lg">
+      <Icon aria-label="Notifications" size="lg">
         {bell}
       </Icon>
     </div>
@@ -283,9 +284,9 @@ const previews: Record<string, ReactNode> = {
   ),
   Loader: (
     <div style={row}>
-      <Loader colorScheme="primary" />
-      <Loader colorScheme="primary" variant="dots" />
-      <Loader colorScheme="primary" variant="bars" />
+      <Loader />
+      <Loader variant="dots" />
+      <Loader variant="bars" />
     </div>
   ),
   Modal: surface(
@@ -296,7 +297,7 @@ const previews: Record<string, ReactNode> = {
         <Button size="sm" variant="ghost">
           Cancel
         </Button>
-        <Button colorScheme="error" size="sm">
+        <Button size="sm">
           Delete
         </Button>
       </div>
@@ -442,9 +443,9 @@ const previews: Record<string, ReactNode> = {
     <div style={{ ...column, alignItems: 'center', width: '10rem' }}>
       <span
         style={{
-          background: '#27272a',
+          background: 'var(--loica-foreground)',
           borderRadius: '0.375rem',
-          color: '#fafafa',
+          color: 'var(--loica-background)',
           fontSize: '0.75rem',
           padding: '0.25rem 0.5rem',
         }}
