@@ -194,7 +194,7 @@ Copy it into the pull request description.
 - [ ] `pnpm lint` and `pnpm build` pass (the build includes the `'use client'` check)
 
 **Docs**
-- [ ] Story with `autodocs`, a description, the `argTypes` the Controls panel needs and the main variations, in the usual order (the docs page, its API reference and its Source link are generated from it)
+- [ ] Story with `autodocs`, a description, the `argTypes` the Controls panel needs (the docs page shows the Controls of the `Default` story as a playground, only the props that have a `control`, so give one to the props worth trying and `control: false` to the rest) and the main variations, in the usual order (the docs page, its API reference and its Source link are generated from it)
 - [ ] The component is listed alphabetically in `packages/react/README.md` (the scaffold already adds it to the root README)
 - [ ] Added after 1.0: the component, part or prop has `@since <major>.<minor>` in its JSDoc
 
