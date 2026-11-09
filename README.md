@@ -36,7 +36,7 @@ Components ship their own scoped styles and are themed entirely through CSS vari
 
 ## Documentation
 
-The [documentation site](https://darioegb.github.io/loica-ui/) has a live playground, props and examples for every component, plus the color palette, design tokens, framework integration guides and the [examples](https://darioegb.github.io/loica-ui/?path=/docs/guides-examples--docs).
+The [documentation site](https://darioegb.github.io/loica-ui/) has the examples of every component with their code (each one opens in StackBlitz) and its API reference, plus the color palette, design tokens, framework integration guides and the [examples](https://darioegb.github.io/loica-ui/?path=/docs/guides-examples--docs).
 
 ## Installation
 
