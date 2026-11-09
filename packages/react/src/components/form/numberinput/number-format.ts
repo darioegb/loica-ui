@@ -11,6 +11,18 @@ export const roundTo = (value: number, precision: number): number =>
 export const clamp = (value: number, min: number, max: number): number =>
   Math.min(Math.max(value, min), max)
 
+export const createNumberFormatter = (
+  locale: string,
+  precision: number | undefined,
+): ((value: number) => string) => {
+  const numbers = new Intl.NumberFormat(locale, {
+    maximumFractionDigits: precision ?? 20,
+    minimumFractionDigits: precision ?? 0,
+    useGrouping: false,
+  })
+  return (value) => numbers.format(value === 0 ? 0 : value)
+}
+
 export const defaultParse = (text: string): number | null => {
   const clean = text.trim().replace(',', '.')
   if (clean === '' || clean === '-' || clean === '+' || clean === '.') return null
