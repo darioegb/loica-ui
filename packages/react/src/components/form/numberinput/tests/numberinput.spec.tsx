@@ -539,6 +539,46 @@ describe('NumberInput component', () => {
     })
   })
 
+  describe('locale', () => {
+    it('writes the decimal separator of the locale, and keeps a plain number in the form', () => {
+      render(
+        <NumberInput aria-label="Price" defaultValue={1.5} locale="es" name="price" precision={2} />,
+      )
+      expect(spin()).toHaveValue('1,50')
+      expect(document.querySelector('input[name="price"]')).toHaveValue('1.5')
+    })
+
+    it('reads a typed number with a dot or a comma in any locale', async () => {
+      render(<NumberInput aria-label="Price" locale="es" />)
+      await userEvent.type(spin(), '2.5')
+      await userEvent.tab()
+      expect(spin()).toHaveValue('2,5')
+    })
+
+    it('takes the locale of the provider, and the prop wins over it', () => {
+      render(
+        <LocaleProvider locale="de">
+          <NumberInput aria-label="Provided" defaultValue={1.5} />
+          <NumberInput aria-label="Own" defaultValue={1.5} locale="en" />
+        </LocaleProvider>,
+      )
+      expect(screen.getByRole('spinbutton', { name: 'Provided' })).toHaveValue('1,5')
+      expect(screen.getByRole('spinbutton', { name: 'Own' })).toHaveValue('1.5')
+    })
+
+    it('shows the plain number, with no grouping, in the default locale', () => {
+      render(<NumberInput aria-label="Big" defaultValue={1234567.25} />)
+      expect(spin()).toHaveValue('1234567.25')
+    })
+
+    it('lets a format of your own win over the locale', () => {
+      render(
+        <NumberInput aria-label="Price" defaultValue={1.5} format={(n) => `$${n}`} locale="es" />,
+      )
+      expect(spin()).toHaveValue('$1.5')
+    })
+  })
+
   describe('forms', () => {
     it('submits the number with a hidden input, not the formatted text', () => {
       const { container } = render(

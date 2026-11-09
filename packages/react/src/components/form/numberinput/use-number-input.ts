@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react'
 import { useControllableState } from '../../../overlay/use-controllable-state'
 import {
   clamp,
+  createNumberFormatter,
   decimalsOf,
   defaultParse,
   isPartialNumber,
@@ -16,6 +17,7 @@ export interface UseNumberInputOptions {
   defaultValue?: number | null
   format?: (value: number) => string
   largeStep?: number
+  locale?: string
   max?: number
   min?: number
   onValueChange?: (value: number | null) => void
@@ -42,6 +44,7 @@ export function useNumberInput({
   defaultValue = null,
   format,
   largeStep,
+  locale = 'en',
   max = Number.POSITIVE_INFINITY,
   min = Number.NEGATIVE_INFINITY,
   onValueChange,
@@ -60,9 +63,9 @@ export function useNumberInput({
 
   return useMemo(() => {
     const read = parse ?? defaultParse
+    const formatDefault = createNumberFormatter(locale, precision)
     const formatValue = (next: number): string => {
-      if (format) return format(next)
-      return precision === undefined ? String(next) : next.toFixed(precision)
+      return format ? format(next) : formatDefault(next)
     }
 
     const normalize = (next: number, digits: number | undefined): number => {
@@ -129,5 +132,5 @@ export function useNumberInput({
       value,
       valueText: format && value !== null ? formatted : undefined,
     }
-  }, [draft, format, largeStep, max, min, parse, precision, readOnly, setValue, step, value])
+  }, [draft, format, largeStep, locale, max, min, parse, precision, readOnly, setValue, step, value])
 }

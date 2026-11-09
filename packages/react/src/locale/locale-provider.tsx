@@ -50,6 +50,13 @@ export function useLocale(): string | undefined {
   return useContext(LocaleContext).locale
 }
 
+export const DEFAULT_LOCALE = 'en'
+
+export function useResolvedLocale(own?: string): string {
+  const provided = useContext(LocaleContext).locale
+  return own ?? provided ?? DEFAULT_LOCALE
+}
+
 export function useLabels<K extends keyof MessageMap>(
   key: K,
   defaults: MessageMap[K],

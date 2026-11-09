@@ -3,7 +3,7 @@
 import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
 import { forwardRef, useCallback, useMemo, useState } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import { useLabels } from '../../../locale/locale-provider'
+import { useLabels, useResolvedLocale } from '../../../locale/locale-provider'
 import { mergeRefs } from '../../../overlay/trigger'
 import { useControllableState } from '../../../overlay/use-controllable-state'
 import type { ColorScheme, ComponentProps, Shape, Size } from '../../../theme'
@@ -40,6 +40,10 @@ export interface PaginatorOwnProps {
    * @default false
    */
   disabled?: boolean
+  /**
+   * BCP 47 tag (`es`, `es-AR`, `en-US`) that sets how the numbers of the summary are written, such as the thousands separator of `1.234`. Falls back to the `locale` of the `LocaleProvider`, then to `en`.
+   */
+  locale?: string
   /** Called with the new page when the user picks another one. */
   onPageChange?: (page: number) => void
   /**
@@ -100,15 +104,19 @@ export type PaginatorProps = Omit<ComponentProps, 'index'> &
   PaginatorRootAttributes &
   PaginatorOwnProps
 
-const DEFAULT_LABELS: PaginatorLabels = {
-  first: 'First page',
-  last: 'Last page',
-  next: 'Next page',
-  page: (page, current) => (current ? `Page ${page}, current page` : `Page ${page}`),
-  pageSize: 'Items per page',
-  pagination: 'Pagination',
-  previous: 'Previous page',
-  summary: (from, to, total) => `${from}–${to} of ${total}`,
+const createDefaultLabels = (locale: string): PaginatorLabels => {
+  const numbers = new Intl.NumberFormat(locale)
+  const format = (value: number): string => numbers.format(value)
+  return {
+    first: 'First page',
+    last: 'Last page',
+    next: 'Next page',
+    page: (page, current) => (current ? `Page ${page}, current page` : `Page ${page}`),
+    pageSize: 'Items per page',
+    pagination: 'Pagination',
+    previous: 'Previous page',
+    summary: (from, to, total) => `${format(from)}–${format(to)} of ${format(total)}`,
+  }
 }
 
 const clamp = (value: number, min: number, max: number): number =>
@@ -135,6 +143,7 @@ export const Paginator = forwardRef<HTMLElement, PaginatorProps>(
       defaultPage = 1,
       defaultPageSize = 10,
       disabled = false,
+      locale,
       onPageChange,
       onPageSizeChange,
       page: pageProp,
@@ -161,7 +170,9 @@ export const Paginator = forwardRef<HTMLElement, PaginatorProps>(
     const pages = total === undefined ? 0 : Math.max(1, Math.ceil(total / Math.max(pageSize, 1)))
     const isStyled = variant !== 'unstyled'
     const current = clamp(page, 1, Math.max(pages, 1))
-    const text = useLabels('paginator', DEFAULT_LABELS)
+    const language = useResolvedLocale(locale)
+    const defaults = useMemo(() => createDefaultLabels(language), [language])
+    const text = useLabels('paginator', defaults)
     const [root, setRoot] = useState<HTMLElement | null>(null)
     const rootRef = useMemo(() => mergeRefs(ref, setRoot), [ref])
     const shown = usePaginatorFit({ current, pages: Math.max(pages, 1), root })

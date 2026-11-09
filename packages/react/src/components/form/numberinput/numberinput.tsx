@@ -3,7 +3,7 @@
 import type { ComponentPropsWithoutRef, CSSProperties, ForwardedRef, ReactNode, RefObject } from 'react'
 import { forwardRef, useRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import { useLabels } from '../../../locale/locale-provider'
+import { useLabels, useResolvedLocale } from '../../../locale/locale-provider'
 import type { ColorScheme, Shape, Size } from '../../../theme'
 import { schemeVar } from '../../../theme'
 import { NumberInputField } from './numberinput-field'
@@ -29,6 +29,10 @@ export interface NumberInputOwnProps {
    * How a number is shown when the field is not being edited: a currency, a unit, thousands separators. It is exposed to screen readers as `aria-valuetext`.
    */
   format?: (value: number) => string
+  /**
+   * BCP 47 tag (`es`, `es-AR`, `en-US`) that sets the decimal separator of the number the field shows, such as `1,5`, unless you give a `format`. A typed number can use a dot or a comma either way. Falls back to the `locale` of the `LocaleProvider`, then to `en`.
+   */
+  locale?: string
   /** How much <kbd>PageUp</kbd> and <kbd>PageDown</kbd> add or subtract. Ten steps by default. */
   largeStep?: number
   /**
@@ -136,6 +140,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       disabled = false,
       format,
       largeStep,
+      locale,
       max,
       min,
       name,
@@ -155,10 +160,12 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     ref: ForwardedRef<HTMLInputElement>,
   ): ReactNode => {
     const inputRef: RefObject<HTMLInputElement | null> = useRef(null)
+    const language = useResolvedLocale(locale)
     const number = useNumberInput({
       defaultValue,
       format,
       largeStep,
+      locale: language,
       max,
       min,
       onValueChange,
