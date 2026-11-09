@@ -1,5 +1,11 @@
 # @loica-ui/react
 
+## 1.0.0
+
+### Major Changes
+
+- [#349](https://github.com/darioegb/loica-ui/pull/349) [`f713035dc7b774e52d0d04e2c4d0b0c38f049354`](https://github.com/darioegb/loica-ui/commit/f713035dc7b774e52d0d04e2c4d0b0c38f049354) Thanks [@darioegb](https://github.com/darioegb)! - Loica UI React 1.0, the first stable release. The API is the one of 0.66.0, with nothing removed or renamed: from here on it follows semver, and a breaking change only arrives in a major version. [Public API](https://darioegb.github.io/loica-ui/?path=/docs/guides-public-api--docs) says what that covers: the components and parts with their props, the hooks and utilities, the shape of the theme, the `--loica-*` variables, the `data-loica-*` and state attributes of the parts, the stylesheets and the cascade layer `loica`. Coming from a 0.x version or from `plume-ui-react`? See the [upgrading guide](https://darioegb.github.io/loica-ui/?path=/docs/guides-upgrading-to-1-0--docs).
+
 ## 0.66.0
 
 ### Minor Changes
