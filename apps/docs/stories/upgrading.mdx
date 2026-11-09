@@ -43,7 +43,7 @@ says `loica`: the checklist's `data-loica-menu*` is `data-plume-menu*` in a 0.x 
 
 Search your code for these, one by one. The rest of the page explains each change.
 
-- `classNames`, `inputClassName` and the other loose class props: [every element is a part](#every-element-is-a-part).
+- `classNames`, `inputClassName` and the other loose class props, and parts that no longer exist (`InputGroup`, `ChipRemove`, `BadgeDot`...): [no component takes `classNames`](#no-component-takes-classnames).
 - `aria-label` on `AlertDismiss`, `ToastDismiss`, `FileUploadRemove` and `SelectClear`: it is [`label`](#close-and-remove-buttons-take-label).
 - `labels`, or a text prop such as `nextLabel` or `dismissLabel`, on any component, and the `overlayClose`, `alert`,
   `button`, `spinner` and `table` keys of a `LocaleProvider`: [the texts](#the-texts-come-from-the-localeprovider).
@@ -53,11 +53,6 @@ Search your code for these, one by one. The rest of the page explains each chang
 - `Tabs` with an `index` that you never update, and the `active` class of a tab: [Tabs](#tabs-are-controlled-with-the-same-props-as-the-rest).
 - `siblingCount`, `boundaryCount` or `count` on a `Paginator`: [other changes](#other-changes-that-dont-throw).
 - `variant='unstyled'` anywhere: it now drops [every Loica class](#unstyled-drops-every-loica-class).
-- An `Icon`, a `List` or a `Card` that you style: [presentation components](#icon-list-and-card-are-made-of-parts).
-- A `BadgeDot`, a `DividerLabel`, a `SkeletonLine` or a part of the `EmptyState`: [single components](#badge-emptystate-divider-and-skeleton-are-single-components).
-- `InputGroup`, `InputAddon`, `TextareaCount`, `NumberInputField`, `PinInputCell`, `RatingItem`, `SliderThumb` and the
-  other parts of the text fields: [single components](#text-fields-pininput-rating-and-slider-are-single-components).
-- `ChipRemove`, `AvatarImage` and the other parts of the `Chip` and the `Avatar`: [single components](#chip-and-avatar-are-single-components-alert-is-made-of-parts).
 - Parts used outside their component: [they throw](#parts-outside-their-component-throw).
 - Imports from `@plume-ui-react/*`: [one package now](#from-the-plume-ui-react-packages).
 - `colorScheme` set to `brown`, `pink`, `purple`, `teal` or `yellow`, a shade such as `primary.700` on a `Loader`,
@@ -188,39 +183,76 @@ keep the `onChange` of the element, with its event.
 With react-hook-form, `onValueChange={field.onChange}` goes on the components of the table, and `onChange` on the
 native ones. The `range` option of `getDateStringByLanguage` has the same change.
 
-## Every element is a part
+## No component takes `classNames`
 
-In 0.x, a component with inner parts styled them through loose props (`inputClassName`, `backdropClassName`...) and
-later through a `classNames` record. Both are gone. When the user writes the structure (the items of a list, the
-header and body of a dialog), every element is a part you can import, with its own `className`, `style`, `ref` and
-`data-loica-<component>-<part>` attribute. Given no parts, a component renders the same default composition as before;
-when a direct child is one of its parts, it renders your composition. When the component draws the element by itself
-(the reveal button of an `Input`, the dot of a `Badge`), it is not a part: it carries the same `data-loica-*` attribute
-and you style it from the parent. The sections below list each family.
+In 0.x a component styled its inner elements through loose props (`inputClassName`, `backdropClassName`...) and later
+through a `classNames` record. Both are gone, and so are the `<Name>Part` types. An element is now one of two things:
+
+- **A part**, when you write the structure (the items of a list, the header and body of a dialog, the field and trigger
+  of a picker). You import it, and it has its own `className`, `style`, `ref` and `data-loica-<component>-<part>`
+  attribute. Given no parts, the component renders the same default composition as before, and when a direct child is
+  one of its parts it renders your composition. A part that repeats (the chips of a `Select`, the days of a
+  `DatePicker`, the options of a `TimePicker`) takes a render function to style or replace each item. With parts, the
+  props that only fill the default (`icon`, `action` and `dismissible` of an `Alert`) have no effect: compose the part.
+- **A `data-loica-<component>-<element>` attribute**, when the component draws the element by itself (the reveal
+  button of an `Input`, the dot of a `Badge`, the stars of a `Rating`). It is not exported, so you style it from the
+  parent, or put your own element in the prop that fills it. `children` keeps its meaning where it had one.
 
 ```tsx
 // Before
-<Input type='password' revealable revealClassName='text-sm' />
+<Input type='password' revealable classNames={{ input: 'font-mono', reveal: 'text-sm' }} />
+<DatePicker onChange={onChange} classNames={{ input: 'font-mono' }} />
+<Alert dismissible classNames={{ dismiss: 'opacity-60' }}>Saved</Alert>
 
 // After
-<Input type='password' revealable className='[&_[data-loica-input-reveal]]:text-sm' />
+<Input
+  className='[&_[data-loica-input-field]]:font-mono [&_[data-loica-input-reveal]]:text-sm'
+  revealable
+  type='password'
+/>
+
+<DatePicker onValueChange={onChange}>
+  <DatePickerInput>
+    <DatePickerField className='font-mono' />
+    <DatePickerTrigger />
+  </DatePickerInput>
+  <DatePickerCalendar />
+</DatePicker>
+
+<Alert>
+  <AlertIcon />
+  <AlertContent>Saved</AlertContent>
+  <AlertDismiss className='opacity-60' />
+</Alert>
 ```
 
 <table>
   <thead>
-    <tr><th>Component</th><th>0.x prop</th><th>Part</th></tr>
+    <tr><th>Component</th><th>0.x</th><th>Now</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>Input</code></td><td><code>inputClassName</code>, <code>revealClassName</code></td><td><code>data-loica-input-field</code> and <code>-reveal</code>, styled from the <code>Input</code></td></tr>
-    <tr><td><code>Textarea</code></td><td><code>inputClassName</code>, <code>countClassName</code></td><td><code>data-loica-textarea-field</code> and <code>-count</code>, styled from the <code>Textarea</code></td></tr>
-    <tr><td><code>PinInput</code></td><td><code>inputClassName</code></td><td><code>data-loica-pininput-cell</code>, styled from the <code>PinInput</code></td></tr>
-    <tr><td><code>SelectGroup</code></td><td><code>labelClassName</code></td><td><code>SelectGroupLabel</code></td></tr>
-    <tr><td><code>TimePicker</code></td><td><code>panelClassName</code></td><td><code>TimePickerPanel</code></td></tr>
+    <tr><td><code>Input</code></td><td><code>classNames.input</code>, <code>.reveal</code>; <code>inputClassName</code>, <code>revealClassName</code></td><td>attributes <code>data-loica-input-field</code>, <code>-reveal</code>, <code>-group</code>, <code>-control</code>, <code>-addon</code>, <code>-element</code>; set them with <code>addonBefore</code>, <code>addonAfter</code>, <code>elementBefore</code>, <code>elementAfter</code> and <code>revealable</code></td></tr>
+    <tr><td><code>Textarea</code></td><td><code>classNames.input</code>, <code>.count</code>; <code>inputClassName</code>, <code>countClassName</code></td><td>attributes <code>data-loica-textarea-field</code>, <code>-count</code>, <code>-status</code>; <code>showCount</code> draws the counter</td></tr>
+    <tr><td><code>NumberInput</code></td><td><code>classNames.input</code>, <code>.decrement</code>, <code>.increment</code></td><td>attributes <code>data-loica-numberinput-field</code> (was <code>-input</code>) and <code>-stepper</code> (<code>decrement</code> or <code>increment</code>); <code>steppers</code> draws them</td></tr>
+    <tr><td><code>PinInput</code></td><td><code>classNames.input</code>; <code>inputClassName</code></td><td>attributes <code>data-loica-pininput-cell</code> (one per position, with <code>data-filled</code>) and <code>-hidden</code> for the <code>name</code>; <code>length</code> sets the boxes</td></tr>
+    <tr><td><code>Rating</code></td><td><code>classNames.item</code>, <code>.empty</code>, <code>.filled</code></td><td>attributes <code>data-loica-rating-item</code> (with <code>data-state</code>), <code>-empty</code>, <code>-filled</code>, <code>-radio</code>, <code>-value-text</code>; <code>icon</code> and <code>emptyIcon</code> set the icons</td></tr>
+    <tr><td><code>Slider</code></td><td><code>classNames.track</code>, <code>.range</code>, <code>.thumb</code>, <code>.mark</code>, <code>.markLabel</code></td><td>attributes <code>data-loica-slider-body</code>, <code>-track</code>, <code>-range</code>, <code>-thumb</code>, <code>-marks</code>, <code>-mark-item</code>, <code>-mark-label</code>; <code>marks</code> sets the marks</td></tr>
+    <tr><td><code>Select</code></td><td><code>classNames</code> of <code>SelectTrigger</code>, <code>SelectContent</code>, <code>SelectGroup</code> and <code>SelectOption</code>; <code>labelClassName</code></td><td><code>SelectField</code>, <code>SelectCombobox</code>, <code>SelectChevron</code>, <code>SelectClear</code>, <code>SelectChips</code> with <code>SelectChip</code>, <code>SelectSearch</code>, <code>SelectSearchInput</code>, <code>SelectList</code>, <code>SelectEmpty</code>, <code>SelectGroupLabel</code>, <code>SelectOptionIcon</code>, <code>SelectOptionDescription</code>, <code>SelectOptionCheck</code></td></tr>
+    <tr><td><code>DatePicker</code></td><td><code>classNames.input</code>, <code>.calendar</code></td><td><code>DatePickerField</code>, <code>DatePickerTrigger</code>, and <code>className</code> on <code>DatePickerCalendar</code> plus its parts (<code>DatePickerHeader</code>, <code>DatePickerPrevious</code>, <code>DatePickerNext</code>, <code>DatePickerGrid</code>, <code>DatePickerDay</code>, <code>DatePickerFooter</code>, <code>DatePickerApply</code>, <code>DatePickerCancel</code>...)</td></tr>
+    <tr><td><code>TimePicker</code></td><td><code>classNames.input</code>, <code>.panel</code>; <code>panelClassName</code></td><td><code>TimePickerField</code> and <code>TimePickerTrigger</code> inside <code>TimePickerInput</code>; <code>className</code> on <code>TimePickerPanel</code> plus <code>TimePickerHours</code>, <code>TimePickerMinutes</code>, <code>TimePickerPeriod</code> and <code>TimePickerOption</code></td></tr>
+    <tr><td><code>Alert</code></td><td><code>classNames.icon</code>, <code>.content</code>, <code>.action</code>, <code>.dismiss</code></td><td><code>AlertIcon</code>, <code>AlertContent</code>, <code>AlertTitle</code>, <code>AlertDescription</code>, <code>AlertAction</code>, <code>AlertDismiss</code></td></tr>
+    <tr><td><code>Chip</code></td><td><code>classNames.icon</code>, <code>.label</code>, <code>.remove</code></td><td>attributes <code>data-loica-chip-icon</code>, <code>-label</code>, <code>-remove</code>; set them with <code>icon</code>, <code>children</code> and <code>onRemove</code></td></tr>
+    <tr><td><code>Avatar</code></td><td><code>classNames.image</code>, <code>.fallback</code>, <code>.status</code></td><td>attributes <code>data-loica-avatar-image</code>, <code>-fallback</code>, <code>-status-dot</code>; set them with <code>src</code>, <code>fallback</code> and <code>status</code>. It takes no <code>children</code>. The counter of an <code>AvatarGroup</code> is <code>AvatarOverflow</code></td></tr>
+    <tr><td><code>Badge</code></td><td><code>BadgeDot</code></td><td>the <code>dot</code> prop, with a <code>data-loica-badge-dot</code> attribute</td></tr>
+    <tr><td><code>EmptyState</code></td><td><code>EmptyStateIcon</code>, <code>-Title</code>, <code>-Description</code>, <code>-Action</code></td><td>the <code>icon</code>, <code>title</code>, <code>description</code> and <code>action</code> props, with <code>data-loica-emptystate-&#42;</code> attributes; its <code>children</code> go between the description and the action</td></tr>
+    <tr><td><code>Divider</code>, <code>Skeleton</code></td><td><code>DividerLabel</code>, <code>SkeletonLine</code>, <code>lineClassName</code></td><td>the <code>children</code> of the <code>Divider</code>; <code>lines</code> on the <code>Skeleton</code>, each one a <code>data-loica-skeleton-line</code> span (<code>[&amp;&gt;span]:h-3</code> in Tailwind)</td></tr>
+    <tr><td><code>Icon</code></td><td>glyph and label with a hashed class</td><td>a <code>variant</code> (<code>default</code> or <code>unstyled</code>); <code>data-loica-icon-glyph</code> and <code>-label</code>, with no classes, so a selector on the hashed class no longer matches</td></tr>
+    <tr><td><code>List</code></td><td></td><td><code>ListItemTextPrimary</code> and <code>ListItemTextSecondary</code> are what <code>ListItemText</code> renders for <code>primary</code> and <code>secondary</code>; <code>ListItemButton</code> has <code>data-selected</code> and <code>data-disabled</code>; <code>ListDivider</code> of an unstyled list is an empty <code>&lt;li&gt;</code> for your classes</td></tr>
+    <tr><td><code>Card</code></td><td></td><td><code>CardHeader</code>, <code>CardBody</code>, <code>CardFooter</code> with <code>data-loica-card-&#42;</code></td></tr>
     <tr><td><code>Sidebar</code>, <code>ModalContent</code>, <code>DrawerContent</code></td><td><code>backdropClassName</code></td><td><code>SidebarBackdrop</code>, <code>ModalBackdrop</code>, <code>DrawerBackdrop</code></td></tr>
     <tr><td><code>AccordionContent</code>, <code>Collapse</code></td><td><code>bodyClassName</code></td><td><code>AccordionBody</code>, <code>CollapseBody</code></td></tr>
     <tr><td><code>Breadcrumb</code></td><td><code>listClassName</code>, <code>separatorClassName</code></td><td><code>BreadcrumbList</code>, <code>BreadcrumbSeparator</code></td></tr>
     <tr><td><code>ToastProvider</code></td><td><code>toastClassName</code></td><td><code>Toast</code>, through the <code>render</code> prop</td></tr>
-    <tr><td><code>Skeleton</code></td><td><code>lineClassName</code></td><td>each line is a <code>data-loica-skeleton-line</code> span: style it from the <code>Skeleton</code> (<code>[&amp;&gt;span]:h-3</code> in Tailwind)</td></tr>
     <tr><td><code>ProgressBar</code></td><td><code>indicatorClassName</code>, <code>valueClassName</code></td><td><code>ProgressBarIndicator</code>, <code>ProgressBarValue</code></td></tr>
     <tr><td><code>CarouselDots</code></td><td><code>dotClassName</code></td><td><code>CarouselDot</code></td></tr>
     <tr><td><code>Table</code></td><td><code>containerClassName</code>, <code>loadingClassName</code></td><td><code>className</code> of the <code>Table</code>, <code>TableLoading</code></td></tr>
@@ -228,6 +260,23 @@ and you style it from the parent. The sections below list each family.
     <tr><td><code>TableEmpty</code></td><td><code>emptyStateClassName</code></td><td><code>TableEmptyCell</code> with an <code>EmptyState</code> inside</td></tr>
   </tbody>
 </table>
+
+The parts that no longer exist (`InputGroup`, `SliderThumb`, `ChipRemove`, `BadgeDot`...) fail to import, so the compiler
+finds them. The `ref` is not part of this change: see [the ref](#the-ref-goes-to-the-element-the-field-talks-to).
+
+- The button of the pickers is `DatePickerTrigger` or `TimePickerTrigger`, which goes `before` or `after` the field with
+  `position`. Its icon is the `icon` prop of the picker (`<DatePicker icon={<MyCalendarIcon />} />`) or the `children`
+  of the trigger, and its name comes from the `datePicker.openCalendar` and `timePicker.openTimePicker` texts.
+- The names of the stepper, reveal and pin buttons, of the stars and of the thumbs of a range come from the texts of
+  the `LocaleProvider`, with no per-element override.
+- `title` on an `Alert` or a `Card` is no longer the tooltip of the element: it is the title the component shows, in
+  an `AlertTitle` or a `CardHeader`, next to a `description`. Use the `title` of an element inside for a tooltip.
+- The remove button of a `Chip` is named by the `chip.remove` text followed by the text of the chip, and the one of a
+  `SelectChip` by the `select.remove` text.
+- The modules of `Card` and `List` are client modules now, because they share `isStyled` with their parts through a
+  context. A Server Component can still render them.
+
+With this, no component takes `classNames`.
 
 ## The look of the `DatePicker` goes on the `DatePicker`
 
@@ -296,6 +345,9 @@ provider, and a single text can be set on the part that shows it.
 </LocaleProvider>
 ```
 
+<details>
+  <summary>Every text prop that moved to the <code>LocaleProvider</code></summary>
+
 <table>
   <thead>
     <tr><th>Component</th><th>Before</th><th>After</th></tr>
@@ -324,145 +376,12 @@ provider, and a single text can be set on the part that shows it.
   </tbody>
 </table>
 
+</details>
+
 The type of each one is exported, for example `PaginatorLabels`; `AlertLabels`, `ButtonLabels` and `TableLabels` are
 removed. The `close` key names every close button and replaces the keys `overlayClose`, `alert.dismiss` and
 `toast.dismiss`, and its default is `Close` instead of `Dismiss` and `Dismiss notification`. The `Loader` says
 `Loading` instead of `loading` by default.
-
-## Text fields, `PinInput`, `Rating` and `Slider` are single components
-
-`Input`, `Textarea`, `NumberInput`, `PinInput`, `Rating` and `Slider` no longer take `classNames`. They draw their
-addons, elements, reveal button, counter, steppers, boxes, stars, track and thumbs themselves, so `InputGroup`,
-`InputControl`, `InputAddon`, `InputElement`, `InputField`, `InputReveal`, `TextareaField`, `TextareaCount`,
-`TextareaStatus`, `NumberInputField`, `NumberInputDecrement`, `NumberInputIncrement`, `NumberInputHidden`,
-`PinInputCell`, `PinInputHidden`, `RatingItem`, `RatingEmpty`, `RatingFilled`, `RatingRadio`, `RatingValueText`,
-`SliderBody`, `SliderTrack`, `SliderRange`, `SliderThumb`, `SliderMarks`, `SliderMarkItem` and `SliderMarkLabel` do not
-exist. They take no `children`, and all the native attributes of their element. Each element carries a
-`data-loica-<component>-<element>` attribute, to style it from the parent.
-
-```tsx
-// Before
-<Input type='password' revealable classNames={{ input: 'font-mono', reveal: 'text-sm' }} />
-
-// After
-<Input
-  className='[&_[data-loica-input-field]]:font-mono [&_[data-loica-input-reveal]]:text-sm'
-  revealable
-  type='password'
-/>
-```
-
-<table>
-  <thead>
-    <tr><th>Component</th><th>Before</th><th>After</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><code>Input</code></td><td><code>classNames.input</code>, <code>classNames.reveal</code></td><td><code>data-loica-input-field</code>, <code>-reveal</code>, <code>-group</code>, <code>-control</code>, <code>-addon</code> and <code>-element</code>; set them with <code>addonBefore</code>, <code>addonAfter</code>, <code>elementBefore</code>, <code>elementAfter</code> and <code>revealable</code></td></tr>
-    <tr><td><code>Textarea</code></td><td><code>classNames.input</code>, <code>classNames.count</code></td><td><code>data-loica-textarea-field</code>, <code>-count</code> and <code>-status</code>, drawn by <code>showCount</code></td></tr>
-    <tr><td><code>NumberInput</code></td><td><code>classNames.input</code>, <code>classNames.decrement</code>, <code>classNames.increment</code></td><td><code>data-loica-numberinput-field</code> and <code>data-loica-numberinput-stepper</code> (<code>decrement</code> or <code>increment</code>), drawn by <code>steppers</code></td></tr>
-    <tr><td><code>PinInput</code></td><td><code>classNames.input</code></td><td><code>data-loica-pininput-cell</code> (one per position, with <code>data-filled</code>) and <code>data-loica-pininput-hidden</code> for the <code>name</code>; set the boxes with <code>length</code></td></tr>
-    <tr><td><code>Rating</code></td><td><code>classNames.item</code>, <code>.empty</code>, <code>.filled</code></td><td><code>data-loica-rating-item</code> (with <code>data-state</code>), <code>-empty</code>, <code>-filled</code>, <code>-radio</code> and <code>-value-text</code>; set the icons with <code>icon</code> and <code>emptyIcon</code></td></tr>
-    <tr><td><code>Slider</code></td><td><code>classNames.track</code>, <code>.range</code>, <code>.thumb</code>, <code>.mark</code>, <code>.markLabel</code></td><td><code>data-loica-slider-body</code>, <code>-track</code>, <code>-range</code>, <code>-thumb</code>, <code>-marks</code>, <code>-mark-item</code> and <code>-mark-label</code>; set the marks with <code>marks</code></td></tr>
-  </tbody>
-</table>
-
-The names of the stepper, reveal and pin buttons, of the stars and of the thumbs of a range come from the `numberInput`,
-`input`, `pinInput`, `rating` and `slider` texts of the `LocaleProvider`, with no per-element override. The `ref` of
-`Input`, `Textarea` and `NumberInput` is always the native `<input>` or `<textarea>`, so react-hook-form's `register`
-works on the root; the one of the `Slider` is the input of its first thumb, and the one of `PinInput` and `Rating` their
-`<fieldset>`. `className` and `style` of the root go to the outermost element. The `data-loica-*-input` attribute
-of `NumberInput` is now `data-loica-numberinput-field`.
-
-## `Select` and the pickers are made of parts
-
-`Select`, `DatePicker` and `TimePicker` no longer take `classNames`. Every element they render is a part you can import,
-with its own `className`, `style` and `ref`. Given no `children`, they render the same default composition as
-before, and a data-driven part (the chips of a `Select`, the days of a `DatePicker`, the options of a `TimePicker`)
-takes a render function to style or replace each item.
-
-```tsx
-// Before
-<DatePicker onChange={onChange} classNames={{ input: 'font-mono' }} />
-
-// After
-<DatePicker onValueChange={onChange}>
-  <DatePickerInput>
-    <DatePickerField className='font-mono' />
-    <DatePickerTrigger />
-  </DatePickerInput>
-  <DatePickerCalendar />
-</DatePicker>
-```
-
-The button of the pickers is `DatePickerTrigger` or `TimePickerTrigger`, which goes `before` or `after` the field with
-`position`. Its icon is the `icon` prop of the `DatePicker` and the `TimePicker` (or the `children` of the trigger), and
-its name comes from the `datePicker.openCalendar` and `timePicker.openTimePicker` texts of the `LocaleProvider`.
-
-```tsx
-<DatePicker icon={<MyCalendarIcon />} onValueChange={onChange} />
-```
-
-<table>
-  <thead>
-    <tr><th>Component</th><th>Before</th><th>After</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><code>Select</code></td><td><code>classNames</code> of <code>SelectTrigger</code> (<code>field</code>, <code>trigger</code>, <code>chevron</code>, <code>clear</code>, <code>chip</code>, <code>chipRemove</code>), <code>SelectContent</code> (<code>search</code>, <code>searchInput</code>, <code>list</code>, <code>empty</code>), <code>SelectGroup</code> (<code>label</code>) and <code>SelectOption</code> (<code>icon</code>, <code>description</code>, <code>check</code>)</td><td><code>SelectField</code>, <code>SelectCombobox</code>, <code>SelectChevron</code>, <code>SelectClear</code>, <code>SelectChips</code> with <code>SelectChip</code>, <code>SelectSearch</code>, <code>SelectSearchInput</code>, <code>SelectList</code>, <code>SelectEmpty</code>, <code>SelectGroupLabel</code>, <code>SelectOptionIcon</code>, <code>SelectOptionDescription</code>, <code>SelectOptionCheck</code></td></tr>
-    <tr><td><code>DatePicker</code></td><td><code>classNames.input</code>, <code>classNames.calendar</code></td><td><code>DatePickerField</code>, <code>DatePickerTrigger</code>, and <code>className</code> on <code>DatePickerCalendar</code> plus its parts (<code>DatePickerHeader</code>, <code>DatePickerPrevious</code>, <code>DatePickerNext</code>, <code>DatePickerGrid</code>, <code>DatePickerDay</code>, <code>DatePickerFooter</code>, <code>DatePickerApply</code>, <code>DatePickerCancel</code>...)</td></tr>
-    <tr><td><code>TimePicker</code></td><td><code>classNames.input</code>, <code>classNames.panel</code></td><td><code>TimePickerField</code> and <code>TimePickerTrigger</code> inside <code>TimePickerInput</code>; <code>className</code> on <code>TimePickerPanel</code> plus <code>TimePickerHours</code>, <code>TimePickerMinutes</code>, <code>TimePickerPeriod</code> and <code>TimePickerOption</code></td></tr>
-  </tbody>
-</table>
-
-The `data-loica-select-trigger` attribute of the combobox is now `data-loica-select-combobox`. The remove button of a
-`SelectChip` is `data-loica-chip-remove`.
-
-## `Chip` and `Avatar` are single components, `Alert` is made of parts
-
-These components no longer take `classNames`. The `Chip` and the `Avatar` export no parts for the elements they draw
-by themselves, so `ChipIcon`, `ChipLabel`, `ChipRemove`, `AvatarImage`, `AvatarFallback` and `AvatarStatusDot` do not
-exist. What used to be a key of `classNames` is a `data-loica-<component>-<element>` attribute, so you style
-it from the parent (`[&_[data-loica-chip-remove]]:opacity-60` in Tailwind), or you put your own element in the prop
-that fills it. `children` keeps its meaning: the text of the chip. The `Avatar` takes no `children`; its fallback is
-the `fallback` prop.
-
-Every element of the `Alert` is a part you can import (`AlertIcon`, `AlertContent`, `AlertTitle`,
-`AlertDescription`, `AlertAction` and `AlertDismiss`), with its own `className`, `style` and `ref`. Given no parts,
-it renders the same default composition as before, and `children` keeps its meaning (the text of the alert); the
-root switches to your composition when a direct child is one of its parts. With parts, the props that only fill the
-default (`icon`, `action` and `dismissible`) have no effect: compose the part instead.
-
-`title` on an `Alert` or a `Card` is no longer the tooltip of the element: it is the title that the component shows,
-in an `AlertTitle` or a `CardHeader`, next to a `description`. Use the `title` of an element inside if you want a
-tooltip.
-
-```tsx
-// Before
-<Alert dismissible classNames={{ dismiss: 'opacity-60' }}>Saved</Alert>
-
-// After
-<Alert>
-  <AlertIcon />
-  <AlertContent>Saved</AlertContent>
-  <AlertDismiss className='opacity-60' />
-</Alert>
-```
-
-<table>
-  <thead>
-    <tr><th>Component</th><th>Before</th><th>After</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><code>Alert</code></td><td><code>classNames.icon</code>, <code>.content</code>, <code>.action</code>, <code>.dismiss</code></td><td><code>AlertIcon</code>, <code>AlertContent</code>, <code>AlertAction</code>, <code>AlertDismiss</code></td></tr>
-    <tr><td><code>Chip</code></td><td><code>classNames.icon</code>, <code>.label</code>, <code>.remove</code></td><td><code>data-loica-chip-icon</code>, <code>-label</code> and <code>-remove</code>; set them with <code>icon</code>, <code>children</code> and <code>onRemove</code></td></tr>
-    <tr><td><code>Avatar</code></td><td><code>classNames.image</code>, <code>.fallback</code>, <code>.status</code></td><td><code>data-loica-avatar-image</code>, <code>-fallback</code> and <code>-status-dot</code>; set them with <code>src</code>, <code>fallback</code> and <code>status</code>. The counter of an <code>AvatarGroup</code> is <code>AvatarOverflow</code></td></tr>
-  </tbody>
-</table>
-
-The remove button of a `Chip` is named by the `chip.remove` text of the `LocaleProvider` followed by the text of the
-chip, and a `SelectChip` is named by the `select.remove` text. The `data-loica-avatar-status` attribute is now
-`data-loica-avatar-status-dot`.
-
-With these, no component takes `classNames` and the `<Name>Part` types are gone.
 
 ## Close and remove buttons take `label`
 
@@ -506,6 +425,8 @@ A `ref` lands on the element a form library or a `<label>` needs, so `register` 
 <DatePicker ref={field.ref} />
 ```
 
+The `ref` of `Input`, `Textarea` and `NumberInput` is always the native element, so `register` works on the root, and the one of the `Slider` is the input of its first thumb.
+
 ## Renamed CSS hooks
 
 The attributes are named after the part they are on. Update the selectors of your stylesheets and your tests:
@@ -519,6 +440,8 @@ The attributes are named after the part they are on. Update the selectors of you
     <tr><td><code>data-loica-select-control</code>, <code>-panel</code></td><td><code>data-loica-select-trigger</code>, <code>-content</code></td></tr>
     <tr><td><code>data-loica-tree-label</code>, <code>-chevron</code>, <code>-checkbox</code>, <code>-icon</code></td><td><code>data-loica-tree-item-label</code>, <code>-chevron</code>, <code>-checkbox</code>, <code>-icon</code></td></tr>
     <tr><td><code>data-loica-tree-node</code></td><td>removed</td></tr>
+    <tr><td><code>data-loica-select-trigger</code> on the combobox button</td><td><code>data-loica-select-combobox</code></td></tr>
+    <tr><td><code>data-loica-avatar-status</code></td><td><code>data-loica-avatar-status-dot</code></td></tr>
     <tr><td><code>InputReveal</code> as <code>span &gt; button</code></td><td><code>[data-loica-input-reveal]</code>, a single button</td></tr>
     <tr><td>the <code>active</code> class of a <code>Tab</code></td><td><code>[data-active]</code></td></tr>
   </tbody>
@@ -566,43 +489,6 @@ moved by themselves, so a value you never updated seemed to work. Use `defaultIn
 ```
 
 A selected `Tab` is styled with `[data-active]`, and the `active` class is gone.
-
-## `Icon`, `List` and `Card` are made of parts
-
-They follow the same model as the other families: every element is a part with its own `className`, `style`, `ref`
-and `data-loica-*` attribute.
-
-<table>
-  <thead>
-    <tr><th>Component</th><th>Parts</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><code>Icon</code></td><td>has a <code>variant</code> (<code>default</code> or <code>unstyled</code>); its glyph and label are <code>data-loica-icon-glyph</code> and <code>data-loica-icon-label</code>, without classes, so a selector on the hashed <code>glyph</code> or <code>label</code> class no longer matches</td></tr>
-    <tr><td><code>List</code></td><td><code>ListItemTextPrimary</code> and <code>ListItemTextSecondary</code> are what <code>ListItemText</code> renders for <code>primary</code> and <code>secondary</code>; <code>ListItemButton</code> has <code>data-selected</code> and <code>data-disabled</code>; <code>ListDivider</code> in an unstyled list is an empty <code>&lt;li&gt;</code> for your classes</td></tr>
-    <tr><td><code>Card</code></td><td><code>CardHeader</code>, <code>CardBody</code> and <code>CardFooter</code> with <code>data-loica-card-*</code></td></tr>
-  </tbody>
-</table>
-
-The modules of `Card` and `List` are client modules now (they share `isStyled` with their parts through a
-context), and a Server Component can still render them.
-
-## `Badge`, `EmptyState`, `Divider` and `Skeleton` are single components
-
-The `Badge`, the `EmptyState`, the `Divider` and the `Skeleton` are single components: their inner elements (the dot of
-the `Badge`, the icon, title, description and action of the `EmptyState`, the label of the `Divider`, the lines of the
-`Skeleton`) carry a `data-loica-*` attribute, and to style one you target it from the parent or put your own element
-in the prop that fills it. `BadgeDot`, `DividerLabel`, `SkeletonLine`, `EmptyStateIcon`, `EmptyStateTitle`,
-`EmptyStateDescription` and `EmptyStateAction` do not exist: use `dot` on the `Badge`, the `children` of the `Divider`,
-`lines` on the `Skeleton`, and `icon`, `title`, `description` and `action` on the `EmptyState`, whose `children` go
-between the description and the action.
-
-```tsx
-<EmptyState
-  description={<span className='text-sm text-muted'>Nothing here yet.</span>}
-  title={<span className='text-lg font-bold'>No projects</span>}
-  variant='unstyled'
-/>
-```
 
 ## Other changes that don't throw
 
@@ -707,6 +593,9 @@ from them (`--loica-color-<scheme>-solid`, `-text`, `-tint`... see **Colors**), 
 To keep using a removed color, add it to your theme with the shades it had, and to the `ColorPalette` type with module
 augmentation (see **Theming**):
 
+<details>
+  <summary>The shades the five removed colors had</summary>
+
 ```tsx
 import type { DeepPartial, Theme } from '@loica-ui/react'
 
@@ -795,6 +684,8 @@ declare module '@loica-ui/react' {
   }
 }
 ```
+
+</details>
 
 ## The scales keep the values the components use
 
