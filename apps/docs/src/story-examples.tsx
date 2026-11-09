@@ -150,9 +150,10 @@ function StoryExample({ story, tools }: Readonly<{ story: DocsStory; tools: Tool
 type Control = { disable?: boolean; type?: string }
 type ArgTypes = Record<string, { control?: Control | false; table?: { disable?: boolean } }>
 
-// The Default story is the playground of the page: its Controls change the props that its argTypes give a control.
+// The Default story is the playground of the page while the docs run in development: its Controls change the props
+// that its argTypes give a control. The published docs don't show them.
 const controlsOf = (story: { name: string; argTypes?: unknown }): string[] | undefined => {
-  if (story.name !== 'Default') return undefined
+  if (!__LOICA_PLAYGROUND__ || story.name !== 'Default') return undefined
   const names = Object.entries((story.argTypes ?? {}) as ArgTypes)
     .filter(([, arg]) => Boolean(arg.control && arg.control.type && !arg.control.disable) && !arg.table?.disable)
     .map(([name]) => name)

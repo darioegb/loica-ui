@@ -18,10 +18,10 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
-  async viteFinal(config) {
+  async viteFinal(config, { configType }) {
     return {
       ...config,
-      define: { 'process.env': {} },
+      define: { 'process.env': {}, __LOICA_PLAYGROUND__: configType === 'DEVELOPMENT' },
       resolve: {
         ...config.resolve,
         alias: [
