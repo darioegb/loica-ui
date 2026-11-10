@@ -90,7 +90,7 @@ export const es: Translation = {
       pageSize: "Elementos por página",
       pagination: "Paginación",
       previous: "Página anterior",
-      summary: "{{from}}–{{to}} de {{total}}",
+      summary: "{{from, number}}–{{to, number}} de {{total, number}}",
     },
     select: {
       clear: "Borrar",
