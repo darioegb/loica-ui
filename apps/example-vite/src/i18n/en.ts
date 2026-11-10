@@ -88,7 +88,7 @@ export const en = {
       pageSize: "Items per page",
       pagination: "Pagination",
       previous: "Previous page",
-      summary: "{{from}}–{{to}} of {{total}}",
+      summary: "{{from, number}}–{{to, number}} of {{total, number}}",
     },
     select: {
       clear: "Clear",
