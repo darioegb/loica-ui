@@ -55,7 +55,7 @@ Name branches after the commit type: `feat/<topic>`, `fix/<topic>`, `docs/<topic
 
 Releases are managed with [Changesets](https://github.com/changesets/changesets). A pull request that changes the published package (`@loica-ui/react`) needs a changeset describing the change and its version bump (`patch`, `minor` or `major`). Changes limited to the docs app, examples, stories or READMEs don't need one.
 
-After a pull request is merged, the Release workflow opens a **Version packages** pull request; merging it publishes to npm and deploys the docs.
+After a pull request is merged, the Release workflow opens a **Version packages** pull request; merging it publishes to npm and deploys the docs. A pull request that only changes the docs deploys them when it is merged, unless `main` has unpublished changesets.
 
 A pull request runs only the checks its changes need, and **Required** sums them up for branch protection:
 
