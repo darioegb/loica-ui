@@ -566,6 +566,14 @@ describe('NumberInput component', () => {
       expect(screen.getByRole('spinbutton', { name: 'Own' })).toHaveValue('1.5')
     })
 
+    it('keeps Latin digits in a locale that writes other ones, so the number stays editable', async () => {
+      render(<NumberInput aria-label="Price" defaultValue={1.5} locale="ar-EG" />)
+      expect(spin()).toHaveValue('1.5')
+      await userEvent.type(spin(), '5')
+      await userEvent.tab()
+      expect(spin()).toHaveValue('1.55')
+    })
+
     it('shows the plain number, with no grouping, in the default locale', () => {
       render(<NumberInput aria-label="Big" defaultValue={1234567.25} />)
       expect(spin()).toHaveValue('1234567.25')

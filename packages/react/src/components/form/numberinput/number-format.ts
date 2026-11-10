@@ -15,9 +15,11 @@ export const createNumberFormatter = (
   locale: string,
   precision: number | undefined,
 ): ((value: number) => string) => {
+  // The field reads only Latin digits, so a locale such as ar-EG would show a number the user can't edit.
   const numbers = new Intl.NumberFormat(locale, {
     maximumFractionDigits: precision ?? 20,
     minimumFractionDigits: precision ?? 0,
+    numberingSystem: 'latn',
     useGrouping: false,
   })
   return (value) => numbers.format(value === 0 ? 0 : value)
