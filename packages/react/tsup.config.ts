@@ -109,7 +109,7 @@ async function emitComponentStylesheets(): Promise<void> {
 
 export default defineConfig((options) => {
   const shared: Options = {
-    minify: !options.watch,
+    minify: false,
     target: 'es2020',
     tsconfig: 'tsconfig.json',
     external: ['react', 'react-dom'],
