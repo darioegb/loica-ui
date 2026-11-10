@@ -70,7 +70,8 @@ pnpm build           # includes the 'use client' check
 CI also runs `pnpm --filter @loica-ui/react check:package` (publint and attw) after the build, and, when the
 package or the docs change, `pnpm --filter @loica-ui/docs check:a11y --shard <n>/2` on the static Storybook
 (`pnpm build:docs`). The first run needs a browser: `pnpm --filter @loica-ui/docs exec playwright install chromium`.
-The docs deploy to GitHub Pages with each release, not with each merge (see CONTRIBUTING.md).
+The docs deploy to GitHub Pages with each release, and with a merge that only changes the docs when no changeset is
+pending (see CONTRIBUTING.md).
 
 What these check, so a failure is easy to place:
 
