@@ -29,7 +29,8 @@ English.
   from npm, so a change in `src` reaches them only after a release.
 - `packages/{eslint-config-custom,prettier-config,tailwind-config,tsconfig}`: the shared configs.
 - `scripts/new-component.mjs` and `scripts/component-templates/`: the component scaffold.
-- The roadmap lives in the open issues of the repository, not in a file.
+- The roadmap lives in the open issues of the repository, each in a milestone (`1.1`, `1.x`, `2.0`), not in a file.
+  `apps/docs/stories/roadmap.mdx` gives only the direction and links the milestones, so it doesn't list issues.
 
 ## Rules
 
