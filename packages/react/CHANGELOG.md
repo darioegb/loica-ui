@@ -1,5 +1,11 @@
 # @loica-ui/react
 
+## 1.0.2
+
+### Patch Changes
+
+- [#370](https://github.com/darioegb/loica-ui/pull/370) [`ceab34133906d0d2bc5a81da109e53d8dd1d5dbe`](https://github.com/darioegb/loica-ui/commit/ceab34133906d0d2bc5a81da109e53d8dd1d5dbe) Thanks [@darioegb](https://github.com/darioegb)! - `NumberInput` shows its number with Latin digits in every locale. With a locale that writes other digits, such as `ar-EG`, `fa` or `bn`, it showed `١٫٥`, which the field could not read back, so the number could not be edited once shown. The decimal separator still follows the locale.
+
 ## 1.0.1
 
 ### Patch Changes
