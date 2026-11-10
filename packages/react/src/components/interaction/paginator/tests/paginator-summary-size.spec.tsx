@@ -46,7 +46,7 @@ describe('PaginatorSummary', () => {
         </Paginator>
       </LocaleProvider>,
     )
-    const [provided, own] = document.querySelectorAll('[data-loica-paginator-summary]')
+    const [provided, own] = Array.from(document.querySelectorAll('[data-loica-paginator-summary]'))
     expect(provided).toHaveTextContent('1–10 of 12.345')
     expect(own).toHaveTextContent('1–10 of 12,345')
   })
