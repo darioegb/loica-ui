@@ -1,5 +1,11 @@
 # @loica-ui/react
 
+## 1.0.1
+
+### Patch Changes
+
+- [#365](https://github.com/darioegb/loica-ui/pull/365) [`4f26c81e1f13901820de3e2e5859f9a35faf3aae`](https://github.com/darioegb/loica-ui/commit/4f26c81e1f13901820de3e2e5859f9a35faf3aae) Thanks [@darioegb](https://github.com/darioegb)! - Publish the JavaScript bundles unminified (consumer bundlers already minify them) and remove the redundant `xmlns` attribute from the DatePicker navigation icons, so the package no longer triggers Socket's "Minified code" and "URL strings" alerts.
+
 ## 1.0.0
 
 ### Major Changes
