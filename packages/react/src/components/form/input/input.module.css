@@ -13,7 +13,7 @@
   color: var(--loica-foreground);
   display: block;
   height: var(--loica-control-height-md);
-  min-width: min(var(--loica-container-2xs), 100%);
+  min-width: var(--field-min-width, min(var(--loica-container-2xs), 100%));
   padding-inline: var(--loica-space-4);
   position: relative;
   width: 100%;
@@ -106,7 +106,7 @@
   align-items: stretch;
   border-radius: var(--loica-radius-4);
   display: flex;
-  min-width: min(var(--loica-container-2xs), 100%);
+  min-width: var(--field-min-width, min(var(--loica-container-2xs), 100%));
   position: relative;
 }
 

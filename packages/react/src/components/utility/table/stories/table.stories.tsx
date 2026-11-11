@@ -87,6 +87,9 @@ function Content({ selected }: Readonly<{ selected?: string }>): React.ReactNode
  * a focusable region named like the table, so the keyboard can scroll it. Set **maxHeight** to limit the height,
  * and **stickyHeader** to keep the header in view while the body scrolls.
  *
+ * **Fields in the cells.** An `Input`, a `Textarea` or a `DatePicker` in a cell keeps at least `8rem`, so the table
+ * can't squeeze it to nothing. Set `--table-field-min-width` on the Table to change that floor.
+ *
  * It has no `colorScheme`: a table is mostly neutral, and the selected row uses the primary color.
  *
  * **Parts.** The `Table` is the box that scrolls (`className` and `style` go there) and renders the `<table>` and the
