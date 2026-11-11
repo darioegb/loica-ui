@@ -1,3 +1,5 @@
+import { foldText } from '../../../overlay/fold-text'
+
 const TREE_ITEM = '[role="treeitem"]'
 
 export const visibleItems = (root: HTMLElement | null): HTMLElement[] =>
@@ -15,14 +17,14 @@ export const parentItem = (item: HTMLElement): HTMLElement | null => {
 }
 
 export const labelOf = (item: HTMLElement): string =>
-  item.querySelector('[data-loica-tree-item-label]')?.textContent?.trim().toLowerCase() ?? ''
+  foldText(item.querySelector('[data-loica-tree-item-label]')?.textContent?.trim() ?? '')
 
 export const findTypeaheadMatch = (
   items: HTMLElement[],
   current: number,
   query: string,
 ): HTMLElement | undefined => {
-  const text = query.toLowerCase()
+  const text = foldText(query)
   const repeated = [...text].every((letter) => letter === text[0])
   const needle = repeated ? (text[0] ?? '') : text
   const start = repeated || text.length === 1 ? current + 1 : current

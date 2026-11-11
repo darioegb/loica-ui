@@ -53,6 +53,11 @@ describe('matchesFilter', () => {
     expect(matchesFilter(null, 'a')).toBe(false)
   })
 
+  it('ignores the accents on both sides', () => {
+    expect(matchesFilter('Café con leche', 'cafe')).toBe(true)
+    expect(matchesFilter('Cafe', 'CAFÉ')).toBe(true)
+  })
+
   it('matches a list by membership and the rest by equality', () => {
     expect(matchesFilter('admin', ['admin', 'editor'])).toBe(true)
     expect(matchesFilter('viewer', ['admin'])).toBe(false)

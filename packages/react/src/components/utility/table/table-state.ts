@@ -1,3 +1,4 @@
+import { foldText } from '../../../overlay/fold-text'
 import type { TableSortDirection } from './table-head'
 
 export type TableFilters = Record<string, unknown>
@@ -39,7 +40,7 @@ const cellText = (cell: unknown): string => {
 export function matchesFilter(cell: unknown, value: unknown): boolean {
   if (Array.isArray(value)) return value.includes(cell)
   if (typeof value === 'string')
-    return cellText(cell).toLowerCase().includes(value.trim().toLowerCase())
+    return foldText(cellText(cell)).includes(foldText(value.trim()))
   return cell === value
 }
 

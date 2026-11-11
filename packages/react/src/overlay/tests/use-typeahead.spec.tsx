@@ -12,6 +12,11 @@ describe('matchTypeahead', () => {
     expect(matchTypeahead([' Cherry'], 'CH', -1)).toBe(0)
   })
 
+  it('ignores the accents of the labels and of the typed text', () => {
+    expect(matchTypeahead(['Zeta', 'Árbol', 'Ñandú'], 'a', -1)).toBe(1)
+    expect(matchTypeahead(['Zeta', 'Arbol', 'Nandu'], 'ñ', -1)).toBe(2)
+  })
+
   it('moves to the next match for a single character', () => {
     expect(matchTypeahead(labels, 'a', 0)).toBe(1)
     expect(matchTypeahead(labels, 'a', 1)).toBe(0)

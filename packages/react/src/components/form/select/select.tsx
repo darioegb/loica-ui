@@ -110,8 +110,8 @@ interface SelectBaseProps {
    */
   required?: boolean
   /**
-   * Adds a search box to the list that filters the options as the user types. Typing on the closed
-   * trigger opens it with that text.
+   * Adds a search box to the list that filters the options as the user types, ignoring case and
+   * accents. Typing on the closed trigger opens it with that text.
    * @default false
    */
   searchable?: boolean

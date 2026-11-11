@@ -3,6 +3,7 @@
 import type { ForwardedRef, KeyboardEvent, MouseEvent, ReactNode, RefObject } from 'react'
 import { forwardRef, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
+import { foldText } from '../../../overlay/fold-text'
 import type { ComponentProps } from '../../../theme'
 import { useSelectContext, type SelectOptionRecord } from './select-context'
 import { SelectOptionBody } from './select-option-body'
@@ -48,7 +49,7 @@ export interface SelectOptionOwnProps {
 export type SelectOptionProps = Omit<ComponentProps, 'index'> & SelectOptionOwnProps
 
 const matchesQuery = (label: string, query: string): boolean =>
-  label.toLowerCase().includes(query.toLowerCase())
+  foldText(label).includes(foldText(query))
 
 const isActivationKey = (key: string): boolean => key === 'Enter' || key === ' '
 

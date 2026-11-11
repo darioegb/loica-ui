@@ -537,6 +537,22 @@ describe('Tree component', () => {
       expect(item('pictures')).toHaveFocus()
     })
 
+    it('jumps to an item whatever its accents', async () => {
+      render(
+        <Tree aria-label="Words">
+          <TreeItem value="zeta">
+            <TreeItemLabel>Zeta</TreeItemLabel>
+          </TreeItem>
+          <TreeItem value="arbol">
+            <TreeItemLabel>Árbol</TreeItemLabel>
+          </TreeItem>
+        </Tree>,
+      )
+      item('zeta').focus()
+      await userEvent.keyboard('a')
+      expect(item('arbol')).toHaveFocus()
+    })
+
     it('matches several typed letters together', async () => {
       render(<Files defaultExpanded={['docs', 'beta']} />)
       item('docs').focus()
