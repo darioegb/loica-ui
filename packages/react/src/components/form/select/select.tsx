@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react'
 import { useCallback, useEffect, useId, useMemo, useState } from 'react'
 import type { Placement } from '../../../overlay'
-import { useLabels } from '../../../locale/locale-provider'
+import { useLabels, useResolvedLocale } from '../../../locale/locale-provider'
 import { useOpenState } from '../../../overlay/use-open-state'
 import { useSelectionState } from '../../../overlay/use-selection-state'
 import type { ColorScheme, Shape, Size } from '../../../theme'
@@ -110,8 +110,9 @@ interface SelectBaseProps {
    */
   required?: boolean
   /**
-   * Adds a search box to the list that filters the options as the user types. Typing on the closed
-   * trigger opens it with that text.
+   * Adds a search box to the list that filters the options as the user types, ignoring case and
+   * accents, with the `locale` of the `LocaleProvider`. Typing on the closed trigger opens it with
+   * that text.
    * @default false
    */
   searchable?: boolean
@@ -307,6 +308,7 @@ export function Select({
   })
   const { options, register } = useSelectRegistry()
   const merged = useLabels('select', DEFAULT_LABELS)
+  const locale = useResolvedLocale()
   const text = useMemo<SelectLabels>(
     () => ({
       clear: merged.clear,
@@ -388,6 +390,7 @@ export function Select({
     close,
     commit: (next) => commit([next]),
     listbox,
+    locale,
     multiple,
     open,
     openList: () => setOpen(true),
@@ -419,6 +422,7 @@ export function Select({
       labelling,
       labels: text,
       listboxId: `${baseId}-listbox`,
+      locale,
       multiple,
       name,
       offset,
@@ -462,6 +466,7 @@ export function Select({
       flip,
       isSelected,
       labelling,
+      locale,
       multiple,
       name,
       offset,

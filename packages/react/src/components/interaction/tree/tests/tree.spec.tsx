@@ -12,6 +12,7 @@ import {
   TreeItemRow,
 } from '..'
 import type { TreeProps } from '..'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 
 function Files(props: Readonly<Partial<TreeProps>>) {
   return (
@@ -535,6 +536,43 @@ describe('Tree component', () => {
       item('docs').focus()
       await userEvent.keyboard('p')
       expect(item('pictures')).toHaveFocus()
+    })
+
+    it('jumps to an item whatever its accents', async () => {
+      render(
+        <Tree aria-label="Words">
+          <TreeItem value="zeta">
+            <TreeItemLabel>Zeta</TreeItemLabel>
+          </TreeItem>
+          <TreeItem value="arbol">
+            <TreeItemLabel>Árbol</TreeItemLabel>
+          </TreeItem>
+        </Tree>,
+      )
+      item('zeta').focus()
+      await userEvent.keyboard('a')
+      expect(item('arbol')).toHaveFocus()
+    })
+
+    it('tells the Turkish dotless i from the dotted one with the locale of the LocaleProvider', async () => {
+      render(
+        <LocaleProvider locale="tr">
+          <Tree aria-label="Cities">
+            <TreeItem value="ankara">
+              <TreeItemLabel>Ankara</TreeItemLabel>
+            </TreeItem>
+            <TreeItem value="izmir">
+              <TreeItemLabel>İzmir</TreeItemLabel>
+            </TreeItem>
+            <TreeItem value="isparta">
+              <TreeItemLabel>Isparta</TreeItemLabel>
+            </TreeItem>
+          </Tree>
+        </LocaleProvider>,
+      )
+      item('ankara').focus()
+      await userEvent.keyboard('ı')
+      expect(item('isparta')).toHaveFocus()
     })
 
     it('matches several typed letters together', async () => {

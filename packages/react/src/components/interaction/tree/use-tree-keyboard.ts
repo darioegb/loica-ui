@@ -83,6 +83,7 @@ const rangeKey = (event: KeyboardEvent<HTMLElement>): string | undefined => {
 interface TreeKeyboardOptions {
   activate: (value: string, hasChildren: boolean) => void
   expanded: readonly string[]
+  locale: string
   multiple: boolean
   root: RefObject<HTMLElement | null>
   select: (value: string) => void
@@ -99,6 +100,7 @@ const isCharacter = (event: KeyboardEvent<HTMLElement>): boolean =>
 export function useTreeKeyboard({
   activate,
   expanded,
+  locale,
   multiple,
   root,
   select,
@@ -148,8 +150,8 @@ export function useTreeKeyboard({
       timer.current = setTimeout(() => {
         typed.current = ''
       }, typeaheadDelay)
-      findTypeaheadMatch(items, index, typed.current)?.focus()
+      findTypeaheadMatch(items, index, typed.current, locale)?.focus()
     },
-    [activate, expanded, multiple, root, select, selectAll, selectRange, toggleExpanded],
+    [activate, expanded, locale, multiple, root, select, selectAll, selectRange, toggleExpanded],
   )
 }

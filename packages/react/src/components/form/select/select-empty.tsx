@@ -3,6 +3,7 @@
 import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
 import { forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
+import { foldText } from '../../../overlay/fold-text'
 import type { ComponentProps } from '../../../theme'
 import { useSelectContext } from './select-context'
 import styles from './select.module.css'
@@ -20,11 +21,9 @@ export const SelectEmpty = forwardRef<HTMLDivElement, SelectEmptyProps>(
     { children, className, style }: SelectEmptyProps,
     ref: ForwardedRef<HTMLDivElement>,
   ): ReactNode => {
-    const { isStyled, labels, options, query } = useSelectContext('SelectEmpty')
-    const needle = query.toLowerCase()
-    const hasMatches = options.some(
-      (option) => !query || option.label.toLowerCase().includes(needle),
-    )
+    const { isStyled, labels, locale, options, query } = useSelectContext('SelectEmpty')
+    const needle = foldText(query, locale)
+    const hasMatches = options.some((option) => !query || foldText(option.label, locale).includes(needle))
     const isEmpty = Boolean(query) && !hasMatches
 
     return (

@@ -48,33 +48,45 @@ describe('compareValues', () => {
 
 describe('matchesFilter', () => {
   it('matches a text anywhere in the cell, ignoring case and outer spaces', () => {
-    expect(matchesFilter('Grace Hopper', ' hop ')).toBe(true)
-    expect(matchesFilter('Grace', 'xyz')).toBe(false)
-    expect(matchesFilter(null, 'a')).toBe(false)
+    expect(matchesFilter('Grace Hopper', ' hop ', 'en')).toBe(true)
+    expect(matchesFilter('Grace', 'xyz', 'en')).toBe(false)
+    expect(matchesFilter(null, 'a', 'en')).toBe(false)
+  })
+
+  it('tells the Turkish dotless i from the dotted one only in Turkish', () => {
+    expect(matchesFilter('Isparta', 'ı', 'tr')).toBe(true)
+    expect(matchesFilter('İzmir', 'ı', 'tr')).toBe(false)
+    expect(matchesFilter('Isparta', 'i', 'tr')).toBe(false)
+    expect(matchesFilter('Isparta', 'i', 'en')).toBe(true)
+  })
+
+  it('ignores the accents on both sides', () => {
+    expect(matchesFilter('Café con leche', 'cafe', 'en')).toBe(true)
+    expect(matchesFilter('Cafe', 'CAFÉ', 'en')).toBe(true)
   })
 
   it('matches a list by membership and the rest by equality', () => {
-    expect(matchesFilter('admin', ['admin', 'editor'])).toBe(true)
-    expect(matchesFilter('viewer', ['admin'])).toBe(false)
-    expect(matchesFilter(36, 36)).toBe(true)
-    expect(matchesFilter(36, 40)).toBe(false)
+    expect(matchesFilter('admin', ['admin', 'editor'], 'en')).toBe(true)
+    expect(matchesFilter('viewer', ['admin'], 'en')).toBe(false)
+    expect(matchesFilter(36, 36, 'en')).toBe(true)
+    expect(matchesFilter(36, 40, 'en')).toBe(false)
   })
 })
 
 describe('filterRows', () => {
   it('returns every row when no filter has a value', () => {
-    expect(filterRows(people, { name: '', role: [] }, getValue, {})).toEqual(people)
+    expect(filterRows(people, { name: '', role: [] }, getValue, {}, 'en')).toEqual(people)
   })
 
   it('combines the filters with and', () => {
-    const result = filterRows(people, { name: 'a', role: ['admin'] }, getValue, {})
+    const result = filterRows(people, { name: 'a', role: ['admin'] }, getValue, {}, 'en')
     expect(result.map(({ name }) => name)).toEqual(['Ada'])
   })
 
   it('uses the filter function of a column', () => {
     const result = filterRows(people, { minAge: 40 }, getValue, {
       minAge: (row, value) => (row.age ?? 0) >= (value as number),
-    })
+    }, 'en')
     expect(result.map(({ name }) => name)).toEqual(['Grace'])
   })
 })

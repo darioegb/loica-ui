@@ -2,6 +2,7 @@
 
 import type { CSSProperties, ForwardedRef, HTMLAttributes } from 'react'
 import { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useResolvedLocale } from '../../../locale/locale-provider'
 import { joinClasses } from '../../../overlay/class-names'
 import { mergeRefs } from '../../../overlay/trigger'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
@@ -125,6 +126,7 @@ export const Tree = forwardRef<HTMLDivElement, TreeProps>(
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     const root = useRef<HTMLDivElement | null>(null)
+    const locale = useResolvedLocale()
     const [activeValue, setActiveValue] = useState<string | undefined>(undefined)
     const isStyled = variant !== 'unstyled'
     const {
@@ -156,6 +158,7 @@ export const Tree = forwardRef<HTMLDivElement, TreeProps>(
     const onItemKeyDown = useTreeKeyboard({
       activate,
       expanded,
+      locale,
       multiple: selection === 'multiple',
       root,
       select,

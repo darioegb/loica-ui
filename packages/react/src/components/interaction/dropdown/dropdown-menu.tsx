@@ -2,6 +2,7 @@
 
 import type { ForwardedRef, HTMLAttributes, KeyboardEvent, ReactNode } from 'react'
 import { forwardRef, useEffect } from 'react'
+import { useResolvedLocale } from '../../../locale/locale-provider'
 import { Portal, useFocusTrap } from '../../../overlay'
 import { joinClasses } from '../../../overlay/class-names'
 import { useFloatingPanel } from '../../../overlay/use-floating-panel'
@@ -46,6 +47,7 @@ export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(
       trigger,
     } = context
     const type = useTypeahead()
+    const locale = useResolvedLocale()
     const { isTopmost, panel, position, setPanel } = useFloatingPanel({
       anchor: trigger,
       enabled: open,
@@ -81,7 +83,7 @@ export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(
         return
       } else if (isTypeaheadKey(event)) {
         const labels = items.map((item) => item.textContent ?? '')
-        const match = matchTypeahead(labels, type(event.key), current)
+        const match = matchTypeahead(labels, type(event.key), current, locale)
         if (match >= 0) focusItem(items[match])
         return
       }

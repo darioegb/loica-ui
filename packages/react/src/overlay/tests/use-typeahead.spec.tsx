@@ -5,33 +5,46 @@ const labels = ['Apple', 'Apricot', 'Banana', 'Blueberry', 'Cherry']
 
 describe('matchTypeahead', () => {
   it('finds the first label that starts with the text', () => {
-    expect(matchTypeahead(labels, 'ban', -1)).toBe(2)
+    expect(matchTypeahead(labels, 'ban', -1, 'en')).toBe(2)
   })
 
   it('is case insensitive and ignores surrounding spaces', () => {
-    expect(matchTypeahead([' Cherry'], 'CH', -1)).toBe(0)
+    expect(matchTypeahead([' Cherry'], 'CH', -1, 'en')).toBe(0)
+  })
+
+  it('tells the Turkish dotless i from the dotted one only in Turkish', () => {
+    const words = ['İzmir', 'Isparta']
+    expect(matchTypeahead(words, 'ı', -1, 'tr')).toBe(1)
+    expect(matchTypeahead(words, 'i', -1, 'tr')).toBe(0)
+    expect(matchTypeahead(words, 'i', -1, 'en')).toBe(0)
+    expect(matchTypeahead(words, 'is', -1, 'en')).toBe(1)
+  })
+
+  it('ignores the accents of the labels and of the typed text', () => {
+    expect(matchTypeahead(['Zeta', 'Árbol', 'Ñandú'], 'a', -1, 'en')).toBe(1)
+    expect(matchTypeahead(['Zeta', 'Arbol', 'Nandu'], 'ñ', -1, 'en')).toBe(2)
   })
 
   it('moves to the next match for a single character', () => {
-    expect(matchTypeahead(labels, 'a', 0)).toBe(1)
-    expect(matchTypeahead(labels, 'a', 1)).toBe(0)
+    expect(matchTypeahead(labels, 'a', 0, 'en')).toBe(1)
+    expect(matchTypeahead(labels, 'a', 1, 'en')).toBe(0)
   })
 
   it('cycles through the matches of a repeated character', () => {
-    expect(matchTypeahead(labels, 'bb', 2)).toBe(3)
+    expect(matchTypeahead(labels, 'bb', 2, 'en')).toBe(3)
   })
 
   it('keeps the current item while the text still matches it', () => {
-    expect(matchTypeahead(labels, 'ap', 0)).toBe(0)
+    expect(matchTypeahead(labels, 'ap', 0, 'en')).toBe(0)
   })
 
   it('skips the disabled items', () => {
-    expect(matchTypeahead(labels, 'a', -1, (index) => index === 0)).toBe(1)
+    expect(matchTypeahead(labels, 'a', -1, 'en', (index) => index === 0)).toBe(1)
   })
 
   it('returns -1 when nothing matches', () => {
-    expect(matchTypeahead(labels, 'x', -1)).toBe(-1)
-    expect(matchTypeahead([], 'a', -1)).toBe(-1)
+    expect(matchTypeahead(labels, 'x', -1, 'en')).toBe(-1)
+    expect(matchTypeahead([], 'a', -1, 'en')).toBe(-1)
   })
 })
 

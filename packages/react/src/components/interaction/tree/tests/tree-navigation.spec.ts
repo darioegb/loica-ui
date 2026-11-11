@@ -52,12 +52,12 @@ describe('tree navigation', () => {
 
   it('reads the label of an item and not the one of its children', () => {
     const root = build(item('a', ' Alpha ', '', `<div role="group">${item('b', 'Beta')}</div>`))
-    expect(labelOf(root.querySelector('[role="treeitem"]') as HTMLElement)).toBe('alpha')
+    expect(labelOf(root.querySelector('[role="treeitem"]') as HTMLElement, 'en')).toBe('alpha')
   })
 
   it('has an empty label without a label element', () => {
     const root = build('<div role="treeitem"></div>')
-    expect(labelOf(root.firstElementChild as HTMLElement)).toBe('')
+    expect(labelOf(root.firstElementChild as HTMLElement, 'en')).toBe('')
   })
 
   describe('typeahead', () => {
@@ -68,33 +68,33 @@ describe('tree navigation', () => {
 
     it('finds the next item that starts with the letter, after the current one', () => {
       const list = items()
-      expect(findTypeaheadMatch(list, 0, 'a')).toBe(list[2])
-      expect(findTypeaheadMatch(list, 2, 'a')).toBe(list[0])
+      expect(findTypeaheadMatch(list, 0, 'a', 'en')).toBe(list[2])
+      expect(findTypeaheadMatch(list, 2, 'a', 'en')).toBe(list[0])
     })
 
     it('wraps around to the start', () => {
       const list = items()
-      expect(findTypeaheadMatch(list, 3, 'b')).toBe(list[1])
+      expect(findTypeaheadMatch(list, 3, 'b', 'en')).toBe(list[1])
     })
 
     it('matches a longer text from the current item', () => {
       const list = items()
-      expect(findTypeaheadMatch(list, 2, 'av')).toBe(list[2])
-      expect(findTypeaheadMatch(list, 0, 'ber')).toBe(list[3])
+      expect(findTypeaheadMatch(list, 2, 'av', 'en')).toBe(list[2])
+      expect(findTypeaheadMatch(list, 0, 'ber', 'en')).toBe(list[3])
     })
 
     it('cycles with the same letter repeated', () => {
       const list = items()
-      expect(findTypeaheadMatch(list, 0, 'aa')).toBe(list[2])
+      expect(findTypeaheadMatch(list, 0, 'aa', 'en')).toBe(list[2])
     })
 
     it('ignores the case', () => {
       const list = items()
-      expect(findTypeaheadMatch(list, 0, 'B')).toBe(list[1])
+      expect(findTypeaheadMatch(list, 0, 'B', 'en')).toBe(list[1])
     })
 
     it('finds nothing when no item matches', () => {
-      expect(findTypeaheadMatch(items(), 0, 'z')).toBeUndefined()
+      expect(findTypeaheadMatch(items(), 0, 'z', 'en')).toBeUndefined()
     })
   })
 })

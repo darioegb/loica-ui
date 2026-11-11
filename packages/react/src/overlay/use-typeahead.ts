@@ -1,20 +1,22 @@
 'use client'
 
 import { useCallback, useEffect, useRef } from 'react'
+import { foldText } from './fold-text'
 
 export function matchTypeahead(
   labels: readonly string[],
   query: string,
   from: number,
+  locale: string,
   isDisabled: (index: number) => boolean = () => false,
 ): number {
-  const text = query.toLowerCase()
+  const text = foldText(query, locale)
   const repeated = text.length > 1 && [...text].every((character) => character === text[0])
   const needle = repeated ? text[0] : text
   const start = repeated || text.length === 1 ? from + 1 : from
   for (let step = 0; step < labels.length; step += 1) {
     const index = (Math.max(start, 0) + step) % labels.length
-    if (!isDisabled(index) && labels[index].trim().toLowerCase().startsWith(needle)) return index
+    if (!isDisabled(index) && foldText(labels[index].trim(), locale).startsWith(needle)) return index
   }
   return -1
 }

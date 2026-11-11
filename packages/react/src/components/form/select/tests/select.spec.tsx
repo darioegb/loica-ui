@@ -838,6 +838,59 @@ describe('Select component', () => {
       expect(screen.getByText('No results')).toBeInTheDocument()
     })
 
+    it('finds an option whatever its accents, and does not show the empty message for it', async () => {
+      render(
+        <Select searchable>
+          <SelectTrigger aria-label="Fruit" />
+          <SelectContent>
+            <SelectSearch>
+              <SelectSearchInput />
+            </SelectSearch>
+            <SelectList>
+              <SelectOption value="cafe">Café</SelectOption>
+              <SelectOption value="te">Té</SelectOption>
+            </SelectList>
+            <SelectEmpty />
+          </SelectContent>
+        </Select>,
+      )
+      await userEvent.click(trigger())
+      const search = screen.getByRole('combobox', { name: 'Search' })
+      await userEvent.type(search, 'CAFE')
+      expect(screen.getAllByRole('option')).toHaveLength(1)
+      expect(option('Café')).toBeVisible()
+      expect(screen.queryByText('No results')).toBeNull()
+
+      await userEvent.clear(search)
+      await userEvent.type(search, 'té')
+      expect(screen.getAllByRole('option')).toHaveLength(1)
+      expect(option('Té')).toBeVisible()
+    })
+
+    it('searches with the locale of the LocaleProvider', async () => {
+      render(
+        <LocaleProvider locale="tr">
+          <Select searchable>
+            <SelectTrigger aria-label="Fruit" />
+            <SelectContent>
+              <SelectOption value="isparta">Isparta</SelectOption>
+              <SelectOption value="izmir">İzmir</SelectOption>
+            </SelectContent>
+          </Select>
+        </LocaleProvider>,
+      )
+      await userEvent.click(trigger())
+      const search = screen.getByRole('combobox', { name: 'Search' })
+      await userEvent.type(search, 'ı')
+      expect(screen.getAllByRole('option')).toHaveLength(1)
+      expect(option('Isparta')).toBeVisible()
+
+      await userEvent.clear(search)
+      await userEvent.type(search, 'i')
+      expect(screen.getAllByRole('option')).toHaveLength(1)
+      expect(option('İzmir')).toBeVisible()
+    })
+
     it('uses its own empty text, label and placeholder', async () => {
       render(
         <LocaleProvider messages={{ select: { empty: 'Nothing', search: 'Find' } }}>
