@@ -18,8 +18,8 @@ English.
 ## Where things are
 
 - `packages/react/src/components/<category>/<name>/`: a component, with its CSS module, `index.ts`,
-  `stories/` and `tests/`. The other folders of `src` are `theme/`, `locale/`, `hooks/`, `utils/` and `overlay/` (the
-  internal primitives of the overlays: `useLayer`, `useDismiss`, `Portal`, `joinClasses`, `hasPart`...).
+  `stories/` and `tests/`. The other folders of `src` are `theme/`, `locale/`, `link/` (the `LinkProvider`), `hooks/`, `utils/` and
+  `overlay/` (the internal primitives of the overlays: `useLayer`, `useDismiss`, `Portal`, `joinClasses`, `hasPart`...).
 - `packages/react/scripts/`: build-time code (tokens, Tailwind theme, breakpoints) and the checks that `lint`
   and `build` run.
 - `apps/docs`: Storybook. The guides are the MDX files of `apps/docs/stories`; the component stories live with the

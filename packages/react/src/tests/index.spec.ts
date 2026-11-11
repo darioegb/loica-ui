@@ -115,6 +115,7 @@ describe('@loica-ui/react', () => {
       'Heading',
       'Icon',
       'Input',
+      'LinkProvider',
       'List',
       'ListDivider',
       'ListItem',

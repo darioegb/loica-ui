@@ -92,6 +92,46 @@ no flash for the users whose system is light.
 The directives live in the ESM build, which is what Next.js and the other bundlers resolve. The CommonJS build is a
 single file with none.
 
+## Router links
+
+`SidebarItem`, `NavbarItem`, `NavbarBrand`, `BreadcrumbLink` and a `Button` with `href` render an `<a>`, so a click
+reloads the page and a router can't prefetch the target. Give the link component of your router once, with a
+`LinkProvider`, and they render it instead. It gets `href` and the rest of the attributes of an anchor, and has to
+forward the `ref` and `onClick` to its element, as the link of Next.js and React Router do.
+
+```tsx
+// app/providers.tsx
+'use client'
+
+import Link from 'next/link'
+import type { ReactNode } from 'react'
+import { LinkProvider } from '@loica-ui/react'
+
+export function Providers({ children }: { children: ReactNode }) {
+  return <LinkProvider component={Link}>{children}</LinkProvider>
+}
+```
+
+The link of React Router takes `to` and not `href`, so wrap it:
+
+```tsx
+import { forwardRef, type ReactNode } from 'react'
+import { Link as RouterLink } from 'react-router'
+import { LinkProvider, type LinkComponentProps } from '@loica-ui/react'
+
+const Link = forwardRef<HTMLAnchorElement, LinkComponentProps>(({ href, ...rest }, ref) => (
+  <RouterLink {...rest} ref={ref} to={href} />
+))
+Link.displayName = 'Link'
+
+export function Links({ children }: { children: ReactNode }) {
+  return <LinkProvider component={Link}>{children}</LinkProvider>
+}
+```
+
+A link that is `disabled` stays a plain `<a>` without `href`, so it never reaches the router. The nearest
+`LinkProvider` wins, so a part of the page can use another one.
+
 ## Tailwind CSS v4
 
 The components work as they are next to Tailwind, and with `variant='unstyled'` you style them with utilities. This is

@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import type { FormEvent } from 'react'
+import type { FormEvent, MouseEvent } from 'react'
+import { createRef } from 'react'
 import { Button } from '..'
 
 describe('Button component', () => {
@@ -245,5 +246,68 @@ describe('Button component', () => {
     expect(style.getPropertyValue('--button-contrast-color')).toBe(
       'var(--loica-color-success-solid-contrast)',
     )
+  })
+
+  describe('as a link', () => {
+    it('renders an anchor with the look of a button when it has href', () => {
+      render(
+        <Button href="/docs" rel="noreferrer" target="_blank" variant="outline">
+          Docs
+        </Button>,
+      )
+      const link = screen.getByRole('link', { name: 'Docs' })
+      expect(link.tagName).toBe('A')
+      expect(link).toHaveAttribute('href', '/docs')
+      expect(link).toHaveAttribute('target', '_blank')
+      expect(link).toHaveAttribute('rel', 'noreferrer')
+      expect(link).toHaveAttribute('data-loica-button')
+      expect(link).not.toHaveAttribute('type')
+      expect(link.className.split(' ')).toContain('outline')
+    })
+
+    it('calls onClick and gives the anchor to the ref', () => {
+      const onClick = vi.fn((event: MouseEvent<HTMLButtonElement>) => event.preventDefault())
+      const ref = createRef<HTMLButtonElement>()
+      render(
+        <Button href="/docs" onClick={onClick} ref={ref}>
+          Docs
+        </Button>,
+      )
+      fireEvent.click(screen.getByRole('link', { name: 'Docs' }))
+      expect(onClick).toHaveBeenCalledTimes(1)
+      expect(ref.current).toBe(screen.getByRole('link', { name: 'Docs' }))
+    })
+
+    it('has no href and ignores its clicks when disabled', () => {
+      const onClick = vi.fn()
+      render(
+        <Button disabled href="/docs" onClick={onClick}>
+          Docs
+        </Button>,
+      )
+      const link = screen.getByRole('link', { name: 'Docs' })
+      expect(link).not.toHaveAttribute('href')
+      expect(link).toHaveAttribute('aria-disabled', 'true')
+      expect(link).toHaveAttribute('data-disabled')
+      expect(link).toHaveAttribute('tabindex', '-1')
+      fireEvent.click(link)
+      expect(onClick).not.toHaveBeenCalled()
+    })
+
+    it('has no href and ignores its clicks while loading, and keeps the focus', () => {
+      const onClick = vi.fn()
+      render(
+        <Button href="/docs" loading onClick={onClick}>
+          Docs
+        </Button>,
+      )
+      const link = screen.getByRole('link', { name: /Docs/ })
+      expect(link).not.toHaveAttribute('href')
+      expect(link).toHaveAttribute('aria-busy', 'true')
+      expect(link).toHaveAttribute('aria-disabled', 'true')
+      expect(link).not.toHaveAttribute('tabindex')
+      fireEvent.click(link)
+      expect(onClick).not.toHaveBeenCalled()
+    })
   })
 })

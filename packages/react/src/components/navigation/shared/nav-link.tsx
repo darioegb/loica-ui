@@ -1,7 +1,8 @@
 'use client'
 
-import type { CSSProperties, ForwardedRef, MouseEventHandler, ReactNode } from 'react'
+import type { CSSProperties, ElementType, ForwardedRef, MouseEventHandler, ReactNode } from 'react'
 import { forwardRef } from 'react'
+import { useLinkComponent } from '../../../link/link-provider'
 
 export interface NavLinkProps {
   active: boolean
@@ -34,6 +35,7 @@ export const NavLink = forwardRef<HTMLElement, NavLinkProps>(
     }: NavLinkProps,
     ref: ForwardedRef<HTMLElement>,
   ): ReactNode => {
+    const Link = useLinkComponent()
     const common = {
       'aria-current': active ? ('page' as const) : undefined,
       'data-active': active ? '' : undefined,
@@ -56,8 +58,10 @@ export const NavLink = forwardRef<HTMLElement, NavLinkProps>(
       )
     }
 
+    const Element: ElementType = disabled ? 'a' : Link
+
     return (
-      <a
+      <Element
         {...common}
         aria-disabled={disabled || undefined}
         href={disabled ? undefined : href}
@@ -69,7 +73,7 @@ export const NavLink = forwardRef<HTMLElement, NavLinkProps>(
         target={target}
       >
         {children}
-      </a>
+      </Element>
     )
   },
 )
