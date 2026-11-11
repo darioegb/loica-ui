@@ -47,6 +47,12 @@ describe('numberFormat', () => {
     expect(numberFormat('de').parse(text)).toBeNull()
   })
 
+  it('rejects a long text that is almost a number without taking long', () => {
+    const { parse } = numberFormat('en')
+    expect(parse(`${'1'.repeat(100_000)}x`)).toBeNull()
+    expect(parse('('.repeat(100_000))).toBeNull()
+  })
+
   it('reads negative numbers with the minus of the locale, a hyphen or a real minus', () => {
     expect(numberFormat('en').parse('-5')).toBe(-5)
     expect(numberFormat('sv').parse('\u22125,5')).toBe(-5.5)

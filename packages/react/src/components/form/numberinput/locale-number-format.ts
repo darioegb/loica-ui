@@ -2,14 +2,18 @@ const SAMPLES = [0, 0.5, 1, 2, 5, 11, 21, 100, 1234567.5]
 const SYMBOL_TYPES = new Set<string>(['currency', 'literal', 'percentSign', 'unit'])
 const BIDI_MARKS = /[\u200e\u200f\u061c]/g
 const NEGATIVE = /[-\u2212]/
-const ACCOUNTING = /\(.*\)/
-const READABLE = /^(?:\d+\.?\d*|\.\d+)$/
+const READABLE = /^(?:\d+(?:\.\d*)?|\.\d+)$/
 
 export interface NumberInputFormat {
   /** Writes a number as the locale and the options say. */
   format: (value: number) => string
   /** Reads back what `format` writes, or `null` when the text is not a number. */
   parse: (text: string) => number | null
+}
+
+const isAccounting = (text: string): boolean => {
+  const open = text.indexOf('(')
+  return open !== -1 && text.includes(')', open)
 }
 
 const partOf = (parts: Intl.NumberFormatPart[], type: Intl.NumberFormatPartTypes): string =>
@@ -61,7 +65,7 @@ export function numberFormat(
     let rest = text.replace(BIDI_MARKS, '')
     for (const symbol of symbols) rest = rest.split(symbol).join('')
     const negative =
-      NEGATIVE.test(rest) || (minus !== '' && rest.includes(minus)) || ACCOUNTING.test(rest)
+      NEGATIVE.test(rest) || (minus !== '' && rest.includes(minus)) || isAccounting(rest)
     rest = rest.replace(/[\s+()\-\u2212]/g, '')
     if (minus !== '') rest = rest.split(minus).join('')
     if (group !== '') rest = rest.split(group).join('')
