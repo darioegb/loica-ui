@@ -1,5 +1,11 @@
 # @loica-ui/react
 
+## 1.0.3
+
+### Patch Changes
+
+- [#382](https://github.com/darioegb/loica-ui/pull/382) [`1596ecf4cd770393ff17632bdc269b750326b75d`](https://github.com/darioegb/loica-ui/commit/1596ecf4cd770393ff17632bdc269b750326b75d) Thanks [@darioegb](https://github.com/darioegb)! - `Field` no longer repeats its own class in the `class` attribute (`_field _vertical _field`). The class of its orientation already carries the base one, so nothing changes in how it looks.
+
 ## 1.0.2
 
 ### Patch Changes
