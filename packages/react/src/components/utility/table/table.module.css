@@ -108,6 +108,7 @@
 
 .table th,
 .table td {
+  --field-min-width: var(--table-field-min-width, 8rem);
   padding: var(--table-padding);
 }
 

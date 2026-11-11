@@ -11,7 +11,7 @@
   color: var(--loica-foreground);
   display: block;
   font-family: var(--loica-font-family);
-  min-width: min(var(--loica-container-2xs), 100%);
+  min-width: var(--field-min-width, min(var(--loica-container-2xs), 100%));
   padding: var(--loica-space-2) var(--loica-space-4);
   width: 100%;
 }
