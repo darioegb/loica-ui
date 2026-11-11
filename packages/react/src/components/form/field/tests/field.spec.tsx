@@ -216,4 +216,15 @@ describe('Field accessibility', () => {
 
     expect(screen.getByRole('textbox', { name: 'Nickname (optional)' })).toBeInTheDocument()
   })
+
+  it('takes the base class from the orientation class, as the CSS composes it', () => {
+    render(
+      <Field className="mine" label="Email">
+        <Input />
+      </Field>,
+    )
+
+    const root = document.querySelector('[data-loica-field]')
+    expect(root?.className.split(' ')).toEqual(['vertical', 'mine'])
+  })
 })
