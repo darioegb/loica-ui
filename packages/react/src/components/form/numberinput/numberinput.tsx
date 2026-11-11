@@ -26,7 +26,7 @@ export interface NumberInputOwnProps {
   /** The number the field starts with, when it is not controlled. */
   defaultValue?: number | null
   /**
-   * How a number is shown when the field is not being edited: a currency, a unit, thousands separators. It is exposed to screen readers as `aria-valuetext`.
+   * How a number is shown when the field is not being edited: a currency, a unit, thousands separators. It is exposed to screen readers as `aria-valuetext`. For a locale, spread `numberFormat(locale, options)`, which gives a `format` and the `parse` that reads it back.
    */
   format?: (value: number) => string
   /**
@@ -52,7 +52,7 @@ export interface NumberInputOwnProps {
    */
   onValueChange?: (value: number | null) => void
   /**
-   * Turns the text of the field into a number, or `null`. The default accepts a dot or a comma as the decimal separator. Use it with `format` so what `format` shows can be read back.
+   * Turns the text of the field into a number, or `null`. The default accepts a dot or a comma as the decimal separator. Use it with `format` so what `format` shows can be read back, or spread `numberFormat(locale, options)`, which gives both.
    */
   parse?: (text: string) => number | null
   /**

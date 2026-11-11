@@ -1,3 +1,4 @@
+export { numberFormat, type NumberInputFormat } from './locale-number-format'
 export {
   NumberInput,
   type NumberInputLabels,
