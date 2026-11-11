@@ -223,11 +223,7 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(
     return (
       <FieldContext.Provider value={context}>
         <div
-          className={joinClasses(
-            isStyled && styles.field,
-            isStyled && styles[orientation],
-            className,
-          )}
+          className={joinClasses(isStyled && styles[orientation], className)}
           data-disabled={disabled ? '' : undefined}
           data-invalid={invalid ? '' : undefined}
           data-orientation={orientation}
