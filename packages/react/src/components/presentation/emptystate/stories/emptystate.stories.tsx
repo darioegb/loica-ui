@@ -24,7 +24,7 @@ const inbox = (
  * assistive technology, and its size follows the **size** of the EmptyState.
  *
  * The **title** is a `<div>` by default, because the right heading level depends on the page. Use **titleAs**
- * (`h2` to `h6`) when the title should be part of the outline. When the state appears after the user did
+ * (`h1` to `h6`) when the title should be part of the outline: `h1` when the EmptyState is the whole page, as in a 404. When the state appears after the user did
  * something (a search with no results), pass `role="status"` so a screen reader announces it.
  *
  * It has no text of its own: you write the title, the description and the label of the action, so they can be
@@ -62,7 +62,7 @@ export default {
     },
     titleAs: {
       control: 'radio',
-      options: ['div', 'h2', 'h3', 'h4', 'h5', 'h6'],
+      options: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
     },
     className: {
       control: 'text',

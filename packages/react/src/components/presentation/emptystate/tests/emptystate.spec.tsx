@@ -47,9 +47,9 @@ describe('EmptyState component', () => {
     expect(container.firstChild).toHaveClass(size)
   })
 
-  it('renders the title as a heading when asked', () => {
-    render(<EmptyState title="No projects" titleAs="h3" />)
-    expect(screen.getByRole('heading', { level: 3, name: 'No projects' })).toBeInTheDocument()
+  it.each([1, 3] as const)('renders the title as a heading of level %i when asked', (level) => {
+    render(<EmptyState title="No projects" titleAs={`h${level}`} />)
+    expect(screen.getByRole('heading', { level, name: 'No projects' })).toBeInTheDocument()
   })
 
   it('renders the title in a div by default', () => {

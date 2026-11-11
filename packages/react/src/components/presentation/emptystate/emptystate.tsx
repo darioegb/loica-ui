@@ -4,7 +4,7 @@ import { joinClasses } from '../../../overlay/class-names'
 import type { Size } from '../../../theme'
 import styles from './emptystate.module.css'
 
-export type EmptyStateTitleTag = 'div' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+export type EmptyStateTitleTag = 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 
 export type EmptyStateVariant = 'filled' | 'outline' | 'plain' | 'unstyled'
 
@@ -26,7 +26,7 @@ export interface EmptyStateOwnProps {
   /** What is empty, in a few words. */
   title?: ReactNode
   /**
-   * Element of the title: a `div` or a heading level.
+   * Element of the title: a `div` or a heading level. Use `h1` when the EmptyState is the page, as in a 404.
    *
    * @default 'div'
    */
