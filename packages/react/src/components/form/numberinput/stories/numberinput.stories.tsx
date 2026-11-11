@@ -2,7 +2,7 @@ import type { StoryObj, Meta } from '@storybook/react-vite'
 import { useState } from 'react'
 import { defaultTheme } from '../../../../theme'
 import { Field } from '../../field'
-import { NumberInput } from '..'
+import { NumberInput, numberFormat } from '..'
 
 const colorSchemes = Object.keys(defaultTheme.colors)
 
@@ -226,6 +226,38 @@ export const FormatAndParse: Story = {
     step: 0.5,
     style: { width: '14rem' },
   },
+}
+
+/**
+ * To write and read a number as a locale does, spread **numberFormat**(locale, options) on the NumberInput: it
+ * gives the `format` and the `parse` that is its inverse, so what the field shows can be typed back. The options
+ * are those of `Intl.NumberFormat`: thousands separators, a currency, a percentage or a unit. Type the separators
+ * of the locale: a dot is a thousands separator in `es` and `de`. The digits are always Latin, and an option that
+ * can't be read back, such as `notation: 'compact'`, throws a `RangeError`.
+ *
+ * Create it outside the component, or with `useMemo`, so the field doesn't get a new `format` on every render.
+ */
+export const LocaleFormat: Story = {
+  render: () => (
+    <div className="flex flex-col gap-3" style={{ width: '14rem' }}>
+      <NumberInput
+        {...numberFormat('es', { useGrouping: true })}
+        aria-label="Amount in Spanish"
+        defaultValue={1234567.5}
+      />
+      <NumberInput
+        {...numberFormat('en', { currency: 'USD', style: 'currency' })}
+        aria-label="Price in dollars"
+        defaultValue={1234.5}
+      />
+      <NumberInput
+        {...numberFormat('de', { style: 'percent' })}
+        aria-label="Discount"
+        defaultValue={0.25}
+        step={0.01}
+      />
+    </div>
+  ),
 }
 
 function ControlledNumberInput(): React.ReactNode {

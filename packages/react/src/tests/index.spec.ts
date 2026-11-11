@@ -276,6 +276,7 @@ describe('@loica-ui/react', () => {
       'getLightenColor',
       'getMonthsByLanguage',
       'lazyLoadContent',
+      'numberFormat',
       'schemeVar',
       'themeToCssVars',
       'useDebounce',

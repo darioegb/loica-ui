@@ -81,6 +81,19 @@ with it (in `tr`, `i` is `İ`). The components that take a `locale` prop of thei
 provider, and all fall back to `en`. Read it in your own components with `useLocale()`, which returns the `locale` of the
 closest provider (or `undefined`).
 
+The `NumberInput` shows only the decimal separator by default. For thousands separators, a currency, a percentage or a
+unit, spread `numberFormat(locale, options)` on it: it gives the `format` and the `parse` that reads it back, with the
+options of `Intl.NumberFormat`. Type the separators of the locale, because a dot is a thousands separator in `es` and
+`de`.
+
+```tsx
+import { NumberInput, numberFormat } from '@loica-ui/react'
+
+const euros = numberFormat('es', { currency: 'EUR', style: 'currency' })
+
+<NumberInput {...euros} aria-label='Price' defaultValue={1234.5} />
+```
+
 ## For one element: the `label` or `aria-label` of the part
 
 The part that shows a text takes it as a prop, and it wins over the provider: `label` on the `Loader`, on
