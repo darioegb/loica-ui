@@ -87,6 +87,21 @@ describe('useTableState (client)', () => {
     expect(run('en', 'i')).toEqual(['Isparta', 'İzmir'])
   })
 
+  it('sorts text with the locale of the LocaleProvider', () => {
+    const words = [{ name: 'zebra' }, { name: 'ärlig' }]
+    const run = (locale: string): string[] => {
+      const { result } = renderHook(() => useTableState({ rows: words }), {
+        wrapper: ({ children }: { children: ReactNode }) => (
+          <LocaleProvider locale={locale}>{children}</LocaleProvider>
+        ),
+      })
+      act(() => result.current.toggleSort('name'))
+      return result.current.rows.map(({ name }) => name)
+    }
+    expect(run('en')).toEqual(['ärlig', 'zebra'])
+    expect(run('sv')).toEqual(['zebra', 'ärlig'])
+  })
+
   it('goes back to the default filters on reset', () => {
     const defaultFilters = { role: ['admin'] }
     const { result } = setup({ defaultFilters })

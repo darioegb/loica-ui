@@ -74,8 +74,11 @@ The others are strings.
 `locale` is a BCP 47 tag (`es`, `es-AR`, `en-US`). It does not pick the texts, which are the ones you give in
 `messages`: it sets how the components write data, with `Intl`. The `DatePicker` uses it for the names of the days and
 months and for the format of the date, the `Paginator` for the numbers of its summary (`12.345` in `de`), the
-`FileUpload` for the size of a file (`1,5 KB` in `es`) and the `NumberInput` for its decimal separator (`1,5` in `es`). Each one takes its own `locale` prop, which wins over the
-provider, and falls back to `en`. Read it in your own components with `useLocale()`, which returns the `locale` of the
+`FileUpload` for the size of a file (`1,5 KB` in `es`), the `NumberInput` for its decimal separator (`1,5` in `es`) and
+the `ProgressBar` for its percentage (`50 %` in `de`). The `Table` sorts text with it, and the search of `Select`, the
+filter of `Table`, the typeahead of `Select`, `DropdownMenu` and `Tree`, and the initials of `Avatar` change the case
+with it (in `tr`, `i` is `İ`). The components that take a `locale` prop of their own let it win over the
+provider, and all fall back to `en`. Read it in your own components with `useLocale()`, which returns the `locale` of the
 closest provider (or `undefined`).
 
 ## For one element: the `label` or `aria-label` of the part

@@ -87,7 +87,13 @@ export function useTableState<Row>({
     () =>
       manual
         ? rows
-        : sortRows(filterRows(rows, filters, getValue, filterFns, locale), sort, getValue, sortFns),
+        : sortRows(
+            filterRows(rows, filters, getValue, filterFns, locale),
+            sort,
+            getValue,
+            sortFns,
+            locale,
+          ),
     [filterFns, filters, getValue, locale, manual, rows, sort, sortFns],
   )
   const total = manual ? (manualTotal ?? rows.length) : processed.length
