@@ -99,6 +99,82 @@ const buttonColorVars = (colorScheme: ColorScheme): CSSProperties =>
     '--button-tint-text': schemeVar(colorScheme, 'tint-text'),
   }) as CSSProperties
 
+interface ButtonBodyProps {
+  content: ReactNode
+  iconLeft?: ReactNode
+  iconRight?: ReactNode
+  loading: boolean
+  loadingText?: string
+}
+
+function ButtonBody({
+  content,
+  iconLeft,
+  iconRight,
+  loading,
+  loadingText,
+}: Readonly<ButtonBodyProps>): ReactNode {
+  if (loading) {
+    return (
+      <>
+        {loadingText ?? <span style={visuallyHidden}>{content}</span>}
+        <Loader size="sm" />
+      </>
+    )
+  }
+  return (
+    <>
+      {iconLeft}
+      {content}
+      {iconRight}
+    </>
+  )
+}
+
+interface ButtonClassNameOptions {
+  className?: string
+  inactive: boolean
+  shape: Shape
+  size: Size
+  variant: ButtonVariant
+}
+
+function buttonClassName({
+  className,
+  inactive,
+  shape,
+  size,
+  variant,
+}: ButtonClassNameOptions): string | undefined {
+  if (variant === 'unstyled') return joinClasses(className)
+  return joinClasses(
+    styles[variant],
+    styles[size],
+    styles[shape],
+    inactive && styles.disabled,
+    className,
+  )
+}
+
+const stateAttributes = (loading: boolean, inactive: boolean) => ({
+  'aria-busy': loading || undefined,
+  'data-disabled': inactive ? '' : undefined,
+  'data-loading': loading ? '' : undefined,
+})
+
+const linkAttributes = (
+  href: string,
+  disabled: boolean,
+  inactive: boolean,
+  onClick: ButtonProps['onClick'],
+) => ({
+  'aria-disabled': inactive || undefined,
+  href: inactive ? undefined : href,
+  onClick: inactive ? ignoreClick : onClick,
+  role: inactive ? 'link' : undefined,
+  tabIndex: disabled ? -1 : undefined,
+})
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -124,37 +200,25 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     }: ButtonProps,
     ref: ForwardedRef<HTMLButtonElement>,
   ) => {
-    const isStyled = variant !== 'unstyled'
     const content = children ?? label
     const inactive = disabled || loading
     const Anchor = useAnchorElement({ disabled: inactive, href, target })
 
     const common = {
-      'aria-busy': loading || undefined,
-      className: joinClasses(
-        isStyled && styles[variant],
-        isStyled && styles[size],
-        isStyled && styles[shape],
-        isStyled && inactive && styles.disabled,
-        className,
-      ),
-      'data-disabled': inactive ? '' : undefined,
-      'data-loading': loading ? '' : undefined,
+      ...stateAttributes(loading, inactive),
+      className: buttonClassName({ className, inactive, shape, size, variant }),
       'data-loica-button': '',
       style: { ...buttonColorVars(colorScheme), ...style },
     }
 
-    const body = loading ? (
-      <>
-        {loadingText ?? <span style={visuallyHidden}>{content}</span>}
-        <Loader size="sm" />
-      </>
-    ) : (
-      <>
-        {iconLeft}
-        {content}
-        {iconRight}
-      </>
+    const body = (
+      <ButtonBody
+        content={content}
+        iconLeft={iconLeft}
+        iconRight={iconRight}
+        loading={loading}
+        loadingText={loadingText}
+      />
     )
 
     if (href !== undefined) {
@@ -162,13 +226,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         <Anchor
           {...common}
           {...rest}
-          aria-disabled={inactive || undefined}
-          href={inactive ? undefined : href}
-          onClick={inactive ? ignoreClick : onClick}
+          {...linkAttributes(href, disabled, inactive, onClick)}
           ref={ref}
           rel={rel}
-          role={inactive ? 'link' : undefined}
-          tabIndex={disabled ? -1 : undefined}
           target={target}
         >
           {body}
