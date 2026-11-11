@@ -36,6 +36,7 @@ export function useDatePickerPage(
     onSecondYearChange,
     onSelectDate,
     state,
+    weekStartsOn,
   } = useDatePickerContext('DatePickerPage')
   const year = second ? state.secondYear : state.year
   const month = second ? state.secondMonth : state.month
@@ -66,7 +67,7 @@ export function useDatePickerPage(
   })
 
   const months = useMemo(() => getMonthsByLanguage(language), [language])
-  const weekdays = useMemo(() => getDaysOfWeekByLanguage(language), [language])
+  const weekdays = useMemo(() => getDaysOfWeekByLanguage(language, weekStartsOn), [language, weekStartsOn])
   const days = useMemo(
     () =>
       buildCalendarDays({
@@ -79,9 +80,21 @@ export function useDatePickerPage(
         month,
         rangeDays: state.rangeDays,
         startDate,
+        weekStartsOn,
         year,
       }),
-    [endDate, focusedDate, language, maxDate, minDate, month, startDate, state.rangeDays, year],
+    [
+      endDate,
+      focusedDate,
+      language,
+      maxDate,
+      minDate,
+      month,
+      startDate,
+      state.rangeDays,
+      weekStartsOn,
+      year,
+    ],
   )
   const monthOptions = useMemo(
     () => months.map((label, index) => ({ index, label, selected: index === month })),
@@ -132,7 +145,7 @@ export function useDatePickerPage(
       if (!current || !move) return
       event.preventDefault()
 
-      const next = move(getDateFromDateString(current, DATA_DATE_FORMAT))
+      const next = move(getDateFromDateString(current, DATA_DATE_FORMAT), weekStartsOn)
       const nextTime = next.getTime()
       if (
         (minDate && nextTime < startOfDay(minDate)) ||
@@ -146,7 +159,7 @@ export function useDatePickerPage(
       shouldMoveFocus.current = true
       setFocusedDate(next)
     },
-    [maxDate, minDate, month, onMonthChange, year],
+    [maxDate, minDate, month, onMonthChange, weekStartsOn, year],
   )
 
   const selectDay = useCallback(

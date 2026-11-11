@@ -5,6 +5,7 @@ import { createContext, useContext } from 'react'
 import type { ColorScheme, Shape, Size } from '../../../theme'
 import type { UsePositionResult } from '../../../overlay/use-position'
 import type { DatePickerAction, DatePickerState } from './datepicker-reducer'
+import type { WeekDay } from '../../../utils/dates'
 import type { DatePickerLabels, DatePickerVariant, DateRange } from './datepicker-types'
 
 export interface DatePickerContextProps {
@@ -37,6 +38,7 @@ export interface DatePickerContextProps {
   state: DatePickerState
   toggle: () => void
   variant: DatePickerVariant
+  weekStartsOn: WeekDay
 }
 
 export const DatePickerContext = createContext<DatePickerContextProps | undefined>(undefined)

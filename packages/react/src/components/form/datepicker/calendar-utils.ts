@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import type { WeekDay } from '../../../utils/dates'
 
 export const DATA_DATE_FORMAT = 'yyyy-mm-dd'
 
@@ -35,15 +36,16 @@ export const addMonths = (date: Date, months: number): Date => {
   return new Date(date.getFullYear(), date.getMonth() + months, Math.min(date.getDate(), lastDay))
 }
 
-export const daysFromMonday = (date: Date): number => (date.getDay() + 6) % 7
+export const daysFromWeekStart = (date: Date, weekStartsOn: WeekDay): number =>
+  (date.getDay() - weekStartsOn + 7) % 7
 
-export const KEY_MOVES: Record<string, (date: Date) => Date> = {
+export const KEY_MOVES: Record<string, (date: Date, weekStartsOn: WeekDay) => Date> = {
   ArrowLeft: (date) => addDays(date, -1),
   ArrowRight: (date) => addDays(date, 1),
   ArrowUp: (date) => addDays(date, -7),
   ArrowDown: (date) => addDays(date, 7),
-  Home: (date) => addDays(date, -daysFromMonday(date)),
-  End: (date) => addDays(date, 6 - daysFromMonday(date)),
+  Home: (date, weekStartsOn) => addDays(date, -daysFromWeekStart(date, weekStartsOn)),
+  End: (date, weekStartsOn) => addDays(date, 6 - daysFromWeekStart(date, weekStartsOn)),
   PageUp: (date) => addMonths(date, -1),
   PageDown: (date) => addMonths(date, 1),
 }
@@ -63,6 +65,7 @@ interface BuildDaysOptions {
   month: number
   rangeDays: Date[]
   startDate: Date | null
+  weekStartsOn: WeekDay
   year: number
 }
 
@@ -76,9 +79,10 @@ export function buildCalendarDays({
   month,
   rangeDays,
   startDate,
+  weekStartsOn,
   year,
 }: Readonly<BuildDaysOptions>): DatePickerDayData[] {
-  const daysFromPrevMonth = daysFromMonday(new Date(year, month, 1))
+  const daysFromPrevMonth = daysFromWeekStart(new Date(year, month, 1), weekStartsOn)
   const minTime = minDate ? startOfDay(minDate) : -Infinity
   const maxTime = maxDate ? startOfDay(maxDate) : Infinity
   const today = new Date().toDateString()

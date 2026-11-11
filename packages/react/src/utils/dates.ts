@@ -1,3 +1,6 @@
+/** A day of the week as `Date.getDay()` numbers it: `0` is Sunday and `6` is Saturday. */
+export type WeekDay = 0 | 1 | 2 | 3 | 4 | 5 | 6
+
 function getLocale(language?: string): string {
   if (!language) {
     return navigator.language
@@ -45,15 +48,15 @@ export function getDateFormatByLanguage(language?: string): string {
   return dateFormat
 }
 
-export function getDaysOfWeekByLanguage(language?: string): string[] {
+export function getDaysOfWeekByLanguage(language?: string, weekStartsOn: WeekDay = 1): string[] {
   const locale = getLocale(language)
   const daysOfWeek: string[] = []
   // Format in UTC so the local timezone can't shift the weekday.
   const formatter = new Intl.DateTimeFormat(locale, { weekday: 'short', timeZone: 'UTC' })
 
-  // 2024-01-01 is a Monday; the calendar grid starts on Monday.
+  // 2024-01-07 is a Sunday.
   for (let i = 0; i < 7; i++) {
-    const day = new Date(Date.UTC(2024, 0, 1 + i))
+    const day = new Date(Date.UTC(2024, 0, 7 + weekStartsOn + i))
     const dayOfWeek = formatter.format(day).replace(/^\w/, (c) => c.toUpperCase())
     daysOfWeek.push(dayOfWeek)
   }

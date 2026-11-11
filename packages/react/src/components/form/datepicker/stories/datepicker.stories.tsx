@@ -432,6 +432,26 @@ export const Localized: Story = {
 }
 
 /**
+ * The week starts on Monday, whatever the `locale`, so a calendar doesn't change when you add a language. Give
+ * **weekStartsOn** a day to change it (`0` is Sunday, `6` Saturday), or `'locale'` to take it from the `locale`: Sunday
+ * in `en-US`, Monday in `es`, Saturday in `ar-EG`.
+ */
+export const WeekStart: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker aria-label="Date" locale="en" onValueChange={handleValueChange} panel value={value} weekStartsOn="locale" />`,
+      },
+    },
+  },
+  args: {
+    locale: 'en',
+    panel: true,
+    weekStartsOn: 'locale',
+  },
+}
+
+/**
  * Every element of the calendar is a part, so you can rebuild any piece. Here the header only has the arrows and
  * the month, the weekdays and the days keep their default content, and the footer has its own texts and an order
  * of its own.

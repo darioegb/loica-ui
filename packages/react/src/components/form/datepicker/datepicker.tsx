@@ -7,7 +7,7 @@ import { schemeVar } from '../../../theme'
 import { customProperties } from '../shared/picker-panel'
 import { DatePickerCalendar } from './datepicker-calendar'
 import { DatePickerInput, type DatePickerInputProps } from './datepicker-input'
-import type { DatePickerVariant, DateRange } from './datepicker-types'
+import type { DatePickerVariant, DateRange, WeekStartsOn } from './datepicker-types'
 import { DatePickerContext } from './datepicker-context'
 import { useDatePickerController } from './use-datepicker-controller'
 
@@ -16,6 +16,7 @@ export type {
   DatePickerRootAttributes,
   DatePickerVariant,
   DateRange,
+  WeekStartsOn,
 } from './datepicker-types'
 
 export interface DatePickerOwnProps {
@@ -82,6 +83,12 @@ export interface DatePickerOwnProps {
    * @default 'outline'
    */
   variant?: DatePickerVariant
+  /**
+   * The first day of the week in the calendar: `0` is Sunday, `1` Monday and so on up to `6` for Saturday, or `'locale'` to take it from the `locale` (Sunday in `en-US`, Monday in `es`). Without it the week starts on Monday, whatever the `locale`.
+   *
+   * @default 1
+   */
+  weekStartsOn?: WeekStartsOn
 }
 
 export type DatePickerProps = Omit<ComponentProps, 'index'> &
@@ -121,6 +128,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
       style,
       value,
       variant = 'outline',
+      weekStartsOn,
       ...inputProps
     }: DatePickerProps,
     ref: ForwardedRef<HTMLInputElement>,
@@ -148,6 +156,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
       size: size ?? (variant === 'unstyled' ? undefined : 'md'),
       value,
       variant,
+      weekStartsOn,
     })
 
     return (

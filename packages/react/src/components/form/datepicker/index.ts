@@ -72,4 +72,5 @@ export type {
   DatePickerRootAttributes,
   DatePickerVariant,
   DateRange,
+  WeekStartsOn,
 } from './datepicker-types'
