@@ -73,7 +73,7 @@ The others are strings.
 
 `locale` is a BCP 47 tag (`es`, `es-AR`, `en-US`). It does not pick the texts, which are the ones you give in
 `messages`: it sets how the components write data, with `Intl`. The `DatePicker` uses it for the names of the days and
-months and for the format of the date, the `Paginator` for the numbers of its summary (`12.345` in `de`), the
+months and for the format of the date (and for the first day of the week, with `weekStartsOn='locale'`), the `Paginator` for the numbers of its summary (`12.345` in `de`), the
 `FileUpload` for the size of a file (`1,5 KB` in `es`), the `NumberInput` for its decimal separator (`1,5` in `es`) and
 the `ProgressBar` for its percentage (`50 %` in `de`). The `Table` sorts text with it, and the search of `Select`, the
 filter of `Table`, the typeahead of `Select`, `DropdownMenu` and `Tree`, and the initials of `Avatar` change the case

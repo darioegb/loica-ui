@@ -1,4 +1,5 @@
 import type { InputHTMLAttributes } from 'react'
+import type { WeekDay } from '../../../utils/dates'
 
 export interface DateRange {
   endDate: Date | null
@@ -21,6 +22,12 @@ export interface DatePickerLabels {
   previousMonth: string
   previousYears: string
 }
+
+/**
+ * The first day of the week of the calendar: a `WeekDay` (`0` is Sunday, `1` Monday, up to `6` Saturday), or
+ * `'locale'` to take it from the `locale`.
+ */
+export type WeekStartsOn = WeekDay | 'locale'
 
 export type DatePickerVariant = 'outline' | 'filled' | 'underline' | 'unstyled'
 

@@ -16,7 +16,9 @@ import type {
   DateRange,
   DatePickerLabels,
   DatePickerVariant,
+  WeekStartsOn,
 } from './datepicker-types'
+import { resolveWeekStart } from './week-start'
 
 const DEFAULT_LANGUAGE = 'en'
 const DEFAULT_LABELS: DatePickerLabels = {
@@ -49,6 +51,7 @@ interface DatePickerControllerOptions {
   size?: Size
   value?: DateRange
   variant: DatePickerVariant
+  weekStartsOn?: WeekStartsOn
 }
 
 interface DatePickerController {
@@ -86,9 +89,11 @@ export function useDatePickerController({
   size,
   value,
   variant,
+  weekStartsOn: weekStartsOnProp,
 }: Readonly<DatePickerControllerOptions>): DatePickerController {
   const providerLocale = useLocale()
   const language = localeProp ?? providerLocale ?? DEFAULT_LANGUAGE
+  const weekStartsOn = resolveWeekStart(weekStartsOnProp, language)
   const mergedLabels = useLabels('datePicker', DEFAULT_LABELS)
   const [state, dispatch] = useReducer(datePickerReducer, value, (initialValue?: DateRange) =>
     initialValue
@@ -290,6 +295,7 @@ export function useDatePickerController({
       state,
       toggle,
       variant,
+      weekStartsOn,
     }),
     [
       calendarId,
@@ -320,6 +326,7 @@ export function useDatePickerController({
       state,
       toggle,
       variant,
+      weekStartsOn,
     ],
   )
 
