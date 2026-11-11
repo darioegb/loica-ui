@@ -35,14 +35,19 @@ describe('isEmptyFilter', () => {
 
 describe('compareValues', () => {
   it('compares numbers, dates and strings', () => {
-    expect(compareValues(1, 3)).toBeLessThan(0)
-    expect(compareValues(new Date(2024, 0, 2), new Date(2024, 0, 1))).toBeGreaterThan(0)
-    expect(compareValues('b', 'a')).toBeGreaterThan(0)
+    expect(compareValues(1, 3, 'en')).toBeLessThan(0)
+    expect(compareValues(new Date(2024, 0, 2), new Date(2024, 0, 1), 'en')).toBeGreaterThan(0)
+    expect(compareValues('b', 'a', 'en')).toBeGreaterThan(0)
+  })
+
+  it('orders text with the rules of the locale', () => {
+    expect(compareValues('ä', 'z', 'en')).toBeLessThan(0)
+    expect(compareValues('ä', 'z', 'sv')).toBeGreaterThan(0)
   })
 
   it('orders digits inside text as numbers and ignores case', () => {
-    expect(compareValues('item 2', 'item 10')).toBeLessThan(0)
-    expect(compareValues('a', 'A')).toBe(0)
+    expect(compareValues('item 2', 'item 10', 'en')).toBeLessThan(0)
+    expect(compareValues('a', 'A', 'en')).toBe(0)
   })
 })
 
@@ -93,20 +98,20 @@ describe('filterRows', () => {
 
 describe('sortRows', () => {
   it('keeps the order when there is no sort and does not change the input', () => {
-    expect(sortRows(people, null, getValue, {})).toEqual(people)
+    expect(sortRows(people, null, getValue, {}, 'en')).toEqual(people)
   })
 
   it('sorts ascending and descending', () => {
-    const ascending = sortRows(people, { column: 'name', direction: 'ascending' }, getValue, {})
-    const descending = sortRows(people, { column: 'name', direction: 'descending' }, getValue, {})
+    const ascending = sortRows(people, { column: 'name', direction: 'ascending' }, getValue, {}, 'en')
+    const descending = sortRows(people, { column: 'name', direction: 'descending' }, getValue, {}, 'en')
     expect(ascending.map(({ name }) => name)).toEqual(['Ada', 'Alan', 'Grace', 'Linus'])
     expect(descending.map(({ name }) => name)).toEqual(['Linus', 'Grace', 'Alan', 'Ada'])
     expect(people[0].name).toBe('Ada')
   })
 
   it('puts the empty values last in both directions', () => {
-    const ascending = sortRows(people, { column: 'age', direction: 'ascending' }, getValue, {})
-    const descending = sortRows(people, { column: 'age', direction: 'descending' }, getValue, {})
+    const ascending = sortRows(people, { column: 'age', direction: 'ascending' }, getValue, {}, 'en')
+    const descending = sortRows(people, { column: 'age', direction: 'descending' }, getValue, {}, 'en')
     expect(ascending.map(({ name }) => name)).toEqual(['Alan', 'Ada', 'Grace', 'Linus'])
     expect(descending.map(({ name }) => name)).toEqual(['Grace', 'Ada', 'Alan', 'Linus'])
   })
@@ -114,9 +119,13 @@ describe('sortRows', () => {
   it('uses the sort function of a column', () => {
     const byLength = (first: Person, second: Person): number =>
       first.name.length - second.name.length
-    const result = sortRows(people, { column: 'name', direction: 'descending' }, getValue, {
-      name: byLength,
-    })
+    const result = sortRows(
+      people,
+      { column: 'name', direction: 'descending' },
+      getValue,
+      { name: byLength },
+      'en',
+    )
     expect(result[result.length - 1].name).toBe('Ada')
   })
 })

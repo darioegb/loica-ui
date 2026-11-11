@@ -3,6 +3,7 @@
 import type { ForwardedRef, ReactNode } from 'react'
 import { forwardRef, useMemo } from 'react'
 import { hasPart } from '../../../overlay/has-part'
+import { useResolvedLocale } from '../../../locale/locale-provider'
 import type { ColorScheme, ComponentProps, Shape, Size } from '../../../theme'
 import { ProgressBarContext, progressBarColorVars } from './progressbar-context'
 import type {
@@ -34,8 +35,8 @@ export interface ProgressBarOwnProps {
   colorScheme?: ColorScheme
   /**
    * Returns the text that `showValue` shows, from the value (kept between 0 and `max`) and the
-   * `max`. By default it is the rounded percentage.
-   * @default (value, max) => `${Math.round((value / max) * 100)}%`
+   * `max`. By default it is the rounded percentage, written as the `locale` of the `LocaleProvider`
+   * does: `50%` in `en`, `50 %` in `de` and `fr`.
    */
   formatValue?: (value: number, max: number) => string
   /**
@@ -84,8 +85,8 @@ export type ProgressBarProps = Omit<ComponentProps, 'index'> &
   ProgressBarTrackAttributes &
   ProgressBarOwnProps
 
-const defaultFormatValue = (value: number, max: number): string =>
-  `${Math.round((value / max) * 100)}%`
+const formatPercent = (ratio: number, locale: string): string =>
+  new Intl.NumberFormat(locale, { maximumFractionDigits: 0, style: 'percent' }).format(ratio)
 
 const clamp = (value: number, max: number): number => Math.min(Math.max(value, 0), max)
 
@@ -98,7 +99,7 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
       children,
       className,
       colorScheme = 'primary',
-      formatValue = defaultFormatValue,
+      formatValue,
       hidden,
       id,
       indeterminate = false,
@@ -114,6 +115,7 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
     }: ProgressBarProps,
     ref: ForwardedRef<HTMLDivElement>,
   ): ReactNode => {
+    const locale = useResolvedLocale()
     const total = max > 0 ? max : 100
     const current = clamp(value, total)
     const trackProps = useMemo(
@@ -124,7 +126,7 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
       () => ({
         animated,
         current,
-        formatValue,
+        formatValue: formatValue ?? ((value, max) => formatPercent(value / max, locale)),
         indeterminate,
         isStyled: variant !== 'unstyled',
         percent: (current / total) * 100,
@@ -141,6 +143,7 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
         current,
         formatValue,
         indeterminate,
+        locale,
         ref,
         shape,
         size,

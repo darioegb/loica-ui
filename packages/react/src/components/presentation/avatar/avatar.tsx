@@ -4,7 +4,7 @@ import type { ComponentPropsWithoutRef, ForwardedRef, ReactNode } from 'react'
 import { forwardRef, useState } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import { UserIcon } from '../../../overlay/icons'
-import { useLabels } from '../../../locale/locale-provider'
+import { useLabels, useResolvedLocale } from '../../../locale/locale-provider'
 import type { ColorScheme, Shape, Size } from '../../../theme'
 import { tagColorVars } from '../shared/tag-vars'
 import tag from '../shared/tag.module.css'
@@ -104,6 +104,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
     const [failedSrc, setFailedSrc] = useState<string>()
     const showImage = Boolean(src) && failedSrc !== src
     const text = useLabels('avatar', DEFAULT_LABELS)
+    const locale = useResolvedLocale()
     const statusText = status ? text[status] : undefined
     const label = [alt ?? name, statusText].filter(Boolean).join(', ')
     const isNamed = Boolean(rest['aria-label'] ?? rest['aria-labelledby'] ?? label)
@@ -142,7 +143,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
             className={joinClasses(isStyled && styles.fallback, isStyled && tag[resolvedVariant])}
             data-loica-avatar-fallback=""
           >
-            {fallback ?? (getInitials(name) || <UserIcon />)}
+            {fallback ?? (getInitials(name, locale) || <UserIcon />)}
           </span>
         )}
         {status ? (

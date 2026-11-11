@@ -20,10 +20,10 @@ export const isEmptyFilter = (value: unknown): boolean =>
 
 const isNil = (value: unknown): value is null | undefined => value === null || value === undefined
 
-export function compareValues(first: unknown, second: unknown): number {
+export function compareValues(first: unknown, second: unknown, locale: string): number {
   if (typeof first === 'number' && typeof second === 'number') return first - second
   if (first instanceof Date && second instanceof Date) return first.getTime() - second.getTime()
-  return String(first).localeCompare(String(second), undefined, {
+  return String(first).localeCompare(String(second), locale, {
     numeric: true,
     sensitivity: 'base',
   })
@@ -66,6 +66,7 @@ export function sortRows<Row>(
   sort: TableSort | null,
   getValue: TableValueGetter<Row>,
   sortFns: Readonly<Record<string, (first: Row, second: Row) => number>>,
+  locale: string,
 ): Row[] {
   if (!sort) return [...rows]
   const { column, direction } = sort
@@ -78,7 +79,7 @@ export function sortRows<Row>(
     if (isNil(firstValue) || isNil(secondValue)) {
       return Number(isNil(firstValue)) - Number(isNil(secondValue))
     }
-    return factor * compareValues(firstValue, secondValue)
+    return factor * compareValues(firstValue, secondValue, locale)
   })
 }
 

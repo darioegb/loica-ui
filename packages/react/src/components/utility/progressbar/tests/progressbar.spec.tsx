@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { createRef } from 'react'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 import { ProgressBar } from '..'
 
 const indicator = (): HTMLElement =>
@@ -118,6 +119,19 @@ describe('ProgressBar component', () => {
       const { container } = render(<ProgressBar aria-label="Upload" value={40} />)
       expect(value()).not.toBeInTheDocument()
       expect(container.firstChild).toBe(screen.getByRole('progressbar'))
+    })
+
+    it.each([
+      ['en', '40%'],
+      ['de', /^40\s%$/],
+      ['fr', /^40\s%$/],
+    ])('writes the percentage as the locale %s does', (locale, text) => {
+      render(
+        <LocaleProvider locale={locale}>
+          <ProgressBar aria-label="Upload" showValue value={40} />
+        </LocaleProvider>,
+      )
+      expect(screen.getByText(text)).toBeInTheDocument()
     })
 
     it('shows the percentage next to the bar with showValue', () => {

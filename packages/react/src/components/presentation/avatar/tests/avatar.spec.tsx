@@ -13,7 +13,12 @@ describe('getInitials', () => {
     ['', ''],
     [undefined, ''],
   ])('turns %j into %j', (name, initials) => {
-    expect(getInitials(name)).toBe(initials)
+    expect(getInitials(name, 'en')).toBe(initials)
+  })
+
+  it('capitalizes with the rules of the locale', () => {
+    expect(getInitials('ilker ince', 'en')).toBe('II')
+    expect(getInitials('ilker ince', 'tr')).toBe('İİ')
   })
 })
 
@@ -22,6 +27,15 @@ describe('Avatar component', () => {
     render(<Avatar name="Ada Lovelace" />)
     expect(screen.getByText('AL')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'Ada Lovelace' })).toBeInTheDocument()
+  })
+
+  it('capitalizes the initials with the locale of the LocaleProvider', () => {
+    render(
+      <LocaleProvider locale="tr">
+        <Avatar name="ilker ince" />
+      </LocaleProvider>,
+    )
+    expect(screen.getByText('İİ')).toBeInTheDocument()
   })
 
   it('shows an icon when it has neither an image nor a name', () => {
