@@ -1,6 +1,6 @@
 {
   "name": "@loica-ui/react",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A lightweight TypeScript React UI component library, themed with CSS variables.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

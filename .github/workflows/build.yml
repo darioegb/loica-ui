@@ -92,8 +92,16 @@ jobs:
       - name: Build docs
         run: pnpm build:docs
 
-      - name: Install the browser
+      - name: Install the browser and its system packages
+        id: browser
+        continue-on-error: true
+        timeout-minutes: 4
         run: pnpm --filter @loica-ui/docs exec playwright install --with-deps chromium
+
+      # The system libraries come with the runner image; --with-deps only adds fonts through apt, whose mirrors can be down.
+      - name: Install the browser alone when apt fails
+        if: steps.browser.outcome == 'failure'
+        run: pnpm --filter @loica-ui/docs exec playwright install chromium
 
       - name: Check the stories with axe
         run: pnpm --filter @loica-ui/docs check:a11y --shard ${{ matrix.shard }}/2
