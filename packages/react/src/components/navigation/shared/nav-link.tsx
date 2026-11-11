@@ -2,6 +2,7 @@
 
 import type { CSSProperties, ForwardedRef, MouseEventHandler, ReactNode } from 'react'
 import { forwardRef } from 'react'
+import { useAnchorElement } from '../../../link/use-anchor-element'
 
 export interface NavLinkProps {
   active: boolean
@@ -34,6 +35,7 @@ export const NavLink = forwardRef<HTMLElement, NavLinkProps>(
     }: NavLinkProps,
     ref: ForwardedRef<HTMLElement>,
   ): ReactNode => {
+    const Element = useAnchorElement({ disabled, href, target })
     const common = {
       'aria-current': active ? ('page' as const) : undefined,
       'data-active': active ? '' : undefined,
@@ -57,7 +59,7 @@ export const NavLink = forwardRef<HTMLElement, NavLinkProps>(
     }
 
     return (
-      <a
+      <Element
         {...common}
         aria-disabled={disabled || undefined}
         href={disabled ? undefined : href}
@@ -69,7 +71,7 @@ export const NavLink = forwardRef<HTMLElement, NavLinkProps>(
         target={target}
       >
         {children}
-      </a>
+      </Element>
     )
   },
 )

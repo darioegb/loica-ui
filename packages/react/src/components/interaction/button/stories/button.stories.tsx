@@ -8,7 +8,8 @@ const colorSchemes = Object.keys(defaultTheme.colors)
 /**
  * A button that triggers an action: submits a form, opens a dialog, saves or deletes something.
  * It renders a native `<button>` with its content as children, and takes every attribute of one, so `type`, `form`,
- * `name` and `value` just work. It has variants, sizes, shapes and color schemes, and a `loading` state.
+ * `name` and `value` just work. It has variants, sizes, shapes and color schemes, and a `loading` state. With `href` it
+ * renders a link that looks the same.
  */
 export default {
   title: 'Components/Button',
@@ -28,6 +29,7 @@ export default {
     className: { control: 'text' },
     style: { control: false },
     disabled: { control: 'boolean' },
+    href: { control: 'text' },
     onClick: { action: 'clicked' },
     type: { control: 'radio', options: ['button', 'submit', 'reset'] },
     colorScheme: { control: 'select', options: colorSchemes },
@@ -254,6 +256,44 @@ export const Loading: Story = {
       </Button>
       <Button colorScheme='primary' loading loadingText='Saving...'>
         Save
+      </Button>
+    </div>
+  ),
+}
+
+/**
+ * With **href** the Button is a link: it renders an `<a>`, or the link component of the `LinkProvider`, with the
+ * look of a Button, so it opens in another tab, can be copied and is prefetched by a router. **target** and **rel**
+ * go to the anchor. While `disabled` or `loading` it has no `href`, is announced as disabled and ignores its clicks.
+ */
+export const AsLink: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button href="/docs">Docs</Button>
+<Button href="https://example.com" rel="noreferrer" target="_blank" variant="outline">
+  Example
+</Button>
+<Button disabled href="/docs">Docs</Button>`,
+      },
+    },
+  },
+  render: () => (
+    <div className='flex flex-wrap justify-center items-center gap-4'>
+      <Button colorScheme='primary' href='/docs'>
+        Docs
+      </Button>
+      <Button
+        colorScheme='primary'
+        href='https://example.com'
+        rel='noreferrer'
+        target='_blank'
+        variant='outline'
+      >
+        Example
+      </Button>
+      <Button colorScheme='primary' disabled href='/docs'>
+        Docs
       </Button>
     </div>
   ),

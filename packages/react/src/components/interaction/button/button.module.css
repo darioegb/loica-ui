@@ -5,11 +5,13 @@
   background-color: transparent;
   border: none;
   border-radius: var(--loica-radius-4);
+  box-sizing: border-box;
   display: inline-flex;
   font-weight: var(--loica-font-weight-semibold);
   gap: var(--loica-space-2);
   justify-content: center;
   padding-inline: var(--loica-space-4);
+  text-decoration-line: none;
   user-select: none;
 }
 
@@ -76,48 +78,48 @@
   padding: var(--loica-space-2);
 }
 
-:is(.outline, .ghost, .icon):enabled:not([aria-busy]):hover {
+:is(.outline, .ghost, .icon):is(:enabled, [href]):not([aria-busy]):hover {
   background-color: var(--button-hover-alt-color);
   color: var(--button-tint-text);
 }
 
-.link:enabled:not([aria-busy]):hover {
+.link:is(:enabled, [href]):not([aria-busy]):hover {
   color: var(--button-hover-color);
   text-decoration-color: var(--button-hover-color);
 }
 
-.solid:enabled:not([aria-busy]):hover {
+.solid:is(:enabled, [href]):not([aria-busy]):hover {
   background-color: var(--button-solid-hover);
 }
 
-.outline:enabled:not([aria-busy]):hover {
+.outline:is(:enabled, [href]):not([aria-busy]):hover {
   border-color: var(--button-hover-color);
 }
 
-.button:enabled:focus-visible {
+.button:is(:enabled, [href]):focus-visible {
   outline: var(--loica-focus-ring-width) solid var(--button-color);
   outline-offset: var(--loica-focus-ring-offset);
 }
 
-:is(.outline, .ghost):enabled:not([aria-busy]):active {
+:is(.outline, .ghost):is(:enabled, [href]):not([aria-busy]):active {
   background-color: var(--button-focus-alt-color);
   color: var(--button-tint-text);
 }
 
-.link:enabled:not([aria-busy]):active {
+.link:is(:enabled, [href]):not([aria-busy]):active {
   color: var(--button-focus-color);
   text-decoration-color: var(--button-focus-color);
 }
 
-.icon:enabled:not([aria-busy]):active {
+.icon:is(:enabled, [href]):not([aria-busy]):active {
   color: var(--button-tint-text);
 }
 
-.solid:enabled:not([aria-busy]):active {
+.solid:is(:enabled, [href]):not([aria-busy]):active {
   background-color: var(--button-solid-active);
 }
 
-button.disabled {
+:is(button, a).disabled {
   opacity: var(--loica-opacity-disabled);
   cursor: not-allowed;
 }
