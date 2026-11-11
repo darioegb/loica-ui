@@ -2,6 +2,11 @@ import type { CSSProperties, ReactNode } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import styles from './input.module.css'
 
+const SIDE_CLASSES = {
+  addon: { after: styles.addOnAfter, before: styles.addOnBefore },
+  element: { after: styles.elementAfter, before: styles.elementBefore },
+} as const
+
 interface InputSlotProps {
   children: ReactNode
   isStyled: boolean
@@ -11,10 +16,7 @@ interface InputSlotProps {
 
 export function InputSlot({ children, isStyled, kind, position }: Readonly<InputSlotProps>): ReactNode {
   const base = kind === 'addon' ? styles.addOn : styles.element
-  const side =
-    kind === 'addon'
-      ? styles[position === 'before' ? 'addOnBefore' : 'addOnAfter']
-      : styles[position === 'before' ? 'elementBefore' : 'elementAfter']
+  const side = SIDE_CLASSES[kind][position]
 
   return (
     <span
