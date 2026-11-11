@@ -105,6 +105,51 @@ describe('LinkProvider', () => {
     expect(link).toHaveAttribute('data-loica-navbar-item')
   })
 
+  it.each([
+    ['an absolute URL', { href: 'https://example.com/docs' }],
+    ['a URL without a scheme slashes', { href: '//example.com/docs' }],
+    ['a mailto', { href: 'mailto:hi@example.com' }],
+    ['a tel', { href: 'tel:+123456' }],
+    ['a target that opens elsewhere', { href: '/docs', target: '_blank' }],
+  ])('leaves %s as a plain anchor', (_name, props) => {
+    render(
+      <LinkProvider component={RouterLink}>
+        <Button {...props}>Go</Button>
+        <Navbar aria-label="Main">
+          <NavbarBrand {...props}>Brand</NavbarBrand>
+        </Navbar>
+      </LinkProvider>,
+    )
+    expect(document.querySelector('[data-router]')).toBeNull()
+    expect(screen.getByRole('link', { name: 'Go' })).toHaveAttribute('href', props.href)
+    expect(screen.getByRole('link', { name: 'Brand' })).toHaveAttribute('href', props.href)
+  })
+
+  it.each([
+    ['a path', '/docs'],
+    ['a relative path', 'docs/intro'],
+    ['a query', '?page=2'],
+    ['a hash', '#top'],
+  ])('gives %s to the component of the provider', (_name, href) => {
+    render(
+      <LinkProvider component={RouterLink}>
+        <Button href={href}>Go</Button>
+      </LinkProvider>,
+    )
+    expect(screen.getByRole('link', { name: 'Go' })).toHaveAttribute('data-router')
+  })
+
+  it('gives a target of _self to the component of the provider', () => {
+    render(
+      <LinkProvider component={RouterLink}>
+        <Button href="/docs" target="_self">
+          Go
+        </Button>
+      </LinkProvider>,
+    )
+    expect(screen.getByRole('link', { name: 'Go' })).toHaveAttribute('data-router')
+  })
+
   it('uses the nearest provider', () => {
     const Inner = forwardRef<HTMLAnchorElement, LinkComponentProps>(
       ({ children, href, ...rest }: LinkComponentProps, ref) => (

@@ -129,8 +129,10 @@ export function Links({ children }: { children: ReactNode }) {
 }
 ```
 
-A link that is `disabled` stays a plain `<a>` without `href`, so it never reaches the router. The nearest
-`LinkProvider` wins, so a part of the page can use another one.
+A link that is `disabled` stays a plain `<a>` without `href`, so it never reaches the router. So does a link that
+leaves the app: an absolute URL, `mailto:`, `tel:`, a `//host` URL, or a `target` other than `_self` get a plain `<a>`,
+and your wrapper only sees the paths of your app. The nearest `LinkProvider` wins, so a part of the page can use
+another one.
 
 ## Tailwind CSS v4
 

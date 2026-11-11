@@ -3,13 +3,12 @@
 import type {
   ComponentPropsWithoutRef,
   CSSProperties,
-  ElementType,
   ForwardedRef,
   MouseEvent,
   ReactNode,
 } from 'react'
 import { forwardRef } from 'react'
-import { useLinkComponent } from '../../../link/link-provider'
+import { useAnchorElement } from '../../../link/use-anchor-element'
 import { joinClasses } from '../../../overlay/class-names'
 import { visuallyHidden } from '../../../overlay/visually-hidden'
 import type { ColorScheme, Shape, Size } from '../../../theme'
@@ -127,8 +126,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const isStyled = variant !== 'unstyled'
     const content = children ?? label
-    const Link = useLinkComponent()
     const inactive = disabled || loading
+    const Anchor = useAnchorElement({ disabled: inactive, href, target })
 
     const common = {
       'aria-busy': loading || undefined,
@@ -159,9 +158,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     )
 
     if (href !== undefined) {
-      const Element: ElementType = inactive ? 'a' : Link
       return (
-        <Element
+        <Anchor
           {...common}
           {...rest}
           aria-disabled={inactive || undefined}
@@ -174,7 +172,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           target={target}
         >
           {body}
-        </Element>
+        </Anchor>
       )
     }
 

@@ -2,7 +2,7 @@
 
 import type { AnchorHTMLAttributes, ForwardedRef, MouseEventHandler, ReactNode } from 'react'
 import { forwardRef } from 'react'
-import { useLinkComponent } from '../../../link/link-provider'
+import { useAnchorElement } from '../../../link/use-anchor-element'
 import { joinClasses } from '../../../overlay/class-names'
 import type { ComponentProps } from '../../../theme'
 import { useNavbarContext } from './navbar-context'
@@ -29,7 +29,7 @@ export const NavbarBrand = forwardRef<HTMLElement, NavbarBrandProps>(
     ref: ForwardedRef<HTMLElement>,
   ): ReactNode => {
     const { isStyled } = useNavbarContext('NavbarBrand')
-    const Link = useLinkComponent()
+    const Element = useAnchorElement({ href, target })
     const common = {
       className: joinClasses(isStyled && styles.brand, className),
       'data-loica-navbar-brand': '',
@@ -46,7 +46,7 @@ export const NavbarBrand = forwardRef<HTMLElement, NavbarBrandProps>(
     }
 
     return (
-      <Link
+      <Element
         {...common}
         href={href}
         onClick={onClick}
@@ -55,7 +55,7 @@ export const NavbarBrand = forwardRef<HTMLElement, NavbarBrandProps>(
         target={target}
       >
         {children}
-      </Link>
+      </Element>
     )
   },
 )

@@ -2,7 +2,7 @@
 
 import type { AnchorHTMLAttributes, ForwardedRef, ReactNode } from 'react'
 import { forwardRef } from 'react'
-import { useLinkComponent } from '../../../link/link-provider'
+import { useAnchorElement } from '../../../link/use-anchor-element'
 import { joinClasses } from '../../../overlay/class-names'
 import type { ComponentProps } from '../../../theme'
 import { useBreadcrumbContext } from './breadcrumb-context'
@@ -57,7 +57,7 @@ export const BreadcrumbLink = forwardRef<HTMLElement, BreadcrumbLinkProps>(
     ref: ForwardedRef<HTMLElement>,
   ): ReactNode => {
     const { isStyled } = useBreadcrumbContext('BreadcrumbLink')
-    const Link = useLinkComponent()
+    const Element = useAnchorElement({ href, target })
     const common = {
       'aria-current': current ? ('page' as const) : undefined,
       className: joinClasses(isStyled && styles.link, className),
@@ -76,7 +76,7 @@ export const BreadcrumbLink = forwardRef<HTMLElement, BreadcrumbLinkProps>(
     }
 
     return (
-      <Link
+      <Element
         {...common}
         href={href}
         hrefLang={hrefLang}
@@ -87,7 +87,7 @@ export const BreadcrumbLink = forwardRef<HTMLElement, BreadcrumbLinkProps>(
         target={target}
       >
         {children}
-      </Link>
+      </Element>
     )
   },
 )
