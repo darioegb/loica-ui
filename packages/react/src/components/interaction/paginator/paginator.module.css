@@ -9,7 +9,10 @@
 
 .paginator {
   color: var(--loica-foreground);
+  column-gap: var(--loica-space-4);
+  flex-wrap: nowrap;
   font-family: var(--loica-font-family);
+  row-gap: var(--loica-space-2);
 }
 
 .sm {
@@ -52,12 +55,6 @@
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-}
-
-.paginator {
-  column-gap: var(--loica-space-4);
-  flex-wrap: nowrap;
-  row-gap: var(--loica-space-2);
 }
 
 .summary {

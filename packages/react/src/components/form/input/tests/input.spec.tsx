@@ -105,6 +105,27 @@ describe('Input component', () => {
       expect(screen.getByText('el-after')).toBeInTheDocument()
     })
 
+    it.each([
+      ['addon', 'before', ['addOn', 'addOnBefore']],
+      ['addon', 'after', ['addOn', 'addOnAfter']],
+      ['element', 'before', ['element', 'elementBefore']],
+      ['element', 'after', ['element', 'elementAfter']],
+    ])('gives the %s %s the classes of its side', (kind, position, classes) => {
+      render(
+        <Input
+          addonAfter="addon-after"
+          addonBefore="addon-before"
+          elementAfter="element-after"
+          elementBefore="element-before"
+          placeholder="x"
+        />,
+      )
+      const slot = document.querySelector(
+        `[data-loica-input-${kind}][data-position="${position}"]`,
+      )
+      expect(slot).toHaveClass(...classes)
+    })
+
     it('puts the color variables on the group wrapper', () => {
       const { container } = render(
         <Input addonBefore={<span>$</span>} colorScheme="info" placeholder="x" />,
