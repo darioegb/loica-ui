@@ -55,6 +55,11 @@ export function LoicaLocale({ children }: Readonly<{ children: ReactNode }>): Re
       },
       sidebarToggle: { label: t('sidebarToggle.label') },
       stepper: { completed: t('stepper.completed'), upcoming: t('stepper.upcoming') },
+      textarea: {
+        count: (current, max) =>
+          max === undefined ? t('textarea.count', { current }) : t('textarea.countMax', { current, max }),
+        remaining: (count) => t('textarea.remaining', { count }),
+      },
       toast: { region: t('toast.region') },
     }),
     [t],

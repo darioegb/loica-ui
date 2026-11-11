@@ -335,6 +335,11 @@
     },
     "sidebarToggle": { "label": "Mostrar u ocultar la barra lateral" },
     "stepper": { "completed": "Completado", "upcoming": "Sin empezar" },
+    "textarea": {
+      "count": "{current, number}",
+      "countMax": "{current, number} / {max, number}",
+      "remaining": "{count, plural, one {Queda # carácter} other {Quedan # caracteres}}"
+    },
     "toast": { "region": "Notificaciones" }
   }
 }

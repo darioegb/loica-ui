@@ -335,6 +335,11 @@
     },
     "sidebarToggle": { "label": "Toggle sidebar" },
     "stepper": { "completed": "Completed", "upcoming": "Not started" },
+    "textarea": {
+      "count": "{current, number}",
+      "countMax": "{current, number} / {max, number}",
+      "remaining": "{count, plural, one {# character left} other {# characters left}}"
+    },
     "toast": { "region": "Notifications" }
   }
 }
