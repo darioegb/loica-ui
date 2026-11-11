@@ -21,9 +21,9 @@ export const SelectEmpty = forwardRef<HTMLDivElement, SelectEmptyProps>(
     { children, className, style }: SelectEmptyProps,
     ref: ForwardedRef<HTMLDivElement>,
   ): ReactNode => {
-    const { isStyled, labels, options, query } = useSelectContext('SelectEmpty')
-    const needle = foldText(query)
-    const hasMatches = options.some((option) => !query || foldText(option.label).includes(needle))
+    const { isStyled, labels, locale, options, query } = useSelectContext('SelectEmpty')
+    const needle = foldText(query, locale)
+    const hasMatches = options.some((option) => !query || foldText(option.label, locale).includes(needle))
     const isEmpty = Boolean(query) && !hasMatches
 
     return (

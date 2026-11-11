@@ -48,8 +48,8 @@ export interface SelectOptionOwnProps {
 
 export type SelectOptionProps = Omit<ComponentProps, 'index'> & SelectOptionOwnProps
 
-const matchesQuery = (label: string, query: string): boolean =>
-  foldText(label).includes(foldText(query))
+const matchesQuery = (label: string, query: string, locale: string): boolean =>
+  foldText(label, locale).includes(foldText(query, locale))
 
 const isActivationKey = (key: string): boolean => key === 'Enter' || key === ' '
 
@@ -112,14 +112,14 @@ export const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>(
     const id = useId()
     const descriptionId = useId()
     const textId = useId()
-    const { isStyled, query, register, select, setActiveId } = context
+    const { isStyled, locale, query, register, select, setActiveId } = context
     const { resolved, textRef } = useOptionRecord(
       { children, disabled, icon, label, value },
       register,
     )
 
     const selected = context.isSelected(value)
-    const matches = matchesQuery(resolved, query)
+    const matches = matchesQuery(resolved, query, locale)
     const [described, setDescribed] = useState(Boolean(description))
     const optionContext = useMemo(
       () => ({ description, descriptionId, icon, selected, setDescribed, textId, textRef }),

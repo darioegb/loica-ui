@@ -52,6 +52,7 @@ export interface SelectContextValue {
   isStyled: boolean
   labelling: SelectLabelling
   listboxId: string
+  locale: string
   multiple: boolean
   name: string | undefined
   offset: number

@@ -37,10 +37,10 @@ const cellText = (cell: unknown): string => {
   return ''
 }
 
-export function matchesFilter(cell: unknown, value: unknown): boolean {
+export function matchesFilter(cell: unknown, value: unknown, locale: string): boolean {
   if (Array.isArray(value)) return value.includes(cell)
   if (typeof value === 'string')
-    return foldText(cellText(cell)).includes(foldText(value.trim()))
+    return foldText(cellText(cell), locale).includes(foldText(value.trim(), locale))
   return cell === value
 }
 
@@ -49,13 +49,14 @@ export function filterRows<Row>(
   filters: TableFilters,
   getValue: TableValueGetter<Row>,
   filterFns: Readonly<Record<string, TableFilterFn<Row>>>,
+  locale: string,
 ): Row[] {
   const active = Object.entries(filters).filter(([, value]) => !isEmptyFilter(value))
   if (active.length === 0) return [...rows]
   return rows.filter((row) =>
     active.every(([column, value]) => {
       const filter = filterFns[column]
-      return filter ? filter(row, value) : matchesFilter(getValue(row, column), value)
+      return filter ? filter(row, value) : matchesFilter(getValue(row, column), value, locale)
     }),
   )
 }

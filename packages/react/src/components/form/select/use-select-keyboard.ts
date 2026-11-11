@@ -27,6 +27,7 @@ interface UseSelectKeyboardOptions {
   close: (returnFocus: boolean) => void
   commit: (value: string) => void
   listbox: HTMLElement | null
+  locale: string
   multiple: boolean
   open: boolean
   openList: () => void
@@ -77,14 +78,20 @@ export function useSelectKeyboard(options: UseSelectKeyboardOptions): SelectKeyb
     const enabled = getEnabledOptions(listbox)
     const labels = enabled.map((option) => option.dataset.label ?? '')
     const current = enabled.findIndex((option) => option.id === activeId)
-    focusOption(enabled[matchTypeahead(labels, type(key), current)])
+    focusOption(enabled[matchTypeahead(labels, type(key), current, latest.current.locale)])
   }
 
   const typeaheadClosed = (key: string): void => {
     const records = latest.current.options
     const labels = records.map((record) => record.label)
     const current = records.findIndex((record) => latest.current.selected.includes(record.value))
-    const match = matchTypeahead(labels, type(key), current, (index) => records[index].disabled)
+    const match = matchTypeahead(
+      labels,
+      type(key),
+      current,
+      latest.current.locale,
+      (index) => records[index].disabled,
+    )
     if (match >= 0) latest.current.commit(records[match].value)
   }
 

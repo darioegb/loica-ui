@@ -1,4 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
+import type { ReactNode } from 'react'
+import { LocaleProvider } from '../../../../locale/locale-provider'
 import { useTableState } from '..'
 import type { UseTableStateOptions } from '..'
 
@@ -67,6 +69,22 @@ describe('useTableState (client)', () => {
     act(() => result.current.resetFilters())
     expect(result.current.total).toBe(25)
     expect(result.current.hasFilters).toBe(false)
+  })
+
+  it('filters text with the locale of the LocaleProvider', () => {
+    const cities = [{ name: 'Isparta' }, { name: 'İzmir' }]
+    const run = (locale: string, text: string): string[] => {
+      const { result } = renderHook(() => useTableState({ rows: cities }), {
+        wrapper: ({ children }: { children: ReactNode }) => (
+          <LocaleProvider locale={locale}>{children}</LocaleProvider>
+        ),
+      })
+      act(() => result.current.setFilter('name', text))
+      return result.current.rows.map(({ name }) => name)
+    }
+    expect(run('tr', 'ı')).toEqual(['Isparta'])
+    expect(run('tr', 'i')).toEqual(['İzmir'])
+    expect(run('en', 'i')).toEqual(['Isparta', 'İzmir'])
   })
 
   it('goes back to the default filters on reset', () => {

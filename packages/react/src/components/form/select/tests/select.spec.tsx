@@ -867,6 +867,30 @@ describe('Select component', () => {
       expect(option('Té')).toBeVisible()
     })
 
+    it('searches with the locale of the LocaleProvider', async () => {
+      render(
+        <LocaleProvider locale="tr">
+          <Select searchable>
+            <SelectTrigger aria-label="Fruit" />
+            <SelectContent>
+              <SelectOption value="isparta">Isparta</SelectOption>
+              <SelectOption value="izmir">İzmir</SelectOption>
+            </SelectContent>
+          </Select>
+        </LocaleProvider>,
+      )
+      await userEvent.click(trigger())
+      const search = screen.getByRole('combobox', { name: 'Search' })
+      await userEvent.type(search, 'ı')
+      expect(screen.getAllByRole('option')).toHaveLength(1)
+      expect(option('Isparta')).toBeVisible()
+
+      await userEvent.clear(search)
+      await userEvent.type(search, 'i')
+      expect(screen.getAllByRole('option')).toHaveLength(1)
+      expect(option('İzmir')).toBeVisible()
+    })
+
     it('uses its own empty text, label and placeholder', async () => {
       render(
         <LocaleProvider messages={{ select: { empty: 'Nothing', search: 'Find' } }}>

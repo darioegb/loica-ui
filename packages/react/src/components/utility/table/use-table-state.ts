@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useMemo, useState } from 'react'
+import { useResolvedLocale } from '../../../locale/locale-provider'
 import type { TableHeadProps } from './table-head'
 import type { TableFilterFn, TableFilters, TableSort, TableValueGetter } from './table-state'
 import { filterRows, isEmptyFilter, nextSort, sortRows } from './table-state'
@@ -81,12 +82,13 @@ export function useTableState<Row>({
   const sort = currentSort
   const [selected, setSelected] = useState<string[]>([])
 
+  const locale = useResolvedLocale()
   const processed = useMemo(
     () =>
       manual
         ? rows
-        : sortRows(filterRows(rows, filters, getValue, filterFns), sort, getValue, sortFns),
-    [filterFns, filters, getValue, manual, rows, sort, sortFns],
+        : sortRows(filterRows(rows, filters, getValue, filterFns, locale), sort, getValue, sortFns),
+    [filterFns, filters, getValue, locale, manual, rows, sort, sortFns],
   )
   const total = manual ? (manualTotal ?? rows.length) : processed.length
   const pageCount = Math.max(1, Math.ceil(total / pageSize))
