@@ -7,7 +7,7 @@ const srcDir = path.join(__dirname, '..')
 describe('css of each component', () => {
   it('has one unit for every folder of components with CSS modules', async () => {
     const units = await buildCssUnits(srcDir)
-    const folders = ['form', 'interaction', 'navigation', 'overlay', 'presentation', 'utility']
+    const folders = ['form', 'interaction', 'layout', 'navigation', 'overlay', 'presentation', 'utility']
       .flatMap((category) => {
         const dir = path.join(srcDir, 'components', category)
         return readdirSync(dir, { withFileTypes: true })

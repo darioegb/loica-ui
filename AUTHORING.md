@@ -9,7 +9,7 @@ pnpm new:component Badge presentation             # a single component
 pnpm new:component Accordion navigation --compound   # a root with a context and parts
 ```
 
-The first argument is the PascalCase name and the second the category: `form`, `interaction`, `presentation`, `navigation`, `overlay` or `utility`. The command scaffolds the folder from [scripts/component-templates](scripts/component-templates) and registers the component, in alphabetical order, in `src/index.ts`, in the public API test (`src/tests/index.spec.ts`) and in the component table of the root README. It prints what is left to do by hand.
+The first argument is the PascalCase name and the second the category: `form`, `interaction`, `layout`, `presentation`, `navigation`, `overlay` or `utility`. The command scaffolds the folder from [scripts/component-templates](scripts/component-templates) and registers the component, in alphabetical order, in `src/index.ts`, in the public API test (`src/tests/index.spec.ts`) and in the component table of the root README. It prints what is left to do by hand.
 
 The scaffold is a working, tested component with placeholder styles. Replace the placeholders, don't build around them.
 

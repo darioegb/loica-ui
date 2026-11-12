@@ -15,6 +15,7 @@ import {
   DrawerHeader,
   Kbd,
   ProgressBar,
+  Stack,
   Tab,
   TabList,
   TabPanel,
@@ -76,7 +77,7 @@ export function ProjectDrawer({
                 </TabList>
                 <TabPanels>
                   <TabPanel>
-                    <div className="d-flex flex-column gap-3 py-3">
+                    <Stack className="py-3" gap={3}>
                       <p className="mb-0">
                         {project.description || t("projectDrawer.noDescription")}
                       </p>
@@ -123,7 +124,7 @@ export function ProjectDrawer({
                         showValue
                         value={project.progress}
                       />
-                    </div>
+                    </Stack>
                   </TabPanel>
                   <TabPanel>
                     <ul className="list-group list-group-flush py-3">

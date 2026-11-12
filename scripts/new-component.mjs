@@ -6,7 +6,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const packageDir = join(root, 'packages/react')
 const templatesDir = join(root, 'scripts/component-templates')
 
-const categories = ['form', 'interaction', 'presentation', 'navigation', 'overlay', 'utility']
+const categories = ['form', 'interaction', 'layout', 'presentation', 'navigation', 'overlay', 'utility']
 const usage = `Usage: pnpm new:component <Name> <category> [--compound]
 
   Name        PascalCase component name, e.g. Badge

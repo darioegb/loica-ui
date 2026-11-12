@@ -1,0 +1,137 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+ul.stack,
+ol.stack {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.stack[data-direction='row'] {
+  flex-direction: row;
+}
+
+.stack[data-wrap] {
+  flex-wrap: wrap;
+}
+
+.stack[data-gap='1'] {
+  gap: var(--loica-space-1);
+}
+
+.stack[data-gap='1.5'] {
+  gap: var(--loica-space-1-5);
+}
+
+.stack[data-gap='2'] {
+  gap: var(--loica-space-2);
+}
+
+.stack[data-gap='3'] {
+  gap: var(--loica-space-3);
+}
+
+.stack[data-gap='4'] {
+  gap: var(--loica-space-4);
+}
+
+.stack[data-gap='5'] {
+  gap: var(--loica-space-5);
+}
+
+.stack[data-gap='6'] {
+  gap: var(--loica-space-6);
+}
+
+.stack[data-gap='8'] {
+  gap: var(--loica-space-8);
+}
+
+.stack[data-gap='10'] {
+  gap: var(--loica-space-10);
+}
+
+.stack[data-gap='12'] {
+  gap: var(--loica-space-12);
+}
+
+.stack[data-gap='14'] {
+  gap: var(--loica-space-14);
+}
+
+.stack[data-gap='16'] {
+  gap: var(--loica-space-16);
+}
+
+.stack[data-gap='20'] {
+  gap: var(--loica-space-20);
+}
+
+.stack[data-align='start'] {
+  align-items: flex-start;
+}
+
+.stack[data-align='center'] {
+  align-items: center;
+}
+
+.stack[data-align='end'] {
+  align-items: flex-end;
+}
+
+.stack[data-align='stretch'] {
+  align-items: stretch;
+}
+
+.stack[data-align='baseline'] {
+  align-items: baseline;
+}
+
+.stack[data-justify='start'] {
+  justify-content: flex-start;
+}
+
+.stack[data-justify='center'] {
+  justify-content: center;
+}
+
+.stack[data-justify='end'] {
+  justify-content: flex-end;
+}
+
+.stack[data-justify='between'] {
+  justify-content: space-between;
+}
+
+@media (--below-sm) {
+  .stack[data-direction='row'][data-stack-below='sm'] {
+    flex-direction: column;
+  }
+}
+
+@media (--below-md) {
+  .stack[data-direction='row'][data-stack-below='md'] {
+    flex-direction: column;
+  }
+}
+
+@media (--below-lg) {
+  .stack[data-direction='row'][data-stack-below='lg'] {
+    flex-direction: column;
+  }
+}
+
+@media (--below-xl) {
+  .stack[data-direction='row'][data-stack-below='xl'] {
+    flex-direction: column;
+  }
+}
+
+@media (--below-2xl) {
+  .stack[data-direction='row'][data-stack-below='2xl'] {
+    flex-direction: column;
+  }
+}
