@@ -51,7 +51,7 @@ export interface FileUploadOwnProps {
   /** The most files the list can have. It only applies with `multiple`. */
   maxFiles?: number
   /**
-   * BCP 47 tag (`es`, `es-AR`, `en-US`) that sets how the size of a file is written, such as the decimal separator of `1,5 KB`. Falls back to the `locale` of the `LocaleProvider`, then to `en`.
+   * BCP 47 tag (`es`, `es-AR`, `en-US`) that sets how the size of a file is written, such as the decimal separator and the unit of `1,5 kB` (`1,5 ko` in `fr`). Falls back to the `locale` of the `LocaleProvider`, then to `en`.
    */
   locale?: string
   /** The largest size of a file, in bytes. */

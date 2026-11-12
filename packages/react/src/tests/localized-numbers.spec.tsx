@@ -8,7 +8,7 @@ import { Textarea } from '../components/form/textarea'
 import { LocaleProvider } from '../locale/locale-provider'
 
 const digits = (locale: string, value: number): string =>
-  new Intl.NumberFormat(locale, { maximumFractionDigits: 20, useGrouping: false }).format(value)
+  new Intl.NumberFormat(locale, { maximumFractionDigits: 20 }).format(value)
 
 const inLocale = (locale: string, node: React.ReactNode): React.ReactNode => (
   <LocaleProvider locale={locale}>{node}</LocaleProvider>
@@ -116,9 +116,16 @@ describe('the numbers of the default texts', () => {
     expect(screen.getByText('3,5 out of 5')).toBeInTheDocument()
   })
 
-  it('leaves the text of en as it was, even for a number of thousands', () => {
-    render(<Textarea aria-label="Bio" maxLength={5000} showCount value={'a'.repeat(1200)} />)
-    expect(screen.getByText('1200 / 5000')).toBeInTheDocument()
+  it('writes the thousands with the separator of the locale', () => {
+    const { unmount } = render(
+      <Textarea aria-label="Bio" maxLength={5000} showCount value={'a'.repeat(1200)} />,
+    )
+    expect(screen.getByText('1,200 / 5,000')).toBeInTheDocument()
+    unmount()
+    render(
+      inLocale('de', <Textarea aria-label="Bio" maxLength={5000} showCount value={'a'.repeat(1200)} />),
+    )
+    expect(screen.getByText('1.200 / 5.000')).toBeInTheDocument()
   })
 
   it('follows the locale of the LocaleProvider when it changes', () => {
