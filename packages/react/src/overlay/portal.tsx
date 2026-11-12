@@ -18,8 +18,10 @@ export function Portal({ children, container }: Readonly<PortalProps>): ReactNod
     setMounted(true)
   }, [])
 
+  if (!mounted) return null
+
   const target = container ?? (themeRoot === undefined ? document.body : themeRoot)
-  if (!mounted || !target) return null
+  if (!target) return null
 
   return createPortal(children, target)
 }

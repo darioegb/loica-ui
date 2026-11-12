@@ -12,6 +12,7 @@ import {
   SelectContext,
   type SelectLabelling,
   type SelectLabels,
+  type SelectOptionRecord,
   type SelectVariant,
 } from './select-context'
 import { hasPart } from '../../../overlay/has-part'
@@ -90,7 +91,8 @@ interface SelectBaseProps {
    * The options as data, so the select can be written without children:
    * `<Select aria-label="Fruit" options={[{ value: 'apple', label: 'Apple' }]} />`. The select draws a
    * `SelectTrigger` and a `SelectContent` with a `SelectOption` for each one, unless you give it
-   * your own as children.
+   * your own as children. The chosen option is then in the HTML the server renders, which an option
+   * written as a child is not: it registers when the page loads.
    */
   options?: readonly SelectOptionData[]
   /**
@@ -232,6 +234,18 @@ function withOptions(
         </SelectContent>
       )}
     </>
+  )
+}
+
+/** What the server can show of the options given as data, since the options in `children` register after mount. */
+function recordsOf(
+  data: readonly SelectOptionData[] | undefined,
+): ReadonlyMap<string, SelectOptionRecord> {
+  return new Map(
+    (data ?? []).map(({ disabled, icon, label, value }) => [
+      value,
+      { disabled: Boolean(disabled), icon, label, value },
+    ]),
   )
 }
 
@@ -405,9 +419,13 @@ export function Select({
     selected,
   })
 
+  const fromData = useMemo(() => recordsOf(optionsData), [optionsData])
   const chosen = useMemo(
-    () => selected.flatMap((item) => options.find((record) => record.value === item) ?? []),
-    [options, selected],
+    () =>
+      selected.flatMap(
+        (item) => options.find((record) => record.value === item) ?? fromData.get(item) ?? [],
+      ),
+    [fromData, options, selected],
   )
 
   const context = useMemo(
