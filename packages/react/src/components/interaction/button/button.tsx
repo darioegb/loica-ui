@@ -4,12 +4,12 @@ import type {
   ComponentPropsWithoutRef,
   CSSProperties,
   ForwardedRef,
-  MouseEvent,
   ReactNode,
 } from 'react'
 import { forwardRef } from 'react'
 import { useAnchorElement } from '../../../link/use-anchor-element'
 import { joinClasses } from '../../../overlay/class-names'
+import { ignoreClick } from '../../../overlay/ignore-click'
 import { visuallyHidden } from '../../../overlay/visually-hidden'
 import type { ColorScheme, Shape, Size } from '../../../theme'
 import { schemeVar } from '../../../theme'
@@ -29,6 +29,8 @@ export interface ButtonOwnProps {
    * and ignores its clicks. The `ref` and the event handlers then belong to that anchor, although
    * their types say `HTMLButtonElement`; `type`, `form` and the rest of the button attributes are
    * not used.
+   *
+   * @since 1.1
    */
   href?: string
   /** Icon shown before the content. It is hidden while `loading`. */
@@ -50,7 +52,11 @@ export interface ButtonOwnProps {
   loading?: boolean
   /** Text shown instead of the content while `loading`. */
   loadingText?: string
-  /** What a link with `href` is to the linked page, such as `noopener`. */
+  /**
+   * What a link with `href` is to the linked page, such as `noopener`.
+   *
+   * @since 1.1
+   */
   rel?: string
   /**
    * Shape style of the Button.
@@ -64,7 +70,11 @@ export interface ButtonOwnProps {
    * @default 'md'
    */
   size?: Size
-  /** Where a link with `href` opens, such as `_blank`. */
+  /**
+   * Where a link with `href` opens, such as `_blank`.
+   *
+   * @since 1.1
+   */
   target?: string
   /**
    * Visual style variant of the Button.
@@ -77,13 +87,6 @@ export interface ButtonOwnProps {
 export type ButtonVariant = 'solid' | 'outline' | 'link' | 'icon' | 'ghost' | 'unstyled'
 
 export type ButtonProps = ComponentPropsWithoutRef<'button'> & ButtonOwnProps
-
-const ignoreClick = (event: MouseEvent<HTMLElement>): void => {
-  event.preventDefault()
-  event.stopPropagation()
-  // stopPropagation only blocks React handlers; the native one stops any DOM listener too.
-  event.nativeEvent.stopImmediatePropagation()
-}
 
 const buttonColorVars = (colorScheme: ColorScheme): CSSProperties =>
   ({

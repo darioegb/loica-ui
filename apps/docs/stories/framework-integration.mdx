@@ -94,7 +94,7 @@ single file with none.
 
 ## Router links
 
-`SidebarItem`, `NavbarItem`, `NavbarBrand`, `BreadcrumbLink` and a `Button` with `href` render an `<a>`, so a click
+`Link`, `SidebarItem`, `NavbarItem`, `NavbarBrand`, `BreadcrumbLink` and a `Button` with `href` render an `<a>`, so a click
 reloads the page and a router can't prefetch the target. Give the link component of your router once, with a
 `LinkProvider`, and they render it instead. It gets `href` and the rest of the attributes of an anchor, and has to
 forward the `ref` and `onClick` to its element, as the link of Next.js and React Router do.
@@ -103,12 +103,12 @@ forward the `ref` and `onClick` to its element, as the link of Next.js and React
 // app/providers.tsx
 'use client'
 
-import Link from 'next/link'
+import NextLink from 'next/link'
 import type { ReactNode } from 'react'
 import { LinkProvider } from '@loica-ui/react'
 
 export function Providers({ children }: { children: ReactNode }) {
-  return <LinkProvider component={Link}>{children}</LinkProvider>
+  return <LinkProvider component={NextLink}>{children}</LinkProvider>
 }
 ```
 
@@ -119,17 +119,17 @@ import { forwardRef, type ReactNode } from 'react'
 import { Link as RouterLink } from 'react-router'
 import { LinkProvider, type LinkComponentProps } from '@loica-ui/react'
 
-const Link = forwardRef<HTMLAnchorElement, LinkComponentProps>(({ href, ...rest }, ref) => (
+const RouterAnchor = forwardRef<HTMLAnchorElement, LinkComponentProps>(({ href, ...rest }, ref) => (
   <RouterLink {...rest} ref={ref} to={href} />
 ))
-Link.displayName = 'Link'
+RouterAnchor.displayName = 'RouterAnchor'
 
 export function Links({ children }: { children: ReactNode }) {
-  return <LinkProvider component={Link}>{children}</LinkProvider>
+  return <LinkProvider component={RouterAnchor}>{children}</LinkProvider>
 }
 ```
 
-A link that is `disabled` stays a plain `<a>` without `href`, so it never reaches the router. So does a link that
+`Link` is the component for a link in a text: it takes the same provider, so it is a client navigation with your router. The router's own `Link` shares its name, so import one of them with another name, as the examples do. A link that is `disabled` stays a plain `<a>` without `href`, so it never reaches the router. So does a link that
 leaves the app: an absolute URL, `mailto:`, `tel:`, a `//host` URL, or a `target` other than `_self` get a plain `<a>`,
 and your wrapper only sees the paths of your app. The nearest `LinkProvider` wins, so a part of the page can use
 another one.

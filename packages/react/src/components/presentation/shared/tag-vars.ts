@@ -3,7 +3,7 @@ import type { ColorScheme } from '../../../theme'
 import { schemeVar } from '../../../theme'
 
 export const tagColorVars = (
-  name: 'alert' | 'avatar' | 'badge' | 'chip',
+  name: 'alert' | 'avatar' | 'badge' | 'chip' | 'code' | 'kbd',
   colorScheme: ColorScheme,
   style?: CSSProperties,
 ): CSSProperties =>

@@ -109,7 +109,7 @@ table.docblock-argstable {
   margin-inline-start: 0.2em;
 }
 
-.api-since {
+.sbdocs .api-since {
   border: 1px solid currentcolor;
   border-radius: 999px;
   display: inline-block;
@@ -123,7 +123,7 @@ table.docblock-argstable {
   white-space: nowrap;
 }
 
-.api-table .api-since {
+.sbdocs .api-table .api-since {
   display: block;
   margin: 0.35rem 0 0;
   width: fit-content;

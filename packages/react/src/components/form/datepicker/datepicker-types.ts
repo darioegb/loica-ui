@@ -26,6 +26,8 @@ export interface DatePickerLabels {
 /**
  * The first day of the week of the calendar: a `WeekDay` (`0` is Sunday, `1` Monday, up to `6` Saturday), or
  * `'locale'` to take it from the `locale`.
+ *
+ * @since 1.1
  */
 export type WeekStartsOn = WeekDay | 'locale'
 

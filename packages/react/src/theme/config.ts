@@ -116,6 +116,7 @@ export const defaultTheme: Theme = {
   },
   typography: {
     fontFamily: "'Inter', sans-serif",
+    fontFamilyMono: "ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace",
     fontSizes: {
       xs: '0.75rem',
       sm: '0.875rem',

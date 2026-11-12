@@ -4,6 +4,7 @@ const BIDI_MARKS = /[\u200e\u200f\u061c]/g
 const NEGATIVE = /[-\u2212]/
 const READABLE = /^(?:\d+(?:\.\d*)?|\.\d+)$/
 
+/** @since 1.1 */
 export interface NumberInputFormat {
   /** Writes a number as the locale and the options say. */
   format: (value: number) => string
@@ -34,6 +35,8 @@ function assertReadable(options: Intl.NumberFormatOptions): void {
  * write, so `1.234,5` is `1234.5` in `de` and `1,234.5` is `1234.5` in `en`. Digits are always Latin,
  * because the field reads only those. It throws a `RangeError` for an option it can't read back:
  * `notation` other than `standard`, or a `numberingSystem` other than `latn`.
+ *
+ * @since 1.1
  */
 export function numberFormat(
   locale: string,
