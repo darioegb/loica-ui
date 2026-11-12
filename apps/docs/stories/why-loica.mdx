@@ -13,20 +13,22 @@ the CSS framework you already have. This page says what you get, what it costs a
 
 Loica has no dependencies: `react` and `react-dom` are its only peers, so it adds nothing else to your
 `node_modules` or to your bundle. The package ships ES modules split by component, so a bundler only keeps the
-components you import. Measured on version 1.0, minified and gzipped, without React:
+components you import. Measured on version 1.1, minified and gzipped, without React:
 
+{/* size-table:start */}
 <table>
   <thead>
     <tr><th>You import</th><th>JavaScript</th><th>CSS</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>Button</code></td><td>1.3 KB</td><td>1.1 KB</td></tr>
-    <tr><td><code>Button</code>, <code>Field</code>, <code>Input</code> and <code>Modal</code> with its parts</td><td>7.5 KB</td><td>3.2 KB</td></tr>
-    <tr><td><code>Select</code></td><td>10.5 KB</td><td>2.1 KB</td></tr>
-    <tr><td><code>DatePicker</code></td><td>13.8 KB</td><td>3.5 KB</td></tr>
-    <tr><td>Every component</td><td>76.0 KB</td><td>22.3 KB (<code>styles.css</code>)</td></tr>
+    <tr><td><code>Button</code></td><td>1.7 KB</td><td>1.2 KB</td></tr>
+    <tr><td><code>Button</code>, <code>Field</code>, <code>Input</code> and <code>Modal</code> with its parts</td><td>8.3 KB</td><td>3.2 KB</td></tr>
+    <tr><td><code>Select</code></td><td>10.6 KB</td><td>2.2 KB</td></tr>
+    <tr><td><code>DatePicker</code></td><td>14.5 KB</td><td>3.6 KB</td></tr>
+    <tr><td>Every component</td><td>78.2 KB</td><td>24.3 KB (<code>styles.css</code>)</td></tr>
   </tbody>
 </table>
+{/* size-table:end */}
 
 The CSS column counts the sheets of those components in `@loica-ui/react/css/`, with the ones they import (the
 `Button` brings the `Loader`), plus `tokens.css` once (2.2 KB) with the variables of the theme. See
