@@ -20,6 +20,9 @@ import { serveStatic } from './serve-static.mjs'
 const MODES = ['light', 'dark']
 const STORIES = /--(default|variants)$/
 const RENDER_TIMEOUT = 15_000
+// A spinner caught at another frame is a different picture, and Playwright's own `animations: 'disabled'` doesn't always
+// leave an infinite animation in the same place, so motion is turned off in the page.
+const NO_MOTION = '*, *::before, *::after { animation: none !important; transition: none !important; }'
 // Stories that show a date (today in the calendar) must not change with the day they are rendered.
 const NOW = new Date('2026-06-15T12:00:00Z')
 
@@ -64,6 +67,18 @@ const jobs = ids.flatMap((id) => MODES.map((mode) => ({ id, mode })))
 const inBase = new Set(baseIds)
 const inHead = new Set(headIds)
 
+// A component can change after its first render (the Sidebar reads a media query in an effect), so the picture is
+// taken once the page is the same twice in a row. It is checked from here, not in the page, whose clock is fake.
+async function settle(page) {
+  let previous
+  for (let attempt = 0; attempt < 30; attempt++) {
+    const html = await page.evaluate(() => document.documentElement.outerHTML)
+    if (html === previous) return
+    previous = html
+    await page.waitForTimeout(100)
+  }
+}
+
 async function shoot(page, side, { id, mode }) {
   await page.goto(`${urls[side]}/iframe.html?id=${id}&viewMode=story&globals=colorMode:${mode}`)
   await page.waitForFunction(
@@ -74,8 +89,9 @@ async function shoot(page, side, { id, mode }) {
   if (await page.evaluate(() => document.body.classList.contains('sb-show-errordisplay'))) {
     throw new Error(`The story ${id} throws while rendering in the ${side} build`)
   }
+  await page.addStyleTag({ content: NO_MOTION })
   await page.evaluate(() => document.fonts.ready)
-  await page.evaluate(() => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done))))
+  await settle(page)
   return page.screenshot({ animations: 'disabled', caret: 'hide', fullPage: true })
 }
 
