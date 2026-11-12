@@ -26,6 +26,10 @@ to serve `index.html` for client-side routes such as `/projects`.
   loading skeletons.
 - A projects table with search, filters, sorting, pagination, a detail drawer,
   creation form, completion with undo, and deletion confirmation.
+- Client navigation with React Router through a `LinkProvider` (`src/components/router-anchor.tsx` maps `href` to `to`):
+  the sidebar, the breadcrumb and the `Link` of the dashboard need no `onClick`. The project drawer shows its id with
+  `Code` and the shortcut to close it with `Kbd`, and the date pickers start the week as the language does
+  (`weekStartsOn="locale"`).
 - Simulated data stored in the browser's `localStorage`; the account menu resets
   the demo data. Changes are local to the browser and are not shared with Next.js.
 - A light/dark toggle and brand-color menu. Preferences are stored locally; the

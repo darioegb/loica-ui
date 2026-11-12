@@ -17,6 +17,7 @@ export const en = {
     loadError: "Could not load the dashboard. Reload the page to try again.",
     loading: "Loading the dashboard",
     progressOf: "{{name}} progress",
+    viewAll: "View all projects",
     welcome: "Welcome back, {{name}}",
   },
   languages: {
@@ -117,10 +118,12 @@ export const en = {
   },
   projectDrawer: {
     activity: "Activity",
+    closeHint: "Press <kbd>Esc</kbd> to close.",
     commented: "{{name}} commented on a task",
     createdProject: "{{name}} created the project",
     delete: "Delete",
     due: "Due",
+    id: "ID",
     markDone: "Mark as done",
     noDescription: "No description yet.",
     overview: "Overview",

@@ -8,6 +8,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Link,
   ProgressBar,
   Skeleton,
 } from "@loica-ui/react";
@@ -149,6 +150,9 @@ export function DashboardPage(): ReactNode {
               </li>
             ))}
           </ul>
+          <div className="mt-3">
+            <Link href="/projects">{t("dashboard.viewAll")}</Link>
+          </div>
         </CardBody>
       </Card>
     </>

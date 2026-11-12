@@ -1,17 +1,19 @@
 import type { ReactNode } from "react";
 import type { TFunction } from "i18next";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import {
   Avatar,
   AvatarGroup,
   Badge,
   Button,
+  Code,
   Drawer,
   DrawerBody,
   DrawerClose,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
+  Kbd,
   ProgressBar,
   Tab,
   TabList,
@@ -79,6 +81,10 @@ export function ProjectDrawer({
                         {project.description || t("projectDrawer.noDescription")}
                       </p>
                       <dl className={styles.facts}>
+                        <dt>{t("projectDrawer.id")}</dt>
+                        <dd>
+                          <Code size="sm">{project.id}</Code>
+                        </dd>
                         <dt>{t("projectDrawer.status")}</dt>
                         <dd>
                           <Badge
@@ -138,6 +144,12 @@ export function ProjectDrawer({
               </Tabs>
             </DrawerBody>
             <DrawerFooter>
+              <p className="small text-body-secondary mb-0 me-auto">
+                <Trans
+                  components={{ kbd: <Kbd size="sm" /> }}
+                  i18nKey="projectDrawer.closeHint"
+                />
+              </p>
               <Button
                 colorScheme="error"
                 onClick={() => onRemove(project)}

@@ -288,7 +288,7 @@
       "delete": "Eliminar espacio de trabajo",
       "deleteTitle": "Eliminar {name}",
       "theWorkspace": "el espacio de trabajo",
-      "confirmHelper": "Escribe \"{name}\" para confirmar.",
+      "confirmHelper": "Escribe <code>{name}</code> para confirmar.",
       "cancel": "Cancelar",
       "confirm": "Eliminar",
       "kept": "Espacio de trabajo conservado",

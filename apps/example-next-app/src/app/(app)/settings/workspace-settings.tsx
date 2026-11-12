@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl'
 import {
   Alert,
   Button,
+  Code,
   Field,
   Input,
   Modal,
@@ -73,7 +74,10 @@ export function WorkspaceSettings(): ReactNode {
         <ModalContent>
           <ModalHeader>{t('deleteTitle', { name: name || t('theWorkspace') })}</ModalHeader>
           <ModalBody>
-            <Field helperText={t('confirmHelper', { name })} label={t('name')}>
+            <Field
+              helperText={t.rich('confirmHelper', { code: (chunks) => <Code>{chunks}</Code>, name })}
+              label={t('name')}
+            >
               <Input onChange={(event) => setConfirm(event.target.value)} value={confirm} />
             </Field>
           </ModalBody>

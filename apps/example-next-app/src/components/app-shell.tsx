@@ -1,7 +1,7 @@
 'use client'
 
-import type { MouseEvent, ReactNode } from 'react'
-import { useState, useTransition } from 'react'
+import type { ReactNode } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import {
@@ -59,15 +59,9 @@ export function AppShell({
   const current = pages.find((page) => isCurrent(pathname, page.href))
   const subpage = pathname in subpages ? subpages[pathname as keyof typeof subpages] : undefined
 
-  // Plain clicks navigate on the client; modified ones keep the browser's behavior.
-  const go =
-    (href: string) =>
-    (event: MouseEvent<HTMLElement>): void => {
-      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
-      event.preventDefault()
-      setOpen(false)
-      router.push(href)
-    }
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
   const toggleColorMode = (): void => {
     const next = colorMode === 'dark' ? 'light' : 'dark'
@@ -98,7 +92,6 @@ export function AppShell({
                 href={page.href}
                 icon={page.icon}
                 key={page.href}
-                onClick={go(page.href)}
               >
                 {t(page.label)}
               </SidebarItem>
@@ -116,17 +109,13 @@ export function AppShell({
             <NavbarContent>
               <Breadcrumb size="sm">
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/" current={pathname === '/'} onClick={go('/')}>
+                  <BreadcrumbLink href="/" current={pathname === '/'}>
                     {t('home')}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 {current && current.href !== '/' ? (
                   <BreadcrumbItem>
-                    <BreadcrumbLink
-                      current={!subpage}
-                      href={subpage ? current.href : undefined}
-                      onClick={subpage ? go(current.href) : undefined}
-                    >
+                    <BreadcrumbLink current={!subpage} href={subpage ? current.href : undefined}>
                       {t(current.label)}
                     </BreadcrumbLink>
                   </BreadcrumbItem>

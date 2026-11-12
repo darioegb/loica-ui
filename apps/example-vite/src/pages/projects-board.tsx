@@ -175,6 +175,7 @@ export function ProjectsBoard({
             placeholder={t("projects.dueBetween")}
             range
             value={dueRange}
+            weekStartsOn="locale"
           />
         </div>
         {state.hasFilters ? (

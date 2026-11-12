@@ -236,6 +236,7 @@ export function NewProjectDrawer({
                           ? new Date(`${field.value}T00:00:00`)
                           : null,
                       }}
+                      weekStartsOn="locale"
                     />
                   </Field>
                 )}

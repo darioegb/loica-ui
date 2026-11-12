@@ -288,7 +288,7 @@
       "delete": "Delete workspace",
       "deleteTitle": "Delete {name}",
       "theWorkspace": "the workspace",
-      "confirmHelper": "Type \"{name}\" to confirm.",
+      "confirmHelper": "Type <code>{name}</code> to confirm.",
       "cancel": "Cancel",
       "confirm": "Delete",
       "kept": "Workspace kept",
