@@ -31,6 +31,26 @@
   line-height: var(--loica-text-caption-line-height);
 }
 
+.sizeInherit {
+  font-size: inherit;
+}
+
+.weightNormal {
+  font-weight: var(--loica-font-weight-normal);
+}
+
+.weightMedium {
+  font-weight: var(--loica-font-weight-medium);
+}
+
+.weightSemibold {
+  font-weight: var(--loica-font-weight-semibold);
+}
+
+.weightBold {
+  font-weight: var(--loica-font-weight-bold);
+}
+
 .muted {
   color: var(--loica-muted);
 }

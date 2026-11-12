@@ -13,6 +13,7 @@ import { Heading } from '..'
  *
  * A Heading has no variants besides `unstyled`: it draws no fill or border, only text, so its look is the
  * **size**. There is no `colorScheme` either: it takes the text color around it, and `className` can change it.
+ * **weight** changes the weight of the font, and `size="inherit"` takes the font size from the element around it.
  */
 export default {
   title: 'Components/Heading',
@@ -43,10 +44,14 @@ export default {
     },
     size: {
       control: 'radio',
-      options: [undefined, 1, 2, 3, 4, 5, 6],
+      options: [undefined, 1, 2, 3, 4, 5, 6, 'inherit'],
     },
     truncate: {
       control: 'boolean',
+    },
+    weight: {
+      control: 'radio',
+      options: [undefined, 'normal', 'medium', 'semibold', 'bold'],
     },
     variant: {
       control: 'radio',
@@ -189,6 +194,77 @@ export const LevelAndSize: Story = {
       <Heading level={2} size={5}>
         Notifications
       </Heading>
+    </div>
+  ),
+}
+
+/**
+ * **weight** changes the weight of the font to one of the theme (`normal`, `medium`, `semibold` or `bold`) when it
+ * is not the one of its **size**.
+ */
+export const Weight: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<div className="flex flex-col gap-2">
+  <Heading size={4} weight="normal">Normal</Heading>
+  <Heading size={4} weight="medium">Medium</Heading>
+  <Heading size={4} weight="semibold">Semibold</Heading>
+  <Heading size={4} weight="bold">Bold</Heading>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-2">
+      <Heading size={4} weight="normal">
+        Normal
+      </Heading>
+      <Heading size={4} weight="medium">
+        Medium
+      </Heading>
+      <Heading size={4} weight="semibold">
+        Semibold
+      </Heading>
+      <Heading size={4} weight="bold">
+        Bold
+      </Heading>
+    </div>
+  ),
+}
+
+/**
+ * With `size="inherit"` the heading takes its font size from the element around it, so it scales with a
+ * component that has its own size. The weight, the line height and the letter spacing are the ones of its
+ * **level**.
+ */
+export const InheritSize: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<div className="flex flex-col gap-4">
+  <div style={{ fontSize: '0.875rem' }}>
+    <Heading level={3} size="inherit">Inside a small box</Heading>
+  </div>
+  <div style={{ fontSize: '1.5rem' }}>
+    <Heading level={3} size="inherit">Inside a big box</Heading>
+  </div>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <div style={{ fontSize: '0.875rem' }}>
+        <Heading level={3} size="inherit">
+          Inside a small box
+        </Heading>
+      </div>
+      <div style={{ fontSize: '1.5rem' }}>
+        <Heading level={3} size="inherit">
+          Inside a big box
+        </Heading>
+      </div>
     </div>
   ),
 }
