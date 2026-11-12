@@ -25,8 +25,10 @@ English.
 - `apps/docs`: Storybook. The guides are the MDX files of `apps/docs/stories`; the component stories live with the
   components. The `*.generated.json` files of `apps/docs/src` are written by `apps/docs/scripts` on `dev`, `lint` and
   `build`; don't edit them by hand.
-- `apps/example-vite`, `apps/example-next-app`: standalone apps outside the pnpm workspace. They install the package
-  from npm, so a change in `src` reaches them only after a release.
+- `apps/example-vite`, `apps/example-next-app`: the two example apps, in the workspace with `workspace:^`, so a new
+  component gets its demo in the same pull request. They read the built `dist`, as a user does: `pnpm dev:vite` and
+  `pnpm dev:next` rebuild the package as you change it, and `pnpm check:examples` builds both against the packed
+  package. StackBlitz and the Vercel demo take the published version, and update with each release.
 - `packages/{eslint-config-custom,prettier-config,tailwind-config,tsconfig}`: the shared configs.
 - `scripts/new-component.mjs` and `scripts/component-templates/`: the component scaffold.
 - The roadmap lives in the open issues of the repository, each in a milestone (`1.1`, `1.x`, `2.0`), not in a file.

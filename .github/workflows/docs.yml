@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - apps/docs/**
+      - apps/example-vite/**
       - packages/react/src/components/**/stories/**
       - .github/workflows/docs.yml
   workflow_call:

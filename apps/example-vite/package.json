@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@loica-ui/react": "^1.1.0",
+    "@loica-ui/react": "workspace:^",
     "bootstrap": "^5.3.8",
     "i18next": "^26.5.12",
     "react": "^19.2.0",

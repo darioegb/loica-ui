@@ -23,6 +23,15 @@ if (tracked.length === 0) throw new Error(`No tracked files in ${exampleDir}`)
 const files = Object.fromEntries(
   tracked.map((file) => [file, readFileSync(path.join(exampleDir, file), 'utf8')]),
 )
+const { version } = JSON.parse(readFileSync(path.join(packageDir, 'package.json'), 'utf8'))
+files['package.json'] = files['package.json'].replace(
+  '"@loica-ui/react": "workspace:^"',
+  `"@loica-ui/react": "^${version}"`,
+)
+if (!files['package.json'].includes(`"@loica-ui/react": "^${version}"`)) {
+  throw new Error('The Vite example has to depend on "@loica-ui/react": "workspace:^"')
+}
+delete files['turbo.json']
 files['.stackblitzrc'] = JSON.stringify({ installDependencies: true, startCommand: 'npm run dev' })
 
 mkdirSync(path.dirname(output), { recursive: true })

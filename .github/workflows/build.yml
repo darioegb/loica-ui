@@ -38,8 +38,15 @@ jobs:
               - '.github/composite-actions/**'
             examples:
               - 'apps/example-*/**'
+              - 'packages/react/**'
+              - 'scripts/check-examples.mjs'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - 'turbo.json'
               - '.nvmrc'
               - '.github/workflows/build.yml'
+              - '.github/composite-actions/**'
 
   checks:
     name: Checks
@@ -107,34 +114,23 @@ jobs:
         run: pnpm --filter @loica-ui/docs check:a11y --shard ${{ matrix.shard }}/2
 
   examples:
-    name: Examples (${{ matrix.example }})
+    name: Examples
     needs: changes
     if: needs.changes.outputs.examples == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    strategy:
-      fail-fast: false
-      matrix:
-        example: [example-next-app, example-vite]
-    defaults:
-      run:
-        working-directory: apps/${{ matrix.example }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v6
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-          cache-dependency-path: apps/${{ matrix.example }}/package-lock.json
-
       - name: Install
-        run: npm ci
+        uses: ./.github/composite-actions/common
 
-      - name: Build
-        run: npm run build
+      - name: Build the package
+        run: pnpm turbo run build --filter=@loica-ui/react
+
+      - name: Build the examples against the packed package
+        run: pnpm check:examples
 
   # The one check that branch protection requires: a job skipped by the path filter counts as passed, a failed
   # or cancelled one blocks the merge.

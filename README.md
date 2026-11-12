@@ -155,11 +155,13 @@ pnpm dev            # Storybook with hot reload at http://localhost:6006
 | Command | Description |
 | --- | --- |
 | `pnpm dev` | Run the docs (Storybook) in development mode |
+| `pnpm dev:vite` / `pnpm dev:next` | Run an example app, rebuilding the package as you change it |
 | `pnpm build` | Build the `@loica-ui/react` package |
 | `pnpm build:docs` | Build the packages and the static Storybook site (`apps/docs/storybook-static`) |
 | `pnpm test` | Run the tests |
 | `pnpm test:coverage` | Run the tests with coverage |
 | `pnpm lint` / `pnpm lint:fix` | Lint every package |
+| `pnpm check:examples` | Build both examples against the packed package, as npm would install it |
 | `pnpm --filter @loica-ui/docs check:a11y` | Run axe on every story in light and dark mode (see [AUTHORING.md](AUTHORING.md)) |
 | `pnpm new:component <Name> <category>` | Scaffold a component (see [AUTHORING.md](AUTHORING.md)) |
 | `pnpm changeset` | Describe a change that should be released |
@@ -170,7 +172,7 @@ pnpm dev            # Storybook with hot reload at http://localhost:6006
 ```text
 apps/
   docs/                      Storybook documentation site
-  example-*/                 Example apps (Vite, Next.js App Router), outside the pnpm workspace
+  example-*/                 Example apps (Vite, Next.js App Router), built with the package
 packages/
   @loica-ui/react/            The published package
     src/components/<category>/<name>/   One folder per component, with its stories and tests

@@ -1,10 +1,9 @@
 packages:
   - "apps/*"
-  # Standalone consumption examples: resolve @loica-ui/react from npm, not the workspace.
-  - "!apps/example-*"
   - "packages/*"
 
 allowBuilds:
   '@parcel/watcher': false
+  '@swc/core': false
   esbuild: true
   unrs-resolver: true
