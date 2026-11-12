@@ -84,6 +84,11 @@ What these check, so a failure is easy to place:
 - `apps/docs/scripts/check-api.mjs`: every own prop and every exported part has a JSDoc description.
 - `apps/docs/scripts/check-a11y.mjs`: every story has no axe violation in light and dark mode. What keeps a story
   measurable is in AUTHORING.md, under the story rules.
+- `apps/docs/scripts/check-visual.mjs`: the `Default` and `Variants` story of every component, in light and dark mode,
+  rendered in the static Storybook of the base (the first parent of the PR merge) and of the PR on the same runner, and
+  compared byte by byte. A difference fails unless the PR has the `visual-change` label; there are no baselines to
+  update. `--base <folder>` is the static build to compare with, and words filter the stories. The two stories are
+  what gives a component visual coverage, so keep both (see AUTHORING.md).
 - `packages/react/scripts/check-bundle-size.mjs`: the gzipped size of the cases of the "What it costs" table of Why Loica
   (JS with esbuild, CSS following the `@import`s), against the ceilings of `bundle-budget.json`, which are the measure
   plus 5 %. A PR that grows past one fails; if the growth is on purpose, `pnpm --filter @loica-ui/react check:size --write`

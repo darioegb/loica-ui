@@ -25,7 +25,7 @@ The [root README](README.md#development) lists the available commands and the re
 1. Fork the repository and create a branch from `main` (see [Branch names](#branch-names)).
 2. Make your change. Component code, styles, stories and tests live together in `packages/react/src/components/<category>/<name>`. To add a component, run `pnpm new:component` and follow [AUTHORING.md](AUTHORING.md).
 3. Add or update tests, and stories when the change is visible in the docs.
-4. Run `pnpm lint` and `pnpm test`, and check your change in Storybook. If you changed a story, run `pnpm --filter @loica-ui/docs check:a11y --url http://localhost:6006 <name>` while `pnpm dev` is running (the first time, install its browser with `pnpm --filter @loica-ui/docs exec playwright install chromium`).
+4. Run `pnpm lint` and `pnpm test`, and check your change in Storybook. A change that is not meant to alter how a component looks must leave every story the same, and CI compares them (see [Visual changes](#visual-changes)). If you changed a story, run `pnpm --filter @loica-ui/docs check:a11y --url http://localhost:6006 <name>` while `pnpm dev` is running (the first time, install its browser with `pnpm --filter @loica-ui/docs exec playwright install chromium`).
 5. If you changed `@loica-ui/react`, run `pnpm changeset` and commit the generated file (see [Changesets](#changesets)).
 6. Open a pull request against `main` describing what changed and why.
 
@@ -64,7 +64,14 @@ A pull request runs only the checks its changes need, and **Required** sums them
 | --- | --- | --- |
 | Checks | always | build, lint, tests with coverage, `check:package`, `check:size`, SonarCloud |
 | Accessibility (1/2, 2/2) | `packages`, `apps/docs` or the workspace config change | axe on every story in light and dark mode, half each |
+| Visual | `packages`, `apps/docs` or the workspace config change | builds the docs of the base and of the pull request, and compares the `Default` and `Variants` story of every component, in light and dark mode: it fails when one looks different (see [Visual changes](#visual-changes)) |
 | Examples | `apps/example-*`, `packages/react` or the workspace config change | `pnpm check:examples`: builds both examples against the packed package, as npm would install it |
+
+### Visual changes
+
+The look of the default theme changes only on purpose (see [Public API](apps/docs/stories/public-api.mdx)). The Visual check renders the `Default` and `Variants` story of every component in the base and in your branch, on the same runner, and fails if a picture is different. Nothing is stored, so there is no baseline to update. A change that was meant to look different (a fix of a defect, an adjusted color) needs the `visual-change` label on the pull request, a changeset that says so, and a re-run of the job, which then reports the differences without failing. The pictures of what changed, before and after, are in the `visual-report` artifact of the run. A change that touches a shared piece, such as the `Button`, also shows in every component that renders one.
+
+To see it before pushing, build the docs on `main` and on your branch (`pnpm build:docs`, and copy `apps/docs/storybook-static` of `main` aside), then `pnpm --filter @loica-ui/docs check:visual --base <that folder> [story words]`. Overlays that the story doesn't open are not compared.
 
 On `main`, Build runs Checks only (SonarCloud needs the analysis of `main`), and Release versions or publishes.
 

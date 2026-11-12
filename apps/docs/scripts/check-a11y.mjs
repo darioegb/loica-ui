@@ -10,13 +10,11 @@
 //
 // "Incomplete" results (a background axe can't compute: an overlay, a scroll container, a background image) are
 // not failures, as in the panel. An overlay the story doesn't open is not checked: open it and look at the panel.
-import { createReadStream, existsSync, statSync } from 'node:fs'
-import { createServer } from 'node:http'
 import { createRequire } from 'node:module'
 import { availableParallelism } from 'node:os'
-import { extname, join, normalize } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
+import { serveStatic } from './serve-static.mjs'
 
 const require = createRequire(import.meta.url)
 const axeSource = require.resolve('axe-core/axe.min.js')
@@ -50,42 +48,16 @@ if (!(Number.isInteger(shard) && Number.isInteger(shards) && shard >= 1 && shard
   process.exit(1)
 }
 
-const TYPES = {
-  '.css': 'text/css',
-  '.html': 'text/html',
-  '.js': 'text/javascript',
-  '.json': 'application/json',
-  '.mjs': 'text/javascript',
-  '.svg': 'image/svg+xml',
-  '.woff2': 'font/woff2',
-}
-
-function serveStatic() {
-  if (!existsSync(join(staticDir, 'index.json'))) {
-    console.error('No storybook-static: run `pnpm build:docs` first, or pass --url of a running Storybook.')
+async function serveBuild() {
+  try {
+    return await serveStatic(staticDir)
+  } catch (error) {
+    console.error(`${error.message} Or pass --url of a running Storybook.`)
     process.exit(1)
   }
-  const server = createServer((request, response) => {
-    const path = normalize(decodeURIComponent(new URL(request.url, 'http://localhost').pathname))
-    let file = join(staticDir, path)
-    if (!file.startsWith(staticDir)) {
-      response.writeHead(403).end()
-      return
-    }
-    if (existsSync(file) && statSync(file).isDirectory()) file = join(file, 'index.html')
-    if (!existsSync(file)) {
-      response.writeHead(404).end()
-      return
-    }
-    response.writeHead(200, { 'Content-Type': TYPES[extname(file)] ?? 'application/octet-stream' })
-    createReadStream(file).pipe(response)
-  })
-  return new Promise((resolve) => {
-    server.listen(0, '127.0.0.1', () => resolve(server))
-  })
 }
 
-const server = remoteUrl ? undefined : await serveStatic()
+const server = remoteUrl ? undefined : await serveBuild()
 const baseUrl = remoteUrl?.replace(/\/$/, '') ?? `http://127.0.0.1:${server.address().port}`
 
 const index = await (await fetch(`${baseUrl}/index.json`)).json()

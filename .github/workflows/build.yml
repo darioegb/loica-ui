@@ -116,6 +116,81 @@ jobs:
       - name: Check the stories with axe
         run: pnpm --filter @loica-ui/docs check:a11y --shard ${{ matrix.shard }}/2
 
+  visual:
+    name: Visual
+    needs: changes
+    if: needs.changes.outputs.library == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install
+        uses: ./.github/composite-actions/common
+
+      # The pull request is checked out as a merge, so its first parent is the base it goes into.
+      - name: Find the base
+        id: base
+        run: echo "sha=$(git rev-parse HEAD^1)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore the build of the base
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/base-static
+          key: visual-base-${{ steps.base.outputs.sha }}
+
+      - name: Build docs of the base
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          git worktree add "$RUNNER_TEMP/base" "${{ steps.base.outputs.sha }}"
+          cd "$RUNNER_TEMP/base"
+          HUSKY=0 pnpm install --frozen-lockfile
+          pnpm build:docs
+          mv apps/docs/storybook-static "$RUNNER_TEMP/base-static"
+
+      - name: Build docs
+        run: pnpm build:docs
+
+      - name: Install the browser and its system packages
+        id: browser
+        continue-on-error: true
+        timeout-minutes: 4
+        run: pnpm --filter @loica-ui/docs exec playwright install --with-deps chromium
+
+      - name: Install the browser alone when apt fails
+        if: steps.browser.outcome == 'failure'
+        run: pnpm --filter @loica-ui/docs exec playwright install chromium
+
+      # A change of look is allowed with the `visual-change` label. It is read here, not from the event, so adding
+      # the label and re-running this job is enough.
+      - name: Read the labels
+        id: intent
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh pr view "${{ github.event.pull_request.number }}" --json labels --jq '.labels[].name' | grep -qx 'visual-change'; then
+            echo "flag=--allow-changes" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Compare the look of the stories with the base
+        run: pnpm --filter @loica-ui/docs check:visual --base "$RUNNER_TEMP/base-static" ${{ steps.intent.outputs.flag }}
+
+      - name: Upload the pictures that changed
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-report
+          path: apps/docs/visual-report
+          if-no-files-found: ignore
+          retention-days: 14
+
   examples:
     name: Examples
     needs: changes
@@ -140,7 +215,7 @@ jobs:
   required:
     name: Required
     if: always()
-    needs: [changes, checks, accessibility, examples]
+    needs: [changes, checks, accessibility, visual, examples]
     runs-on: ubuntu-latest
     steps:
       - name: Fail if a job failed
