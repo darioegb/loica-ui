@@ -5,6 +5,7 @@ import { forwardRef, useMemo } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import { MenuIcon } from '../../../overlay/icons'
 import { mergeRefs } from '../../../overlay/trigger'
+import { useMounted } from '../../../overlay/use-mounted'
 import type { ComponentProps } from '../../../theme'
 import { useSidebarContext } from './sidebar-context'
 import styles from './sidebar.module.css'
@@ -57,12 +58,13 @@ export const SidebarToggle = forwardRef<HTMLButtonElement, SidebarToggleProps>(
     const { collapsed, isMobile, open, panelId, setCollapsed, setOpen, setToggle } =
       useSidebarContext('SidebarToggle')
     const toggleRef = useMemo(() => mergeRefs(ref, setToggle), [ref, setToggle])
+    const mounted = useMounted()
     const expanded = isMobile ? open : !collapsed
 
     return (
       <button
         aria-controls={panelId}
-        aria-expanded={expanded}
+        aria-expanded={mounted ? expanded : undefined}
         aria-label={text.label}
         className={joinClasses(variant !== 'unstyled' && styles.toggle, className)}
         data-loica-sidebar-toggle=""

@@ -8,6 +8,15 @@ describe('Portal', () => {
     expect(renderToString(<Portal>content</Portal>)).toBe('')
   })
 
+  it('renders nothing on a server that has no document, with no theme either', () => {
+    vi.stubGlobal('document', undefined)
+    try {
+      expect(renderToString(<Portal>content</Portal>)).toBe('')
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
   it('renders its children into the document body', () => {
     const { container } = render(
       <Portal>
