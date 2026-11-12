@@ -120,6 +120,7 @@ import '@loica-ui/react/css/input.css'
 | Skeleton | [Skeleton](https://darioegb.github.io/loica-ui/?path=/docs/components-skeleton--docs) |
 | Slider | [Slider](https://darioegb.github.io/loica-ui/?path=/docs/components-slider--docs) |
 | Stack | [Stack](https://darioegb.github.io/loica-ui/?path=/docs/components-stack--docs) |
+| Stat | [Stat](https://darioegb.github.io/loica-ui/?path=/docs/components-stat--docs) |
 | Stepper | [Stepper](https://darioegb.github.io/loica-ui/?path=/docs/components-stepper--docs) |
 | Table | [Table](https://darioegb.github.io/loica-ui/?path=/docs/components-table--docs) |
 | Tabs | [Tabs](https://darioegb.github.io/loica-ui/?path=/docs/components-tabs--docs) |

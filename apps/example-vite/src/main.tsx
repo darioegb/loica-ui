@@ -30,6 +30,7 @@ import "@loica-ui/react/css/select.css";
 import "@loica-ui/react/css/sidebar.css";
 import "@loica-ui/react/css/skeleton.css";
 import "@loica-ui/react/css/stack.css";
+import "@loica-ui/react/css/stat.css";
 import "@loica-ui/react/css/table.css";
 import "@loica-ui/react/css/tabs.css";
 import "@loica-ui/react/css/text.css";

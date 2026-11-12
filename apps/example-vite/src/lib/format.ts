@@ -7,10 +7,6 @@ export function formatDue(iso: string, language: string): string {
   }).format(new Date(`${iso}T00:00:00Z`));
 }
 
-export function formatNumber(value: number, language: string): string {
-  return new Intl.NumberFormat(language).format(value);
-}
-
 export function formatChange(
   value: number,
   language: string,

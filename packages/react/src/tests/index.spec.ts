@@ -212,6 +212,7 @@ describe('@loica-ui/react', () => {
       'Skeleton',
       'Slider',
       'Stack',
+      'Stat',
       'Step',
       'StepDescription',
       'StepIndicator',
