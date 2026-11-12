@@ -1,13 +1,13 @@
 'use client'
 
-import type { ComponentPropsWithoutRef, CSSProperties, ForwardedRef } from 'react'
+import type { ComponentPropsWithoutRef, CSSProperties, ForwardedRef, ReactNode } from 'react'
 import { forwardRef } from 'react'
 import { useAnchorElement } from '../../../link/use-anchor-element'
 import { useLabels } from '../../../locale/locale-provider'
 import { joinClasses } from '../../../overlay/class-names'
 import { ignoreClick } from '../../../overlay/ignore-click'
 import { visuallyHidden } from '../../../overlay/visually-hidden'
-import type { ColorScheme } from '../../../theme'
+import type { ColorScheme, Size } from '../../../theme'
 import { schemeVar } from '../../../theme'
 import styles from './link.module.css'
 
@@ -43,6 +43,19 @@ export interface LinkOwnProps {
    * @default false
    */
   external?: boolean
+  /**
+   * The content of the Link, as a prop, so it can be written without children:
+   * `<Link href="/docs" label="Docs" />`. `children` take its place when both are set.
+   *
+   * @since 1.1
+   */
+  label?: ReactNode
+  /**
+   * Size of the the Link, from the theme. Without it, it takes the size of the text around it.
+   *
+   * @since 1.1
+   */
+  size?: Size
   /**
    * Visual variant. `underline` always underlines the link, as a link inside a text has to be told
    * apart by more than its color. `hover` underlines it only on hover and focus, for a list of
@@ -82,8 +95,10 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       disabled = false,
       external = false,
       href,
+      label,
       onClick,
       rel,
+      size,
       style,
       target,
       variant = 'underline',
@@ -100,7 +115,12 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       <Anchor
         {...rest}
         aria-disabled={disabled || undefined}
-        className={joinClasses(isStyled && styles.link, isStyled && styles[variant], className)}
+        className={joinClasses(
+          isStyled && styles.link,
+          isStyled && size && styles[size],
+          isStyled && styles[variant],
+          className,
+        )}
         data-disabled={disabled ? '' : undefined}
         data-external={external ? '' : undefined}
         data-loica-link=""
@@ -113,7 +133,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         tabIndex={disabled ? -1 : undefined}
         target={opensIn}
       >
-        {children}
+        {children ?? label}
         {external ? <span style={visuallyHidden}> ({text.external})</span> : null}
       </Anchor>
     )

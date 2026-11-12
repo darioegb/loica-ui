@@ -1,7 +1,7 @@
-import type { ComponentPropsWithoutRef, ForwardedRef } from 'react'
+import type { ComponentPropsWithoutRef, ForwardedRef, ReactNode } from 'react'
 import { forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import type { ColorScheme } from '../../../theme'
+import type { ColorScheme, Size } from '../../../theme'
 import { tagColorVars } from '../shared/tag-vars'
 import tag from '../shared/tag.module.css'
 import styles from './code.module.css'
@@ -16,6 +16,19 @@ export interface CodeOwnProps {
    * @default 'secondary'
    */
   colorScheme?: ColorScheme
+  /**
+   * The content of the Code, as a prop, so it can be written without children:
+   * `<Code label="pnpm install" />`. `children` take its place when both are set.
+   *
+   * @since 1.1
+   */
+  label?: ReactNode
+  /**
+   * Size of the the Code, from the theme. Without it, it takes the size of the text around it.
+   *
+   * @since 1.1
+   */
+  size?: Size
   /**
    * Visual variant. `subtle` tints the background and `outline` only draws a border. `unstyled`
    * drops the Loica styles so you can bring your own.
@@ -35,18 +48,34 @@ export type CodeProps = ComponentPropsWithoutRef<'code'> & CodeOwnProps
  */
 export const Code = forwardRef<HTMLElement, CodeProps>(
   (
-    { className, colorScheme = 'secondary', style, variant = 'subtle', ...rest }: CodeProps,
+    {
+      children,
+      className,
+      colorScheme = 'secondary',
+      label,
+      size,
+      style,
+      variant = 'subtle',
+      ...rest
+    }: CodeProps,
     ref: ForwardedRef<HTMLElement>,
   ) => {
     const isStyled = variant !== 'unstyled'
     return (
       <code
-        className={joinClasses(isStyled && styles.code, isStyled && tag[variant], className)}
+        className={joinClasses(
+          isStyled && styles.code,
+          isStyled && size && styles[size],
+          isStyled && tag[variant],
+          className,
+        )}
         data-loica-code=""
         ref={ref}
         style={tagColorVars('code', colorScheme, style)}
         {...rest}
-      />
+      >
+        {children ?? label}
+      </code>
     )
   },
 )

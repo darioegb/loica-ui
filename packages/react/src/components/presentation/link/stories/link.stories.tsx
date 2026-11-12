@@ -55,21 +55,29 @@ export default {
     external: {
       control: 'boolean',
     },
+    label: {
+      control: 'text',
+    },
+    size: {
+      control: 'radio',
+      options: ['sm', 'md', 'lg'],
+    },
     variant: {
       control: 'radio',
       options: ['underline', 'hover', 'unstyled'],
     },
   },
   args: {
-    children: 'Read the docs',
     href: '#docs',
+    label: 'Read the docs',
   },
 } satisfies Meta<typeof Link>
 
 type Story = StoryObj<typeof Link>
 
 /**
- * The default Link is underlined and uses the primary color.
+ * The default Link is underlined and uses the primary color. Its text can be the **label** prop, so it closes on
+ * itself: `children` take its place when both are set.
  */
 export const Default: Story = {}
 
@@ -90,6 +98,19 @@ export const Variants: Story = {
       <Link href="#docs" variant="unstyled">
         unstyled
       </Link>
+    </div>
+  ),
+}
+
+/**
+ * Use the **size** prop to give it a size of the theme. Without it, the Link takes the size of the text around it.
+ */
+export const Sizes: Story = {
+  render: () => (
+    <div className="flex flex-wrap items-center justify-center gap-4">
+      <Link href="#docs" label="small" size="sm" />
+      <Link href="#docs" label="medium" size="md" />
+      <Link href="#docs" label="large" size="lg" />
     </div>
   ),
 }
@@ -147,16 +168,14 @@ export const External: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Link external href="https://example.com">
-  Example
-</Link>`,
+        code: `<Link external href="https://example.com" label="Example" />`,
       },
     },
   },
   args: {
-    children: 'Example',
     external: true,
     href: 'https://example.com',
+    label: 'Example',
   },
 }
 
@@ -166,8 +185,8 @@ export const External: Story = {
  */
 export const Disabled: Story = {
   args: {
-    children: 'Not available yet',
     disabled: true,
+    label: 'Not available yet',
   },
 }
 

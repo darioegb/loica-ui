@@ -20,6 +20,21 @@ describe('Code component', () => {
     expect(screen.getByText('x')).toHaveClass('code', variant)
   })
 
+  it('takes its content from label, and children win', () => {
+    const { rerender } = render(<Code label="from the label" />)
+    expect(screen.getByText('from the label')).toBeInTheDocument()
+    rerender(<Code label="from the label">from the children</Code>)
+    expect(screen.getByText('from the children')).toBeInTheDocument()
+    expect(screen.queryByText('from the label')).toBeNull()
+  })
+
+  it('takes the size of the text around it, unless it has a size', () => {
+    const { rerender } = render(<Code>x</Code>)
+    for (const size of ['sm', 'md', 'lg']) expect(screen.getByText('x')).not.toHaveClass(size)
+    rerender(<Code size="lg">x</Code>)
+    expect(screen.getByText('x')).toHaveClass('code', 'lg')
+  })
+
   it('exposes the color scheme as CSS variables', () => {
     render(<Code colorScheme="success">x</Code>)
     expect(screen.getByText('x')).toHaveStyle('--code-tint: var(--loica-color-success-tint)')

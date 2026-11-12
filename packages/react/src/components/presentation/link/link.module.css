@@ -27,3 +27,15 @@
   color: var(--loica-muted);
   cursor: not-allowed;
 }
+
+.sm {
+  font-size: var(--loica-font-size-sm);
+}
+
+.md {
+  font-size: var(--loica-font-size-base);
+}
+
+.lg {
+  font-size: var(--loica-font-size-lg);
+}

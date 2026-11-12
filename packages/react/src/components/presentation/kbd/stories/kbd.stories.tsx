@@ -10,7 +10,8 @@ const colorSchemes = Object.keys(defaultTheme.colors)
  * It is an inline `<kbd>` that scales with the text around it, and it keeps its text on one line.
  * Write a shortcut with one Kbd per key and the separator as plain text.
  *
- * The font is the `--kbd-font-family` variable, which has a monospace stack by default.
+ * Its font is the `--loica-font-family-mono` token of the theme. Without a **size** it takes the size of the text
+ * around it; with one, it uses the sizes of the theme.
  */
 export default {
   title: 'Components/Kbd',
@@ -46,20 +47,28 @@ export default {
       control: 'select',
       options: colorSchemes,
     },
+    label: {
+      control: 'text',
+    },
+    size: {
+      control: 'radio',
+      options: ['sm', 'md', 'lg'],
+    },
     variant: {
       control: 'radio',
       options: ['outline', 'subtle', 'unstyled'],
     },
   },
   args: {
-    children: 'Esc',
+    label: 'Esc',
   },
 } satisfies Meta<typeof Kbd>
 
 type Story = StoryObj<typeof Kbd>
 
 /**
- * The default Kbd is outlined with the secondary color.
+ * The default Kbd is outlined with the secondary color. Its text can be the **label** prop, so it closes on itself:
+ * `children` take its place when both are set.
  */
 export const Default: Story = {}
 
@@ -73,6 +82,19 @@ export const Variants: Story = {
       <Kbd variant="outline">outline</Kbd>
       <Kbd variant="subtle">subtle</Kbd>
       <Kbd variant="unstyled">unstyled</Kbd>
+    </div>
+  ),
+}
+
+/**
+ * Use the **size** prop to give it a size of the theme. Without it, the Kbd takes the size of the text around it.
+ */
+export const Sizes: Story = {
+  render: () => (
+    <div className="flex flex-wrap items-center justify-center gap-4">
+      <Kbd label="Esc" size="sm" />
+      <Kbd label="Esc" size="md" />
+      <Kbd label="Esc" size="lg" />
     </div>
   ),
 }

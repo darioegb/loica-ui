@@ -11,7 +11,8 @@ const colorSchemes = Object.keys(defaultTheme.colors)
  * fits a paragraph, a heading or a small note without a size of its own. A block of code is
  * not its job: it is meant for a few words, and it wraps if it has to.
  *
- * The font is the `--code-font-family` variable, which has a monospace stack by default.
+ * Its font is the `--loica-font-family-mono` token of the theme. Without a **size** it takes the size of the text
+ * around it; with one, it uses the sizes of the theme.
  */
 export default {
   title: 'Components/Code',
@@ -47,20 +48,28 @@ export default {
       control: 'select',
       options: colorSchemes,
     },
+    label: {
+      control: 'text',
+    },
+    size: {
+      control: 'radio',
+      options: ['sm', 'md', 'lg'],
+    },
     variant: {
       control: 'radio',
       options: ['subtle', 'outline', 'unstyled'],
     },
   },
   args: {
-    children: 'pnpm add @loica-ui/react',
+    label: 'pnpm add @loica-ui/react',
   },
 } satisfies Meta<typeof Code>
 
 type Story = StoryObj<typeof Code>
 
 /**
- * The default Code is tinted with the secondary color.
+ * The default Code is tinted with the secondary color. Its text can be the **label** prop, so it closes on itself:
+ * `children` take its place when both are set.
  */
 export const Default: Story = {}
 
@@ -74,6 +83,19 @@ export const Variants: Story = {
       <Code variant="subtle">subtle</Code>
       <Code variant="outline">outline</Code>
       <Code variant="unstyled">unstyled</Code>
+    </div>
+  ),
+}
+
+/**
+ * Use the **size** prop to give it a size of the theme. Without it, the Code takes the size of the text around it.
+ */
+export const Sizes: Story = {
+  render: () => (
+    <div className="flex flex-wrap items-center justify-center gap-4">
+      <Code label="small" size="sm" />
+      <Code label="medium" size="md" />
+      <Code label="large" size="lg" />
     </div>
   ),
 }

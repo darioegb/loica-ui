@@ -66,6 +66,7 @@ export function buildTailwindCss(): string {
   const theme = [
     ...colors(),
     line('font-loica', loica('font-family')),
+    line('font-loica-mono', loica('font-family-mono')),
     ...scale('text', defaultTheme.typography.fontSizes, 'font-size'),
     ...textStyles(),
     ...scale('font-weight', defaultTheme.typography.fontWeights, 'font-weight'),

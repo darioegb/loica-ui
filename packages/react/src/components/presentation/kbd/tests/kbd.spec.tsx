@@ -20,6 +20,21 @@ describe('Kbd component', () => {
     expect(screen.getByText('K')).toHaveClass('kbd', variant)
   })
 
+  it('takes its content from label, and children win', () => {
+    const { rerender } = render(<Kbd label="Esc" />)
+    expect(screen.getByText('Esc')).toBeInTheDocument()
+    rerender(<Kbd label="Esc">Enter</Kbd>)
+    expect(screen.getByText('Enter')).toBeInTheDocument()
+    expect(screen.queryByText('Esc')).toBeNull()
+  })
+
+  it('takes the size of the text around it, unless it has a size', () => {
+    const { rerender } = render(<Kbd>K</Kbd>)
+    for (const size of ['sm', 'md', 'lg']) expect(screen.getByText('K')).not.toHaveClass(size)
+    rerender(<Kbd size="sm">K</Kbd>)
+    expect(screen.getByText('K')).toHaveClass('kbd', 'sm')
+  })
+
   it('exposes the color scheme as CSS variables', () => {
     render(<Kbd colorScheme="info">K</Kbd>)
     expect(screen.getByText('K')).toHaveStyle('--kbd-text: var(--loica-color-info-text)')

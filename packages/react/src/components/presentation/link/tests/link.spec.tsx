@@ -39,6 +39,29 @@ describe('Link component', () => {
     expect(screen.getByRole('link')).toHaveClass('link', variant)
   })
 
+  it('takes its content from label, and children win', () => {
+    const { rerender } = render(<Link href="/docs" label="From the label" />)
+    expect(screen.getByRole('link', { name: 'From the label' })).toBeInTheDocument()
+    rerender(
+      <Link href="/docs" label="From the label">
+        From the children
+      </Link>,
+    )
+    expect(screen.getByRole('link', { name: 'From the children' })).toBeInTheDocument()
+  })
+
+  it('names an external link made with a label', () => {
+    render(<Link external href="https://example.com" label="Example" />)
+    expect(screen.getByRole('link', { name: /^Example\s?\(opens in a new tab\)$/ })).toBeInTheDocument()
+  })
+
+  it('takes the size of the text around it, unless it has a size', () => {
+    const { rerender } = render(<Link href="/docs" label="Docs" />)
+    for (const size of ['sm', 'md', 'lg']) expect(screen.getByRole('link')).not.toHaveClass(size)
+    rerender(<Link href="/docs" label="Docs" size="md" />)
+    expect(screen.getByRole('link')).toHaveClass('link', 'md')
+  })
+
   it('exposes the color scheme as CSS variables, and lets the style override them', () => {
     render(
       <Link colorScheme="error" href="/docs" style={{ '--link-hover-color': 'red' } as React.CSSProperties}>
