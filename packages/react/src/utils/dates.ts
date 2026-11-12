@@ -1,4 +1,8 @@
-/** A day of the week as `Date.getDay()` numbers it: `0` is Sunday and `6` is Saturday. */
+/**
+ * A day of the week as `Date.getDay()` numbers it: `0` is Sunday and `6` is Saturday.
+ *
+ * @since 1.1
+ */
 export type WeekDay = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
 function getLocale(language?: string): string {

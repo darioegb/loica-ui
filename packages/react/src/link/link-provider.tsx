@@ -22,6 +22,11 @@ export interface LinkProviderProps {
 
 const LinkContext = createContext<LinkComponent>('a')
 
+/**
+ * Gives the link component of your router to every part of the library that draws a link.
+ *
+ * @since 1.1
+ */
 export function LinkProvider({ children, component }: Readonly<LinkProviderProps>): ReactNode {
   return <LinkContext.Provider value={component}>{children}</LinkContext.Provider>
 }

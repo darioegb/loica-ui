@@ -86,6 +86,7 @@ export interface DatePickerOwnProps {
   /**
    * The first day of the week in the calendar: `0` is Sunday, `1` Monday and so on up to `6` for Saturday, or `'locale'` to take it from the `locale` (Sunday in `en-US`, Monday in `es`). Without it the week starts on Monday, whatever the `locale`.
    *
+   * @since 1.1
    * @default 1
    */
   weekStartsOn?: WeekStartsOn
