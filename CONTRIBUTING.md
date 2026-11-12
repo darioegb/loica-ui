@@ -15,6 +15,7 @@ git clone https://github.com/<your-user>/loica-ui.git
 cd @loica-ui/react
 pnpm install
 pnpm dev   # Storybook at http://localhost:6006
+pnpm dev:vite   # or dev:next: an example app, rebuilding the package as you change it
 ```
 
 The [root README](README.md#development) lists the available commands and the repository structure.
@@ -63,11 +64,11 @@ A pull request runs only the checks its changes need, and **Required** sums them
 | --- | --- | --- |
 | Checks | always | build, lint, tests with coverage, `check:package`, SonarCloud |
 | Accessibility (1/2, 2/2) | `packages`, `apps/docs` or the workspace config change | axe on every story in light and dark mode, half each |
-| Examples | `apps/example-*` changes | `npm ci` and build of each example against the published package |
+| Examples | `apps/example-*`, `packages/react` or the workspace config change | `pnpm check:examples`: builds both examples against the packed package, as npm would install it |
 
 On `main`, Build runs Checks only (SonarCloud needs the analysis of `main`), and Release versions or publishes.
 
-The two apps in `apps/` install `@loica-ui/react` from npm, so after a release, bump them to the new version (`npm install @loica-ui/react@^<version>` in each, and commit `package.json` and `package-lock.json`) and let the Examples job build them against it. A bump that fails to build shows a change that breaks a user.
+The two apps in `apps/` depend on `@loica-ui/react` with `workspace:^`, so a pull request that adds a component also adds it to their demo, and the Examples job builds them against the package as it would be published. A change that breaks them breaks a user. Their deploys follow npm: StackBlitz takes the published version when the docs deploy, and the Vercel demo rebuilds on a release, or when only the example changes and no changeset is pending.
 
 ## License
 

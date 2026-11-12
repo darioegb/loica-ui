@@ -1,7 +1,6 @@
 # Loica UI React — Vite example
 
-A client-only [Vite](https://vite.dev) + React SPA that consumes the **published npm
-package** (`@loica-ui/react`), not the workspace sources. It demonstrates a slice of
+A client-only [Vite](https://vite.dev) + React SPA built on `@loica-ui/react`. It demonstrates a slice of
 the same simulated Loica Projects product as the Next.js example, without a server
 or authentication. Storybook is the component gallery.
 
@@ -9,15 +8,21 @@ or authentication. Storybook is the component gallery.
 
 ## Run locally
 
+From the root of the repository:
+
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev:vite
 ```
+
+It depends on the package of the workspace (`workspace:^`) and reads its built `dist`, as an app that installs it
+from npm does; `dev:vite` builds the package first and rebuilds it as you change it. StackBlitz gets this folder
+with the published version instead, so it opens what npm installs.
 
 The example uses Vite 7: the WASM build of Rolldown, which Vite 8 needs, does not load in StackBlitz.
 
-Run `npm run build` to type-check and create the production build, and
-`npm run preview` to serve it locally. When deploying the SPA, configure the host
+Run `pnpm --filter loica-ui-vite-playground build` to type-check and create the production build, and
+`pnpm --filter loica-ui-vite-playground preview` to serve it locally. When deploying the SPA, configure the host
 to serve `index.html` for client-side routes such as `/projects`.
 
 ## What it shows

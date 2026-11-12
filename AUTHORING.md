@@ -202,4 +202,4 @@ Copy it into the pull request description.
 **Release**
 - [ ] Exported from `src/index.ts` and listed in `src/tests/index.spec.ts` (the scaffold does both)
 - [ ] Changeset added with `pnpm changeset`: `minor` for a new component (`major` only with a breaking change, see [Public API](apps/docs/stories/public-api.mdx))
-- [ ] Once the release that publishes it is out, add it to the two examples under `apps/` (`example-vite` and `example-next-app`): they install `@loica-ui/react` from npm, so bump it to that version and add a section to the demo
+- [ ] Used in the two examples under `apps/` (`example-vite` and `example-next-app`) where it fits the demo, in the same pull request: they depend on the workspace package, and `pnpm check:examples` builds them against it

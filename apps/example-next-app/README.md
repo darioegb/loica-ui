@@ -79,10 +79,15 @@ Preflight sets `line-height: 1.5` and makes buttons and inputs inherit the font,
 
 ## Run locally
 
+From the root of the repository:
+
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev:next
 ```
+
+It depends on the package of the workspace (`workspace:^`) and reads its built `dist`, as an app that installs it
+from npm does; `dev:next` builds the package first and rebuilds it as you change it.
 
 ## Live demo
 
@@ -94,13 +99,10 @@ npm run dev
 2. In [Vercel](https://vercel.com/new), import `darioegb/loica-ui`.
 3. Set **Root Directory** to `apps/example-next-app`.
 4. Deploy. The bundled `vercel.json` pins the framework to **Next.js** and the
-   install/build commands to **npm**.
+   install and build commands to the pnpm of the repository (`npx pnpm@<version>`), not the pnpm of Vercel, which
+   can't parse the multi-document `pnpm-lock.yaml` that pnpm 12 writes. The build runs
+   `turbo run build --filter=loica-ui-next-app...`, so the package is built from the same commit first.
 
-This example is excluded from the pnpm workspace and ships its own
-`package-lock.json`, so `vercel.json` makes Vercel run `npm install` inside this
-folder instead of a workspace-wide `pnpm install` at the repo root. That installs
-`@loica-ui/react` from npm — exactly what a real consumer would get — and avoids
-the root `pnpm-lock.yaml` (which pnpm 12 writes as a multi-document file that
-Vercel's bundled pnpm can't parse).
-
-`vercel.json` also sets `ignoreCommand`, so a commit that doesn't touch this folder doesn't build a new deployment.
+`vercel.json` also sets `ignoreCommand` to `scripts/should-deploy.mjs`. A preview builds when the example, the
+package or the workspace config change. Production follows npm: it builds on a release (the version of the package
+changed), or when only the example changed and no changeset is pending, so the demo never shows an unreleased API.
