@@ -51,7 +51,7 @@ export interface LinkOwnProps {
    */
   label?: ReactNode
   /**
-   * Size of the the Link, from the theme. Without it, it takes the size of the text around it.
+   * Size of the Link, from the theme. Without it, it takes the size of the text around it.
    *
    * @since 1.1
    */

@@ -24,7 +24,7 @@ export interface KbdOwnProps {
    */
   label?: ReactNode
   /**
-   * Size of the the Kbd, from the theme. Without it, it takes the size of the text around it.
+   * Size of the Kbd, from the theme. Without it, it takes the size of the text around it.
    *
    * @since 1.1
    */
