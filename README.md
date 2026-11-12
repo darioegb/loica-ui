@@ -87,6 +87,7 @@ import '@loica-ui/react/css/input.css'
 | Carousel | [Carousel](https://darioegb.github.io/loica-ui/?path=/docs/components-carousel--docs) |
 | Checkbox | [Checkbox](https://darioegb.github.io/loica-ui/?path=/docs/components-checkbox--docs) |
 | Chip | [Chip](https://darioegb.github.io/loica-ui/?path=/docs/components-chip--docs) |
+| Code | [Code](https://darioegb.github.io/loica-ui/?path=/docs/components-code--docs) |
 | Collapse | [Collapse](https://darioegb.github.io/loica-ui/?path=/docs/components-collapse--docs) |
 | DatePicker | [DatePicker](https://darioegb.github.io/loica-ui/?path=/docs/components-datepicker--docs) |
 | Divider | [Divider](https://darioegb.github.io/loica-ui/?path=/docs/components-divider--docs) |
@@ -98,6 +99,8 @@ import '@loica-ui/react/css/input.css'
 | Heading | [Heading](https://darioegb.github.io/loica-ui/?path=/docs/components-heading--docs) |
 | Icon | [Icon](https://darioegb.github.io/loica-ui/?path=/docs/components-icon--docs) |
 | Input | [Input](https://darioegb.github.io/loica-ui/?path=/docs/components-input--docs) |
+| Kbd | [Kbd](https://darioegb.github.io/loica-ui/?path=/docs/components-kbd--docs) |
+| Link | [Link](https://darioegb.github.io/loica-ui/?path=/docs/components-link--docs) |
 | List | [List](https://darioegb.github.io/loica-ui/?path=/docs/components-list--docs) |
 | Loader | [Loader](https://darioegb.github.io/loica-ui/?path=/docs/components-loader--docs) |
 | Modal | [Modal](https://darioegb.github.io/loica-ui/?path=/docs/components-modal--docs) |

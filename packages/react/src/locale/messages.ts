@@ -5,6 +5,7 @@ import type { ChipLabels } from '../components/presentation/chip'
 import type { DatePickerLabels } from '../components/form/datepicker'
 import type { FileUploadLabels } from '../components/utility/fileupload'
 import type { InputLabels } from '../components/form/input'
+import type { LinkLabels } from '../components/presentation/link'
 import type { NumberInputLabels } from '../components/form/numberinput'
 import type { PaginatorLabels } from '../components/interaction/paginator'
 import type { PinInputLabels } from '../components/form/pininput'
@@ -30,6 +31,7 @@ export interface MessageMap {
   datePicker: DatePickerLabels
   fileUpload: FileUploadLabels
   input: InputLabels
+  link: LinkLabels
   loader: SingleLabel
   navbarToggle: SingleLabel
   numberInput: NumberInputLabels

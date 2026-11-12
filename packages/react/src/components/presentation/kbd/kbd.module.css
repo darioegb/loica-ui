@@ -1,0 +1,10 @@
+.kbd {
+  border-radius: var(--loica-radius-2);
+  display: inline-block;
+  font-family: var(--kbd-font-family, ui-monospace, 'SFMono-Regular', menlo, consolas, monospace);
+  font-size: 0.875em;
+  min-inline-size: 1.5em;
+  padding: 0.1em var(--loica-space-1);
+  text-align: center;
+  white-space: nowrap;
+}

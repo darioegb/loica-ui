@@ -1,0 +1,7 @@
+.code {
+  border-radius: var(--loica-radius-2);
+  font-family: var(--code-font-family, ui-monospace, 'SFMono-Regular', menlo, consolas, monospace);
+  font-size: 0.875em;
+  overflow-wrap: anywhere;
+  padding: 0.1em var(--loica-space-1);
+}

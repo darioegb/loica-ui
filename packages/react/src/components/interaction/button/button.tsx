@@ -4,12 +4,12 @@ import type {
   ComponentPropsWithoutRef,
   CSSProperties,
   ForwardedRef,
-  MouseEvent,
   ReactNode,
 } from 'react'
 import { forwardRef } from 'react'
 import { useAnchorElement } from '../../../link/use-anchor-element'
 import { joinClasses } from '../../../overlay/class-names'
+import { ignoreClick } from '../../../overlay/ignore-click'
 import { visuallyHidden } from '../../../overlay/visually-hidden'
 import type { ColorScheme, Shape, Size } from '../../../theme'
 import { schemeVar } from '../../../theme'
@@ -77,13 +77,6 @@ export interface ButtonOwnProps {
 export type ButtonVariant = 'solid' | 'outline' | 'link' | 'icon' | 'ghost' | 'unstyled'
 
 export type ButtonProps = ComponentPropsWithoutRef<'button'> & ButtonOwnProps
-
-const ignoreClick = (event: MouseEvent<HTMLElement>): void => {
-  event.preventDefault()
-  event.stopPropagation()
-  // stopPropagation only blocks React handlers; the native one stops any DOM listener too.
-  event.nativeEvent.stopImmediatePropagation()
-}
 
 const buttonColorVars = (colorScheme: ColorScheme): CSSProperties =>
   ({
