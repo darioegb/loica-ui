@@ -29,11 +29,11 @@ describe('matchesAccept', () => {
 
 describe('formatBytes', () => {
   it.each([
-    [0, '0 B'],
-    [1023, '1023 B'],
-    [1024, '1 KB'],
-    [1536, '1.5 KB'],
-    [10 * 1024, '10 KB'],
+    [0, '0 byte'],
+    [1023, '1023 byte'],
+    [1024, '1 kB'],
+    [1536, '1.5 kB'],
+    [10 * 1024, '10 kB'],
     [5 * 1024 * 1024, '5 MB'],
     [3 * 1024 ** 3, '3 GB'],
     [2048 * 1024 ** 3, '2048 GB'],
@@ -42,8 +42,23 @@ describe('formatBytes', () => {
   })
 
   it('writes the number with the separators of the locale', () => {
-    expect(formatBytes(1536, 'es')).toBe('1,5 KB')
-    expect(formatBytes(1536, 'en-US')).toBe('1.5 KB')
+    expect(formatBytes(1536, 'es')).toBe('1,5 kB')
+    expect(formatBytes(1536, 'en-US')).toBe('1.5 kB')
+  })
+
+  it.each([
+    ['fr', 512, /^512\so$/],
+    ['fr', 5 * 1024 * 1024, /^5\sMo$/],
+    ['de', 1536, /^1,5\skB$/],
+    ['ru', 1536, /^1,5\sкБ$/],
+  ])('writes the units of the locale %s', (locale, bytes, pattern) => {
+    expect(formatBytes(bytes, locale)).toMatch(pattern)
+  })
+
+  it('writes the digits of the locale', () => {
+    expect(formatBytes(1536, 'ar-EG')).toContain(
+      new Intl.NumberFormat('ar-EG', { maximumFractionDigits: 1 }).format(1.5),
+    )
   })
 })
 

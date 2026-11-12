@@ -100,7 +100,7 @@ describe('FileUpload component', () => {
       render(<Demo />)
       await userEvent.upload(input(), file('cv.pdf', 'application/pdf', 2048))
       expect(names()).toEqual(['cv.pdf'])
-      expect(screen.getByText('2 KB')).toBeInTheDocument()
+      expect(screen.getByText('2 kB')).toBeInTheDocument()
     })
 
     it('writes the size with the locale of the prop or of the provider', () => {
@@ -110,8 +110,8 @@ describe('FileUpload component', () => {
           <Demo defaultValue={[file('b.txt', 'text/plain', 1536)]} locale="en" />
         </LocaleProvider>,
       )
-      expect(screen.getByText('1,5 KB')).toBeInTheDocument()
-      expect(screen.getByText('1.5 KB')).toBeInTheDocument()
+      expect(screen.getByText('1,5 kB')).toBeInTheDocument()
+      expect(screen.getByText('1.5 kB')).toBeInTheDocument()
     })
 
     it('calls onValueChange with all the files', async () => {

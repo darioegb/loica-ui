@@ -1,10 +1,11 @@
 'use client'
 
 import type { ComponentPropsWithoutRef, CSSProperties, ForwardedRef, ReactNode } from 'react'
-import { forwardRef, useId } from 'react'
+import { forwardRef, useId, useMemo } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
+import { createCountFormatter } from '../../../overlay/format-count'
 import { visuallyHidden } from '../../../overlay/visually-hidden'
-import { useLabels } from '../../../locale/locale-provider'
+import { useLabels, useResolvedLocale } from '../../../locale/locale-provider'
 import type { ColorScheme, Size } from '../../../theme'
 import { schemeVar } from '../../../theme'
 import { useFieldContext } from '../field/field-context'
@@ -98,9 +99,12 @@ export type RatingProps = Omit<
 > &
   RatingOwnProps
 
-const DEFAULT_LABELS: RatingLabels = {
-  item: (value) => `${value} ${value === 1 ? 'star' : 'stars'}`,
-  readOnly: (value, max) => `${value} out of ${max}`,
+const createDefaultLabels = (locale: string): RatingLabels => {
+  const number = createCountFormatter(locale)
+  return {
+    item: (value) => `${number(value)} ${value === 1 ? 'star' : 'stars'}`,
+    readOnly: (value, max) => `${number(value)} out of ${number(max)}`,
+  }
 }
 
 const SOLID_ICON = <StarIcon appearance="solid" />
@@ -166,7 +170,9 @@ export const Rating = forwardRef<HTMLFieldSetElement, RatingProps>(
       value: valueProp,
     })
     const isStyled = variant !== 'unstyled'
-    const text = useLabels('rating', DEFAULT_LABELS)
+    const locale = useResolvedLocale()
+    const defaults = useMemo(() => createDefaultLabels(locale), [locale])
+    const text = useLabels('rating', defaults)
     const fieldLabel = field?.controlId === rest.id ? field?.labelId : undefined
     const labelledBy = rest['aria-labelledby'] ?? (rest['aria-label'] ? undefined : fieldLabel)
     const filledIcon = icon ?? (variant === 'outline' ? OUTLINE_ICON : SOLID_ICON)

@@ -1,8 +1,9 @@
 'use client'
 
 import type { ForwardedRef, ReactNode } from 'react'
-import { forwardRef } from 'react'
-import { useLabels } from '../../../locale/locale-provider'
+import { forwardRef, useMemo } from 'react'
+import { useLabels, useResolvedLocale } from '../../../locale/locale-provider'
+import { createCountFormatter } from '../../../overlay/format-count'
 import { Avatar, type AvatarProps } from './avatar'
 import type { AvatarGroupLabels } from './avatar-group'
 
@@ -16,8 +17,9 @@ export type AvatarOverflowProps = Omit<
   count: number
 }
 
-const DEFAULT_LABELS: Pick<AvatarGroupLabels, 'overflow'> = {
-  overflow: (hidden) => `${hidden} more`,
+const createDefaultLabels = (locale: string): Pick<AvatarGroupLabels, 'overflow'> => {
+  const number = createCountFormatter(locale)
+  return { overflow: (hidden) => `${number(hidden)} more` }
 }
 
 /**
@@ -29,7 +31,9 @@ export const AvatarOverflow = forwardRef<HTMLSpanElement, AvatarOverflowProps>(
     { children, count, ...rest }: AvatarOverflowProps,
     ref: ForwardedRef<HTMLSpanElement>,
   ): ReactNode => {
-    const { overflow } = useLabels('avatarGroup', DEFAULT_LABELS)
+    const locale = useResolvedLocale()
+    const defaults = useMemo(() => createDefaultLabels(locale), [locale])
+    const { overflow } = useLabels('avatarGroup', defaults)
 
     return (
       <Avatar

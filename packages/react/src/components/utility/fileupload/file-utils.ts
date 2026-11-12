@@ -34,18 +34,24 @@ export function matchesAccept(file: File, accept: string | undefined): boolean {
     })
 }
 
+const BYTE_UNITS = ['kilobyte', 'megabyte', 'gigabyte']
+
 export function formatBytes(bytes: number, locale = 'en'): string {
-  const format = (value: number): string =>
-    new Intl.NumberFormat(locale, { maximumFractionDigits: 1, useGrouping: false }).format(value)
-  if (bytes < 1024) return `${format(bytes)} B`
-  const units = ['KB', 'MB', 'GB']
+  const format = (value: number, unit: string): string =>
+    new Intl.NumberFormat(locale, {
+      maximumFractionDigits: 1,
+      style: 'unit',
+      unit,
+      useGrouping: false,
+    }).format(value)
+  if (bytes < 1024) return format(bytes, 'byte')
   let value = bytes / 1024
   let unit = 0
-  while (value >= 1024 && unit < units.length - 1) {
+  while (value >= 1024 && unit < BYTE_UNITS.length - 1) {
     value /= 1024
     unit += 1
   }
-  return `${format(value >= 10 ? Math.round(value) : Math.round(value * 10) / 10)} ${units[unit]}`
+  return format(value >= 10 ? Math.round(value) : Math.round(value * 10) / 10, BYTE_UNITS[unit])
 }
 
 export function selectFiles({
