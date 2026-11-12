@@ -2,6 +2,7 @@ import type { AvatarGroupLabels, AvatarLabels } from '../components/presentation
 import type { BreadcrumbLabels } from '../components/navigation/breadcrumb'
 import type { CarouselLabels } from '../components/utility/carousel'
 import type { ChipLabels } from '../components/presentation/chip'
+import type { ConfirmLabels } from '../components/overlay/confirm'
 import type { DatePickerLabels } from '../components/form/datepicker'
 import type { FileUploadLabels } from '../components/utility/fileupload'
 import type { InputLabels } from '../components/form/input'
@@ -29,6 +30,7 @@ export interface MessageMap {
   carousel: CarouselLabels
   chip: ChipLabels
   close: SingleLabel
+  confirm: ConfirmLabels
   datePicker: DatePickerLabels
   fileUpload: FileUploadLabels
   input: InputLabels

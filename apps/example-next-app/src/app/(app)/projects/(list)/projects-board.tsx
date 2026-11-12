@@ -16,12 +16,6 @@ import {
   DropdownSeparator,
   DropdownTrigger,
   Input,
-  Modal,
-  ModalBody,
-  ModalClose,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
   Paginator,
   PaginatorItem,
   PaginatorList,
@@ -42,6 +36,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  useConfirm,
   useTableState,
   useToast,
   type DateRange,
@@ -73,12 +68,12 @@ export function ProjectsBoard({ projects: initial }: Readonly<{ projects: Projec
   const t = useTranslations('projects')
   const tStatus = useTranslations('status')
   const locale = useLocale()
+  const confirm = useConfirm()
   const toast = useToast()
   const router = useRouter()
   const [projects, setProjects] = useState(initial)
   const [detailId, setDetailId] = useState<string | null>(null)
   const [detailOpen, setDetailOpen] = useState(false)
-  const [removing, setRemoving] = useState<Project | null>(null)
 
   const state = useTableState({
     defaultPageSize: 5,
@@ -110,7 +105,15 @@ export function ProjectsBoard({ projects: initial }: Readonly<{ projects: Projec
     })
   }
 
-  const remove = (project: Project): void => {
+  const remove = async (project: Project): Promise<void> => {
+    const confirmed = await confirm({
+      cancelLabel: t('deleteModal.cancel'),
+      colorScheme: 'error',
+      confirmLabel: t('deleteModal.confirm'),
+      description: t('deleteModal.body', { name: project.name }),
+      title: t('deleteModal.title'),
+    })
+    if (!confirmed) return
     setProjects((current) => current.filter((item) => item.id !== project.id))
     setDetailOpen(false)
     toast.info({ description: project.name, title: t('deleted') })
@@ -245,7 +248,7 @@ export function ProjectsBoard({ projects: initial }: Readonly<{ projects: Projec
                         {t('markAsDone')}
                       </DropdownItem>
                       <DropdownSeparator />
-                      <DropdownItem icon={<TrashIcon />} onSelect={() => setRemoving(project)}>
+                      <DropdownItem icon={<TrashIcon />} onSelect={() => void remove(project)}>
                         {t('delete')}
                       </DropdownItem>
                     </DropdownMenu>
@@ -280,27 +283,10 @@ export function ProjectsBoard({ projects: initial }: Readonly<{ projects: Projec
       <ProjectDrawer
         onComplete={complete}
         onOpenChange={setDetailOpen}
-        onRemove={setRemoving}
+        onRemove={remove}
         open={detailOpen}
         project={detail}
       />
-
-      <Modal onOpenChange={(next) => !next && setRemoving(null)} open={removing !== null}>
-        <ModalContent>
-          <ModalHeader>{t('deleteModal.title')}</ModalHeader>
-          <ModalBody>{removing ? t('deleteModal.body', { name: removing.name }) : null}</ModalBody>
-          <ModalFooter>
-            <ModalClose>
-              <Button variant="ghost">{t('deleteModal.cancel')}</Button>
-            </ModalClose>
-            <ModalClose>
-              <Button colorScheme="error" onClick={() => removing && remove(removing)}>
-                {t('deleteModal.confirm')}
-              </Button>
-            </ModalClose>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </>
   )
 }

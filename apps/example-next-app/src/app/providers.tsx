@@ -3,7 +3,7 @@
 import NextLink from 'next/link'
 import type { ReactNode } from 'react'
 import { createContext, useContext, useMemo, useState } from 'react'
-import { LinkProvider, ThemeProvider, ToastProvider, type ColorModeSetting } from '@loica-ui/react'
+import { ConfirmProvider, LinkProvider, ThemeProvider, ToastProvider, type ColorModeSetting } from '@loica-ui/react'
 import { themeFor, type BrandId } from '@/theme'
 import { LoicaLocale } from '@/components/loica-locale'
 
@@ -41,7 +41,9 @@ export function Providers({
       <ThemeProvider defaultColorMode={colorMode} style={{ minHeight: '100vh' }} theme={theme}>
         <LoicaLocale>
           <LinkProvider component={NextLink}>
-            <ToastProvider>{children}</ToastProvider>
+            <ConfirmProvider>
+              <ToastProvider>{children}</ToastProvider>
+            </ConfirmProvider>
           </LinkProvider>
         </LoicaLocale>
       </ThemeProvider>
