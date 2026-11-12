@@ -7,6 +7,9 @@ import {
   AvatarGroup,
   Badge,
   Button,
+  DescriptionDetails,
+  DescriptionList,
+  DescriptionTerm,
   Drawer,
   DrawerBody,
   DrawerClose,
@@ -68,35 +71,35 @@ export function ProjectDrawer({
                   <TabPanel>
                     <div className="flex flex-col gap-4 py-4">
                       <p>{project.description || t('noDescription')}</p>
-                      <dl className="grid grid-cols-[max-content_1fr] items-center gap-x-4 gap-y-3 [&_dt]:text-(--loica-muted)">
-                        <dt>{tDrawer('status')}</dt>
-                        <dd>
+                      <DescriptionList layout="inline">
+                        <DescriptionTerm>{tDrawer('status')}</DescriptionTerm>
+                        <DescriptionDetails>
                           <Badge colorScheme={statusColor[project.status]} dot variant="subtle">
                             {tStatus(project.status)}
                           </Badge>
-                        </dd>
-                        <dt>{tDrawer('due')}</dt>
-                        <dd>{formatDue(project.due, locale)}</dd>
-                        <dt>{tDrawer('owner')}</dt>
-                        <dd className="flex items-center gap-2 text-sm text-(--loica-muted)">
+                        </DescriptionDetails>
+                        <DescriptionTerm>{tDrawer('due')}</DescriptionTerm>
+                        <DescriptionDetails>{formatDue(project.due, locale)}</DescriptionDetails>
+                        <DescriptionTerm>{tDrawer('owner')}</DescriptionTerm>
+                        <DescriptionDetails className="flex items-center gap-2 text-sm text-(--loica-muted)">
                           <Avatar name={project.owner} size="sm" />
                           {project.owner}
-                        </dd>
-                        <dt>{tDrawer('team')}</dt>
-                        <dd>
+                        </DescriptionDetails>
+                        <DescriptionTerm>{tDrawer('team')}</DescriptionTerm>
+                        <DescriptionDetails>
                           <AvatarGroup max={5} size="sm">
                             {project.team.map((member) => (
                               <Avatar key={member} name={member} />
                             ))}
                           </AvatarGroup>
-                        </dd>
-                        <dt>{tDrawer('visibility')}</dt>
-                        <dd>
+                        </DescriptionDetails>
+                        <DescriptionTerm>{tDrawer('visibility')}</DescriptionTerm>
+                        <DescriptionDetails>
                           <Badge colorScheme="salmon" variant="subtle">
                             {tVisibility(project.visibility)}
                           </Badge>
-                        </dd>
-                      </dl>
+                        </DescriptionDetails>
+                      </DescriptionList>
                       <ProgressBar
                         aria-label={tDrawer('progress')}
                         colorScheme={statusColor[project.status]}
