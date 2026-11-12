@@ -14,6 +14,7 @@ import {
   Field,
   Icon,
   Input,
+  Link,
   Modal,
   ModalBody,
   ModalClose,
@@ -181,7 +182,7 @@ export function TeamDirectory({ team: initial }: Readonly<{ team: TeamMember[] }
                           </PopoverTrigger>
                           <PopoverContent aria-label={t('contactPerson', { name: member.name })}>
                             <p className="mb-3">
-                              <a className="text-(--loica-color-primary-text) underline" href={`mailto:${member.email}`}>{member.email}</a>
+                              <Link href={`mailto:${member.email}`}>{member.email}</Link>
                             </p>
                             <PopoverClose>
                               <Button size="sm">{t('done')}</Button>

@@ -1,8 +1,9 @@
 'use client'
 
+import NextLink from 'next/link'
 import type { ReactNode } from 'react'
 import { createContext, useContext, useMemo, useState } from 'react'
-import { ThemeProvider, ToastProvider, type ColorModeSetting } from '@loica-ui/react'
+import { LinkProvider, ThemeProvider, ToastProvider, type ColorModeSetting } from '@loica-ui/react'
 import { themeFor, type BrandId } from '@/theme'
 import { LoicaLocale } from '@/components/loica-locale'
 
@@ -39,7 +40,9 @@ export function Providers({
     <PreferencesContext.Provider value={value}>
       <ThemeProvider defaultColorMode={colorMode} style={{ minHeight: '100vh' }} theme={theme}>
         <LoicaLocale>
-          <ToastProvider>{children}</ToastProvider>
+          <LinkProvider component={NextLink}>
+            <ToastProvider>{children}</ToastProvider>
+          </LinkProvider>
         </LoicaLocale>
       </ThemeProvider>
     </PreferencesContext.Provider>

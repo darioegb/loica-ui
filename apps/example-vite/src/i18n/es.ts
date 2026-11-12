@@ -19,6 +19,7 @@ export const es: Translation = {
     loadError: "No se pudo cargar el panel. Recarga la página para intentarlo de nuevo.",
     loading: "Cargando el panel",
     progressOf: "Progreso de {{name}}",
+    viewAll: "Ver todos los proyectos",
     welcome: "Te damos la bienvenida, {{name}}",
   },
   languages: {
@@ -119,10 +120,12 @@ export const es: Translation = {
   },
   projectDrawer: {
     activity: "Actividad",
+    closeHint: "Pulsa <kbd>Esc</kbd> para cerrar.",
     commented: "{{name}} comentó una tarea",
     createdProject: "{{name}} creó el proyecto",
     delete: "Eliminar",
     due: "Entrega",
+    id: "ID",
     markDone: "Marcar como hecho",
     noDescription: "Aún no tiene descripción.",
     overview: "Resumen",

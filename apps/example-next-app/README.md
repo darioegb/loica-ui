@@ -47,8 +47,9 @@ Preflight sets `line-height: 1.5` and makes buttons and inputs inherit the font,
 - `src/app/layout.tsx` — Server Component. Reads the color mode cookie and the locale, sets `<html lang>`, imports
   `globals.css` (Tailwind and the whole `@loica-ui/react/styles.css`; the Vite example loads one stylesheet per
   component instead) and wraps the app in `<NextIntlClientProvider>` and `<Providers>`.
-- `src/app/providers.tsx` — `'use client'` boundary that renders `<ThemeProvider>`, `<LoicaLocale>` and
-  `<ToastProvider>`.
+- `src/app/providers.tsx` — `'use client'` boundary that renders `<ThemeProvider>`, `<LoicaLocale>`, `<ToastProvider>`
+  and a `<LinkProvider>` with `next/link`, so the sidebar, the breadcrumb and `Link` navigate on the client and
+  prefetch without any `onClick` of the app.
 - `src/i18n` — `config.ts` has the locales, the cookie name and the `Accept-Language` negotiation, and
   `request.ts` is the next-intl request config: cookie, then `Accept-Language`, then English. There is no
   `[locale]` segment and no middleware, so the URLs do not change. `messages/en.json` and `messages/es.json` have

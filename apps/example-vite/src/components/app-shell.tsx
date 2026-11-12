@@ -1,7 +1,7 @@
-import type { MouseEvent, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
 import {
   Avatar,
   Breadcrumb,
@@ -53,34 +53,17 @@ export function AppShell({
 }: Readonly<{ children: ReactNode }>): ReactNode {
   const { i18n, t } = useTranslation();
   const { pathname } = useLocation();
-  const navigate = useNavigate();
   const { colorMode, setColorMode } = useTheme();
   const { brand, setBrand, setColorModeSetting } = usePreferences();
   const [open, setOpen] = useState(false);
   const language = i18n.language as Language;
   const current = pages.find((page) => isCurrent(pathname, page.href));
 
-  // A new page starts at the top, like a full page load would.
+  // A new page starts at the top, like a full page load would, and the sidebar closes.
   useEffect(() => {
     window.scrollTo(0, 0);
+    setOpen(false);
   }, [pathname]);
-
-  // Plain clicks navigate on the client; modified ones keep the browser's behavior.
-  const go =
-    (href: string) =>
-    (event: MouseEvent<HTMLElement>): void => {
-      if (
-        event.button !== 0 ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.shiftKey ||
-        event.altKey
-      )
-        return;
-      event.preventDefault();
-      setOpen(false);
-      void navigate(href);
-    };
 
   const toggleColorMode = (): void => {
     const next = colorMode === "dark" ? "light" : "dark";
@@ -113,7 +96,6 @@ export function AppShell({
                 href={page.href}
                 icon={page.icon}
                 key={page.href}
-                onClick={go(page.href)}
               >
                 {t(page.label)}
               </SidebarItem>
@@ -131,11 +113,7 @@ export function AppShell({
             <NavbarContent>
               <Breadcrumb size="sm">
                 <BreadcrumbItem>
-                  <BreadcrumbLink
-                    href="/"
-                    current={pathname === "/"}
-                    onClick={go("/")}
-                  >
+                  <BreadcrumbLink href="/" current={pathname === "/"}>
                     {t("nav.home")}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
