@@ -1,0 +1,41 @@
+.link {
+  color: var(--link-color);
+  cursor: pointer;
+  text-decoration-line: underline;
+  text-underline-offset: 0.2em;
+}
+
+.link:hover {
+  color: var(--link-hover-color);
+}
+
+.link:active {
+  color: var(--link-active-color);
+}
+
+.link:focus-visible {
+  border-radius: var(--loica-radius-2);
+  outline: var(--loica-focus-ring-width) solid var(--link-color);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+.hover:not(:hover, :focus-visible) {
+  text-decoration-line: none;
+}
+
+.link[aria-disabled='true'] {
+  color: var(--loica-muted);
+  cursor: not-allowed;
+}
+
+.sm {
+  font-size: var(--loica-font-size-sm);
+}
+
+.md {
+  font-size: var(--loica-font-size-base);
+}
+
+.lg {
+  font-size: var(--loica-font-size-lg);
+}

@@ -27,6 +27,7 @@ export interface ColorPalette {
 
 export interface Typography {
   fontFamily: string
+  fontFamilyMono: string
   fontSizes: FontSizes
   fontWeights: FontWeights
   lineHeights: LineHeights

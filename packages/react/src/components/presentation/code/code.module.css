@@ -1,0 +1,19 @@
+.code {
+  border-radius: var(--loica-radius-2);
+  font-family: var(--loica-font-family-mono);
+  font-size: 0.875em;
+  overflow-wrap: anywhere;
+  padding: 0.1em var(--loica-space-1);
+}
+
+.sm {
+  font-size: var(--loica-font-size-xs);
+}
+
+.md {
+  font-size: var(--loica-font-size-sm);
+}
+
+.lg {
+  font-size: var(--loica-font-size-base);
+}

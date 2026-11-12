@@ -87,6 +87,7 @@
 --loica-focus-ring-offset
 --loica-focus-ring-width
 --loica-font-family
+--loica-font-family-mono
 --loica-font-size-2xl
 --loica-font-size-3xl
 --loica-font-size-4xl
