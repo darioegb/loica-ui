@@ -1,0 +1,85 @@
+{
+  "cases": [
+    {
+      "name": "button",
+      "label": "<code>Button</code>",
+      "imports": [
+        "Button"
+      ],
+      "css": [
+        "button"
+      ]
+    },
+    {
+      "name": "form",
+      "label": "<code>Button</code>, <code>Field</code>, <code>Input</code> and <code>Modal</code> with its parts",
+      "imports": [
+        "Button",
+        "Field",
+        "Input",
+        "Modal",
+        "ModalBackdrop",
+        "ModalBody",
+        "ModalClose",
+        "ModalContent",
+        "ModalFooter",
+        "ModalHeader",
+        "ModalTrigger"
+      ],
+      "css": [
+        "button",
+        "field",
+        "input",
+        "modal"
+      ]
+    },
+    {
+      "name": "select",
+      "label": "<code>Select</code>",
+      "imports": [
+        "Select"
+      ],
+      "css": [
+        "select"
+      ]
+    },
+    {
+      "name": "datepicker",
+      "label": "<code>DatePicker</code>",
+      "imports": [
+        "DatePicker"
+      ],
+      "css": [
+        "datepicker"
+      ]
+    },
+    {
+      "name": "all",
+      "label": "Every component",
+      "imports": "*",
+      "css": "styles.css"
+    }
+  ],
+  "budgets": {
+    "button": {
+      "css": 1300,
+      "js": 1800
+    },
+    "form": {
+      "css": 3500,
+      "js": 8900
+    },
+    "select": {
+      "css": 2350,
+      "js": 11450
+    },
+    "datepicker": {
+      "css": 3900,
+      "js": 15600
+    },
+    "all": {
+      "css": 26100,
+      "js": 84050
+    }
+  }
+}

@@ -70,7 +70,7 @@ pnpm test:coverage   # CI fails under 90 % coverage
 pnpm build           # includes the 'use client' check
 ```
 
-CI also runs `pnpm --filter @loica-ui/react check:package` (publint and attw) after the build, and, when the
+CI also runs `pnpm --filter @loica-ui/react check:package` (publint and attw) and `check:size` after the build, and, when the
 package or the docs change, `pnpm --filter @loica-ui/docs check:a11y --shard <n>/2` on the static Storybook
 (`pnpm build:docs`). The first run needs a browser: `pnpm --filter @loica-ui/docs exec playwright install chromium`.
 The docs deploy to GitHub Pages with each release, and with a merge that only changes the docs when no changeset is
@@ -84,6 +84,10 @@ What these check, so a failure is easy to place:
 - `apps/docs/scripts/check-api.mjs`: every own prop and every exported part has a JSDoc description.
 - `apps/docs/scripts/check-a11y.mjs`: every story has no axe violation in light and dark mode. What keeps a story
   measurable is in AUTHORING.md, under the story rules.
+- `packages/react/scripts/check-bundle-size.mjs`: the gzipped size of the cases of the "What it costs" table of Why Loica
+  (JS with esbuild, CSS following the `@import`s), against the ceilings of `bundle-budget.json`, which are the measure
+  plus 5 %. A PR that grows past one fails; if the growth is on purpose, `pnpm --filter @loica-ui/react check:size --write`
+  raises the ceilings and rewrites that table, and the new budgets go in the commit.
 - `packages/react/scripts/check-client-directives.mjs`: `'use client'` is on exactly the modules that need it.
 - `src/tests/index.spec.ts` and `src/tests/token-names.spec.ts`: the list of exports and of `--loica-*` variables, so a rename is
   always on purpose.

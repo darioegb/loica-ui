@@ -62,7 +62,7 @@ A pull request runs only the checks its changes need, and **Required** sums them
 
 | Check | Runs when | What it does |
 | --- | --- | --- |
-| Checks | always | build, lint, tests with coverage, `check:package`, SonarCloud |
+| Checks | always | build, lint, tests with coverage, `check:package`, `check:size`, SonarCloud |
 | Accessibility (1/2, 2/2) | `packages`, `apps/docs` or the workspace config change | axe on every story in light and dark mode, half each |
 | Examples | `apps/example-*`, `packages/react` or the workspace config change | `pnpm check:examples`: builds both examples against the packed package, as npm would install it |
 

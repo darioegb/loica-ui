@@ -73,6 +73,9 @@ jobs:
       - name: Check the package
         run: pnpm --filter @loica-ui/react check:package
 
+      - name: Check the size budget
+        run: pnpm --filter @loica-ui/react check:size
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v8
         env:
