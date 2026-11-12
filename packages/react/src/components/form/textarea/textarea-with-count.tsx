@@ -1,17 +1,22 @@
 'use client'
 
 import type { ChangeEvent, ForwardedRef, ReactNode } from 'react'
-import { forwardRef, useId, useState } from 'react'
+import { forwardRef, useId, useMemo, useState } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
+import { createCountFormatter } from '../../../overlay/format-count'
 import { visuallyHidden } from '../../../overlay/visually-hidden'
-import { useLabels } from '../../../locale/locale-provider'
+import { useLabels, useResolvedLocale } from '../../../locale/locale-provider'
 import { isTextareaInvalid, textareaColorVars, textareaFieldClasses } from './textarea-styles'
 import type { TextareaLabels, TextareaProps } from './textarea-types'
 import styles from './textarea.module.css'
 
-const DEFAULT_LABELS: TextareaLabels = {
-  count: (count, max) => (max === undefined ? String(count) : `${count} / ${max}`),
-  remaining: (remaining) => `${remaining} ${remaining === 1 ? 'character' : 'characters'} left`,
+const createDefaultLabels = (locale: string): TextareaLabels => {
+  const number = createCountFormatter(locale)
+  return {
+    count: (count, max) => (max === undefined ? number(count) : `${number(count)} / ${number(max)}`),
+    remaining: (remaining) =>
+      `${number(remaining)} ${remaining === 1 ? 'character' : 'characters'} left`,
+  }
 }
 
 const isNearLimit = (remaining: number, max: number): boolean =>
@@ -39,7 +44,9 @@ export const TextareaWithCount = forwardRef<HTMLTextAreaElement, TextareaWithCou
     }: TextareaWithCountProps,
     ref: ForwardedRef<HTMLTextAreaElement>,
   ): ReactNode => {
-    const text = useLabels('textarea', DEFAULT_LABELS)
+    const locale = useResolvedLocale()
+    const defaults = useMemo(() => createDefaultLabels(locale), [locale])
+    const text = useLabels('textarea', defaults)
     const countId = useId()
     const [typedLength, setTypedLength] = useState(() => String(rest.defaultValue ?? '').length)
     const count = rest.value === undefined ? typedLength : String(rest.value).length

@@ -3,7 +3,8 @@
 import type { ComponentPropsWithoutRef, CSSProperties, ForwardedRef, ReactNode } from 'react'
 import { forwardRef, useEffect, useMemo } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import { useLabels } from '../../../locale/locale-provider'
+import { useLabels, useResolvedLocale } from '../../../locale/locale-provider'
+import { createCountFormatter } from '../../../overlay/format-count'
 import type { ColorScheme, Shape, Size } from '../../../theme'
 import { schemeVar } from '../../../theme'
 import { useFieldContext } from '../field/field-context'
@@ -107,9 +108,13 @@ export type PinInputProps = Omit<
 > &
   PinInputOwnProps
 
-const defaultLabels = (type: PinInputType): PinInputLabels => ({
-  input: (index, length) => `${type === 'numeric' ? 'Digit' : 'Character'} ${index} of ${length}`,
-})
+const defaultLabels = (type: PinInputType, locale: string): PinInputLabels => {
+  const number = createCountFormatter(locale)
+  return {
+    input: (index, length) =>
+      `${type === 'numeric' ? 'Digit' : 'Character'} ${number(index)} of ${number(length)}`,
+  }
+}
 
 export const PinInput = forwardRef<HTMLFieldSetElement, PinInputProps>(
   (
@@ -159,7 +164,8 @@ export const PinInput = forwardRef<HTMLFieldSetElement, PinInputProps>(
     const fieldLabel = field?.controlId === id ? field?.labelId : undefined
     const labelledBy = ariaLabelledby ?? (ariaLabel ? undefined : fieldLabel)
     const { cells, tabbable } = pin
-    const defaults = useMemo(() => defaultLabels(type), [type])
+    const locale = useResolvedLocale()
+    const defaults = useMemo(() => defaultLabels(type, locale), [type, locale])
     const text = useLabels('pinInput', defaults)
     const colorVars = {
       '--pininput-color': schemeVar(invalid ? 'error' : colorScheme, 'text'),

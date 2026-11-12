@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import { useCallback, useEffect, useId, useMemo, useState } from 'react'
 import type { Placement } from '../../../overlay'
 import { useLabels, useResolvedLocale } from '../../../locale/locale-provider'
+import { createCountFormatter } from '../../../overlay/format-count'
 import { useOpenState } from '../../../overlay/use-open-state'
 import { useSelectionState } from '../../../overlay/use-selection-state'
 import type { ColorScheme, Shape, Size } from '../../../theme'
@@ -234,12 +235,15 @@ function withOptions(
   )
 }
 
-const DEFAULT_LABELS: SelectLabels = {
-  clear: 'Clear',
-  empty: 'No results',
-  overflow: (hidden) => `+${hidden}`,
-  remove: (label) => `Remove ${label}`,
-  search: 'Search',
+const createDefaultLabels = (locale: string): SelectLabels => {
+  const number = createCountFormatter(locale)
+  return {
+    clear: 'Clear',
+    empty: 'No results',
+    overflow: (hidden) => `+${number(hidden)}`,
+    remove: (label) => `Remove ${label}`,
+    search: 'Search',
+  }
 }
 
 export type SelectProps = SelectBaseProps & (SelectMultipleProps | SelectSingleProps)
@@ -307,8 +311,9 @@ export function Select({
     value,
   })
   const { options, register } = useSelectRegistry()
-  const merged = useLabels('select', DEFAULT_LABELS)
   const locale = useResolvedLocale()
+  const defaults = useMemo(() => createDefaultLabels(locale), [locale])
+  const merged = useLabels('select', defaults)
   const text = useMemo<SelectLabels>(
     () => ({
       clear: merged.clear,

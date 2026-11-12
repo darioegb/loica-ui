@@ -3,7 +3,8 @@
 import type { CSSProperties, ForwardedRef, HTMLAttributes } from 'react'
 import { forwardRef, useCallback, useEffect, useId, useMemo, useState } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import { useLabels } from '../../../locale/locale-provider'
+import { useLabels, useResolvedLocale } from '../../../locale/locale-provider'
+import { createCountFormatter } from '../../../overlay/format-count'
 import { useControllableState } from '../../../overlay/use-controllable-state'
 import { useMediaQuery } from '../../../overlay/use-media-query'
 import type { ColorScheme, ComponentProps, Size } from '../../../theme'
@@ -88,16 +89,19 @@ export type CarouselProps = Omit<ComponentProps, 'index'> &
   CarouselRootAttributes &
   CarouselOwnProps
 
-const DEFAULT_LABELS: CarouselLabels = {
-  dot: (index, count) => `Slide ${index + 1} of ${count}`,
-  dots: 'Choose a slide',
-  next: 'Next slide',
-  pause: 'Pause the slideshow',
-  play: 'Start the slideshow',
-  previous: 'Previous slide',
-  roleDescription: 'carousel',
-  slide: (index, count) => `${index + 1} of ${count}`,
-  slideRoleDescription: 'slide',
+const createDefaultLabels = (locale: string): CarouselLabels => {
+  const number = createCountFormatter(locale)
+  return {
+    dot: (index, count) => `Slide ${number(index + 1)} of ${number(count)}`,
+    dots: 'Choose a slide',
+    next: 'Next slide',
+    pause: 'Pause the slideshow',
+    play: 'Start the slideshow',
+    previous: 'Previous slide',
+    roleDescription: 'carousel',
+    slide: (index, count) => `${number(index + 1)} of ${number(count)}`,
+    slideRoleDescription: 'slide',
+  }
 }
 
 const reducedMotionQuery = '(prefers-reduced-motion: reduce)'
@@ -166,7 +170,9 @@ export const Carousel = forwardRef<HTMLElement, CarouselProps>(
       return () => clearInterval(timer)
     }, [autoplay, count, index, running, setIndex])
 
-    const resolvedLabels = useLabels('carousel', DEFAULT_LABELS)
+    const locale = useResolvedLocale()
+    const defaults = useMemo(() => createDefaultLabels(locale), [locale])
+    const resolvedLabels = useLabels('carousel', defaults)
     const context = useMemo(
       () => ({
         baseId,
