@@ -31,7 +31,7 @@
 
 .md {
   height: var(--loica-control-height-md);
-  padding-inline: var(--loica-space-4);
+  padding-inline: var(--loica-space-5);
 }
 
 .lg {
