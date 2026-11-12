@@ -21,6 +21,7 @@ import "@loica-ui/react/css/kbd.css";
 import "@loica-ui/react/css/link.css";
 import "@loica-ui/react/css/modal.css";
 import "@loica-ui/react/css/navbar.css";
+import "@loica-ui/react/css/pageheader.css";
 import "@loica-ui/react/css/paginator.css";
 import "@loica-ui/react/css/progressbar.css";
 import "@loica-ui/react/css/radio.css";

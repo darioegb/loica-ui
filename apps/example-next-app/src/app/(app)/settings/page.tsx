@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
-import { PageHeader } from '@/components/page-header'
+import { PageHeader } from '@loica-ui/react'
 import { SettingsForm } from './settings-form'
 
 export async function generateMetadata(): Promise<Metadata> {

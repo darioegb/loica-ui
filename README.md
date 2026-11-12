@@ -107,6 +107,7 @@ import '@loica-ui/react/css/input.css'
 | Modal | [Modal](https://darioegb.github.io/loica-ui/?path=/docs/components-modal--docs) |
 | Navbar | [Navbar](https://darioegb.github.io/loica-ui/?path=/docs/components-navbar--docs) |
 | NumberInput | [NumberInput](https://darioegb.github.io/loica-ui/?path=/docs/components-numberinput--docs) |
+| PageHeader | [PageHeader](https://darioegb.github.io/loica-ui/?path=/docs/components-pageheader--docs) |
 | Paginator | [Paginator](https://darioegb.github.io/loica-ui/?path=/docs/components-paginator--docs) |
 | PinInput | [PinInput](https://darioegb.github.io/loica-ui/?path=/docs/components-pininput--docs) |
 | Popover | [Popover](https://darioegb.github.io/loica-ui/?path=/docs/components-popover--docs) |

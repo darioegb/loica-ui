@@ -9,11 +9,11 @@ import {
   CardBody,
   CardHeader,
   Link,
+  PageHeader,
   ProgressBar,
   Skeleton,
   Stack,
 } from "@loica-ui/react";
-import { PageHeader } from "../components/page-header";
 import { SkeletonPage } from "../components/skeleton-page";
 import { getDashboard } from "../lib/data";
 import {

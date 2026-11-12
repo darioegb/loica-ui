@@ -7,9 +7,9 @@ import {
   Card,
   CardBody,
   CardHeader,
+  PageHeader,
   ProgressBar,
 } from '@loica-ui/react'
-import { PageHeader } from '@/components/page-header'
 import { getDashboard } from '@/lib/data'
 import { formatDue, formatNumber } from '@/lib/format'
 import { getUser } from '@/lib/session'

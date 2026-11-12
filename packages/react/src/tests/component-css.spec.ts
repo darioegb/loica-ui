@@ -31,6 +31,7 @@ describe('css of each component', () => {
     expect(units.select.imports).toEqual(expect.arrayContaining(['chip', 'tag']))
     expect(units.drawer.imports).toEqual(['heading', 'modal'])
     expect(units.alert.imports).toEqual(['tag'])
+    expect(units.pageheader.imports).toEqual(['heading', 'text'])
     expect(units.table.imports).toEqual(expect.arrayContaining(['emptystate', 'loader']))
   })
 
