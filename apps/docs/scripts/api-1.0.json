@@ -1,0 +1,1092 @@
+{
+ "accordion": {
+  "Accordion": [
+   "collapsible",
+   "colorScheme",
+   "defaultValue",
+   "disabled",
+   "onValueChange",
+   "size",
+   "type",
+   "value",
+   "variant"
+  ],
+  "AccordionBody": [],
+  "AccordionContent": [],
+  "AccordionHeading": [
+   "level"
+  ],
+  "AccordionIcon": [],
+  "AccordionItem": [
+   "disabled",
+   "value"
+  ],
+  "AccordionTitle": [],
+  "AccordionTrigger": [
+   "headingLevel",
+   "icon"
+  ]
+ },
+ "alert": {
+  "Alert": [
+   "action",
+   "description",
+   "dismissible",
+   "icon",
+   "onDismiss",
+   "size",
+   "status",
+   "title",
+   "variant"
+  ],
+  "AlertAction": [],
+  "AlertContent": [],
+  "AlertDescription": [],
+  "AlertDismiss": [
+   "children",
+   "label"
+  ],
+  "AlertIcon": [],
+  "AlertTitle": [
+   "as"
+  ]
+ },
+ "avatar": {
+  "Avatar": [
+   "alt",
+   "colorScheme",
+   "fallback",
+   "name",
+   "shape",
+   "size",
+   "src",
+   "status",
+   "variant"
+  ],
+  "AvatarGroup": [
+   "colorScheme",
+   "max",
+   "shape",
+   "size",
+   "variant"
+  ],
+  "AvatarOverflow": [
+   "children",
+   "colorScheme",
+   "count",
+   "shape",
+   "size",
+   "variant"
+  ]
+ },
+ "badge": {
+  "Badge": [
+   "colorScheme",
+   "dot",
+   "label",
+   "shape",
+   "size",
+   "variant"
+  ]
+ },
+ "breadcrumb": {
+  "Breadcrumb": [
+   "colorScheme",
+   "separator",
+   "size",
+   "variant"
+  ],
+  "BreadcrumbItem": [
+   "separator"
+  ],
+  "BreadcrumbLink": [
+   "current"
+  ],
+  "BreadcrumbList": [],
+  "BreadcrumbSeparator": []
+ },
+ "button": {
+  "Button": [
+   "colorScheme",
+   "iconLeft",
+   "iconRight",
+   "label",
+   "loading",
+   "loadingText",
+   "shape",
+   "size",
+   "variant"
+  ]
+ },
+ "card": {
+  "Card": [
+   "description",
+   "size",
+   "title",
+   "variant"
+  ],
+  "CardBody": [],
+  "CardFooter": [],
+  "CardHeader": []
+ },
+ "carousel": {
+  "Carousel": [
+   "autoplay",
+   "colorScheme",
+   "controls",
+   "defaultIndex",
+   "index",
+   "loop",
+   "onIndexChange",
+   "orientation",
+   "size",
+   "variant"
+  ],
+  "CarouselDot": [],
+  "CarouselDots": [
+   "appearance",
+   "children"
+  ],
+  "CarouselNext": [
+   "icon",
+   "label"
+  ],
+  "CarouselPlayPause": [],
+  "CarouselPrev": [
+   "icon",
+   "label"
+  ],
+  "CarouselSlide": [],
+  "CarouselSlides": []
+ },
+ "checkbox": {
+  "Checkbox": [
+   "colorScheme",
+   "indeterminate",
+   "readOnly",
+   "size",
+   "variant"
+  ]
+ },
+ "chip": {
+  "Chip": [
+   "colorScheme",
+   "disabled",
+   "icon",
+   "label",
+   "onRemove",
+   "shape",
+   "size",
+   "variant"
+  ]
+ },
+ "collapse": {
+  "Collapse": [
+   "as",
+   "colorScheme",
+   "open",
+   "size",
+   "variant"
+  ],
+  "CollapseBody": [],
+  "CollapseClip": []
+ },
+ "datepicker": {
+  "DatePicker": [
+   "children",
+   "colorScheme",
+   "displayFormat",
+   "icon",
+   "locale",
+   "maxDate",
+   "minDate",
+   "onBlur",
+   "onValueChange",
+   "panel",
+   "range",
+   "shape",
+   "showFooter",
+   "size",
+   "value",
+   "variant"
+  ],
+  "DatePickerApply": [],
+  "DatePickerCalendar": [],
+  "DatePickerCancel": [],
+  "DatePickerDay": [
+   "day"
+  ],
+  "DatePickerDayNumber": [],
+  "DatePickerField": [
+   "mask",
+   "shape",
+   "size",
+   "variant"
+  ],
+  "DatePickerFooter": [],
+  "DatePickerFormatHint": [],
+  "DatePickerGrid": [
+   "children"
+  ],
+  "DatePickerHeader": [],
+  "DatePickerInput": [
+   "children",
+   "onBlur"
+  ],
+  "DatePickerMonthButton": [],
+  "DatePickerMonthOption": [
+   "month"
+  ],
+  "DatePickerMonths": [
+   "children"
+  ],
+  "DatePickerNav": [],
+  "DatePickerNext": [],
+  "DatePickerPage": [
+   "second"
+  ],
+  "DatePickerPages": [],
+  "DatePickerPrevious": [],
+  "DatePickerSeparator": [],
+  "DatePickerTrigger": [
+   "position"
+  ],
+  "DatePickerView": [
+   "children"
+  ],
+  "DatePickerWeekday": [],
+  "DatePickerWeekdays": [
+   "children"
+  ],
+  "DatePickerYearButton": [],
+  "DatePickerYearOption": [
+   "year"
+  ],
+  "DatePickerYears": [
+   "children"
+  ]
+ },
+ "divider": {
+  "Divider": [
+   "align",
+   "decorative",
+   "orientation",
+   "size",
+   "spacing",
+   "variant"
+  ]
+ },
+ "drawer": {
+  "Drawer": [
+   "children",
+   "closeOnEscape",
+   "closeOnOutside",
+   "defaultOpen",
+   "initialFocus",
+   "onOpenChange",
+   "open",
+   "shape",
+   "side",
+   "size",
+   "variant"
+  ],
+  "DrawerBackdrop": [],
+  "DrawerBody": [],
+  "DrawerClose": [
+   "children",
+   "label"
+  ],
+  "DrawerContent": [],
+  "DrawerFooter": [],
+  "DrawerHeader": [
+   "as"
+  ],
+  "DrawerTrigger": [
+   "children",
+   "className"
+  ]
+ },
+ "dropdown": {
+  "Dropdown": [
+   "children",
+   "closeOnSelect",
+   "defaultOpen",
+   "flip",
+   "offset",
+   "onOpenChange",
+   "open",
+   "placement",
+   "shift",
+   "size",
+   "variant"
+  ],
+  "DropdownGroup": [
+   "children",
+   "label"
+  ],
+  "DropdownItem": [
+   "children",
+   "closeOnSelect",
+   "disabled",
+   "href",
+   "icon",
+   "onSelect",
+   "rel",
+   "shortcut",
+   "target"
+  ],
+  "DropdownItemIcon": [],
+  "DropdownItemLabel": [],
+  "DropdownItemShortcut": [],
+  "DropdownLabel": [],
+  "DropdownMenu": [],
+  "DropdownSeparator": [],
+  "DropdownTrigger": [
+   "children"
+  ]
+ },
+ "emptystate": {
+  "EmptyState": [
+   "action",
+   "children",
+   "description",
+   "icon",
+   "size",
+   "title",
+   "titleAs",
+   "variant"
+  ]
+ },
+ "field": {
+  "Field": [
+   "children",
+   "disabled",
+   "errorText",
+   "helperText",
+   "invalid",
+   "label",
+   "optionalText",
+   "orientation",
+   "readOnly",
+   "required",
+   "variant"
+  ],
+  "FieldErrorText": [],
+  "FieldHelperText": [],
+  "FieldLabel": [],
+  "FieldOptionalText": [],
+  "FieldRequiredIndicator": []
+ },
+ "fileupload": {
+  "FileUpload": [
+   "accept",
+   "colorScheme",
+   "defaultValue",
+   "locale",
+   "maxFiles",
+   "maxSize",
+   "multiple",
+   "name",
+   "onReject",
+   "onValueChange",
+   "progress",
+   "size",
+   "value",
+   "variant"
+  ],
+  "FileUploadDropzone": [],
+  "FileUploadError": [
+   "rejection"
+  ],
+  "FileUploadErrors": [
+   "children"
+  ],
+  "FileUploadIcon": [],
+  "FileUploadInput": [],
+  "FileUploadItem": [
+   "file"
+  ],
+  "FileUploadList": [
+   "children"
+  ],
+  "FileUploadName": [],
+  "FileUploadProgress": [],
+  "FileUploadPrompt": [],
+  "FileUploadRemove": [
+   "children",
+   "label"
+  ],
+  "FileUploadSize": []
+ },
+ "heading": {
+  "Heading": [
+   "level",
+   "size",
+   "truncate",
+   "variant"
+  ]
+ },
+ "icon": {
+  "Icon": [
+   "colorScheme",
+   "label",
+   "size",
+   "variant"
+  ]
+ },
+ "input": {
+  "Input": [
+   "addonAfter",
+   "addonBefore",
+   "colorScheme",
+   "elementAfter",
+   "elementBefore",
+   "mask",
+   "revealable",
+   "shape",
+   "size",
+   "variant"
+  ]
+ },
+ "list": {
+  "List": [
+   "as",
+   "colorScheme",
+   "divided",
+   "marker",
+   "size",
+   "variant"
+  ],
+  "ListDivider": [],
+  "ListItem": [],
+  "ListItemButton": [
+   "disabled",
+   "href",
+   "rel",
+   "selected",
+   "target"
+  ],
+  "ListItemIcon": [],
+  "ListItemText": [
+   "primary",
+   "secondary"
+  ],
+  "ListItemTextPrimary": [],
+  "ListItemTextSecondary": [],
+  "ListSubheader": []
+ },
+ "loader": {
+  "Loader": [
+   "colorScheme",
+   "label",
+   "size",
+   "variant"
+  ]
+ },
+ "modal": {
+  "Modal": [
+   "children",
+   "closeOnEscape",
+   "closeOnOutside",
+   "defaultOpen",
+   "initialFocus",
+   "onOpenChange",
+   "open",
+   "size",
+   "variant"
+  ],
+  "ModalBackdrop": [],
+  "ModalBody": [],
+  "ModalClose": [
+   "children",
+   "label"
+  ],
+  "ModalContent": [],
+  "ModalFooter": [],
+  "ModalHeader": [
+   "as"
+  ],
+  "ModalTrigger": [
+   "children",
+   "className"
+  ]
+ },
+ "navbar": {
+  "Navbar": [
+   "breakpoint",
+   "colorScheme",
+   "defaultOpen",
+   "onOpenChange",
+   "open",
+   "size",
+   "sticky",
+   "variant"
+  ],
+  "NavbarBrand": [
+   "onClick"
+  ],
+  "NavbarContent": [
+   "align"
+  ],
+  "NavbarItem": [
+   "active",
+   "disabled",
+   "onClick"
+  ],
+  "NavbarToggle": [
+   "icon",
+   "label"
+  ]
+ },
+ "numberinput": {
+  "NumberInput": [
+   "colorScheme",
+   "defaultValue",
+   "format",
+   "largeStep",
+   "locale",
+   "max",
+   "min",
+   "name",
+   "onValueChange",
+   "parse",
+   "precision",
+   "shape",
+   "size",
+   "step",
+   "steppers",
+   "value",
+   "variant"
+  ]
+ },
+ "paginator": {
+  "Paginator": [
+   "colorScheme",
+   "defaultPage",
+   "defaultPageSize",
+   "disabled",
+   "locale",
+   "onPageChange",
+   "onPageSizeChange",
+   "page",
+   "pageSize",
+   "shape",
+   "showEdges",
+   "size",
+   "total",
+   "variant"
+  ],
+  "PaginatorEllipsis": [],
+  "PaginatorFirst": [],
+  "PaginatorItem": [],
+  "PaginatorLast": [],
+  "PaginatorList": [],
+  "PaginatorNext": [],
+  "PaginatorPage": [
+   "page"
+  ],
+  "PaginatorPageSize": [
+   "options"
+  ],
+  "PaginatorPages": [
+   "children"
+  ],
+  "PaginatorPrevious": [],
+  "PaginatorSummary": []
+ },
+ "pininput": {
+  "PinInput": [
+   "autoComplete",
+   "colorScheme",
+   "defaultValue",
+   "focusOnMount",
+   "length",
+   "mask",
+   "name",
+   "onComplete",
+   "onValueChange",
+   "placeholder",
+   "readOnly",
+   "required",
+   "shape",
+   "size",
+   "type",
+   "value",
+   "variant"
+  ]
+ },
+ "popover": {
+  "Popover": [
+   "children",
+   "defaultOpen",
+   "flip",
+   "offset",
+   "onOpenChange",
+   "open",
+   "placement",
+   "shift",
+   "size",
+   "variant"
+  ],
+  "PopoverClose": [
+   "children",
+   "label"
+  ],
+  "PopoverContent": [],
+  "PopoverTrigger": [
+   "children",
+   "className"
+  ]
+ },
+ "progressbar": {
+  "ProgressBar": [
+   "animated",
+   "children",
+   "colorScheme",
+   "formatValue",
+   "indeterminate",
+   "max",
+   "shape",
+   "showValue",
+   "size",
+   "value",
+   "valueText",
+   "variant"
+  ],
+  "ProgressBarIndicator": [],
+  "ProgressBarTrack": [],
+  "ProgressBarValue": []
+ },
+ "radio": {
+  "Radio": [
+   "colorScheme",
+   "readOnly",
+   "size",
+   "variant"
+  ],
+  "RadioGroup": [
+   "colorScheme",
+   "defaultValue",
+   "disabled",
+   "name",
+   "onValueChange",
+   "orientation",
+   "readOnly",
+   "required",
+   "size",
+   "value",
+   "variant"
+  ]
+ },
+ "rating": {
+  "Rating": [
+   "allowHalf",
+   "clearable",
+   "colorScheme",
+   "defaultValue",
+   "disabled",
+   "emptyIcon",
+   "icon",
+   "max",
+   "name",
+   "onValueChange",
+   "readOnly",
+   "required",
+   "size",
+   "value",
+   "variant"
+  ]
+ },
+ "select": {
+  "Select": [
+   "aria-describedby",
+   "aria-invalid",
+   "aria-label",
+   "aria-labelledby",
+   "children",
+   "clearable",
+   "closeOnSelect",
+   "colorScheme",
+   "defaultOpen",
+   "defaultValue",
+   "disabled",
+   "flip",
+   "id",
+   "multiple",
+   "name",
+   "offset",
+   "onOpenChange",
+   "onValueChange",
+   "open",
+   "options",
+   "placeholder",
+   "placement",
+   "readOnly",
+   "required",
+   "searchable",
+   "shape",
+   "shift",
+   "size",
+   "value",
+   "variant"
+  ],
+  "SelectChevron": [],
+  "SelectChip": [
+   "option"
+  ],
+  "SelectChips": [
+   "children",
+   "maxDisplay",
+   "overflow"
+  ],
+  "SelectChipsSummary": [],
+  "SelectClear": [
+   "children",
+   "label"
+  ],
+  "SelectCombobox": [
+   "placeholder"
+  ],
+  "SelectContent": [
+   "searchPlaceholder"
+  ],
+  "SelectEmpty": [],
+  "SelectField": [],
+  "SelectGroup": [
+   "children",
+   "label"
+  ],
+  "SelectGroupLabel": [],
+  "SelectHidden": [],
+  "SelectList": [],
+  "SelectOption": [
+   "children",
+   "description",
+   "disabled",
+   "icon",
+   "label",
+   "value"
+  ],
+  "SelectOptionBody": [],
+  "SelectOptionCheck": [],
+  "SelectOptionDescription": [],
+  "SelectOptionIcon": [],
+  "SelectOptionText": [],
+  "SelectPlaceholder": [],
+  "SelectSearch": [],
+  "SelectSearchInput": [],
+  "SelectTrigger": [
+   "aria-label",
+   "aria-labelledby",
+   "children",
+   "display",
+   "maxDisplay",
+   "placeholder"
+  ],
+  "SelectValue": [
+   "children",
+   "placeholder"
+  ],
+  "SelectValueIcon": [],
+  "SelectValueOption": [
+   "option"
+  ],
+  "SelectValueText": []
+ },
+ "sidebar": {
+  "Sidebar": [
+   "colorScheme",
+   "side",
+   "size",
+   "variant"
+  ],
+  "SidebarBackdrop": [],
+  "SidebarContent": [],
+  "SidebarItem": [
+   "active",
+   "disabled",
+   "icon",
+   "onClick"
+  ],
+  "SidebarItemIcon": [],
+  "SidebarItemLabel": [],
+  "SidebarProvider": [
+   "breakpoint",
+   "children",
+   "collapsed",
+   "defaultCollapsed",
+   "defaultOpen",
+   "id",
+   "onCollapsedChange",
+   "onOpenChange",
+   "open"
+  ],
+  "SidebarToggle": [
+   "icon",
+   "label",
+   "variant"
+  ]
+ },
+ "skeleton": {
+  "Skeleton": [
+   "height",
+   "lines",
+   "shape",
+   "variant",
+   "width"
+  ]
+ },
+ "slider": {
+  "Slider": [
+   "colorScheme",
+   "defaultValue",
+   "disabled",
+   "formatValue",
+   "invalid",
+   "marks",
+   "max",
+   "min",
+   "name",
+   "onValueChange",
+   "onValueCommit",
+   "orientation",
+   "readOnly",
+   "required",
+   "size",
+   "step",
+   "value",
+   "variant"
+  ]
+ },
+ "stepper": {
+  "Step": [],
+  "StepDescription": [],
+  "StepIndicator": [],
+  "StepIndicatorContent": [],
+  "StepIndicatorLabel": [],
+  "StepSeparator": [],
+  "StepTitle": [],
+  "Stepper": [
+   "activeStep",
+   "colorScheme",
+   "orientation",
+   "size",
+   "variant"
+  ]
+ },
+ "table": {
+  "Table": [
+   "hoverable",
+   "loading",
+   "maxHeight",
+   "size",
+   "stickyHeader",
+   "variant"
+  ],
+  "TableBody": [],
+  "TableCaption": [
+   "side"
+  ],
+  "TableCell": [
+   "align"
+  ],
+  "TableElement": [],
+  "TableEmpty": [
+   "action",
+   "colSpan",
+   "description",
+   "icon",
+   "size",
+   "title",
+   "titleAs",
+   "variant"
+  ],
+  "TableEmptyCell": [],
+  "TableFooter": [],
+  "TableHead": [
+   "align",
+   "onSort",
+   "sort"
+  ],
+  "TableHeadSort": [],
+  "TableHeadSortIcon": [],
+  "TableHeader": [],
+  "TableLoading": [
+   "label"
+  ],
+  "TableRow": [
+   "selected"
+  ]
+ },
+ "tabs": {
+  "Tab": [
+   "disabled",
+   "extraContentLeft",
+   "extraContentRight",
+   "index",
+   "label"
+  ],
+  "TabList": [],
+  "TabPanel": [
+   "index"
+  ],
+  "TabPanels": [],
+  "Tabs": [
+   "alignment",
+   "colorScheme",
+   "defaultIndex",
+   "index",
+   "lazy",
+   "onIndexChange",
+   "orientation",
+   "size",
+   "variant"
+  ]
+ },
+ "text": {
+  "Text": [
+   "as",
+   "htmlFor",
+   "muted",
+   "truncate",
+   "variant"
+  ]
+ },
+ "textarea": {
+  "Textarea": [
+   "colorScheme",
+   "resize",
+   "shape",
+   "showCount",
+   "size",
+   "variant"
+  ]
+ },
+ "timepicker": {
+  "TimePicker": [
+   "children",
+   "colorScheme",
+   "defaultValue",
+   "hour12",
+   "icon",
+   "minuteStep",
+   "onBlur",
+   "onValueChange",
+   "panel",
+   "shape",
+   "size",
+   "value",
+   "variant"
+  ],
+  "TimePickerField": [
+   "mask",
+   "shape",
+   "size",
+   "variant"
+  ],
+  "TimePickerFormatHint": [],
+  "TimePickerHours": [
+   "aria-label",
+   "children"
+  ],
+  "TimePickerInput": [
+   "children",
+   "onBlur"
+  ],
+  "TimePickerMinutes": [
+   "aria-label",
+   "children"
+  ],
+  "TimePickerOption": [
+   "children",
+   "option"
+  ],
+  "TimePickerPanel": [
+   "aria-label",
+   "children"
+  ],
+  "TimePickerPeriod": [
+   "aria-label",
+   "children"
+  ],
+  "TimePickerTrigger": [
+   "children",
+   "position"
+  ]
+ },
+ "toast": {
+  "Toast": [
+   "toast"
+  ],
+  "ToastActionButton": [],
+  "ToastBody": [],
+  "ToastDescription": [],
+  "ToastDismiss": [
+   "children",
+   "label"
+  ],
+  "ToastIcon": [],
+  "ToastProvider": [
+   "children",
+   "className",
+   "duration",
+   "icons",
+   "max",
+   "position",
+   "render",
+   "variant"
+  ],
+  "ToastTitle": []
+ },
+ "toggle": {
+  "Toggle": [
+   "colorScheme",
+   "readOnly",
+   "size",
+   "variant"
+  ]
+ },
+ "tooltip": {
+  "Tooltip": [
+   "children",
+   "closeDelay",
+   "content",
+   "defaultOpen",
+   "disabled",
+   "offset",
+   "onOpenChange",
+   "open",
+   "openDelay",
+   "placement",
+   "size",
+   "variant"
+  ]
+ },
+ "tree": {
+  "Tree": [
+   "cascade",
+   "colorScheme",
+   "defaultExpanded",
+   "defaultValue",
+   "expanded",
+   "onExpandedChange",
+   "onValueChange",
+   "selection",
+   "size",
+   "value",
+   "variant"
+  ],
+  "TreeItem": [
+   "disabled",
+   "value"
+  ],
+  "TreeItemCheckbox": [],
+  "TreeItemChevron": [],
+  "TreeItemGroup": [],
+  "TreeItemIcon": [],
+  "TreeItemLabel": [
+   "icon"
+  ],
+  "TreeItemRow": []
+ }
+}
