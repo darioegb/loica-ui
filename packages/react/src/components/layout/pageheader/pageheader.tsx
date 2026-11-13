@@ -69,7 +69,7 @@ export const PageHeader = forwardRef<HTMLElement, PageHeaderProps>(
         ref={ref}
         {...rest}
       >
-        <div className={isStyled ? styles.text : undefined} data-loica-pageheader-text="">
+        <div data-loica-pageheader-text="">
           <Heading
             data-loica-pageheader-title=""
             level={Number(titleAs.slice(1)) as HeadingLevel}
@@ -85,7 +85,7 @@ export const PageHeader = forwardRef<HTMLElement, PageHeaderProps>(
           ) : null}
         </div>
         {actions ? (
-          <div className={isStyled ? styles.actions : undefined} data-loica-pageheader-actions="">
+          <div data-loica-pageheader-actions="">
             {actions}
           </div>
         ) : null}
