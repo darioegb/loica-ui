@@ -13,7 +13,7 @@ describe('Container component', () => {
     expect(container).toHaveAttribute('data-gutter', '4')
   })
 
-  it.each(['3xs', '2xs', 'xs', 'sm', 'md', 'lg', '3xl', 'full'] as const)(
+  it.each(['3xs', '2xs', 'xs', 'sm', 'md', 'lg', '3xl', '5xl', '7xl', 'full'] as const)(
     'says its %s size',
     (size) => {
       render(<Container size={size}>Content</Container>)

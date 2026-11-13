@@ -27,6 +27,7 @@ describe('buildTailwindCss', () => {
   it('uses the kebab case names of the variables', () => {
     expect(css).toContain('--ease-in-out: var(--loica-easing-in-out);')
     expect(css).toContain('--container-3xl: var(--loica-container-3xl);')
+    expect(css).toContain('--container-7xl: var(--loica-container-7xl);')
   })
 
   it('has the utilities that Tailwind has no theme for', () => {
