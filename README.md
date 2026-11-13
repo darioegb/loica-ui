@@ -91,6 +91,7 @@ import '@loica-ui/react/css/input.css'
 | Collapse | [Collapse](https://darioegb.github.io/loica-ui/?path=/docs/components-collapse--docs) |
 | Container | [Container](https://darioegb.github.io/loica-ui/?path=/docs/components-container--docs) |
 | DatePicker | [DatePicker](https://darioegb.github.io/loica-ui/?path=/docs/components-datepicker--docs) |
+| DescriptionList | [DescriptionList](https://darioegb.github.io/loica-ui/?path=/docs/components-descriptionlist--docs) |
 | Divider | [Divider](https://darioegb.github.io/loica-ui/?path=/docs/components-divider--docs) |
 | Drawer | [Drawer](https://darioegb.github.io/loica-ui/?path=/docs/components-drawer--docs) |
 | Dropdown | [Dropdown](https://darioegb.github.io/loica-ui/?path=/docs/components-dropdown--docs) |
