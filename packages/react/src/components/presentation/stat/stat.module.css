@@ -1,0 +1,60 @@
+.stat {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--loica-font-family);
+  gap: var(--loica-space-2);
+  margin: 0;
+}
+
+.stat > * {
+  margin: 0;
+}
+
+.stat [data-loica-stat-label] {
+  color: var(--loica-muted);
+  font-size: var(--loica-text-body-sm-size);
+  line-height: var(--loica-text-body-sm-line-height);
+}
+
+.stat [data-loica-stat-value] {
+  color: var(--loica-foreground);
+  font-weight: var(--loica-font-weight-bold);
+  line-height: var(--loica-line-height-none);
+}
+
+.stat[data-size='sm'] [data-loica-stat-value] {
+  font-size: var(--loica-font-size-2xl);
+}
+
+.stat[data-size='md'] [data-loica-stat-value] {
+  font-size: var(--loica-font-size-3xl);
+}
+
+.stat[data-size='lg'] [data-loica-stat-value] {
+  font-size: var(--loica-font-size-4xl);
+}
+
+.stat [data-loica-stat-change] {
+  align-items: center;
+  color: var(--stat-change, var(--loica-muted));
+  display: inline-flex;
+  font-size: var(--loica-text-body-sm-size);
+  font-weight: var(--loica-font-weight-medium);
+  gap: var(--loica-space-1);
+  line-height: var(--loica-text-body-sm-line-height);
+}
+
+.stat[data-trend='up'] {
+  --stat-change: var(--loica-color-success-text);
+}
+
+.stat[data-trend='down'] {
+  --stat-change: var(--loica-color-error-text);
+}
+
+.stat [data-loica-stat-help] {
+  color: var(--loica-muted);
+  font-size: var(--loica-text-caption-size);
+  line-height: var(--loica-text-caption-line-height);
+}
