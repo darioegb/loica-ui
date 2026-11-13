@@ -145,6 +145,7 @@ describe('@loica-ui/react', () => {
       'NavbarItem',
       'NavbarToggle',
       'NumberInput',
+      'PageHeader',
       'Paginator',
       'PaginatorEllipsis',
       'PaginatorFirst',

@@ -1,0 +1,22 @@
+.pageheader {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--loica-space-4);
+  justify-content: space-between;
+}
+
+.pageheader > [data-loica-pageheader-text] {
+  display: flex;
+  flex: 1 1 var(--loica-container-xs);
+  flex-direction: column;
+  gap: var(--loica-space-1);
+  min-width: 0;
+}
+
+.pageheader > [data-loica-pageheader-actions] {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--loica-space-2);
+}

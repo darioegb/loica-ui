@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Skeleton } from "@loica-ui/react";
-import { PageHeader } from "../components/page-header";
+import { Alert, PageHeader, Skeleton } from "@loica-ui/react";
 import { SkeletonPage } from "../components/skeleton-page";
 import { getProjects } from "../lib/data";
 import { useResource } from "../lib/use-resource";
