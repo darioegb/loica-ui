@@ -30,6 +30,43 @@ describe('Heading component', () => {
     expect(heading).toHaveAttribute('data-size', '5')
   })
 
+  it('takes its font size from the element around it with size inherit, and keeps the style of its level', () => {
+    render(
+      <Heading level={3} size="inherit">
+        Title
+      </Heading>,
+    )
+    const heading = screen.getByRole('heading', { level: 3 })
+    expect(heading).toHaveClass('heading', 'size3', 'sizeInherit')
+    expect(heading).toHaveAttribute('data-size', 'inherit')
+  })
+
+  it.each([
+    ['normal', 'weightNormal'],
+    ['medium', 'weightMedium'],
+    ['semibold', 'weightSemibold'],
+    ['bold', 'weightBold'],
+  ] as const)('has the %s weight of the theme', (weight, className) => {
+    render(<Heading weight={weight}>Title</Heading>)
+    const heading = screen.getByRole('heading')
+    expect(heading).toHaveClass('size2', className)
+    expect(heading).toHaveAttribute('data-weight', weight)
+  })
+
+  it('has no weight unless it is asked for', () => {
+    render(<Heading>Title</Heading>)
+    expect(screen.getByRole('heading')).not.toHaveAttribute('data-weight')
+  })
+
+  it('ignores the size and the weight when it is unstyled', () => {
+    render(
+      <Heading size="inherit" variant="unstyled" weight="bold">
+        Title
+      </Heading>,
+    )
+    expect(screen.getByRole('heading').className).toBe('')
+  })
+
   it('can be truncated', () => {
     render(<Heading truncate>Title</Heading>)
     const heading = screen.getByRole('heading')

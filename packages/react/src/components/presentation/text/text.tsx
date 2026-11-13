@@ -2,16 +2,20 @@ import type { ElementType, ForwardedRef, HTMLAttributes } from 'react'
 import { forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
 import type { ComponentProps } from '../../../theme'
+import type { FontWeightName } from '../shared/font-weight'
 import styles from './text.module.css'
 
-export type TextElement = 'div' | 'label' | 'p' | 'small' | 'span' | 'strong'
+export type TextElement = 'dd' | 'div' | 'dt' | 'label' | 'li' | 'p' | 'small' | 'span' | 'strong'
 
 export type TextVariant = 'body' | 'body-sm' | 'caption' | 'label' | 'unstyled'
+
+export type TextSize = 'inherit'
 
 export interface TextOwnProps {
   /**
    * The element it renders. Pick the one that says what the text is: `label` for a form control,
-   * `strong` for importance, `small` for fine print.
+   * `strong` for importance, `small` for fine print, `dt` and `dd` inside a `dl`, `li` inside a
+   * list.
    *
    * @default 'p'
    */
@@ -24,6 +28,14 @@ export interface TextOwnProps {
    * @default false
    */
   muted?: boolean
+  /**
+   * `inherit` takes the font size from the element around it, not from the `variant`, so a text
+   * inside a component with its own size scales with it. The weight, the line height and the
+   * letter spacing still come from the `variant`.
+   *
+   * @since 1.2
+   */
+  size?: TextSize
   /**
    * Keeps the text on one line and ends it with an ellipsis when it does not fit. It needs a width
    * to fit in: a block element, or a `max-width`.
@@ -38,6 +50,12 @@ export interface TextOwnProps {
    * @default 'body'
    */
   variant?: TextVariant
+  /**
+   * The weight of the font, from the theme, when it is not the one of the `variant`.
+   *
+   * @since 1.2
+   */
+  weight?: FontWeightName
 }
 
 type TextRootAttributes = Pick<
@@ -54,13 +72,29 @@ const variantClass = {
   label: styles.label,
 }
 
+const weightClass = {
+  bold: styles.weightBold,
+  medium: styles.weightMedium,
+  normal: styles.weightNormal,
+  semibold: styles.weightSemibold,
+}
+
 /**
  * A piece of text with one of the text styles of the theme: it takes the size, the weight, the line
  * height and the letter spacing, so the text of a page follows the theme.
  */
 export const Text = forwardRef<HTMLElement, TextProps>(
   (
-    { as = 'p', className, muted = false, truncate = false, variant = 'body', ...rest }: TextProps,
+    {
+      as = 'p',
+      className,
+      muted = false,
+      size,
+      truncate = false,
+      variant = 'body',
+      weight,
+      ...rest
+    }: TextProps,
     ref: ForwardedRef<HTMLElement>,
   ) => {
     const Element = as as ElementType
@@ -70,14 +104,18 @@ export const Text = forwardRef<HTMLElement, TextProps>(
         className={joinClasses(
           isStyled && styles.text,
           isStyled && variantClass[variant],
+          isStyled && size === 'inherit' && styles.sizeInherit,
+          isStyled && weight && weightClass[weight],
           isStyled && muted && styles.muted,
           truncate && styles.truncate,
           className,
         )}
         data-muted={muted ? '' : undefined}
         data-loica-text=""
+        data-size={size}
         data-truncate={truncate ? '' : undefined}
         data-variant={variant}
+        data-weight={weight}
         ref={ref}
         {...rest}
       />

@@ -21,7 +21,7 @@ describe('Text component', () => {
     expect(screen.getByText('Content')).toHaveClass('text', className)
   })
 
-  it.each(['div', 'label', 'p', 'small', 'span', 'strong'] as const)('renders a %s', (as) => {
+  it.each(['dd', 'div', 'dt', 'label', 'li', 'p', 'small', 'span', 'strong'] as const)('renders a %s', (as) => {
     render(<Text as={as}>Content</Text>)
     expect(screen.getByText('Content').tagName).toBe(as.toUpperCase())
   })
@@ -56,6 +56,62 @@ describe('Text component', () => {
     expect(text).not.toHaveClass('muted', 'truncate')
     expect(text).not.toHaveAttribute('data-muted')
     expect(text).not.toHaveAttribute('data-truncate')
+  })
+
+  it('can be a term and its description inside a definition list', () => {
+    render(
+      <dl>
+        <Text as="dt" variant="label">
+          Status
+        </Text>
+        <Text as="dd">Done</Text>
+      </dl>,
+    )
+    expect(screen.getByRole('term')).toHaveTextContent('Status')
+    expect(screen.getByRole('definition')).toHaveTextContent('Done')
+  })
+
+  it('takes its font size from the element around it with size inherit, and keeps the rest of the variant', () => {
+    render(
+      <Text size="inherit" variant="label">
+        Content
+      </Text>,
+    )
+    const text = screen.getByText('Content')
+    expect(text).toHaveClass('label', 'sizeInherit')
+    expect(text).toHaveAttribute('data-size', 'inherit')
+  })
+
+  it('has no size class and no data-size unless it is asked for', () => {
+    render(<Text>Content</Text>)
+    const text = screen.getByText('Content')
+    expect(text).not.toHaveClass('sizeInherit')
+    expect(text).not.toHaveAttribute('data-size')
+    expect(text).not.toHaveAttribute('data-weight')
+  })
+
+  it.each([
+    ['normal', 'weightNormal'],
+    ['medium', 'weightMedium'],
+    ['semibold', 'weightSemibold'],
+    ['bold', 'weightBold'],
+  ] as const)('has the %s weight of the theme', (weight, className) => {
+    render(<Text weight={weight}>Content</Text>)
+    const text = screen.getByText('Content')
+    expect(text).toHaveClass('body', className)
+    expect(text).toHaveAttribute('data-weight', weight)
+  })
+
+  it('ignores the size and the weight when it is unstyled, but says them', () => {
+    render(
+      <Text size="inherit" variant="unstyled" weight="bold">
+        Content
+      </Text>,
+    )
+    const text = screen.getByText('Content')
+    expect(text.className).toBe('')
+    expect(text).toHaveAttribute('data-size', 'inherit')
+    expect(text).toHaveAttribute('data-weight', 'bold')
   })
 
   it('drops the Loica classes when it is unstyled and keeps the className', () => {

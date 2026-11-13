@@ -11,6 +11,7 @@ import { Text } from '..'
  * The **variant** is the text style, and `unstyled` drops the Loica styles. **as** picks the element: a `p` by
  * default, a `label` for a form control, `strong` for what is important, `small` for fine print. A Text has no
  * `colorScheme`: it takes the color around it, and **muted** uses the muted color of the theme for secondary text.
+ * **weight** changes the weight of the font, and `size="inherit"` takes the font size from the element around it.
  *
  * Text has no margin props and no responsive ones: the space around it is the layout's job (a `gap`, or a class).
  */
@@ -39,13 +40,21 @@ export default {
     },
     as: {
       control: 'select',
-      options: ['p', 'span', 'div', 'label', 'small', 'strong'],
+      options: ['p', 'span', 'div', 'label', 'small', 'strong', 'dt', 'dd', 'li'],
     },
     muted: {
       control: 'boolean',
     },
+    size: {
+      control: 'radio',
+      options: [undefined, 'inherit'],
+    },
     truncate: {
       control: 'boolean',
+    },
+    weight: {
+      control: 'radio',
+      options: [undefined, 'normal', 'medium', 'semibold', 'bold'],
     },
     variant: {
       control: 'radio',
@@ -140,6 +149,95 @@ export const Muted: Story = {
         Your next invoice is on the 1st of the month.
       </Text>
     </div>
+  ),
+}
+
+/**
+ * **weight** changes the weight of the font to one of the theme (`normal`, `medium`, `semibold` or `bold`) when it
+ * is not the one of the **variant**.
+ */
+export const Weight: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<div className="flex flex-col gap-2">
+  <Text weight="normal">Normal</Text>
+  <Text weight="medium">Medium</Text>
+  <Text weight="semibold">Semibold</Text>
+  <Text weight="bold">Bold</Text>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-2">
+      <Text weight="normal">Normal</Text>
+      <Text weight="medium">Medium</Text>
+      <Text weight="semibold">Semibold</Text>
+      <Text weight="bold">Bold</Text>
+    </div>
+  ),
+}
+
+/**
+ * With `size="inherit"` the Text takes its font size from the element around it, so it scales with a component
+ * that has its own size. The weight, the line height and the letter spacing still come from the **variant**.
+ */
+export const InheritSize: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<div className="flex flex-col gap-4">
+  <div style={{ fontSize: '0.875rem' }}>
+    <Text size="inherit">Inside a small box</Text>
+  </div>
+  <div style={{ fontSize: '1.5rem' }}>
+    <Text size="inherit">Inside a big box</Text>
+  </div>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <div style={{ fontSize: '0.875rem' }}>
+        <Text size="inherit">Inside a small box</Text>
+      </div>
+      <div style={{ fontSize: '1.5rem' }}>
+        <Text size="inherit">Inside a big box</Text>
+      </div>
+    </div>
+  ),
+}
+
+/**
+ * `as="dt"` and `as="dd"` make the Text the term and the description of a `dl`, so a definition list needs no
+ * wrapper around them.
+ */
+export const DefinitionList: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<dl className="m-0 grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2">
+  <Text as="dt" muted variant="label">Status</Text>
+  <Text as="dd">On track</Text>
+  <Text as="dt" muted variant="label">Owner</Text>
+  <Text as="dd">Ana Ruiz</Text>
+</dl>`,
+      },
+    },
+  },
+  render: () => (
+    <dl className="m-0 grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2">
+      <Text as="dt" muted variant="label">
+        Status
+      </Text>
+      <Text as="dd">On track</Text>
+      <Text as="dt" muted variant="label">
+        Owner
+      </Text>
+      <Text as="dd">Ana Ruiz</Text>
+    </dl>
   ),
 }
 
