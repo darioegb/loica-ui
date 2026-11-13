@@ -80,6 +80,8 @@ describe('themeToCssVars', () => {
     const vars = themeToCssVars(defaultTheme)
     expect(vars['--loica-container-lg']).toBe('32rem')
     expect(vars['--loica-container-3xl']).toBe('48rem')
+    expect(vars['--loica-container-5xl']).toBe('64rem')
+    expect(vars['--loica-container-7xl']).toBe('80rem')
     expect(vars['--loica-duration-normal']).toBe(defaultTheme.motion.durations.normal)
     expect(vars['--loica-easing-in-out']).toBe(defaultTheme.motion.easings.inOut)
     expect(vars['--loica-focus-ring-width']).toBe(defaultTheme.focusRing.width)

@@ -69,6 +69,8 @@
 --loica-container-2xs
 --loica-container-3xl
 --loica-container-3xs
+--loica-container-5xl
+--loica-container-7xl
 --loica-container-lg
 --loica-container-md
 --loica-container-sm

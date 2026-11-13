@@ -8,8 +8,8 @@ import { Container } from '..'
  * limit; below that it is as wide as its parent. **gutter** is the space on each side, a key of the `spaces` of the
  * theme. **as** picks the element, such as a `main` or a `section`.
  *
- * The widths are the named ones of the theme, which end at `3xl`, so it suits the content of a page, an article or
- * a form. For a wider page use `size="full"`, or `variant="unstyled"` with your own classes.
+ * The widths are the named ones of the theme: up to `3xl` (`48rem`) they suit an article or a form, and `5xl` (`64rem`)
+ * and `7xl` (`80rem`) a page. For no limit use `size="full"`, or `variant="unstyled"` with your own classes.
  */
 export default {
   title: 'Components/Container',
@@ -44,7 +44,7 @@ export default {
     },
     size: {
       control: 'select',
-      options: ['3xs', '2xs', 'xs', 'sm', 'md', 'lg', '3xl', 'full'],
+      options: ['3xs', '2xs', 'xs', 'sm', 'md', 'lg', '3xl', '5xl', '7xl', 'full'],
     },
     variant: {
       control: 'radio',
@@ -131,6 +131,12 @@ export const Size: Story = {
   <Container size="3xl">
     <div className="rounded-md bg-primary-tint px-3 py-2 text-center text-primary-tint-text">3xl</div>
   </Container>
+  <Container size="5xl">
+    <div className="rounded-md bg-primary-tint px-3 py-2 text-center text-primary-tint-text">5xl</div>
+  </Container>
+  <Container size="7xl">
+    <div className="rounded-md bg-primary-tint px-3 py-2 text-center text-primary-tint-text">7xl</div>
+  </Container>
   <Container size="full">
     <div className="rounded-md bg-primary-tint px-3 py-2 text-center text-primary-tint-text">full</div>
   </Container>
@@ -160,6 +166,12 @@ export const Size: Story = {
       </Container>
       <Container size="3xl">
         <div className="rounded-md bg-primary-tint px-3 py-2 text-center text-primary-tint-text">3xl</div>
+      </Container>
+      <Container size="5xl">
+        <div className="rounded-md bg-primary-tint px-3 py-2 text-center text-primary-tint-text">5xl</div>
+      </Container>
+      <Container size="7xl">
+        <div className="rounded-md bg-primary-tint px-3 py-2 text-center text-primary-tint-text">7xl</div>
       </Container>
       <Container size="full">
         <div className="rounded-md bg-primary-tint px-3 py-2 text-center text-primary-tint-text">full</div>
