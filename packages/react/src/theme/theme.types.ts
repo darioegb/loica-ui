@@ -125,6 +125,8 @@ export interface Containers {
   md: string
   lg: string
   '3xl': string
+  '5xl': string
+  '7xl': string
 }
 
 export interface Motion {

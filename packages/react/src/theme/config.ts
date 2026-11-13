@@ -208,6 +208,8 @@ export const defaultTheme: Theme = {
     md: '28rem',
     lg: '32rem',
     '3xl': '48rem',
+    '5xl': '64rem',
+    '7xl': '80rem',
   },
   motion: {
     durations: {
