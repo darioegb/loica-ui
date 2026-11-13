@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react'
 import { useActionState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Alert, Button, Card, CardBody, CardFooter, CardHeader, Field, Input } from '@loica-ui/react'
+import { Alert, Button, Card, CardBody, CardFooter, CardHeader, Field, Input, Stack } from '@loica-ui/react'
 import { signIn, type SignInState } from '@/app/actions'
 
 const initialState: SignInState = {}
@@ -18,7 +18,7 @@ export function LoginForm(): ReactNode {
       <Card variant="outline">
         <CardHeader>{t('heading')}</CardHeader>
         <CardBody>
-          <div className="flex flex-col gap-4">
+          <Stack gap={4}>
             <Alert status="info">{t('hint')}</Alert>
             <Field errorText={email && tValidation(email)} label={t('email')} required>
               <Input
@@ -32,7 +32,7 @@ export function LoginForm(): ReactNode {
             <Field errorText={password && tValidation(password)} label={t('password')} required>
               <Input autoComplete="current-password" name="password" revealable type="password" />
             </Field>
-          </div>
+          </Stack>
         </CardBody>
         <CardFooter>
           <Button loading={pending} loadingText="…" type="submit">

@@ -89,6 +89,7 @@ import '@loica-ui/react/css/input.css'
 | Chip | [Chip](https://darioegb.github.io/loica-ui/?path=/docs/components-chip--docs) |
 | Code | [Code](https://darioegb.github.io/loica-ui/?path=/docs/components-code--docs) |
 | Collapse | [Collapse](https://darioegb.github.io/loica-ui/?path=/docs/components-collapse--docs) |
+| Container | [Container](https://darioegb.github.io/loica-ui/?path=/docs/components-container--docs) |
 | DatePicker | [DatePicker](https://darioegb.github.io/loica-ui/?path=/docs/components-datepicker--docs) |
 | Divider | [Divider](https://darioegb.github.io/loica-ui/?path=/docs/components-divider--docs) |
 | Drawer | [Drawer](https://darioegb.github.io/loica-ui/?path=/docs/components-drawer--docs) |
@@ -116,6 +117,7 @@ import '@loica-ui/react/css/input.css'
 | Sidebar | [Sidebar](https://darioegb.github.io/loica-ui/?path=/docs/components-sidebar--docs) |
 | Skeleton | [Skeleton](https://darioegb.github.io/loica-ui/?path=/docs/components-skeleton--docs) |
 | Slider | [Slider](https://darioegb.github.io/loica-ui/?path=/docs/components-slider--docs) |
+| Stack | [Stack](https://darioegb.github.io/loica-ui/?path=/docs/components-stack--docs) |
 | Stepper | [Stepper](https://darioegb.github.io/loica-ui/?path=/docs/components-stepper--docs) |
 | Table | [Table](https://darioegb.github.io/loica-ui/?path=/docs/components-table--docs) |
 | Tabs | [Tabs](https://darioegb.github.io/loica-ui/?path=/docs/components-tabs--docs) |

@@ -11,6 +11,7 @@ import {
   Link,
   ProgressBar,
   Skeleton,
+  Stack,
 } from "@loica-ui/react";
 import { PageHeader } from "../components/page-header";
 import { SkeletonPage } from "../components/skeleton-page";
@@ -112,7 +113,7 @@ export function DashboardPage(): ReactNode {
       <Card variant="outline">
         <CardHeader>{t("dashboard.activeProjects")}</CardHeader>
         <CardBody>
-          <ul className="list-unstyled d-flex flex-column gap-3 mb-0">
+          <Stack as="ul" gap={3}>
             {projects.map((project) => (
               <li className="row g-2 align-items-center" key={project.id}>
                 <div className="col d-flex flex-column col-lg-4">
@@ -149,7 +150,7 @@ export function DashboardPage(): ReactNode {
                 </div>
               </li>
             ))}
-          </ul>
+          </Stack>
           <div className="mt-3">
             <Link href="/projects">{t("dashboard.viewAll")}</Link>
           </div>

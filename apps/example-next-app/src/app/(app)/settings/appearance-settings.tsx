@@ -10,8 +10,9 @@ import {
   ProgressBar,
   Radio,
   RadioGroup,
-  useTheme,
+  Stack,
   type ColorModeSetting,
+  useTheme,
 } from '@loica-ui/react'
 import { saveBrand, saveColorMode } from '@/app/actions'
 import { usePreferences } from '@/app/providers'
@@ -26,7 +27,7 @@ export function AppearanceSettings(): ReactNode {
   const [, startTransition] = useTransition()
 
   return (
-    <div className="flex max-w-xl flex-col gap-5 py-2">
+    <Stack className="max-w-xl py-2" gap={5}>
       <Field helperText={t('colorModeHelper')} label={t('colorMode')}>
         <RadioGroup
           onValueChange={(value) => {
@@ -96,6 +97,6 @@ export function AppearanceSettings(): ReactNode {
           value={64}
         />
       </div>
-    </div>
+    </Stack>
   )
 }

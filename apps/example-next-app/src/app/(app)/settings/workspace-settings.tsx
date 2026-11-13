@@ -19,6 +19,7 @@ import {
   SelectContent,
   SelectOption,
   SelectTrigger,
+  Stack,
   useToast,
 } from '@loica-ui/react'
 
@@ -33,7 +34,7 @@ export function WorkspaceSettings(): ReactNode {
   const [deleting, setDeleting] = useState(false)
 
   return (
-    <div className="flex max-w-xl flex-col gap-5 py-2">
+    <Stack className="max-w-xl py-2" gap={5}>
       <Field label={t('name')} required>
         <Input onChange={(event) => setName(event.target.value)} value={name} />
       </Field>
@@ -97,6 +98,6 @@ export function WorkspaceSettings(): ReactNode {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </div>
+    </Stack>
   )
 }

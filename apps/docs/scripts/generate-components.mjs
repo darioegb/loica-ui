@@ -7,6 +7,7 @@ const componentsDir = path.resolve(here, '../../../packages/react/src/components
 const output = path.resolve(here, '../src/components.generated.json')
 
 const CATEGORIES = {
+  layout: 'Layout',
   form: 'Forms',
   interaction: 'Actions',
   navigation: 'Navigation',
