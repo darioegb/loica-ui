@@ -84,6 +84,14 @@
   max-width: var(--loica-container-3xl);
 }
 
+.container[data-size='5xl'] {
+  max-width: var(--loica-container-5xl);
+}
+
+.container[data-size='7xl'] {
+  max-width: var(--loica-container-7xl);
+}
+
 .container[data-size='full'] {
   max-width: none;
 }
