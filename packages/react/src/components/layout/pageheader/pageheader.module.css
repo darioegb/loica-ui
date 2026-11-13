@@ -6,7 +6,7 @@
   justify-content: space-between;
 }
 
-.text {
+.pageheader > [data-loica-pageheader-text] {
   display: flex;
   flex: 1 1 var(--loica-container-xs);
   flex-direction: column;
@@ -14,7 +14,7 @@
   min-width: 0;
 }
 
-.actions {
+.pageheader > [data-loica-pageheader-actions] {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
