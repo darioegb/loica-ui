@@ -13,12 +13,6 @@ import {
   DropdownSeparator,
   DropdownTrigger,
   Input,
-  Modal,
-  ModalBody,
-  ModalClose,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
   Paginator,
   PaginatorItem,
   PaginatorList,
@@ -39,6 +33,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  useConfirm,
   useTableState,
   useToast,
   type DateRange,
@@ -84,12 +79,12 @@ export function ProjectsBoard({
   projects: initial,
 }: Readonly<{ projects: Project[] }>): ReactNode {
   const { i18n, t } = useTranslation();
+  const confirm = useConfirm();
   const toast = useToast();
   const [projects, setProjects] = useState(initial);
   const [creating, setCreating] = useState(false);
   const [detailId, setDetailId] = useState<string | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
-  const [removing, setRemoving] = useState<Project | null>(null);
 
   const state = useTableState({
     defaultPageSize: 5,
@@ -127,7 +122,15 @@ export function ProjectsBoard({
     });
   };
 
-  const remove = (project: Project): void => {
+  const remove = async (project: Project): Promise<void> => {
+    const confirmed = await confirm({
+      cancelLabel: t("projects.cancel"),
+      colorScheme: "error",
+      confirmLabel: t("projects.delete"),
+      description: t("projects.deleteBody", { name: project.name }),
+      title: t("projects.deleteTitle"),
+    });
+    if (!confirmed) return;
     setProjects((current) => current.filter((item) => item.id !== project.id));
     void deleteProject(project.id);
     setDetailOpen(false);
@@ -300,7 +303,7 @@ export function ProjectsBoard({
                       <DropdownSeparator />
                       <DropdownItem
                         icon={<TrashIcon />}
-                        onSelect={() => setRemoving(project)}
+                        onSelect={() => void remove(project)}
                       >
                         {t("projects.delete")}
                       </DropdownItem>
@@ -347,37 +350,10 @@ export function ProjectsBoard({
       <ProjectDrawer
         onComplete={complete}
         onOpenChange={setDetailOpen}
-        onRemove={setRemoving}
+        onRemove={remove}
         open={detailOpen}
         project={detail}
       />
-
-      <Modal
-        onOpenChange={(next) => !next && setRemoving(null)}
-        open={removing !== null}
-      >
-        <ModalContent>
-          <ModalHeader>{t("projects.deleteTitle")}</ModalHeader>
-          <ModalBody>
-            {removing
-              ? t("projects.deleteBody", { name: removing.name })
-              : null}
-          </ModalBody>
-          <ModalFooter>
-            <ModalClose>
-              <Button variant="ghost">{t("projects.cancel")}</Button>
-            </ModalClose>
-            <ModalClose>
-              <Button
-                colorScheme="error"
-                onClick={() => removing && remove(removing)}
-              >
-                {t("projects.delete")}
-              </Button>
-            </ModalClose>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </>
   );
 }

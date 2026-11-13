@@ -89,6 +89,7 @@ import '@loica-ui/react/css/input.css'
 | Chip | [Chip](https://darioegb.github.io/loica-ui/?path=/docs/components-chip--docs) |
 | Code | [Code](https://darioegb.github.io/loica-ui/?path=/docs/components-code--docs) |
 | Collapse | [Collapse](https://darioegb.github.io/loica-ui/?path=/docs/components-collapse--docs) |
+| Confirm | [Confirm](https://darioegb.github.io/loica-ui/?path=/docs/components-confirm--docs) |
 | Container | [Container](https://darioegb.github.io/loica-ui/?path=/docs/components-container--docs) |
 | DatePicker | [DatePicker](https://darioegb.github.io/loica-ui/?path=/docs/components-datepicker--docs) |
 | DescriptionList | [DescriptionList](https://darioegb.github.io/loica-ui/?path=/docs/components-descriptionlist--docs) |
