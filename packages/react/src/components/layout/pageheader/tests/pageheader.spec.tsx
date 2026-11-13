@@ -21,7 +21,7 @@ describe('PageHeader component', () => {
     render(<PageHeader actions={<button type="button">New</button>} title="Projects" />)
     const actions = screen.getByRole('button', { name: 'New' }).parentElement
     expect(actions).toHaveAttribute('data-loica-pageheader-actions')
-    expect(actions).toHaveClass('actions')
+    expect(actions).not.toHaveAttribute('class')
     expect(actions?.previousElementSibling).toHaveAttribute('data-loica-pageheader-text')
   })
 
