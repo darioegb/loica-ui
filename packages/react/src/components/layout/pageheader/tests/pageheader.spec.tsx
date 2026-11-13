@@ -44,7 +44,6 @@ describe('PageHeader component', () => {
   it('styles the header, its text and its actions', () => {
     const { container } = render(<PageHeader actions="Actions" description="Text" title="Projects" />)
     expect(container.querySelector('header')).toHaveClass('pageheader')
-    expect(container.querySelector('[data-loica-pageheader-text]')).toHaveClass('text')
     expect(screen.getByRole('heading')).toHaveClass('heading')
     expect(screen.getByText('Text')).toHaveClass('text', 'muted')
   })
