@@ -13,14 +13,11 @@ import {
   ProgressBar,
   Skeleton,
   Stack,
+  Stat,
 } from "@loica-ui/react";
 import { SkeletonPage } from "../components/skeleton-page";
 import { getDashboard } from "../lib/data";
-import {
-  formatChange,
-  formatDue,
-  formatNumber,
-} from "../lib/format";
+import { formatChange, formatDue } from "../lib/format";
 import { statusColor } from "../lib/status";
 import { useResource } from "../lib/use-resource";
 
@@ -83,27 +80,20 @@ export function DashboardPage(): ReactNode {
           <div className="col" key={metric.id}>
             <Card className="h-100" variant="outline">
               <CardBody>
-                <div className="d-flex flex-column align-items-start gap-2">
-                  <span className="small text-body-secondary">
-                    {t(`metrics.${metric.id}.label`)}
-                  </span>
-                  <span className="fs-2 fw-bold lh-1">
-                    {formatNumber(metric.value, i18n.language)}
-                  </span>
-                  <Badge
-                    colorScheme={metric.trend === "up" ? "success" : "warning"}
-                    size="sm"
-                    variant="subtle"
-                  >
-                    {t(`metrics.${metric.id}.change`, {
-                      change: formatChange(
-                        metric.change,
-                        i18n.language,
-                        metric.percent,
-                      ),
-                    })}
-                  </Badge>
-                </div>
+                <Stat
+                  change={t(`metrics.${metric.id}.change`, {
+                    change: formatChange(
+                      metric.change,
+                      i18n.language,
+                      metric.percent,
+                    ),
+                  })}
+                  colorScheme={metric.id === "overdue" ? "success" : undefined}
+                  label={t(`metrics.${metric.id}.label`)}
+                  locale={i18n.language}
+                  trend={metric.trend}
+                  value={metric.value}
+                />
               </CardBody>
             </Card>
           </div>

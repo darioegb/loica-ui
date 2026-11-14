@@ -12,6 +12,7 @@ import type { PinInputLabels } from '../components/form/pininput'
 import type { RatingLabels } from '../components/form/rating'
 import type { SelectLabels } from '../components/form/select'
 import type { SliderLabels } from '../components/form/slider'
+import type { StatLabels } from '../components/presentation/stat'
 import type { StepperLabels } from '../components/navigation/stepper'
 import type { TextareaLabels } from '../components/form/textarea'
 import type { TimePickerLabels } from '../components/form/timepicker'
@@ -41,6 +42,7 @@ export interface MessageMap {
   select: SelectLabels
   sidebarToggle: SingleLabel
   slider: SliderLabels
+  stat: StatLabels
   stepper: StepperLabels
   textarea: TextareaLabels
   timePicker: TimePickerLabels

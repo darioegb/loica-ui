@@ -9,13 +9,14 @@ import {
   CardHeader,
   PageHeader,
   ProgressBar,
+  Stat,
 } from '@loica-ui/react'
 import { getDashboard } from '@/lib/data'
-import { formatDue, formatNumber } from '@/lib/format'
+import { formatDue } from '@/lib/format'
 import { getUser } from '@/lib/session'
 import { statusColor } from '@/lib/status'
 
-// A Server Component: Card, Badge and ProgressBar render on the server, and only the Avatars hydrate.
+// A Server Component: Card, Badge and ProgressBar render on the server, and only the Avatars and the Stats hydrate.
 export default async function DashboardPage(): Promise<ReactNode> {
   const [user, { metrics, projects }, locale, t, tStatus] = await Promise.all([
     getUser(),
@@ -34,13 +35,14 @@ export default async function DashboardPage(): Promise<ReactNode> {
         {metrics.map((metric) => (
           <Card key={metric.id} variant="outline">
             <CardBody>
-              <div className="flex flex-col items-start gap-2">
-                <span className="text-sm text-(--loica-muted)">{t(`metrics.${metric.id}.label`)}</span>
-                <span className="text-[2rem] leading-none font-bold">{formatNumber(metric.value, locale)}</span>
-                <Badge colorScheme={metric.trend === 'up' ? 'success' : 'warning'} size="sm" variant="subtle">
-                  {t(`metrics.${metric.id}.change`, { change: metric.change })}
-                </Badge>
-              </div>
+              <Stat
+                change={t(`metrics.${metric.id}.change`, { change: metric.change })}
+                colorScheme={metric.id === 'overdue' ? 'success' : undefined}
+                label={t(`metrics.${metric.id}.label`)}
+                locale={locale}
+                trend={metric.trend}
+                value={metric.value}
+              />
             </CardBody>
           </Card>
         ))}
