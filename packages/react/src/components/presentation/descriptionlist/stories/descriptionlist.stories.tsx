@@ -186,6 +186,40 @@ export const Inline: Story = {
 }
 
 /**
+ * A term can have several details, and several terms can share one detail, as HTML allows. In an `inline` list the
+ * terms stay in the first column and the details in the second. A long word, such as an email, wraps inside its
+ * column instead of widening the list.
+ */
+export const MultipleDetails: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<DescriptionList layout="inline">
+  <DescriptionTerm>Email</DescriptionTerm>
+  <DescriptionDetails>ana.torres@example.com</DescriptionDetails>
+  <DescriptionDetails>ana.torres.personal.address.with.a.very.long.name@example.com</DescriptionDetails>
+  <DescriptionTerm>Phone</DescriptionTerm>
+  <DescriptionTerm>Mobile</DescriptionTerm>
+  <DescriptionDetails>+34 600 000 000</DescriptionDetails>
+</DescriptionList>`,
+      },
+    },
+  },
+  render: (args) => (
+    <div style={{ maxWidth: '20rem' }}>
+      <DescriptionList {...args} layout="inline">
+        <DescriptionTerm>Email</DescriptionTerm>
+        <DescriptionDetails>ana.torres@example.com</DescriptionDetails>
+        <DescriptionDetails>ana.torres.personal.address.with.a.very.long.name@example.com</DescriptionDetails>
+        <DescriptionTerm>Phone</DescriptionTerm>
+        <DescriptionTerm>Mobile</DescriptionTerm>
+        <DescriptionDetails>+34 600 000 000</DescriptionDetails>
+      </DescriptionList>
+    </div>
+  ),
+}
+
+/**
  * A detail is any content, so a `Badge` or an `Avatar` fits as well as text. In an `inline` list the terms stay at
  * the top of their row when a detail is taller or wraps.
  */
