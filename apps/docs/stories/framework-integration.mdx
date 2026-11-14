@@ -34,7 +34,8 @@ createRoot(document.getElementById('root')!).render(
 ```
 
 `LocaleProvider` goes in the same place when the app is not in English (see
-[Internationalization](?path=/docs/guides-internationalization--docs)). In a client-only app the saved color mode can be
+[Internationalization](?path=/docs/guides-internationalization--docs)), and so does `ConfirmProvider`, inside the
+`ThemeProvider`, when a component calls `useConfirm()`. In a client-only app the saved color mode can be
 read before the first render, from `localStorage`, so `'system'` is the only case that changes after the page loads.
 
 ## Next.js App Router
@@ -46,7 +47,8 @@ render on the server with no JavaScript in the browser. The page of each compone
 **Server** or **Client** badge under its title, and the API reference marks the parts when they differ.
 
 What a Server Component can't do is pass a function: `onValueChange`, `onClick` or a render prop go in a component of
-yours that starts with `'use client'`. Put the providers in one of them too, when they need state:
+yours that starts with `'use client'`. Put the providers in one of them too, when they need state (add `ConfirmProvider` next to `ToastProvider` if you use
+`useConfirm()`):
 
 ```tsx
 // app/providers.tsx
