@@ -12,6 +12,7 @@ import "@loica-ui/react/css/button.css";
 import "@loica-ui/react/css/card.css";
 import "@loica-ui/react/css/code.css";
 import "@loica-ui/react/css/datepicker.css";
+import "@loica-ui/react/css/descriptionlist.css";
 import "@loica-ui/react/css/drawer.css";
 import "@loica-ui/react/css/dropdown.css";
 import "@loica-ui/react/css/field.css";

@@ -32,23 +32,6 @@
   text-decoration: underline;
 }
 
-.facts {
-  align-items: center;
-  display: grid;
-  gap: 0.75rem 1rem;
-  grid-template-columns: max-content 1fr;
-  margin: 0;
-}
-
-.facts dt {
-  color: var(--loica-muted);
-  font-weight: inherit;
-}
-
-.facts dd {
-  margin: 0;
-}
-
 /* The form wraps the body and the footer without taking part in the drawer's layout. */
 .drawerForm {
   display: contents;

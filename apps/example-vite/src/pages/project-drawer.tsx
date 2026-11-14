@@ -7,6 +7,9 @@ import {
   Badge,
   Button,
   Code,
+  DescriptionDetails,
+  DescriptionList,
+  DescriptionTerm,
   Drawer,
   DrawerBody,
   DrawerClose,
@@ -25,7 +28,6 @@ import {
 import type { Project } from "../lib/data";
 import { formatAgo, formatDue } from "../lib/format";
 import { statusColor } from "../lib/status";
-import styles from "./projects.module.css";
 
 const activity = (
   project: Project,
@@ -81,13 +83,13 @@ export function ProjectDrawer({
                       <p className="mb-0">
                         {project.description || t("projectDrawer.noDescription")}
                       </p>
-                      <dl className={styles.facts}>
-                        <dt>{t("projectDrawer.id")}</dt>
-                        <dd>
+                      <DescriptionList layout="inline">
+                        <DescriptionTerm>{t("projectDrawer.id")}</DescriptionTerm>
+                        <DescriptionDetails>
                           <Code size="sm">{project.id}</Code>
-                        </dd>
-                        <dt>{t("projectDrawer.status")}</dt>
-                        <dd>
+                        </DescriptionDetails>
+                        <DescriptionTerm>{t("projectDrawer.status")}</DescriptionTerm>
+                        <DescriptionDetails>
                           <Badge
                             colorScheme={statusColor[project.status]}
                             dot
@@ -95,29 +97,29 @@ export function ProjectDrawer({
                           >
                             {t(`status.${project.status}`)}
                           </Badge>
-                        </dd>
-                        <dt>{t("projectDrawer.due")}</dt>
-                        <dd>{formatDue(project.due, i18n.language)}</dd>
-                        <dt>{t("projectDrawer.owner")}</dt>
-                        <dd className="d-flex align-items-center gap-2 small text-body-secondary">
+                        </DescriptionDetails>
+                        <DescriptionTerm>{t("projectDrawer.due")}</DescriptionTerm>
+                        <DescriptionDetails>{formatDue(project.due, i18n.language)}</DescriptionDetails>
+                        <DescriptionTerm>{t("projectDrawer.owner")}</DescriptionTerm>
+                        <DescriptionDetails className="d-flex align-items-center gap-2 small text-body-secondary">
                           <Avatar name={project.owner} size="sm" />
                           {project.owner}
-                        </dd>
-                        <dt>{t("projectDrawer.team")}</dt>
-                        <dd>
+                        </DescriptionDetails>
+                        <DescriptionTerm>{t("projectDrawer.team")}</DescriptionTerm>
+                        <DescriptionDetails>
                           <AvatarGroup max={5} size="sm">
                             {project.team.map((member) => (
                               <Avatar key={member} name={member} />
                             ))}
                           </AvatarGroup>
-                        </dd>
-                        <dt>{t("projectDrawer.visibility")}</dt>
-                        <dd>
+                        </DescriptionDetails>
+                        <DescriptionTerm>{t("projectDrawer.visibility")}</DescriptionTerm>
+                        <DescriptionDetails>
                           <Badge colorScheme="salmon" variant="subtle">
                             {t(`visibility.${project.visibility}`)}
                           </Badge>
-                        </dd>
-                      </dl>
+                        </DescriptionDetails>
+                      </DescriptionList>
                       <ProgressBar
                         aria-label={t("projectDrawer.progress")}
                         colorScheme={statusColor[project.status]}

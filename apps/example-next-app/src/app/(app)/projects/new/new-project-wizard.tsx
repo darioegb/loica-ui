@@ -12,6 +12,9 @@ import {
   Card,
   CardBody,
   DatePicker,
+  DescriptionDetails,
+  DescriptionList,
+  DescriptionTerm,
   Field,
   Input,
   Radio,
@@ -213,26 +216,26 @@ export function NewProjectWizard({
 
             {step === 2 ? (
               <>
-                <dl className="grid grid-cols-[max-content_1fr] items-start gap-x-4 gap-y-3 [&_dt]:text-(--loica-muted)">
-                  <dt>{t('name')}</dt>
-                  <dd>{values.name.trim()}</dd>
-                  <dt>{t('projectDescription')}</dt>
-                  <dd>{values.description || t('noDescription')}</dd>
-                  <dt>{t('owner')}</dt>
-                  <dd>{values.owner}</dd>
-                  <dt>{t('team')}</dt>
-                  <dd>
+                <DescriptionList layout="inline">
+                  <DescriptionTerm>{t('name')}</DescriptionTerm>
+                  <DescriptionDetails>{values.name.trim()}</DescriptionDetails>
+                  <DescriptionTerm>{t('projectDescription')}</DescriptionTerm>
+                  <DescriptionDetails>{values.description || t('noDescription')}</DescriptionDetails>
+                  <DescriptionTerm>{t('owner')}</DescriptionTerm>
+                  <DescriptionDetails>{values.owner}</DescriptionDetails>
+                  <DescriptionTerm>{t('team')}</DescriptionTerm>
+                  <DescriptionDetails>
                     <AvatarGroup max={5} size="sm">
                       {values.team.map((member) => (
                         <Avatar key={member} name={member} />
                       ))}
                     </AvatarGroup>
-                  </dd>
-                  <dt>{t('due')}</dt>
-                  <dd>{formatDue(values.due, locale)}</dd>
-                  <dt>{t('visibility')}</dt>
-                  <dd>{tVisibility(values.visibility)}</dd>
-                </dl>
+                  </DescriptionDetails>
+                  <DescriptionTerm>{t('due')}</DescriptionTerm>
+                  <DescriptionDetails>{formatDue(values.due, locale)}</DescriptionDetails>
+                  <DescriptionTerm>{t('visibility')}</DescriptionTerm>
+                  <DescriptionDetails>{tVisibility(values.visibility)}</DescriptionDetails>
+                </DescriptionList>
                 <Alert status="info">{t('startsOnTrack')}</Alert>
               </>
             ) : null}
