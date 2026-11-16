@@ -96,5 +96,7 @@ What these check, so a failure is easy to place:
 - `packages/react/scripts/check-client-directives.mjs`: `'use client'` is on exactly the modules that need it.
 - `src/tests/index.spec.ts` and `src/tests/token-names.spec.ts`: the list of exports and of `--loica-*` variables, so a rename is
   always on purpose.
+- `src/tests/server.spec.tsx`: every component renders with `renderToString` in a Node environment, inside and outside a
+  `ThemeProvider`, and every exported component needs a case there.
 - `src/tests/unread-tokens.spec.ts`: every token of the default theme is read by some component or waits for the next major
   in `KEPT_UNTIL_NEXT_MAJOR`.
