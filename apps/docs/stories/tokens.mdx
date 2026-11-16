@@ -112,7 +112,7 @@ values as the default one of Loica but doesn't follow a theme that changes `spac
 `--loica-text-<name>-size`, `-weight`, `-line-height` and `-letter-spacing` · Tailwind `text-<name>` (`text-heading-1`, `text-body`, `text-caption`…)
 
 A text style is a size, a weight, a line height and a letter spacing used together. They are made of the scales above,
-so changing `fontSizes` changes the styles too. `Heading` and `Text` use them, and so does the header of the `Modal`. The titles of components that have a `size` (`Card`, `Alert`, `EmptyState`, `Stepper`) stay relative to it, in `em`, so they scale with it.
+so changing `fontSizes` changes the styles too. `Heading` and `Text` use them, and so does the header of the `Modal`. The titles of components that have a `size` (`Card`, `Alert`, `EmptyState`, `Stepper`) stay relative to it, in `em`, so they scale with it. A `Heading` or a `Text` that goes inside a component with its own size takes the same behavior with `size="inherit"`: it follows the font size around it, and keeps the rest of its style.
 
 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
   {Object.entries(defaultTheme.textStyles).map(([key, style]) => (

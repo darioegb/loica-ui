@@ -45,6 +45,26 @@
   line-height: var(--loica-text-heading-6-line-height);
 }
 
+.sizeInherit {
+  font-size: inherit;
+}
+
+.weightNormal {
+  font-weight: var(--loica-font-weight-normal);
+}
+
+.weightMedium {
+  font-weight: var(--loica-font-weight-medium);
+}
+
+.weightSemibold {
+  font-weight: var(--loica-font-weight-semibold);
+}
+
+.weightBold {
+  font-weight: var(--loica-font-weight-bold);
+}
+
 .truncate {
   overflow: hidden;
   text-overflow: ellipsis;
