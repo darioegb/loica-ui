@@ -2,6 +2,8 @@ import type { StoryObj, Meta } from '@storybook/react-vite'
 import { useRef, useState } from 'react'
 import { Button } from '../../../interaction/button'
 import { Input } from '../../../form/input'
+import { LocaleProvider } from '../../../../locale'
+import { ConfirmProvider, useConfirm, type ConfirmOptions } from '../../confirm'
 import {
   Modal,
   ModalBackdrop,
@@ -51,6 +53,34 @@ function Example(props: Readonly<Omit<ModalProps, 'children'>>): React.ReactNode
  *
  * The page behind the Modal is not hidden from screen readers with `inert`, because the Modal lives inside the
  * same root as the app. `aria-modal` and the focus trap keep the user inside.
+ *
+ * To ask a yes or no question from code, such as "Delete project?", you don't have to write the Modal: `useConfirm()`
+ * opens an alert dialog and resolves to `true` or `false`, so the check reads in a line before the action. See the
+ * **Confirm** examples below.
+ *
+ * ### useConfirm
+ *
+ * `useConfirm()` returns a function that opens the dialog and resolves to `true` when the user accepts, and to
+ * `false` when they cancel, press <kbd>Esc</kbd> or click outside.
+ *
+ * ```tsx
+ * const confirm = useConfirm()
+ * if (await confirm({ title: 'Delete project?', colorScheme: 'error' })) remove(project)
+ * ```
+ *
+ * It takes these options, all of them optional except the `title`:
+ *
+ * - **title**: the question, which names the dialog.
+ * - **description**: what the answer causes, under the title.
+ * - **confirmLabel** and **cancelLabel**: the texts of the buttons. Without them they come from the `confirm` key of
+ *   the `LocaleProvider`, with `confirm` and `cancel`.
+ * - **colorScheme**: the color of the accepting button, such as `error` for something that can't be undone.
+ *
+ * Mount a **ConfirmProvider** once, near the root, as the `ToastProvider`. It renders the dialog, a `Modal` with
+ * `role="alertdialog"`, and shows one at a time: a call made while another is open waits for its turn. The focus
+ * starts on the cancel button, so Enter never accepts by accident, and goes back to what had it when the dialog
+ * closes. A confirmation that needs more than a question, such as typing the name of what is deleted, is a `Modal` of
+ * its own. With the CSS by component, the dialog needs `modal.css` and `button.css`.
  */
 export default {
   title: 'Components/Modal',
@@ -59,6 +89,7 @@ export default {
   parameters: {
     docs: {
       story: { inline: false, iframeHeight: 520 },
+      apiFolders: ['confirm'],
       importNames: [
         'Modal',
         'ModalTrigger',
@@ -68,6 +99,8 @@ export default {
         'ModalBody',
         'ModalFooter',
         'ModalClose',
+        'ConfirmProvider',
+        'useConfirm',
       ],
       toc: {
         title: 'On this page',
@@ -481,6 +514,118 @@ export const Compound: Story = {
         </ModalContent>
       </ModalBackdrop>
     </Modal>
+  ),
+}
+
+function Ask({
+  label,
+  options,
+}: Readonly<{ label: string; options: ConfirmOptions }>): React.ReactNode {
+  const confirm = useConfirm()
+  const [answer, setAnswer] = useState<boolean | undefined>(undefined)
+
+  return (
+    <div className="flex items-center gap-4">
+      <Button
+        onClick={() => {
+          void confirm(options).then(setAnswer)
+        }}
+      >
+        {label}
+      </Button>
+      <output className="text-sm text-muted">
+        {answer === undefined ? 'Not asked yet' : answer ? 'Confirmed' : 'Cancelled'}
+      </output>
+    </div>
+  )
+}
+
+/**
+ * This is the default confirmation: a title, and the two buttons with their texts. It resolves to `true` when the
+ * user accepts.
+ */
+export const Confirm: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `const confirm = useConfirm()
+
+<Button onClick={async () => {
+  if (await confirm({ title: 'Publish the page?' })) publish()
+}}>
+  Publish
+</Button>`,
+      },
+    },
+  },
+  render: () => (
+    <ConfirmProvider>
+      <Ask label="Publish" options={{ title: 'Publish the page?' }} />
+    </ConfirmProvider>
+  ),
+}
+
+/**
+ * For something that can't be undone, say what it costs in the **description** and give the accepting button the
+ * action as its text (**confirmLabel**) and the `error` **colorScheme**. **cancelLabel** changes the other button.
+ */
+export const ConfirmDestructive: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `const confirm = useConfirm()
+
+<Button colorScheme="error" onClick={async () => {
+  const confirmed = await confirm({
+    colorScheme: 'error',
+    confirmLabel: 'Delete project',
+    description: 'The project and its history will be removed. This cannot be undone.',
+    title: 'Delete "Website redesign"?',
+  })
+  if (confirmed) remove(project)
+}}>
+  Delete
+</Button>`,
+      },
+    },
+  },
+  render: () => (
+    <ConfirmProvider>
+      <Ask
+        label="Delete"
+        options={{
+          colorScheme: 'error',
+          confirmLabel: 'Delete project',
+          description: 'The project and its history will be removed. This cannot be undone.',
+          title: 'Delete "Website redesign"?',
+        }}
+      />
+    </ConfirmProvider>
+  ),
+}
+
+/**
+ * The texts of the buttons that a call doesn't set come from the `confirm` key of the `LocaleProvider`, with
+ * `cancel` and `confirm`.
+ */
+export const ConfirmTexts: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<LocaleProvider messages={{ confirm: { cancel: 'Cancelar', confirm: 'Aceptar' } }}>
+  <ConfirmProvider>
+    <App />
+  </ConfirmProvider>
+</LocaleProvider>`,
+      },
+    },
+  },
+  render: () => (
+    <LocaleProvider messages={{ confirm: { cancel: 'Cancelar', confirm: 'Aceptar' } }}>
+      <ConfirmProvider>
+        <Ask label="Publicar" options={{ title: '¿Publicar la página?' }} />
+      </ConfirmProvider>
+    </LocaleProvider>
   ),
 }
 
