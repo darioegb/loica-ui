@@ -54,6 +54,11 @@ const StatefulDatePicker = ({ maxDate, minDate, ...args }: DatePickerProps): Rea
  * It picks a single date or a range (`range`), takes a `colorScheme`, and is translated with `locale` and the
  * `LocaleProvider`.
  *
+ * It is also the calendar of the library: with `panel` it shows only the calendar, always visible and without the
+ * input, for a booking form, an agenda or a side panel (see the `Panel` example). There is no separate `Calendar`
+ * component, so everything on this page applies to it: ranges, `minDate` and `maxDate`, `weekStartsOn`, the footer and
+ * the parts.
+ *
  * On its own it shows an input with a button that opens the calendar. To change what it shows or the order, give
  * it its parts as children: `DatePickerInput` is the field with the button (a `DatePickerField` and a
  * `DatePickerTrigger`, in the order you want), and `DatePickerCalendar` the calendar
@@ -364,13 +369,16 @@ export const WithFooterActions: Story = {
 /**
  * With **panel** the calendar is shown on its own, always visible and without the input, to put it in the page
  * (a booking form, a side panel). It keeps the value, the range and the footer like the popup does, and picking a
- * day doesn't hide it.
+ * day doesn't hide it. This is the standalone calendar of Loica: it takes the same props as the `DatePicker`, since
+ * it is one. Without the input there is nothing for the `aria-label` of the `DatePicker` to name, so the calendar is
+ * called "Calendar" (the `datePicker.calendar` text of the `LocaleProvider`); to name it, give the `DatePicker` a
+ * `DatePickerCalendar` with its own `aria-label` as the only child.
  */
 export const Panel: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<DatePicker aria-label="Date" onValueChange={handleValueChange} panel value={value} />`,
+        code: `<DatePicker onValueChange={handleValueChange} panel value={value} />`,
       },
     },
   },
@@ -440,7 +448,7 @@ export const WeekStart: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<DatePicker aria-label="Date" locale="en" onValueChange={handleValueChange} panel value={value} weekStartsOn="locale" />`,
+        code: `<DatePicker locale="en" onValueChange={handleValueChange} panel value={value} weekStartsOn="locale" />`,
       },
     },
   },
