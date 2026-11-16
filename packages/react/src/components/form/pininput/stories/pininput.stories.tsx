@@ -371,16 +371,16 @@ export const Bootstrap: Story = {
     docs: {
       source: {
         code: `<>
-  <style>{"[data-loica-pininput-cell] { width: 2.5rem; height: 3rem; text-align: center; color: var(--bs-body-color); background-color: var(--bs-body-bg); border: var(--bs-border-width) solid var(--bs-border-color); border-radius: var(--bs-border-radius); }"}</style>
-  <PinInput aria-label="Verification code" className="d-flex gap-2" length={6} variant="unstyled" />
+  <style>{".bs-pin [data-loica-pininput-cell] { width: 2.5rem; height: 3rem; text-align: center; color: var(--bs-body-color); background-color: var(--bs-body-bg); border: var(--bs-border-width) solid var(--bs-border-color); border-radius: var(--bs-border-radius); }"}</style>
+  <PinInput aria-label="Verification code" className="bs-pin d-flex gap-2" length={6} variant="unstyled" />
 </>`,
       },
     },
   },
   render: () => (
     <>
-      <style>{"[data-loica-pininput-cell] { width: 2.5rem; height: 3rem; text-align: center; color: var(--bs-body-color); background-color: var(--bs-body-bg); border: var(--bs-border-width) solid var(--bs-border-color); border-radius: var(--bs-border-radius); }"}</style>
-      <PinInput aria-label="Verification code" className="d-flex gap-2" length={6} variant="unstyled" />
+      <style>{".bs-pin [data-loica-pininput-cell] { width: 2.5rem; height: 3rem; text-align: center; color: var(--bs-body-color); background-color: var(--bs-body-bg); border: var(--bs-border-width) solid var(--bs-border-color); border-radius: var(--bs-border-radius); }"}</style>
+      <PinInput aria-label="Verification code" className="bs-pin d-flex gap-2" length={6} variant="unstyled" />
     </>
   ),
 };
