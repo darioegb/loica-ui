@@ -78,7 +78,9 @@ function splitDescription(markdown: string): { intro: string; notes: ApiNote[] }
 function DocsTemplate(): ReactNode {
   const { preparedMeta } = useOf('meta', ['meta'])
   const componentName = preparedMeta.title.split('/').pop() ?? preparedMeta.title
-  const docsParameters = preparedMeta.parameters.docs as { importNames?: string[] } | undefined
+  const docsParameters = preparedMeta.parameters.docs as
+    | { apiFolders?: string[]; importNames?: string[] }
+    | undefined
   const importNames = docsParameters?.importNames ?? [componentName]
   const sourcePath = getComponentSourcePath(String(preparedMeta.parameters.fileName))
   const description = (
@@ -104,6 +106,7 @@ function DocsTemplate(): ReactNode {
       <hr />
       <ApiReference
         componentName={componentName}
+        extraFolders={docsParameters?.apiFolders}
         folder={sourcePath.slice(sourcePath.lastIndexOf('/') + 1)}
         importNames={docsParameters?.importNames}
         notes={notes}
