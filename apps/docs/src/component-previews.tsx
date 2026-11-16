@@ -20,6 +20,11 @@ import {
   CardHeader,
   Checkbox,
   Chip,
+  Code,
+  Container,
+  DescriptionDetails,
+  DescriptionList,
+  DescriptionTerm,
   DatePicker,
   Divider,
   EmptyState,
@@ -28,6 +33,8 @@ import {
   Heading,
   Icon,
   Input,
+  Kbd,
+  Link,
   List,
   ListItem,
   Loader,
@@ -36,6 +43,7 @@ import {
   NavbarContent,
   NavbarItem,
   NumberInput,
+  PageHeader,
   Paginator,
   PinInput,
   ProgressBar,
@@ -47,6 +55,8 @@ import {
   SelectTrigger,
   Skeleton,
   Slider,
+  Stack,
+  Stat,
   Step,
   StepIndicator,
   StepSeparator,
@@ -197,6 +207,11 @@ const previews: Record<string, ReactNode> = {
       <Chip variant="outline">A11y</Chip>
     </div>
   ),
+  Code: (
+    <Text>
+      Run <Code>pnpm install</Code> first
+    </Text>
+  ),
   Collapse: (
     <div style={column}>
       <Button size="sm" variant="outline">
@@ -207,7 +222,24 @@ const previews: Record<string, ReactNode> = {
       </Card>
     </div>
   ),
+  Container: (
+    <div style={{ background: 'var(--loica-muted)', borderRadius: '0.5rem', padding: '0.5rem 0', width: '100%' }}>
+      <Container gutter={3} size="xs">
+        <Card variant="elevated">
+          <CardBody>Readable width</CardBody>
+        </Card>
+      </Container>
+    </div>
+  ),
   DatePicker: <DatePicker aria-label="Date" onValueChange={noop} style={{ width: '12rem' }} />,
+  DescriptionList: (
+    <DescriptionList style={{ width: '14rem' }}>
+      <DescriptionTerm>Status</DescriptionTerm>
+      <DescriptionDetails>Active</DescriptionDetails>
+      <DescriptionTerm>Owner</DescriptionTerm>
+      <DescriptionDetails>Ana Torres</DescriptionDetails>
+    </DescriptionList>
+  ),
   Divider: (
     <Card style={{ width: '10rem' }} variant="outline">
       <CardBody>
@@ -276,6 +308,13 @@ const previews: Record<string, ReactNode> = {
     </div>
   ),
   Input: <Input aria-label="Name" placeholder="Name" style={{ width: '12rem' }} />,
+  Kbd: (
+    <div style={row}>
+      <Kbd>Ctrl</Kbd>
+      <Kbd>K</Kbd>
+    </div>
+  ),
+  Link: <Link href="#">Read the docs</Link>,
   List: (
     <List aria-label="Files" style={{ width: '12rem' }} variant="bordered">
       <ListItem>Annual report.pdf</ListItem>
@@ -316,6 +355,14 @@ const previews: Record<string, ReactNode> = {
     </Navbar>
   ),
   NumberInput: <NumberInput aria-label="Quantity" defaultValue={2} style={{ width: '10rem' }} />,
+  PageHeader: (
+    <PageHeader
+      actions={<Button size="sm">New</Button>}
+      description="Everything in one place."
+      style={{ width: '18rem' }}
+      title="Projects"
+    />
+  ),
   Paginator: <Paginator aria-label="Pages" defaultPage={3} total={50} />,
   PinInput: <PinInput aria-label="Code" defaultValue="42" length={4} />,
   Popover: (
@@ -370,6 +417,15 @@ const previews: Record<string, ReactNode> = {
     </Card>
   ),
   Slider: <Slider aria-label="Volume" defaultValue={40} style={{ width: '12rem' }} />,
+  Stack: (
+    <Stack direction="row" gap={2}>
+      <Button size="sm">Save</Button>
+      <Button size="sm" variant="outline">
+        Cancel
+      </Button>
+    </Stack>
+  ),
+  Stat: <Stat change="+12 %" label="Active projects" trend="up" value={24} />,
   Stepper: (
     <Stepper activeStep={1} aria-label="Checkout" style={{ width: '100%' }}>
       {['Cart', 'Pay', 'Done'].map((title) => (
