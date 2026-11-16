@@ -1,3 +1,10 @@
+# Version 1.2.0
+Explore the changelog for Loica UI React version 1.2.0. Learn about the latest features, bug fixes, and improvements.
+
+[https://github.com/darioegb/loica-ui/pull/438] - November 16, 2026
+
+
+
 # Version 1.1.1
 Explore the changelog for Loica UI React version 1.1.1. Learn about the latest features, bug fixes, and improvements.
 
