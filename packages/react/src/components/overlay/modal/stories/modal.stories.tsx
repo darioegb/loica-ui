@@ -51,6 +51,10 @@ function Example(props: Readonly<Omit<ModalProps, 'children'>>): React.ReactNode
  *
  * The page behind the Modal is not hidden from screen readers with `inert`, because the Modal lives inside the
  * same root as the app. `aria-modal` and the focus trap keep the user inside.
+ *
+ * To ask a yes or no question from code, such as "Delete project?", use `useConfirm()` of the
+ * [Confirm](?path=/docs/components-confirm--docs) instead of writing the Modal: it opens an alert dialog and resolves
+ * to `true` or `false`.
  */
 export default {
   title: 'Components/Modal',
