@@ -46,9 +46,18 @@ for (const [folder, components] of Object.entries(api)) {
   }
 }
 
+const { components } = JSON.parse(readFileSync(path.resolve(here, '../src/components.generated.json'), 'utf8'))
+const previews = readFileSync(path.resolve(here, '../src/component-previews.tsx'), 'utf8')
+const previewed = new Set([...previews.matchAll(/^ {2}(\w+):/gm)].map((match) => match[1]))
+for (const { name } of components) {
+  if (!filter && !previewed.has(name)) {
+    missing.push(`${name} has no card preview in apps/docs/src/component-previews.tsx`)
+  }
+}
+
 if (missing.length > 0) {
   console.log(missing.join('\n'))
-  console.log(`\n${missing.length} problems in the API reference`)
+  console.log(`\n${missing.length} problems in the API reference and the overview`)
   process.exit(1)
 }
 console.log('API reference: every part and prop is described')
