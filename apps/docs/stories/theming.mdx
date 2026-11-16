@@ -67,7 +67,10 @@ export function ColorModeToggle() {
 preferences (a cookie, `localStorage`, the user's profile) and pass it back as `defaultColorMode`.
 
 `'system'` follows `prefers-color-scheme` and changes with it. The browser is the only one that knows it, so the server
-renders `'system'` as light and the page switches to dark after it hydrates. To render the right mode on the server,
+can't tell which mode the page is in. The provider writes a small `<style>` next to its root with the dark values
+inside `@media (prefers-color-scheme: dark)`, so the first paint of a dark system is already dark: the root, the color
+scheme (native controls and scrollbars) and, with `applyToBody`, the page background. It needs no script, and the
+resolved `colorMode` of `useTheme()` is still `'light'` until the page hydrates. To also know the mode on the server,
 save the mode the user picked in a cookie and read it there, as the Next.js example does (see
 [Framework Integration](?path=/docs/guides-framework-integration--docs)).
 

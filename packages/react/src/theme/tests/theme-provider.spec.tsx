@@ -1,6 +1,8 @@
 import type { Mock } from 'vitest'
 import { act, render, renderHook, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
+import { hydrateRoot } from 'react-dom/client'
+import { renderToString } from 'react-dom/server'
 import { defaultDarkTheme, defaultTheme } from '../config'
 import { ThemeProvider, useTheme } from '../theme-provider'
 
@@ -238,6 +240,108 @@ describe('ThemeProvider', () => {
 
     unmount()
     expect(system.removeEventListener).toHaveBeenCalledWith('change', expect.any(Function))
+  })
+
+  describe('before the page hydrates', () => {
+    const pageStyle = (): string => root().querySelector('style')?.textContent ?? ''
+
+    it('writes the dark page and the dark variables of the root inside prefers-color-scheme for system', () => {
+      mockSystemColorScheme(false)
+      render(
+        <ThemeProvider
+          defaultColorMode="system"
+          darkTheme={{ semantic: { background: '#101820' } }}
+        >
+          <ColorModeProbe />
+        </ThemeProvider>,
+      )
+      const css = pageStyle()
+      expect(css).toContain(
+        `:root{color-scheme:light}body{background-color:${defaultTheme.semantic.background}`,
+      )
+      expect(css).toContain('@media(prefers-color-scheme:dark)')
+      expect(css).toContain(
+        `[data-loica-system="${root().dataset.loicaSystem}"]{color-scheme:dark!important`,
+      )
+      expect(css).toContain('--loica-background:#101820!important')
+      expect(css).toContain(`:root{color-scheme:dark}body{background-color:#101820`)
+    })
+
+    it('leaves the page out of the style when applyToBody is false', () => {
+      mockSystemColorScheme(false)
+      render(
+        <ThemeProvider applyToBody={false} defaultColorMode="system">
+          <ColorModeProbe />
+        </ThemeProvider>,
+      )
+      expect(pageStyle()).not.toContain('body{')
+      expect(pageStyle()).toContain('!important')
+    })
+
+    it('writes the page of an explicit mode, and nothing when it is not the page', () => {
+      const { unmount } = render(
+        <ThemeProvider defaultColorMode="dark">
+          <ColorModeProbe />
+        </ThemeProvider>,
+      )
+      expect(pageStyle()).toBe(
+        `:root{color-scheme:dark}body{background-color:${defaultDarkTheme.semantic?.background};color:${defaultDarkTheme.semantic?.foreground}}`,
+      )
+      expect(root()).not.toHaveAttribute('data-loica-system')
+      unmount()
+
+      render(
+        <ThemeProvider applyToBody={false} defaultColorMode="dark">
+          <ColorModeProbe />
+        </ThemeProvider>,
+      )
+      expect(root().querySelector('style')).toBeNull()
+    })
+
+    it('stops following the system when the mode is set', async () => {
+      mockSystemColorScheme(true)
+      render(
+        <ThemeProvider defaultColorMode="system">
+          <ColorModeProbe />
+        </ThemeProvider>,
+      )
+      await userEvent.click(screen.getByRole('button', { name: 'light' }))
+      expect(root()).not.toHaveAttribute('data-loica-system')
+      expect(pageStyle()).not.toContain('prefers-color-scheme')
+    })
+
+    it('hydrates the server markup without a mismatch, for every mode', () => {
+      const errors = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+      for (const mode of ['light', 'dark', 'system'] as const) {
+        mockSystemColorScheme(true)
+        const element = (
+          <ThemeProvider defaultColorMode={mode}>
+            <ColorModeProbe />
+          </ThemeProvider>
+        )
+        const container = document.createElement('div')
+        document.body.append(container)
+        container.innerHTML = renderToString(element)
+        act(() => {
+          hydrateRoot(container, element)
+        })
+        container.remove()
+      }
+      expect(errors).not.toHaveBeenCalled()
+    })
+
+    it('does not let a theme value close the style element', () => {
+      render(
+        <ThemeProvider
+          darkTheme={{ semantic: { background: "'</style><b>'" } }}
+          defaultColorMode="system"
+        >
+          <ColorModeProbe />
+        </ThemeProvider>,
+      )
+      expect(pageStyle()).not.toContain('</style>')
+      expect(root().querySelector('b')).toBeNull()
+    })
   })
 
   it('applies the className and style to its root element', () => {
