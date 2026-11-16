@@ -1,5 +1,21 @@
 # @loica-ui/react
 
+## 1.2.0
+
+### Minor Changes
+
+- [#434](https://github.com/darioegb/loica-ui/pull/434) [`85824c8bac6f15e49adaaccc2a77d1d48a8d6c10`](https://github.com/darioegb/loica-ui/commit/85824c8bac6f15e49adaaccc2a77d1d48a8d6c10) Thanks [@darioegb](https://github.com/darioegb)! - New `DescriptionList`, `DescriptionTerm` and `DescriptionDetails`, on the native `dl`, `dt` and `dd`: the fields of a record or the facts of a project. `layout` puts each detail under its term (`stacked`) or beside it, with the terms in a column as wide as the longest one (`inline`), and `size` scales the text and the space. The terms are muted, the details have no margin, and `variant="unstyled"` drops the styles.
+
+- [#433](https://github.com/darioegb/loica-ui/pull/433) [`85983d9f5940aec324d23270b8612af34cfb26f4`](https://github.com/darioegb/loica-ui/commit/85983d9f5940aec324d23270b8612af34cfb26f4) Thanks [@darioegb](https://github.com/darioegb)! - New `PageHeader` component: the title of a page (an `h1` by default, with `titleAs` to pick another level), an optional `description` under it and `actions` at its end, which go below the title on a narrow screen. It reuses `Heading` and `Text`, takes `variant="unstyled"` and renders a `header`, so put it inside a `main`.
+
+- [#431](https://github.com/darioegb/loica-ui/pull/431) [`40dd984aed725df1038d420da4f5402d8e436fef`](https://github.com/darioegb/loica-ui/commit/40dd984aed725df1038d420da4f5402d8e436fef) Thanks [@darioegb](https://github.com/darioegb)! - New layout components. `Stack` lines its children up in a column or a row with the same `gap` (a key of the `spaces` of the theme), `align`, `justify` and `wrap`, and `stackBelow` turns a row into a column below a breakpoint, with static CSS and no style at runtime. `Container` keeps its content to a `size` of the `containers` of the theme, or `full`, centered and with a `gutter` on each side. Both take an `as` for the element and `variant="unstyled"`. They go in a new `layout` category. `containers` has two new widths, `5xl` (`64rem`) and `7xl` (`80rem`), for a page: `--loica-container-5xl` and `--loica-container-7xl`.
+
+- [#435](https://github.com/darioegb/loica-ui/pull/435) [`e9f06cca2fcc6732bfeb0b98a527fcebc93cc548`](https://github.com/darioegb/loica-ui/commit/e9f06cca2fcc6732bfeb0b98a527fcebc93cc548) Thanks [@darioegb](https://github.com/darioegb)! - New `Stat` component: a metric of a dashboard, with its `label`, its `value`, a `change` with a `trend` (`up`, `down` or `neutral`) and a `helpText`. A number `value` is written with the locale (`formatOptions` are the options of `Intl.NumberFormat`), the trend gets an arrow and a color and is also said in words to a screen reader, with the new `stat` texts of the `LocaleProvider` (`up`, `down`, `neutral`), and `colorScheme` sets another color for when up is not good news. It is not a card: put it in a `Card`.
+
+- [#430](https://github.com/darioegb/loica-ui/pull/430) [`ed14cb8a698704f622b58e225cf2857e572386e2`](https://github.com/darioegb/loica-ui/commit/ed14cb8a698704f622b58e225cf2857e572386e2) Thanks [@darioegb](https://github.com/darioegb)! - `Text` and `Heading` take a `weight` (`normal`, `medium`, `semibold` or `bold`, from the theme), and `size="inherit"` makes them take their font size from the element around them, so a title inside a component with its own size scales with it. `Text` can also be a `dd`, a `dt` or an `li`, so a definition list needs no wrapper.
+
+- [#436](https://github.com/darioegb/loica-ui/pull/436) [`9f5bc7c939c49b43662132133b5b37c197b4c9a8`](https://github.com/darioegb/loica-ui/commit/9f5bc7c939c49b43662132133b5b37c197b4c9a8) Thanks [@darioegb](https://github.com/darioegb)! - New `useConfirm` and `ConfirmProvider`: `if (await confirm({ title: 'Delete project?', colorScheme: 'error' })) { ... }` opens a confirmation dialog and resolves to `true` or `false`. The provider renders it as a `Modal` with `role="alertdialog"`, one at a time, with the focus on Cancel and back where it was when it closes. The texts of the buttons come from the new `confirm` key of the `LocaleProvider` (`cancel`, `confirm`), and each call can set its own. `ModalContent` now accepts a `role`.
+
 ## 1.1.1
 
 ### Patch Changes
