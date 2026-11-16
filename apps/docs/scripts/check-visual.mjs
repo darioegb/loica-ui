@@ -1,6 +1,7 @@
 // Compares how the stories look in two static Storybook builds: the base (the branch a pull request goes into) and
 // the head (this one). It screenshots the `Default` and `Variants` story of every component, in light and dark
-// mode, in both builds on the same machine, and fails when a picture is different, so the look of the default theme
+// mode, in both builds on the same machine, and fails when a picture is different (the noise of anti-aliasing is not
+// a difference, see `pixel-diff.mjs`), so the look of the default theme
 // changes only on purpose (see the Public API guide). Nothing is stored: the base is rendered every time, so there
 // is no baseline to update and no difference between machines.
 //
@@ -15,6 +16,7 @@ import { availableParallelism } from 'node:os'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
+import { sameLook } from './pixel-diff.mjs'
 import { serveStatic } from './serve-static.mjs'
 
 const MODES = ['light', 'dark']
@@ -96,6 +98,7 @@ async function shoot(page, side, { id, mode }) {
 }
 
 const browser = await chromium.launch()
+const comparer = await browser.newPage()
 const changed = []
 const added = []
 const removed = []
@@ -116,7 +119,7 @@ async function worker() {
       } else {
         const before = await shoot(page, 'base', job)
         const after = await shoot(page, 'head', job)
-        if (!before.equals(after)) changed.push({ ...job, after, before })
+        if (!(await sameLook(comparer, before, after))) changed.push({ ...job, after, before })
       }
     } catch (error) {
       errors.push(`${name}: ${error.message.split('\n')[0]}`)
