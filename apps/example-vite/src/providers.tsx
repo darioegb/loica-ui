@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { createContext, useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  ConfirmProvider,
   LocaleProvider,
   ThemeProvider,
   ToastProvider,
@@ -70,7 +71,9 @@ export function Providers({
       >
         <BootstrapColorMode />
         <LocaleProvider locale={i18n.language} messages={messages}>
-          <ToastProvider>{children}</ToastProvider>
+          <ConfirmProvider>
+            <ToastProvider>{children}</ToastProvider>
+          </ConfirmProvider>
         </LocaleProvider>
       </ThemeProvider>
     </PreferencesContext.Provider>

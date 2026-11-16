@@ -13,7 +13,7 @@ import styles from './modal.module.css'
 
 type ModalContentRootAttributes = Pick<
   HTMLAttributes<HTMLDialogElement>,
-  'aria-describedby' | 'aria-label' | 'aria-labelledby' | 'children'
+  'aria-describedby' | 'aria-label' | 'aria-labelledby' | 'children' | 'role'
 >
 
 export type ModalContentProps = Omit<ComponentProps, 'index'> & ModalContentRootAttributes

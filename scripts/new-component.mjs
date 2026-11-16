@@ -121,4 +121,5 @@ Registered it in src/index.ts, src/tests/index.spec.ts, the root README table an
 
 Still to do by hand (see AUTHORING.md):
   - replace the placeholder styles, props and stories
+  - add a case to src/tests/server.spec.tsx, which fails until the component has one
   - run the checklist, then add a changeset with \`pnpm changeset\``)

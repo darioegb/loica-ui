@@ -147,6 +147,7 @@ export interface ApiNote {
 
 interface ApiReferenceProps {
   componentName: string
+  extraFolders?: string[]
   folder: string
   importNames?: string[]
   notes?: ApiNote[]
@@ -156,11 +157,15 @@ const slug = (title: string): string => title.toLowerCase().replace(/[^a-z0-9]+/
 
 export function ApiReference({
   componentName,
+  extraFolders = [],
   folder,
   importNames,
   notes = [],
 }: Readonly<ApiReferenceProps>): ReactNode {
-  const components = orderComponents(folders[folder] ?? [], componentName, importNames)
+  const components = [
+    ...orderComponents(folders[folder] ?? [], componentName, importNames),
+    ...extraFolders.flatMap((extra) => folders[extra] ?? []),
+  ]
   if (components.length === 0) return null
   const ownNotes = new Map(
     notes.filter((note) => components.some((c) => c.name === note.title)).map((n) => [n.title, n]),

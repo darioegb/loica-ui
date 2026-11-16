@@ -86,7 +86,7 @@ What these check, so a failure is easy to place:
   measurable is in AUTHORING.md, under the story rules.
 - `apps/docs/scripts/check-visual.mjs`: the `Default` and `Variants` story of every component, in light and dark mode,
   rendered in the static Storybook of the base (the first parent of the PR merge) and of the PR on the same runner, and
-  compared byte by byte. A difference fails unless the PR has the `visual-change` label; there are no baselines to
+  compared byte by byte, except for the anti-aliasing noise of a rounded corner (at most 100 pixels, by 2 levels). A difference fails unless the PR has the `visual-change` label; there are no baselines to
   update. `--base <folder>` is the static build to compare with, and words filter the stories. The two stories are
   what gives a component visual coverage, so keep both (see AUTHORING.md).
 - `packages/react/scripts/check-bundle-size.mjs`: the gzipped size of the cases of the "What it costs" table of Why Loica
@@ -96,5 +96,7 @@ What these check, so a failure is easy to place:
 - `packages/react/scripts/check-client-directives.mjs`: `'use client'` is on exactly the modules that need it.
 - `src/tests/index.spec.ts` and `src/tests/token-names.spec.ts`: the list of exports and of `--loica-*` variables, so a rename is
   always on purpose.
+- `src/tests/server.spec.tsx`: every component renders with `renderToString` in a Node environment, inside and outside a
+  `ThemeProvider`, and every exported component needs a case there.
 - `src/tests/unread-tokens.spec.ts`: every token of the default theme is read by some component or waits for the next major
   in `KEPT_UNTIL_NEXT_MAJOR`.
