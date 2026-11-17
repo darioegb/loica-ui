@@ -1,7 +1,7 @@
 'use client'
 
 import type { CSSProperties, ReactNode } from 'react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useState } from 'react'
 import { deepMerge } from '../utils/merge'
 import { defaultDarkTheme, defaultTheme } from './config'
 import type { DeepPartial, Theme } from './theme.types'
@@ -10,6 +10,7 @@ import { useApplyToBody } from './apply-to-body'
 import { ThemeContext } from './theme-context'
 import { ThemeRootContext } from './theme-root'
 import { getCssVarOverrides, getDefaultCssVars } from './default-css-vars'
+import { preHydrationCss } from './pre-hydration-css'
 import { themeToCssVars } from './theme-to-css-vars'
 
 export { useTheme } from './theme-context'
@@ -78,6 +79,20 @@ export function ThemeProvider({
     activeTheme.semantic.foreground,
   )
 
+  const id = useId()
+  const pageCss = useMemo(
+    () =>
+      preHydrationCss({
+        applyToBody,
+        dark: resolvedDarkTheme,
+        id,
+        light: lightTheme,
+        mode: colorMode,
+        setting,
+      }),
+    [applyToBody, colorMode, id, lightTheme, resolvedDarkTheme, setting],
+  )
+
   const value = useMemo<ThemeContextValue>(
     () => ({ theme: activeTheme, colorMode, setColorMode: setSetting }),
     [activeTheme, colorMode],
@@ -88,6 +103,7 @@ export function ThemeProvider({
       <div
         className={`loica-root ${className}`.trim()}
         data-loica-color-mode={colorMode}
+        data-loica-system={setting === 'system' ? id : undefined}
         ref={setRoot}
         style={{
           ...(cssVars as CSSProperties),
@@ -97,6 +113,7 @@ export function ThemeProvider({
           ...style,
         }}
       >
+        {pageCss ? <style>{pageCss}</style> : null}
         <ThemeRootContext.Provider value={root}>{children}</ThemeRootContext.Provider>
       </div>
     </ThemeContext.Provider>
