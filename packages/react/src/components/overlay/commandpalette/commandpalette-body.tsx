@@ -23,6 +23,11 @@ const steps: Record<string, number> = {
   PageUp: -10,
 }
 
+function describeResults(count: number | undefined, labels: CommandPaletteLabels): string {
+  if (count === undefined) return ''
+  return count === 0 ? labels.empty : labels.results(count)
+}
+
 interface CommandPaletteBodyProps {
   children: ReactNode
   closeOnSelect: boolean
@@ -99,8 +104,7 @@ export function CommandPaletteBody({
     }
   }
 
-  const announcement =
-    count === undefined ? '' : count === 0 ? labels.empty : labels.results(count)
+  const announcement = describeResults(count, labels)
 
   return (
     <CommandPaletteContext.Provider value={context}>
