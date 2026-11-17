@@ -47,13 +47,15 @@ describe('Timeline component', () => {
     expect(bare.container.querySelector('[data-loica-timeline-header]')).toBeNull()
   })
 
-  it('writes the time without dateTime when it is not given', () => {
+  it('writes the time as plain text when there is no dateTime, since a time element needs a valid one', () => {
     render(
       <Timeline>
         <TimelineItem time="3 hours ago" />
       </Timeline>,
     )
-    expect(screen.getByText('3 hours ago')).not.toHaveAttribute('datetime')
+    const time = screen.getByText('3 hours ago')
+    expect(time.tagName).toBe('SPAN')
+    expect(time).toHaveAttribute('data-loica-timeline-time')
   })
 
   it('hides the marker from assistive technology and shows the icon in it', () => {

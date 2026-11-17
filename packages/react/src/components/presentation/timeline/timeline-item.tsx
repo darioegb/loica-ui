@@ -13,7 +13,8 @@ export interface TimelineItemOwnProps {
   colorScheme?: ColorScheme
   /**
    * The moment of the event as a valid date or time string (`2026-06-15`, `2026-06-15T09:30`), which goes in the
-   * `dateTime` of the `<time>` element that wraps the `time`. Without it the `time` is plain text.
+   * `dateTime` of the `<time>` element that wraps the `time`. Without it the `time` is plain text in a `span`, since a
+   * `<time>` element needs a valid date or time to read.
    *
    * @since 1.3
    */
@@ -75,11 +76,12 @@ export const TimelineItem = forwardRef<HTMLLIElement, TimelineItemProps>(
         {title || time ? (
           <div data-loica-timeline-header="">
             {title ? <div data-loica-timeline-title="">{title}</div> : null}
-            {time ? (
+            {time && dateTime ? (
               <time data-loica-timeline-time="" dateTime={dateTime}>
                 {time}
               </time>
             ) : null}
+            {time && !dateTime ? <span data-loica-timeline-time="">{time}</span> : null}
           </div>
         ) : null}
         {children ? <div data-loica-timeline-body="">{children}</div> : null}
