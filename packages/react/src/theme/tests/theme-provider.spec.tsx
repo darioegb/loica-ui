@@ -330,17 +330,32 @@ describe('ThemeProvider', () => {
       expect(errors).not.toHaveBeenCalled()
     })
 
-    it('does not let a theme value close the style element', () => {
+    it('leaves out a theme value that could end its declaration or close the style element', () => {
       render(
         <ThemeProvider
-          darkTheme={{ semantic: { background: "'</style><b>'" } }}
+          darkTheme={{
+            semantic: { background: '</style><b>', foreground: 'red;} body{display:none' },
+          }}
           defaultColorMode="system"
         >
           <ColorModeProbe />
         </ThemeProvider>,
       )
-      expect(pageStyle()).not.toContain('</style>')
+      const css = pageStyle()
+      expect(css).not.toContain('</style>')
+      expect(css).not.toContain('display:none')
+      expect(css).not.toContain('<b>')
+      expect(css).toContain(':root{color-scheme:dark}')
       expect(root().querySelector('b')).toBeNull()
+    })
+
+    it('keeps a safe value', () => {
+      render(
+        <ThemeProvider darkTheme={{ semantic: { background: '#101820' } }} defaultColorMode="dark">
+          <ColorModeProbe />
+        </ThemeProvider>,
+      )
+      expect(pageStyle()).toContain('background-color:#101820')
     })
   })
 
