@@ -3,6 +3,11 @@
     "name": "Loica Projects",
     "description": "Un panel de proyectos creado con @loica-ui/react en el App Router de Next.js."
   },
+  "commands": {
+    "actions": "Acciones",
+    "goTo": "Ir a",
+    "open": "Buscar y comandos"
+  },
   "nav": {
     "application": "Aplicación",
     "pages": "Páginas",
@@ -301,6 +306,12 @@
     "breadcrumb": { "breadcrumb": "Ruta de navegación" },
     "chip": { "remove": "Quitar" },
     "close": { "label": "Cerrar" },
+    "commandPalette": {
+      "empty": "Sin resultados",
+      "label": "Paleta de comandos",
+      "placeholder": "Escribe un comando o busca",
+      "results": "{count, plural, one {# resultado} other {# resultados}}"
+    },
     "datePicker": {
       "apply": "Aplicar",
       "calendar": "Calendario",

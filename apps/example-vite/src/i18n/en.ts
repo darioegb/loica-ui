@@ -30,6 +30,12 @@ export const en = {
     overdue: { change: "{{change}} since Monday", label: "Overdue tasks" },
     team: { change: "{{change}} this week", label: "Team members" },
   },
+  commands: {
+    actions: "Actions",
+    goTo: "Go to",
+    open: "Search and commands",
+    preferences: "Preferences",
+  },
   nav: {
     application: "Application",
     dashboard: "Dashboard",
@@ -66,6 +72,13 @@ export const en = {
     avatarGroup: { overflow: "{{hidden}} more" },
     breadcrumb: { breadcrumb: "Breadcrumb" },
     close: { label: "Close" },
+    commandPalette: {
+      empty: "No results",
+      label: "Command palette",
+      placeholder: "Type a command or search",
+      results_one: "{{count}} result",
+      results_other: "{{count}} results",
+    },
     datePicker: {
       apply: "Apply",
       calendar: "Calendar",

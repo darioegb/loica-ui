@@ -3,6 +3,11 @@
     "name": "Loica Projects",
     "description": "A project dashboard built with @loica-ui/react on the Next.js App Router."
   },
+  "commands": {
+    "actions": "Actions",
+    "goTo": "Go to",
+    "open": "Search and commands"
+  },
   "nav": {
     "application": "Application",
     "pages": "Pages",
@@ -301,6 +306,12 @@
     "breadcrumb": { "breadcrumb": "Breadcrumb" },
     "chip": { "remove": "Remove" },
     "close": { "label": "Close" },
+    "commandPalette": {
+      "empty": "No results",
+      "label": "Command palette",
+      "placeholder": "Type a command or search",
+      "results": "{count, plural, one {# result} other {# results}}"
+    },
     "datePicker": {
       "apply": "Apply",
       "calendar": "Calendar",

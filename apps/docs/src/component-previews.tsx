@@ -222,6 +222,39 @@ const previews: Record<string, ReactNode> = {
       </Card>
     </div>
   ),
+  CommandPalette: surface(
+    <>
+      <div
+        style={{
+          borderBottom: '1px solid var(--loica-border)',
+          color: 'var(--loica-muted)',
+          fontSize: '0.75rem',
+          padding: '0.5rem 0.75rem',
+        }}
+      >
+        Type a command
+      </div>
+      <div style={{ ...column, gap: '0.125rem', padding: '0.375rem' }}>
+        {['Dashboard', 'Projects'].map((name, index) => (
+          <div
+            key={name}
+            style={{
+              ...row,
+              background: index === 0 ? 'var(--loica-surface-muted)' : undefined,
+              borderRadius: '0.375rem',
+              fontSize: '0.75rem',
+              justifyContent: 'space-between',
+              padding: '0.25rem 0.5rem',
+            }}
+          >
+            {name}
+            <Kbd size="sm">{index === 0 ? 'G D' : 'G P'}</Kbd>
+          </div>
+        ))}
+      </div>
+    </>,
+    '14rem',
+  ),
   Container: (
     <div style={{ background: 'var(--loica-muted)', borderRadius: '0.5rem', padding: '0.5rem 0', width: '100%' }}>
       <Container gutter={3} size="xs">

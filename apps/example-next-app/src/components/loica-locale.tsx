@@ -22,6 +22,12 @@ export function LoicaLocale({ children }: Readonly<{ children: ReactNode }>): Re
       breadcrumb: { breadcrumb: t('breadcrumb.breadcrumb') },
       chip: { remove: t('chip.remove') },
       close: { label: t('close.label') },
+      commandPalette: {
+        empty: t('commandPalette.empty'),
+        label: t('commandPalette.label'),
+        placeholder: t('commandPalette.placeholder'),
+        results: (count) => t('commandPalette.results', { count }),
+      },
       datePicker: {
         apply: t('datePicker.apply'),
         calendar: t('datePicker.calendar'),

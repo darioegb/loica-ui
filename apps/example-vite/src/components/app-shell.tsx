@@ -14,6 +14,7 @@ import {
   DropdownMenu,
   DropdownSeparator,
   DropdownTrigger,
+  Kbd,
   Navbar,
   NavbarContent,
   Sidebar,
@@ -33,8 +34,10 @@ import {
   MoonIcon,
   ProjectsIcon,
   RefreshIcon,
+  SearchIcon,
   SunIcon,
 } from "./icons";
+import { CommandMenu } from "./command-menu";
 import { ScrollToTop } from "./scroll-to-top";
 import styles from "./app-shell.module.css";
 
@@ -56,6 +59,7 @@ export function AppShell({
   const { colorMode, setColorMode } = useTheme();
   const { brand, setBrand, setColorModeSetting } = usePreferences();
   const [open, setOpen] = useState(false);
+  const [commandsOpen, setCommandsOpen] = useState(false);
   const language = i18n.language as Language;
   const current = pages.find((page) => isCurrent(pathname, page.href));
 
@@ -64,6 +68,18 @@ export function AppShell({
     window.scrollTo(0, 0);
     setOpen(false);
   }, [pathname]);
+
+  // The library doesn't listen to the shortcut: the app decides which keys open the palette.
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent): void => {
+      if (event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey)) {
+        event.preventDefault();
+        setCommandsOpen((current) => !current);
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   const toggleColorMode = (): void => {
     const next = colorMode === "dark" ? "light" : "dark";
@@ -125,6 +141,16 @@ export function AppShell({
               </Breadcrumb>
             </NavbarContent>
             <NavbarContent align="end">
+              <Button
+                aria-label={t("commands.open")}
+                onClick={() => setCommandsOpen(true)}
+                variant="ghost"
+              >
+                <SearchIcon />
+                <span className="d-none d-md-inline">
+                  <Kbd size="sm">Ctrl</Kbd> <Kbd size="sm">K</Kbd>
+                </span>
+              </Button>
               <Button
                 aria-label={
                   colorMode === "dark"
@@ -198,6 +224,7 @@ export function AppShell({
           </main>
         </div>
       </div>
+      <CommandMenu onOpenChange={setCommandsOpen} open={commandsOpen} />
       <ScrollToTop />
     </SidebarProvider>
   );
