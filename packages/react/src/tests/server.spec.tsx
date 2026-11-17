@@ -121,6 +121,8 @@ import {
   Text,
   Textarea,
   ThemeProvider,
+  Timeline,
+  TimelineItem,
   TimePicker,
   ToastProvider,
   Toggle,
@@ -511,6 +513,18 @@ const entries: Entry[] = [
   ['Text', () => <Text>Words</Text>],
   ['Textarea', () => <Textarea aria-label="Bio" showCount />],
   ['ThemeProvider', () => <ThemeProvider>Content</ThemeProvider>],
+  [
+    'Timeline',
+    () => (
+      <Timeline aria-label="Activity" colorScheme="info">
+        <TimelineItem dateTime="2026-06-15" icon={<svg />} time="15 Jun" title="Created">
+          Body
+        </TimelineItem>
+        <TimelineItem colorScheme="success" title="Done" />
+      </Timeline>
+    ),
+    ['Timeline', 'TimelineItem'],
+  ],
   ['TimePicker', () => <TimePicker />],
   [
     'ToastProvider',

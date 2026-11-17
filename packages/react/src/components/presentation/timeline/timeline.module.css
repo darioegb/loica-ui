@@ -1,0 +1,91 @@
+.timeline {
+  --timeline-marker: var(--loica-space-8);
+  font-family: var(--loica-font-family);
+  font-size: var(--loica-text-body-sm-size);
+  line-height: var(--loica-text-body-sm-line-height);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.timeline > [data-loica-timeline-item] {
+  display: grid;
+  gap: var(--loica-space-3);
+  grid-template-columns: var(--timeline-marker) minmax(0, 1fr);
+  padding-block-end: var(--loica-space-6);
+  position: relative;
+}
+
+.timeline > [data-loica-timeline-item]:last-child {
+  padding-block-end: 0;
+}
+
+.timeline > [data-loica-timeline-item]:not(:last-child)::before {
+  background-color: var(--loica-border);
+  content: '';
+  inset-block: var(--timeline-marker) 0;
+  inset-inline-start: calc(var(--timeline-marker) / 2 - var(--loica-border-width-thin));
+  position: absolute;
+  width: calc(var(--loica-border-width-thin) * 2);
+}
+
+.timeline > [data-loica-timeline-item] > [data-loica-timeline-marker] {
+  align-items: center;
+  background-color: var(--timeline-tint);
+  border-radius: var(--loica-radius-full);
+  box-sizing: border-box;
+  color: var(--timeline-tint-text);
+  display: flex;
+  font-size: var(--loica-font-size-base);
+  height: var(--timeline-marker);
+  justify-content: center;
+  padding: var(--loica-space-1-5);
+  width: var(--timeline-marker);
+}
+
+.timeline > [data-loica-timeline-item] > [data-loica-timeline-marker] > svg {
+  flex: none;
+  height: 100%;
+  width: 100%;
+}
+
+.timeline > [data-loica-timeline-item] > [data-loica-timeline-marker]:empty::before {
+  background-color: var(--timeline-solid);
+  border-radius: var(--loica-radius-full);
+  content: '';
+  height: var(--loica-space-2);
+  width: var(--loica-space-2);
+}
+
+.timeline > [data-loica-timeline-item] > [data-loica-timeline-content] {
+  color: var(--loica-foreground);
+  min-height: var(--timeline-marker);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.timeline [data-loica-timeline-header] {
+  align-items: baseline;
+  column-gap: var(--loica-space-3);
+  display: flex;
+  flex-wrap: wrap;
+  min-height: var(--timeline-marker);
+  align-content: center;
+}
+
+.timeline [data-loica-timeline-title] {
+  font-weight: var(--loica-font-weight-semibold);
+}
+
+.timeline [data-loica-timeline-time] {
+  color: var(--loica-muted);
+  font-size: var(--loica-text-caption-size);
+}
+
+.timeline [data-loica-timeline-body] {
+  color: var(--loica-foreground);
+}
+
+.timeline [data-loica-timeline-header] + [data-loica-timeline-body] {
+  margin-block-start: calc(var(--loica-space-1) * -1);
+}
