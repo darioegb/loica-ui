@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node scripts/generate-components.mjs && node scripts/generate-api.mjs && node scripts/generate-stackblitz.mjs && node scripts/generate-bootstrap-scope.mjs && storybook dev -p 6006",
     "build": "node scripts/generate-components.mjs && node scripts/generate-api.mjs && node scripts/generate-stackblitz.mjs && node scripts/generate-bootstrap-scope.mjs && NODE_ENV=prod storybook build --docs",
-    "preview-storybook": "serve storybook-static",
+    "preview-storybook": "node scripts/preview-storybook.mjs",
     "clean": "rm -rf .turbo && rm -rf node_modules",
     "lint": "node scripts/generate-components.mjs && node scripts/generate-stackblitz.mjs && eslint src/ && node scripts/generate-api.mjs && node scripts/check-api.mjs",
     "lint:fix": "node scripts/generate-components.mjs && node scripts/generate-stackblitz.mjs && eslint src/ --fix",
@@ -30,7 +30,6 @@
     "playwright": "^1.64.1",
     "prettier-config": "workspace:*",
     "react-docgen": "^7.0.3",
-    "serve": "^14.2.8",
     "storybook": "^9.1.21",
     "tailwindcss": "^4.3.3",
     "tsconfig": "workspace:*",

@@ -12,8 +12,8 @@ const TYPES = {
   '.woff2': 'font/woff2',
 }
 
-/** Serves a static Storybook build on a free local port and returns the server. */
-export function serveStatic(dir) {
+/** Serves a static Storybook build on a free local port, or on `port`, and returns the server. */
+export function serveStatic(dir, port = 0) {
   if (!existsSync(join(dir, 'index.json'))) {
     throw new Error(`No static Storybook in ${dir}: run \`pnpm build:docs\` first.`)
   }
@@ -33,6 +33,6 @@ export function serveStatic(dir) {
     createReadStream(file).pipe(response)
   })
   return new Promise((resolve) => {
-    server.listen(0, '127.0.0.1', () => resolve(server))
+    server.listen(port, '127.0.0.1', () => resolve(server))
   })
 }
