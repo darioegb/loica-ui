@@ -7,6 +7,3 @@ allowBuilds:
   '@swc/core': false
   esbuild: true
   unrs-resolver: true
-
-overrides:
-  '@joshwooding/vite-plugin-react-docgen-typescript': ^0.9.1
