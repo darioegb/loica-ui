@@ -46,7 +46,8 @@ const KIND_TITLE: Record<RenderingKind, string> = {
 const KIND_TEXT: Record<RenderingKind, string> = {
   client:
     "It loads JavaScript in the browser. A Server Component can render it, but can't pass it a function.",
-  mixed: 'It renders on the server and can bring a client component inside it.',
+  mixed:
+    'It renders on the server, and some of its parts are client components, which load JavaScript in the browser.',
   server: 'It renders on the server and loads no JavaScript in the browser.',
 }
 
