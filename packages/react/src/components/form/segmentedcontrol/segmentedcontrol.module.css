@@ -1,0 +1,112 @@
+:global(:where([data-loica-segmentedcontrol])) {
+  box-sizing: border-box;
+  display: inline-flex;
+}
+
+:global(:where([data-loica-segmentedcontrol][data-orientation='vertical'])) {
+  flex-direction: column;
+}
+
+:global(:where([data-loica-segmentedcontrol-item])) {
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  min-width: 0;
+  position: relative;
+}
+
+:global(:where([data-loica-segmentedcontrol-item][data-disabled])) {
+  cursor: not-allowed;
+}
+
+:global(:where([data-loica-segmentedcontrol-input])) {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  cursor: inherit;
+  height: 100%;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.segmentedcontrol {
+  --segmentedcontrol-height: var(--loica-control-height-md);
+  --segmentedcontrol-padding: var(--loica-space-1);
+  border-radius: var(--loica-radius-4);
+  color: var(--loica-foreground);
+  font-family: var(--loica-font-family);
+  font-size: var(--loica-font-size-sm);
+  gap: var(--segmentedcontrol-padding);
+  padding: var(--segmentedcontrol-padding);
+}
+
+.sm {
+  --segmentedcontrol-height: var(--loica-control-height-sm);
+  font-size: var(--loica-font-size-xs);
+}
+
+.lg {
+  --segmentedcontrol-height: var(--loica-control-height-lg);
+  font-size: var(--loica-font-size-base);
+}
+
+.solid {
+  background-color: var(--loica-surface-muted);
+}
+
+.outline {
+  background-color: transparent;
+  border: var(--loica-border-width-thin) solid var(--loica-border-strong);
+}
+
+.segmentedcontrol[data-invalid] {
+  box-shadow: inset 0 0 0 var(--loica-border-width-thin) var(--loica-color-error-text);
+}
+
+.segmentedcontrol > [data-loica-segmentedcontrol-item] {
+  border-radius: var(--loica-radius-3);
+  font-weight: var(--loica-font-weight-medium);
+  min-height: calc(var(--segmentedcontrol-height) - var(--segmentedcontrol-padding) * 2);
+  padding-inline: var(--loica-space-3);
+  transition:
+    background-color var(--loica-duration-fast),
+    color var(--loica-duration-fast);
+  white-space: nowrap;
+}
+
+.segmentedcontrol > [data-loica-segmentedcontrol-item]:hover:not([data-disabled], [data-checked]) {
+  background-color: color-mix(in srgb, var(--loica-foreground) var(--loica-overlay-hover), transparent);
+}
+
+.segmentedcontrol > [data-loica-segmentedcontrol-item][data-checked] {
+  background-color: var(--segmentedcontrol-tint);
+  color: var(--segmentedcontrol-tint-text);
+}
+
+.solid > [data-loica-segmentedcontrol-item][data-checked] {
+  background-color: var(--segmentedcontrol-solid);
+  color: var(--segmentedcontrol-contrast);
+}
+
+.segmentedcontrol > [data-loica-segmentedcontrol-item]:has(:focus-visible) {
+  outline: var(--loica-focus-ring-width) solid var(--loica-focus-ring-color);
+  outline-offset: var(--loica-focus-ring-inset);
+}
+
+.segmentedcontrol > [data-loica-segmentedcontrol-item][data-disabled] {
+  opacity: var(--loica-opacity-disabled);
+}
+
+@media (forced-colors: active) {
+  .segmentedcontrol > [data-loica-segmentedcontrol-item][data-checked] {
+    background-color: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+}

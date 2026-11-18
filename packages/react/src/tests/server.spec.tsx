@@ -92,6 +92,7 @@ import {
   Radio,
   RadioGroup,
   Rating,
+  SegmentedControl,
   Select,
   Sidebar,
   SidebarContent,
@@ -432,6 +433,20 @@ const entries: Entry[] = [
     ['Radio', 'RadioGroup'],
   ],
   ['Rating', () => <Rating aria-label="Score" defaultValue={3} />],
+  [
+    'SegmentedControl',
+    () => (
+      <SegmentedControl
+        aria-label="View"
+        defaultValue="week"
+        options={[
+          { label: 'Day', value: 'day' },
+          { label: 'Week', value: 'week' },
+        ]}
+      />
+    ),
+    ['SegmentedControl', 'SegmentedControlItem'],
+  ],
   ['Select', () => <Select aria-label="Number" defaultValue="one" options={options} />],
   [
     'Select, open',

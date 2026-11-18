@@ -12,8 +12,7 @@ import {
   DrawerHeader,
   Field,
   Input,
-  Radio,
-  RadioGroup,
+  SegmentedControl,
   Select,
   SelectChevron,
   SelectChips,
@@ -247,26 +246,17 @@ export function NewProjectDrawer({
                 name="visibility"
                 render={({ field }) => (
                   <Field label={t("newProject.visibilityLabel")}>
-                    <RadioGroup
+                    <SegmentedControl
                       name={field.name}
                       onValueChange={(value) =>
                         field.onChange(value as Visibility)
                       }
+                      options={[
+                        { label: t("visibility.Workspace"), value: "Workspace" },
+                        { label: t("visibility.Private"), value: "Private" },
+                      ]}
                       value={field.value}
-                    >
-                      <Field
-                        label={t("visibility.Workspace")}
-                        orientation="inline"
-                      >
-                        <Radio value="Workspace" />
-                      </Field>
-                      <Field
-                        label={t("visibility.Private")}
-                        orientation="inline"
-                      >
-                        <Radio value="Private" />
-                      </Field>
-                    </RadioGroup>
+                    />
                   </Field>
                 )}
               />
