@@ -16,6 +16,7 @@ import {
   DropdownMenu,
   DropdownSeparator,
   DropdownTrigger,
+  Kbd,
   Navbar,
   NavbarContent,
   Sidebar,
@@ -27,7 +28,17 @@ import {
 } from '@loica-ui/react'
 import { saveColorMode, signOut } from '@/app/actions'
 import { usePreferences } from '@/app/providers'
-import { DashboardIcon, MoonIcon, ProjectsIcon, SettingsIcon, SignOutIcon, SunIcon, TeamIcon } from './icons'
+import { CommandMenu } from './command-menu'
+import {
+  DashboardIcon,
+  MoonIcon,
+  ProjectsIcon,
+  SearchIcon,
+  SettingsIcon,
+  SignOutIcon,
+  SunIcon,
+  TeamIcon,
+} from './icons'
 import { LanguageSwitcher } from './language-switcher'
 import { ScrollToTop } from './scroll-to-top'
 import styles from './app-shell.module.css'
@@ -50,11 +61,13 @@ export function AppShell({
 }: Readonly<{ children: ReactNode; user: { email: string; name: string } }>): ReactNode {
   const t = useTranslations('nav')
   const tApp = useTranslations('app')
+  const tCommands = useTranslations('commands')
   const pathname = usePathname()
   const router = useRouter()
   const { colorMode, setColorMode } = useTheme()
   const { setColorModeSetting } = usePreferences()
   const [open, setOpen] = useState(false)
+  const [commandsOpen, setCommandsOpen] = useState(false)
   const [, startTransition] = useTransition()
   const current = pages.find((page) => isCurrent(pathname, page.href))
   const subpage = pathname in subpages ? subpages[pathname as keyof typeof subpages] : undefined
@@ -62,6 +75,18 @@ export function AppShell({
   useEffect(() => {
     setOpen(false)
   }, [pathname])
+
+  // The library doesn't listen to the shortcut: the app decides which keys open the palette.
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent): void => {
+      if (event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)) {
+        event.preventDefault()
+        setCommandsOpen((current) => !current)
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [])
 
   const toggleColorMode = (): void => {
     const next = colorMode === 'dark' ? 'light' : 'dark'
@@ -128,6 +153,12 @@ export function AppShell({
               </Breadcrumb>
             </NavbarContent>
             <NavbarContent align="end">
+              <Button aria-label={tCommands('open')} onClick={() => setCommandsOpen(true)} variant="ghost">
+                <SearchIcon />
+                <span className="hidden md:inline">
+                  <Kbd size="sm">Ctrl</Kbd> <Kbd size="sm">K</Kbd>
+                </span>
+              </Button>
               <LanguageSwitcher />
               <Button
                 aria-label={colorMode === 'dark' ? t('switchToLight') : t('switchToDark')}
@@ -160,6 +191,11 @@ export function AppShell({
           </main>
         </div>
       </div>
+      <CommandMenu
+        onOpenChange={setCommandsOpen}
+        onToggleColorMode={toggleColorMode}
+        open={commandsOpen}
+      />
       <ScrollToTop />
     </SidebarProvider>
   )

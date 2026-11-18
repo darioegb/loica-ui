@@ -32,6 +32,9 @@ import {
   Chip,
   Code,
   Collapse,
+  CommandPalette,
+  CommandPaletteGroup,
+  CommandPaletteItem,
   ConfirmProvider,
   Container,
   DatePicker,
@@ -228,6 +231,27 @@ const entries: Entry[] = [
   ['Chip', () => <Chip>Tag</Chip>],
   ['Code', () => <Code>pnpm add</Code>],
   ['Collapse', () => <Collapse open>Content</Collapse>],
+  [
+    'CommandPalette',
+    () => (
+      <CommandPalette aria-label="Commands">
+        <CommandPaletteItem>Dashboard</CommandPaletteItem>
+      </CommandPalette>
+    ),
+  ],
+  [
+    'CommandPalette, open',
+    () => (
+      <CommandPalette aria-label="Commands" defaultOpen>
+        <CommandPaletteGroup heading="Navigation">
+          <CommandPaletteItem icon={<svg />} shortcut="G D">
+            Dashboard
+          </CommandPaletteItem>
+        </CommandPaletteGroup>
+      </CommandPalette>
+    ),
+    ['CommandPalette', 'CommandPaletteGroup', 'CommandPaletteItem'],
+  ],
   [
     'ConfirmProvider',
     () => (

@@ -1,0 +1,116 @@
+:global(:where([data-loica-commandpalette-item])) {
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  gap: var(--loica-space-3);
+}
+
+:global(:where([data-loica-commandpalette-item][hidden])) {
+  display: none;
+}
+
+:global(:where([data-loica-commandpalette-item][data-disabled])) {
+  cursor: not-allowed;
+}
+
+:global(:where([data-loica-commandpalette-label])) {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+:global(:where([data-loica-commandpalette-shortcut])) {
+  align-items: center;
+  display: inline-flex;
+  flex: none;
+  gap: var(--loica-space-1);
+}
+
+:global(:where([data-loica-commandpalette-group]:not(:has([role='option']:not([hidden]))))) {
+  display: none;
+}
+
+:global(:where([data-loica-commandpalette-input])) {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  box-sizing: border-box;
+  color: inherit;
+  font: inherit;
+  margin: 0;
+  width: 100%;
+}
+
+.palette {
+  align-self: flex-start;
+  margin-block-start: 10vh;
+  overflow: hidden;
+}
+
+.search {
+  border-block-end: var(--loica-border-width-thin) solid var(--loica-border);
+  padding: var(--loica-space-3) var(--loica-space-4);
+}
+
+.input {
+  font-size: var(--loica-font-size-base);
+  outline: none;
+  padding: var(--loica-space-1) 0;
+}
+
+.input::placeholder {
+  color: var(--loica-muted);
+}
+
+.list {
+  box-sizing: border-box;
+  max-height: 20rem;
+  overflow-y: auto;
+  padding: var(--loica-space-2);
+}
+
+.empty {
+  color: var(--loica-muted);
+  padding: var(--loica-space-6) var(--loica-space-4);
+  text-align: center;
+}
+
+.group {
+  padding-block-end: var(--loica-space-1);
+}
+
+.group > [data-loica-commandpalette-heading] {
+  color: var(--loica-muted);
+  font-size: var(--loica-text-caption-size);
+  font-weight: var(--loica-font-weight-medium);
+  padding: var(--loica-space-2) var(--loica-space-3) var(--loica-space-1);
+}
+
+.item {
+  border-radius: var(--loica-radius-3);
+  padding: var(--loica-space-2) var(--loica-space-3);
+}
+
+.item > [data-loica-commandpalette-icon] {
+  align-items: center;
+  color: var(--loica-muted);
+  display: inline-flex;
+  flex: none;
+  font-size: var(--loica-font-size-lg);
+}
+
+.item[data-active] {
+  background-color: color-mix(in srgb, var(--loica-foreground) var(--loica-overlay-hover), transparent);
+}
+
+.item[data-disabled] {
+  opacity: var(--loica-opacity-disabled);
+}
+
+@media (forced-colors: active) {
+  .item[data-active] {
+    background-color: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+}

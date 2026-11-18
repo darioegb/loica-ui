@@ -14,6 +14,12 @@ export function loicaMessages(t: TFunction): LoicaMessages {
     },
     breadcrumb: { breadcrumb: t("loica.breadcrumb.breadcrumb") },
     close: { label: t("loica.close.label") },
+    commandPalette: {
+      empty: t("loica.commandPalette.empty"),
+      label: t("loica.commandPalette.label"),
+      placeholder: t("loica.commandPalette.placeholder"),
+      results: (count) => t("loica.commandPalette.results", { count }),
+    },
     datePicker: {
       apply: t("loica.datePicker.apply"),
       calendar: t("loica.datePicker.calendar"),

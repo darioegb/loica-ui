@@ -32,6 +32,12 @@ export const es: Translation = {
     overdue: { change: "{{change}} desde el lunes", label: "Tareas vencidas" },
     team: { change: "{{change}} esta semana", label: "Miembros del equipo" },
   },
+  commands: {
+    actions: "Acciones",
+    goTo: "Ir a",
+    open: "Buscar y comandos",
+    preferences: "Preferencias",
+  },
   nav: {
     application: "Aplicación",
     dashboard: "Panel",
@@ -68,6 +74,13 @@ export const es: Translation = {
     avatarGroup: { overflow: "{{hidden}} más" },
     breadcrumb: { breadcrumb: "Ruta de navegación" },
     close: { label: "Cerrar" },
+    commandPalette: {
+      empty: "Sin resultados",
+      label: "Paleta de comandos",
+      placeholder: "Escribe un comando o busca",
+      results_one: "{{count}} resultado",
+      results_other: "{{count}} resultados",
+    },
     datePicker: {
       apply: "Aplicar",
       calendar: "Calendario",
