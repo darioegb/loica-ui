@@ -1,5 +1,19 @@
 # @loica-ui/react
 
+## 1.3.0
+
+### Minor Changes
+
+- [#450](https://github.com/darioegb/loica-ui/pull/450) [`f4bb0d89c300d5e301a9d92eed0a420d9b063559`](https://github.com/darioegb/loica-ui/commit/f4bb0d89c300d5e301a9d92eed0a420d9b063559) Thanks [@darioegb](https://github.com/darioegb)! - New `CommandPalette`, `CommandPaletteGroup` and `CommandPaletteItem`: a dialog to search and run commands, the one that opens with `Ctrl` + `K`. It is a `Modal` with a search box and a list: the items that match are left as the user types (ignoring case and accents, with `keywords` for other words), the arrow keys move between them, `Enter` picks one and runs its `onSelect`, and an item can show its `shortcut`. Open it with `open` and `onOpenChange`, and give it `backdropClassName` for the layer behind it when it is unstyled; the library doesn't listen to the shortcut, so the app binds the keys it wants. `filter`, `query` and `onQueryChange` take the search over for results that you filter yourself. Its texts come from the new `commandPalette` key of the `LocaleProvider`.
+
+- [#448](https://github.com/darioegb/loica-ui/pull/448) [`9f7470d89f6e421a55b4eec34858438c4e70ad9e`](https://github.com/darioegb/loica-ui/commit/9f7470d89f6e421a55b4eec34858438c4e70ad9e) Thanks [@darioegb](https://github.com/darioegb)! - New `SegmentedControl` and `SegmentedControlItem`: a short list of options side by side, of which one is selected ("Day / Week / Month", the alignment of a text). It is a `radiogroup` of native radios, so it is one tab stop, the arrow keys move the selection and follow the direction of the page, and a form submits its `name` and value. Pass the `options`, or write a `SegmentedControlItem` for each one to put anything in a segment; it has the `solid` and `outline` variants, `unstyled`, `size`, `colorScheme` and `orientation`.
+
+- [#449](https://github.com/darioegb/loica-ui/pull/449) [`d7face8bed2585def130cc78496ac1a41707d7d8`](https://github.com/darioegb/loica-ui/commit/d7face8bed2585def130cc78496ac1a41707d7d8) Thanks [@darioegb](https://github.com/darioegb)! - New `Timeline` and `TimelineItem`: a vertical list of events in order, each with a marker joined to the next one by a line, for the activity of a project or the steps of an order. It is a native `ol`, and each `TimelineItem` takes a `title`, a `time` (with a `dateTime` for the `<time>` element), an `icon`, a `colorScheme` and its content as `children`. It is a server component, with the `subtle`, `solid`, `outline` and `unstyled` variants.
+
+### Patch Changes
+
+- [#446](https://github.com/darioegb/loica-ui/pull/446) [`4dec904f516144d13a09378116986c054b28da4a`](https://github.com/darioegb/loica-ui/commit/4dec904f516144d13a09378116986c054b28da4a) Thanks [@darioegb](https://github.com/darioegb)! - The first paint has the right color mode, before the page hydrates. With `defaultColorMode="system"` and a dark system, the root, the color scheme (native controls and scrollbars) and, with `applyToBody`, the page background are dark from the start, instead of light until the effects run; with `'dark'` the color scheme and the page background no longer wait for hydration either. The `ThemeProvider` writes a `<style>` next to its root for it, with no script.
+
 ## 1.2.0
 
 ### Minor Changes
