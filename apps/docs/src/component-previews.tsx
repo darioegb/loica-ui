@@ -76,6 +76,8 @@ import {
   Tabs,
   Text,
   Textarea,
+  Timeline,
+  TimelineItem,
   TimePicker,
   Toggle,
   Tree,
@@ -493,6 +495,13 @@ const previews: Record<string, ReactNode> = {
     </div>
   ),
   Textarea: <Textarea aria-label="Comments" placeholder="Comments" rows={3} style={{ width: '12rem' }} />,
+  Timeline: (
+    <Timeline aria-label="Activity" style={{ width: '12rem' }}>
+      <TimelineItem time="Today" title="Deployed" />
+      <TimelineItem time="Yesterday" title="Reviewed" />
+      <TimelineItem time="Monday" title="Created" />
+    </Timeline>
+  ),
   TimePicker: <TimePicker aria-label="Time" defaultValue="09:30" style={{ width: '10rem' }} />,
   Toast: surface(
     <>

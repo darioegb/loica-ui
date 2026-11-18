@@ -256,6 +256,8 @@ describe('@loica-ui/react', () => {
       'TimePickerPanel',
       'TimePickerPeriod',
       'TimePickerTrigger',
+      'Timeline',
+      'TimelineItem',
       'Toast',
       'ToastActionButton',
       'ToastBody',

@@ -128,6 +128,7 @@ import '@loica-ui/react/css/input.css'
 | Tabs | [Tabs](https://darioegb.github.io/loica-ui/?path=/docs/components-tabs--docs) |
 | Text | [Text](https://darioegb.github.io/loica-ui/?path=/docs/components-text--docs) |
 | Textarea | [Textarea](https://darioegb.github.io/loica-ui/?path=/docs/components-textarea--docs) |
+| Timeline | [Timeline](https://darioegb.github.io/loica-ui/?path=/docs/components-timeline--docs) |
 | TimePicker | [TimePicker](https://darioegb.github.io/loica-ui/?path=/docs/components-timepicker--docs) |
 | Toast | [Toast](https://darioegb.github.io/loica-ui/?path=/docs/components-toast--docs) |
 | Toggle | [Toggle](https://darioegb.github.io/loica-ui/?path=/docs/components-toggle--docs) |
