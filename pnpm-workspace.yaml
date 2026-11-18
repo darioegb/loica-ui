@@ -7,3 +7,10 @@ allowBuilds:
   '@swc/core': false
   esbuild: true
   unrs-resolver: true
+
+overrides:
+  'esbuild@<0.28.1': ^0.28.2
+  'fast-uri@<3.1.9': ^3.1.9
+  'minimatch@>=7.0.0 <11.0.1': ^11.0.1
+  '@vitest/mocker@<4.1.12': ^5.0.5
+  'glob@>=9.0.0 <14.0.2': ^14.0.2
