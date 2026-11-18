@@ -117,6 +117,7 @@ import '@loica-ui/react/css/input.css'
 | ProgressBar | [ProgressBar](https://darioegb.github.io/loica-ui/?path=/docs/components-progressbar--docs) |
 | Radio | [Radio](https://darioegb.github.io/loica-ui/?path=/docs/components-radio--docs) |
 | Rating | [Rating](https://darioegb.github.io/loica-ui/?path=/docs/components-rating--docs) |
+| SegmentedControl | [SegmentedControl](https://darioegb.github.io/loica-ui/?path=/docs/components-segmentedcontrol--docs) |
 | Select | [Select](https://darioegb.github.io/loica-ui/?path=/docs/components-select--docs) |
 | Sidebar | [Sidebar](https://darioegb.github.io/loica-ui/?path=/docs/components-sidebar--docs) |
 | Skeleton | [Skeleton](https://darioegb.github.io/loica-ui/?path=/docs/components-skeleton--docs) |
@@ -128,6 +129,7 @@ import '@loica-ui/react/css/input.css'
 | Tabs | [Tabs](https://darioegb.github.io/loica-ui/?path=/docs/components-tabs--docs) |
 | Text | [Text](https://darioegb.github.io/loica-ui/?path=/docs/components-text--docs) |
 | Textarea | [Textarea](https://darioegb.github.io/loica-ui/?path=/docs/components-textarea--docs) |
+| Timeline | [Timeline](https://darioegb.github.io/loica-ui/?path=/docs/components-timeline--docs) |
 | TimePicker | [TimePicker](https://darioegb.github.io/loica-ui/?path=/docs/components-timepicker--docs) |
 | Toast | [Toast](https://darioegb.github.io/loica-ui/?path=/docs/components-toast--docs) |
 | Toggle | [Toggle](https://darioegb.github.io/loica-ui/?path=/docs/components-toggle--docs) |

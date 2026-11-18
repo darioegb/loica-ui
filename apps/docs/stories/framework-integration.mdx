@@ -36,7 +36,7 @@ createRoot(document.getElementById('root')!).render(
 `LocaleProvider` goes in the same place when the app is not in English (see
 [Internationalization](?path=/docs/guides-internationalization--docs)), and so does `ConfirmProvider`, inside the
 `ThemeProvider`, when a component calls `useConfirm()`. In a client-only app the saved color mode can be
-read before the first render, from `localStorage`, so `'system'` is the only case that changes after the page loads.
+read before the first render, from `localStorage`, so `'system'` is the only case that is resolved after the page loads.
 
 ## Next.js App Router
 
@@ -44,7 +44,15 @@ Every component can be rendered from a Server Component. The package keeps `'use
 so a Server Component imports from `@loica-ui/react` directly. The presentational ones (`Badge`, `Card`, `Divider`,
 `EmptyState`, `Heading`, `Icon`, `List`, `Text`, `Skeleton`, the rows and cells of `Table`...) don't need it and
 render on the server with no JavaScript in the browser. The page of each component says which one it is, with a
-**Server** or **Client** badge under its title, and the API reference marks the parts when they differ.
+badge under its title, and the API reference marks the parts when they differ:
+
+- **Server**: it renders on the server and loads no JavaScript in the browser. `Badge`, `Card`, `Timeline`.
+- **Client**: it loads JavaScript in the browser, because it keeps state or listens to events. A Server Component can
+  render it, and the HTML is already there when the page arrives, but it can't pass it a function.
+- **Server + client**: the component itself renders on the server, but it is made of parts that are client components,
+  and only those load JavaScript. `SegmentedControl` is one: it renders on the server, and its radios are client
+  components. You use it from a Server Component like any other, and the same rule about functions applies to its
+  props, such as `onValueChange`.
 
 What a Server Component can't do is pass a function: `onValueChange`, `onClick` or a render prop go in a component of
 yours that starts with `'use client'`. Put the providers in one of them too, when they need state (add `ConfirmProvider` next to `ToastProvider` if you use
@@ -88,8 +96,9 @@ export default async function RootLayout({ children }) {
 
 **No theme flash.** The server renders the mode it is given, so read the one the user picked from a cookie, as above,
 and save it there when it changes (a Server Action that sets the cookie, next to `setColorMode` of `useTheme()`).
-`'system'` can't be known on the server: it renders light and switches to dark after the page hydrates, so it only has
-no flash for the users whose system is light.
+`'system'` can't be known on the server, but the provider covers it with CSS: it writes the dark values inside
+`prefers-color-scheme: dark`, so a dark system gets a dark first paint too, with no script. What still follows the
+hydration is the `data-loica-color-mode` of `<html>` and the mode that `useTheme()` returns.
 
 The directives live in the ESM build, which is what Next.js and the other bundlers resolve. The CommonJS build is a
 single file with none.

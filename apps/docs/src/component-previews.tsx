@@ -49,6 +49,7 @@ import {
   ProgressBar,
   Radio,
   Rating,
+  SegmentedControl,
   Select,
   SelectContent,
   SelectOption,
@@ -75,6 +76,8 @@ import {
   Tabs,
   Text,
   Textarea,
+  Timeline,
+  TimelineItem,
   TimePicker,
   Toggle,
   Tree,
@@ -419,6 +422,17 @@ const previews: Record<string, ReactNode> = {
     </div>
   ),
   Rating: <Rating aria-label="Score" defaultValue={3} />,
+  SegmentedControl: (
+    <SegmentedControl
+      aria-label="View"
+      defaultValue="week"
+      options={[
+        { label: 'Day', value: 'day' },
+        { label: 'Week', value: 'week' },
+        { label: 'Month', value: 'month' },
+      ]}
+    />
+  ),
   Select: (
     <Select>
       <SelectTrigger aria-label="Fruit" placeholder="Pick a fruit" style={{ width: '12rem' }} />
@@ -514,6 +528,13 @@ const previews: Record<string, ReactNode> = {
     </div>
   ),
   Textarea: <Textarea aria-label="Comments" placeholder="Comments" rows={3} style={{ width: '12rem' }} />,
+  Timeline: (
+    <Timeline aria-label="Activity" style={{ width: '12rem' }}>
+      <TimelineItem time="Today" title="Deployed" />
+      <TimelineItem time="Yesterday" title="Reviewed" />
+      <TimelineItem time="Monday" title="Created" />
+    </Timeline>
+  ),
   TimePicker: <TimePicker aria-label="Time" defaultValue="09:30" style={{ width: '10rem' }} />,
   Toast: surface(
     <>

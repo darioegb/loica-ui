@@ -22,6 +22,8 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Timeline,
+  TimelineItem,
 } from '@loica-ui/react'
 import type { Project } from '@/lib/data'
 import { formatDue } from '@/lib/format'
@@ -109,14 +111,11 @@ export function ProjectDrawer({
                     </div>
                   </TabPanel>
                   <TabPanel>
-                    <ul className="flex flex-col gap-3 py-4">
+                    <Timeline aria-label={tDrawer('activity')} className="py-4">
                       {activity(project).map((event) => (
-                        <li key={event.text}>
-                          {event.text}
-                          <span className="block text-sm text-(--loica-muted)">{event.when}</span>
-                        </li>
+                        <TimelineItem key={event.text} time={event.when} title={event.text} />
                       ))}
-                    </ul>
+                    </Timeline>
                   </TabPanel>
                 </TabPanels>
               </Tabs>
