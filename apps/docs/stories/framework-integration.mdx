@@ -44,7 +44,15 @@ Every component can be rendered from a Server Component. The package keeps `'use
 so a Server Component imports from `@loica-ui/react` directly. The presentational ones (`Badge`, `Card`, `Divider`,
 `EmptyState`, `Heading`, `Icon`, `List`, `Text`, `Skeleton`, the rows and cells of `Table`...) don't need it and
 render on the server with no JavaScript in the browser. The page of each component says which one it is, with a
-**Server** or **Client** badge under its title, and the API reference marks the parts when they differ.
+badge under its title, and the API reference marks the parts when they differ:
+
+- **Server**: it renders on the server and loads no JavaScript in the browser. `Badge`, `Card`, `Timeline`.
+- **Client**: it loads JavaScript in the browser, because it keeps state or listens to events. A Server Component can
+  render it, and the HTML is already there when the page arrives, but it can't pass it a function.
+- **Server + client**: the component itself renders on the server, but it is made of parts that are client components,
+  and only those load JavaScript. `SegmentedControl` is one: it renders on the server, and its radios are client
+  components. You use it from a Server Component like any other, and the same rule about functions applies to its
+  props, such as `onValueChange`.
 
 What a Server Component can't do is pass a function: `onValueChange`, `onClick` or a render prop go in a component of
 yours that starts with `'use client'`. Put the providers in one of them too, when they need state (add `ConfirmProvider` next to `ToastProvider` if you use
