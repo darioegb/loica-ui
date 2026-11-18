@@ -10,6 +10,7 @@ import {
   ProgressBar,
   Radio,
   RadioGroup,
+  SegmentedControl,
   Stack,
   type ColorModeSetting,
   useTheme,
@@ -29,25 +30,19 @@ export function AppearanceSettings(): ReactNode {
   return (
     <Stack className="max-w-xl py-2" gap={5}>
       <Field helperText={t('colorModeHelper')} label={t('colorMode')}>
-        <RadioGroup
+        <SegmentedControl
           onValueChange={(value) => {
             setColorMode(value as ColorModeSetting)
             setColorModeSetting(value as ColorModeSetting)
             startTransition(() => saveColorMode(value))
           }}
-          orientation="horizontal"
+          options={[
+            { label: t('system'), value: 'system' },
+            { label: t('light'), value: 'light' },
+            { label: t('dark'), value: 'dark' },
+          ]}
           value={colorModeSetting}
-        >
-          <Field label={t('system')} orientation="inline">
-            <Radio value="system" />
-          </Field>
-          <Field label={t('light')} orientation="inline">
-            <Radio value="light" />
-          </Field>
-          <Field label={t('dark')} orientation="inline">
-            <Radio value="dark" />
-          </Field>
-        </RadioGroup>
+        />
       </Field>
 
       <Field helperText={t('brandHelper')} label={t('brand')}>

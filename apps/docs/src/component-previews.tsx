@@ -49,6 +49,7 @@ import {
   ProgressBar,
   Radio,
   Rating,
+  SegmentedControl,
   Select,
   SelectContent,
   SelectOption,
@@ -388,6 +389,17 @@ const previews: Record<string, ReactNode> = {
     </div>
   ),
   Rating: <Rating aria-label="Score" defaultValue={3} />,
+  SegmentedControl: (
+    <SegmentedControl
+      aria-label="View"
+      defaultValue="week"
+      options={[
+        { label: 'Day', value: 'day' },
+        { label: 'Week', value: 'week' },
+        { label: 'Month', value: 'month' },
+      ]}
+    />
+  ),
   Select: (
     <Select>
       <SelectTrigger aria-label="Fruit" placeholder="Pick a fruit" style={{ width: '12rem' }} />

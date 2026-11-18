@@ -174,6 +174,8 @@ describe('@loica-ui/react', () => {
       'Radio',
       'RadioGroup',
       'Rating',
+      'SegmentedControl',
+      'SegmentedControlItem',
       'Select',
       'SelectChevron',
       'SelectChip',
