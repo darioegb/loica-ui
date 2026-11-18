@@ -9,6 +9,4 @@ allowBuilds:
   unrs-resolver: true
 
 overrides:
-  esbuild@<0.28.1: ^0.28.2
-  '@vitest/mocker@<4.1.12': ^5.0.5
-  'glob@>=9.0.0 <14.0.2': ^14.0.2
+  '@joshwooding/vite-plugin-react-docgen-typescript': ^0.9.1
