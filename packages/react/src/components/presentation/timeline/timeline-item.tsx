@@ -46,7 +46,9 @@ export type TimelineItemProps = Omit<ComponentPropsWithoutRef<'li'>, 'title'> &
 
 export const timelineColorVars = (colorScheme: ColorScheme, style?: CSSProperties): CSSProperties =>
   ({
+    '--timeline-contrast': schemeVar(colorScheme, 'solid-contrast'),
     '--timeline-solid': schemeVar(colorScheme, 'solid'),
+    '--timeline-text': schemeVar(colorScheme, 'text'),
     '--timeline-tint': schemeVar(colorScheme, 'tint'),
     '--timeline-tint-text': schemeVar(colorScheme, 'tint-text'),
     ...style,

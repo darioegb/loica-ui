@@ -36,7 +36,7 @@ export default {
     className: { control: 'text' },
     style: { control: false },
     colorScheme: { control: 'select', options: colorSchemes },
-    variant: { control: 'radio', options: ['default', 'unstyled'] },
+    variant: { control: 'radio', options: ['subtle', 'solid', 'outline', 'unstyled'] },
     'aria-label': { control: 'text' },
   },
   args: {
@@ -63,15 +63,24 @@ type Story = StoryObj<typeof Timeline>
 export const Default: Story = {}
 
 /**
- * Use **variant** to pick the look: `default` styles the Timeline, and `unstyled` drops the Loica styles, so it is
- * the bare `ol` of items for you to lay out (see the Tailwind and Bootstrap examples).
+ * Use **variant** to pick the look of the markers: `subtle` (the default) tints them, `solid` fills them with the
+ * color and `outline` draws a ring, and `unstyled` drops the Loica styles, so it is the bare `ol` of items for you to
+ * lay out (see the Tailwind and Bootstrap examples).
  */
 export const Variants: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<div className="flex flex-col gap-8">
-  <Timeline aria-label="Default">
+        code: `<div className="flex flex-wrap gap-12">
+  <Timeline aria-label="Subtle">
+    <TimelineItem time="15 Jun" title="Project created">Ana Torres opened it.</TimelineItem>
+    <TimelineItem time="16 Jun" title="Budget approved" />
+  </Timeline>
+  <Timeline aria-label="Solid" variant="solid">
+    <TimelineItem time="15 Jun" title="Project created">Ana Torres opened it.</TimelineItem>
+    <TimelineItem time="16 Jun" title="Budget approved" />
+  </Timeline>
+  <Timeline aria-label="Outline" variant="outline">
     <TimelineItem time="15 Jun" title="Project created">Ana Torres opened it.</TimelineItem>
     <TimelineItem time="16 Jun" title="Budget approved" />
   </Timeline>
@@ -84,26 +93,26 @@ export const Variants: Story = {
     },
   },
   render: () => (
-    <div className="flex flex-col gap-8">
-      <Timeline aria-label="Default">
-        <TimelineItem time="15 Jun" title="Project created">
-          Ana Torres opened it.
-        </TimelineItem>
-        <TimelineItem time="16 Jun" title="Budget approved" />
-      </Timeline>
-      <Timeline aria-label="Unstyled" variant="unstyled">
-        <TimelineItem time="15 Jun" title="Project created">
-          Ana Torres opened it.
-        </TimelineItem>
-        <TimelineItem time="16 Jun" title="Budget approved" />
-      </Timeline>
+    <div className="flex flex-wrap gap-12">
+      {(['subtle', 'solid', 'outline', 'unstyled'] as const).map((variant) => (
+        <Timeline
+          aria-label={variant}
+          key={variant}
+          variant={variant}
+        >
+          <TimelineItem time="15 Jun" title="Project created">
+            Ana Torres opened it.
+          </TimelineItem>
+          <TimelineItem time="16 Jun" title="Budget approved" />
+        </Timeline>
+      ))}
     </div>
   ),
 }
 
 /**
  * Use **colorScheme** on the `Timeline` to color every marker with a color of the theme, or on a `TimelineItem` to
- * color only that one: `success` for what went well, `error` for what failed. The color is a hint, so say it in the
+ * color only that one (in every variant, `subtle` here): `success` for what went well, `error` for what failed. The color is a hint, so say it in the
  * title too.
  */
 export const Colors: Story = {

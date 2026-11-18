@@ -5,7 +5,7 @@ import type { ColorScheme } from '../../../theme'
 import styles from './timeline.module.css'
 import { timelineColorVars } from './timeline-item'
 
-export type TimelineVariant = 'default' | 'unstyled'
+export type TimelineVariant = 'solid' | 'outline' | 'subtle' | 'unstyled'
 
 export interface TimelineOwnProps {
   /**
@@ -17,10 +17,11 @@ export interface TimelineOwnProps {
    */
   colorScheme?: ColorScheme
   /**
+   * Visual variant of the markers. `subtle` tints them, `solid` fills them with the color and `outline` draws a ring.
    * `unstyled` drops the Loica styles, so you can lay the items out yourself. The `data-*` attributes stay.
    *
    * @since 1.3
-   * @default 'default'
+   * @default 'subtle'
    */
   variant?: TimelineVariant
 }
@@ -40,7 +41,7 @@ export const Timeline = forwardRef<HTMLOListElement, TimelineProps>(
       colorScheme = 'secondary',
       role = 'list',
       style,
-      variant = 'default',
+      variant = 'subtle',
       ...rest
     }: TimelineProps,
     ref: ForwardedRef<HTMLOListElement>,
@@ -48,7 +49,7 @@ export const Timeline = forwardRef<HTMLOListElement, TimelineProps>(
     const isStyled = variant !== 'unstyled'
     return (
       <ol
-        className={joinClasses(isStyled && styles.timeline, className)}
+        className={joinClasses(isStyled && styles.timeline, isStyled && styles[variant], className)}
         data-loica-timeline=""
         ref={ref}
         role={role}

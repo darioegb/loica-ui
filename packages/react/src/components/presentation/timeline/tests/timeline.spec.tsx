@@ -103,6 +103,21 @@ describe('Timeline component', () => {
     expect(itemRef.current?.style.margin).toBe('5px')
   })
 
+  it('has a class for each variant', () => {
+    const classes = (['subtle', 'solid', 'outline'] as const).map((variant) => {
+      const { container, unmount } = render(
+        <Timeline variant={variant}>
+          <TimelineItem title="Item" />
+        </Timeline>,
+      )
+      const list = (container.querySelector('ol') as HTMLElement).className
+      unmount()
+      return list
+    })
+    expect(new Set(classes).size).toBe(3)
+    classes.forEach((name) => expect(name).toMatch(/timeline/))
+  })
+
   it('has no Loica class when it is unstyled, and keeps the structure attributes', () => {
     const { container } = render(
       <Timeline className="mine" variant="unstyled">

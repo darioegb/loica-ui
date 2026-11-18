@@ -31,15 +31,14 @@
 
 .timeline > [data-loica-timeline-item] > [data-loica-timeline-marker] {
   align-items: center;
-  background-color: var(--timeline-tint);
+  border: var(--loica-border-width-medium) solid transparent;
   border-radius: var(--loica-radius-full);
   box-sizing: border-box;
-  color: var(--timeline-tint-text);
   display: flex;
   font-size: var(--loica-font-size-base);
   height: var(--timeline-marker);
   justify-content: center;
-  padding: var(--loica-space-1-5);
+  padding: var(--loica-space-1);
   width: var(--timeline-marker);
 }
 
@@ -50,11 +49,44 @@
 }
 
 .timeline > [data-loica-timeline-item] > [data-loica-timeline-marker]:empty::before {
-  background-color: var(--timeline-solid);
   border-radius: var(--loica-radius-full);
   content: '';
   height: var(--loica-space-2);
   width: var(--loica-space-2);
+}
+
+.subtle > [data-loica-timeline-item] > [data-loica-timeline-marker] {
+  background-color: var(--timeline-tint);
+  color: var(--timeline-tint-text);
+}
+
+.subtle > [data-loica-timeline-item] > [data-loica-timeline-marker]:empty::before {
+  background-color: var(--timeline-solid);
+}
+
+.solid > [data-loica-timeline-item] > [data-loica-timeline-marker] {
+  background-color: var(--timeline-solid);
+  color: var(--timeline-contrast);
+}
+
+.solid > [data-loica-timeline-item] > [data-loica-timeline-marker]:empty::before {
+  background-color: var(--timeline-contrast);
+}
+
+.outline > [data-loica-timeline-item] > [data-loica-timeline-marker] {
+  background-color: transparent;
+  border-color: var(--timeline-solid);
+  color: var(--timeline-text);
+}
+
+.outline > [data-loica-timeline-item] > [data-loica-timeline-marker]:empty::before {
+  background-color: var(--timeline-solid);
+}
+
+@media (forced-colors: active) {
+  .timeline > [data-loica-timeline-item] > [data-loica-timeline-marker] {
+    border-color: CanvasText;
+  }
 }
 
 .timeline > [data-loica-timeline-item] > [data-loica-timeline-content] {
