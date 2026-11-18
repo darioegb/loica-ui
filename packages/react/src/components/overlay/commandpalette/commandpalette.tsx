@@ -6,7 +6,7 @@ import { useLabels, useResolvedLocale } from '../../../locale/locale-provider'
 import { createCountFormatter } from '../../../overlay/format-count'
 import { joinClasses } from '../../../overlay/class-names'
 import type { Size } from '../../../theme'
-import { Modal, ModalContent } from '../modal'
+import { Modal, ModalBackdrop, ModalContent } from '../modal'
 import { CommandPaletteBody } from './commandpalette-body'
 import type {
   CommandPaletteFilter,
@@ -18,6 +18,14 @@ import styles from './commandpalette.module.css'
 export type { CommandPaletteFilter, CommandPaletteLabels, CommandPaletteVariant }
 
 export interface CommandPaletteOwnProps {
+  /**
+   * A class for the layer behind the dialog, which covers the screen and positions the dialog. Use it with
+   * `variant="unstyled"` to give it a color and to say where the dialog goes, since the layer only covers the screen
+   * and centers the dialog.
+   *
+   * @since 1.3
+   */
+  backdropClassName?: string
   /** The `CommandPaletteItem`, alone or inside `CommandPaletteGroup`, that the user can search and pick. */
   children?: ReactNode
   /**
@@ -132,6 +140,7 @@ const createDefaultLabels = (locale: string): CommandPaletteLabels => {
 export const CommandPalette = forwardRef<HTMLDialogElement, CommandPaletteProps>(
   (
     {
+      backdropClassName,
       children,
       className,
       closeOnEscape = true,
@@ -165,24 +174,26 @@ export const CommandPalette = forwardRef<HTMLDialogElement, CommandPaletteProps>
         size={size}
         variant={variant}
       >
-        <ModalContent
-          {...rest}
-          aria-label={rest['aria-label'] ?? labels.label}
-          className={joinClasses(isStyled && styles.palette, className)}
-          data-loica-commandpalette=""
-          ref={ref}
-        >
-          <CommandPaletteBody
-            closeOnSelect={closeOnSelect}
-            filter={filter}
-            labels={labels}
-            onQueryChange={onQueryChange}
-            placeholder={placeholder}
-            query={query}
+        <ModalBackdrop className={backdropClassName}>
+          <ModalContent
+            {...rest}
+            aria-label={rest['aria-label'] ?? labels.label}
+            className={joinClasses(isStyled && styles.palette, className)}
+            data-loica-commandpalette=""
+            ref={ref}
           >
-            {children}
-          </CommandPaletteBody>
-        </ModalContent>
+            <CommandPaletteBody
+              closeOnSelect={closeOnSelect}
+              filter={filter}
+              labels={labels}
+              onQueryChange={onQueryChange}
+              placeholder={placeholder}
+              query={query}
+            >
+              {children}
+            </CommandPaletteBody>
+          </ModalContent>
+        </ModalBackdrop>
       </Modal>
     )
   },

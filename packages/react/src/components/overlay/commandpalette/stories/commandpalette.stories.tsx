@@ -373,31 +373,35 @@ export const Texts: Story = {
   render: () => <TextsExample />,
 }
 
-function StyledExample({ unstyled }: Readonly<{ unstyled: 'tailwind' | 'bootstrap' }>): ReactNode {
+const tailwindPalette =
+  'w-full max-w-md overflow-hidden rounded-xl border border-border bg-surface text-foreground shadow-xl [&_[data-loica-commandpalette-input]]:w-full [&_[data-loica-commandpalette-input]]:border-b [&_[data-loica-commandpalette-input]]:border-border [&_[data-loica-commandpalette-input]]:bg-transparent [&_[data-loica-commandpalette-input]]:px-4 [&_[data-loica-commandpalette-input]]:py-3 [&_[data-loica-commandpalette-input]]:outline-none [&_[data-loica-commandpalette-list]]:p-2'
+const tailwindItem =
+  'rounded-md px-3 py-2 data-[active]:bg-primary-solid data-[active]:text-white'
+const bootstrapStyle =
+  '.bs-palette [data-loica-commandpalette-input] { padding: .75rem 1rem; outline: 0; color: var(--bs-body-color); border-bottom: 1px solid var(--bs-border-color); } .bs-palette [data-active] { background-color: var(--bs-secondary-bg); }'
+
+function StyledExample({ styled }: Readonly<{ styled: 'tailwind' | 'bootstrap' }>): ReactNode {
   const [isOpen, setIsOpen] = useState(false)
-  const tailwind = unstyled === 'tailwind'
+  const tailwind = styled === 'tailwind'
   return (
     <>
       <Button onClick={() => setIsOpen(true)}>Open</Button>
+      {tailwind ? null : <style>{bootstrapStyle}</style>}
       <CommandPalette
         aria-label="Commands"
-        className={
-          tailwind
-            ? 'mt-24 w-full max-w-md overflow-hidden rounded-xl border border-border bg-surface text-foreground shadow-xl'
-            : 'card mt-5 w-100 shadow'
+        backdropClassName={
+          tailwind ? 'items-start bg-black/50 p-4 pt-[15vh]' : 'align-items-start bg-dark bg-opacity-50 p-3 pt-5'
         }
+        className={tailwind ? tailwindPalette : 'bs-palette card w-100 shadow'}
         onOpenChange={setIsOpen}
         open={isOpen}
+        style={tailwind ? undefined : { maxWidth: '28rem' }}
         variant="unstyled"
       >
-        <CommandPaletteGroup className={tailwind ? 'p-2' : 'list-group list-group-flush'}>
+        <CommandPaletteGroup className={tailwind ? undefined : 'list-group list-group-flush'}>
           {['Dashboard', 'Projects', 'Team'].map((name) => (
             <CommandPaletteItem
-              className={
-                tailwind
-                  ? 'rounded-md px-3 py-2 data-[active]:bg-primary-solid data-[active]:text-white'
-                  : 'list-group-item list-group-item-action'
-              }
+              className={tailwind ? tailwindItem : 'list-group-item list-group-item-action'}
               key={name}
             >
               {name}
@@ -410,10 +414,11 @@ function StyledExample({ unstyled }: Readonly<{ unstyled: 'tailwind' | 'bootstra
 }
 
 /**
- * Some examples of CommandPalette with Tailwind classes. With `variant="unstyled"` the dialog, each
- * `CommandPaletteGroup` and each `CommandPaletteItem` take your classes; the active item has `data-active`. The
- * parts of the dialog without a part of their own (the search box and the list) are reached through their
- * `data-loica-commandpalette-*` attributes.
+ * Some examples of CommandPalette with Tailwind classes. With `variant="unstyled"` the dialog, **backdropClassName**
+ * (the layer behind it, which gives it a color and says where the dialog goes), each `CommandPaletteGroup` and each
+ * `CommandPaletteItem` take your classes; the active item has `data-active`. The search box and the list have no part of
+ * their own, so they are reached from the class of the dialog through their `data-loica-commandpalette-input` and
+ * `data-loica-commandpalette-list` attributes.
  */
 export const Tailwind: Story = {
   parameters: {
@@ -421,12 +426,13 @@ export const Tailwind: Story = {
       source: {
         code: `<CommandPalette
   aria-label="Commands"
-  className="mt-24 w-full max-w-md overflow-hidden rounded-xl border border-border bg-surface text-foreground shadow-xl"
+  backdropClassName="items-start bg-black/50 p-4 pt-[15vh]"
+  className="w-full max-w-md overflow-hidden rounded-xl border border-border bg-surface text-foreground shadow-xl [&_[data-loica-commandpalette-input]]:w-full [&_[data-loica-commandpalette-input]]:border-b [&_[data-loica-commandpalette-input]]:border-border [&_[data-loica-commandpalette-input]]:bg-transparent [&_[data-loica-commandpalette-input]]:px-4 [&_[data-loica-commandpalette-input]]:py-3 [&_[data-loica-commandpalette-input]]:outline-none [&_[data-loica-commandpalette-list]]:p-2"
   onOpenChange={setIsOpen}
   open={isOpen}
   variant="unstyled"
 >
-  <CommandPaletteGroup className="p-2">
+  <CommandPaletteGroup>
     <CommandPaletteItem className="rounded-md px-3 py-2 data-[active]:bg-primary-solid data-[active]:text-white">Dashboard</CommandPaletteItem>
     <CommandPaletteItem className="rounded-md px-3 py-2 data-[active]:bg-primary-solid data-[active]:text-white">Projects</CommandPaletteItem>
   </CommandPaletteGroup>
@@ -434,25 +440,37 @@ export const Tailwind: Story = {
       },
     },
   },
-  render: () => <StyledExample unstyled="tailwind" />,
+  render: () => <StyledExample styled="tailwind" />,
 }
 
 /**
- * Some examples of CommandPalette with Bootstrap classes: `card` on the dialog, `list-group` on the group and
- * `list-group-item list-group-item-action` on each item.
+ * Some examples of CommandPalette with Bootstrap classes: `card` on the dialog, `bg-dark bg-opacity-50` on the layer
+ * behind it, `list-group` on the group and `list-group-item list-group-item-action` on each item. The search box and the
+ * active item are reached through their `data-*` attributes with a small rule under a class of the dialog.
  */
 export const Bootstrap: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<CommandPalette aria-label="Commands" className="card mt-5 w-100 shadow" onOpenChange={setIsOpen} open={isOpen} variant="unstyled">
-  <CommandPaletteGroup className="list-group list-group-flush">
-    <CommandPaletteItem className="list-group-item list-group-item-action">Dashboard</CommandPaletteItem>
-    <CommandPaletteItem className="list-group-item list-group-item-action">Projects</CommandPaletteItem>
-  </CommandPaletteGroup>
-</CommandPalette>`,
+        code: `<>
+  <style>{".bs-palette [data-loica-commandpalette-input] { padding: .75rem 1rem; outline: 0; color: var(--bs-body-color); border-bottom: 1px solid var(--bs-border-color); } .bs-palette [data-active] { background-color: var(--bs-secondary-bg); }"}</style>
+  <CommandPalette
+    aria-label="Commands"
+    backdropClassName="align-items-start bg-dark bg-opacity-50 p-3 pt-5"
+    className="bs-palette card w-100 shadow"
+    onOpenChange={setIsOpen}
+    open={isOpen}
+    style={{ maxWidth: '28rem' }}
+    variant="unstyled"
+  >
+    <CommandPaletteGroup className="list-group list-group-flush">
+      <CommandPaletteItem className="list-group-item list-group-item-action">Dashboard</CommandPaletteItem>
+      <CommandPaletteItem className="list-group-item list-group-item-action">Projects</CommandPaletteItem>
+    </CommandPaletteGroup>
+  </CommandPalette>
+</>`,
       },
     },
   },
-  render: () => <StyledExample unstyled="bootstrap" />,
+  render: () => <StyledExample styled="bootstrap" />,
 }

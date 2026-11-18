@@ -381,6 +381,12 @@ describe('CommandPalette component', () => {
     expect(option('Projects')).toHaveAttribute('data-loica-commandpalette-item')
   })
 
+  it('puts backdropClassName on the layer behind the dialog', () => {
+    render(<Palette backdropClassName="dim" />)
+    const backdrop = screen.getByRole('dialog').closest('[data-loica-modal-backdrop]')
+    expect(backdrop).toHaveClass('dim')
+  })
+
   it('throws when an item is used outside a palette', () => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined)
     expect(() => render(<CommandPaletteItem>Lost</CommandPaletteItem>)).toThrow(
