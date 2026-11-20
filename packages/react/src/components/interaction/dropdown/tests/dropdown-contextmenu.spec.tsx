@@ -2,24 +2,26 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { createRef } from 'react'
 import {
+  Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownSeparator,
   DropdownSub,
   DropdownSubMenu,
   DropdownSubTrigger,
-} from '../../dropdown'
-import { ContextMenu, ContextMenuTrigger, type ContextMenuProps } from '..'
+  DropdownTrigger,
+  type DropdownProps,
+} from '..'
 
 function Example({
   onSelect,
   ...props
-}: Readonly<Partial<ContextMenuProps> & { onSelect?: () => void }>): React.ReactNode {
+}: Readonly<Partial<DropdownProps> & { onSelect?: () => void }>): React.ReactNode {
   return (
-    <ContextMenu {...props}>
-      <ContextMenuTrigger>
+    <Dropdown trigger="contextmenu" {...props}>
+      <DropdownTrigger>
         <button data-testid="area">Right click here</button>
-      </ContextMenuTrigger>
+      </DropdownTrigger>
       <DropdownMenu aria-label="Actions">
         <DropdownItem onSelect={onSelect}>Open</DropdownItem>
         <DropdownItem>Rename</DropdownItem>
@@ -32,21 +34,21 @@ function Example({
         </DropdownSub>
         <DropdownItem>Delete</DropdownItem>
       </DropdownMenu>
-    </ContextMenu>
+    </Dropdown>
   )
 }
 
 const area = (): HTMLElement => screen.getByTestId('area')
 const menus = (): HTMLElement[] => screen.queryAllByRole('menu')
 const item = (name: string): HTMLElement => screen.getByRole('menuitem', { name })
-const anchor = (): HTMLElement | null => document.querySelector('[data-loica-contextmenu-anchor]')
+const anchor = (): HTMLElement | null => document.querySelector('[data-loica-dropdown-anchor]')
 
 afterEach(() => {
   vi.useRealTimers()
   vi.restoreAllMocks()
 })
 
-describe('ContextMenu component', () => {
+describe('Dropdown as a context menu', () => {
   describe('with the pointer', () => {
     it('is closed at first', () => {
       render(<Example />)
@@ -199,18 +201,18 @@ describe('ContextMenu component', () => {
 
     it('opens at the element that has the focus inside the area', async () => {
       render(
-        <ContextMenu>
-          <ContextMenuTrigger>
+        <Dropdown trigger="contextmenu">
+          <DropdownTrigger>
             <ul>
               <li>
                 <button>First row</button>
               </li>
             </ul>
-          </ContextMenuTrigger>
+          </DropdownTrigger>
           <DropdownMenu aria-label="Row">
             <DropdownItem>Edit</DropdownItem>
           </DropdownMenu>
-        </ContextMenu>,
+        </Dropdown>,
       )
       const row = screen.getByRole('button', { name: 'First row' })
       const spy = vi.spyOn(row, 'getBoundingClientRect').mockReturnValue({
@@ -338,31 +340,31 @@ describe('ContextMenu component', () => {
   describe('the trigger', () => {
     it('leaves the menu of the browser when it is disabled', () => {
       render(
-        <ContextMenu>
-          <ContextMenuTrigger disabled>
+        <Dropdown trigger="contextmenu">
+          <DropdownTrigger disabled>
             <button data-testid="area">Area</button>
-          </ContextMenuTrigger>
+          </DropdownTrigger>
           <DropdownMenu aria-label="Actions">
             <DropdownItem>Open</DropdownItem>
           </DropdownMenu>
-        </ContextMenu>,
+        </Dropdown>,
       )
       expect(fireEvent.contextMenu(area(), { clientX: 1, clientY: 1 })).toBe(true)
       fireEvent.keyDown(area(), { key: 'ContextMenu' })
       expect(menus()).toHaveLength(0)
-      expect(area()).not.toHaveAttribute('data-loica-contextmenu-trigger')
+      expect(area()).not.toHaveAttribute('data-loica-dropdown-area')
     })
 
     it('adds its className and style to the element even when it is disabled', () => {
       render(
-        <ContextMenu>
-          <ContextMenuTrigger className="extra" disabled style={{ color: 'red' }}>
+        <Dropdown trigger="contextmenu">
+          <DropdownTrigger className="extra" disabled style={{ color: 'red' }}>
             <button data-testid="area">Area</button>
-          </ContextMenuTrigger>
+          </DropdownTrigger>
           <DropdownMenu aria-label="Actions">
             <DropdownItem>Open</DropdownItem>
           </DropdownMenu>
-        </ContextMenu>,
+        </Dropdown>,
       )
       expect(area()).toHaveClass('extra')
       expect(area()).toHaveStyle({ color: 'rgb(255, 0, 0)' })
@@ -370,7 +372,7 @@ describe('ContextMenu component', () => {
 
     it('marks the area and its state', () => {
       render(<Example />)
-      expect(area()).toHaveAttribute('data-loica-contextmenu-trigger', '')
+      expect(area()).toHaveAttribute('data-loica-dropdown-area', '')
       expect(area()).not.toHaveAttribute('data-open')
       fireEvent.contextMenu(area(), { clientX: 1, clientY: 1 })
       expect(area()).toHaveAttribute('data-open', '')
@@ -379,8 +381,8 @@ describe('ContextMenu component', () => {
     it('keeps the handlers, the className and the style of its element', () => {
       const onContextMenu = vi.fn()
       render(
-        <ContextMenu>
-          <ContextMenuTrigger className="extra" style={{ color: 'red' }}>
+        <Dropdown trigger="contextmenu">
+          <DropdownTrigger className="extra" style={{ color: 'red' }}>
             <div
               className="own"
               data-testid="area"
@@ -389,11 +391,11 @@ describe('ContextMenu component', () => {
             >
               Area
             </div>
-          </ContextMenuTrigger>
+          </DropdownTrigger>
           <DropdownMenu aria-label="Actions">
             <DropdownItem>Open</DropdownItem>
           </DropdownMenu>
-        </ContextMenu>,
+        </Dropdown>,
       )
       expect(area()).toHaveClass('own', 'extra')
       expect(area()).toHaveStyle({ color: 'rgb(255, 0, 0)', margin: '4px' })
@@ -404,32 +406,32 @@ describe('ContextMenu component', () => {
 
     it('keeps the className of its element when it has none of its own', () => {
       render(
-        <ContextMenu>
-          <ContextMenuTrigger>
+        <Dropdown trigger="contextmenu">
+          <DropdownTrigger>
             <div className="own" data-testid="area">
               Area
             </div>
-          </ContextMenuTrigger>
+          </DropdownTrigger>
           <DropdownMenu aria-label="Actions">
             <DropdownItem>Open</DropdownItem>
           </DropdownMenu>
-        </ContextMenu>,
+        </Dropdown>,
       )
       expect(area()).toHaveClass('own')
     })
 
     it('does not open when the handler of its element prevents the default', () => {
       render(
-        <ContextMenu>
-          <ContextMenuTrigger>
+        <Dropdown trigger="contextmenu">
+          <DropdownTrigger>
             <div data-testid="area" onContextMenu={(event) => event.preventDefault()}>
               Area
             </div>
-          </ContextMenuTrigger>
+          </DropdownTrigger>
           <DropdownMenu aria-label="Actions">
             <DropdownItem>Open</DropdownItem>
           </DropdownMenu>
-        </ContextMenu>,
+        </Dropdown>,
       )
       fireEvent.contextMenu(area(), { clientX: 1, clientY: 1 })
       expect(menus()).toHaveLength(0)
@@ -438,14 +440,14 @@ describe('ContextMenu component', () => {
     it('renders a div for text, and forwards the ref', () => {
       const ref = createRef<HTMLElement>()
       render(
-        <ContextMenu>
-          <ContextMenuTrigger className="box" ref={ref}>
+        <Dropdown trigger="contextmenu">
+          <DropdownTrigger className="box" ref={ref}>
             Area of text
-          </ContextMenuTrigger>
+          </DropdownTrigger>
           <DropdownMenu aria-label="Actions">
             <DropdownItem>Open</DropdownItem>
           </DropdownMenu>
-        </ContextMenu>,
+        </Dropdown>,
       )
       const text = screen.getByText('Area of text')
       expect(text.tagName).toBe('DIV')
@@ -458,14 +460,14 @@ describe('ContextMenu component', () => {
     it('forwards the ref to its element', () => {
       const ref = createRef<HTMLElement>()
       render(
-        <ContextMenu>
-          <ContextMenuTrigger ref={ref}>
+        <Dropdown trigger="contextmenu">
+          <DropdownTrigger ref={ref}>
             <section data-testid="area">Area</section>
-          </ContextMenuTrigger>
+          </DropdownTrigger>
           <DropdownMenu aria-label="Actions">
             <DropdownItem>Open</DropdownItem>
           </DropdownMenu>
-        </ContextMenu>,
+        </Dropdown>,
       )
       expect(ref.current).toBe(area())
     })
@@ -473,23 +475,23 @@ describe('ContextMenu component', () => {
     it('opens the menu of the closest area when one is inside another', () => {
       render(
         <>
-          <ContextMenu>
-            <ContextMenuTrigger>
+          <Dropdown trigger="contextmenu">
+            <DropdownTrigger>
               <div data-testid="outer">
-                <ContextMenu>
-                  <ContextMenuTrigger>
+                <Dropdown trigger="contextmenu">
+                  <DropdownTrigger>
                     <div data-testid="inner">Inner</div>
-                  </ContextMenuTrigger>
+                  </DropdownTrigger>
                   <DropdownMenu aria-label="Inner menu">
                     <DropdownItem>Inner action</DropdownItem>
                   </DropdownMenu>
-                </ContextMenu>
+                </Dropdown>
               </div>
-            </ContextMenuTrigger>
+            </DropdownTrigger>
             <DropdownMenu aria-label="Outer menu">
               <DropdownItem>Outer action</DropdownItem>
             </DropdownMenu>
-          </ContextMenu>
+          </Dropdown>
         </>,
       )
       fireEvent.contextMenu(screen.getByTestId('inner'), { clientX: 1, clientY: 1 })
@@ -530,15 +532,48 @@ describe('ContextMenu component', () => {
   })
 
   describe('usage', () => {
-    it('throws when the trigger is outside a ContextMenu', () => {
+    it('throws when the trigger is outside a Dropdown', () => {
       vi.spyOn(console, 'error').mockImplementation(() => undefined)
       expect(() =>
         render(
-          <ContextMenuTrigger>
+          <DropdownTrigger>
             <div>Area</div>
-          </ContextMenuTrigger>,
+          </DropdownTrigger>,
         ),
-      ).toThrow('ContextMenuTrigger must be used within a <ContextMenu>')
+      ).toThrow('DropdownTrigger must be used within a <Dropdown>')
+    })
+
+    it('does not open from open or defaultOpen, because it has no point', () => {
+      render(<Example defaultOpen open />)
+      expect(menus()).toHaveLength(0)
+      expect(anchor()).toBeNull()
+    })
+
+    it('closes with a controlled open set to false', () => {
+      const { rerender } = render(<Example open />)
+      fireEvent.contextMenu(area(), { clientX: 1, clientY: 1 })
+      expect(menus()).toHaveLength(1)
+      rerender(<Example open={false} />)
+      expect(menus()).toHaveLength(0)
+    })
+
+    it('keeps the offset out of the way, so the corner of the menu is at the point', () => {
+      render(<Example offset={40} />)
+      fireEvent.contextMenu(area(), { clientX: 120, clientY: 80 })
+      expect(anchor()).toHaveStyle({ left: '120px', top: '80px' })
+    })
+
+    it('still works as a button with the default trigger', () => {
+      render(
+        <Dropdown>
+          <DropdownTrigger>Open</DropdownTrigger>
+          <DropdownMenu aria-label="Actions">
+            <DropdownItem>One</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>,
+      )
+      expect(screen.getByRole('button', { name: 'Open' })).toHaveAttribute('aria-haspopup', 'menu')
+      expect(anchor()).toBeNull()
     })
   })
 })

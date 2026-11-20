@@ -9,8 +9,6 @@ import {
   AvatarGroup,
   Badge,
   Button,
-  ContextMenu,
-  ContextMenuTrigger,
   DatePicker,
   Dropdown,
   DropdownItem,
@@ -255,8 +253,8 @@ export function ProjectsBoard({
             />
           ) : (
             state.rows.map((project) => (
-              <ContextMenu key={project.id}>
-                <ContextMenuTrigger>
+              <Dropdown key={project.id} trigger="contextmenu">
+                <DropdownTrigger>
                   <TableRow>
                     <TableCell>
                       <button
@@ -311,13 +309,13 @@ export function ProjectsBoard({
                       </Dropdown>
                     </TableCell>
                   </TableRow>
-                </ContextMenuTrigger>
+                </DropdownTrigger>
                 <DropdownMenu
                   aria-label={t("actionsFor", { name: project.name })}
                 >
                   {projectActions(project)}
                 </DropdownMenu>
-              </ContextMenu>
+              </Dropdown>
             ))
           )}
         </TableBody>

@@ -183,3 +183,7 @@
     outline-offset: var(--loica-focus-ring-inset);
   }
 }
+
+:global(:where([data-loica-dropdown-area])) {
+  -webkit-touch-callout: none;
+}

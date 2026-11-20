@@ -30,6 +30,9 @@ const placements = [
   'left',
 ] as const
 
+const area =
+  'flex h-32 w-72 items-center justify-center rounded-lg border border-dashed border-border bg-surface p-4 text-center text-sm text-foreground'
+
 const glyph = (path: string): React.ReactNode => (
   <Icon>
     <svg
@@ -89,6 +92,9 @@ function Example(props: Readonly<Omit<DropdownProps, 'children'>>): React.ReactN
  * <kbd>End</kbd> move between the items, typing a few letters jumps to the item that starts with them, and a
  * disabled item is skipped. <kbd>Esc</kbd> and <kbd>Tab</kbd> close it and give the focus back to the trigger, and so
  * does selecting an item. A menu can have **submenus**, which open beside their item and have their own keys.
+ *
+ * With `trigger="contextmenu"` it is a **context menu**: the `DropdownTrigger` becomes the area where the menu opens,
+ * at the pointer, and the menu is the same.
  */
 export default {
   title: 'Components/Dropdown',
@@ -121,6 +127,7 @@ export default {
   },
   argTypes: {
     children: { control: false },
+    trigger: { control: 'radio', options: ['click', 'contextmenu'] },
     placement: {
       control: 'select',
       options: [
@@ -641,6 +648,173 @@ export const Controlled: Story = {
     },
   },
   render: () => <ControlledExample />,
+}
+
+/**
+ * With **trigger** set to `contextmenu` the `DropdownTrigger` is the area where the menu opens, not a button. Press the
+ * secondary button on it, or focus it and press the context menu key or <kbd>Shift</kbd> + <kbd>F10</kbd>, and the menu
+ * opens at the pointer or, from the keyboard, below the element, on its first item. On a touch screen a long press opens
+ * it, because iOS Safari does not fire `contextmenu`. Use it for the actions of the thing under the pointer (a row, a
+ * file, a card), as a shortcut to commands that are also somewhere else, because it can't be found without knowing it is
+ * there. Give the `DropdownMenu` an `aria-label`, because there is no button to name it, and **disabled** on the
+ * `DropdownTrigger` leaves the menu of the browser instead.
+ */
+export const ContextMenu: Story = {
+  parameters: {
+    docs: {
+      story: { iframeHeight: 360 },
+      source: {
+        code: `<Dropdown trigger="contextmenu">
+  <DropdownTrigger>
+    <button className="h-32 w-72 rounded-lg border border-dashed" type="button">
+      Right-click here
+    </button>
+  </DropdownTrigger>
+  <DropdownMenu aria-label="File actions">
+    <DropdownItem>Open</DropdownItem>
+    <DropdownItem>Rename</DropdownItem>
+    <DropdownSub>
+      <DropdownSubTrigger>Share</DropdownSubTrigger>
+      <DropdownSubMenu>
+        <DropdownItem>Email</DropdownItem>
+        <DropdownItem>Copy link</DropdownItem>
+      </DropdownSubMenu>
+    </DropdownSub>
+    <DropdownSeparator />
+    <DropdownItem>Delete</DropdownItem>
+  </DropdownMenu>
+</Dropdown>`,
+      },
+    },
+  },
+  render: () => (
+    <Dropdown trigger="contextmenu">
+      <DropdownTrigger>
+        <button className={area} type="button">
+          Right-click here, or focus it and press the menu key
+        </button>
+      </DropdownTrigger>
+      <DropdownMenu aria-label="File actions">
+        <DropdownItem>Open</DropdownItem>
+        <DropdownItem>Rename</DropdownItem>
+        <DropdownSub>
+          <DropdownSubTrigger>Share</DropdownSubTrigger>
+          <DropdownSubMenu>
+            <DropdownItem>Email</DropdownItem>
+            <DropdownItem>Copy link</DropdownItem>
+          </DropdownSubMenu>
+        </DropdownSub>
+        <DropdownSeparator />
+        <DropdownItem>Delete</DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+  ),
+}
+
+/**
+ * Each row of a list can have its own context menu, built from what the row is about. The `DropdownTrigger` takes the
+ * row, so the menu opens where the pointer is on it and, from the keyboard, below the row that has the focus.
+ */
+export const ContextMenuRows: Story = {
+  parameters: {
+    docs: {
+      story: { iframeHeight: 380 },
+      source: {
+        code: `{files.map((file) => (
+  <Dropdown key={file} trigger="contextmenu">
+    <DropdownTrigger>
+      <button className="w-full px-3 py-2 text-start" type="button">{file}</button>
+    </DropdownTrigger>
+    <DropdownMenu aria-label={\`Actions for \${file}\`}>
+      <DropdownLabel>{file}</DropdownLabel>
+      <DropdownItem>Open</DropdownItem>
+      <DropdownItem shortcut="F2">Rename</DropdownItem>
+      <DropdownSeparator />
+      <DropdownItem>Delete</DropdownItem>
+    </DropdownMenu>
+  </Dropdown>
+))}`,
+      },
+    },
+  },
+  render: () => (
+    <ul className="w-72 divide-y divide-border rounded-lg border border-border bg-surface text-sm text-foreground">
+      {['Annual report.pdf', 'Budget.xlsx', 'Notes.md'].map((file) => (
+        <li key={file}>
+          <Dropdown trigger="contextmenu">
+            <DropdownTrigger>
+              <button className="w-full px-3 py-2 text-start hover:bg-surface-muted" type="button">
+                {file}
+              </button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label={`Actions for ${file}`}>
+              <DropdownLabel>{file}</DropdownLabel>
+              <DropdownItem>Open</DropdownItem>
+              <DropdownItem shortcut="F2">Rename</DropdownItem>
+              <DropdownSeparator />
+              <DropdownItem>Delete</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </li>
+      ))}
+    </ul>
+  ),
+}
+
+/**
+ * A context menu follows the direction of the text like any other: it opens at the pointer, and its submenus open and
+ * move with the arrows the other way. Set `dir` on the `<html>`, since the menus open in a portal.
+ */
+export const ContextMenuRightToLeft: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<html dir="rtl">
+  <body>
+    <Dropdown trigger="contextmenu">
+      <DropdownTrigger>
+        <button type="button">انقر بزر الفأرة الأيمن</button>
+      </DropdownTrigger>
+      <DropdownMenu aria-label="إجراءات">
+        <DropdownItem>فتح</DropdownItem>
+        <DropdownSub>
+          <DropdownSubTrigger>مشاركة</DropdownSubTrigger>
+          <DropdownSubMenu>
+            <DropdownItem>البريد</DropdownItem>
+          </DropdownSubMenu>
+        </DropdownSub>
+      </DropdownMenu>
+    </Dropdown>
+  </body>
+</html>`,
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <RightToLeftPage>
+        <Story />
+      </RightToLeftPage>
+    ),
+  ],
+  render: () => (
+    <Dropdown trigger="contextmenu">
+      <DropdownTrigger>
+        <button className={area} type="button">
+          انقر بزر الفأرة الأيمن
+        </button>
+      </DropdownTrigger>
+      <DropdownMenu aria-label="إجراءات">
+        <DropdownItem>فتح</DropdownItem>
+        <DropdownSub>
+          <DropdownSubTrigger>مشاركة</DropdownSubTrigger>
+          <DropdownSubMenu>
+            <DropdownItem>البريد</DropdownItem>
+          </DropdownSubMenu>
+        </DropdownSub>
+      </DropdownMenu>
+    </Dropdown>
+  ),
 }
 
 /**

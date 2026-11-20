@@ -36,8 +36,6 @@ import {
   CommandPaletteGroup,
   CommandPaletteItem,
   ConfirmProvider,
-  ContextMenu,
-  ContextMenuTrigger,
   Container,
   DatePicker,
   DescriptionDetails,
@@ -266,19 +264,6 @@ const entries: Entry[] = [
     ),
   ],
   ['Container', () => <Container>Content</Container>],
-  [
-    'ContextMenu',
-    () => (
-      <ContextMenu>
-        <ContextMenuTrigger>
-          <div>Area</div>
-        </ContextMenuTrigger>
-        <DropdownMenu aria-label="Actions">
-          <DropdownItem>Open</DropdownItem>
-        </DropdownMenu>
-      </ContextMenu>
-    ),
-  ],
   ['DatePicker', () => <DatePicker onValueChange={() => undefined} />],
   [
     'DescriptionList',

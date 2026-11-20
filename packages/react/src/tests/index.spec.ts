@@ -51,8 +51,6 @@ describe('@loica-ui/react', () => {
       'CommandPaletteItem',
       'ConfirmProvider',
       'Container',
-      'ContextMenu',
-      'ContextMenuTrigger',
       'DatePicker',
       'DatePickerApply',
       'DatePickerCalendar',

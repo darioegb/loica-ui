@@ -2,6 +2,7 @@ export {
   Dropdown,
   type DropdownOwnProps,
   type DropdownProps,
+  type DropdownTriggerMode,
   type DropdownVariant,
 } from './dropdown'
 export { DropdownGroup, type DropdownGroupOwnProps, type DropdownGroupProps } from './dropdown-group'
