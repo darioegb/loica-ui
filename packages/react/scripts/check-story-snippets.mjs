@@ -39,6 +39,7 @@ const DATA = {
   en: 'any',
   es: 'any',
   fetchMembers: '(...args: any[]) => Promise<any>',
+  fetchPeople: '(...args: any[]) => Promise<any>',
   members: 'any[]',
   people: 'any[]',
 }

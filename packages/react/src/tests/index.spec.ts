@@ -193,6 +193,7 @@ describe('@loica-ui/react', () => {
       'SelectGroupLabel',
       'SelectHidden',
       'SelectList',
+      'SelectLoading',
       'SelectOption',
       'SelectOptionBody',
       'SelectOptionCheck',

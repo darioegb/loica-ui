@@ -11,12 +11,13 @@ import { SelectContentContext } from './select-content-context'
 import { useSelectContext } from './select-context'
 import { SelectEmpty } from './select-empty'
 import { SelectList } from './select-list'
+import { SelectLoading } from './select-loading'
 import { hasPart } from '../../../overlay/has-part'
 import { SelectSearch } from './select-search'
 import { SelectSearchInput } from './select-search-input'
 import styles from './select.module.css'
 
-const CONTENT_PARTS = [SelectEmpty, SelectList, SelectSearch, SelectSearchInput]
+const CONTENT_PARTS = [SelectEmpty, SelectList, SelectLoading, SelectSearch, SelectSearchInput]
 
 type SelectContentRootAttributes = Pick<HTMLAttributes<HTMLDivElement>, 'aria-label' | 'children'>
 
@@ -32,7 +33,7 @@ export type SelectContentProps = Omit<ComponentProps, 'index'> &
 /**
  * The panel with the list. It is as wide as the trigger and scrolls when it is long. Given
  * `children` that are not parts, they are the options of a `SelectList`; given `SelectSearch`,
- * `SelectList` or `SelectEmpty` it renders them as written.
+ * `SelectList`, `SelectLoading` or `SelectEmpty` it renders them as written.
  */
 export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>(
   (
@@ -91,6 +92,7 @@ export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>(
                 <SelectSearch>
                   <SelectSearchInput />
                 </SelectSearch>
+                <SelectLoading />
                 <SelectList>{children}</SelectList>
                 <SelectEmpty />
               </>

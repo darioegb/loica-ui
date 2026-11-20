@@ -68,6 +68,21 @@ export function useSelectKeyboard(options: UseSelectKeyboardOptions): SelectKeyb
     scrollOptionIntoView(target)
   }, [open, listbox, query])
 
+  const registered = options.options
+  const activeRef = useRef(activeId)
+  activeRef.current = activeId
+  useEffect(() => {
+    if (!open) return
+    const enabled = getEnabledOptions(listbox)
+    if (enabled.some((option) => option.id === activeRef.current)) return
+    const chosen = enabled.find((option) =>
+      latest.current.selected.includes(option.dataset.value ?? ''),
+    )
+    const target = chosen ?? enabled[0]
+    setActiveId(target?.id)
+    scrollOptionIntoView(target)
+  }, [open, listbox, registered])
+
   const focusOption = (option: HTMLElement | undefined): void => {
     if (!option) return
     setActiveId(option.id)
