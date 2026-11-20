@@ -3,7 +3,6 @@
 import type { ForwardedRef, KeyboardEvent, MouseEvent, ReactNode, RefObject } from 'react'
 import { forwardRef, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import { foldText } from '../../../overlay/fold-text'
 import type { ComponentProps } from '../../../theme'
 import { useSelectContext, type SelectOptionRecord } from './select-context'
 import { SelectOptionBody } from './select-option-body'
@@ -12,6 +11,7 @@ import { SelectOptionContext } from './select-option-context'
 import { SelectOptionDescription } from './select-option-description'
 import { SelectOptionIcon } from './select-option-icon'
 import { SelectOptionText } from './select-option-text'
+import { matchesQuery } from './select-match'
 import { hasPart } from '../../../overlay/has-part'
 import styles from './select.module.css'
 
@@ -47,9 +47,6 @@ export interface SelectOptionOwnProps {
 }
 
 export type SelectOptionProps = Omit<ComponentProps, 'index'> & SelectOptionOwnProps
-
-const matchesQuery = (label: string, query: string, locale: string): boolean =>
-  foldText(label, locale).includes(foldText(query, locale))
 
 const isActivationKey = (key: string): boolean => key === 'Enter' || key === ' '
 
@@ -112,14 +109,14 @@ export const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>(
     const id = useId()
     const descriptionId = useId()
     const textId = useId()
-    const { isStyled, locale, query, register, select, setActiveId } = context
+    const { filter, isStyled, locale, query, register, select, setActiveId } = context
     const { resolved, textRef } = useOptionRecord(
       { children, disabled, icon, label, value },
       register,
     )
 
     const selected = context.isSelected(value)
-    const matches = matchesQuery(resolved, query, locale)
+    const matches = matchesQuery(resolved, query, locale, filter)
     const [described, setDescribed] = useState(Boolean(description))
     const optionContext = useMemo(
       () => ({ description, descriptionId, icon, selected, setDescribed, textId, textRef }),

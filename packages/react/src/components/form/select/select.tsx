@@ -1,7 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { useCallback, useEffect, useId, useMemo, useState } from 'react'
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { Placement } from '../../../overlay'
 import { useLabels, useResolvedLocale } from '../../../locale/locale-provider'
 import { createCountFormatter } from '../../../overlay/format-count'
@@ -11,6 +11,7 @@ import type { ColorScheme, Shape, Size } from '../../../theme'
 import {
   SelectContext,
   type SelectLabelling,
+  type SelectedOption,
   type SelectLabels,
   type SelectOptionRecord,
   type SelectVariant,
@@ -67,12 +68,28 @@ interface SelectBaseProps {
    */
   disabled?: boolean
   /**
+   * Whether the select hides the options that don't match the search. Turn it off when the options
+   * already come filtered, as in a search on a server, and the list shows the ones you pass. The
+   * select then remembers the text of the chosen options, so they stay in the field when the next
+   * results don't have them.
+   * @default true
+   * @since 1.4
+   */
+  filter?: boolean
+  /**
    * Opens on the opposite side when there is no room on the one asked for.
    * @default true
    */
   flip?: boolean
   /** Id of the button of the trigger. A `Field` sets it, to link its label to the select. */
   id?: string
+  /**
+   * Shows a `Loader` in the list and marks it busy, while the options arrive. The options you
+   * already have stay in the list, and the empty message waits.
+   * @default false
+   * @since 1.4
+   */
+  loading?: boolean
   /**
    * Name of the field in a form. The select adds hidden inputs with the chosen values: one for a
    * single value, one for each value when it is `multiple`.
@@ -85,6 +102,13 @@ interface SelectBaseProps {
   offset?: number
   /** Called with the new state when the list opens or closes. */
   onOpenChange?: (open: boolean) => void
+  /**
+   * Called with the text of the search each time it changes, and with an empty string when the list
+   * closes. Needs `searchable`. Search on a server with it, and turn off `filter`; wait for the user
+   * to stop typing with `useDebounce`.
+   * @since 1.4
+   */
+  onSearchChange?: (query: string) => void
   /** Whether the list is open, for a controlled select. Pair it with `onOpenChange`. */
   open?: boolean
   /**
@@ -288,12 +312,15 @@ export function Select({
   defaultOpen = false,
   defaultValue,
   disabled = false,
+  filter = true,
   flip = true,
   id,
+  loading = false,
   multiple = false,
   name,
   offset = 4,
   onOpenChange,
+  onSearchChange,
   onValueChange,
   open: openProp,
   options: optionsData,
@@ -420,13 +447,29 @@ export function Select({
   })
 
   const fromData = useMemo(() => recordsOf(optionsData), [optionsData])
-  const chosen = useMemo(
-    () =>
-      selected.flatMap(
-        (item) => options.find((record) => record.value === item) ?? fromData.get(item) ?? [],
-      ),
-    [fromData, options, selected],
-  )
+  const known = useRef(new Map<string, SelectedOption>())
+  const chosen = useMemo(() => {
+    const remembered = new Map<string, SelectedOption>()
+    const found = selected.flatMap((item) => {
+      const option =
+        options.find((record) => record.value === item) ??
+        fromData.get(item) ??
+        (filter ? undefined : known.current.get(item))
+      if (option) remembered.set(item, option)
+      return option ?? []
+    })
+    known.current = remembered
+    return found
+  }, [filter, fromData, options, selected])
+
+  const searched = useRef(query)
+  const latestSearchChange = useRef(onSearchChange)
+  latestSearchChange.current = onSearchChange
+  useEffect(() => {
+    if (searched.current === query) return
+    searched.current = query
+    latestSearchChange.current?.(query)
+  }, [query])
 
   const context = useMemo(
     () => ({
@@ -438,6 +481,7 @@ export function Select({
       controlId: baseId,
       describedBy,
       disabled,
+      filter,
       flip,
       invalid: ariaInvalid === true || ariaInvalid === 'true',
       isSelected,
@@ -445,6 +489,7 @@ export function Select({
       labelling,
       labels: text,
       listboxId: `${baseId}-listbox`,
+      loading,
       locale,
       multiple,
       name,
@@ -486,9 +531,11 @@ export function Select({
       colorScheme,
       describedBy,
       disabled,
+      filter,
       flip,
       isSelected,
       labelling,
+      loading,
       locale,
       multiple,
       name,
