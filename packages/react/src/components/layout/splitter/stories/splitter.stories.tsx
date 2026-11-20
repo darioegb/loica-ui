@@ -343,11 +343,12 @@ export const Nested: Story = {
 
 /**
  * With `dir="rtl"` the first panel is on the right, dragging and the arrow keys follow what the user sees, and
- * <kbd>←</kbd> grows the first panel. Set `dir` on the `<html>`.
+ * <kbd>←</kbd> grows the first panel. Set `dir` on the `<html>`; the example runs in a frame of its own so it doesn't flip this page.
  */
 export const RightToLeft: Story = {
   parameters: {
     docs: {
+      story: { inline: false, iframeHeight: 260 },
       source: {
         code: `<html dir="rtl">
   <body>
