@@ -29,7 +29,7 @@ describe('useDismiss', () => {
     const onDismiss = vi.fn()
     render(<Harness onDismiss={onDismiss} />)
     fireEvent.keyDown(document, { key: 'Escape' })
-    expect(onDismiss).toHaveBeenCalledExactlyOnceWith('escape')
+    expect(onDismiss).toHaveBeenCalledExactlyOnceWith('escape', expect.objectContaining({ key: 'Escape' }))
   })
 
   it('ignores other keys', () => {
@@ -42,8 +42,12 @@ describe('useDismiss', () => {
   it('dismisses with the outside reason on a press outside of the elements', () => {
     const onDismiss = vi.fn()
     render(<Harness onDismiss={onDismiss} />)
-    fireEvent.pointerDown(screen.getByText('outside'))
-    expect(onDismiss).toHaveBeenCalledExactlyOnceWith('outside')
+    const outside = screen.getByText('outside')
+    fireEvent.pointerDown(outside)
+    expect(onDismiss).toHaveBeenCalledExactlyOnceWith(
+      'outside',
+      expect.objectContaining({ target: outside }),
+    )
   })
 
   it('ignores a press inside of the elements', () => {

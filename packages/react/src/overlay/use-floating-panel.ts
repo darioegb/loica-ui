@@ -14,7 +14,7 @@ export interface UseFloatingPanelOptions {
   offset?: number
   /** False for popups that keep the focus on their anchor, like Select. */
   ownsFocus?: boolean
-  onDismiss: (reason: DismissReason) => void
+  onDismiss: (reason: DismissReason, event?: Event) => void
   placement?: Placement
   shift?: boolean
   tabOut?: boolean

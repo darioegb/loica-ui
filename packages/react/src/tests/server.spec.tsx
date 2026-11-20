@@ -55,6 +55,9 @@ import {
   DropdownLabel,
   DropdownMenu,
   DropdownSeparator,
+  DropdownSub,
+  DropdownSubMenu,
+  DropdownSubTrigger,
   DropdownTrigger,
   EmptyState,
   Field,
@@ -339,6 +342,12 @@ const entries: Entry[] = [
             <DropdownItem>Profile</DropdownItem>
           </DropdownGroup>
           <DropdownSeparator />
+          <DropdownSub>
+            <DropdownSubTrigger>Share</DropdownSubTrigger>
+            <DropdownSubMenu>
+              <DropdownItem>Email</DropdownItem>
+            </DropdownSubMenu>
+          </DropdownSub>
           <DropdownItem>Sign out</DropdownItem>
         </DropdownMenu>
       </Dropdown>

@@ -1,15 +1,15 @@
 'use client'
 
-import type { ForwardedRef, HTMLAttributes, KeyboardEvent, ReactNode } from 'react'
-import { forwardRef, useEffect } from 'react'
-import { useResolvedLocale } from '../../../locale/locale-provider'
+import type { ForwardedRef, HTMLAttributes, ReactNode } from 'react'
+import { forwardRef, useEffect, useMemo } from 'react'
 import { Portal, useFocusTrap } from '../../../overlay'
 import { joinClasses } from '../../../overlay/class-names'
 import { useFloatingPanel } from '../../../overlay/use-floating-panel'
 import { mergeRefs } from '../../../overlay/trigger'
-import { isTypeaheadKey, matchTypeahead, useTypeahead } from '../../../overlay/use-typeahead'
 import type { ComponentProps } from '../../../theme'
 import { useDropdownContext } from './dropdown-context'
+import { focusItem, getItems, useMenuKeyDown } from './dropdown-keyboard'
+import { DropdownLevelContext, type DropdownLevel } from './dropdown-level-context'
 import styles from './dropdown.module.css'
 
 type DropdownMenuRootAttributes = Pick<
@@ -19,14 +19,6 @@ type DropdownMenuRootAttributes = Pick<
 
 export type DropdownMenuProps = Omit<ComponentProps, 'index'> & DropdownMenuRootAttributes
 
-const getItems = (menu: HTMLElement): HTMLElement[] =>
-  Array.from(menu.querySelectorAll<HTMLElement>('[role="menuitem"]')).filter(
-    (item) =>
-      item.getAttribute('aria-disabled') !== 'true' && !(item as HTMLButtonElement).disabled,
-  )
-
-const focusItem = (item: HTMLElement | undefined): void => item?.focus({ preventScroll: true })
-
 /** The menu. It is named after the trigger unless you give it a name. */
 export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(
   (
@@ -35,6 +27,7 @@ export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(
   ): ReactNode => {
     const context = useDropdownContext('DropdownMenu')
     const {
+      anchor,
       flip,
       initialItem,
       isStyled,
@@ -46,10 +39,8 @@ export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(
       shift,
       trigger,
     } = context
-    const type = useTypeahead()
-    const locale = useResolvedLocale()
     const { isTopmost, panel, position, setPanel } = useFloatingPanel({
-      anchor: trigger,
+      anchor,
       enabled: open,
       flip,
       offset,
@@ -59,6 +50,15 @@ export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(
     })
 
     useFocusTrap(panel, { active: open, isTopmost, returnFocus: trigger })
+    const handleKeyDown = useMenuKeyDown(() => setOpen(false))
+    const level = useMemo<DropdownLevel>(
+      () => ({
+        close: () => setOpen(false),
+        contains: (target) => Boolean(target && (panel?.contains(target) || anchor?.contains(target))),
+        parent: undefined,
+      }),
+      [anchor, panel, setOpen],
+    )
 
     useEffect(() => {
       if (!open || !panel) return
@@ -68,29 +68,6 @@ export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(
     }, [initialItem, open, panel])
 
     if (!open) return null
-
-    const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
-      const items = getItems(event.currentTarget)
-      const current = items.indexOf(document.activeElement as HTMLElement)
-      let next: number | undefined
-      if (event.key === 'ArrowDown') next = (current + 1) % items.length
-      else if (event.key === 'ArrowUp') next = current <= 0 ? items.length - 1 : current - 1
-      else if (event.key === 'Home') next = 0
-      else if (event.key === 'End') next = items.length - 1
-      else if (event.key === 'Tab') {
-        event.preventDefault()
-        setOpen(false)
-        return
-      } else if (isTypeaheadKey(event)) {
-        const labels = items.map((item) => item.textContent ?? '')
-        const match = matchTypeahead(labels, type(event.key), current, locale)
-        if (match >= 0) focusItem(items[match])
-        return
-      }
-      if (next === undefined) return
-      event.preventDefault()
-      focusItem(items[next])
-    }
 
     const classes = joinClasses(
       isStyled && styles.menu,
@@ -117,7 +94,7 @@ export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(
           style={{ ...position.style, opacity: position.isPositioned ? undefined : 0, ...style }}
           tabIndex={-1}
         >
-          {children}
+          <DropdownLevelContext.Provider value={level}>{children}</DropdownLevelContext.Provider>
         </div>
       </Portal>
     )
