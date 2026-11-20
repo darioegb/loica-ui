@@ -98,6 +98,10 @@
   inline-size: var(--carousel-control);
 }
 
+.arrow:dir(rtl) svg {
+  transform: scaleX(-1);
+}
+
 .prev,
 .next {
   align-self: center;

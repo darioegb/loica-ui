@@ -2,6 +2,7 @@
 
 import type { ClipboardEvent, KeyboardEvent, RefObject } from 'react'
 import { useEffect, useRef } from 'react'
+import { logicalKey } from '../../../overlay/direction'
 import { useControllableState } from '../../../overlay/use-controllable-state'
 import { extractTyped, insertAt, removeAt, sanitize, type PinInputType } from './pin-utils'
 
@@ -86,7 +87,7 @@ export function usePinInput({
   }
 
   const onKeyDown = (index: number, event: KeyboardEvent<HTMLInputElement>): void => {
-    const move = moves[event.key]
+    const move = moves[logicalKey(event.key, event.currentTarget)]
     if (move) {
       event.preventDefault()
       focusCell(move(index))

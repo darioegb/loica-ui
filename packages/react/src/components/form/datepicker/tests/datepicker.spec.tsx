@@ -12,6 +12,10 @@ import { LocaleProvider } from '../../../../locale/locale-provider'
 import type { DateRange } from '../datepicker'
 import { Modal, ModalBody, ModalContent } from '../../../overlay/modal'
 
+afterEach(() => {
+  document.documentElement.removeAttribute('dir')
+})
+
 const openCalendar = (): void => {
   fireEvent.click(screen.getByRole('button', { name: 'Open calendar' }))
 }
@@ -656,6 +660,18 @@ describe('DatePicker component', () => {
 
       fireEvent.keyDown(dayButton(29, 0), { key: 'Home' })
       expect(dayButton(23, 0)).toHaveFocus()
+    })
+
+    it('swaps the horizontal arrows in right-to-left text', () => {
+      document.documentElement.dir = 'rtl'
+      render(<DatePicker onValueChange={vi.fn()} value={value} />)
+      openCalendar()
+
+      fireEvent.keyDown(dayButton(15, 0), { key: 'ArrowLeft' })
+      expect(dayButton(16, 0)).toHaveFocus()
+
+      fireEvent.keyDown(dayButton(16, 0), { key: 'ArrowRight' })
+      expect(dayButton(15, 0)).toHaveFocus()
     })
 
     it('changes month when the arrow keys leave the visible one', () => {

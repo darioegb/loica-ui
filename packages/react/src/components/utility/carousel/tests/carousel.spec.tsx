@@ -14,6 +14,10 @@ import {
 import type { CarouselProps } from '..'
 import { LocaleProvider } from '../../../../locale/locale-provider'
 
+afterEach(() => {
+  document.documentElement.removeAttribute('dir')
+})
+
 const scrollTo = vi.fn()
 let reducedMotion = false
 
@@ -272,6 +276,16 @@ describe('Carousel component', () => {
       expect(tabs()[2]).toHaveFocus()
       await userEvent.keyboard('{ArrowRight}')
       expect(tabs()[0]).toHaveFocus()
+    })
+
+    it('swaps the arrows of the dots in right-to-left text', async () => {
+      document.documentElement.dir = 'rtl'
+      render(<Demo />)
+      tabs()[0].focus()
+      await userEvent.keyboard('{ArrowLeft}')
+      expect(tabs()[1]).toHaveFocus()
+      await userEvent.keyboard('{ArrowRight}{ArrowRight}')
+      expect(tabs()[2]).toHaveFocus()
     })
 
     it('goes to the first and the last with Home and End', async () => {

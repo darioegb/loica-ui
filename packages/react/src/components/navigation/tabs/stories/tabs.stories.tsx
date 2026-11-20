@@ -568,6 +568,48 @@ export const ExtraContent: Story = {
 }
 
 /**
+ * Inside `dir="rtl"` the tabs run from right to left, and the left arrow goes to the next tab.
+ */
+export const RightToLeft: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<div dir="rtl">
+  <Tabs>
+    <TabList>
+      <Tab label="One" />
+      <Tab label="Two" />
+      <Tab label="Three" />
+    </TabList>
+    <TabPanels>
+      <TabPanel>
+        <p>one!</p>
+      </TabPanel>
+      <TabPanel>
+        <p>two!</p>
+      </TabPanel>
+      <TabPanel>
+        <p>three!</p>
+      </TabPanel>
+    </TabPanels>
+  </Tabs>
+</div>`,
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <div dir="rtl">
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    children: commonTabs,
+  },
+}
+
+/**
  * This is a disabled Tabs.
  * Just adding the **disabled** prop in true.
  * The disabled state add **.disabled** class,

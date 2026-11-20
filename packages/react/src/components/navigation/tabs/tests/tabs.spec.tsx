@@ -1,6 +1,10 @@
 import { render, fireEvent, screen, waitFor } from '@testing-library/react'
 import { Tab, TabList, TabPanel, TabPanels, Tabs, type TabsProps } from '..'
 
+afterEach(() => {
+  document.documentElement.removeAttribute('dir')
+})
+
 describe('Tabs Component', () => {
   it('should call onChange with the correct index when a tab is clicked', () => {
     const onChangeMock = vi.fn()
@@ -235,6 +239,18 @@ describe('Tabs Component', () => {
       fireEvent.keyDown(tab('One'), { key: 'ArrowLeft' })
       expect(tab('Four')).toHaveFocus()
       expect(screen.getByRole('tabpanel')).toHaveTextContent('Panel Four')
+    })
+
+    it('swaps the arrow keys in right-to-left text', () => {
+      document.documentElement.dir = 'rtl'
+      renderTabs()
+      tab('One').focus()
+
+      fireEvent.keyDown(tab('One'), { key: 'ArrowLeft' })
+      expect(tab('Three')).toHaveFocus()
+
+      fireEvent.keyDown(tab('Three'), { key: 'ArrowRight' })
+      expect(tab('One')).toHaveFocus()
     })
 
     it('jumps to the first and last tab with Home and End', () => {

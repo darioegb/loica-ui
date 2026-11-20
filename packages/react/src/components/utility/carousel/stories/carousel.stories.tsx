@@ -852,6 +852,40 @@ export const Translated: Story = {
 }
 
 /**
+ * Inside `dir="rtl"` the previous button is at the right and its arrow points right, and the left arrow moves to the next dot.
+ */
+export const RightToLeft: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<div dir="rtl">
+  <Carousel aria-label="Featured places">
+    <CarouselSlides>
+      <CarouselSlide>
+        <div className="h-44 bg-primary-solid p-4 text-primary-on-solid">Mountains</div>
+      </CarouselSlide>
+      <CarouselSlide>
+        <div className="h-44 bg-success-solid p-4 text-success-on-solid">Forest</div>
+      </CarouselSlide>
+    </CarouselSlides>
+    <CarouselPrev />
+    <CarouselNext />
+    <CarouselDots />
+  </Carousel>
+</div>`,
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <div dir="rtl">
+        <Story />
+      </div>
+    ),
+  ],
+}
+
+/**
  * Every element of the Carousel is a part you can import, and the root holds whatever you put in it. The dots are
  * data-driven, so `CarouselDots` takes a function that gets the position of each dot, or the `CarouselDot` elements
  * themselves. Here the dots use the `numbers` appearance, and each one is named and titled after its slide.

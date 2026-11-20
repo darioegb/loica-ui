@@ -189,6 +189,7 @@ Copy it into the pull request description.
 **Accessibility**
 - [ ] The right role, name and state (`aria-*`) for the pattern
 - [ ] Fully usable with the keyboard, with a visible focus
+- [ ] Right to left: the CSS uses logical properties (`margin-inline-start`, `inset-inline-end`, never `left` or `right`), a horizontal arrow key goes through `logicalKey(event.key, event.currentTarget)` of `src/overlay/direction` so it follows `dir`, an icon that points to a side is mirrored with `:dir(rtl)`, and a `RightToLeft` story and a spec set `dir="rtl"` on the document
 - [ ] Overlays share one `useLayer` between `useDismiss` and `useFocusTrap`, and return the focus to the trigger
 - [ ] No violations in light and dark mode: `pnpm --filter @loica-ui/docs check:a11y <name>` passes, and the open overlays are clean in the accessibility panel
 

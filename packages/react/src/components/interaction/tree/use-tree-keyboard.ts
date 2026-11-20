@@ -2,6 +2,7 @@
 
 import type { KeyboardEvent, RefObject } from 'react'
 import { useCallback, useEffect, useRef } from 'react'
+import { logicalKey } from '../../../overlay/direction'
 import { findTypeaheadMatch, parentItem, visibleItems } from './tree-navigation'
 
 const typeaheadDelay = 500
@@ -125,7 +126,7 @@ export function useTreeKeyboard({
         return
       }
 
-      const action = keyActions[event.key]
+      const action = keyActions[logicalKey(event.key, event.currentTarget)]
 
       if (action && !event.altKey && !event.ctrlKey && !event.metaKey) {
         event.preventDefault()

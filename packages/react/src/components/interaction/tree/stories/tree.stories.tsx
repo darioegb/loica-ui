@@ -880,6 +880,45 @@ export const Controlled: Story = {
 }
 
 /**
+ * Inside `dir="rtl"` the chevron points to the start of the row, and the keys follow it: the left arrow opens a branch and goes to its first child, and the right arrow closes it and goes back to the parent.
+ */
+export const RightToLeft: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<div dir="rtl">
+  <Tree aria-label="Project files" defaultExpanded={['src']} defaultValue="index">
+    <TreeItem value="src">
+      <TreeItemLabel>src</TreeItemLabel>
+      <TreeItemGroup>
+        <TreeItem value="index">
+          <TreeItemLabel>index.ts</TreeItemLabel>
+        </TreeItem>
+      </TreeItemGroup>
+    </TreeItem>
+    <TreeItem value="public">
+      <TreeItemLabel>public</TreeItemLabel>
+      <TreeItemGroup>
+        <TreeItem value="logo">
+          <TreeItemLabel>logo.svg</TreeItemLabel>
+        </TreeItem>
+      </TreeItemGroup>
+    </TreeItem>
+  </Tree>
+</div>`,
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <div dir="rtl">
+        <Story />
+      </div>
+    ),
+  ],
+}
+
+/**
  * An item with **disabled** can't be selected or opened, and the keyboard skips it. It is marked with
  * `aria-disabled`.
  */

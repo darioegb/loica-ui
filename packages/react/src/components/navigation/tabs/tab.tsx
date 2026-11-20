@@ -3,6 +3,7 @@
 import { forwardRef } from 'react'
 import type { ForwardedRef, HTMLAttributes, KeyboardEvent, ReactNode } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
+import { logicalKey } from '../../../overlay/direction'
 import { Button } from '../../interaction/button'
 import type { ComponentProps } from '../../../theme'
 import styles from './tabs.module.css'
@@ -67,7 +68,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
         [nextKey]: tabs[(current + 1) % tabs.length],
         Home: tabs[0],
         End: tabs[tabs.length - 1],
-      }[event.key]
+      }[logicalKey(event.key, event.currentTarget)]
       if (!target) return
 
       event.preventDefault()

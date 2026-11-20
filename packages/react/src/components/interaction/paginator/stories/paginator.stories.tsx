@@ -475,6 +475,34 @@ export const Translated: Story = {
 }
 
 /**
+ * Inside `dir="rtl"` the first page is at the right, and the arrows of the previous and next buttons and of the edges
+ * point the other way.
+ */
+export const RightToLeft: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<div dir="rtl">
+  <Paginator aria-label="Pages" defaultPage={4} showEdges total={100} />
+</div>`,
+      },
+    },
+  },
+  args: {
+    defaultPage: 4,
+    showEdges: true,
+    total: 100,
+  },
+  decorators: [
+    (Story) => (
+      <div dir="rtl">
+        <Story />
+      </div>
+    ),
+  ],
+}
+
+/**
  * A disabled Paginator can't be used. The current page keeps showing.
  */
 export const Disabled: Story = {

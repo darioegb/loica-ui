@@ -3,6 +3,7 @@
 import type { ButtonHTMLAttributes, ForwardedRef, KeyboardEvent, ReactNode } from 'react'
 import { forwardRef, useContext } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
+import { logicalKey } from '../../../overlay/direction'
 import type { ComponentProps } from '../../../theme'
 import { CarouselDotIndexContext, getSlideId, useCarouselContext } from './carousel-context'
 import styles from './carousel.module.css'
@@ -58,7 +59,7 @@ export const CarouselDot = forwardRef<HTMLButtonElement, CarouselDotProps>(
           ?.querySelectorAll<HTMLElement>('[data-loica-carousel-dot]') ?? [],
       )
       const target = keyTargets(
-        event.key,
+        logicalKey(event.key, event.currentTarget),
         dots.indexOf(event.currentTarget),
         dots.length,
         orientation === 'vertical',

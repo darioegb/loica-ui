@@ -145,6 +145,25 @@ function Root({ children }) {
 }
 ```
 
+## Right-to-left languages
+
+The components follow the direction of the text, from the `dir` attribute or the CSS `direction` of the page or of
+any element around them: the layout uses logical properties, the arrow keys of the `Tabs`, the `Tree`, the
+`Carousel` dots, the `PinInput` and the calendar of the `DatePicker` move the way the user sees them (the left arrow
+goes to the next item when the text runs right to left), and the arrows of the `Paginator`, the `Carousel`, the
+`Tree` and the calendar point the other way. Setting the language does not set the direction, so put both on the
+root of the app.
+
+```tsx
+<html lang='ar' dir='rtl'>
+  <body>
+    <LocaleProvider locale='ar' messages={ar}>
+      <App />
+    </LocaleProvider>
+  </body>
+</html>
+```
+
 ## With an i18n library
 
 Build the messages from your library and pass them to the provider. When the library changes the language, your
