@@ -112,6 +112,8 @@
     "keyNumbers": "Cifras clave",
     "activeProjects": "Proyectos activos",
     "due": "Entrega el {date}",
+    "explorer": "Explorador de proyectos",
+    "explorerLabel": "Proyectos y sus detalles",
     "progress": "Progreso de {name}",
     "loading": "Cargando el panel",
     "metrics": {
@@ -373,6 +375,7 @@
       "search": "Buscar"
     },
     "sidebarToggle": { "label": "Mostrar u ocultar la barra lateral" },
+    "splitter": { "resize": "Redimensionar la lista y el detalle" },
     "stepper": { "completed": "Completado", "upcoming": "Sin empezar" },
     "textarea": {
       "count": "{current, number}",

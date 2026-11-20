@@ -12,6 +12,7 @@ import {
   Stat,
 } from '@loica-ui/react'
 import { DashboardTour } from '@/components/dashboard-tour'
+import { ProjectExplorer } from '@/components/project-explorer'
 import { getDashboard } from '@/lib/data'
 import { formatDue } from '@/lib/format'
 import { getUser } from '@/lib/session'
@@ -95,6 +96,8 @@ export default async function DashboardPage(): Promise<ReactNode> {
           </ul>
         </CardBody>
       </Card>
+
+      <ProjectExplorer projects={projects} />
     </>
   )
 }

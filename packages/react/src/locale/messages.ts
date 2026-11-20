@@ -15,6 +15,7 @@ import type { PinInputLabels } from '../components/form/pininput'
 import type { RatingLabels } from '../components/form/rating'
 import type { SelectLabels } from '../components/form/select'
 import type { SliderLabels } from '../components/form/slider'
+import type { SplitterLabels } from '../components/layout/splitter'
 import type { StatLabels } from '../components/presentation/stat'
 import type { StepperLabels } from '../components/navigation/stepper'
 import type { TextareaLabels } from '../components/form/textarea'
@@ -49,6 +50,7 @@ export interface MessageMap {
   select: SelectLabels
   sidebarToggle: SingleLabel
   slider: SliderLabels
+  splitter: SplitterLabels
   stat: StatLabels
   stepper: StepperLabels
   textarea: TextareaLabels

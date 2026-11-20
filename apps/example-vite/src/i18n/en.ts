@@ -13,6 +13,8 @@ export const en = {
     activeProjects: "Active projects",
     description: "Here is where your projects stand today.",
     due: "Due {{date}}",
+    explorer: "Project explorer",
+    explorerLabel: "Projects and their details",
     keyNumbers: "Key numbers",
     loadError: "Could not load the dashboard. Reload the page to try again.",
     loading: "Loading the dashboard",
@@ -146,6 +148,7 @@ export const en = {
       remaining_one: "{{count}} character left",
       remaining_other: "{{count}} characters left",
     },
+    splitter: { resize: "Resize the list and the details" },
     toast: { region: "Notifications" },
     tour: {
       done: "Done",

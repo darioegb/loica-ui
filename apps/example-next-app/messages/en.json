@@ -112,6 +112,8 @@
     "keyNumbers": "Key numbers",
     "activeProjects": "Active projects",
     "due": "Due {date}",
+    "explorer": "Project explorer",
+    "explorerLabel": "Projects and their details",
     "progress": "{name} progress",
     "loading": "Loading the dashboard",
     "metrics": {
@@ -373,6 +375,7 @@
       "search": "Search"
     },
     "sidebarToggle": { "label": "Toggle sidebar" },
+    "splitter": { "resize": "Resize the list and the details" },
     "stepper": { "completed": "Completed", "upcoming": "Not started" },
     "textarea": {
       "count": "{current, number}",

@@ -108,6 +108,9 @@ import {
   SidebarToggle,
   Skeleton,
   Slider,
+  Splitter,
+  SplitterHandle,
+  SplitterPanel,
   Stack,
   Stat,
   Step,
@@ -538,6 +541,17 @@ const entries: Entry[] = [
   ],
   ['Skeleton', () => <Skeleton />],
   ['Slider', () => <Slider aria-label="Volume" defaultValue={30} />],
+  [
+    'Splitter',
+    () => (
+      <Splitter aria-label="Panels" defaultSizes={[30, 70]}>
+        <SplitterPanel>Left</SplitterPanel>
+        <SplitterHandle />
+        <SplitterPanel>Right</SplitterPanel>
+      </Splitter>
+    ),
+    ['Splitter', 'SplitterHandle', 'SplitterPanel'],
+  ],
   ['Stack', () => <Stack>Content</Stack>],
   ['Stat', () => <Stat change="+4%" label="Users" trend="up" value={1234} />],
   [

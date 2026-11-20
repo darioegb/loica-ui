@@ -81,6 +81,7 @@ export function loicaMessages(t: TFunction): LoicaMessages {
       remaining: (remaining) =>
         t("loica.textarea.remaining", { count: remaining }),
     },
+    splitter: { resize: () => t("loica.splitter.resize") },
     toast: {
       region: t("loica.toast.region"),
     },

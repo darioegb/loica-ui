@@ -15,6 +15,8 @@ export const es: Translation = {
     activeProjects: "Proyectos activos",
     description: "Así van tus proyectos hoy.",
     due: "Vence el {{date}}",
+    explorer: "Explorador de proyectos",
+    explorerLabel: "Proyectos y sus detalles",
     keyNumbers: "Cifras clave",
     loadError: "No se pudo cargar el panel. Recarga la página para intentarlo de nuevo.",
     loading: "Cargando el panel",
@@ -148,6 +150,7 @@ export const es: Translation = {
       remaining_one: "Queda {{count}} carácter",
       remaining_other: "Quedan {{count}} caracteres",
     },
+    splitter: { resize: "Redimensionar la lista y el detalle" },
     toast: { region: "Notificaciones" },
     tour: {
       done: "Listo",
