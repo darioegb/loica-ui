@@ -199,7 +199,7 @@ Copy it into the pull request description.
 
 **Docs**
 - [ ] Story with `autodocs`, a description, the `argTypes` the Controls panel needs (`pnpm dev` shows the Controls of the `Default` story as a playground on the docs page, only the props that have a `control`, so give one to the props worth trying and `control: false` to the rest; the published docs don't show it) and the main variations, in the usual order (the docs page, its API reference and its Source link are generated from it)
-- [ ] The card of the [Components](apps/docs/stories/components.mdx) overview has its picture: add an entry for the component to `apps/docs/src/component-previews.tsx`, in alphabetical order, with a small and static example built from Loica components (`pnpm lint` fails when one is missing). A component that has no page of its own, as `useConfirm`, has no card
+- [ ] The card of the [Components](apps/docs/stories/components.mdx) overview has its picture: add an entry for the component to `apps/docs/src/component-previews.tsx`, in alphabetical order, with a small and static example built from Loica components (`pnpm lint` fails when one is missing). The card is a picture, so the example shows the component at rest: it fits the card without being cut (about 8 rem of height, at three quarters of its size) and nothing in it moves, which `globals.css` of the docs makes sure of for animations and transitions. A component that has no page of its own, as `useConfirm`, has no card
 - [ ] The component is listed alphabetically in `packages/react/README.md` (the scaffold already adds it to the root README)
 - [ ] Added after 1.0: the component, part or prop has `@since <major>.<minor>` in its JSDoc
 
