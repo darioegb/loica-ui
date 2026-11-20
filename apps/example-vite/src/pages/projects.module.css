@@ -32,6 +32,14 @@
   text-decoration: underline;
 }
 
+.dot {
+  border-radius: var(--loica-radius-full);
+  display: inline-block;
+  height: 0.75rem;
+  margin-inline-end: var(--loica-space-2);
+  width: 0.75rem;
+}
+
 /* The form wraps the body and the footer without taking part in the drawer's layout. */
 .drawerForm {
   display: contents;

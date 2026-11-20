@@ -1,0 +1,207 @@
+:global(:where([data-loica-colorpicker-area])) {
+  aspect-ratio: 3 / 2;
+  background-image:
+    linear-gradient(to top, black, transparent),
+    linear-gradient(to right, white, var(--colorpicker-hue));
+  cursor: crosshair;
+  direction: ltr;
+  display: block;
+  position: relative;
+  touch-action: none;
+  user-select: none;
+}
+
+:global(:where([data-loica-colorpicker-thumb])) {
+  block-size: 1rem;
+  inline-size: 1rem;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+:global(:where([data-loica-colorpicker-trigger])) {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  justify-content: center;
+  padding: 0;
+}
+
+:global(:where([data-loica-colorpicker-preview])) {
+  background-image:
+    linear-gradient(var(--colorpicker-current), var(--colorpicker-current)),
+    conic-gradient(
+      var(--loica-border-strong) 25%,
+      transparent 0 50%,
+      var(--loica-border-strong) 0 75%,
+      transparent 0
+    );
+  background-size:
+    100% 100%,
+    0.5rem 0.5rem;
+  block-size: 1.25rem;
+  display: block;
+  inline-size: 1.25rem;
+}
+
+:global(:where([data-loica-colorpicker-panel])) {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--loica-space-3);
+  inline-size: var(--colorpicker-width, 16rem);
+  max-inline-size: 100%;
+  position: absolute;
+}
+
+:global(:where([data-loica-colorpicker-panel][data-inline])) {
+  position: relative;
+}
+
+:global(:where([data-loica-colorpicker-controls])) {
+  align-items: center;
+  display: flex;
+  gap: var(--loica-space-2);
+}
+
+:global(:where([data-loica-colorpicker-controls] > div)) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--loica-space-1);
+  min-inline-size: 0;
+}
+
+:global(:where([data-loica-colorpicker-channels])) {
+  display: flex;
+  gap: var(--loica-space-2);
+}
+
+:global(:where([data-loica-colorpicker-channel])) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--loica-space-1);
+  min-inline-size: 0;
+}
+
+:global(:where([data-loica-colorpicker-swatches])) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--loica-space-2);
+}
+
+.hue :global([data-loica-slider-track]) {
+  background-image: linear-gradient(
+    var(--colorpicker-direction, to right),
+    hsl(0 100% 50%),
+    hsl(60 100% 50%),
+    hsl(120 100% 50%),
+    hsl(180 100% 50%),
+    hsl(240 100% 50%),
+    hsl(300 100% 50%),
+    hsl(360 100% 50%)
+  );
+}
+
+.alpha :global([data-loica-slider-track]) {
+  background-image:
+    linear-gradient(var(--colorpicker-direction, to right), transparent, var(--colorpicker-current)),
+    conic-gradient(
+      var(--loica-border-strong) 25%,
+      transparent 0 50%,
+      var(--loica-border-strong) 0 75%,
+      transparent 0
+    );
+  background-size:
+    100% 100%,
+    0.5rem 0.5rem;
+}
+
+.hue:dir(rtl),
+.alpha:dir(rtl) {
+  --colorpicker-direction: to left;
+}
+
+.hue :global([data-loica-slider-range]),
+.alpha :global([data-loica-slider-range]) {
+  display: none;
+}
+
+.panel {
+  color: var(--loica-foreground);
+  font-family: var(--loica-font-family);
+  font-size: var(--loica-font-size-sm);
+  line-height: var(--loica-line-height-normal);
+  padding: var(--loica-space-3);
+}
+
+.area {
+  border-radius: var(--loica-radius-3);
+}
+
+.area:focus-visible {
+  outline: var(--loica-focus-ring-width) solid var(--picker-scheme);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+.area[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.areaThumb {
+  background-color: var(--colorpicker-current);
+  border: 2px solid white;
+  border-radius: var(--loica-radius-full);
+  box-shadow: 0 0 0 1px black;
+  pointer-events: none;
+}
+
+.preview {
+  border: var(--loica-border-width-thin) solid var(--loica-border-strong);
+  border-radius: var(--loica-radius-full);
+}
+
+.preview[data-empty] {
+  background-image: linear-gradient(
+    to bottom right,
+    transparent calc(50% - 1px),
+    var(--loica-muted) calc(50% - 1px) calc(50% + 1px),
+    transparent calc(50% + 1px)
+  );
+}
+
+.caption {
+  color: var(--loica-muted);
+  font-size: var(--loica-font-size-xs);
+}
+
+.swatch {
+  background-color: var(--colorpicker-swatch);
+  block-size: 1.5rem;
+  border: var(--loica-border-width-thin) solid var(--loica-border-strong);
+  border-radius: var(--loica-radius-3);
+  cursor: pointer;
+  inline-size: 1.5rem;
+  padding: 0;
+}
+
+.swatch[aria-pressed='true'] {
+  box-shadow:
+    0 0 0 2px var(--loica-surface),
+    0 0 0 4px var(--picker-scheme);
+}
+
+.swatch:focus-visible {
+  outline: var(--loica-focus-ring-width) solid var(--picker-scheme);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+.swatch:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

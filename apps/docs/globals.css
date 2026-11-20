@@ -392,6 +392,14 @@ html[data-loica-color-mode='dark'] .sbdocs a.loica-page-nav-link:hover {
   margin: 0;
 }
 
+/* A preview is a picture: the loaders and the skeletons stand still, as does anything else that moves. */
+.loica-overview-preview *,
+.loica-overview-preview *::before,
+.loica-overview-preview *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
 /* The docs reset the margin of the elements of the page, which the separator of the Breadcrumb needs. */
 .sbdocs .loica-overview-preview [data-loica-breadcrumb-separator] {
   margin-inline: var(--breadcrumb-gap);

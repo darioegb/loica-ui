@@ -89,6 +89,7 @@ import '@loica-ui/react/css/input.css'
 | Chip | [Chip](https://darioegb.github.io/loica-ui/?path=/docs/components-chip--docs) |
 | Code | [Code](https://darioegb.github.io/loica-ui/?path=/docs/components-code--docs) |
 | Collapse | [Collapse](https://darioegb.github.io/loica-ui/?path=/docs/components-collapse--docs) |
+| ColorPicker | [ColorPicker](https://darioegb.github.io/loica-ui/?path=/docs/components-colorpicker--docs) |
 | CommandPalette | [CommandPalette](https://darioegb.github.io/loica-ui/?path=/docs/components-commandpalette--docs) |
 | Confirm | [Confirm](https://darioegb.github.io/loica-ui/?path=/docs/components-modal--docs) |
 | Container | [Container](https://darioegb.github.io/loica-ui/?path=/docs/components-container--docs) |

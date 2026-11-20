@@ -11,6 +11,7 @@ import {
   Button,
   Card,
   CardBody,
+  ColorPicker,
   DatePicker,
   DescriptionDetails,
   DescriptionList,
@@ -45,7 +46,10 @@ const steps = [
   { fields: [], id: 'review' },
 ] as const
 
+const projectColors = ['#ef4444', '#f59e0b', '#22c55e', '#3b82f6', '#a855f7']
+
 const initial: NewProjectInput = {
+  color: '',
   description: '',
   due: '',
   name: '',
@@ -154,6 +158,14 @@ export function NewProjectWizard({
                     value={values.description}
                   />
                 </Field>
+                <Field helperText={t('colorHelper')} label={t('color')} optionalText={t('optional')}>
+                  <ColorPicker
+                    onValueChange={(value) => set('color', value)}
+                    placeholder={t('colorPlaceholder')}
+                    swatches={projectColors}
+                    value={values.color}
+                  />
+                </Field>
                 <Field errorText={error('owner')} label={t('owner')} required>
                   <Select onValueChange={(value) => set('owner', String(value))} value={values.owner}>
                     <SelectTrigger placeholder={t('ownerPlaceholder')} />
@@ -223,6 +235,8 @@ export function NewProjectWizard({
                   <DescriptionDetails>{values.description || t('noDescription')}</DescriptionDetails>
                   <DescriptionTerm>{t('owner')}</DescriptionTerm>
                   <DescriptionDetails>{values.owner}</DescriptionDetails>
+                  <DescriptionTerm>{t('color')}</DescriptionTerm>
+                  <DescriptionDetails>{values.color || '-'}</DescriptionDetails>
                   <DescriptionTerm>{t('team')}</DescriptionTerm>
                   <DescriptionDetails>
                     <AvatarGroup max={5} size="sm">
