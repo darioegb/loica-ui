@@ -201,6 +201,13 @@ export function ProjectsBoard({ projects: initial }: Readonly<{ projects: Projec
                     onClick={() => open(project)}
                     type="button"
                   >
+                    {project.color ? (
+                      <span
+                        aria-hidden="true"
+                        className="me-2 inline-block size-3 rounded-full"
+                        style={{ background: project.color }}
+                      />
+                    ) : null}
                     {project.name}
                   </button>
                   <div className="mt-1 flex items-center gap-2 text-sm text-(--loica-muted)">

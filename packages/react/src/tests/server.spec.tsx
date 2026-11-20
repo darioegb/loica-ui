@@ -32,6 +32,7 @@ import {
   Chip,
   Code,
   Collapse,
+  ColorPicker,
   CommandPalette,
   CommandPaletteGroup,
   CommandPaletteItem,
@@ -231,6 +232,23 @@ const entries: Entry[] = [
   ['Chip', () => <Chip>Tag</Chip>],
   ['Code', () => <Code>pnpm add</Code>],
   ['Collapse', () => <Collapse open>Content</Collapse>],
+  ['ColorPicker', () => <ColorPicker aria-label="Brand color" defaultValue="#4f46e5" />],
+  [
+    'ColorPicker, panel',
+    () => (
+      <ColorPicker alpha defaultValue="#4f46e5" format="rgb" panel swatches={['#ef4444']} />
+    ),
+    [
+      'ColorPickerAlpha',
+      'ColorPickerArea',
+      'ColorPickerChannels',
+      'ColorPickerEyeDropper',
+      'ColorPickerHue',
+      'ColorPickerInput',
+      'ColorPickerPanel',
+      'ColorPickerSwatches',
+    ],
+  ],
   [
     'CommandPalette',
     () => (
