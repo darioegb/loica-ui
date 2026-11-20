@@ -568,6 +568,24 @@ const previews: Record<string, ReactNode> = {
       </Button>
     </div>
   ),
+  Tour: (
+    <div style={{ ...column, alignItems: 'flex-start', width: '13rem' }}>
+      <Button size="sm" variant="outline">
+        New project
+      </Button>
+      <Card variant="elevated">
+        <CardBody>
+          <div style={column}>
+            <span>Create your first project here.</span>
+            <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ opacity: 0.7 }}>Step 1 of 3</span>
+              <Button size="sm">Next</Button>
+            </div>
+          </div>
+        </CardBody>
+      </Card>
+    </div>
+  ),
   Tree: (
     <Tree aria-label="Files" defaultExpanded={['src']} style={{ width: '10rem' }}>
       <TreeItem value="src">

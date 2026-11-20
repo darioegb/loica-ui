@@ -83,6 +83,13 @@ export function LoicaLocale({ children }: Readonly<{ children: ReactNode }>): Re
         remaining: (count) => t('textarea.remaining', { count }),
       },
       toast: { region: t('toast.region') },
+      tour: {
+        done: t('tour.done'),
+        next: t('tour.next'),
+        previous: t('tour.previous'),
+        progress: (current, total) => t('tour.progress', { current, total }),
+        skip: t('tour.skip'),
+      },
     }),
     [t],
   )

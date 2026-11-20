@@ -135,6 +135,7 @@ import '@loica-ui/react/css/input.css'
 | Toast | [Toast](https://darioegb.github.io/loica-ui/?path=/docs/components-toast--docs) |
 | Toggle | [Toggle](https://darioegb.github.io/loica-ui/?path=/docs/components-toggle--docs) |
 | Tooltip | [Tooltip](https://darioegb.github.io/loica-ui/?path=/docs/components-tooltip--docs) |
+| Tour | [Tour](https://darioegb.github.io/loica-ui/?path=/docs/components-tour--docs) |
 | Tree | [Tree](https://darioegb.github.io/loica-ui/?path=/docs/components-tree--docs) |
 
 Coming from a 0.x version? See the [upgrading guide](https://darioegb.github.io/loica-ui/?path=/docs/guides-upgrading-to-1-0--docs).

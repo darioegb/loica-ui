@@ -84,5 +84,12 @@ export function loicaMessages(t: TFunction): LoicaMessages {
     toast: {
       region: t("loica.toast.region"),
     },
+    tour: {
+      done: t("loica.tour.done"),
+      next: t("loica.tour.next"),
+      previous: t("loica.tour.previous"),
+      progress: (current, total) => t("loica.tour.progress", { current, total }),
+      skip: t("loica.tour.skip"),
+    },
   };
 }
