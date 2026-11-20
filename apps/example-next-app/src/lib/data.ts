@@ -1,6 +1,7 @@
 export type ProjectStatus = 'onTrack' | 'atRisk' | 'delayed' | 'done'
 
 export interface Project {
+  color?: string
   description: string
   /** ISO date, `YYYY-MM-DD`. */
   due: string
@@ -16,6 +17,7 @@ export interface Project {
 export type Visibility = 'private' | 'workspace'
 
 export interface NewProjectInput {
+  color: string
   description: string
   /** ISO date, `YYYY-MM-DD`. */
   due: string
@@ -197,6 +199,7 @@ export async function getProjects(): Promise<Project[]> {
 export async function addProject(input: NewProjectInput): Promise<Project> {
   await latency(500)
   const project: Project = {
+    color: input.color || undefined,
     description: input.description,
     due: input.due,
     id: `${input.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${Date.now().toString(36)}`,

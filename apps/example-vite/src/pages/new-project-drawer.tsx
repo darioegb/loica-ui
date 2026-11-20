@@ -4,6 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
   Button,
+  ColorPicker,
   DatePicker,
   Drawer,
   DrawerBody,
@@ -43,7 +44,10 @@ import {
 } from "../lib/validation";
 import styles from "./projects.module.css";
 
+const projectColors = ["#ef4444", "#f59e0b", "#22c55e", "#3b82f6", "#a855f7"];
+
 const empty: NewProjectInput = {
+  color: "",
   description: "",
   due: "",
   name: "",
@@ -133,6 +137,26 @@ export function NewProjectDrawer({
                   {...register("description")}
                 />
               </Field>
+              <Controller
+                control={control}
+                name="color"
+                render={({ field }) => (
+                  <Field
+                    helperText={t("newProject.colorHelper")}
+                    label={t("newProject.colorLabel")}
+                    optionalText={t("newProject.descriptionOptional")}
+                  >
+                    <ColorPicker
+                      name={field.name}
+                      onValueChange={field.onChange}
+                      placeholder={t("newProject.colorPlaceholder")}
+                      ref={field.ref}
+                      swatches={projectColors}
+                      value={field.value}
+                    />
+                  </Field>
+                )}
+              />
               <Controller
                 control={control}
                 name="owner"

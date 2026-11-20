@@ -243,6 +243,13 @@ export function ProjectsBoard({
                     onClick={() => open(project)}
                     type="button"
                   >
+                    {project.color ? (
+                      <span
+                        aria-hidden="true"
+                        className={styles.dot}
+                        style={{ background: project.color }}
+                      />
+                    ) : null}
                     {project.name}
                   </button>
                   <div className="d-flex align-items-center gap-2 mt-1 small text-body-secondary">

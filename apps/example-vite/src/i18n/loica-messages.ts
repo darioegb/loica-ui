@@ -14,6 +14,23 @@ export function loicaMessages(t: TFunction): LoicaMessages {
     },
     breadcrumb: { breadcrumb: t("loica.breadcrumb.breadcrumb") },
     close: { label: t("loica.close.label") },
+    colorPicker: {
+      alpha: t("loica.colorPicker.alpha"),
+      area: t("loica.colorPicker.area"),
+      areaValue: (saturation, brightness) =>
+        t("loica.colorPicker.areaValue", { brightness, saturation }),
+      blue: t("loica.colorPicker.blue"),
+      colorPicker: t("loica.colorPicker.colorPicker"),
+      eyeDropper: t("loica.colorPicker.eyeDropper"),
+      green: t("loica.colorPicker.green"),
+      hex: t("loica.colorPicker.hex"),
+      hue: t("loica.colorPicker.hue"),
+      lightness: t("loica.colorPicker.lightness"),
+      openColorPicker: t("loica.colorPicker.openColorPicker"),
+      red: t("loica.colorPicker.red"),
+      saturation: t("loica.colorPicker.saturation"),
+      swatches: t("loica.colorPicker.swatches"),
+    },
     commandPalette: {
       empty: t("loica.commandPalette.empty"),
       label: t("loica.commandPalette.label"),

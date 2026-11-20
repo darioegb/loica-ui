@@ -21,6 +21,7 @@ import {
   Checkbox,
   Chip,
   Code,
+  ColorPicker,
   Container,
   DescriptionDetails,
   DescriptionList,
@@ -225,6 +226,7 @@ const previews: Record<string, ReactNode> = {
       </Card>
     </div>
   ),
+  ColorPicker: <ColorPicker aria-label="Color" defaultValue="#4f46e5" style={{ width: '10rem' }} />,
   CommandPalette: surface(
     <>
       <div
