@@ -196,7 +196,7 @@ export const Default: Story = {
 export const Submenus: Story = {
   parameters: {
     docs: {
-      story: { iframeHeight: 360 },
+      story: { iframeHeight: 460 },
       source: {
         code: `<Dropdown>
   <DropdownTrigger>
@@ -539,6 +539,7 @@ export const IconsAndShortcuts: Story = {
  * groups. Neither the label nor the separator can take the focus, so the arrows go from item to item.
  */
 export const Groups: Story = {
+  parameters: { docs: { story: { iframeHeight: 660 } } },
   render: () => (
     <Dropdown>
       <DropdownTrigger>
@@ -847,6 +848,7 @@ export const Compound: Story = {
 export const Tailwind: Story = {
   parameters: {
     docs: {
+      story: { iframeHeight: 460 },
       source: {
         code: `<Dropdown variant="unstyled">
   <DropdownTrigger>
@@ -933,6 +935,7 @@ export const Tailwind: Story = {
 export const Bootstrap: Story = {
   parameters: {
     docs: {
+      story: { iframeHeight: 520 },
       source: {
         code: `<Dropdown variant="unstyled">
   <DropdownTrigger>
