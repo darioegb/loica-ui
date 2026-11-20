@@ -43,7 +43,7 @@ export default {
         disable: false,
       },
     },
-    layout: 'centered',
+    layout: 'padded',
   },
   argTypes: {
     alpha: { control: 'boolean' },
@@ -104,6 +104,7 @@ export const Default: Story = {
 export const Variants: Story = {
   parameters: {
     docs: {
+      story: { iframeHeight: 540 },
       source: {
         code: `<div className="flex flex-col gap-4">
   <ColorPicker aria-label="Outline" defaultValue="#4f46e5" variant="outline" />
@@ -130,6 +131,7 @@ export const Variants: Story = {
 export const Sizes: Story = {
   parameters: {
     docs: {
+      story: { iframeHeight: 520 },
       source: {
         code: `<div className="flex flex-col gap-4">
   <ColorPicker aria-label="Small" defaultValue="#4f46e5" size="sm" />
@@ -155,6 +157,7 @@ export const Sizes: Story = {
 export const Colors: Story = {
   parameters: {
     docs: {
+      story: { iframeHeight: 1100 },
       source: {
         code: `<ColorPicker colorScheme="primary" defaultValue="#ef4444" panel swatches={['#ef4444', '#22c55e']} />
 <ColorPicker colorScheme="success" defaultValue="#ef4444" panel swatches={['#ef4444', '#22c55e']} />
@@ -186,6 +189,7 @@ export const Colors: Story = {
 export const Formats: Story = {
   parameters: {
     docs: {
+      story: { iframeHeight: 700 },
       source: {
         code: `<ColorPicker aria-label="Hex" defaultValue="#4f46e5" format="hex" panel />
 <ColorPicker aria-label="RGB" defaultValue="#4f46e5" format="rgb" panel />
@@ -247,6 +251,7 @@ export const Swatches: Story = {
 export const Panel: Story = {
   parameters: {
     docs: {
+      story: { iframeHeight: 440 },
       source: {
         code: `<ColorPicker
   aria-label="Brand color"
@@ -364,6 +369,7 @@ export const Translated: Story = {
 export const States: Story = {
   parameters: {
     docs: {
+      story: { iframeHeight: 520 },
       source: {
         code: `<div className="flex flex-col gap-4">
   <ColorPicker aria-label="Disabled" defaultValue="#4f46e5" disabled />
@@ -446,6 +452,7 @@ export const Compound: Story = {
 export const Tailwind: Story = {
   parameters: {
     docs: {
+      story: { iframeHeight: 400 },
       source: {
         code: `<ColorPicker
   defaultValue="#4f46e5"
@@ -495,6 +502,7 @@ export const Tailwind: Story = {
 export const Bootstrap: Story = {
   parameters: {
     docs: {
+      story: { iframeHeight: 440 },
       source: {
         code: `<ColorPicker
   defaultValue="#4f46e5"
