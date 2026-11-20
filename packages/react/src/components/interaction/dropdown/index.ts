@@ -2,6 +2,7 @@ export {
   Dropdown,
   type DropdownOwnProps,
   type DropdownProps,
+  type DropdownTriggerMode,
   type DropdownVariant,
 } from './dropdown'
 export { DropdownGroup, type DropdownGroupOwnProps, type DropdownGroupProps } from './dropdown-group'
@@ -12,6 +13,13 @@ export { DropdownItemShortcut, type DropdownItemShortcutProps } from './dropdown
 export { DropdownLabel, type DropdownLabelProps } from './dropdown-label'
 export { DropdownMenu, type DropdownMenuProps } from './dropdown-menu'
 export { DropdownSeparator, type DropdownSeparatorProps } from './dropdown-separator'
+export { DropdownSub, type DropdownSubOwnProps, type DropdownSubProps } from './dropdown-sub'
+export { DropdownSubMenu, type DropdownSubMenuProps } from './dropdown-sub-menu'
+export {
+  DropdownSubTrigger,
+  type DropdownSubTriggerOwnProps,
+  type DropdownSubTriggerProps,
+} from './dropdown-sub-trigger'
 export {
   DropdownTrigger,
   type DropdownTriggerOwnProps,

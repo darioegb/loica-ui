@@ -6,7 +6,7 @@ export type DismissReason = 'escape' | 'outside' | 'tab'
 
 export interface UseDismissOptions {
   enabled: boolean
-  onDismiss: (reason: DismissReason) => void
+  onDismiss: (reason: DismissReason, event?: Event) => void
   elements: (HTMLElement | null)[]
   isTopmost?: () => boolean
   escapeKey?: boolean
@@ -32,14 +32,14 @@ export function useDismiss({
 
     const handleKeyDown = (event: KeyboardEvent): void => {
       if (event.key !== 'Escape' || !latest.current.isTopmost()) return
-      latest.current.onDismiss('escape')
+      latest.current.onDismiss('escape', event)
     }
 
     const handlePointerDown = (event: PointerEvent): void => {
       if (!latest.current.isTopmost()) return
       const target = event.target as Node | null
       const inside = latest.current.elements.some((element) => element?.contains(target))
-      if (!inside) latest.current.onDismiss('outside')
+      if (!inside) latest.current.onDismiss('outside', event)
     }
 
     if (escapeKey) document.addEventListener('keydown', handleKeyDown)

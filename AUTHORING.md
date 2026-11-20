@@ -117,7 +117,7 @@ Modal, Drawer, Popover, Tooltip, Dropdown, Select, the pickers and Toast are bui
 | --- | --- |
 | `Portal` | Renders its children after mount (nothing on the server) into the closest `<ThemeProvider>` root, so the content inherits the tokens and the color mode. `container` overrides the target. |
 | `useLayer(active, ownsFocus)` | Registers the overlay in a stack and returns `isTopmost()`, so nested overlays act one at a time. `ownsFocus: false` is for a popup that leaves the focus on its anchor (`Select`, `Tooltip`), so it doesn't stop a `Modal` below from trapping Tab. |
-| `useDismiss` | Closes on Escape and on a press outside. List the trigger among `elements` so pressing it doesn't count as outside. |
+| `useDismiss` | Closes on Escape and on a press outside. List the trigger among `elements` so pressing it doesn't count as outside. `onDismiss` gets the reason and the event, so a nested overlay (a submenu) can tell which of the layers below the press landed on. |
 | `useFocusTrap` | Moves the focus in when it activates, keeps Tab inside and gives the focus back on close (`returnFocus` takes the trigger, because Safari doesn't focus a button when clicked). |
 | `useScrollLock` | Locks the page scroll and compensates for the scrollbar. It is reference counted, so stacked modals release it once. |
 | `usePosition` | Places a `position: fixed` element next to an anchor, flipping and shifting to stay inside the viewport, and follows scroll, resize and size changes. `computePosition` is the same logic as a pure function. |

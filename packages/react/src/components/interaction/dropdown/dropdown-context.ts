@@ -7,16 +7,22 @@ import type { Size } from '../../../theme'
 
 export type DropdownVariant = 'elevated' | 'outline' | 'unstyled'
 
+export type DropdownTriggerMode = 'click' | 'contextmenu'
+
 export type DropdownInitialItem = 'first' | 'last' | 'none'
 
 export interface DropdownContextValue {
+  anchor: HTMLElement | null
   closeOnSelect: boolean
   flip: boolean
+  hoverGrace: RefObject<boolean>
   initialItem: RefObject<DropdownInitialItem>
   isStyled: boolean
   menuId: string
+  mode: DropdownTriggerMode
   offset: number
   open: boolean
+  openAt: (x: number, y: number, initialItem: DropdownInitialItem) => void
   openMenu: (initialItem: DropdownInitialItem) => void
   placement: Placement
   setOpen: (open: boolean) => void

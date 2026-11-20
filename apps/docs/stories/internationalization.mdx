@@ -152,10 +152,11 @@ function Root({ children }) {
 
 The components follow the direction of the text, from the `dir` attribute or the CSS `direction` of the page or of
 any element around them: the layout uses logical properties, the arrow keys of the `Tabs`, the `Tree`, the
-`Carousel` dots, the `PinInput` and the calendar of the `DatePicker` move the way the user sees them (the left arrow
+`Carousel` dots, the `PinInput`, the calendar of the `DatePicker` and the submenus of the `Dropdown` move the way the user sees them (the left arrow
 goes to the next item when the text runs right to left), and the arrows of the `Paginator`, the `Carousel`, the
-`Tree` and the calendar point the other way. Setting the language does not set the direction, so put both on the
-root of the app.
+`Tree`, the calendar and the submenus point the other way. Setting the language does not set the direction, so put both on the
+root of the app. The menus and the other overlays open in a portal, outside the element around their trigger, so a
+`dir` on a `div` does not reach them: it has to be on the `<html>`.
 
 ```tsx
 <html lang='ar' dir='rtl'>

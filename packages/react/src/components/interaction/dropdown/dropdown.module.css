@@ -11,6 +11,16 @@
   padding: 0;
 }
 
+:global(:where([data-loica-dropdown-chevron])) {
+  display: inline-flex;
+  flex: none;
+  margin-inline-start: auto;
+}
+
+:global(:where([data-loica-dropdown-chevron]:dir(rtl) svg)) {
+  transform: scaleX(-1);
+}
+
 :global(:where([data-loica-dropdown-item-label])) {
   flex: 1 1 auto;
   min-width: 0;
@@ -115,6 +125,14 @@
   background-color: transparent;
 }
 
+.item[aria-expanded='true'] {
+  background-color: var(--loica-surface-muted);
+}
+
+.chevron {
+  margin-inline-start: var(--loica-space-4);
+}
+
 .icon {
   display: inline-flex;
   flex: none;
@@ -164,4 +182,8 @@
     outline: var(--loica-focus-ring-width) solid Highlight;
     outline-offset: var(--loica-focus-ring-inset);
   }
+}
+
+:global(:where([data-loica-dropdown-area])) {
+  -webkit-touch-callout: none;
 }
