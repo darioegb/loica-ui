@@ -38,6 +38,10 @@
   padding-inline: var(--loica-space-2);
 }
 
+.edge:dir(rtl) svg {
+  transform: scaleX(-1);
+}
+
 .ellipsis {
   align-items: center;
   color: var(--loica-muted);

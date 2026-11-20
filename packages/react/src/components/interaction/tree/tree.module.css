@@ -86,6 +86,10 @@
   flex: none;
 }
 
+.chevron:dir(rtl) {
+  transform: scaleX(-1);
+}
+
 .row[aria-expanded='true'] > .label .chevron {
   transform: rotate(90deg);
 }

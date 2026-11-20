@@ -16,6 +16,7 @@ import {
   startOfDay,
   type DatePickerDayData,
 } from './calendar-utils'
+import { logicalKey } from '../../../overlay/direction'
 import type { DatePickerPageContextProps, DatePickerViewName } from './datepicker-page-context'
 import { useDatePickerContext } from './datepicker-context'
 
@@ -141,7 +142,7 @@ export function useDatePickerPage(
   const onDayKeyDown = useCallback(
     (event: KeyboardEvent<HTMLButtonElement>): void => {
       const current = event.currentTarget.dataset.date
-      const move = KEY_MOVES[event.key]
+      const move = KEY_MOVES[logicalKey(event.key, event.currentTarget)]
       if (!current || !move) return
       event.preventDefault()
 

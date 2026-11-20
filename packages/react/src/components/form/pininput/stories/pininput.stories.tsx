@@ -271,6 +271,28 @@ export const Controlled: Story = {
 };
 
 /**
+ * Inside `dir="rtl"` the boxes run from right to left, and the arrow keys follow what the user sees: the left arrow goes to the next box.
+ */
+export const RightToLeft: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<div dir="rtl">
+  <PinInput aria-label="Code" length={4} />
+</div>`,
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <div dir="rtl">
+        <Story />
+      </div>
+    ),
+  ],
+}
+
+/**
  * A pin can be disabled, read only or invalid. A read only code stays readable and focusable, but it can't be
  * typed, pasted or deleted.
  */

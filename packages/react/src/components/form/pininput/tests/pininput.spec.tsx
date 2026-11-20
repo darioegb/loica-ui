@@ -7,6 +7,10 @@ import { PinInput } from '..'
 import type { PinInputProps } from '..'
 import { LocaleProvider } from '../../../../locale'
 
+afterEach(() => {
+  document.documentElement.removeAttribute('dir')
+})
+
 const cells = (): HTMLInputElement[] => screen.getAllByRole<HTMLInputElement>('textbox')
 const text = (): string =>
   cells()
@@ -369,6 +373,16 @@ describe('PinInput component', () => {
       await userEvent.keyboard('{ArrowRight}')
       expect(cells()[2]).toHaveFocus()
       await userEvent.keyboard('{ArrowLeft}{ArrowLeft}')
+      expect(cells()[0]).toHaveFocus()
+    })
+
+    it('swaps the arrows in right-to-left text', async () => {
+      document.documentElement.dir = 'rtl'
+      render(<PinInput aria-label="Code" defaultValue="123" length={4} />)
+      await userEvent.click(cells()[1])
+      await userEvent.keyboard('{ArrowLeft}')
+      expect(cells()[2]).toHaveFocus()
+      await userEvent.keyboard('{ArrowRight}{ArrowRight}')
       expect(cells()[0]).toHaveFocus()
     })
 

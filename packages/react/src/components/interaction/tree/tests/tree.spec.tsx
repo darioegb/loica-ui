@@ -14,6 +14,10 @@ import {
 import type { TreeProps } from '..'
 import { LocaleProvider } from '../../../../locale/locale-provider'
 
+afterEach(() => {
+  document.documentElement.removeAttribute('dir')
+})
+
 function Files(props: Readonly<Partial<TreeProps>>) {
   return (
     <Tree aria-label="Files" {...(props as TreeProps)}>
@@ -309,6 +313,20 @@ describe('Tree component', () => {
       expect(item('alpha')).toHaveFocus()
       await userEvent.keyboard('{ArrowLeft}')
       expect(item('docs')).toHaveFocus()
+    })
+
+    it('swaps ArrowLeft and ArrowRight in right-to-left text', async () => {
+      document.documentElement.dir = 'rtl'
+      render(<Files />)
+      item('docs').focus()
+      await userEvent.keyboard('{ArrowLeft}')
+      expect(isOpen('docs')).toBe(true)
+      await userEvent.keyboard('{ArrowLeft}')
+      expect(item('alpha')).toHaveFocus()
+      await userEvent.keyboard('{ArrowRight}')
+      expect(item('docs')).toHaveFocus()
+      await userEvent.keyboard('{ArrowRight}')
+      expect(isOpen('docs')).toBe(false)
     })
 
     it('stays on a root item that is closed with ArrowLeft', async () => {

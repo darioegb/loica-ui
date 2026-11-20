@@ -586,6 +586,32 @@ export const CalendarTheming: Story = {
 }
 
 /**
+ * Inside `dir="rtl"` the days run from right to left, the arrows of the header point the other way, and the left arrow moves to the next day. Pair it with a `locale` such as `ar` for the names of the months and the weekdays.
+ */
+export const RightToLeft: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<div dir="rtl">
+  <DatePicker locale="ar" panel />
+</div>`,
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <div dir="rtl">
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    locale: 'ar',
+    panel: true,
+  },
+}
+
+/**
  * This is a disabled DatePicker.
  * Just adding the **disabled** prop in true.
  * The disabled state add **.disabled** class,
