@@ -1,7 +1,8 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { defaultTheme, type ColorScheme } from '../../../../theme'
 import { Button } from '../../../interaction/button'
+import { useDebounce } from '../../../../hooks'
 import { LocaleProvider } from '../../../../locale'
 import { Field } from '../../field'
 import {
@@ -659,6 +660,62 @@ export const Searchable: Story = {
 }
 
 /**
+ * To search on a server, turn off **filter**, so the list shows the options you pass, and listen to
+ * **onSearchChange**, which gets the text each time it changes (and an empty string when the list closes). **loading**
+ * shows a `Loader` and marks the list busy while the options arrive; the ones you already have stay in the list, and
+ * the empty message waits. The select remembers the text of the chosen options, so they stay in the field when the next
+ * results don't have them. Wait for the user to stop typing with `useDebounce`. The `loader` text of the
+ * `LocaleProvider` names the `Loader`, and `SelectLoading` takes a `label` or its own `children`.
+ */
+export const Remote: Story = {
+  parameters: {
+    docs: {
+      story: { inline: false, iframeHeight: 420 },
+      source: {
+        code: `function Example() {
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState([])
+  const [loading, setLoading] = useState(false)
+  const search = useDebounce({ value: query, delay: 300 })
+
+  useEffect(() => {
+    if (!search) {
+      setResults([])
+      setLoading(false)
+      return undefined
+    }
+    let current = true
+    setLoading(true)
+    fetchPeople(search).then((found) => {
+      if (!current) return
+      setResults(found)
+      setLoading(false)
+    })
+    return () => {
+      current = false
+    }
+  }, [search])
+
+  return (
+    <Select
+      aria-label="Person"
+      clearable
+      filter={false}
+      loading={loading}
+      onSearchChange={setQuery}
+      options={results}
+      placeholder="Search a person"
+      searchable
+    />
+  )
+}`,
+      },
+    },
+  },
+  render: () => <RemoteExample />,
+}
+
+/**
  * A **SelectGroup** gives a title to a set of options. When the search leaves a group without options it hides.
  */
 export const Groups: Story = {
@@ -722,6 +779,62 @@ export const Clearable: Story = {
       <Example clearable defaultValue={['apple', 'mango']} label="Multiple" multiple />
     </div>
   ),
+}
+
+const team = [
+  { label: 'Ada Lovelace', value: 'ada' },
+  { label: 'Alan Turing', value: 'alan' },
+  { label: 'Barbara Liskov', value: 'barbara' },
+  { label: 'Grace Hopper', value: 'grace' },
+  { label: 'Katherine Johnson', value: 'katherine' },
+  { label: 'Linus Torvalds', value: 'linus' },
+]
+
+const fetchPeople = (query: string): Promise<typeof team> =>
+  new Promise((resolve) => {
+    setTimeout(
+      () => resolve(team.filter((person) => person.label.toLowerCase().includes(query.toLowerCase()))),
+      600,
+    )
+  })
+
+function RemoteExample({ multiple }: Readonly<{ multiple?: boolean }>): React.ReactNode {
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState<typeof team>([])
+  const [loading, setLoading] = useState(false)
+  const search = useDebounce({ value: query, delay: 300 })
+
+  useEffect(() => {
+    if (!search) {
+      setResults([])
+      setLoading(false)
+      return undefined
+    }
+    let current = true
+    setLoading(true)
+    void fetchPeople(search).then((found) => {
+      if (!current) return
+      setResults(found)
+      setLoading(false)
+    })
+    return () => {
+      current = false
+    }
+  }, [search])
+
+  return (
+    <Select
+      aria-label="Person"
+      clearable
+      filter={false}
+      loading={loading}
+      multiple={multiple}
+      onSearchChange={setQuery}
+      options={results}
+      placeholder="Search a person"
+      searchable
+    />
+  )
 }
 
 function ControlledExample(): React.ReactNode {

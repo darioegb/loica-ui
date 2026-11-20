@@ -35,23 +35,23 @@ export function useColorState({
     onChange: onValueChange,
     value: valueProp,
   })
-  const [color, setHsva] = useState<Hsva>(() => parseColor(value) ?? EMPTY)
+  const [color, setColor] = useState<Hsva>(() => parseColor(value) ?? EMPTY)
   const parsed = parseColor(value, color.h)
 
   if (parsed && formatColor(parsed, format, alpha) !== formatColor(color, format, alpha)) {
-    setHsva(parsed)
+    setColor(parsed)
   }
 
   const commit = useCallback(
     (next: Hsva): void => {
-      setHsva(next)
+      setColor(next)
       setValue(formatColor(next, format, alpha))
     },
     [alpha, format, setValue],
   )
 
-  const setColor = useCallback(
-    (change: Partial<Hsva>): void => commit({ ...color, ...change }),
+  const change = useCallback(
+    (partial: Partial<Hsva>): void => commit({ ...color, ...partial }),
     [color, commit],
   )
 
@@ -70,7 +70,7 @@ export function useColorState({
     clear,
     color,
     hasColor: parsed !== null,
-    setColor,
+    setColor: change,
     setFromText,
     text: parsed ? formatColor(color, format, alpha) : '',
   }

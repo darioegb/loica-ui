@@ -500,6 +500,11 @@ const entries: Entry[] = [
     [],
   ],
   [
+    'Select, loading',
+    () => <Select aria-label="Number" defaultOpen filter={false} loading options={options} searchable />,
+    [],
+  ],
+  [
     'Sidebar',
     () => (
       <SidebarProvider>

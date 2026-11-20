@@ -45,6 +45,7 @@ export interface SelectContextValue {
   controlId: string
   describedBy: string | undefined
   disabled: boolean
+  filter: boolean
   flip: boolean
   invalid: boolean
   labels: SelectLabels
@@ -52,6 +53,7 @@ export interface SelectContextValue {
   isStyled: boolean
   labelling: SelectLabelling
   listboxId: string
+  loading: boolean
   locale: string
   multiple: boolean
   name: string | undefined

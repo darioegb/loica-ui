@@ -107,7 +107,7 @@ export const ColorPickerChannels = forwardRef<HTMLDivElement, ColorPickerChannel
           <Channel
             {...shared}
             caption={labels.hex}
-            commit={(draft) => void setFromText(draft)}
+            commit={setFromText}
             mode="text"
             value={text}
           />

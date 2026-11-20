@@ -29,6 +29,7 @@ export const SelectList = forwardRef<HTMLDivElement, SelectListProps>(
       <div
         aria-label={explicitLabel ?? labelling.label}
         aria-labelledby={explicitLabel ? undefined : labelling.labelledBy}
+        aria-busy={context.loading || undefined}
         aria-multiselectable={context.multiple || undefined}
         className={joinClasses(context.isStyled && styles.list, className)}
         data-loica-select-list=""
