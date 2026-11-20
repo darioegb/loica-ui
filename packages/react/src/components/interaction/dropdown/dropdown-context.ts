@@ -10,8 +10,10 @@ export type DropdownVariant = 'elevated' | 'outline' | 'unstyled'
 export type DropdownInitialItem = 'first' | 'last' | 'none'
 
 export interface DropdownContextValue {
+  anchor: HTMLElement | null
   closeOnSelect: boolean
   flip: boolean
+  hoverGrace: RefObject<boolean>
   initialItem: RefObject<DropdownInitialItem>
   isStyled: boolean
   menuId: string

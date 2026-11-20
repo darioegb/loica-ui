@@ -13,6 +13,9 @@ import {
   DropdownLabel,
   DropdownMenu,
   DropdownSeparator,
+  DropdownSub,
+  DropdownSubMenu,
+  DropdownSubTrigger,
   DropdownTrigger,
   Kbd,
   Navbar,
@@ -96,7 +99,9 @@ export function AppShell({
     <SidebarProvider onOpenChange={setOpen} open={open}>
       <div className="d-flex min-vh-100">
         <Sidebar aria-label={t("nav.application")}>
-          <div className={`d-flex align-items-center fw-bold text-nowrap ${styles.brand}`}>
+          <div
+            className={`d-flex align-items-center fw-bold text-nowrap ${styles.brand}`}
+          >
             <span
               aria-hidden="true"
               className={`d-inline-flex align-items-center justify-content-center flex-shrink-0 ${styles.mark}`}
@@ -198,16 +203,22 @@ export function AppShell({
                 <DropdownMenu>
                   <DropdownLabel>{user.email}</DropdownLabel>
                   <DropdownSeparator />
-                  <DropdownLabel>{t("preferences.brandColor")}</DropdownLabel>
-                  {(Object.keys(brands) as BrandId[]).map((id) => (
-                    <DropdownItem
-                      icon={id === brand ? <CheckIcon /> : undefined}
-                      key={id}
-                      onSelect={() => setBrand(id)}
-                    >
-                      {t(`brands.${id}`)}
-                    </DropdownItem>
-                  ))}
+                  <DropdownSub>
+                    <DropdownSubTrigger>
+                      {t("preferences.brandColor")}
+                    </DropdownSubTrigger>
+                    <DropdownSubMenu>
+                      {(Object.keys(brands) as BrandId[]).map((id) => (
+                        <DropdownItem
+                          icon={id === brand ? <CheckIcon /> : undefined}
+                          key={id}
+                          onSelect={() => setBrand(id)}
+                        >
+                          {t(`brands.${id}`)}
+                        </DropdownItem>
+                      ))}
+                    </DropdownSubMenu>
+                  </DropdownSub>
                   <DropdownSeparator />
                   <DropdownItem icon={<RefreshIcon />} onSelect={resetDemo}>
                     {t("preferences.resetDemo")}

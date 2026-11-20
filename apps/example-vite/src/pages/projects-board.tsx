@@ -6,6 +6,8 @@ import {
   AvatarGroup,
   Badge,
   Button,
+  ContextMenu,
+  ContextMenuTrigger,
   DatePicker,
   Dropdown,
   DropdownItem,
@@ -137,6 +139,25 @@ export function ProjectsBoard({
     toast.info({ description: project.name, title: t("projects.deleted") });
   };
 
+  const projectActions = (project: Project): ReactNode => (
+    <>
+      <DropdownItem icon={<EyeIcon />} onSelect={() => open(project)}>
+        {t("projects.openDetails")}
+      </DropdownItem>
+      <DropdownItem
+        disabled={project.status === "Done"}
+        icon={<CheckIcon />}
+        onSelect={() => complete(project)}
+      >
+        {t("projects.markDone")}
+      </DropdownItem>
+      <DropdownSeparator />
+      <DropdownItem icon={<TrashIcon />} onSelect={() => void remove(project)}>
+        {t("projects.delete")}
+      </DropdownItem>
+    </>
+  );
+
   return (
     <>
       <div className="d-flex flex-wrap align-items-center gap-2">
@@ -195,7 +216,9 @@ export function ProjectsBoard({
       </div>
 
       <Table aria-label={t("projects.table")} hoverable>
-        <TableCaption>{t("projects.count", { count: state.total })}</TableCaption>
+        <TableCaption>
+          {t("projects.count", { count: state.total })}
+        </TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead {...state.getSortProps("name")}>
@@ -212,9 +235,7 @@ export function ProjectsBoard({
             </TableHead>
             <TableHead>{t("projects.team")}</TableHead>
             <TableHead align="end">
-              <span className="visually-hidden">
-                {t("projects.actions")}
-              </span>
+              <span className="visually-hidden">{t("projects.actions")}</span>
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -236,81 +257,75 @@ export function ProjectsBoard({
             />
           ) : (
             state.rows.map((project) => (
-              <TableRow key={project.id}>
-                <TableCell>
-                  <button
-                    className={`p-0 fw-semibold text-start ${styles.name}`}
-                    onClick={() => open(project)}
-                    type="button"
-                  >
-                    {project.name}
-                  </button>
-                  <div className="d-flex align-items-center gap-2 mt-1 small text-body-secondary">
-                    <Avatar name={project.owner} size="sm" />
-                    {project.owner}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Badge
-                    colorScheme={statusColor[project.status]}
-                    dot
-                    variant="subtle"
-                  >
-                    {t(`status.${project.status}`)}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <ProgressBar
-                    aria-label={t("projects.progressOf", { name: project.name })}
-                    colorScheme={statusColor[project.status]}
-                    showValue
-                    value={project.progress}
-                  />
-                </TableCell>
-                <TableCell>{formatDue(project.due, i18n.language)}</TableCell>
-                <TableCell>
-                  <AvatarGroup max={3} size="sm">
-                    {project.team.map((member) => (
-                      <Avatar key={member} name={member} />
-                    ))}
-                  </AvatarGroup>
-                </TableCell>
-                <TableCell align="end">
-                  <Dropdown placement="bottom-end">
-                    <DropdownTrigger>
-                      <Button
-                        aria-label={t("projects.actionsFor", { name: project.name })}
-                        size="sm"
-                        variant="ghost"
+              <ContextMenu key={project.id}>
+                <ContextMenuTrigger>
+                  <TableRow>
+                    <TableCell>
+                      <button
+                        className={`p-0 fw-semibold text-start ${styles.name}`}
+                        onClick={() => open(project)}
+                        type="button"
                       >
-                        <MoreIcon />
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu>
-                      <DropdownItem
-                        icon={<EyeIcon />}
-                        onSelect={() => open(project)}
+                        {project.name}
+                      </button>
+                      <div className="d-flex align-items-center gap-2 mt-1 small text-body-secondary">
+                        <Avatar name={project.owner} size="sm" />
+                        {project.owner}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        colorScheme={statusColor[project.status]}
+                        dot
+                        variant="subtle"
                       >
-                        {t("projects.openDetails")}
-                      </DropdownItem>
-                      <DropdownItem
-                        disabled={project.status === "Done"}
-                        icon={<CheckIcon />}
-                        onSelect={() => complete(project)}
-                      >
-                        {t("projects.markDone")}
-                      </DropdownItem>
-                      <DropdownSeparator />
-                      <DropdownItem
-                        icon={<TrashIcon />}
-                        onSelect={() => void remove(project)}
-                      >
-                        {t("projects.delete")}
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </TableCell>
-              </TableRow>
+                        {t(`status.${project.status}`)}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <ProgressBar
+                        aria-label={t("projects.progressOf", {
+                          name: project.name,
+                        })}
+                        colorScheme={statusColor[project.status]}
+                        showValue
+                        value={project.progress}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      {formatDue(project.due, i18n.language)}
+                    </TableCell>
+                    <TableCell>
+                      <AvatarGroup max={3} size="sm">
+                        {project.team.map((member) => (
+                          <Avatar key={member} name={member} />
+                        ))}
+                      </AvatarGroup>
+                    </TableCell>
+                    <TableCell align="end">
+                      <Dropdown placement="bottom-end">
+                        <DropdownTrigger>
+                          <Button
+                            aria-label={t("projects.actionsFor", {
+                              name: project.name,
+                            })}
+                            size="sm"
+                            variant="ghost"
+                          >
+                            <MoreIcon />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu>{projectActions(project)}</DropdownMenu>
+                      </Dropdown>
+                    </TableCell>
+                  </TableRow>
+                </ContextMenuTrigger>
+                <DropdownMenu
+                  aria-label={t("projects.actionsFor", { name: project.name })}
+                >
+                  {projectActions(project)}
+                </DropdownMenu>
+              </ContextMenu>
             ))
           )}
         </TableBody>
@@ -340,7 +355,9 @@ export function ProjectsBoard({
         onCreated={(project) => {
           setProjects((current) => [project, ...current]);
           state.resetFilters();
-          toast.success({ title: t("projects.created", { name: project.name }) });
+          toast.success({
+            title: t("projects.created", { name: project.name }),
+          });
         }}
         onOpenChange={setCreating}
         open={creating}

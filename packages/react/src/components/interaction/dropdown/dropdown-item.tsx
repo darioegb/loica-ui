@@ -97,7 +97,7 @@ export const DropdownItem = forwardRef<HTMLElement, DropdownItemProps>(
     }
 
     const handlePointerMove = (event: PointerEvent<HTMLElement>): void => {
-      if (!disabled && document.activeElement !== event.currentTarget) {
+      if (!disabled && !context.hoverGrace.current && document.activeElement !== event.currentTarget) {
         event.currentTarget.focus({ preventScroll: true })
       }
     }

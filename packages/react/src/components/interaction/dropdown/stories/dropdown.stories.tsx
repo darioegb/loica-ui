@@ -1,5 +1,5 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Icon } from '../../../presentation/icon'
 import { Button } from '../../button'
 import {
@@ -12,6 +12,9 @@ import {
   DropdownLabel,
   DropdownMenu,
   DropdownSeparator,
+  DropdownSub,
+  DropdownSubMenu,
+  DropdownSubTrigger,
   DropdownTrigger,
   type DropdownProps,
 } from '..'
@@ -50,6 +53,18 @@ const settingsIcon = glyph(
 )
 const logoutIcon = glyph('M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9')
 
+function RightToLeftPage({ children }: Readonly<{ children: React.ReactNode }>): React.ReactNode {
+  useEffect(() => {
+    const previous = document.documentElement.dir
+    document.documentElement.dir = 'rtl'
+    return () => {
+      document.documentElement.dir = previous
+    }
+  }, [])
+
+  return <>{children}</>
+}
+
 function Example(props: Readonly<Omit<DropdownProps, 'children'>>): React.ReactNode {
   return (
     <Dropdown {...props}>
@@ -73,7 +88,7 @@ function Example(props: Readonly<Omit<DropdownProps, 'children'>>): React.ReactN
  * <kbd>↓</kbd> (<kbd>↑</kbd> opens it on the last item). The focus moves into the menu, where the arrows, <kbd>Home</kbd> and
  * <kbd>End</kbd> move between the items, typing a few letters jumps to the item that starts with them, and a
  * disabled item is skipped. <kbd>Esc</kbd> and <kbd>Tab</kbd> close it and give the focus back to the trigger, and so
- * does selecting an item.
+ * does selecting an item. A menu can have **submenus**, which open beside their item and have their own keys.
  */
 export default {
   title: 'Components/Dropdown',
@@ -93,6 +108,9 @@ export default {
         'DropdownItemIcon',
         'DropdownItemLabel',
         'DropdownItemShortcut',
+        'DropdownSub',
+        'DropdownSubTrigger',
+        'DropdownSubMenu',
       ],
       toc: {
         title: 'On this page',
@@ -155,6 +173,149 @@ export const Default: Story = {
       },
     },
   },
+}
+
+/**
+ * A menu inside a menu. A `DropdownSub` holds a `DropdownSubTrigger`, the item that opens it and shows an arrow, and a
+ * `DropdownSubMenu`, the menu that opens beside it. The items inside are the ones of the `Dropdown`, and selecting one
+ * closes the whole menu. Submenus can have submenus.
+ *
+ * The submenu opens when the pointer stays on its item for a moment (**delay** sets how long), with a click, and with
+ * <kbd>→</kbd>, <kbd>Enter</kbd> or <kbd>Space</kbd>, which also move the focus into it. The pointer can cross the other items
+ * on its way to the submenu without closing it. <kbd>←</kbd> and <kbd>Esc</kbd> close one level and give the focus back to
+ * its item, and <kbd>Tab</kbd> closes the whole menu. When the text runs right to left, <kbd>←</kbd> opens the submenu and
+ * <kbd>→</kbd> closes it.
+ */
+export const Submenus: Story = {
+  parameters: {
+    docs: {
+      story: { iframeHeight: 360 },
+      source: {
+        code: `<Dropdown>
+  <DropdownTrigger>
+    <Button variant="outline">File</Button>
+  </DropdownTrigger>
+  <DropdownMenu>
+    <DropdownItem>New file</DropdownItem>
+    <DropdownSub>
+      <DropdownSubTrigger>Share</DropdownSubTrigger>
+      <DropdownSubMenu>
+        <DropdownItem>Email</DropdownItem>
+        <DropdownItem>Copy link</DropdownItem>
+        <DropdownSub>
+          <DropdownSubTrigger>Social</DropdownSubTrigger>
+          <DropdownSubMenu>
+            <DropdownItem>Mastodon</DropdownItem>
+            <DropdownItem>Bluesky</DropdownItem>
+          </DropdownSubMenu>
+        </DropdownSub>
+      </DropdownSubMenu>
+    </DropdownSub>
+    <DropdownSeparator />
+    <DropdownSub>
+      <DropdownSubTrigger icon={settingsIcon}>Preferences</DropdownSubTrigger>
+      <DropdownSubMenu>
+        <DropdownItem>Editor</DropdownItem>
+        <DropdownItem disabled>Billing</DropdownItem>
+      </DropdownSubMenu>
+    </DropdownSub>
+    <DropdownItem>Sign out</DropdownItem>
+  </DropdownMenu>
+</Dropdown>`,
+      },
+    },
+  },
+  render: () => (
+    <Dropdown>
+      <DropdownTrigger>
+        <Button variant="outline">File</Button>
+      </DropdownTrigger>
+      <DropdownMenu>
+        <DropdownItem>New file</DropdownItem>
+        <DropdownSub>
+          <DropdownSubTrigger>Share</DropdownSubTrigger>
+          <DropdownSubMenu>
+            <DropdownItem>Email</DropdownItem>
+            <DropdownItem>Copy link</DropdownItem>
+            <DropdownSub>
+              <DropdownSubTrigger>Social</DropdownSubTrigger>
+              <DropdownSubMenu>
+                <DropdownItem>Mastodon</DropdownItem>
+                <DropdownItem>Bluesky</DropdownItem>
+              </DropdownSubMenu>
+            </DropdownSub>
+          </DropdownSubMenu>
+        </DropdownSub>
+        <DropdownSeparator />
+        <DropdownSub>
+          <DropdownSubTrigger icon={settingsIcon}>Preferences</DropdownSubTrigger>
+          <DropdownSubMenu>
+            <DropdownItem>Editor</DropdownItem>
+            <DropdownItem disabled>Billing</DropdownItem>
+          </DropdownSubMenu>
+        </DropdownSub>
+        <DropdownItem>Sign out</DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+  ),
+}
+
+/**
+ * With `dir="rtl"` the menu and its submenus follow the direction of the text: the submenu opens to the left, its
+ * arrow points left, and <kbd>←</kbd> opens it while <kbd>→</kbd> closes it. The menus open in a portal, outside the
+ * element that is around the trigger, so set `dir` on the `<html>` as the Internationalization guide says.
+ */
+export const RightToLeft: Story = {
+  parameters: {
+    docs: {
+      story: { iframeHeight: 360 },
+      source: {
+        code: `<html dir="rtl">
+  <body>
+    <Dropdown>
+      <DropdownTrigger>
+        <Button variant="outline">ملف</Button>
+      </DropdownTrigger>
+      <DropdownMenu>
+        <DropdownItem>جديد</DropdownItem>
+        <DropdownSub>
+          <DropdownSubTrigger>مشاركة</DropdownSubTrigger>
+          <DropdownSubMenu>
+            <DropdownItem>البريد</DropdownItem>
+            <DropdownItem>نسخ الرابط</DropdownItem>
+          </DropdownSubMenu>
+        </DropdownSub>
+      </DropdownMenu>
+    </Dropdown>
+  </body>
+</html>`,
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <RightToLeftPage>
+        <Story />
+      </RightToLeftPage>
+    ),
+  ],
+  render: () => (
+    <Dropdown>
+      <DropdownTrigger>
+        <Button variant="outline">ملف</Button>
+      </DropdownTrigger>
+      <DropdownMenu>
+        <DropdownItem>جديد</DropdownItem>
+        <DropdownSub>
+          <DropdownSubTrigger>مشاركة</DropdownSubTrigger>
+          <DropdownSubMenu>
+            <DropdownItem>البريد</DropdownItem>
+            <DropdownItem>نسخ الرابط</DropdownItem>
+          </DropdownSubMenu>
+        </DropdownSub>
+      </DropdownMenu>
+    </Dropdown>
+  ),
 }
 
 /**

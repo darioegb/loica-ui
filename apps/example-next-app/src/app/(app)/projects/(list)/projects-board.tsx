@@ -1,14 +1,16 @@
-'use client'
+"use client";
 
-import type { ReactNode } from 'react'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useLocale, useTranslations } from 'next-intl'
+import type { ReactNode } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import {
   Avatar,
   AvatarGroup,
   Badge,
   Button,
+  ContextMenu,
+  ContextMenuTrigger,
   DatePicker,
   Dropdown,
   DropdownItem,
@@ -40,102 +42,143 @@ import {
   useTableState,
   useToast,
   type DateRange,
-} from '@loica-ui/react'
-import { CheckIcon, EyeIcon, MoreIcon, SearchIcon, TrashIcon } from '@/components/icons'
-import type { Project, ProjectStatus } from '@/lib/data'
-import { formatDue, toIsoDate } from '@/lib/format'
-import { statusColor } from '@/lib/status'
-import { ProjectDrawer } from './project-drawer'
+} from "@loica-ui/react";
+import {
+  CheckIcon,
+  EyeIcon,
+  MoreIcon,
+  SearchIcon,
+  TrashIcon,
+} from "@/components/icons";
+import type { Project, ProjectStatus } from "@/lib/data";
+import { formatDue, toIsoDate } from "@/lib/format";
+import { statusColor } from "@/lib/status";
+import { ProjectDrawer } from "./project-drawer";
 
-const statuses: ProjectStatus[] = ['onTrack', 'atRisk', 'delayed', 'done']
+const statuses: ProjectStatus[] = ["onTrack", "atRisk", "delayed", "done"];
 
 // Defined outside the component: the hook needs stable functions.
 const filterFns = {
   due: (project: Project, value: unknown): boolean => {
-    const { endDate, startDate } = value as DateRange
-    if (startDate && project.due < toIsoDate(startDate)) return false
-    return !(endDate && project.due > toIsoDate(endDate))
+    const { endDate, startDate } = value as DateRange;
+    if (startDate && project.due < toIsoDate(startDate)) return false;
+    return !(endDate && project.due > toIsoDate(endDate));
   },
-  status: (project: Project, value: unknown): boolean => project.status === value,
-}
+  status: (project: Project, value: unknown): boolean =>
+    project.status === value,
+};
 
 const sortFns = {
   status: (first: Project, second: Project): number =>
     statuses.indexOf(first.status) - statuses.indexOf(second.status),
-}
+};
 
-export function ProjectsBoard({ projects: initial }: Readonly<{ projects: Project[] }>): ReactNode {
-  const t = useTranslations('projects')
-  const tStatus = useTranslations('status')
-  const locale = useLocale()
-  const confirm = useConfirm()
-  const toast = useToast()
-  const router = useRouter()
-  const [projects, setProjects] = useState(initial)
-  const [detailId, setDetailId] = useState<string | null>(null)
-  const [detailOpen, setDetailOpen] = useState(false)
+export function ProjectsBoard({
+  projects: initial,
+}: Readonly<{ projects: Project[] }>): ReactNode {
+  const t = useTranslations("projects");
+  const tStatus = useTranslations("status");
+  const locale = useLocale();
+  const confirm = useConfirm();
+  const toast = useToast();
+  const router = useRouter();
+  const [projects, setProjects] = useState(initial);
+  const [detailId, setDetailId] = useState<string | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
 
   const state = useTableState({
     defaultPageSize: 5,
-    defaultSort: { column: 'due', direction: 'ascending' },
+    defaultSort: { column: "due", direction: "ascending" },
     filterFns,
     rows: projects,
     sortFns,
-  })
+  });
 
-  const dueRange = (state.filters.due as DateRange | undefined) ?? { endDate: null, startDate: null }
-  const detail = projects.find((project) => project.id === detailId) ?? null
+  const dueRange = (state.filters.due as DateRange | undefined) ?? {
+    endDate: null,
+    startDate: null,
+  };
+  const detail = projects.find((project) => project.id === detailId) ?? null;
 
   const open = (project: Project): void => {
-    setDetailId(project.id)
-    setDetailOpen(true)
-  }
+    setDetailId(project.id);
+    setDetailOpen(true);
+  };
 
   const complete = (project: Project): void => {
     setProjects((current) =>
-      current.map((item) => (item.id === project.id ? { ...item, progress: 100, status: 'done' } : item)),
-    )
+      current.map((item) =>
+        item.id === project.id
+          ? { ...item, progress: 100, status: "done" }
+          : item,
+      ),
+    );
     toast.success({
       action: {
-        label: t('undo'),
-        onClick: () => setProjects((current) => current.map((item) => (item.id === project.id ? project : item))),
+        label: t("undo"),
+        onClick: () =>
+          setProjects((current) =>
+            current.map((item) => (item.id === project.id ? project : item)),
+          ),
       },
       description: project.name,
-      title: t('completed'),
-    })
-  }
+      title: t("completed"),
+    });
+  };
 
   const remove = async (project: Project): Promise<void> => {
     const confirmed = await confirm({
-      cancelLabel: t('deleteModal.cancel'),
-      colorScheme: 'error',
-      confirmLabel: t('deleteModal.confirm'),
-      description: t('deleteModal.body', { name: project.name }),
-      title: t('deleteModal.title'),
-    })
-    if (!confirmed) return
-    setProjects((current) => current.filter((item) => item.id !== project.id))
-    setDetailOpen(false)
-    toast.info({ description: project.name, title: t('deleted') })
-  }
+      cancelLabel: t("deleteModal.cancel"),
+      colorScheme: "error",
+      confirmLabel: t("deleteModal.confirm"),
+      description: t("deleteModal.body", { name: project.name }),
+      title: t("deleteModal.title"),
+    });
+    if (!confirmed) return;
+    setProjects((current) => current.filter((item) => item.id !== project.id));
+    setDetailOpen(false);
+    toast.info({ description: project.name, title: t("deleted") });
+  };
+
+  const projectActions = (project: Project): ReactNode => (
+    <>
+      <DropdownItem icon={<EyeIcon />} onSelect={() => open(project)}>
+        {t("openDetails")}
+      </DropdownItem>
+      <DropdownItem
+        disabled={project.status === "done"}
+        icon={<CheckIcon />}
+        onSelect={() => complete(project)}
+      >
+        {t("markAsDone")}
+      </DropdownItem>
+      <DropdownSeparator />
+      <DropdownItem icon={<TrashIcon />} onSelect={() => void remove(project)}>
+        {t("delete")}
+      </DropdownItem>
+    </>
+  );
 
   return (
     <>
       <div className="flex flex-wrap items-center gap-3">
         <Input
-          aria-label={t('search')}
+          aria-label={t("search")}
           className="min-w-56 max-sm:w-full max-sm:min-w-0"
           elementBefore={<SearchIcon />}
-          onChange={(event) => state.setFilter('name', event.target.value)}
-          placeholder={t('search')}
-          value={String(state.filters.name ?? '')}
+          onChange={(event) => state.setFilter("name", event.target.value)}
+          placeholder={t("search")}
+          value={String(state.filters.name ?? "")}
         />
         <div className="w-72 max-sm:w-full max-sm:min-w-0">
           <Select
-            onValueChange={(value) => state.setFilter('status', value)}
-            value={String(state.filters.status ?? '')}
+            onValueChange={(value) => state.setFilter("status", value)}
+            value={String(state.filters.status ?? "")}
           >
-            <SelectTrigger aria-label={t('status')} placeholder={t('allStatuses')} />
+            <SelectTrigger
+              aria-label={t("status")}
+              placeholder={t("allStatuses")}
+            />
             <SelectContent>
               {statuses.map((status) => (
                 <SelectOption key={status} value={status}>
@@ -147,36 +190,50 @@ export function ProjectsBoard({ projects: initial }: Readonly<{ projects: Projec
         </div>
         <div className="w-60 max-sm:w-full max-sm:min-w-0">
           <DatePicker
-            aria-label={t('dueDate')}
+            aria-label={t("dueDate")}
             onValueChange={(range) =>
-              state.setFilter('due', range.startDate || range.endDate ? range : null)
+              state.setFilter(
+                "due",
+                range.startDate || range.endDate ? range : null,
+              )
             }
-            placeholder={t('dueBetween')}
+            placeholder={t("dueBetween")}
             range
             value={dueRange}
           />
         </div>
         {state.hasFilters ? (
           <Button onClick={state.resetFilters} variant="ghost">
-            {t('clearFilters')}
+            {t("clearFilters")}
           </Button>
         ) : null}
-        <Button className="ms-auto max-sm:ms-0 max-sm:w-full max-sm:min-w-0" onClick={() => router.push('/projects/new')}>
-          {t('newProject')}
+        <Button
+          className="ms-auto max-sm:ms-0 max-sm:w-full max-sm:min-w-0"
+          onClick={() => router.push("/projects/new")}
+        >
+          {t("newProject")}
         </Button>
       </div>
 
-      <Table aria-label={t('title')} hoverable>
-        <TableCaption>{t('count', { count: state.total })}</TableCaption>
+      <Table aria-label={t("title")} hoverable>
+        <TableCaption>{t("count", { count: state.total })}</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead {...state.getSortProps('name')}>{t('columns.project')}</TableHead>
-            <TableHead {...state.getSortProps('status')}>{t('columns.status')}</TableHead>
-            <TableHead {...state.getSortProps('progress')}>{t('columns.progress')}</TableHead>
-            <TableHead {...state.getSortProps('due')}>{t('columns.due')}</TableHead>
-            <TableHead>{t('columns.team')}</TableHead>
+            <TableHead {...state.getSortProps("name")}>
+              {t("columns.project")}
+            </TableHead>
+            <TableHead {...state.getSortProps("status")}>
+              {t("columns.status")}
+            </TableHead>
+            <TableHead {...state.getSortProps("progress")}>
+              {t("columns.progress")}
+            </TableHead>
+            <TableHead {...state.getSortProps("due")}>
+              {t("columns.due")}
+            </TableHead>
+            <TableHead>{t("columns.team")}</TableHead>
             <TableHead align="end">
-              <span className="sr-only">{t('columns.actions')}</span>
+              <span className="sr-only">{t("columns.actions")}</span>
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -184,84 +241,90 @@ export function ProjectsBoard({ projects: initial }: Readonly<{ projects: Projec
           {state.rows.length === 0 ? (
             <TableEmpty
               action={
-                <Button onClick={state.resetFilters} size="sm" variant="outline">
-                  {t('clearFilters')}
+                <Button
+                  onClick={state.resetFilters}
+                  size="sm"
+                  variant="outline"
+                >
+                  {t("clearFilters")}
                 </Button>
               }
               colSpan={6}
-              description={t('empty.description')}
-              title={t('empty.title')}
+              description={t("empty.description")}
+              title={t("empty.title")}
             />
           ) : (
             state.rows.map((project) => (
-              <TableRow key={project.id}>
-                <TableCell>
-                  <button
-                    className="cursor-pointer text-start font-semibold text-(--loica-foreground) hover:underline"
-                    onClick={() => open(project)}
-                    type="button"
-                  >
-                    {project.name}
-                  </button>
-                  <div className="mt-1 flex items-center gap-2 text-sm text-(--loica-muted)">
-                    <Avatar name={project.owner} size="sm" />
-                    {project.owner}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Badge colorScheme={statusColor[project.status]} dot variant="subtle">
-                    {tStatus(project.status)}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <ProgressBar
-                    aria-label={t('progressOf', { name: project.name })}
-                    colorScheme={statusColor[project.status]}
-                    showValue
-                    value={project.progress}
-                  />
-                </TableCell>
-                <TableCell>{formatDue(project.due, locale)}</TableCell>
-                <TableCell>
-                  <AvatarGroup max={3} size="sm">
-                    {project.team.map((member) => (
-                      <Avatar key={member} name={member} />
-                    ))}
-                  </AvatarGroup>
-                </TableCell>
-                <TableCell align="end">
-                  <Dropdown placement="bottom-end">
-                    <DropdownTrigger>
-                      <Button aria-label={t('actionsFor', { name: project.name })} size="sm" variant="ghost">
-                        <MoreIcon />
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu>
-                      <DropdownItem icon={<EyeIcon />} onSelect={() => open(project)}>
-                        {t('openDetails')}
-                      </DropdownItem>
-                      <DropdownItem
-                        disabled={project.status === 'done'}
-                        icon={<CheckIcon />}
-                        onSelect={() => complete(project)}
+              <ContextMenu key={project.id}>
+                <ContextMenuTrigger>
+                  <TableRow>
+                    <TableCell>
+                      <button
+                        className="cursor-pointer text-start font-semibold text-(--loica-foreground) hover:underline"
+                        onClick={() => open(project)}
+                        type="button"
                       >
-                        {t('markAsDone')}
-                      </DropdownItem>
-                      <DropdownSeparator />
-                      <DropdownItem icon={<TrashIcon />} onSelect={() => void remove(project)}>
-                        {t('delete')}
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </TableCell>
-              </TableRow>
+                        {project.name}
+                      </button>
+                      <div className="mt-1 flex items-center gap-2 text-sm text-(--loica-muted)">
+                        <Avatar name={project.owner} size="sm" />
+                        {project.owner}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        colorScheme={statusColor[project.status]}
+                        dot
+                        variant="subtle"
+                      >
+                        {tStatus(project.status)}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <ProgressBar
+                        aria-label={t("progressOf", { name: project.name })}
+                        colorScheme={statusColor[project.status]}
+                        showValue
+                        value={project.progress}
+                      />
+                    </TableCell>
+                    <TableCell>{formatDue(project.due, locale)}</TableCell>
+                    <TableCell>
+                      <AvatarGroup max={3} size="sm">
+                        {project.team.map((member) => (
+                          <Avatar key={member} name={member} />
+                        ))}
+                      </AvatarGroup>
+                    </TableCell>
+                    <TableCell align="end">
+                      <Dropdown placement="bottom-end">
+                        <DropdownTrigger>
+                          <Button
+                            aria-label={t("actionsFor", { name: project.name })}
+                            size="sm"
+                            variant="ghost"
+                          >
+                            <MoreIcon />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu>{projectActions(project)}</DropdownMenu>
+                      </Dropdown>
+                    </TableCell>
+                  </TableRow>
+                </ContextMenuTrigger>
+                <DropdownMenu
+                  aria-label={t("actionsFor", { name: project.name })}
+                >
+                  {projectActions(project)}
+                </DropdownMenu>
+              </ContextMenu>
             ))
           )}
         </TableBody>
       </Table>
 
       <Paginator
-        aria-label={t('pages')}
+        aria-label={t("pages")}
         onPageChange={state.setPage}
         onPageSizeChange={state.setPageSize}
         page={state.page}
@@ -288,5 +351,5 @@ export function ProjectsBoard({ projects: initial }: Readonly<{ projects: Projec
         project={detail}
       />
     </>
-  )
+  );
 }

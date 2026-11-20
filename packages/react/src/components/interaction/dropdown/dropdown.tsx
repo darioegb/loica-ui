@@ -87,6 +87,7 @@ export function Dropdown({
   const [trigger, setTrigger] = useState<HTMLElement | null>(null)
   const [open, setOpen] = useOpenState({ defaultOpen, onOpenChange, open: openProp })
   const initialItem = useRef<DropdownInitialItem>('none')
+  const hoverGrace = useRef(false)
 
   const openMenu = useCallback(
     (initial: DropdownInitialItem): void => {
@@ -98,8 +99,10 @@ export function Dropdown({
 
   const context = useMemo(
     () => ({
+      anchor: trigger,
       closeOnSelect,
       flip,
+      hoverGrace,
       initialItem,
       isStyled: variant !== 'unstyled',
       menuId: `${baseId}-menu`,

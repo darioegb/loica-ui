@@ -36,6 +36,8 @@ import {
   CommandPaletteGroup,
   CommandPaletteItem,
   ConfirmProvider,
+  ContextMenu,
+  ContextMenuTrigger,
   Container,
   DatePicker,
   DescriptionDetails,
@@ -54,6 +56,9 @@ import {
   DropdownLabel,
   DropdownMenu,
   DropdownSeparator,
+  DropdownSub,
+  DropdownSubMenu,
+  DropdownSubTrigger,
   DropdownTrigger,
   EmptyState,
   Field,
@@ -261,6 +266,19 @@ const entries: Entry[] = [
     ),
   ],
   ['Container', () => <Container>Content</Container>],
+  [
+    'ContextMenu',
+    () => (
+      <ContextMenu>
+        <ContextMenuTrigger>
+          <div>Area</div>
+        </ContextMenuTrigger>
+        <DropdownMenu aria-label="Actions">
+          <DropdownItem>Open</DropdownItem>
+        </DropdownMenu>
+      </ContextMenu>
+    ),
+  ],
   ['DatePicker', () => <DatePicker onValueChange={() => undefined} />],
   [
     'DescriptionList',
@@ -312,6 +330,12 @@ const entries: Entry[] = [
             <DropdownItem>Profile</DropdownItem>
           </DropdownGroup>
           <DropdownSeparator />
+          <DropdownSub>
+            <DropdownSubTrigger>Share</DropdownSubTrigger>
+            <DropdownSubMenu>
+              <DropdownItem>Email</DropdownItem>
+            </DropdownSubMenu>
+          </DropdownSub>
           <DropdownItem>Sign out</DropdownItem>
         </DropdownMenu>
       </Dropdown>

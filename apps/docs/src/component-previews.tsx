@@ -267,6 +267,18 @@ const previews: Record<string, ReactNode> = {
       </Container>
     </div>
   ),
+  ContextMenu: (
+    <div style={{ ...column, alignItems: 'flex-start', width: '11rem' }}>
+      <Text>Right-click a file</Text>
+      <Card style={{ marginInlineStart: '2.5rem', width: '8rem' }} variant="elevated">
+        <List variant="plain">
+          <ListItem>Open</ListItem>
+          <ListItem>Rename</ListItem>
+          <ListItem>Delete</ListItem>
+        </List>
+      </Card>
+    </div>
+  ),
   DatePicker: <DatePicker aria-label="Date" onValueChange={noop} style={{ width: '12rem' }} />,
   DescriptionList: (
     <DescriptionList style={{ width: '14rem' }}>

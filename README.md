@@ -92,6 +92,7 @@ import '@loica-ui/react/css/input.css'
 | CommandPalette | [CommandPalette](https://darioegb.github.io/loica-ui/?path=/docs/components-commandpalette--docs) |
 | Confirm | [Confirm](https://darioegb.github.io/loica-ui/?path=/docs/components-modal--docs) |
 | Container | [Container](https://darioegb.github.io/loica-ui/?path=/docs/components-container--docs) |
+| ContextMenu | [ContextMenu](https://darioegb.github.io/loica-ui/?path=/docs/components-contextmenu--docs) |
 | DatePicker | [DatePicker](https://darioegb.github.io/loica-ui/?path=/docs/components-datepicker--docs) |
 | DescriptionList | [DescriptionList](https://darioegb.github.io/loica-ui/?path=/docs/components-descriptionlist--docs) |
 | Divider | [Divider](https://darioegb.github.io/loica-ui/?path=/docs/components-divider--docs) |
