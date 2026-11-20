@@ -1,13 +1,16 @@
+:global(:where([data-loica-tour])) {
+  position: relative;
+  z-index: var(--loica-z-popover);
+}
+
 :global(:where([data-loica-tour-blocker])) {
   inset: 0;
   position: fixed;
-  z-index: var(--loica-z-modal);
 }
 
 :global(:where([data-loica-tour-spotlight])) {
   pointer-events: none;
   position: fixed;
-  z-index: var(--loica-z-modal);
 }
 
 :global(:where(dialog[data-loica-dialog])) {
@@ -28,10 +31,6 @@
   max-height: var(--loica-available-height, none);
   overflow-y: auto;
   overscroll-behavior: contain;
-}
-
-:global(:where(dialog[data-loica-tour-panel])) {
-  z-index: var(--loica-z-popover);
 }
 
 .dim {
@@ -123,6 +122,7 @@
 .progress {
   color: var(--loica-muted);
   font-size: var(--loica-font-size-xs);
+  white-space: nowrap;
 }
 
 .actions {

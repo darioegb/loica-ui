@@ -40,6 +40,25 @@ const steps: TourStep[] = [
   },
 ]
 
+const stepsEs: TourStep[] = [
+  {
+    content: 'Encuentra cualquier proyecto por su nombre o por el de su responsable.',
+    target: '#tour-search',
+    title: 'Búsqueda',
+  },
+  {
+    content: 'Empieza un proyecto desde cero o desde una plantilla.',
+    target: '#tour-new',
+    title: 'Crear un proyecto',
+  },
+  {
+    content: 'Tu cuenta, tus notificaciones y el aspecto de la aplicación.',
+    placement: 'bottom-end',
+    target: '#tour-profile',
+    title: 'Tu perfil',
+  },
+]
+
 interface DemoProps {
   children: (page: { open: boolean; setOpen: (open: boolean) => void }) => React.ReactNode
 }
@@ -68,7 +87,9 @@ function Demo({ children }: Readonly<DemoProps>): React.ReactNode {
 function Example(props: Readonly<Partial<TourProps>>): React.ReactNode {
   return (
     <Demo>
-      {({ open, setOpen }) => <Tour {...props} onOpenChange={setOpen} open={open} steps={steps} />}
+      {({ open, setOpen }) => (
+        <Tour steps={steps} {...props} onOpenChange={setOpen} open={open} />
+      )}
     </Demo>
   )
 }
@@ -488,8 +509,9 @@ function ControlledExample(): React.ReactNode {
 }
 
 /**
- * Every text comes from the `LocaleProvider`: the buttons and the progress, which gets the number of the step and the
- * total. The texts of the steps are yours.
+ * The texts of the buttons and the progress come from the `LocaleProvider`, and the progress gets the number of the
+ * step and the total. The `title` and the `content` of every step are yours to translate, since they are plain
+ * values of `steps`.
  */
 export const Translated: Story = {
   parameters: {
@@ -507,7 +529,21 @@ export const Translated: Story = {
     },
   }}
 >
-  <Tour open steps={steps} />
+  <Tour
+    open
+    steps={[
+      {
+        content: 'Encuentra cualquier proyecto por su nombre o por el de su responsable.',
+        target: '#tour-search',
+        title: 'Búsqueda',
+      },
+      {
+        content: 'Empieza un proyecto desde cero o desde una plantilla.',
+        target: '#tour-new',
+        title: 'Crear un proyecto',
+      },
+    ]}
+  />
 </LocaleProvider>`,
       },
     },
@@ -525,7 +561,7 @@ export const Translated: Story = {
         },
       }}
     >
-      <Example />
+      <Example steps={stepsEs} />
     </LocaleProvider>
   ),
 }
@@ -617,7 +653,7 @@ export const Tailwind: Story = {
     <TourTitle className="font-semibold" />
     <TourContent className="mt-1 text-[var(--loica-muted)]" />
     <div className="mt-4 flex items-center justify-between">
-      <TourProgress className="text-xs text-[var(--loica-muted)]" />
+      <TourProgress className="text-xs whitespace-nowrap text-[var(--loica-muted)]" />
       <div className="flex gap-2">
         <TourSkip className="px-2 py-1.5 text-sm text-[var(--loica-muted)] hover:underline" />
         <TourPrevious className="rounded-sm border border-border px-3 py-1.5 text-sm" />
@@ -638,7 +674,7 @@ export const Tailwind: Story = {
             <TourTitle className="font-semibold" />
             <TourContent className="mt-1 text-[var(--loica-muted)]" />
             <div className="mt-4 flex items-center justify-between">
-              <TourProgress className="text-xs text-[var(--loica-muted)]" />
+              <TourProgress className="text-xs whitespace-nowrap text-[var(--loica-muted)]" />
               <div className="flex gap-2">
                 <TourSkip className="px-2 py-1.5 text-sm text-[var(--loica-muted)] hover:underline" />
                 <TourPrevious className="rounded-sm border border-border px-3 py-1.5 text-sm" />
@@ -669,7 +705,7 @@ export const Bootstrap: Story = {
     <TourTitle className="popover-header" />
     <TourContent className="popover-body" />
     <div className="popover-body d-flex align-items-center justify-content-between pt-0">
-      <TourProgress className="small" />
+      <TourProgress className="small text-nowrap" />
       <div className="d-flex gap-2">
         <TourSkip className="btn btn-sm btn-secondary" />
         <TourPrevious className="btn btn-sm btn-secondary" />
@@ -690,7 +726,7 @@ export const Bootstrap: Story = {
             <TourTitle className="popover-header" />
             <TourContent className="popover-body" />
             <div className="popover-body d-flex align-items-center justify-content-between pt-0">
-              <TourProgress className="small" />
+              <TourProgress className="small text-nowrap" />
               <div className="d-flex gap-2">
                 <TourSkip className="btn btn-sm btn-secondary" />
                 <TourPrevious className="btn btn-sm btn-secondary" />
