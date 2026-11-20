@@ -34,8 +34,8 @@ export interface ColorPickerOwnProps {
    */
   children?: ReactNode
   /**
-   * Color scheme from the theme palette, custom schemes included. It colors the focus of the field and the border of
-   * the `filled` and `underline` panels.
+   * Color scheme from the theme palette, custom schemes included. It colors the focus of the field and of the fields of
+   * the panel, and the border of the `filled` and `underline` panels.
    * @default 'secondary'
    * @since 1.4
    */

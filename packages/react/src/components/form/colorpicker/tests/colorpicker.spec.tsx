@@ -463,6 +463,11 @@ describe('ColorPicker component', () => {
       expect(onValueChange).toHaveBeenCalledWith('#0000ff')
     })
 
+    it('take the color scheme of the picker for their focus', () => {
+      render(<ColorPicker colorScheme="success" defaultValue="#ff0000" panel />)
+      expect(channel('Hex')).toHaveStyle({ '--input-color': 'var(--loica-color-success-text)' })
+    })
+
     it('show the opacity in percent with alpha', async () => {
       const onValueChange = vi.fn()
       render(<ColorPicker alpha defaultValue="#ff000080" onValueChange={onValueChange} panel />)

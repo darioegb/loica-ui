@@ -3,7 +3,7 @@
 import type { ForwardedRef, ReactNode } from 'react'
 import { forwardRef } from 'react'
 import { joinClasses } from '../../../overlay/class-names'
-import type { ComponentProps } from '../../../theme'
+import type { ColorScheme, ComponentProps } from '../../../theme'
 import { Input } from '../input'
 import { clamp, hslaToHsva, hsvaToHsla, hsvaToRgba, rgbaToHsva, type Hsva } from './color-math'
 import { useColorPickerContext } from './colorpicker-context'
@@ -13,13 +13,22 @@ import { useDraft } from './use-draft'
 interface ChannelProps {
   blocked: boolean
   caption: string
+  colorScheme: ColorScheme
   commit: (text: string) => void
   isStyled: boolean
   mode: 'numeric' | 'text'
   value: string
 }
 
-function Channel({ blocked, caption, commit, isStyled, mode, value }: Readonly<ChannelProps>): ReactNode {
+function Channel({
+  blocked,
+  caption,
+  colorScheme,
+  commit,
+  isStyled,
+  mode,
+  value,
+}: Readonly<ChannelProps>): ReactNode {
   const draft = useDraft(value, commit)
 
   return (
@@ -28,6 +37,7 @@ function Channel({ blocked, caption, commit, isStyled, mode, value }: Readonly<C
       <Input
         {...draft}
         autoComplete="off"
+        colorScheme={colorScheme}
         disabled={blocked}
         inputMode={mode}
         size="sm"
@@ -56,10 +66,10 @@ export const ColorPickerChannels = forwardRef<HTMLDivElement, ColorPickerChannel
     { className, style }: ColorPickerChannelsProps,
     ref: ForwardedRef<HTMLDivElement>,
   ): ReactNode => {
-    const { alpha, blocked, format, isStyled, labels, state } =
+    const { alpha, blocked, colorScheme, format, isStyled, labels, state } =
       useColorPickerContext('ColorPickerChannels')
     const { color, setColor, setFromText, text } = state
-    const shared = { blocked, isStyled }
+    const shared = { blocked, colorScheme, isStyled }
 
     const channel = (
       caption: string,
