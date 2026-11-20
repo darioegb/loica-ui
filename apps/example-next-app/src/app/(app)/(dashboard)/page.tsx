@@ -11,6 +11,7 @@ import {
   ProgressBar,
   Stat,
 } from '@loica-ui/react'
+import { DashboardTour } from '@/components/dashboard-tour'
 import { getDashboard } from '@/lib/data'
 import { formatDue } from '@/lib/format'
 import { getUser } from '@/lib/session'
@@ -29,9 +30,13 @@ export default async function DashboardPage(): Promise<ReactNode> {
 
   return (
     <>
-      <PageHeader description={t('description')} title={t('title', { name: firstName })} />
+      <PageHeader actions={<DashboardTour />} description={t('description')} title={t('title', { name: firstName })} />
 
-      <section aria-label={t('keyNumbers')} className="grid grid-cols-[repeat(auto-fit,minmax(13rem,1fr))] gap-4">
+      <section
+        aria-label={t('keyNumbers')}
+        className="grid grid-cols-[repeat(auto-fit,minmax(13rem,1fr))] gap-4"
+        id="dashboard-metrics"
+      >
         {metrics.map((metric) => (
           <Card key={metric.id} variant="outline">
             <CardBody>
@@ -48,7 +53,7 @@ export default async function DashboardPage(): Promise<ReactNode> {
         ))}
       </section>
 
-      <Card variant="outline">
+      <Card id="dashboard-projects" variant="outline">
         <CardHeader>{t('activeProjects')}</CardHeader>
         <CardBody>
           <ul className="flex flex-col gap-5">

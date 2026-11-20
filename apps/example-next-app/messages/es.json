@@ -119,6 +119,15 @@
       "completed": { "label": "Tareas completadas", "change": "+{change, number, percent}" },
       "overdue": { "label": "Tareas vencidas", "change": "-{change} desde el lunes" },
       "team": { "label": "Miembros del equipo", "change": "+{change} esta semana" }
+    },
+    "tour": {
+      "start": "Hacer un recorrido",
+      "welcomeTitle": "Te damos la bienvenida a Loica Projects",
+      "welcomeContent": "Un minuto alcanza para ver dónde está cada cosa.",
+      "metricsTitle": "Cifras clave",
+      "metricsContent": "Los números que más se mueven, con cómo cambiaron.",
+      "projectsTitle": "Proyectos activos",
+      "projectsContent": "Cada proyecto activo, con su estado, su avance y su equipo."
     }
   },
   "projects": {
@@ -351,6 +360,13 @@
       "countMax": "{current, number} / {max, number}",
       "remaining": "{count, plural, one {Queda # carácter} other {Quedan # caracteres}}"
     },
-    "toast": { "region": "Notificaciones" }
+    "toast": { "region": "Notificaciones" },
+    "tour": {
+      "done": "Listo",
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "progress": "Paso {current, number} de {total, number}",
+      "skip": "Omitir"
+    }
   }
 }

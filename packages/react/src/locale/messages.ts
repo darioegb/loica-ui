@@ -19,6 +19,7 @@ import type { StepperLabels } from '../components/navigation/stepper'
 import type { TextareaLabels } from '../components/form/textarea'
 import type { TimePickerLabels } from '../components/form/timepicker'
 import type { ToastLabels } from '../components/overlay/toast'
+import type { TourLabels } from '../components/overlay/tour'
 
 export interface SingleLabel {
   label: string
@@ -51,6 +52,7 @@ export interface MessageMap {
   textarea: TextareaLabels
   timePicker: TimePickerLabels
   toast: ToastLabels
+  tour: TourLabels
 }
 
 export type LoicaMessages = { [K in keyof MessageMap]?: Partial<MessageMap[K]> }

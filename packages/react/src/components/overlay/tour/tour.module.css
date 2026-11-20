@@ -1,0 +1,141 @@
+:global(:where([data-loica-tour-blocker])) {
+  inset: 0;
+  position: fixed;
+  z-index: var(--loica-z-modal);
+}
+
+:global(:where([data-loica-tour-spotlight])) {
+  pointer-events: none;
+  position: fixed;
+  z-index: var(--loica-z-modal);
+}
+
+:global(:where(dialog[data-loica-dialog])) {
+  background-color: transparent;
+  border: 0;
+  color: inherit;
+  height: auto;
+  inset: auto;
+  margin: 0;
+  max-height: none;
+  max-width: none;
+  padding: 0;
+  position: static;
+  width: auto;
+}
+
+:global(:where(dialog[data-loica-dialog][data-placement])) {
+  max-height: var(--loica-available-height, none);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+:global(:where(dialog[data-loica-tour-panel])) {
+  z-index: var(--loica-z-popover);
+}
+
+.dim {
+  background-color: var(--loica-backdrop);
+}
+
+.spotlight {
+  border-radius: var(--loica-radius-4);
+  box-shadow:
+    0 0 0 var(--loica-focus-ring-width) var(--tour-solid),
+    0 0 0 100vmax var(--loica-backdrop);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .spotlight {
+    transition:
+      height var(--loica-duration-fast) var(--loica-easing-out),
+      left var(--loica-duration-fast) var(--loica-easing-out),
+      top var(--loica-duration-fast) var(--loica-easing-out),
+      width var(--loica-duration-fast) var(--loica-easing-out);
+  }
+
+  .panel {
+    animation: panel-in var(--loica-duration-fast) var(--loica-easing-out);
+  }
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.panel {
+  background-color: var(--loica-surface);
+  border-radius: var(--loica-radius-4);
+  box-sizing: border-box;
+  color: var(--loica-foreground);
+  font-family: var(--loica-font-family);
+  font-size: var(--loica-font-size-sm);
+  line-height: var(--loica-line-height-normal);
+  max-width: calc(100vw - var(--loica-space-4));
+  padding: var(--loica-space-4);
+  width: max-content;
+}
+
+.panel:focus-visible {
+  outline: none;
+}
+
+.sm {
+  max-width: min(var(--loica-container-3xs), calc(100vw - var(--loica-space-4)));
+}
+
+.md {
+  max-width: min(var(--loica-container-xs), calc(100vw - var(--loica-space-4)));
+}
+
+.lg {
+  max-width: min(var(--loica-container-md), calc(100vw - var(--loica-space-4)));
+}
+
+.elevated {
+  box-shadow: var(--loica-shadow-lg);
+}
+
+.outline {
+  border: var(--loica-border-width-thin) solid var(--loica-border-strong);
+}
+
+.title {
+  font-size: var(--loica-font-size-base);
+  font-weight: var(--loica-font-weight-semibold);
+}
+
+.content {
+  color: var(--loica-muted);
+  margin-top: var(--loica-space-1);
+}
+
+.footer {
+  align-items: center;
+  display: flex;
+  gap: var(--loica-space-4);
+  justify-content: space-between;
+  margin-top: var(--loica-space-4);
+}
+
+.progress {
+  color: var(--loica-muted);
+  font-size: var(--loica-font-size-xs);
+}
+
+.actions {
+  display: flex;
+  gap: var(--loica-space-2);
+}
+
+@media (forced-colors: active) {
+  .panel {
+    border: var(--loica-border-width-thin) solid CanvasText;
+  }
+
+  .spotlight {
+    outline: var(--loica-focus-ring-width) solid Highlight;
+  }
+}

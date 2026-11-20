@@ -103,6 +103,7 @@ import '@loica-ui/react/css/input.css'
 - [Toast](https://darioegb.github.io/loica-ui/?path=/docs/components-toast--docs)
 - [Toggle](https://darioegb.github.io/loica-ui/?path=/docs/components-toggle--docs)
 - [Tooltip](https://darioegb.github.io/loica-ui/?path=/docs/components-tooltip--docs)
+- [Tour](https://darioegb.github.io/loica-ui/?path=/docs/components-tour--docs)
 - [Tree](https://darioegb.github.io/loica-ui/?path=/docs/components-tree--docs)
 
 The [documentation site](https://darioegb.github.io/loica-ui/) has the examples of each one with their code (each one opens in StackBlitz) and its API reference, plus the color palette, design tokens and framework integration guides.

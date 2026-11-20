@@ -36,6 +36,7 @@ import "@loica-ui/react/css/tabs.css";
 import "@loica-ui/react/css/text.css";
 import "@loica-ui/react/css/textarea.css";
 import "@loica-ui/react/css/toast.css";
+import "@loica-ui/react/css/tour.css";
 import "./i18n";
 import { App } from "./app";
 import { RouterAnchor } from "./components/router-anchor";
