@@ -1,0 +1,127 @@
+:global(:where([data-loica-splitter])) {
+  display: flex;
+  min-height: 0;
+  min-width: 0;
+}
+
+:global(:where([data-loica-splitter][data-orientation='vertical'])) {
+  flex-direction: column;
+}
+
+:global(:where([data-loica-splitter][data-dragging])) {
+  user-select: none;
+}
+
+:global(:where([data-loica-splitter-panel])) {
+  box-sizing: border-box;
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+}
+
+:global(:where([data-loica-splitter-handle])) {
+  box-sizing: border-box;
+  flex: none;
+  position: relative;
+  touch-action: none;
+  user-select: none;
+}
+
+:global(:where([data-loica-splitter-handle][data-orientation='horizontal'])) {
+  cursor: col-resize;
+}
+
+:global(:where([data-loica-splitter-handle][data-orientation='vertical'])) {
+  cursor: row-resize;
+}
+
+:global(:where([data-loica-splitter-handle][data-disabled])) {
+  cursor: default;
+}
+
+.splitter {
+  font-family: var(--loica-font-family);
+}
+
+.handle {
+  background-color: var(--loica-border);
+  outline: none;
+  transition: background-color var(--loica-duration-normal);
+}
+
+.handle::before {
+  content: '';
+  inset: 0;
+  position: absolute;
+}
+
+.handle[data-orientation='horizontal']::before {
+  inset-inline: -0.25rem;
+}
+
+.handle[data-orientation='vertical']::before {
+  inset-block: -0.25rem;
+}
+
+.handle:hover,
+.handle[data-dragging] {
+  background-color: var(--splitter-active);
+}
+
+.handle:focus-visible {
+  background-color: var(--splitter-active);
+  outline: var(--loica-focus-ring-width) solid var(--splitter-active);
+  outline-offset: var(--loica-focus-ring-offset);
+}
+
+.handle[data-disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.line[data-orientation='horizontal'] {
+  inline-size: var(--loica-border-width-thin);
+}
+
+.line[data-orientation='vertical'] {
+  block-size: var(--loica-border-width-thin);
+}
+
+.bar {
+  background-color: var(--loica-surface-muted);
+  border: solid var(--loica-border-width-thin) var(--loica-border);
+}
+
+.bar[data-orientation='horizontal'] {
+  inline-size: 0.5rem;
+}
+
+.bar[data-orientation='vertical'] {
+  block-size: 0.5rem;
+}
+
+.bar::after {
+  background-color: var(--loica-muted);
+  border-radius: var(--loica-radius-4);
+  content: '';
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  position: absolute;
+  translate: -50% -50%;
+}
+
+.bar[data-orientation='horizontal']::after {
+  block-size: 1.5rem;
+  inline-size: 2px;
+}
+
+.bar[data-orientation='vertical']::after {
+  block-size: 2px;
+  inline-size: 1.5rem;
+}
+
+.bar:hover::after,
+.bar[data-dragging]::after,
+.bar:focus-visible::after {
+  background-color: var(--splitter-active-contrast, var(--loica-surface));
+}

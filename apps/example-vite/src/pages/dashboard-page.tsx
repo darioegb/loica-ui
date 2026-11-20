@@ -20,6 +20,7 @@ import { getDashboard } from "../lib/data";
 import { formatChange, formatDue } from "../lib/format";
 import { statusColor } from "../lib/status";
 import { useResource } from "../lib/use-resource";
+import { ProjectExplorer } from "./project-explorer";
 
 export function DashboardPage(): ReactNode {
   const { i18n, t } = useTranslation();
@@ -146,6 +147,8 @@ export function DashboardPage(): ReactNode {
           </div>
         </CardBody>
       </Card>
+
+      <ProjectExplorer projects={projects} />
     </>
   );
 }

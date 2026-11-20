@@ -123,6 +123,7 @@ import '@loica-ui/react/css/input.css'
 | Sidebar | [Sidebar](https://darioegb.github.io/loica-ui/?path=/docs/components-sidebar--docs) |
 | Skeleton | [Skeleton](https://darioegb.github.io/loica-ui/?path=/docs/components-skeleton--docs) |
 | Slider | [Slider](https://darioegb.github.io/loica-ui/?path=/docs/components-slider--docs) |
+| Splitter | [Splitter](https://darioegb.github.io/loica-ui/?path=/docs/components-splitter--docs) |
 | Stack | [Stack](https://darioegb.github.io/loica-ui/?path=/docs/components-stack--docs) |
 | Stat | [Stat](https://darioegb.github.io/loica-ui/?path=/docs/components-stat--docs) |
 | Stepper | [Stepper](https://darioegb.github.io/loica-ui/?path=/docs/components-stepper--docs) |

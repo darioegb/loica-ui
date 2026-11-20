@@ -57,6 +57,8 @@ import {
   SelectTrigger,
   Skeleton,
   Slider,
+  Splitter,
+  SplitterPanel,
   Stack,
   Stat,
   Step,
@@ -466,6 +468,20 @@ const previews: Record<string, ReactNode> = {
     </Card>
   ),
   Slider: <Slider aria-label="Volume" defaultValue={40} style={{ width: '12rem' }} />,
+  Splitter: (
+    <Splitter
+      aria-label="Panels"
+      defaultSizes={[35, 65]}
+      style={{ border: '1px solid var(--loica-border)', borderRadius: '0.5rem', height: '5rem', overflow: 'hidden', width: '14rem' }}
+    >
+      <SplitterPanel style={{ padding: '0.5rem' }}>
+        <Text>Files</Text>
+      </SplitterPanel>
+      <SplitterPanel style={{ padding: '0.5rem' }}>
+        <Text>Editor</Text>
+      </SplitterPanel>
+    </Splitter>
+  ),
   Stack: (
     <Stack direction="row" gap={2}>
       <Button size="sm">Save</Button>

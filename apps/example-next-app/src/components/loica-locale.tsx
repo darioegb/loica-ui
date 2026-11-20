@@ -76,6 +76,7 @@ export function LoicaLocale({ children }: Readonly<{ children: ReactNode }>): Re
         search: t('select.search'),
       },
       sidebarToggle: { label: t('sidebarToggle.label') },
+      splitter: { resize: () => t('splitter.resize') },
       stepper: { completed: t('stepper.completed'), upcoming: t('stepper.upcoming') },
       textarea: {
         count: (current, max) =>
