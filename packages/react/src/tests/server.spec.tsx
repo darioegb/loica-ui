@@ -135,6 +135,15 @@ import {
   ToastProvider,
   Toggle,
   Tooltip,
+  Tour,
+  TourContent,
+  TourNext,
+  TourPanel,
+  TourPrevious,
+  TourProgress,
+  TourSkip,
+  TourSpotlight,
+  TourTitle,
   Tree,
   TreeItem,
   TreeItemGroup,
@@ -619,6 +628,40 @@ const entries: Entry[] = [
         <Button>Hover</Button>
       </Tooltip>
     ),
+  ],
+  [
+    'Tour',
+    () => (
+      <Tour steps={[{ content: 'Body', target: '#anchor', title: 'Title' }]}>
+        <TourSpotlight />
+        <TourPanel>
+          <TourTitle />
+          <TourContent />
+          <TourProgress />
+          <TourSkip />
+          <TourPrevious />
+          <TourNext />
+        </TourPanel>
+      </Tour>
+    ),
+    [
+      'Tour',
+      'TourContent',
+      'TourNext',
+      'TourPanel',
+      'TourPrevious',
+      'TourProgress',
+      'TourSkip',
+      'TourSpotlight',
+      'TourTitle',
+    ],
+  ],
+  [
+    'Tour, open',
+    () => (
+      <Tour defaultOpen steps={[{ content: 'Body', title: 'Title' }]} />
+    ),
+    [],
   ],
   [
     'Tree',

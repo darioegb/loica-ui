@@ -1,0 +1,5 @@
+---
+'@loica-ui/react': minor
+---
+
+New `Tour`, a guided tour: steps that point to an element of the page (a CSS selector, an element or a ref) with a spotlight, and a panel with the progress and the buttons to go back, go on and skip. The panel opens next to the target, flips to stay inside the screen and follows it on scroll and resize, and the target scrolls into view. A step with no target shows centered. While it is open the rest of the page is blocked, as in a modal, except for the target of a step that sets `interactive`. The focus moves to the panel on each step and goes back to where it was when the tour closes, and `Esc` closes it. `open` and `step` work controlled or not, and `onClose` gets `finish`, `skip` or `escape`, so the app can remember that the user saw it. Its texts come from the `tour` key of the `LocaleProvider`, and the parts (`TourSpotlight`, `TourPanel`, `TourTitle`, `TourContent`, `TourProgress`, `TourPrevious`, `TourNext` and `TourSkip`) can be composed.

@@ -121,6 +121,15 @@
       "completed": { "label": "Tasks completed", "change": "+{change, number, percent}" },
       "overdue": { "label": "Overdue tasks", "change": "-{change} since Monday" },
       "team": { "label": "Team members", "change": "+{change} this week" }
+    },
+    "tour": {
+      "start": "Take a tour",
+      "welcomeTitle": "Welcome to Loica Projects",
+      "welcomeContent": "A minute is enough to see where everything is.",
+      "metricsTitle": "Key numbers",
+      "metricsContent": "The numbers that move the most, with how they changed.",
+      "projectsTitle": "Active projects",
+      "projectsContent": "Every active project, with its status, progress and team."
     }
   },
   "projects": {
@@ -373,6 +382,13 @@
       "countMax": "{current, number} / {max, number}",
       "remaining": "{count, plural, one {# character left} other {# characters left}}"
     },
-    "toast": { "region": "Notifications" }
+    "toast": { "region": "Notifications" },
+    "tour": {
+      "done": "Done",
+      "next": "Next",
+      "previous": "Previous",
+      "progress": "Step {current, number} of {total, number}",
+      "skip": "Skip"
+    }
   }
 }

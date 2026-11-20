@@ -15,6 +15,7 @@ import {
   Stack,
   Stat,
 } from "@loica-ui/react";
+import { DashboardTour } from "../components/dashboard-tour";
 import { SkeletonPage } from "../components/skeleton-page";
 import { getDashboard } from "../lib/data";
 import { formatChange, formatDue } from "../lib/format";
@@ -69,6 +70,7 @@ export function DashboardPage(): ReactNode {
   return (
     <>
       <PageHeader
+        actions={<DashboardTour />}
         description={t("dashboard.description")}
         title={t("dashboard.welcome", { name: "Ana" })}
       />
@@ -76,6 +78,7 @@ export function DashboardPage(): ReactNode {
       <section
         aria-label={t("dashboard.keyNumbers")}
         className="row row-cols-1 row-cols-sm-2 row-cols-xl-4 g-3"
+        id="dashboard-metrics"
       >
         {metrics.map((metric) => (
           <div className="col" key={metric.id}>
@@ -101,7 +104,7 @@ export function DashboardPage(): ReactNode {
         ))}
       </section>
 
-      <Card variant="outline">
+      <Card id="dashboard-projects" variant="outline">
         <CardHeader>{t("dashboard.activeProjects")}</CardHeader>
         <CardBody>
           <Stack as="ul" gap={3}>
