@@ -102,6 +102,10 @@ export const TourPanel = forwardRef<HTMLDialogElement, TourPanelProps>(
       panel?.focus({ preventScroll: true })
     }, [index, panel])
 
+    let layout = position.style
+    if (docked) layout = dockedStyle
+    if (centered) layout = centeredStyle
+
     return (
       <dialog
         aria-describedby={step.content ? `${baseId}-content` : undefined}
@@ -122,7 +126,7 @@ export const TourPanel = forwardRef<HTMLDialogElement, TourPanelProps>(
         open
         ref={mergeRefs<HTMLDialogElement>(setPanel, ref)}
         style={{
-          ...(centered ? centeredStyle : docked ? dockedStyle : position.style),
+          ...layout,
           opacity: centered || position.isPositioned ? undefined : 0,
           ...style,
         }}
