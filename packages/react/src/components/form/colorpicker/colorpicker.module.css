@@ -1,3 +1,7 @@
+:global(:where([data-loica-colorpicker-panel])) {
+  z-index: var(--loica-z-dropdown);
+}
+
 :global(:where([data-loica-colorpicker-area])) {
   aspect-ratio: 3 / 2;
   background-image:
