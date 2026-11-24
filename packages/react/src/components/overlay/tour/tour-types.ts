@@ -25,7 +25,9 @@ export interface TourStep {
   placement?: Placement
   /**
    * The element the step points to: a CSS selector, an element or a ref. A step with no target, or whose selector
-   * matches nothing, shows centered with no spotlight. The element has to be in the page when the step shows.
+   * matches nothing, shows centered with no spotlight. The element has to be in the page when the step shows. It scrolls
+   * into view as the step shows, so a sticky header over the page needs a `scroll-margin-top` on the element to leave it
+   * visible.
    */
   target?: TourTarget | null
   /** The name of the step, which names the dialog. */

@@ -5,3 +5,8 @@
 body {
   font-family: var(--loica-font-family);
 }
+
+#dashboard-metrics,
+#dashboard-projects {
+  scroll-margin-top: 5rem;
+}
