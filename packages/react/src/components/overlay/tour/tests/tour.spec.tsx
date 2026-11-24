@@ -282,6 +282,37 @@ describe('Tour component', () => {
       delete (Element.prototype as Partial<Element>).scrollIntoView
     })
 
+    it('docks the panel at the bottom when the target leaves no room for it', () => {
+      vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(300)
+      vi.spyOn(HTMLElement.prototype, 'scrollHeight', 'get').mockReturnValue(150)
+      const search = document.createElement('input')
+      document.body.append(search)
+      rectOf(search, { height: 700, left: 10, top: 20, width: 300 })
+      const { unmount } = render(<Tour defaultOpen steps={[{ target: search, title: 'Search' }]} />)
+      expect(panel()).toHaveAttribute('data-docked', '')
+      expect(panel()).not.toHaveAttribute('data-placement')
+      expect(panel()).toHaveStyle({ bottom: 'calc(var(--loica-space-2) + env(safe-area-inset-bottom, 0px))' })
+      unmount()
+
+      rectOf(search, { height: 30, left: 10, top: 20, width: 300 })
+      render(<Tour defaultOpen steps={[{ target: search, title: 'Search' }]} />)
+      expect(panel()).not.toHaveAttribute('data-docked')
+      expect(panel()).toHaveAttribute('data-placement')
+      search.remove()
+    })
+
+    it('scrolls to the start of a target taller than the screen', () => {
+      const scrollIntoView = vi.fn()
+      Element.prototype.scrollIntoView = scrollIntoView
+      const tall = document.createElement('section')
+      document.body.append(tall)
+      rectOf(tall, { height: window.innerHeight + 1 })
+      render(<Tour defaultOpen steps={[{ target: tall, title: 'Tall' }]} />)
+      expect(scrollIntoView).toHaveBeenCalledWith(expect.objectContaining({ block: 'start' }))
+      tall.remove()
+      delete (Element.prototype as Partial<Element>).scrollIntoView
+    })
+
     it('opens on the side of the step, or on the one of the tour', () => {
       const { unmount } = render(<Page placement="bottom-end" />)
       expect(panel()).toHaveAttribute('data-placement', 'bottom-end')

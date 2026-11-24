@@ -1,11 +1,12 @@
 'use client'
 
 import type { CSSProperties, ForwardedRef, HTMLAttributes, ReactNode } from 'react'
-import { forwardRef, useEffect } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import { useFocusTrap } from '../../../overlay'
 import { joinClasses } from '../../../overlay/class-names'
 import { mergeRefs } from '../../../overlay/trigger'
 import { useFloatingPanel } from '../../../overlay/use-floating-panel'
+import { useIsomorphicLayoutEffect } from '../../../overlay/use-isomorphic-layout-effect'
 import { useTourContext } from './tour-context'
 import styles from './tour.module.css'
 
@@ -17,11 +18,21 @@ const centeredStyle: CSSProperties = {
   width: 'fit-content',
 }
 
+const dockedStyle: CSSProperties = {
+  bottom: 'calc(var(--loica-space-2) + env(safe-area-inset-bottom, 0px))',
+  left: 0,
+  margin: '0 auto',
+  position: 'fixed',
+  right: 0,
+  top: 'auto',
+}
+
 export type TourPanelProps = Omit<HTMLAttributes<HTMLDialogElement>, 'title'>
 
 /**
  * The panel of the step, a `dialog` named by the `TourTitle`. It sits next to the target and flips or shifts to stay
- * inside the screen, and a step with no target shows it centered. The focus moves to it on every step, and <kbd>Esc</kbd>
+ * inside the screen, and a step with no target shows it centered. When the target is so large that the panel would leave
+ * the screen or cover it, as on a phone, the panel docks at the bottom of the screen. The focus moves to it on every step, and <kbd>Esc</kbd>
  * closes the tour. The focus stays inside, except on a step that is `interactive`.
  * @since 1.4
  */
@@ -38,6 +49,7 @@ export const TourPanel = forwardRef<HTMLDialogElement, TourPanelProps>(
       onClose,
       placement,
       size,
+      rect,
       spotlightPadding,
       step,
       target,
@@ -53,6 +65,30 @@ export const TourPanel = forwardRef<HTMLDialogElement, TourPanelProps>(
       placement: step.placement ?? placement,
     })
     const centered = target === null
+    const [docked, setDocked] = useState(false)
+
+    useIsomorphicLayoutEffect(() => {
+      if (!panel || !rect || !position.isPositioned) {
+        setDocked(false)
+        return
+      }
+      const { clientHeight, clientWidth } = document.documentElement
+      const top = Number(position.style.top)
+      const left = Number(position.style.left)
+      const right = left + panel.offsetWidth
+      const bottom = top + panel.scrollHeight
+      const inside =
+        top >= 0 &&
+        left >= 0 &&
+        bottom <= (clientHeight || window.innerHeight) &&
+        right <= (clientWidth || window.innerWidth)
+      const covers =
+        left < rect.left + rect.width - 1 &&
+        right > rect.left + 1 &&
+        top < rect.top + rect.height - 1 &&
+        bottom > rect.top + 1
+      setDocked(!inside || covers)
+    }, [panel, position.isPositioned, position.style.left, position.style.top, rect])
 
     useFocusTrap(panel, {
       active: true,
@@ -79,13 +115,14 @@ export const TourPanel = forwardRef<HTMLDialogElement, TourPanelProps>(
           className,
         )}
         data-centered={centered ? '' : undefined}
+        data-docked={docked ? '' : undefined}
         data-loica-dialog=""
         data-loica-tour-panel=""
-        data-placement={centered ? undefined : position.placement}
+        data-placement={centered || docked ? undefined : position.placement}
         open
         ref={mergeRefs<HTMLDialogElement>(setPanel, ref)}
         style={{
-          ...(centered ? centeredStyle : position.style),
+          ...(centered ? centeredStyle : docked ? dockedStyle : position.style),
           opacity: centered || position.isPositioned ? undefined : 0,
           ...style,
         }}

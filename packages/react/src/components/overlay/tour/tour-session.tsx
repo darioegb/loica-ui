@@ -73,9 +73,10 @@ export const TourSession = forwardRef<HTMLDivElement, TourSessionProps>(
       const reduced =
         typeof window.matchMedia === 'function' &&
         window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const taller = target.getBoundingClientRect().height > window.innerHeight
       target.scrollIntoView({
         behavior: reduced ? 'auto' : 'smooth',
-        block: 'center',
+        block: taller ? 'start' : 'center',
         inline: 'nearest',
       })
     }, [target])

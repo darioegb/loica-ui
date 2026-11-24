@@ -33,6 +33,12 @@
   overscroll-behavior: contain;
 }
 
+:global(:where(dialog[data-loica-dialog][data-docked])) {
+  max-height: calc(100dvh - var(--loica-space-4));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
 .dim {
   background-color: var(--loica-backdrop);
 }
