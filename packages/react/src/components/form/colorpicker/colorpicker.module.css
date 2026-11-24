@@ -55,6 +55,7 @@
   inline-size: var(--colorpicker-width, 16rem);
   max-inline-size: 100%;
   position: absolute;
+  z-index: var(--loica-z-dropdown);
 }
 
 :global(:where([data-loica-colorpicker-panel][data-inline])) {

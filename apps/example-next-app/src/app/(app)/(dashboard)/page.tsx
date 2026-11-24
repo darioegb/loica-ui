@@ -35,7 +35,7 @@ export default async function DashboardPage(): Promise<ReactNode> {
 
       <section
         aria-label={t('keyNumbers')}
-        className="grid grid-cols-[repeat(auto-fit,minmax(13rem,1fr))] gap-4"
+        className="grid scroll-mt-20 grid-cols-[repeat(auto-fit,minmax(13rem,1fr))] gap-4"
         id="dashboard-metrics"
       >
         {metrics.map((metric) => (
@@ -54,7 +54,7 @@ export default async function DashboardPage(): Promise<ReactNode> {
         ))}
       </section>
 
-      <Card id="dashboard-projects" variant="outline">
+      <Card className="scroll-mt-20" id="dashboard-projects" variant="outline">
         <CardHeader>{t('activeProjects')}</CardHeader>
         <CardBody>
           <ul className="flex flex-col gap-5">
