@@ -1,5 +1,0 @@
----
-'@loica-ui/react': minor
----
-
-`Dropdown` has submenus and can be a context menu. A `DropdownSub` holds a `DropdownSubTrigger`, the item that opens it and shows an arrow, and a `DropdownSubMenu`, the menu that opens beside it, with the items, groups and separators of the `Dropdown` and more submenus. It opens when the pointer stays on the item (`delay` sets how long), with a click and with `ArrowRight`, `Enter` or `Space` (`ArrowLeft` when the text runs right to left). The pointer can cross the other items on its way to the submenu without closing it. `ArrowLeft` and `Esc` close one level and give the focus back to its item, `Tab` closes the whole menu, and selecting an item closes it too. With `trigger="contextmenu"` the `DropdownTrigger` is an area, not a button, and the menu opens where the secondary button is pressed, below the element that has the focus with the context menu key or `Shift` + `F10`, or with a long press on a touch screen. The menu is the same `DropdownMenu`, so it has the same items and submenus.
