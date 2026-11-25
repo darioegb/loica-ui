@@ -136,7 +136,9 @@ export const HelperText: Story = {
 }
 
 /**
- * **errorText** shows the message, marks the control with `aria-invalid` and switches it to the error colors.
+ * **errorText** shows the message, marks the control with `aria-invalid` and switches it to the error colors. The Field does
+ * not validate: the error stays while **errorText** is set, so pass it only while the value is wrong, or tie **invalid**
+ * to your state and it clears when the user fixes it.
  */
 export const ErrorText: Story = {
   args: {

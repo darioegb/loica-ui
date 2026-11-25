@@ -30,7 +30,9 @@ export interface FieldOwnProps {
   helperText?: ReactNode
   /**
    * Marks the field invalid: the control gets `aria-invalid` and error colors, and `errorText` is shown. It is on
-   * when `errorText` is set, unless you pass `false`.
+   * when `errorText` is set, unless you pass `false`. The field does not validate, so tie it to your state
+   * (`invalid={value === ''}`) for the error to clear when the user fixes the value, and do not set `aria-invalid` on
+   * the control itself: it would stay invalid whatever this says.
    */
   invalid?: boolean
   /** Label rendered above the control (beside it when horizontal) and linked to it. */

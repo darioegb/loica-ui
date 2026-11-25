@@ -426,19 +426,48 @@ export const Invalid: Story = {
   args: { 'aria-invalid': true },
 }
 
+function RequiredExample(): React.ReactNode {
+  const [files, setFiles] = useState<File[]>([])
+
+  return (
+    <Field errorText="Attach your resume" invalid={files.length === 0} label="Resume" required style={frame}>
+      <FileUpload accept=".pdf" onValueChange={setFiles} value={files} />
+    </Field>
+  )
+}
+
 /**
  * Inside a `Field` the label, the helper text and the error message name and describe the input, which also gets
- * its id and its `required` and invalid state.
+ * its id and its `required` and invalid state. The Field does not validate: it shows the error text while **invalid**
+ * is on, so tie it to your state and it clears when the user attaches a file.
  */
 export const WithField: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `function Example() {
+  const [files, setFiles] = useState<File[]>([])
+
+  return (
+    <div className="flex flex-col gap-6">
+      <Field helperText="PDF, up to 2 MB" label="Resume">
+        <FileUpload accept=".pdf" />
+      </Field>
+      <Field errorText="Attach your resume" invalid={files.length === 0} label="Resume" required>
+        <FileUpload accept=".pdf" onValueChange={setFiles} value={files} />
+      </Field>
+    </div>
+  )
+}`,
+      },
+    },
+  },
   render: () => (
     <div style={stack('1.5rem')}>
       <Field helperText="PDF, up to 2 MB" label="Resume" style={frame}>
         <FileUpload accept=".pdf" />
       </Field>
-      <Field errorText="Attach your resume" label="Resume" required style={frame}>
-        <FileUpload accept=".pdf" />
-      </Field>
+      <RequiredExample />
     </div>
   ),
 }

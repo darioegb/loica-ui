@@ -413,21 +413,53 @@ export const InAForm: Story = {
   ),
 };
 
+function RequiredExample(): React.ReactNode {
+  const [score, setScore] = useState(0)
+
+  return (
+    <Field errorText="Please rate it." invalid={score === 0} label="Your rating" required>
+      <Rating onValueChange={setScore} value={score} />
+    </Field>
+  )
+}
+
 /**
  * Wrap the Rating in a `Field` to give it a label, a helper text and an error message. The Field names the group,
  * links its texts and sets `disabled`, `readOnly`, `required` and `aria-invalid`, all on the `<fieldset>` that is
- * also the `ref` of the Rating, read only or not. With react-hook-form, render it in a `Controller` and pass
- * `field.value`, `field.onChange` and `field.ref`.
+ * also the `ref` of the Rating, read only or not. It does not validate: it shows the error text while **invalid** is
+ * on, so tie it to your state and it clears when the user rates. With react-hook-form, render it in a `Controller`
+ * and pass `field.value`, `field.onChange` and `field.ref`.
  */
 export const WithField: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `function Example() {
+  const [score, setScore] = useState(0)
+
+  return (
+    <div className="flex flex-col gap-6">
+      <Field helperText="One to five stars." label="Your rating">
+        <Rating />
+      </Field>
+      <Field errorText="Please rate it." invalid={score === 0} label="Your rating" required>
+        <Rating onValueChange={setScore} value={score} />
+      </Field>
+      <Field helperText="From 128 reviews." label="Average rating" readOnly>
+        <Rating allowHalf defaultValue={4.5} />
+      </Field>
+    </div>
+  )
+}`,
+      },
+    },
+  },
   render: () => (
     <div className="flex flex-col gap-6">
       <Field helperText="One to five stars." label="Your rating">
         <Rating />
       </Field>
-      <Field errorText="Please rate it." invalid label="Your rating" required>
-        <Rating />
-      </Field>
+      <RequiredExample />
       <Field helperText="From 128 reviews." label="Average rating" readOnly>
         <Rating allowHalf defaultValue={4.5} />
       </Field>
