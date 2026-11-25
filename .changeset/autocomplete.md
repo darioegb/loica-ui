@@ -1,7 +1,0 @@
----
-'@loica-ui/react': minor
----
-
-Add `Autocomplete`, a text field that suggests options as the user types and accepts a text that is not in the list, such as a city, a tag or an email address. Its value is the text (`value`, `defaultValue` and `onValueChange`), and choosing an option puts its label in the field and gives the option to `onOptionSelect`. It is the WAI-ARIA editable combobox with a list, built on `Input` and on the list of `Select`: no option is active while the user types, so Enter keeps the text; the list filters ignoring case and accents, or follows a search on a server with `filter={false}`, `loading` and `onSearchChange`, which is called when the user types and not when they choose an option. It is a hybrid: given `options` it draws everything, and with `AutocompleteInput`, `AutocompleteContent`, `AutocompleteList`, `AutocompleteOption`, `AutocompleteLoading` and `AutocompleteEmpty` you write the structure. It works inside a `Field` and with react-hook-form, takes its texts from the `select` and `loader` entries of the `LocaleProvider`, and has the `outline`, `filled`, `underline` and `unstyled` variants and the `sm`, `md` and `lg` sizes.
-
-The per-component stylesheets now include one for a component that has no CSS of its own and renders others, so `@loica-ui/react/css/autocomplete.css` and `@loica-ui/react/css/confirm.css` exist and bring the CSS of what they render.
