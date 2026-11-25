@@ -8,8 +8,8 @@ import {
   ToastProvider,
   type ColorModeSetting,
 } from "@loica-ui/react";
+import { es } from "@loica-ui/react/locales/es";
 import { BootstrapColorMode } from "./components/bootstrap-color-mode";
-import { loicaMessages } from "./i18n/loica-messages";
 import { read, write } from "./lib/storage";
 import { defaultBrand, isBrand, themeFor, type BrandId } from "./theme";
 
@@ -46,9 +46,8 @@ export function Providers({
     const saved = read(COLOR_MODE_KEY);
     return isColorMode(saved) ? saved : "system";
   });
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const theme = useMemo(() => themeFor(brand), [brand]);
-  const messages = useMemo(() => loicaMessages(t), [t]);
   const value = useMemo(
     () => ({
       brand,
@@ -70,7 +69,10 @@ export function Providers({
         theme={theme}
       >
         <BootstrapColorMode />
-        <LocaleProvider locale={i18n.language} messages={messages}>
+        <LocaleProvider
+          locale={i18n.language}
+          messages={i18n.language === "es" ? es : undefined}
+        >
           <ConfirmProvider>
             <ToastProvider>{children}</ToastProvider>
           </ConfirmProvider>

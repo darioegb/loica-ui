@@ -1,5 +1,5 @@
 // tsup.config.ts
-import { promises as fsPromises } from 'node:fs'
+import { promises as fsPromises, readdirSync } from 'node:fs'
 import path from 'node:path'
 import { transform } from 'esbuild'
 import { defineConfig, type Options } from 'tsup'
@@ -80,6 +80,31 @@ function preserveModulesPlugin(): Plugin {
 
 const moduleEntries = ['src/**/*.{ts,tsx}', '!src/**/tests/**', '!src/**/stories/**']
 
+const localeNames = readdirSync('src/locales')
+  .filter((file) => file.endsWith('.ts'))
+  .map((file) => file.replace(/\.ts$/, ''))
+
+const entryPoints: Record<string, string> = {
+  index: 'src/index.ts',
+  ...Object.fromEntries(localeNames.map((name) => [`locales/${name}`, `src/locales/${name}.ts`])),
+}
+
+async function emitLocaleTypes(): Promise<void> {
+  await fsPromises.mkdir('dist/locales', { recursive: true })
+  await Promise.all(
+    localeNames.flatMap((name) => [
+      fsPromises.writeFile(
+        `dist/locales/${name}.d.ts`,
+        `import type { LocaleMessages } from '../index'\nexport declare const ${name}: LocaleMessages\n`,
+      ),
+      fsPromises.writeFile(
+        `dist/locales/${name}.d.mts`,
+        `import type { LocaleMessages } from '../index.mjs'\nexport declare const ${name}: LocaleMessages\n`,
+      ),
+    ]),
+  )
+}
+
 async function emitStylesheet(): Promise<void> {
   const css = await fsPromises.readFile('dist/index.css', 'utf8')
   const tokens = buildTokensCss()
@@ -90,6 +115,7 @@ async function emitStylesheet(): Promise<void> {
   )
   await fsPromises.rm('dist/index.css')
   await emitComponentStylesheets()
+  await emitLocaleTypes()
 }
 
 async function emitComponentStylesheets(): Promise<void> {
@@ -125,7 +151,7 @@ export default defineConfig((options) => {
     },
     {
       ...shared,
-      entry: ['src/index.ts'],
+      entry: entryPoints,
       format: ['cjs'],
       dts: { entry: 'src/index.ts' },
       esbuildPlugins: [cssModulePlugin({ emitCss: true })],

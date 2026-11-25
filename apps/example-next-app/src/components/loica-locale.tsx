@@ -1,138 +1,15 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { useMemo } from 'react'
-import { LocaleProvider, type LoicaMessages } from '@loica-ui/react'
-import { useLocale as useIntlLocale, useTranslations } from 'next-intl'
+import { LocaleProvider } from '@loica-ui/react'
+import { es } from '@loica-ui/react/locales/es'
+import { useLocale } from 'next-intl'
 
-// Loica exports its own `useLocale`, so the one of next-intl is imported with another name.
 export function LoicaLocale({ children }: Readonly<{ children: ReactNode }>): ReactNode {
-  const t = useTranslations('loica')
-  const locale = useIntlLocale()
-
-  const messages = useMemo<LoicaMessages>(
-    () => ({
-      avatar: {
-        away: t('avatar.away'),
-        busy: t('avatar.busy'),
-        offline: t('avatar.offline'),
-        online: t('avatar.online'),
-      },
-      avatarGroup: { overflow: (hidden) => t('avatarGroup.overflow', { hidden }) },
-      breadcrumb: { breadcrumb: t('breadcrumb.breadcrumb') },
-      chip: { remove: t('chip.remove') },
-      close: { label: t('close.label') },
-      colorPicker: {
-        alpha: t('colorPicker.alpha'),
-        area: t('colorPicker.area'),
-        areaValue: (saturation, brightness) => t('colorPicker.areaValue', { brightness, saturation }),
-        blue: t('colorPicker.blue'),
-        colorPicker: t('colorPicker.colorPicker'),
-        eyeDropper: t('colorPicker.eyeDropper'),
-        green: t('colorPicker.green'),
-        hex: t('colorPicker.hex'),
-        hue: t('colorPicker.hue'),
-        lightness: t('colorPicker.lightness'),
-        openColorPicker: t('colorPicker.openColorPicker'),
-        red: t('colorPicker.red'),
-        saturation: t('colorPicker.saturation'),
-        swatches: t('colorPicker.swatches'),
-      },
-      commandPalette: {
-        empty: t('commandPalette.empty'),
-        label: t('commandPalette.label'),
-        placeholder: t('commandPalette.placeholder'),
-        results: (count) => t('commandPalette.results', { count }),
-      },
-      datePicker: {
-        apply: t('datePicker.apply'),
-        calendar: t('datePicker.calendar'),
-        cancel: t('datePicker.cancel'),
-        format: (format) => t('datePicker.format', { format }),
-        nextMonth: t('datePicker.nextMonth'),
-        nextYears: t('datePicker.nextYears'),
-        openCalendar: t('datePicker.openCalendar'),
-        previousMonth: t('datePicker.previousMonth'),
-        previousYears: t('datePicker.previousYears'),
-      },
-      input: { reveal: t('input.reveal') },
-      loader: { label: t('loader.label') },
-      navbarToggle: { label: t('navbarToggle.label') },
-      paginator: {
-        first: t('paginator.first'),
-        last: t('paginator.last'),
-        next: t('paginator.next'),
-        page: (page, current) => t(current ? 'paginator.pageCurrent' : 'paginator.page', { page }),
-        pageSize: t('paginator.pageSize'),
-        pagination: t('paginator.pagination'),
-        previous: t('paginator.previous'),
-        summary: (from, to, total) => t('paginator.summary', { from, to, total }),
-      },
-      richTextEditor: {
-        editor: t('richTextEditor.editor'),
-        toolbar: t('richTextEditor.toolbar'),
-        bold: t('richTextEditor.bold'),
-        italic: t('richTextEditor.italic'),
-        underline: t('richTextEditor.underline'),
-        code: t('richTextEditor.code'),
-        link: t('richTextEditor.link'),
-        linkAddress: t('richTextEditor.linkAddress'),
-        applyLink: t('richTextEditor.applyLink'),
-        removeLink: t('richTextEditor.removeLink'),
-        paragraph: t('richTextEditor.paragraph'),
-        heading1: t('richTextEditor.heading1'),
-        heading2: t('richTextEditor.heading2'),
-        heading3: t('richTextEditor.heading3'),
-        quote: t('richTextEditor.quote'),
-        codeBlock: t('richTextEditor.codeBlock'),
-        bullet: t('richTextEditor.bullet'),
-        ordered: t('richTextEditor.ordered'),
-        font: t('richTextEditor.font'),
-        fontDefault: t('richTextEditor.fontDefault'),
-        fontSans: t('richTextEditor.fontSans'),
-        fontSerif: t('richTextEditor.fontSerif'),
-        fontMono: t('richTextEditor.fontMono'),
-        size: t('richTextEditor.size'),
-        sizeDefault: t('richTextEditor.sizeDefault'),
-        sizeSmall: t('richTextEditor.sizeSmall'),
-        sizeLarge: t('richTextEditor.sizeLarge'),
-        sizeHuge: t('richTextEditor.sizeHuge'),
-        alignStart: t('richTextEditor.alignStart'),
-        alignCenter: t('richTextEditor.alignCenter'),
-        alignEnd: t('richTextEditor.alignEnd'),
-        alignJustify: t('richTextEditor.alignJustify'),
-        undo: t('richTextEditor.undo'),
-        redo: t('richTextEditor.redo'),
-      },
-      select: {
-        clear: t('select.clear'),
-        empty: t('select.empty'),
-        overflow: (hidden) => t('select.overflow', { hidden }),
-        remove: (label) => t('select.remove', { label }),
-        search: t('select.search'),
-      },
-      sidebarToggle: { label: t('sidebarToggle.label') },
-      splitter: { resize: () => t('splitter.resize') },
-      stepper: { completed: t('stepper.completed'), upcoming: t('stepper.upcoming') },
-      textarea: {
-        count: (current, max) =>
-          max === undefined ? t('textarea.count', { current }) : t('textarea.countMax', { current, max }),
-        remaining: (count) => t('textarea.remaining', { count }),
-      },
-      toast: { region: t('toast.region') },
-      tour: {
-        done: t('tour.done'),
-        next: t('tour.next'),
-        previous: t('tour.previous'),
-        progress: (current, total) => t('tour.progress', { current, total }),
-        skip: t('tour.skip'),
-      },
-    }),
-    [t],
-  )
+  const locale = useLocale()
 
   return (
-    <LocaleProvider locale={locale} messages={messages}>
+    <LocaleProvider locale={locale} messages={locale === 'es' ? es : undefined}>
       {children}
     </LocaleProvider>
   )

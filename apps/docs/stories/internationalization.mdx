@@ -10,6 +10,58 @@ Every text the library shows or announces can be translated, and the library doe
 You give it plain strings (or functions, for the texts that carry data) from whatever you already use: react-intl,
 i18next, next-intl, Lingui or your own dictionary.
 
+Loica's own texts are in English. German, Spanish, French, Italian and Portuguese come with the library, and any
+other language is a few lines of your own.
+
+## A language that comes with Loica
+
+Each language is its own entry point, `@loica-ui/react/locales/<language>`, that holds every text of every
+component. One you do not import is not in your bundle, and one that you do costs about 2 KB gzipped.
+
+<table>
+  <thead>
+    <tr><th>Language</th><th>Import</th><th>Reviewed by a native speaker</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>German</td><td><code>@loica-ui/react/locales/de</code></td><td>Not yet</td></tr>
+    <tr><td>Spanish</td><td><code>@loica-ui/react/locales/es</code></td><td>Yes</td></tr>
+    <tr><td>French (France)</td><td><code>@loica-ui/react/locales/fr</code></td><td>Not yet</td></tr>
+    <tr><td>Italian</td><td><code>@loica-ui/react/locales/it</code></td><td>Not yet</td></tr>
+    <tr><td>Portuguese (Brazil)</td><td><code>@loica-ui/react/locales/pt</code></td><td>Not yet</td></tr>
+  </tbody>
+</table>
+
+Give it to the provider, together with the `locale`:
+
+```tsx
+import { LocaleProvider } from '@loica-ui/react'
+import { es } from '@loica-ui/react/locales/es'
+
+<LocaleProvider locale='es' messages={es}>
+  <App />
+</LocaleProvider>
+```
+
+`messages` and `locale` are two things, and the language gives only the first: the texts. The `locale` is what makes
+the numbers, the dates and the search follow the language, so pass both. Without it you get Spanish buttons next to
+`1,234` and a calendar in English. Keeping them apart lets an app use the texts of `es` with the numbers of `es-AR`.
+
+A few things to know:
+
+- A text you write wins over the language. Put a nested `LocaleProvider` with your own messages under it, as in the last
+  section of this page.
+- The size of a file (`fileUpload.fileSize`) is not in the language, because it already follows the `locale`.
+- The texts that carry a number write it with the separators of their own language, and the ones that inflect with it
+  (`1 result`, `2 results`) follow the plural rules of the language, as `Intl.PluralRules` has them.
+- The Italian one is `it`. A test runner gives you a global `it`, so where you write tests import it with another name,
+  as in `import { it as italian } from '@loica-ui/react/locales/it'`.
+- A language that is not here is a `LocaleMessages`, the type of a complete set of texts: an object that has every key
+  of the table below, so TypeScript tells you which one is missing. Copy a file of the library as a start. A native
+  speaker that reviews one of ours, or adds another, is welcome in the
+  [issues](https://github.com/darioegb/loica-ui/issues).
+
+## The ways to give the texts
+
 There are three ways to give the texts, and they combine.
 
 ## Once for the whole app: `LocaleProvider`
@@ -172,7 +224,9 @@ root of the app. The menus and the other overlays open in a portal, outside the 
 ## With an i18n library
 
 Build the messages from your library and pass them to the provider. When the library changes the language, your
-component renders again and the new messages reach every component.
+component renders again and the new messages reach every component. If the languages of your app are among the ones
+that come with Loica, you do not need to map each text: pass the bundled language that matches the one of your library
+and keep your library for the texts of your own app.
 
 ```tsx
 // react-intl
