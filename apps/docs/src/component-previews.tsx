@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import {
   Accordion,
   AccordionContent,
@@ -50,6 +50,7 @@ import {
   ProgressBar,
   Radio,
   Rating,
+  RichTextEditor,
   SegmentedControl,
   Select,
   SelectContent,
@@ -426,6 +427,15 @@ const previews: Record<string, ReactNode> = {
     </div>
   ),
   Rating: <Rating aria-label="Score" defaultValue={3} />,
+  RichTextEditor: (
+    <RichTextEditor
+      aria-label="Notes"
+      defaultValue="<h3>Launch plan</h3><p>Ship the <strong>editor</strong> and <em>tell</em> everyone.</p>"
+      size="sm"
+      style={{ '--richtexteditor-min-height': '2em', width: '13rem' } as CSSProperties}
+      toolbar={false}
+    />
+  ),
   SegmentedControl: (
     <SegmentedControl
       aria-label="View"

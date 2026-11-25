@@ -18,6 +18,7 @@ import {
   DrawerHeader,
   Kbd,
   ProgressBar,
+  RichTextEditor,
   Stack,
   Tab,
   TabList,
@@ -30,6 +31,7 @@ import {
 import type { Project } from "../lib/data";
 import { formatAgo, formatDue } from "../lib/format";
 import { statusColor } from "../lib/status";
+import { read, write } from "../lib/storage";
 
 const activity = (
   project: Project,
@@ -51,6 +53,21 @@ const activity = (
     when: formatAgo(3, "week", language),
   },
 ];
+
+function ProjectNotes({ id }: Readonly<{ id: string }>): ReactNode {
+  const { t } = useTranslation();
+  const key = `loica-demo-notes-${id}`;
+
+  return (
+    <div className="py-3">
+      <RichTextEditor
+        aria-label={t("projectDrawer.notesLabel")}
+        defaultValue={read(key) ?? ""}
+        onValueChange={(html) => write(key, html)}
+      />
+    </div>
+  );
+}
 
 export function ProjectDrawer({
   onComplete,
@@ -78,6 +95,7 @@ export function ProjectDrawer({
                 <TabList>
                   <Tab label={t("projectDrawer.overview")} />
                   <Tab label={t("projectDrawer.activity")} />
+                  <Tab label={t("projectDrawer.notes")} />
                 </TabList>
                 <TabPanels>
                   <TabPanel>
@@ -143,6 +161,9 @@ export function ProjectDrawer({
                         />
                       ))}
                     </Timeline>
+                  </TabPanel>
+                  <TabPanel>
+                    <ProjectNotes id={project.id} />
                   </TabPanel>
                 </TabPanels>
               </Tabs>

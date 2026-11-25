@@ -99,6 +99,11 @@ import {
   Radio,
   RadioGroup,
   Rating,
+  RichTextEditor,
+  RichTextEditorContent,
+  RichTextEditorGroup,
+  RichTextEditorTool,
+  RichTextEditorToolbar,
   SegmentedControl,
   Select,
   Sidebar,
@@ -498,6 +503,22 @@ const entries: Entry[] = [
     ['Radio', 'RadioGroup'],
   ],
   ['Rating', () => <Rating aria-label="Score" defaultValue={3} />],
+  ['RichTextEditor', () => <RichTextEditor defaultValue="<p>Hello</p>" placeholder="Write" />],
+  [
+    'RichTextEditor parts',
+    () => (
+      <RichTextEditor defaultValue="<p>Hello</p>">
+        <RichTextEditorToolbar>
+          <RichTextEditorGroup>
+            <RichTextEditorTool name="bold" />
+            <RichTextEditorTool aria-label="Custom">+</RichTextEditorTool>
+          </RichTextEditorGroup>
+        </RichTextEditorToolbar>
+        <RichTextEditorContent placeholder="Write" />
+      </RichTextEditor>
+    ),
+    ['RichTextEditorContent', 'RichTextEditorGroup', 'RichTextEditorTool', 'RichTextEditorToolbar'],
+  ],
   [
     'SegmentedControl',
     () => (

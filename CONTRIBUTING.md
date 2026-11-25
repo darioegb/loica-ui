@@ -15,6 +15,7 @@ git clone https://github.com/<your-user>/loica-ui.git
 cd @loica-ui/react
 pnpm install
 pnpm dev   # Storybook at http://localhost:6006
+pnpm dev:lan   # Storybook reachable from a phone on the same Wi-Fi, at http://<your-ip>:6006
 pnpm dev:vite   # or dev:next: an example app, rebuilding the package as you change it
 ```
 
