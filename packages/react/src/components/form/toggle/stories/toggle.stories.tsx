@@ -1,4 +1,5 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
+import { useState } from 'react'
 import { defaultTheme } from '../../../../theme'
 import { Field } from '../../field'
 import { Toggle } from '..'
@@ -214,21 +215,51 @@ export const Invalid: Story = {
   },
 }
 
-/**
- * The **Field** also adds a helper and an error text, and marks the Toggle as required or invalid.
- */
-export const WithField: Story = {
-  render: () => (
+function RequiredExample(): React.ReactNode {
+  const [on, setOn] = useState(false)
+
+  return (
     <Field
       errorText="Turn notifications on to continue"
       helperText="We only send what matters"
+      invalid={!on}
       label="Email notifications"
       orientation="inline"
       required
     >
-      <Toggle />
+      <Toggle checked={on} onChange={(event) => setOn(event.target.checked)} />
     </Field>
-  ),
+  )
+}
+
+/**
+ * The **Field** also adds a helper and an error text, and marks the Toggle as required or invalid. The Field does not
+ * validate: it shows the error text while **invalid** is on, so tie it to your state and it clears when the user turns it on.
+ */
+export const WithField: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `function Example() {
+  const [on, setOn] = useState(false)
+
+  return (
+    <Field
+      errorText="Turn notifications on to continue"
+      helperText="We only send what matters"
+      invalid={!on}
+      label="Email notifications"
+      orientation="inline"
+      required
+    >
+      <Toggle checked={on} onChange={(event) => setOn(event.target.checked)} />
+    </Field>
+  )
+}`,
+      },
+    },
+  },
+  render: () => <RequiredExample />,
 }
 
 /**

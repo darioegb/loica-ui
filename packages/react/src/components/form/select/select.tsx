@@ -4,7 +4,6 @@ import type { ReactNode } from 'react'
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { Placement } from '../../../overlay'
 import { useLabels, useResolvedLocale } from '../../../locale/locale-provider'
-import { createCountFormatter } from '../../../overlay/format-count'
 import { useOpenState } from '../../../overlay/use-open-state'
 import { useSelectionState } from '../../../overlay/use-selection-state'
 import type { ColorScheme, Shape, Size } from '../../../theme'
@@ -18,6 +17,7 @@ import {
 } from './select-context'
 import { hasPart } from '../../../overlay/has-part'
 import { SelectContent } from './select-content'
+import { createDefaultLabels } from './select-labels'
 import { SelectOption } from './select-option'
 import { SelectTrigger } from './select-trigger'
 import { useSelectKeyboard } from './use-select-keyboard'
@@ -271,17 +271,6 @@ function recordsOf(
       { disabled: Boolean(disabled), icon, label, value },
     ]),
   )
-}
-
-const createDefaultLabels = (locale: string): SelectLabels => {
-  const number = createCountFormatter(locale)
-  return {
-    clear: 'Clear',
-    empty: 'No results',
-    overflow: (hidden) => `+${number(hidden)}`,
-    remove: (label) => `Remove ${label}`,
-    search: 'Search',
-  }
 }
 
 export type SelectProps = SelectBaseProps & (SelectMultipleProps | SelectSingleProps)

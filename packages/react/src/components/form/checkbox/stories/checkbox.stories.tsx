@@ -270,21 +270,52 @@ export const Invalid: Story = {
   },
 }
 
-/**
- * A **Field** also adds a helper and an error text, and marks the Checkbox as required.
- */
-export const WithField: Story = {
-  render: () => (
+function RequiredExample(): React.ReactNode {
+  const [accepted, setAccepted] = useState(false)
+
+  return (
     <Field
       errorText="You must accept the terms to continue"
       helperText="Read them before accepting"
+      invalid={!accepted}
       label="I accept the terms and conditions"
       orientation="inline"
       required
     >
-      <Checkbox />
+      <Checkbox checked={accepted} onChange={(event) => setAccepted(event.target.checked)} />
     </Field>
-  ),
+  )
+}
+
+/**
+ * A **Field** also adds a helper and an error text, and marks the Checkbox as required. The Field does not
+ * validate: it shows the error text while **invalid** is on, so tie it to your state and it clears when the user
+ * accepts.
+ */
+export const WithField: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `function Example() {
+  const [accepted, setAccepted] = useState(false)
+
+  return (
+    <Field
+      errorText="You must accept the terms to continue"
+      helperText="Read them before accepting"
+      invalid={!accepted}
+      label="I accept the terms and conditions"
+      orientation="inline"
+      required
+    >
+      <Checkbox checked={accepted} onChange={(event) => setAccepted(event.target.checked)} />
+    </Field>
+  )
+}`,
+      },
+    },
+  },
+  render: () => <RequiredExample />,
 }
 
 /**

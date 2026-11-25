@@ -9,6 +9,7 @@ import {
   AlertDescription,
   AlertIcon,
   AlertTitle,
+  Autocomplete,
   Avatar,
   Badge,
   Breadcrumb,
@@ -135,6 +136,14 @@ const previews: Record<string, ReactNode> = {
         <AlertDescription>Your changes are live.</AlertDescription>
       </AlertContent>
     </Alert>
+  ),
+  Autocomplete: (
+    <Autocomplete
+      aria-label="City"
+      defaultValue="Val"
+      options={[{ label: 'Valencia' }, { label: 'Valladolid' }]}
+      style={{ width: '12rem' }}
+    />
   ),
   Avatar: (
     <div style={row}>

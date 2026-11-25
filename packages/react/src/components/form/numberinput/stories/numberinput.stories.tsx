@@ -361,19 +361,48 @@ export const InAForm: Story = {
   ),
 }
 
+function RequiredExample(): React.ReactNode {
+  const [guests, setGuests] = useState<number | null>(null)
+
+  return (
+    <Field errorText="Enter at least one guest." invalid={guests === null || guests < 1} label="Guests" required>
+      <NumberInput max={10} min={1} onValueChange={setGuests} value={guests} />
+    </Field>
+  )
+}
+
 /**
  * Wrap the NumberInput in a `Field` to give it a label, a helper text and an error message. The Field points its
- * label to the input and sets `disabled`, `readOnly`, `required` and `aria-invalid`.
+ * label to the input and sets `disabled`, `readOnly`, `required` and `aria-invalid`. It does not validate: it shows
+ * the error text while **invalid** is on, so tie it to your state and it clears when the user enters a number.
  */
 export const WithField: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `function Example() {
+  const [guests, setGuests] = useState<number | null>(null)
+
+  return (
+    <div className="flex flex-col gap-6" style={{ width: '14rem' }}>
+      <Field helperText="Between 1 and 10." label="Guests">
+        <NumberInput defaultValue={2} max={10} min={1} />
+      </Field>
+      <Field errorText="Enter at least one guest." invalid={guests === null || guests < 1} label="Guests" required>
+        <NumberInput max={10} min={1} onValueChange={setGuests} value={guests} />
+      </Field>
+    </div>
+  )
+}`,
+      },
+    },
+  },
   render: () => (
     <div className="flex flex-col gap-6" style={{ width: '14rem' }}>
       <Field helperText="Between 1 and 10." label="Guests">
         <NumberInput defaultValue={2} max={10} min={1} />
       </Field>
-      <Field errorText="Enter at least one guest." invalid label="Guests" required>
-        <NumberInput max={10} min={1} />
-      </Field>
+      <RequiredExample />
     </div>
   ),
 }

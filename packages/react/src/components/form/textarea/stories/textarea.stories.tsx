@@ -1,4 +1,5 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
+import { useState } from 'react'
 import { defaultTheme } from '../../../../theme'
 import { Field } from '../../field'
 import { Textarea } from '..'
@@ -257,20 +258,49 @@ export const Invalid: Story = {
   },
 }
 
-/**
- * Wrap it in a **Field** to add a label, a helper and an error text. The Field wires the accessibility attributes.
- */
-export const WithField: Story = {
-  render: () => (
+function RequiredExample(): React.ReactNode {
+  const [bio, setBio] = useState('Too short')
+
+  return (
     <Field
       errorText="Write at least 10 characters"
       helperText="Tell us about yourself"
+      invalid={bio.length < 10}
       label="Bio"
       required
     >
-      <Textarea defaultValue="Too short" placeholder="Your bio" />
+      <Textarea onChange={(event) => setBio(event.target.value)} placeholder="Your bio" value={bio} />
     </Field>
-  ),
+  )
+}
+
+/**
+ * Wrap it in a **Field** to add a label, a helper and an error text. The Field wires the accessibility attributes. It
+ * does not validate: it shows the error text while **invalid** is on, so tie it to your state and it clears when the text is long enough.
+ */
+export const WithField: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `function Example() {
+  const [bio, setBio] = useState('Too short')
+
+  return (
+    <Field
+      errorText="Write at least 10 characters"
+      helperText="Tell us about yourself"
+      invalid={bio.length < 10}
+      label="Bio"
+      required
+    >
+      <Textarea onChange={(event) => setBio(event.target.value)} placeholder="Your bio" value={bio} />
+    </Field>
+  )
+}`,
+      },
+    },
+  },
+  render: () => <RequiredExample />,
 }
 
 /**

@@ -36,6 +36,7 @@ const PLACEHOLDERS = new Set([
 ])
 // Sample data the reader brings; declared so the code that reads it still has a type.
 const DATA = {
+  cities: 'any[]',
   en: 'any',
   es: 'any',
   fetchMembers: '(...args: any[]) => Promise<any>',

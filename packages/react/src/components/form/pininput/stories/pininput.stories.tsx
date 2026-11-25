@@ -335,25 +335,61 @@ export const InAForm: Story = {
  * group, links its texts and sets `disabled`, `readOnly`, `required` and `aria-invalid`. Its `id`, its texts and
  * the `ref` of the PinInput go to the `<fieldset>`, which also takes `aria-invalid`; every box repeats the
  * invalid and required state, since a group can't announce them. Clicking the label gives the focus to the next
- * box to fill.
+ * box to fill. The Field does not validate: it shows the error text while **invalid** is on, so tie it to your state
+ * and it clears when the code is right.
  */
 export const WithField: Story = {
-  render: () => (
+  parameters: {
+    docs: {
+      source: {
+        code: `function Example() {
+  const [code, setCode] = useState("1234");
+
+  return (
     <div className="flex flex-col gap-6">
       <Field helperText="We sent it by SMS." label="Verification code">
         <PinInput length={4} />
       </Field>
       <Field
         errorText="That code is not right."
-        invalid
+        helperText="Type 4242 and the error goes away."
+        invalid={code !== "4242"}
         label="Verification code"
         required
       >
-        <PinInput defaultValue="1234" length={4} />
+        <PinInput length={4} onValueChange={setCode} value={code} />
       </Field>
+    </div>
+  );
+}`,
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-6">
+      <Field helperText="We sent it by SMS." label="Verification code">
+        <PinInput length={4} />
+      </Field>
+      <WrongCodeExample />
     </div>
   ),
 };
+
+function WrongCodeExample(): React.ReactNode {
+  const [code, setCode] = useState("1234");
+
+  return (
+    <Field
+      errorText="That code is not right."
+      helperText="Type 4242 and the error goes away."
+      invalid={code !== "4242"}
+      label="Verification code"
+      required
+    >
+      <PinInput length={4} onValueChange={setCode} value={code} />
+    </Field>
+  );
+}
 
 /**
  * Some examples of PinInput with Tailwind classes. With `variant="unstyled"` the boxes have none of the Loica

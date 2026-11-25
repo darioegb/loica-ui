@@ -107,6 +107,12 @@ Where the `ref` goes, so the form can focus the control when a rule fails:
 Pass the message to the `errorText` of a `Field`. It marks the control as invalid and links the message with
 `aria-describedby`, so a screen reader reads it with the control.
 
+A `Field` does not validate: it shows the message and marks the control for as long as it is invalid, and `errorText`
+alone keeps it invalid for good. With react-hook-form the message is `undefined` once the value is fixed, so the error
+goes away by itself. With your own state, tie `invalid` to the value, as in
+`<Field errorText='Pick a plan' invalid={plan === ''}>`. Do not also set `aria-invalid` on the control inside the
+`Field`: the control would stay invalid whatever the `Field` says.
+
 Without a `Field`, give the control `aria-invalid` and `aria-describedby` and render the message yourself.
 
 A live booking form that uses every control of the table, with validation, is in the

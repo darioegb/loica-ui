@@ -89,7 +89,6 @@ export async function buildCssUnits(srcDir: string): Promise<Record<string, CssU
 
   const result: Record<string, CssUnit> = {}
   for (const [name, unit] of Object.entries(units)) {
-    if (unit.css.length === 0) continue
     const seen = new Set<string>()
     const queue = [...unit.sources]
     const imports = new Set<string>()
@@ -103,6 +102,7 @@ export async function buildCssUnits(srcDir: string): Promise<Record<string, CssU
       }
     }
     imports.delete(name)
+    if (unit.css.length === 0 && imports.size === 0) continue
     const css = (await Promise.all(unit.css.sort().map(compileModule))).join('')
     result[name] = { css, imports: [...imports].sort() }
   }

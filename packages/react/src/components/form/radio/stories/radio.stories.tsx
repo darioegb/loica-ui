@@ -419,22 +419,52 @@ export const Invalid: Story = {
   },
 }
 
-/**
- * The **Field** adds the label, a helper and an error text, and wires the accessibility attributes. With
- * `orientation="inline"` the label sits beside the Radio and the texts go under it.
- */
-export const WithField: Story = {
-  render: () => (
+function RequiredExample(): React.ReactNode {
+  const [picked, setPicked] = useState(false)
+
+  return (
     <Field
       errorText="Pick a plan to continue"
       helperText="You can change it later"
+      invalid={!picked}
       label="Free plan"
       orientation="inline"
       required
     >
-      <Radio name="plan-field" value="free" />
+      <Radio checked={picked} name="plan-field" onChange={() => setPicked(true)} value="free" />
     </Field>
-  ),
+  )
+}
+
+/**
+ * The **Field** adds the label, a helper and an error text, and wires the accessibility attributes. With
+ * `orientation="inline"` the label sits beside the Radio and the texts go under it. It does not validate: it shows
+ * the error text while **invalid** is on, so tie it to your state and it clears when the user picks it.
+ */
+export const WithField: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `function Example() {
+  const [picked, setPicked] = useState(false)
+
+  return (
+    <Field
+      errorText="Pick a plan to continue"
+      helperText="You can change it later"
+      invalid={!picked}
+      label="Free plan"
+      orientation="inline"
+      required
+    >
+      <Radio checked={picked} name="plan-field" onChange={() => setPicked(true)} value="free" />
+    </Field>
+  )
+}`,
+      },
+    },
+  },
+  render: () => <RequiredExample />,
 }
 
 /**
@@ -522,47 +552,62 @@ export const GroupInvalid: Story = {
   },
 }
 
-/**
- * Wrap the group in a **Field** to add a label, a helper and an error text. The group is named by the Field's
- * label and described by its texts, and it gets the required and disabled state from the Field. Each option has
- * its own inline Field for its label.
- */
-export const GroupWithField: Story = {
-  render: () => (
+function RequiredGroupExample(): React.ReactNode {
+  const [plan, setPlan] = useState('')
+
+  return (
     <Field
       errorText="Pick a plan to continue"
       helperText="You can change it later"
+      invalid={plan === ''}
       label="Plan"
       required
     >
-      <RadioGroup>
+      <RadioGroup onValueChange={setPlan} value={plan}>
         <Option label="Free" value="free" />
         <Option label="Pro" value="pro" />
         <Option label="Team" value="team" />
       </RadioGroup>
     </Field>
-  ),
+  )
+}
+
+/**
+ * Wrap the group in a **Field** to add a label, a helper and an error text. The group is named by the Field's
+ * label and described by its texts, and it gets the required and disabled state from the Field. Each option has
+ * its own inline Field for its label. The Field does not validate: it shows the error text while **invalid** is on,
+ * so tie it to your state and it clears when the user picks an option.
+ */
+export const GroupWithField: Story = {
+  render: () => <RequiredGroupExample />,
   parameters: {
     docs: {
       source: {
-        code: `<Field
-  errorText="Pick a plan to continue"
-  helperText="You can change it later"
-  label="Plan"
-  required
->
-  <RadioGroup>
-    <Field label="Free" orientation="inline">
-      <Radio value="free" />
+        code: `function Example() {
+  const [plan, setPlan] = useState('')
+
+  return (
+    <Field
+      errorText="Pick a plan to continue"
+      helperText="You can change it later"
+      invalid={plan === ''}
+      label="Plan"
+      required
+    >
+      <RadioGroup onValueChange={setPlan} value={plan}>
+        <Field label="Free" orientation="inline">
+          <Radio value="free" />
+        </Field>
+        <Field label="Pro" orientation="inline">
+          <Radio value="pro" />
+        </Field>
+        <Field label="Team" orientation="inline">
+          <Radio value="team" />
+        </Field>
+      </RadioGroup>
     </Field>
-    <Field label="Pro" orientation="inline">
-      <Radio value="pro" />
-    </Field>
-    <Field label="Team" orientation="inline">
-      <Radio value="team" />
-    </Field>
-  </RadioGroup>
-</Field>`,
+  )
+}`,
       },
     },
   },

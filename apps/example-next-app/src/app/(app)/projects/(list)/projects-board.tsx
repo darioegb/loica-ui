@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import {
+  Autocomplete,
   Avatar,
   AvatarGroup,
   Badge,
@@ -15,7 +16,6 @@ import {
   DropdownMenu,
   DropdownSeparator,
   DropdownTrigger,
-  Input,
   Paginator,
   PaginatorItem,
   PaginatorList,
@@ -160,11 +160,12 @@ export function ProjectsBoard({
   return (
     <>
       <div className="flex flex-wrap items-center gap-3">
-        <Input
+        <Autocomplete
           aria-label={t("search")}
           className="min-w-56 max-sm:w-full max-sm:min-w-0"
           elementBefore={<SearchIcon />}
-          onChange={(event) => state.setFilter("name", event.target.value)}
+          onValueChange={(value) => state.setFilter("name", value)}
+          options={projects.map((project) => ({ label: project.name }))}
           placeholder={t("search")}
           value={String(state.filters.name ?? "")}
         />

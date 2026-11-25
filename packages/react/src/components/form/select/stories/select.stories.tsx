@@ -1059,37 +1059,59 @@ export const InAForm: Story = {
   render: () => <FormExample />,
 }
 
+function RequiredExample(): React.ReactNode {
+  const [fruits, setFruits] = useState<string[]>([])
+
+  return (
+    <Field errorText="Pick at least one fruit." invalid={fruits.length === 0} label="Fruits" required>
+      <Select multiple onValueChange={setFruits} value={fruits}>
+        <SelectTrigger placeholder="Pick fruits" />
+        <SelectContent>
+          <Fruits />
+        </SelectContent>
+      </Select>
+    </Field>
+  )
+}
+
 /**
  * Wrap the select in a `Field` to give it a label, a helper text and an error message. The Field names the select,
- * links its helper text and sets `disabled`, `readOnly`, `required` and `aria-invalid`.
+ * links its helper text and sets `disabled`, `readOnly`, `required` and `aria-invalid`. It does not validate: it shows
+ * the error text while **invalid** is on, so tie it to your state and it clears when the user picks a fruit.
  */
 export const WithField: Story = {
   parameters: {
     docs: {
       story: { inline: false, iframeHeight: 460 },
       source: {
-        code: `<div className="flex flex-col gap-6">
-  <Field helperText="You can change it later." label="Favorite fruit">
-    <Select>
-      <SelectTrigger placeholder="Pick a fruit" />
-      <SelectContent>
-        <SelectOption value="apple">Apple</SelectOption>
-        <SelectOption value="banana">Banana</SelectOption>
-        <SelectOption value="cherry">Cherry</SelectOption>
-      </SelectContent>
-    </Select>
-  </Field>
-  <Field errorText="Pick at least one fruit." invalid label="Fruits" required>
-    <Select multiple>
-      <SelectTrigger placeholder="Pick fruits" />
-      <SelectContent>
-        <SelectOption value="apple">Apple</SelectOption>
-        <SelectOption value="banana">Banana</SelectOption>
-        <SelectOption value="cherry">Cherry</SelectOption>
-      </SelectContent>
-    </Select>
-  </Field>
-</div>`,
+        code: `function Example() {
+  const [fruits, setFruits] = useState<string[]>([])
+
+  return (
+    <div className="flex flex-col gap-6">
+      <Field helperText="You can change it later." label="Favorite fruit">
+        <Select>
+          <SelectTrigger placeholder="Pick a fruit" />
+          <SelectContent>
+            <SelectOption value="apple">Apple</SelectOption>
+            <SelectOption value="banana">Banana</SelectOption>
+            <SelectOption value="cherry">Cherry</SelectOption>
+          </SelectContent>
+        </Select>
+      </Field>
+      <Field errorText="Pick at least one fruit." invalid={fruits.length === 0} label="Fruits" required>
+        <Select multiple onValueChange={setFruits} value={fruits}>
+          <SelectTrigger placeholder="Pick fruits" />
+          <SelectContent>
+            <SelectOption value="apple">Apple</SelectOption>
+            <SelectOption value="banana">Banana</SelectOption>
+            <SelectOption value="cherry">Cherry</SelectOption>
+          </SelectContent>
+        </Select>
+      </Field>
+    </div>
+  )
+}`,
       },
     },
   },
@@ -1103,14 +1125,7 @@ export const WithField: Story = {
           </SelectContent>
         </Select>
       </Field>
-      <Field errorText="Pick at least one fruit." invalid label="Fruits" required>
-        <Select multiple>
-          <SelectTrigger placeholder="Pick fruits" />
-          <SelectContent>
-            <Fruits />
-          </SelectContent>
-        </Select>
-      </Field>
+      <RequiredExample />
     </div>
   ),
 }

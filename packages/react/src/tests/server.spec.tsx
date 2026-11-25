@@ -11,6 +11,10 @@ import {
   AlertDescription,
   AlertDismiss,
   AlertTitle,
+  Autocomplete,
+  AutocompleteContent,
+  AutocompleteInput,
+  AutocompleteOption,
   Avatar,
   AvatarGroup,
   Badge,
@@ -162,6 +166,7 @@ import {
 
 type Entry = [label: string, element: () => ReactElement, covers?: string[]]
 
+const cities = [{ label: 'Madrid' }, { label: 'Valencia' }]
 const options = [
   { label: 'One', value: 'one' },
   { label: 'Two', value: 'two' },
@@ -198,6 +203,31 @@ const entries: Entry[] = [
         <AlertDismiss />
       </Alert>
     ),
+  ],
+  [
+    'Autocomplete',
+    () => <Autocomplete aria-label="City" defaultValue="Mad" options={cities} />,
+    [
+      'Autocomplete',
+      'AutocompleteContent',
+      'AutocompleteEmpty',
+      'AutocompleteInput',
+      'AutocompleteList',
+      'AutocompleteLoading',
+      'AutocompleteOption',
+    ],
+  ],
+  [
+    'Autocomplete, composed and open',
+    () => (
+      <Autocomplete aria-label="City" defaultOpen loading>
+        <AutocompleteInput placeholder="City" />
+        <AutocompleteContent>
+          <AutocompleteOption label="Madrid" />
+        </AutocompleteContent>
+      </Autocomplete>
+    ),
+    [],
   ],
   ['Avatar', () => <Avatar name="Ana Perez" />],
   [

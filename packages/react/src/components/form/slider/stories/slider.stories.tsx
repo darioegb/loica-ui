@@ -443,18 +443,50 @@ export const Invalid: Story = {
   args: { invalid: true },
 };
 
+function RequiredExample(): React.ReactNode {
+  const [price, setPrice] = useState<SliderValue>([20, 90]);
+  const tooHigh = Array.isArray(price) && price[1] > 50;
+
+  return (
+    <Field errorText="Choose a lower price" invalid={tooHigh} label="Price" required>
+      <Slider onValueChange={setPrice} value={price} />
+    </Field>
+  );
+}
+
 /**
- * Inside a `Field` it gets its label, its helper and error text, and the disabled, read only and invalid states.
+ * Inside a `Field` it gets its label, its helper and error text, and the disabled, read only and invalid states. The
+ * Field does not validate: it shows the error text while **invalid** is on, so tie it to your state and it clears when
+ * the value is right.
  */
 export const WithField: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `function Example() {
+  const [price, setPrice] = useState<SliderValue>([20, 90])
+  const tooHigh = Array.isArray(price) && price[1] > 50
+
+  return (
+    <div className="flex flex-col gap-6">
+      <Field helperText="Between 0 and 100" label="Volume">
+        <Slider defaultValue={40} />
+      </Field>
+      <Field errorText="Choose a lower price" invalid={tooHigh} label="Price" required>
+        <Slider onValueChange={setPrice} value={price} />
+      </Field>
+    </div>
+  )
+}`,
+      },
+    },
+  },
   render: () => (
     <div style={stack("1.5rem")}>
       <Field helperText="Between 0 and 100" label="Volume">
         <Slider defaultValue={40} />
       </Field>
-      <Field errorText="Choose a lower price" label="Price" required>
-        <Slider defaultValue={[20, 90]} />
-      </Field>
+      <RequiredExample />
     </div>
   ),
 };
