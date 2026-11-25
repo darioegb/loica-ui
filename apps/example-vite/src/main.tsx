@@ -5,6 +5,7 @@ import { LinkProvider } from "@loica-ui/react";
 import "./styles.css";
 import "@loica-ui/react/tokens.css";
 import "@loica-ui/react/css/alert.css";
+import "@loica-ui/react/css/autocomplete.css";
 import "@loica-ui/react/css/avatar.css";
 import "@loica-ui/react/css/badge.css";
 import "@loica-ui/react/css/breadcrumb.css";

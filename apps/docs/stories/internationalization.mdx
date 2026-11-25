@@ -86,7 +86,8 @@ const es: LoicaMessages = {
 
 `messages` is keyed by component, with the keys of the table below. A text is translated once, under the component
 that shows it: `loader` also names the `Loader` of a loading `Button`, of a loading `Table` and of a loading `Select`, and `close` names the
-close button of a `Modal`, a `Drawer`, a `Popover`, an `Alert` and a `Toast`. Each value is partial, so you only write
+close button of a `Modal`, a `Drawer`, a `Popover`, an `Alert` and a `Toast`. The list of an `Autocomplete` is the one of a
+`Select`, so `select.empty` is the message of its `AutocompleteEmpty` and `loader` the name of its `AutocompleteLoading`. Each value is partial, so you only write
 what you change. `LoicaMessages` types all of it, and a component with several texts exports their type as
 `<Name>Labels` (`PaginatorLabels`, `DatePickerLabels`...).
 

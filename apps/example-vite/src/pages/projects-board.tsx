@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  Autocomplete,
   Avatar,
   AvatarGroup,
   Badge,
@@ -12,7 +13,6 @@ import {
   DropdownMenu,
   DropdownSeparator,
   DropdownTrigger,
-  Input,
   Paginator,
   PaginatorItem,
   PaginatorList,
@@ -159,11 +159,12 @@ export function ProjectsBoard({
   return (
     <>
       <div className="d-flex flex-wrap align-items-center gap-2">
-        <Input
+        <Autocomplete
           aria-label={t("projects.search")}
           className={styles.search}
           elementBefore={<SearchIcon />}
-          onChange={(event) => state.setFilter("name", event.target.value)}
+          onValueChange={(value) => state.setFilter("name", value)}
+          options={projects.map((project) => ({ label: project.name }))}
           placeholder={t("projects.search")}
           value={String(state.filters.name ?? "")}
         />

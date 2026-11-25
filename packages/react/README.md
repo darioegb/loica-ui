@@ -48,6 +48,7 @@ import '@loica-ui/react/css/input.css'
 
 - [Accordion](https://darioegb.github.io/loica-ui/?path=/docs/components-accordion--docs)
 - [Alert](https://darioegb.github.io/loica-ui/?path=/docs/components-alert--docs)
+- [Autocomplete](https://darioegb.github.io/loica-ui/?path=/docs/components-autocomplete--docs)
 - [Avatar](https://darioegb.github.io/loica-ui/?path=/docs/components-avatar--docs)
 - [Badge](https://darioegb.github.io/loica-ui/?path=/docs/components-badge--docs)
 - [Breadcrumb](https://darioegb.github.io/loica-ui/?path=/docs/components-breadcrumb--docs)
