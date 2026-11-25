@@ -1,6 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
+import { useCallback } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import {
   Avatar,
@@ -17,6 +18,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   ProgressBar,
+  RichTextEditor,
   Tab,
   TabList,
   TabPanel,
@@ -28,6 +30,31 @@ import {
 import type { Project } from '@/lib/data'
 import { formatDue } from '@/lib/format'
 import { statusColor } from '@/lib/status'
+
+function ProjectNotes({ id }: Readonly<{ id: string }>): ReactNode {
+  const tDrawer = useTranslations('projects.drawer')
+  const key = `loica-demo-notes-${id}`
+  const load = useCallback((): string => {
+    try {
+      return localStorage.getItem(key) ?? ''
+    } catch {
+      return ''
+    }
+  }, [key])
+  const save = (html: string): void => {
+    try {
+      localStorage.setItem(key, html)
+    } catch {
+      return
+    }
+  }
+
+  return (
+    <div className="py-4">
+      <RichTextEditor aria-label={tDrawer('notesLabel')} defaultValue={load()} onValueChange={save} />
+    </div>
+  )
+}
 
 export function ProjectDrawer({
   onComplete,
@@ -68,6 +95,7 @@ export function ProjectDrawer({
                 <TabList>
                   <Tab label={tDrawer('overview')} />
                   <Tab label={tDrawer('activity')} />
+                  <Tab label={tDrawer('notes')} />
                 </TabList>
                 <TabPanels>
                   <TabPanel>
@@ -116,6 +144,9 @@ export function ProjectDrawer({
                         <TimelineItem key={event.text} time={event.when} title={event.text} />
                       ))}
                     </Timeline>
+                  </TabPanel>
+                  <TabPanel>
+                    <ProjectNotes id={project.id} />
                   </TabPanel>
                 </TabPanels>
               </Tabs>

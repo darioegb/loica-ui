@@ -87,6 +87,7 @@ import '@loica-ui/react/css/input.css'
 - [ProgressBar](https://darioegb.github.io/loica-ui/?path=/docs/components-progressbar--docs)
 - [Radio](https://darioegb.github.io/loica-ui/?path=/docs/components-radio--docs)
 - [Rating](https://darioegb.github.io/loica-ui/?path=/docs/components-rating--docs)
+- [RichTextEditor](https://darioegb.github.io/loica-ui/?path=/docs/components-richtexteditor--docs)
 - [SegmentedControl](https://darioegb.github.io/loica-ui/?path=/docs/components-segmentedcontrol--docs)
 - [Select](https://darioegb.github.io/loica-ui/?path=/docs/components-select--docs)
 - [Sidebar](https://darioegb.github.io/loica-ui/?path=/docs/components-sidebar--docs)

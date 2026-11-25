@@ -13,6 +13,7 @@ import type { NumberInputLabels } from '../components/form/numberinput'
 import type { PaginatorLabels } from '../components/interaction/paginator'
 import type { PinInputLabels } from '../components/form/pininput'
 import type { RatingLabels } from '../components/form/rating'
+import type { RichTextEditorLabels } from '../components/form/richtexteditor'
 import type { SelectLabels } from '../components/form/select'
 import type { SliderLabels } from '../components/form/slider'
 import type { SplitterLabels } from '../components/layout/splitter'
@@ -47,6 +48,7 @@ export interface MessageMap {
   paginator: PaginatorLabels
   pinInput: PinInputLabels
   rating: RatingLabels
+  richTextEditor: RichTextEditorLabels
   select: SelectLabels
   sidebarToggle: SingleLabel
   slider: SliderLabels
