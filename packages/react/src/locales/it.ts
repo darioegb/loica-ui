@@ -1,0 +1,172 @@
+import type { LocaleMessages } from '../locale/messages'
+import { createCountFormatter } from '../overlay/format-count'
+
+const number = createCountFormatter('it')
+const plural = new Intl.PluralRules('it')
+const isOne = (count: number): boolean => plural.select(count) === 'one'
+
+const rejections = {
+  count: 'troppi file',
+  size: 'il file è troppo grande',
+  type: 'tipo di file non accettato',
+}
+
+export const it: LocaleMessages = {
+  avatar: { away: 'Assente', busy: 'Occupato', offline: 'Offline', online: 'Online' },
+  avatarGroup: { overflow: (hidden) => `altri ${number(hidden)}` },
+  breadcrumb: { breadcrumb: 'Percorso di navigazione' },
+  carousel: {
+    dot: (index, count) => `Diapositiva ${number(index + 1)} di ${number(count)}`,
+    dots: 'Scegli una diapositiva',
+    next: 'Diapositiva successiva',
+    pause: 'Metti in pausa la presentazione',
+    play: 'Avvia la presentazione',
+    previous: 'Diapositiva precedente',
+    roleDescription: 'carosello',
+    slide: (index, count) => `${number(index + 1)} di ${number(count)}`,
+    slideRoleDescription: 'diapositiva',
+  },
+  chip: { remove: 'Rimuovi' },
+  close: { label: 'Chiudi' },
+  colorPicker: {
+    alpha: 'Opacità',
+    area: 'Saturazione e luminosità',
+    areaValue: (saturation, brightness) =>
+      `Saturazione ${number(saturation)}%, luminosità ${number(brightness)}%`,
+    blue: 'Blu',
+    colorPicker: 'Selettore colore',
+    eyeDropper: 'Preleva un colore dallo schermo',
+    green: 'Verde',
+    hex: 'Esadecimale',
+    hue: 'Tonalità',
+    lightness: 'Chiarezza',
+    openColorPicker: 'Apri il selettore colore',
+    red: 'Rosso',
+    saturation: 'Saturazione',
+    swatches: 'Campioni',
+  },
+  commandPalette: {
+    empty: 'Nessun risultato',
+    label: 'Riquadro comandi',
+    placeholder: 'Digita un comando o cerca',
+    results: (count) => `${number(count)} ${isOne(count) ? 'risultato' : 'risultati'}`,
+  },
+  confirm: { cancel: 'Annulla', confirm: 'Conferma' },
+  datePicker: {
+    apply: 'Applica',
+    calendar: 'Calendario',
+    cancel: 'Annulla',
+    format: (format) => `Formato: ${format}`,
+    nextMonth: 'Mese successivo',
+    nextYears: 'Anni successivi',
+    openCalendar: 'Apri il calendario',
+    previousMonth: 'Mese precedente',
+    previousYears: 'Anni precedenti',
+  },
+  fileUpload: {
+    progress: (file) => `Caricamento di ${file.name}`,
+    prompt: 'Trascina i file qui oppure premi per sceglierli',
+    rejection: ({ file, reason }) => `${file.name}: ${rejections[reason]}`,
+    remove: (file) => `Rimuovi ${file.name}`,
+  },
+  input: { reveal: 'Mostra la password' },
+  link: { external: 'si apre in una nuova scheda' },
+  loader: { label: 'Caricamento' },
+  navbarToggle: { label: 'Mostra o nascondi la navigazione' },
+  numberInput: { decrement: 'Diminuisci', increment: 'Aumenta' },
+  paginator: {
+    first: 'Prima pagina',
+    last: 'Ultima pagina',
+    next: 'Pagina successiva',
+    page: (page, current) => (current ? `Pagina ${page}, pagina corrente` : `Pagina ${page}`),
+    pageSize: 'Elementi per pagina',
+    pagination: 'Paginazione',
+    previous: 'Pagina precedente',
+    summary: (from, to, total) => `${number(from)}–${number(to)} di ${number(total)}`,
+  },
+  pinInput: { input: (index, length) => `Carattere ${number(index)} di ${number(length)}` },
+  rating: {
+    item: (value) => `${number(value)} ${isOne(value) ? 'stella' : 'stelle'}`,
+    readOnly: (value, max) => `${number(value)} su ${number(max)}`,
+  },
+  richTextEditor: {
+    editor: 'Editor di testo avanzato',
+    toolbar: 'Formattazione',
+    bold: 'Grassetto',
+    italic: 'Corsivo',
+    underline: 'Sottolineato',
+    code: 'Codice inline',
+    link: 'Link',
+    linkAddress: 'Indirizzo del link',
+    applyLink: 'Applica',
+    removeLink: 'Rimuovi link',
+    paragraph: 'Paragrafo',
+    heading1: 'Titolo 1',
+    heading2: 'Titolo 2',
+    heading3: 'Titolo 3',
+    quote: 'Citazione',
+    codeBlock: 'Blocco di codice',
+    bullet: 'Elenco puntato',
+    ordered: 'Elenco numerato',
+    font: 'Tipo di carattere',
+    fontDefault: 'Carattere predefinito',
+    fontSans: 'Senza grazie',
+    fontSerif: 'Con grazie',
+    fontMono: 'Monospazio',
+    size: 'Dimensione del carattere',
+    sizeDefault: 'Normale',
+    sizeSmall: 'Piccolo',
+    sizeLarge: 'Grande',
+    sizeHuge: 'Enorme',
+    alignStart: 'Allinea a sinistra',
+    alignCenter: 'Centra',
+    alignEnd: 'Allinea a destra',
+    alignJustify: 'Giustifica',
+    undo: 'Annulla',
+    redo: 'Ripeti',
+  },
+  select: {
+    clear: 'Cancella',
+    empty: 'Nessun risultato',
+    overflow: (hidden) => `+${number(hidden)}`,
+    remove: (label) => `Rimuovi ${label}`,
+    search: 'Cerca',
+  },
+  sidebarToggle: { label: 'Mostra o nascondi la barra laterale' },
+  slider: { thumb: (index) => (index === 0 ? 'Minimo' : 'Massimo') },
+  splitter: {
+    resize: (handle, count) =>
+      count === 1
+        ? 'Ridimensiona i pannelli'
+        : `Ridimensiona i pannelli ${number(handle)} di ${number(count)}`,
+  },
+  stat: { down: 'Diminuzione', neutral: 'Nessuna variazione', up: 'Aumento' },
+  stepper: { completed: 'Completato', current: '', upcoming: 'Non iniziato' },
+  textarea: {
+    count: (count, max) =>
+      max === undefined ? number(count) : `${number(count)} / ${number(max)}`,
+    remaining: (remaining) =>
+      isOne(remaining)
+        ? `${number(remaining)} carattere rimasto`
+        : `${number(remaining)} caratteri rimasti`,
+  },
+  timePicker: {
+    am: 'AM',
+    format: (format) => `Formato: ${format}`,
+    hours: 'Ore',
+    minutes: 'Minuti',
+    openTimePicker: "Apri il selettore dell'ora",
+    period: 'AM/PM',
+    placeholder: (period) => (period ? `hh:mm ${period}` : 'hh:mm'),
+    pm: 'PM',
+    timePicker: "Selettore dell'ora",
+  },
+  toast: { region: 'Notifiche' },
+  tour: {
+    done: 'Fine',
+    next: 'Avanti',
+    previous: 'Indietro',
+    progress: (current, total) => `Passaggio ${number(current)} di ${number(total)}`,
+    skip: 'Salta',
+  },
+}

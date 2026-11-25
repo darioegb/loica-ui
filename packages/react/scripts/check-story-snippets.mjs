@@ -60,7 +60,7 @@ const walk = (dir) =>
 const IMPORT = /^import\s+(type\s+)?(?:([^'\n]*?|\{[^}]*\})\s+from\s+)?'([^']+)'\n?/gm
 
 // A guide shows a whole module: its file name, 'use client' and its imports. The imports of
-// @loica-ui/react and react stay, and what comes from any other module is declared as `any`. A
+// @loica-ui/react, its locales and react stay, and what comes from any other module is declared as `any`. A
 // before and after of the upgrade guide is checked from `// After` on.
 function guideModule(text) {
   const imports = []
@@ -78,7 +78,8 @@ function guideModule(text) {
         .map((part) => part.trim().replace(/^type\s+/, '').split(/\s+as\s+/).pop())
         .filter(Boolean)
       names.forEach((name) => imported.add(name))
-      if (source === '@loica-ui/react' || source === 'react') imports.push(`import ${typeOnly}${clause} from '${source}'`)
+      if (source === '@loica-ui/react' || source === 'react' || source.startsWith('@loica-ui/react/locales/'))
+        imports.push(`import ${typeOnly}${clause} from '${source}'`)
       else names.forEach((name) => imports.push(`declare const ${name}: any\ntype ${name} = any`))
       return ''
     })
@@ -137,7 +138,11 @@ const options = {
 const ambient = config.fileNames.filter((name) => name.endsWith('.d.ts'))
 const indexPath = join(src, 'index.ts')
 // The guides import from the package, and the module augmentation of a guide reaches the others.
-options.paths = { ...options.paths, '@loica-ui/react': [indexPath] }
+options.paths = {
+  ...options.paths,
+  '@loica-ui/react': [indexPath],
+  '@loica-ui/react/locales/*': [join(src, 'locales', '*')],
+}
 
 function wrapGuide(code) {
   const jsx = code.search(/^<[A-Za-z]/m)
@@ -183,7 +188,9 @@ for (const snippet of snippets) {
   const hooks = REACT_HOOKS.filter((hook) => words.has(hook) && !own.has(hook))
   const data = Object.keys(DATA).filter(
     (name) =>
-      words.has(name) && !new RegExp(`\\b(const|let|function)\\s+${name}\\b`).test(snippet.code),
+      words.has(name) &&
+      !own.has(name) &&
+      !new RegExp(`\\b(const|let|function)\\s+${name}\\b`).test(snippet.code),
   )
   snippet.header = [
     ...(snippet.imports ?? []),

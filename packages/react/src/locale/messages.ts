@@ -62,3 +62,7 @@ export interface MessageMap {
 }
 
 export type LoicaMessages = { [K in keyof MessageMap]?: Partial<MessageMap[K]> }
+
+export type LocaleMessages = {
+  [K in keyof MessageMap]: K extends 'fileUpload' ? Omit<MessageMap[K], 'fileSize'> : MessageMap[K]
+}

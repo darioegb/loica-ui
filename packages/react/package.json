@@ -16,6 +16,16 @@
         "default": "./dist/index.js"
       }
     },
+    "./locales/*": {
+      "import": {
+        "types": "./dist/locales/*.d.mts",
+        "default": "./dist/locales/*.mjs"
+      },
+      "require": {
+        "types": "./dist/locales/*.d.ts",
+        "default": "./dist/locales/*.js"
+      }
+    },
     "./styles.css": "./dist/styles.css",
     "./tokens.css": "./dist/tokens.css",
     "./css/*.css": "./dist/css/*.css",

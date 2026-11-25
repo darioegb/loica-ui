@@ -4,4 +4,4 @@ export {
   type LocaleContextValue,
   type LocaleProviderProps,
 } from './locale-provider'
-export type { LoicaMessages } from './messages'
+export type { LocaleMessages, LoicaMessages } from './messages'
