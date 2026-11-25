@@ -11,6 +11,12 @@ export interface CssUnit {
   imports: string[]
 }
 
+/**
+ * A custom property each sheet sets on `:root`, so a component can tell in development whether its CSS was
+ * loaded (`src/overlay/css-check.ts` reads it).
+ */
+export const cssMarker = (unit: string): string => `:root{--loica-css-${unit}:1}`
+
 const TYPE_ONLY = /(?:import|export)\s+type\s[^;]*?from\s+['"][^'"]+['"]/g
 const IMPORT = /(?:import|export)\s(?:[^'"]*?\sfrom\s)?['"]([^'"]+)['"]/g
 const SKIPPED = new Set(['tests', 'stories'])
@@ -42,7 +48,7 @@ async function resolveModule(from: string, specifier: string): Promise<string | 
 }
 
 /** `form/button/button.module.css` belongs to `button`, a file of a `shared` folder to itself. */
-function unitOf(file: string): string {
+export function unitOf(file: string): string {
   const { dir, name } = path.parse(file)
   const folder = path.basename(dir)
   return folder === 'shared' ? name.replace(/\.module$/, '') : folder

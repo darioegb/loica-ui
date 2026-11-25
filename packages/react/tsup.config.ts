@@ -4,12 +4,14 @@ import path from 'node:path'
 import { transform } from 'esbuild'
 import { defineConfig, type Options } from 'tsup'
 import postcss from 'postcss'
-import { buildCssUnits } from './scripts/component-css'
+import { buildCssUnits, cssMarker, unitOf } from './scripts/component-css'
 import { breakpoints } from './scripts/postcss-breakpoints'
 import { buildTokensCss } from './scripts/tokens-css'
 import postcssModules from 'postcss-modules'
 
 type Plugin = NonNullable<Options['esbuildPlugins']>[number]
+
+const cssCheckFile = path.resolve('src/overlay/css-check.ts')
 
 function cssModulePlugin({ emitCss }: { emitCss: boolean }): Plugin {
   return {
@@ -37,11 +39,16 @@ function cssModulePlugin({ emitCss }: { emitCss: boolean }): Plugin {
           }),
         ]).process(source, { from: pluginData.pathDir })
         const cssImport = emitCss ? `import "${pluginData.pathDir}"; ` : ''
+        const check = `import { cssModule } from ${JSON.stringify(cssCheckFile)}; `
         return {
           pluginData: { css: result.css },
-          contents: `${cssImport}export default ${JSON.stringify(cssModule)}`,
+          contents: `${cssImport}${check}export default cssModule(${JSON.stringify(unitOf(pluginData.pathDir))}, ${JSON.stringify(cssModule)})`,
         }
       })
+      build.onResolve({ filter: /css-check\.ts$/, namespace: 'css-module' }, (args) => ({
+        path: args.path,
+        namespace: 'file',
+      }))
       build.onResolve({ filter: /\.module\.css$/, namespace: 'css-module' }, (args) => ({
         path: path.join(args.resolveDir, args.path, '#css-module-data'),
         namespace: 'css-module',
@@ -108,22 +115,23 @@ async function emitLocaleTypes(): Promise<void> {
 async function emitStylesheet(): Promise<void> {
   const css = await fsPromises.readFile('dist/index.css', 'utf8')
   const tokens = buildTokensCss()
+  const units = await buildCssUnits(path.resolve('src'))
+  const markers = Object.keys(units).map(cssMarker).join('')
   await fsPromises.writeFile('dist/tokens.css', `@layer base,loica,components,utilities;@layer loica{${tokens}}`)
   await fsPromises.writeFile(
     'dist/styles.css',
-    `@layer base,loica,components,utilities;@layer loica{${tokens}${css}}`,
+    `@layer base,loica,components,utilities;@layer loica{${tokens}${css}${markers}}`,
   )
   await fsPromises.rm('dist/index.css')
-  await emitComponentStylesheets()
+  await emitComponentStylesheets(units)
   await emitLocaleTypes()
 }
 
-async function emitComponentStylesheets(): Promise<void> {
-  const units = await buildCssUnits(path.resolve('src'))
+async function emitComponentStylesheets(units: Awaited<ReturnType<typeof buildCssUnits>>): Promise<void> {
   await fsPromises.mkdir('dist/css', { recursive: true })
   await Promise.all(
     Object.entries(units).map(async ([name, unit]) => {
-      const { code } = await transform(unit.css, { loader: 'css', minify: true })
+      const { code } = await transform(unit.css + cssMarker(name), { loader: 'css', minify: true })
       const imports = unit.imports.map((dep) => `@import './${dep}.css';`).join('')
       await fsPromises.writeFile(
         `dist/css/${name}.css`,
