@@ -145,6 +145,45 @@ leaves the app: an absolute URL, `mailto:`, `tel:`, a `//host` URL, or a `target
 and your wrapper only sees the paths of your app. The nearest `LinkProvider` wins, so a part of the page can use
 another one.
 
+### A paginator that follows the URL
+
+`Paginator` takes **getHref**, so each page is a link: Ctrl+click opens it in another tab, and the page is in the HTML
+a crawler reads. The page comes from the URL, so it needs no state and no `onPageChange`. `getHref` is a function, and a
+Server Component can't pass one, so the `Paginator` goes in a small Client Component, and the page reads the URL and
+hands it the numbers:
+
+```tsx
+// app/customers/customers-paginator.tsx
+'use client'
+
+import { Paginator } from '@loica-ui/react'
+
+export function CustomersPaginator({ page, total }: { page: number; total: number }) {
+  return (
+    <Paginator
+      aria-label='Customers'
+      getHref={(target) => `/customers?page=${target}`}
+      page={page}
+      pageSize={20}
+      total={total}
+    />
+  )
+}
+```
+
+```tsx
+// app/customers/page.tsx
+import { CustomersPaginator } from './customers-paginator'
+
+export default async function Customers({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+  const { page = '1' } = await searchParams
+  return <CustomersPaginator page={Number(page)} total={240} />
+}
+```
+
+With the `LinkProvider` above, the links are the ones of Next.js, which prefetches them. If the URL has other
+parameters (a search, a sort), build them into `getHref` from the props the page passes down.
+
 ## Tailwind CSS v4
 
 The components work as they are next to Tailwind, and with `variant='unstyled'` you style them with utilities. This is

@@ -452,7 +452,8 @@ export const OneChange: Story = {
  * `href`. Ctrl+click and the context menu open the page somewhere else, and it is in the HTML a crawler reads. The
  * `page` comes from the URL, so a `Paginator` that follows it needs no **onPageChange**. A part with nowhere to go,
  * such as `Previous` on the first page, has no `href`. The page size is not a link and goes through
- * **onPageSizeChange**. `getHref` is a function, so a Server Component renders the `Paginator` from a Client Component.
+ * **onPageSizeChange**. `getHref` is a function, so a Server Component renders the `Paginator` from a Client Component, as
+ * the Framework Integration guide shows for Next.js.
  */
 export const Links: Story = {
   parameters: {
