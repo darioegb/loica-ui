@@ -72,6 +72,12 @@
   font-size: var(--loica-font-size-lg);
 }
 
+@media (pointer: coarse) {
+  .sm {
+    font-size: var(--loica-font-size-base);
+  }
+}
+
 .outline {
   border: var(--loica-border-width-thin) solid var(--loica-border-strong);
   border-radius: var(--loica-radius-4);

@@ -34,6 +34,12 @@
   padding: var(--loica-space-3) var(--loica-space-6);
 }
 
+@media (pointer: coarse) {
+  .sm {
+    font-size: var(--loica-font-size-base);
+  }
+}
+
 .rounded {
   border-radius: var(--loica-radius-4);
 }
