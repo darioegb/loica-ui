@@ -119,6 +119,7 @@ export default {
     page: { control: false },
     defaultPage: { control: 'number' },
     onPageChange: { control: false },
+    onChange: { control: false },
     showEdges: { control: 'boolean' },
     disabled: { control: 'boolean' },
     colorScheme: { control: 'select', options: colorSchemes },
@@ -359,6 +360,28 @@ function PageSizeExample(props: Readonly<PaginatorProps>): React.ReactNode {
   )
 }
 
+function OneChangeExample(props: Readonly<PaginatorProps>): React.ReactNode {
+  const [view, setView] = useState({ page: 1, pageSize: 10 })
+  return (
+    <div style={{ inlineSize: 'min(40rem, 100%)' }}>
+      <Paginator
+        {...props}
+        aria-label="Products"
+        onChange={setView}
+        page={view.page}
+        pageSize={view.pageSize}
+        total={237}
+      >
+        <PaginatorList />
+        <PaginatorPageSize options={[10, 25, 50]} style={{ marginInlineStart: 'auto' }} />
+      </Paginator>
+      <p className="text-sm">
+        page={view.page} pageSize={view.pageSize}
+      </p>
+    </div>
+  )
+}
+
 /**
  * `PaginatorPageSize` is not tied to the compact form: drop it next to the numbered pages to let the user change how
  * many items a page has. It is a `Select`; pass **pageSize** and **onPageSizeChange** to control it, or
@@ -388,6 +411,38 @@ export const WithPageSize: Story = {
     },
   },
   render: (args) => <PageSizeExample {...args} />,
+}
+
+/**
+ * Changing the page size changes the page too, so **onPageSizeChange** and **onPageChange** are called one after the
+ * other. When the page and the page size go together, for example in the URL or in a request, use **onChange**
+ * instead: it is called once for each change, with both values, and after the other two (which still work). It
+ * gets `{ page, pageSize }`, the type `PaginatorChange`.
+ */
+export const OneChange: Story = {
+  parameters: {
+    docs: {
+      story: { inline: false, iframeHeight: 300 },
+      source: {
+        code: `function Products() {
+  const [view, setView] = useState({ page: 1, pageSize: 10 })
+  return (
+    <Paginator
+      aria-label="Products"
+      onChange={setView}
+      page={view.page}
+      pageSize={view.pageSize}
+      total={237}
+    >
+      <PaginatorList />
+      <PaginatorPageSize options={[10, 25, 50]} style={{ marginInlineStart: 'auto' }} />
+    </Paginator>
+  )
+}`,
+      },
+    },
+  },
+  render: (args) => <OneChangeExample {...args} />,
 }
 
 /**
