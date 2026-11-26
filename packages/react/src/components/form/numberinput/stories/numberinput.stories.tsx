@@ -65,6 +65,8 @@ export default {
     step: { control: 'number' },
     largeStep: { control: 'number' },
     precision: { control: 'number' },
+    formatValue: { control: false },
+    parseValue: { control: false },
     format: { control: false },
     parse: { control: false },
     steppers: { control: 'boolean' },
@@ -212,7 +214,7 @@ export const Precision: Story = {
 }
 
 /**
- * **format** decides how the number looks when the field is not being edited, and **parse** reads it back. Use
+ * **formatValue** decides how the number looks when the field is not being edited, and **parseValue** reads it back. Use
  * them for a currency, a unit or the separators of a locale. The formatted text is exposed to screen readers as
  * `aria-valuetext`; the value is still the plain number.
  */
@@ -220,9 +222,9 @@ export const FormatAndParse: Story = {
   args: {
     'aria-label': 'Price',
     defaultValue: 1234.5,
-    format: euros,
+    formatValue: euros,
     min: 0,
-    parse: readEuros,
+    parseValue: readEuros,
     step: 0.5,
     style: { width: '14rem' },
   },
@@ -230,12 +232,12 @@ export const FormatAndParse: Story = {
 
 /**
  * To write and read a number as a locale does, spread **numberFormat**(locale, options) on the NumberInput: it
- * gives the `format` and the `parse` that is its inverse, so what the field shows can be typed back. The options
+ * gives the `formatValue` and the `parseValue` that is its inverse, so what the field shows can be typed back. The options
  * are those of `Intl.NumberFormat`: thousands separators, a currency, a percentage or a unit. Type the separators
  * of the locale: a dot is a thousands separator in `es` and `de`. The digits are always Latin, and an option that
  * can't be read back, such as `notation: 'compact'`, throws a `RangeError`.
  *
- * Create it outside the component, or with `useMemo`, so the field doesn't get a new `format` on every render.
+ * Create it outside the component, or with `useMemo`, so the field doesn't get a new `formatValue` on every render.
  */
 export const LocaleFormat: Story = {
   render: () => (
@@ -349,9 +351,9 @@ export const InAForm: Story = {
       <NumberInput
         aria-label="Price"
         defaultValue={19.9}
-        format={euros}
+        formatValue={euros}
         name="price"
-        parse={readEuros}
+        parseValue={readEuros}
         style={{ width: '12rem' }}
       />
       <button className="rounded-sm border border-gray-400 px-3 py-1 text-sm" type="submit">

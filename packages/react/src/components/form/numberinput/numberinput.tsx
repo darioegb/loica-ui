@@ -26,11 +26,19 @@ export interface NumberInputOwnProps {
   /** The number the field starts with, when it is not controlled. */
   defaultValue?: number | null
   /**
-   * How a number is shown when the field is not being edited: a currency, a unit, thousands separators. It is exposed to screen readers as `aria-valuetext`. For a locale, spread `numberFormat(locale, options)`, which gives a `format` and the `parse` that reads it back.
+   * The old name of `formatValue`. It still works, and `formatValue` wins when both are set.
+   *
+   * @deprecated Use `formatValue`.
    */
   format?: (value: number) => string
   /**
-   * BCP 47 tag (`es`, `es-AR`, `en-US`) that sets the decimal separator of the number the field shows, such as `1,5`, unless you give a `format`. A typed number can use a dot or a comma either way. Falls back to the `locale` of the `LocaleProvider`, then to `en`.
+   * How a number is shown when the field is not being edited: a currency, a unit, thousands separators. It is exposed to screen readers as `aria-valuetext`. For a locale, spread `numberFormat(locale, options)`, which gives a `formatValue` and the `parseValue` that reads it back.
+   *
+   * @since 1.6
+   */
+  formatValue?: (value: number) => string
+  /**
+   * BCP 47 tag (`es`, `es-AR`, `en-US`) that sets the decimal separator of the number the field shows, such as `1,5`, unless you give a `formatValue`. A typed number can use a dot or a comma either way. Falls back to the `locale` of the `LocaleProvider`, then to `en`.
    */
   locale?: string
   /** How much <kbd>PageUp</kbd> and <kbd>PageDown</kbd> add or subtract. Ten steps by default. */
@@ -52,9 +60,17 @@ export interface NumberInputOwnProps {
    */
   onValueChange?: (value: number | null) => void
   /**
-   * Turns the text of the field into a number, or `null`. The default accepts a dot or a comma as the decimal separator. Use it with `format` so what `format` shows can be read back, or spread `numberFormat(locale, options)`, which gives both.
+   * The old name of `parseValue`. It still works, and `parseValue` wins when both are set.
+   *
+   * @deprecated Use `parseValue`.
    */
   parse?: (text: string) => number | null
+  /**
+   * Turns the text of the field into a number, or `null`. The default accepts a dot or a comma as the decimal separator. Use it with `formatValue` so what `formatValue` shows can be read back, or spread `numberFormat(locale, options)`, which gives both.
+   *
+   * @since 1.6
+   */
+  parseValue?: (text: string) => number | null
   /**
    * Decimals to keep. A typed number is rounded to them on blur and the text is padded with zeros. Without it a typed number keeps its decimals, and a step keeps those of the step. `0` allows only whole numbers and asks for the numeric keyboard.
    */
@@ -139,6 +155,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       defaultValue,
       disabled = false,
       format,
+      formatValue,
       largeStep,
       locale,
       max,
@@ -146,6 +163,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       name,
       onValueChange,
       parse,
+      parseValue,
       precision,
       readOnly = false,
       shape = 'rounded',
@@ -163,13 +181,13 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     const language = useResolvedLocale(locale)
     const number = useNumberInput({
       defaultValue,
-      format,
+      format: formatValue ?? format,
       largeStep,
       locale: language,
       max,
       min,
       onValueChange,
-      parse,
+      parse: parseValue ?? parse,
       precision,
       readOnly,
       step,

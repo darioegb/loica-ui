@@ -6,10 +6,30 @@ const READABLE = /^(?:\d+(?:\.\d*)?|\.\d+)$/
 
 /** @since 1.1 */
 export interface NumberInputFormat {
-  /** Writes a number as the locale and the options say. */
+  /**
+   * The same function as `formatValue`, for a `NumberInput` that still takes `format`.
+   *
+   * @deprecated Use `formatValue`.
+   */
   format: (value: number) => string
-  /** Reads back what `format` writes, or `null` when the text is not a number. */
+  /**
+   * Writes a number as the locale and the options say.
+   *
+   * @since 1.6
+   */
+  formatValue: (value: number) => string
+  /**
+   * The same function as `parseValue`, for a `NumberInput` that still takes `parse`.
+   *
+   * @deprecated Use `parseValue`.
+   */
   parse: (text: string) => number | null
+  /**
+   * Reads back what `formatValue` writes, or `null` when the text is not a number.
+   *
+   * @since 1.6
+   */
+  parseValue: (text: string) => number | null
 }
 
 const isAccounting = (text: string): boolean => {
@@ -30,8 +50,9 @@ function assertReadable(options: Intl.NumberFormatOptions): void {
 }
 
 /**
- * The `format` and the `parse` of a `NumberInput` for a locale, to spread on it. The `parse` is the
- * inverse of the `format`: it takes the separators and the symbols that the locale and the options
+ * The `formatValue` and the `parseValue` of a `NumberInput` for a locale, to spread on it (it also gives the old
+ * names, `format` and `parse`, which are the same functions). The `parseValue` is the
+ * inverse of the `formatValue`: it takes the separators and the symbols that the locale and the options
  * write, so `1.234,5` is `1234.5` in `de` and `1,234.5` is `1234.5` in `en`. Digits are always Latin,
  * because the field reads only those. It throws a `RangeError` for an option it can't read back:
  * `notation` other than `standard`, or a `numberingSystem` other than `latn`.
@@ -79,5 +100,5 @@ export function numberFormat(
     return negative && magnitude !== 0 ? -magnitude : magnitude
   }
 
-  return { format, parse }
+  return { format, formatValue: format, parse, parseValue: parse }
 }

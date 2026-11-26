@@ -48,6 +48,10 @@ const sinceOf = (symbol) => {
   return since ? { since } : {}
 }
 
+// Only deprecated symbols carry `deprecated`, so the generated file does not change for the rest.
+const deprecatedOf = (symbol) =>
+  symbol.getJsDocTags(checker).some((tag) => tag.name === 'deprecated') ? { deprecated: true } : {}
+
 const typeToString = (type, location) =>
   checker.typeToString(
     type,
@@ -84,6 +88,7 @@ const mergeProps = (lists) => {
       known.description = known.description || prop.description
       known.default = known.default ?? prop.default
       known.since = known.since ?? prop.since
+      known.deprecated = known.deprecated ?? prop.deprecated
       const parts = (type) => (type.includes('=>') ? [`(${type})`] : type.split(' | '))
       const combined = [...new Set([...parts(known.type), ...parts(prop.type)])]
       known.type = combined.join(' | ')
@@ -121,6 +126,7 @@ const propsOfMember = (propsType, location) => {
     const shown = optional ? checker.getNonNullableType(type) : type
     own.push({
       default: tagOf(property, 'default') ?? null,
+      ...deprecatedOf(property),
       description: docOf(property),
       name,
       required: !optional,
