@@ -1,4 +1,9 @@
-export { Paginator, type PaginatorOwnProps, type PaginatorProps } from './paginator'
+export {
+  Paginator,
+  type PaginatorChange,
+  type PaginatorOwnProps,
+  type PaginatorProps,
+} from './paginator'
 export type { PaginatorLabels, PaginatorVariant } from './paginator-context'
 export { PaginatorEllipsis, type PaginatorEllipsisProps } from './paginator-ellipsis'
 export { PaginatorFirst, type PaginatorFirstProps } from './paginator-first'

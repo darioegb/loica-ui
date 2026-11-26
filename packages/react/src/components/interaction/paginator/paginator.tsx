@@ -13,6 +13,13 @@ import styles from './paginator.module.css'
 import { getPaginatorItems } from './paginator-range'
 import { usePaginatorFit } from './use-paginator-fit'
 
+export interface PaginatorChange {
+  /** The page, starting at 1. */
+  page: number
+  /** The number of items in a page. */
+  pageSize: number
+}
+
 export interface PaginatorOwnProps {
   /**
    * Color scheme from the theme palette, including custom schemes added to it. It colors the
@@ -44,6 +51,15 @@ export interface PaginatorOwnProps {
    * BCP 47 tag (`es`, `es-AR`, `en-US`) that sets how the numbers of the summary are written, such as the thousands separator of `1.234`. Falls back to the `locale` of the `LocaleProvider`, then to `en`.
    */
   locale?: string
+  /**
+   * Called once for each change the user makes, with the page and the page size together. A click on a page
+   * gives that page and the current size; a new size in a `PaginatorPageSize` gives the size and the page that
+   * keeps the first item of the old page in view, in one call, where `onPageSizeChange` and `onPageChange` are two.
+   * It is called after those two, which still work as before.
+   *
+   * @since 1.6
+   */
+  onChange?: (change: PaginatorChange) => void
   /** Called with the new page when the user picks another one. */
   onPageChange?: (page: number) => void
   /**
@@ -144,6 +160,7 @@ export const Paginator = forwardRef<HTMLElement, PaginatorProps>(
       defaultPageSize = 10,
       disabled = false,
       locale,
+      onChange,
       onPageChange,
       onPageSizeChange,
       page: pageProp,
@@ -190,17 +207,21 @@ export const Paginator = forwardRef<HTMLElement, PaginatorProps>(
     )
     const go = useCallback(
       (target: number): void => {
-        if (target !== current) setPage(target)
+        if (target === current) return
+        setPage(target)
+        onChange?.({ page: target, pageSize })
       },
-      [current, setPage],
+      [current, onChange, pageSize, setPage],
     )
     const setPageSize = useCallback(
       (next: number): void => {
         if (next === pageSize) return
+        const nextPage = Math.floor(((current - 1) * pageSize) / next) + 1
         setSize(next)
-        setPage(Math.floor(((current - 1) * pageSize) / next) + 1)
+        setPage(nextPage)
+        onChange?.({ page: nextPage, pageSize: next })
       },
-      [current, pageSize, setPage, setSize],
+      [current, onChange, pageSize, setPage, setSize],
     )
     const context = useMemo(
       () => ({
