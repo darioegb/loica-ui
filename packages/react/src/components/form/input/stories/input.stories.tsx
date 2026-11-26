@@ -2,6 +2,7 @@
 import type { StoryObj, Meta } from '@storybook/react-vite'
 import { useState } from 'react'
 import { defaultTheme } from '../../../../theme'
+import { Button } from '../../../interaction/button'
 import { Input } from '..'
 
 const colorSchemes = Object.keys(defaultTheme.colors)
@@ -17,6 +18,12 @@ const colorSchemes = Object.keys(defaultTheme.colors)
  * react-hook-form works on it. With a group, `className` and `style` go to the group. Every drawn element carries a
  * `data-loica-input-*` attribute (`group`, `control`, `addon`, `element`, `field` and `reveal`), so it can be styled
  * from the parent.
+ *
+ * **Width.** A field never gets narrower than `--field-min-width`, which is `18rem` (or the width of its parent, when
+ * that is smaller) unless you set it. A `width`, a `w-56` or a `size` smaller than that floor does nothing, because
+ * `min-width` wins over `width`. To size a field, set `--field-min-width: 0` on it, or `min-w-0` with Tailwind, and
+ * then give it a `width`, or let it fill a flex row with `flex-1`. `Textarea`, `Autocomplete` and `ColorPicker` have
+ * the same floor.
  */
 export default {
   title: 'Components/Input',
@@ -314,6 +321,90 @@ export const Masked: Story = {
       <Input mask="##:##" placeholder="hh:mm" />
       <Input mask="AA-####" placeholder="Letters, then digits" />
       <Input mask="***-***" placeholder="Letters or digits" />
+    </div>
+  ),
+}
+
+/**
+ * A search form with the button attached to the field: **addonAfter** takes the `Button`, so the field and the
+ * button are one group that fits in the form, with no width classes. The group keeps at least `--field-min-width`.
+ */
+export const SearchForm: Story = {
+  name: 'Search form',
+  parameters: {
+    docs: {
+      source: {
+        code: `<form role="search" onSubmit={(event) => event.preventDefault()}>
+  <Input
+    addonAfter={
+      <Button size="sm" type="submit" variant="outline">
+        Search
+      </Button>
+    }
+    aria-label="Search customers"
+    placeholder="Search customers"
+    size="sm"
+    type="search"
+  />
+</form>`,
+      },
+    },
+  },
+  render: () => (
+    <form onSubmit={(event) => event.preventDefault()} role="search">
+      <Input
+        addonAfter={
+          <Button size="sm" type="submit" variant="outline">
+            Search
+          </Button>
+        }
+        aria-label="Search customers"
+        placeholder="Search customers"
+        size="sm"
+        type="search"
+      />
+    </form>
+  ),
+}
+
+/**
+ * A field in a row of its own, next to a button. Without a `width` of its own the field takes at least
+ * `--field-min-width`, so a row that is narrower than that overflows. Take the floor away (`min-w-0` with Tailwind,
+ * or `--field-min-width: 0` in a style) and give the field a `width` (`w-56` here), or `flex-1` to fill what the
+ * button leaves.
+ */
+export const FieldInARow: Story = {
+  name: 'Field in a row',
+  parameters: {
+    docs: {
+      source: {
+        code: `<div className="flex items-center gap-2">
+  <Input
+    aria-label="Search customers"
+    placeholder="Search customers"
+    size="sm"
+    className="min-w-0 w-56"
+    type="search"
+  />
+  <Button size="sm" variant="outline">
+    New customer
+  </Button>
+</div>`,
+      },
+    },
+  },
+  render: () => (
+    <div className="flex items-center gap-2">
+      <Input
+        aria-label="Search customers"
+        placeholder="Search customers"
+        size="sm"
+        className="min-w-0 w-56"
+        type="search"
+      />
+      <Button size="sm" variant="outline">
+        New customer
+      </Button>
     </div>
   ),
 }

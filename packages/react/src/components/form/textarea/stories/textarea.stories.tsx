@@ -17,6 +17,9 @@ const colorSchemes = Object.keys(defaultTheme.colors)
  * the textarea, the count and the message carry `data-loica-textarea-field`, `-count` and `-status`, so they can be
  * styled from the parent. The native props (`value`, `defaultValue`, `maxLength`, `placeholder`, `rows`...) and the
  * `register` of react-hook-form go to the `<textarea>`.
+ *
+ * **Width.** Like the `Input`, a textarea is never narrower than `--field-min-width` (`18rem`, or the width of its
+ * parent when that is smaller), so a smaller `width` does nothing: set `--field-min-width: 0` on it to size it.
  */
 export default {
   title: 'Components/Textarea',
