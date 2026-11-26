@@ -22,6 +22,7 @@ export interface PaginatorContextValue {
   current: number
   disabled: boolean
   entries: PaginatorEntry[]
+  getHref: ((page: number) => string) | undefined
   go: (page: number) => void
   isStyled: boolean
   labels: PaginatorLabels

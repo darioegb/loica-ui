@@ -120,6 +120,7 @@ export default {
     defaultPage: { control: 'number' },
     onPageChange: { control: false },
     onChange: { control: false },
+    getHref: { control: false },
     showEdges: { control: 'boolean' },
     disabled: { control: 'boolean' },
     colorScheme: { control: 'select', options: colorSchemes },
@@ -443,6 +444,47 @@ export const OneChange: Story = {
     },
   },
   render: (args) => <OneChangeExample {...args} />,
+}
+
+/**
+ * With **getHref** the page buttons are links: it gets a page and returns its URL, and every page, `Previous`, `Next`,
+ * `First` and `Last` renders an `<a>` (or the link of the `LinkProvider`, so a router prefetches it) with that
+ * `href`. Ctrl+click and the context menu open the page somewhere else, and it is in the HTML a crawler reads. The
+ * `page` comes from the URL, so a `Paginator` that follows it needs no **onPageChange**. A part with nowhere to go,
+ * such as `Previous` on the first page, has no `href`. The page size is not a link and goes through
+ * **onPageSizeChange**. `getHref` is a function, so a Server Component renders the `Paginator` from a Client Component.
+ */
+export const Links: Story = {
+  parameters: {
+    docs: {
+      story: { inline: false, iframeHeight: 200 },
+      source: {
+        code: `function Customers({ page }: { page: number }) {
+  return (
+    <Paginator
+      aria-label="Customers"
+      getHref={(target) => \`/customers?page=\${target}\`}
+      page={page}
+      pageSize={20}
+      showEdges
+      total={240}
+    />
+  )
+}`,
+      },
+    },
+  },
+  render: (args) => (
+    <Paginator
+      {...args}
+      aria-label="Customers"
+      defaultPage={3}
+      getHref={(target) => `#page-${target}`}
+      pageSize={20}
+      showEdges
+      total={240}
+    />
+  ),
 }
 
 /**
