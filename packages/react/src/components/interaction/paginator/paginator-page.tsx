@@ -6,6 +6,7 @@ import { joinClasses } from '../../../overlay/class-names'
 import type { ComponentProps } from '../../../theme'
 import { Button } from '../button'
 import { usePaginatorContext } from './paginator-context'
+import { opensElsewhere } from './paginator-link'
 import styles from './paginator.module.css'
 
 export interface PaginatorPageOwnProps {
@@ -23,7 +24,7 @@ export type PaginatorPageProps = Omit<ComponentProps, 'index'> &
   PaginatorPageOwnProps
 
 /**
- * The button of a page. It has `aria-current="page"` and `data-current` when it is the current one,
+ * The button of a page, or a link when the `Paginator` has `getHref`. It has `aria-current="page"` and `data-current` when it is the current one,
  * its name comes from the `paginator.page` text of the `LocaleProvider` and its text is the number unless you pass children.
  */
 export const PaginatorPage = forwardRef<HTMLButtonElement, PaginatorPageProps>(
@@ -52,9 +53,12 @@ export const PaginatorPage = forwardRef<HTMLButtonElement, PaginatorPageProps>(
         data-current={isCurrent ? '' : undefined}
         data-loica-paginator-page=""
         disabled={paginator.disabled || disabled}
+        href={paginator.getHref?.(page)}
         onClick={(event) => {
           onClick?.(event)
-          if (!event.defaultPrevented) paginator.go(page)
+          if (event.defaultPrevented) return
+          if (paginator.getHref && opensElsewhere(event)) return
+          paginator.go(page)
         }}
         ref={ref}
         shape={paginator.shape}

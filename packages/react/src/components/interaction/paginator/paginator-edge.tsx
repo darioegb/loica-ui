@@ -13,6 +13,7 @@ import { mergeRefs } from '../../../overlay/trigger'
 import type { ComponentProps } from '../../../theme'
 import { Button } from '../button'
 import { type PaginatorContextValue, usePaginatorContext } from './paginator-context'
+import { opensElsewhere } from './paginator-link'
 import styles from './paginator.module.css'
 
 type PaginatorEdgeRootAttributes = Pick<
@@ -95,9 +96,11 @@ export const PaginatorEdge = forwardRef<HTMLButtonElement, PaginatorEdgeInternal
         className={joinClasses(paginator.isStyled && styles.edge, className)}
         colorScheme="secondary"
         disabled={paginator.disabled || disabled || atEnd}
+        href={paginator.getHref?.(target(paginator))}
         onClick={(event) => {
           onClick?.(event)
           if (event.defaultPrevented) return
+          if (paginator.getHref && opensElsewhere(event)) return
           activated.current = true
           paginator.go(target(paginator))
         }}

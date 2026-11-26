@@ -4,7 +4,7 @@ import { PaginatorEdge, type PaginatorEdgeProps } from './paginator-edge'
 
 export type PaginatorNextProps = PaginatorEdgeProps
 
-/** The button that goes to the next page. */
+/** The button that goes to the next page, or a link to it when the `Paginator` has `getHref`. */
 export const PaginatorNext = forwardRef<HTMLButtonElement, PaginatorNextProps>(
   (props: PaginatorNextProps, ref: ForwardedRef<HTMLButtonElement>): ReactNode => (
     <PaginatorEdge

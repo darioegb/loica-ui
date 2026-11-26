@@ -48,6 +48,19 @@ export interface PaginatorOwnProps {
    */
   disabled?: boolean
   /**
+   * Makes the page buttons links: it gets a page number and returns its URL, and `PaginatorPage`,
+   * `PaginatorPrevious`, `PaginatorNext`, `PaginatorFirst` and `PaginatorLast` render a `Button` with that
+   * `href`, which is an `<a>`, or the link of the `LinkProvider`. A part that is disabled, or the one that
+   * goes where there is no page (`Previous` on the first page), has no `href`. The current page keeps its link,
+   * with `aria-current="page"`. A plain click still calls `onPageChange` and does not prevent the default, so
+   * a link without a router navigates, while a click with Ctrl, Cmd, Shift or Alt, which opens the page somewhere
+   * else, does not change this page. The page size is not a link: it goes through `onPageSizeChange`.
+   * A `Paginator` that follows the URL needs no `onPageChange`.
+   *
+   * @since 1.6
+   */
+  getHref?: (page: number) => string
+  /**
    * BCP 47 tag (`es`, `es-AR`, `en-US`) that sets how the numbers of the summary are written, such as the thousands separator of `1.234`. Falls back to the `locale` of the `LocaleProvider`, then to `en`.
    */
   locale?: string
@@ -159,6 +172,7 @@ export const Paginator = forwardRef<HTMLElement, PaginatorProps>(
       defaultPage = 1,
       defaultPageSize = 10,
       disabled = false,
+      getHref,
       locale,
       onChange,
       onPageChange,
@@ -229,6 +243,7 @@ export const Paginator = forwardRef<HTMLElement, PaginatorProps>(
         current,
         disabled,
         entries,
+        getHref,
         go,
         isStyled,
         labels: text,
@@ -246,6 +261,7 @@ export const Paginator = forwardRef<HTMLElement, PaginatorProps>(
         current,
         disabled,
         entries,
+        getHref,
         go,
         isStyled,
         pages,
