@@ -65,7 +65,7 @@ export function App() {
 }
 ```
 
-To load only the CSS of some components, import `tokens.css` once and then the stylesheet of each component (each one brings the CSS of the components it renders):
+`styles.css` is the way to start. To load only the CSS of some components, as an optimization, import `tokens.css` once and then the stylesheet of each component (each one brings the CSS of the components it renders). In development, a component that renders without its stylesheet logs a warning in the console that names the one to import:
 
 ```tsx
 import '@loica-ui/react/tokens.css'

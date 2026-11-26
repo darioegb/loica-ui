@@ -23,6 +23,7 @@ async function measureJs(imports) {
   const result = await build({
     stdin: { contents: `export ${names} from './dist/index.mjs'`, loader: 'js', resolveDir: packageDir },
     bundle: true,
+    define: { 'process.env.NODE_ENV': '"production"' },
     external: ['react', 'react-dom', 'react/jsx-runtime'],
     format: 'esm',
     logLevel: 'silent',

@@ -52,7 +52,9 @@ export function App() {
 
 ### Only the CSS you use
 
-`@loica-ui/react/styles.css` has the CSS of every component (about 22 KB gzipped). To load only some of them, import
+`@loica-ui/react/styles.css` is the way to start: it has the CSS of every component (about 22 KB gzipped), so a
+component never renders without its styles. Loading only some of them is an optimization, for when that size matters.
+Import
 `@loica-ui/react/tokens.css` once, with the default theme, and then the stylesheet of each component instead of
 `styles.css`. Each one brings the CSS of the components it renders, so `css/button.css` also carries the `Loader`, and
 `css/paginator.css` the `Button`, the `Select` and the `Chip`:
@@ -67,6 +69,21 @@ The files of the parts are the ones of the component (`css/modal.css` styles `Mo
 imports between the sheets are plain CSS `@import`. `tokens.css` is not one of them, so a bundler that does not
 remove the repeated imports does not copy the tokens in every sheet. Do not mix them with `styles.css`: it already has
 everything.
+
+A component whose stylesheet is missing renders without styles and with no error from the browser, so in development
+Loica warns in the console, once for each stylesheet, with the one to import:
+
+```text
+Loica: the CSS of select is not loaded, so it renders unstyled. Import '@loica-ui/react/css/select.css',
+or '@loica-ui/react/styles.css' for every component.
+```
+
+Each sheet sets a custom property on `:root` (`--loica-css-select`) that the check reads, which is why a sheet that
+another one imports counts too (`css/paginator.css` covers the `Select`). The check leaves the production build:
+a bundler that replaces `process.env.NODE_ENV` removes it, and it costs nothing there. It does not run in tests
+(`NODE_ENV` is `test`, or the page runs in jsdom or happy-dom), which load no stylesheets. A component that has no CSS of
+its own, such as `Autocomplete` or `Confirm`, has a sheet that only imports the ones of what it renders
+(`css/autocomplete.css`, `css/confirm.css`).
 
 ### Theme and dark mode
 
