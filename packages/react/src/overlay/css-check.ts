@@ -8,8 +8,15 @@ function warnIfMissing(unit: string): void {
   )
 }
 
+const SIMULATED_DOM = /jsdom|happydom/i
+
+// Test runners load no stylesheets, so every component would warn in the tests of whoever uses the package.
+function inTests(): boolean {
+  return process.env.NODE_ENV === 'test' || SIMULATED_DOM.test(navigator.userAgent)
+}
+
 function check(unit: string): void {
-  if (reported.has(unit) || typeof document === 'undefined') return
+  if (reported.has(unit) || typeof document === 'undefined' || inTests()) return
   reported.add(unit)
   setTimeout(() => warnIfMissing(unit), 0)
 }

@@ -8,6 +8,8 @@ describe('cssModule', () => {
   beforeEach(() => {
     vi.useFakeTimers()
     warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+    vi.stubEnv('NODE_ENV', 'development')
+    vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Mozilla/5.0 Chrome/120')
   })
 
   afterEach(() => {
@@ -60,6 +62,23 @@ describe('cssModule', () => {
     } finally {
       vi.unstubAllGlobals()
     }
+  })
+
+  it.each([
+    ['NODE_ENV is test', () => vi.stubEnv('NODE_ENV', 'test')],
+    [
+      'the page runs in jsdom',
+      () => vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Mozilla/5.0 jsdom/26.0.0'),
+    ],
+    [
+      'the page runs in happy-dom',
+      () => vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Mozilla/5.0 HappyDOM/15.0.0'),
+    ],
+  ])('does not warn when %s', (_, setup) => {
+    setup()
+    void cssModule('card-tests', classes).box
+    vi.runAllTimers()
+    expect(warn).not.toHaveBeenCalled()
   })
 
   it('returns the object itself in production, with no check', () => {
