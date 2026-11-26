@@ -24,6 +24,13 @@
     min-width: 0;
   }
 
+  /* Storybook centers the page (and its table of contents) in the preview, which on a wide screen leaves a wide
+     empty band on the left of the text. The auto margin takes the free space between the text and the table of
+     contents, so the text stays at the left and the table of contents at the right. */
+  .sbdocs-wrapper > .sbdocs-content {
+    margin-right: auto;
+  }
+
   /* The identity transform of the zoom box makes it the containing block of the fixed popups, which
      would open far from their trigger. */
   .docs-story > div > div {
