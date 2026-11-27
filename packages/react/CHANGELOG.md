@@ -1,5 +1,23 @@
 # @loica-ui/react
 
+## 1.6.0
+
+### Minor Changes
+
+- [#484](https://github.com/darioegb/loica-ui/pull/484) [`1004e32e6d846887198ee21f4fa1688d705e264c`](https://github.com/darioegb/loica-ui/commit/1004e32e6d846887198ee21f4fa1688d705e264c) Thanks [@darioegb](https://github.com/darioegb)! - Warn in development when a component renders without its CSS. With the per-component stylesheets (`@loica-ui/react/css/<name>.css`), forgetting one rendered the component unstyled with no error; now the console says, once for each stylesheet, which one to import. Every sheet sets a `--loica-css-<name>` custom property on `:root` that the check reads, so a sheet that another one imports counts. The check is removed from the production build by the bundler (`process.env.NODE_ENV`) and skipped in tests (`NODE_ENV` is `test`, or jsdom or happy-dom), where no stylesheet is ever loaded. `styles.css` is now documented as the way to start, and the per-component sheets as an optimization.
+
+- [#497](https://github.com/darioegb/loica-ui/pull/497) [`507bd38c6c85b091d6559888ae6bc1d0f0a625b1`](https://github.com/darioegb/loica-ui/commit/507bd38c6c85b091d6559888ae6bc1d0f0a625b1) Thanks [@darioegb](https://github.com/darioegb)! - `NumberInput` takes `formatValue` and `parseValue`, the names `Slider` and `ProgressBar` already use, with the meaning `format` and `parse` have. `format` and `parse` still work and are marked as deprecated, and the new names win when both are set; they stay for the rest of 1.x and go away in 2.0 (#376). `numberFormat(locale, options)` gives the new names and the old ones, so spreading it on a `NumberInput` keeps working. The API reference now shows a "Deprecated" badge on a prop with `@deprecated`.
+
+- [#496](https://github.com/darioegb/loica-ui/pull/496) [`b9ef97dc4225f159bd112a7bed957f8926d750ea`](https://github.com/darioegb/loica-ui/commit/b9ef97dc4225f159bd112a7bed957f8926d750ea) Thanks [@darioegb](https://github.com/darioegb)! - Add `getHref` to `Paginator`. It gets a page number and returns its URL, and every `PaginatorPage`, `PaginatorPrevious`, `PaginatorNext`, `PaginatorFirst` and `PaginatorLast` renders a link (an `<a>`, or the link of the `LinkProvider`) to that page instead of a button, so Ctrl+click opens a page in another tab and a crawler finds the pages. A plain click still calls `onPageChange` and does not prevent the default, a click that opens the page somewhere else does not change the current one, and a part that goes nowhere has no `href`. The page size select is not a link.
+
+- [#493](https://github.com/darioegb/loica-ui/pull/493) [`3871554988e1901119bb0e3dd3401a443cb40222`](https://github.com/darioegb/loica-ui/commit/3871554988e1901119bb0e3dd3401a443cb40222) Thanks [@darioegb](https://github.com/darioegb)! - `Paginator` takes an `onChange({ page, pageSize })` that is called once for each change the user makes, with the page and the page size together. Changing the page size changes the page too, so `onPageSizeChange` and `onPageChange` are called one after the other and an app that keeps both in the URL or in a request had to merge them. `onChange` is called after those two, which work as before.
+
+### Patch Changes
+
+- [#495](https://github.com/darioegb/loica-ui/pull/495) [`5e99ebb2e46ddd696f87bb47f0d4561b635d28a9`](https://github.com/darioegb/loica-ui/commit/5e99ebb2e46ddd696f87bb47f0d4561b635d28a9) Thanks [@darioegb](https://github.com/darioegb)! - Document the minimum width of the text fields. `Input` and `Textarea` never get narrower than `--field-min-width` (18 rem, or the width of their parent when that is smaller), so a `width` below it does nothing; the Input and Textarea pages now say how to size a field, and the Input page has two new examples: a search form with the button in `addonAfter`, and a field next to a button in a row.
+
+- [#498](https://github.com/darioegb/loica-ui/pull/498) [`916afce862c72367eefa68b35a284d41f398a7b6`](https://github.com/darioegb/loica-ui/commit/916afce862c72367eefa68b35a284d41f398a7b6) Thanks [@darioegb](https://github.com/darioegb)! - Stop Safari on iOS from zooming the page when a text field takes the focus. iOS zooms in on any field with text smaller than 16px, and it does not zoom back out. The `sm` size of `Input`, `Textarea`, `NumberInput`, `PinInput` and `RichTextEditor`, the search box of an open `Select`, and the `md` size of `Input` on a page whose text is smaller than 16px (it inherits the size) were under that. `Autocomplete`, `ColorPicker`, `DatePicker` and `TimePicker` share the `Input` styles, so they are fixed too. On a touch screen (`pointer: coarse`) those sizes are now 16px; a mouse keeps the sizes it had, and `lg` is unchanged.
+
 ## 1.5.0
 
 ### Minor Changes
