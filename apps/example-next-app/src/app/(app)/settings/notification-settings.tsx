@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Button, Checkbox, Field, Stack, Toggle, useToast } from '@loica-ui/react'
+import { Button, Checkbox, Field, Stack, Text, TimePicker, Toggle, useToast } from '@loica-ui/react'
 
 const channels = ['email', 'push', 'digest'] as const
 
@@ -12,6 +12,7 @@ export function NotificationSettings(): ReactNode {
   const toast = useToast()
   const [paused, setPaused] = useState(false)
   const [enabled, setEnabled] = useState<string[]>(['email', 'digest'])
+  const [digestTime, setDigestTime] = useState('08:00')
 
   const toggle = (id: string): void =>
     setEnabled((current) => (current.includes(id) ? current.filter((item) => item !== id) : [...current, id]))
@@ -32,8 +33,23 @@ export function NotificationSettings(): ReactNode {
           </Field>
         ))}
       </Stack>
+      <Stack gap={1}>
+        <Text as="label" htmlFor="digest-time" variant="label">
+          {t('digestTime')}
+        </Text>
+        <TimePicker
+          disabled={paused || !enabled.includes('digest')}
+          id="digest-time"
+          minuteStep={15}
+          onValueChange={setDigestTime}
+          value={digestTime}
+        />
+        <Text muted variant="caption">
+          {t('digestTimeHelper')}
+        </Text>
+      </Stack>
       <div>
-        <Button onClick={() => toast.success({ title: t('saved') })}>{t('save')}</Button>
+        <Button onClick={() => toast.success({ description: t('savedAt', { time: digestTime }), title: t('saved') })}>{t('save')}</Button>
       </div>
     </Stack>
   )

@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@loica-ui/react'
 import { AppearanceSettings } from './appearance-settings'
 import { NotificationSettings } from './notification-settings'
+import { SecuritySettings } from './security-settings'
 import { WorkspaceSettings } from './workspace-settings'
 
 export function SettingsForm(): ReactNode {
@@ -27,6 +28,12 @@ export function SettingsForm(): ReactNode {
         <AccordionTrigger>{t('workspace')}</AccordionTrigger>
         <AccordionContent>
           <WorkspaceSettings />
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="security">
+        <AccordionTrigger>{t('security')}</AccordionTrigger>
+        <AccordionContent>
+          <SecuritySettings />
         </AccordionContent>
       </AccordionItem>
     </Accordion>

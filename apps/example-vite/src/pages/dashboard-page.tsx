@@ -8,6 +8,12 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Carousel,
+  CarouselDots,
+  CarouselNext,
+  CarouselPrev,
+  CarouselSlide,
+  CarouselSlides,
   Link,
   PageHeader,
   ProgressBar,
@@ -22,6 +28,8 @@ import { formatChange, formatDue } from "../lib/format";
 import { statusColor } from "../lib/status";
 import { useResource } from "../lib/use-resource";
 import { ProjectExplorer } from "./project-explorer";
+
+const highlights = ["reports", "sso", "templates"] as const;
 
 export function DashboardPage(): ReactNode {
   const { i18n, t } = useTranslation();
@@ -148,6 +156,34 @@ export function DashboardPage(): ReactNode {
           <div className="mt-3">
             <Link href="/projects">{t("dashboard.viewAll")}</Link>
           </div>
+        </CardBody>
+      </Card>
+
+      <Card variant="outline">
+        <CardHeader>{t("dashboard.whatsNew")}</CardHeader>
+        <CardBody>
+          <Carousel aria-label={t("dashboard.whatsNew")}>
+            <CarouselSlides>
+              {highlights.map((highlight) => (
+                <CarouselSlide key={highlight}>
+                  <div
+                    className="d-flex flex-column gap-1 py-4"
+                    style={{ paddingInline: "4.5rem" }}
+                  >
+                    <span className="fw-semibold">
+                      {t(`dashboard.highlights.${highlight}.title`)}
+                    </span>
+                    <span className="text-body-secondary">
+                      {t(`dashboard.highlights.${highlight}.text`)}
+                    </span>
+                  </div>
+                </CarouselSlide>
+              ))}
+            </CarouselSlides>
+            <CarouselPrev />
+            <CarouselNext />
+            <CarouselDots />
+          </Carousel>
         </CardBody>
       </Card>
 

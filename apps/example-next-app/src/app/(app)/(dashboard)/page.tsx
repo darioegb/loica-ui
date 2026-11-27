@@ -10,6 +10,7 @@ import {
   PageHeader,
   ProgressBar,
   Stat,
+  Text,
 } from '@loica-ui/react'
 import { DashboardTour } from '@/components/dashboard-tour'
 import { ProjectExplorer } from '@/components/project-explorer'
@@ -64,8 +65,12 @@ export default async function DashboardPage(): Promise<ReactNode> {
                 key={project.id}
               >
                 <div className="flex flex-col">
-                  <span className="font-semibold">{project.name}</span>
-                  <span className="text-sm text-(--loica-muted)">{t('due', { date: formatDue(project.due, locale) })}</span>
+                  <Text as="span" size="inherit" weight="semibold">
+                    {project.name}
+                  </Text>
+                  <Text as="span" muted variant="body-sm">
+                    {t('due', { date: formatDue(project.due, locale) })}
+                  </Text>
                 </div>
                 <Badge
                   className="justify-self-start"

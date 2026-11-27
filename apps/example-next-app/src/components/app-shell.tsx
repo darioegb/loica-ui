@@ -10,6 +10,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Button,
+  Container,
   Dropdown,
   DropdownItem,
   DropdownLabel,
@@ -186,9 +187,9 @@ export function AppShell({
               </Dropdown>
             </NavbarContent>
           </Navbar>
-          <main className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-5 pt-6 pb-12" id="main">
+          <Container as="main" className="flex max-w-6xl flex-col gap-6 pt-6 pb-12" gutter={5} id="main" size="full">
             {children}
-          </main>
+          </Container>
         </div>
       </div>
       <CommandMenu
