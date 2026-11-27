@@ -43,6 +43,12 @@
   width: var(--loica-space-12);
 }
 
+@media (pointer: coarse) {
+  .sm .cell {
+    font-size: var(--loica-font-size-base);
+  }
+}
+
 .cell::placeholder {
   color: var(--loica-muted);
 }

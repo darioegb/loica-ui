@@ -299,6 +299,12 @@
   outline-offset: var(--loica-focus-ring-offset);
 }
 
+@media (pointer: coarse) {
+  .searchInput {
+    font-size: max(var(--loica-font-size-base), 1em);
+  }
+}
+
 .list {
   overflow-y: auto;
   padding: var(--loica-space-1);

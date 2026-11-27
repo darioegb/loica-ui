@@ -40,6 +40,16 @@
   padding-inline: var(--loica-space-6);
 }
 
+@media (pointer: coarse) {
+  .sm {
+    font-size: var(--loica-font-size-base);
+  }
+
+  .md {
+    font-size: max(var(--loica-font-size-base), 1em);
+  }
+}
+
 .rounded {
   border-radius: var(--loica-radius-4);
 }
