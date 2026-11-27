@@ -4,6 +4,7 @@ import api from './api.generated.json'
 
 interface ApiProp {
   default: string | null
+  deprecated?: boolean
   description: string
   name: string
   required: boolean
@@ -59,6 +60,11 @@ function RenderingTag({ kind }: Readonly<{ kind: RenderingKind }>): ReactNode {
       {KIND_LABEL[kind]}
     </span>
   )
+}
+
+function Deprecated({ shown }: Readonly<{ shown?: boolean }>): ReactNode {
+  if (!shown) return null
+  return <span className="api-since">Deprecated</span>
 }
 
 function Since({ version }: Readonly<{ version?: string }>): ReactNode {
@@ -127,6 +133,7 @@ function PropsTable({ component }: Readonly<{ component: ApiComponent }>): React
                   </span>
                 ) : null}
                 <Since version={prop.since} />
+                <Deprecated shown={prop.deprecated} />
               </td>
               <td>
                 <code className="api-type">{prop.type}</code>
