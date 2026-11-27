@@ -24,7 +24,8 @@ English.
   and `build` run.
 - `apps/docs`: Storybook. The guides are the MDX files of `apps/docs/stories`; the component stories live with the
   components. The `*.generated.json` files of `apps/docs/src` are written by `apps/docs/scripts` on `dev`, `lint` and
-  `build`; don't edit them by hand.
+  `build`; don't edit them by hand. After `storybook build`, `generate-seo.mjs` writes the title and meta tags of
+  `index.html`, `robots.txt` and `sitemap.xml` into `storybook-static`; the social image is `public/og-image.png`.
   The cards of the Components overview take their picture from `apps/docs/src/component-previews.tsx`, which every
   new component needs an entry in.
 - `apps/example-vite`, `apps/example-next-app`: the two example apps, in the workspace with `workspace:^`, so a new
