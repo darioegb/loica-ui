@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { TFunction } from "i18next";
 import { Trans, useTranslation } from "react-i18next";
 import {
@@ -7,17 +8,25 @@ import {
   Badge,
   Button,
   Code,
+  Collapse,
   DescriptionDetails,
   DescriptionList,
   DescriptionTerm,
+  Divider,
   Drawer,
   DrawerBody,
   DrawerClose,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
+  Field,
   Kbd,
+  List,
+  ListItem,
+  ListItemText,
+  Loader,
   ProgressBar,
+  Rating,
   RichTextEditor,
   Stack,
   Tab,
@@ -53,6 +62,94 @@ const activity = (
     when: formatAgo(3, "week", language),
   },
 ];
+
+const milestones = [
+  { key: "kickoff", reached: 10 },
+  { key: "review", reached: 50 },
+  { key: "launch", reached: 100 },
+] as const;
+
+function ProjectHealth({ id }: Readonly<{ id: string }>): ReactNode {
+  const { t } = useTranslation();
+  const key = `loica-demo-health-${id}`;
+  const [score, setScore] = useState(() => Number(read(key) ?? 0));
+  const [saving, setSaving] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => () => clearTimeout(timer.current), []);
+
+  const change = (next: number): void => {
+    setScore(next);
+    setSaving(true);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      write(key, String(next));
+      setSaving(false);
+    }, 700);
+  };
+
+  return (
+    <Field
+      helperText={
+        saving ? (
+          <span className="d-inline-flex align-items-center gap-2">
+            <Loader label={t("projectDrawer.saving")} size="sm" />
+            <span aria-hidden="true">{t("projectDrawer.saving")}</span>
+          </span>
+        ) : (
+          t("projectDrawer.healthHelper")
+        )
+      }
+      label={t("projectDrawer.health")}
+    >
+      <Rating clearable onValueChange={change} value={score} />
+    </Field>
+  );
+}
+
+function ProjectMilestones({
+  project,
+}: Readonly<{ project: Project }>): ReactNode {
+  const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const id = useId();
+
+  return (
+    <div>
+      <Button
+        aria-controls={id}
+        aria-expanded={open}
+        onClick={() => setOpen(!open)}
+        size="sm"
+        variant="ghost"
+      >
+        {open
+          ? t("projectDrawer.hideMilestones")
+          : t("projectDrawer.showMilestones")}
+      </Button>
+      <Collapse id={id} open={open}>
+        <List
+          aria-label={t("projectDrawer.milestones")}
+          className="mt-2"
+          variant="bordered"
+        >
+          {milestones.map((milestone) => (
+            <ListItem key={milestone.key}>
+              <ListItemText
+                primary={t(`projectDrawer.milestone.${milestone.key}`)}
+                secondary={t(
+                  project.progress >= milestone.reached
+                    ? "projectDrawer.reached"
+                    : "projectDrawer.upcoming",
+                )}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Collapse>
+    </div>
+  );
+}
 
 function ProjectNotes({ id }: Readonly<{ id: string }>): ReactNode {
   const { t } = useTranslation();
@@ -133,6 +230,26 @@ export function ProjectDrawer({
                             ))}
                           </AvatarGroup>
                         </DescriptionDetails>
+                        {project.budget !== undefined ? (
+                          <>
+                            <DescriptionTerm>{t("projectDrawer.budget")}</DescriptionTerm>
+                            <DescriptionDetails>
+                              {new Intl.NumberFormat(i18n.language, {
+                                currency: "USD",
+                                maximumFractionDigits: 0,
+                                style: "currency",
+                              }).format(project.budget)}
+                            </DescriptionDetails>
+                          </>
+                        ) : null}
+                        {project.priority !== undefined ? (
+                          <>
+                            <DescriptionTerm>{t("projectDrawer.priority")}</DescriptionTerm>
+                            <DescriptionDetails>
+                              {t("projectDrawer.priorityValue", { value: project.priority })}
+                            </DescriptionDetails>
+                          </>
+                        ) : null}
                         <DescriptionTerm>{t("projectDrawer.visibility")}</DescriptionTerm>
                         <DescriptionDetails>
                           <Badge colorScheme="salmon" variant="subtle">
@@ -146,6 +263,10 @@ export function ProjectDrawer({
                         showValue
                         value={project.progress}
                       />
+                      <Divider />
+                      <ProjectHealth id={project.id} />
+                      <Divider />
+                      <ProjectMilestones project={project} />
                     </Stack>
                   </TabPanel>
                   <TabPanel>

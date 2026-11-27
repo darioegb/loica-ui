@@ -69,7 +69,7 @@ Preflight sets `line-height: 1.5` and makes buttons and inputs inherit the font,
   a `Dropdown` account menu, the language switcher and the light/dark switch.
 - `src/app/(app)/projects` — a `Table` with sorting, filters and paging, a detail `Drawer`, and a `Stepper` form to create a project (validated in the browser and again in a Server Action).
 - `src/app/(app)/team` — a directory of `Card`s with `Avatar` presence, `Chip` skills, a `Popover` to contact and a `Tooltip`, a `Tree` by department, and an invite `Modal`.
-- `src/app/(app)/settings` — an `Accordion` with the appearance (light/dark and a **brand color** that recolors the whole app, saved in a cookie and server-rendered), notifications and the workspace.
+- `src/app/(app)/settings` — an `Accordion` with the appearance (light/dark and a **brand color** that recolors the whole app, saved in a cookie and server-rendered), notifications (with a `TimePicker` for the digest time), the workspace and security (a `PinInput` for a verification code).
 - `src/lib` — the simulated session and data (statuses, roles and skills are ids that the UI translates; project
   names and descriptions are content and stay as they are) and the date and number formatting with the current locale.
 - `src/theme.ts` — the brand palettes for `primary` (the one in Settings) and a custom `salmon` color scheme, passed to `<ThemeProvider theme={...}>`.

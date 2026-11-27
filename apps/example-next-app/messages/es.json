@@ -259,7 +259,8 @@
     "sections": {
       "appearance": "Apariencia",
       "notifications": "Notificaciones",
-      "workspace": "Espacio de trabajo"
+      "workspace": "Espacio de trabajo",
+      "security": "Seguridad"
     },
     "appearance": {
       "colorMode": "Modo de color",
@@ -290,7 +291,10 @@
       "push": "Enviar notificaciones push",
       "digest": "Envíame un resumen semanal",
       "save": "Guardar preferencias",
-      "saved": "Preferencias guardadas"
+      "saved": "Preferencias guardadas",
+      "digestTime": "Hora de envío del resumen",
+      "digestTimeHelper": "El resumen semanal llega a esta hora.",
+      "savedAt": "El resumen llega a las {time}."
     },
     "workspace": {
       "name": "Nombre del espacio de trabajo",
@@ -314,6 +318,16 @@
       "confirm": "Eliminar",
       "kept": "Espacio de trabajo conservado",
       "keptBody": "Esto es una demostración: no se eliminó nada."
+    },
+    "security": {
+      "title": "Verificación en dos pasos",
+      "intro": "Pide un código de tu teléfono cuando inicies sesión desde un dispositivo nuevo.",
+      "code": "Código de verificación",
+      "codeHelper": "Esto es una demostración: el código es 123456.",
+      "codeError": "Ese código no es correcto. Inténtalo de nuevo.",
+      "on": "La verificación en dos pasos está activada",
+      "onBody": "Pediremos un código en los dispositivos nuevos.",
+      "turnOff": "Desactivar"
     }
   }
 }

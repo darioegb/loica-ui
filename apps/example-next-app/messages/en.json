@@ -259,7 +259,8 @@
     "sections": {
       "appearance": "Appearance",
       "notifications": "Notifications",
-      "workspace": "Workspace"
+      "workspace": "Workspace",
+      "security": "Security"
     },
     "appearance": {
       "colorMode": "Color mode",
@@ -290,7 +291,10 @@
       "push": "Send push notifications",
       "digest": "Send me a weekly digest",
       "save": "Save preferences",
-      "saved": "Preferences saved"
+      "saved": "Preferences saved",
+      "digestTime": "Digest delivery time",
+      "digestTimeHelper": "The weekly digest arrives at this time.",
+      "savedAt": "The digest arrives at {time}."
     },
     "workspace": {
       "name": "Workspace name",
@@ -314,6 +318,16 @@
       "confirm": "Delete",
       "kept": "Workspace kept",
       "keptBody": "This is a demo: nothing was deleted."
+    },
+    "security": {
+      "title": "Two-step verification",
+      "intro": "Ask for a code from your phone when you sign in from a new device.",
+      "code": "Verification code",
+      "codeHelper": "This is a demo: the code is 123456.",
+      "codeError": "That code is not right. Try again.",
+      "on": "Two-step verification is on",
+      "onBody": "We will ask for a code on new devices.",
+      "turnOff": "Turn it off"
     }
   }
 }

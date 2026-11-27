@@ -1,6 +1,7 @@
 export type ProjectStatus = "On track" | "At risk" | "Delayed" | "Done";
 
 export interface Project {
+  budget?: number;
   color?: string;
   description: string;
   /** ISO date, `YYYY-MM-DD`. */
@@ -8,6 +9,7 @@ export interface Project {
   id: string;
   name: string;
   owner: string;
+  priority?: number;
   progress: number;
   status: ProjectStatus;
   team: string[];
@@ -17,6 +19,7 @@ export interface Project {
 export type Visibility = "Private" | "Workspace";
 
 export interface NewProjectInput {
+  budget: number | null;
   color: string;
   description: string;
   /** ISO date, `YYYY-MM-DD`. */
@@ -24,6 +27,7 @@ export interface NewProjectInput {
   name: string;
   notify: boolean;
   owner: string;
+  priority: number;
   team: string[];
   visibility: Visibility;
 }
@@ -256,12 +260,14 @@ export async function getProjects(): Promise<Project[]> {
 export async function createProject(input: NewProjectInput): Promise<Project> {
   await latency(500);
   const project: Project = {
+    budget: input.budget ?? undefined,
     color: input.color || undefined,
     description: input.description,
     due: input.due,
     id: `${input.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Date.now().toString(36)}`,
     name: input.name,
     owner: input.owner,
+    priority: input.priority,
     progress: 0,
     status: "On track",
     team: input.team,

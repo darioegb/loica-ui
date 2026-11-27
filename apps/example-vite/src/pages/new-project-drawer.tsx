@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
@@ -12,7 +12,9 @@ import {
   DrawerFooter,
   DrawerHeader,
   Field,
+  FileUpload,
   Input,
+  NumberInput,
   SegmentedControl,
   Select,
   SelectChevron,
@@ -23,7 +25,9 @@ import {
   SelectHidden,
   SelectOption,
   SelectTrigger,
+  Slider,
   Textarea,
+  numberFormat,
   useToast,
   type DateRange,
 } from "@loica-ui/react";
@@ -46,16 +50,65 @@ import styles from "./projects.module.css";
 
 const projectColors = ["#ef4444", "#f59e0b", "#22c55e", "#3b82f6", "#a855f7"];
 
+const priorities = [1, 2, 3, 4, 5];
+
+const maxAttachmentSize = 5 * 1024 * 1024;
+
 const empty: NewProjectInput = {
+  budget: null,
   color: "",
   description: "",
   due: "",
   name: "",
   notify: false,
   owner: "",
+  priority: 3,
   team: [],
   visibility: "Workspace",
 };
+
+const attachmentKey = (file: File): string => `${file.name}-${file.size}`;
+
+function ProjectAttachments(): ReactNode {
+  const { i18n, t } = useTranslation();
+  const [files, setFiles] = useState<File[]>([]);
+  const [progress, setProgress] = useState<Record<string, number>>({});
+  const uploading = files.some((file) => (progress[attachmentKey(file)] ?? 0) < 100);
+
+  useEffect(() => {
+    if (!uploading) return;
+    const timer = setInterval(() => {
+      setProgress((current) => {
+        const next = { ...current };
+        for (const file of files) {
+          const key = attachmentKey(file);
+          next[key] = Math.min(100, (next[key] ?? 0) + 10 + Math.random() * 15);
+        }
+        return next;
+      });
+    }, 400);
+    return () => clearInterval(timer);
+  }, [files, uploading]);
+
+  return (
+    <Field
+      helperText={t("newProject.attachmentsHelper")}
+      label={t("newProject.attachmentsLabel")}
+      optionalText={t("newProject.descriptionOptional")}
+    >
+      <FileUpload
+        accept=".pdf,.png,.jpg,.docx"
+        locale={i18n.language}
+        maxFiles={3}
+        maxSize={maxAttachmentSize}
+        multiple
+        onValueChange={setFiles}
+        progress={(file) => progress[attachmentKey(file)] ?? 0}
+        value={files}
+      />
+    </Field>
+  );
+}
 
 export function NewProjectDrawer({
   onCreated,
@@ -68,7 +121,7 @@ export function NewProjectDrawer({
   open: boolean;
   takenNames: string[];
 }>): ReactNode {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const errorText = useErrorText();
   const toast = useToast();
   const {
@@ -265,6 +318,59 @@ export function NewProjectDrawer({
                 )}
                 rules={dueRules}
               />
+              <Controller
+                control={control}
+                name="budget"
+                render={({ field }) => (
+                  <Field
+                    helperText={t("newProject.budgetHelper")}
+                    label={t("newProject.budgetLabel")}
+                    optionalText={t("newProject.descriptionOptional")}
+                  >
+                    <NumberInput
+                      {...numberFormat(i18n.language, {
+                        currency: "USD",
+                        maximumFractionDigits: 0,
+                        style: "currency",
+                      })}
+                      min={0}
+                      name={field.name}
+                      onValueChange={field.onChange}
+                      precision={0}
+                      step={500}
+                      value={field.value}
+                    />
+                  </Field>
+                )}
+              />
+              <Controller
+                control={control}
+                name="priority"
+                render={({ field }) => (
+                  <Field
+                    helperText={t("newProject.priorityHelper")}
+                    label={t("newProject.priorityLabel")}
+                  >
+                    <Slider
+                      formatValue={(value) =>
+                        t("newProject.priorityValue", { value })
+                      }
+                      marks={priorities.map((value) => ({
+                        label: String(value),
+                        value,
+                      }))}
+                      max={5}
+                      min={1}
+                      name={field.name}
+                      onValueChange={(value) =>
+                        field.onChange(Array.isArray(value) ? value[0] : value)
+                      }
+                      value={field.value}
+                    />
+                  </Field>
+                )}
+              />
+              <ProjectAttachments />
               <Controller
                 control={control}
                 name="visibility"
